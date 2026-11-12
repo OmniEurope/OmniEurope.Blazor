@@ -59,8 +59,9 @@ internal static class AppearanceChoices
     /// The random look of the appearance window and of the application menu: a theme other than the one in
     /// force, and with it a palette and a font other than those in force when their change is bound (any
     /// palette paints any theme, any font sets it). What equals the new theme's own comes back as null, as
-    /// when it is picked in the list. The backdrop is not drawn: the new theme comes over its own one, as
-    /// when it is picked in the list (null when the change is bound and another backdrop was chosen).
+    /// when it is picked in the list. The backdrop is drawn too when its change is bound (owner decision of
+    /// 2026-11-12): any of those the new theme offers, "None" (the plain page) included, other than the one
+    /// in force when the list holds another. The mode, the density, the sizes and the width are never drawn.
     /// </summary>
     internal static async Task RandomLookAsync(
         OmniThemePreset? currentPreset,
@@ -72,11 +73,6 @@ internal static class AppearanceChoices
         OmniThemeBackdrop? currentBackdrop = null,
         EventCallback<OmniThemeBackdrop?> backdropChanged = default)
     {
-        if (currentBackdrop is not null && backdropChanged.HasDelegate)
-        {
-            await backdropChanged.InvokeAsync(null);
-        }
-
         var theme = RandomOther(OmniThemePresets.All, EffectivePreset(currentPreset));
         var preset = Theme(ThemeName(theme));
         var paletteInForce = PaletteName(currentPreset, currentPalette);
@@ -92,6 +88,12 @@ internal static class AppearanceChoices
         {
             var font = RandomOther(OmniThemeFonts.All, OmniThemeFonts.All.FirstOrDefault(item => item.Name == fontInForce));
             await fontChanged.InvokeAsync(Font(preset, font.Name));
+        }
+
+        if (backdropChanged.HasDelegate)
+        {
+            var backdrop = RandomOther(OmniThemePresets.BackdropsFor(preset), EffectiveBackdrop(currentPreset, currentBackdrop));
+            await backdropChanged.InvokeAsync(Backdrop(preset, backdrop.Name));
         }
     }
 
@@ -119,8 +121,8 @@ internal static class AppearanceChoices
     /// <summary>
     /// The backdrop a theme is drawn over: <paramref name="backdrop"/> when the theme offers it
     /// (<see cref="OmniThemePresets.BackdropsFor"/>), the one the theme carries otherwise (its own for a theme
-    /// of the catalogue, <see cref="OmniThemePreset.Backdrop"/>). Under Essentiel, which offers
-    /// none, a backdrop chosen for another theme is never drawn.
+    /// of the catalogue, <see cref="OmniThemePreset.Backdrop"/>). Every theme offers every backdrop, so a backdrop is only
+    /// dropped when it is not one of the catalogue (a custom backdrop) or the theme is not in it.
     /// </summary>
     internal static OmniThemeBackdrop EffectiveBackdrop(OmniThemePreset? preset, OmniThemeBackdrop? backdrop) =>
         backdrop is not null && OmniThemePresets.BackdropsFor(EffectivePreset(preset)).Contains(backdrop)

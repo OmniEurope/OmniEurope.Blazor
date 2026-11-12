@@ -7,8 +7,8 @@ namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
 /// Review R1-2 (owner decisions of 2026-11-12): the field behind the page is a backdrop of a catalogue,
-/// chosen like the palette. Essentiel draws none and offers none; every other theme draws its own (Givre
-/// and Trou noir, then the seven of review R1-3, None for the themes whose backdrop does not exist yet) and offers every one; None
+/// chosen like the palette. Essentiel draws none by default and, like every theme, offers every one (decision of 2026-11-12 on R1-3); every other theme draws its own (Givre
+/// and Trou noir, then the seven of review R1-3, None for the themes whose backdrop does not exist yet); None
 /// leaves the plain page; the choice travels with the preference and the theme default comes back on reset.
 /// </summary>
 public sealed class ThemeBackdropTests : OmniBunitContext
@@ -134,12 +134,12 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     [Fact]
-    public void Essentiel_draws_no_backdrop_and_offers_only_the_plain_page()
+    public void Essentiel_draws_no_backdrop_by_default_and_offers_every_one()
     {
         Assert.Same(OmniThemeBackdrops.None, OmniThemePresets.DefaultBackdropFor(null));
         Assert.Same(OmniThemeBackdrops.None, OmniThemePresets.DefaultBackdropFor(OmniThemePresets.All[0]));
-        Assert.Equal([OmniThemeBackdrops.None], OmniThemePresets.BackdropsFor(OmniThemePresets.All[0]));
-        Assert.Equal([OmniThemeBackdrops.None], OmniThemePresets.BackdropsFor(null));
+        Assert.Equal(OmniThemeBackdrops.All, OmniThemePresets.BackdropsFor(OmniThemePresets.All[0]));
+        Assert.Equal(OmniThemeBackdrops.All, OmniThemePresets.BackdropsFor(null));
     }
 
     [Theory]
@@ -319,7 +319,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     [Fact]
-    public void A_backdrop_handed_to_a_scope_under_Essentiel_is_not_drawn()
+    public void A_backdrop_handed_to_a_scope_under_Essentiel_is_drawn()
     {
         var module = JSInterop.SetupModule(OmniModules.Theme);
         module.Mode = JSRuntimeMode.Loose;
@@ -330,7 +330,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
             .Add(component => component.Backdrop, Named("Givre"))
             .AddChildContent("page"));
 
-        Assert.False(LightPainted(module).ContainsKey("--omni-backdrop"));
+        Assert.True(LightPainted(module).ContainsKey("--omni-backdrop"));
     }
 
     [Fact]
@@ -364,13 +364,23 @@ public sealed class ThemeBackdropTests : OmniBunitContext
             .Add(component => component.BackdropMotionChanged, _ => { }));
 
     [Fact]
-    public void Under_Essentiel_the_window_offers_the_plain_page_alone_as_the_default()
+    public void Under_Essentiel_the_window_offers_every_backdrop_with_the_plain_page_as_the_default()
     {
-        var window = Window(null, null, _ => { });
+        OmniThemeBackdrop? picked = null;
+        var window = Window(null, null, value => picked = value);
 
-        var option = Assert.Single(window.Find("select[aria-label='Fond']").QuerySelectorAll("option"));
-        Assert.Equal("Aucun (défaut)", option.TextContent);
-        Assert.Empty(window.FindAll("[role=switch]"));
+        var options = window.Find("select[aria-label='Fond']").QuerySelectorAll("option").Select(option => option.TextContent).ToArray();
+        Assert.Equal("Aucun (défaut)", options[0]);
+        Assert.Equal(["Givre", "Trou noir", "Quadrillage", "Ricochets", "Bokeh", "Horizon", "Aquarelle", "Rayons", "Étoiles", "Nénuphar", "Velours", "Relief", "Aplat", "Épure"], options.Skip(1));
+
+        // A backdrop picked under Essentiel is handed to the host (it is not the theme's own one).
+        window.Find("select[aria-label='Fond']").Change("1");
+        Assert.Same(Named("Givre"), picked);
+
+        // The plain page is what Essentiel draws, so the animation switch stays on its row, disabled and off.
+        var motion = Assert.Single(window.FindAll("[role=switch]"));
+        Assert.True(motion.HasAttribute("disabled"));
+        Assert.Equal("false", motion.GetAttribute("aria-checked"));
     }
 
     [Fact]
@@ -397,13 +407,18 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     [Fact]
-    public void The_motion_switch_follows_the_backdrop_drawn_rather_than_the_theme()
+    public void The_motion_switch_is_always_on_the_row_and_follows_the_backdrop_drawn_rather_than_the_theme()
     {
+        // R1-4: a backdrop that does not move (the plain page, here under Givre) leaves the switch there, disabled and off.
         var plainGivre = Window(Theme("Givre"), OmniThemeBackdrops.None, _ => { });
-        Assert.Empty(plainGivre.FindAll("[role=switch]"));
+        var plainSwitch = Assert.Single(plainGivre.FindAll("[role=switch]"));
+        Assert.True(plainSwitch.HasAttribute("disabled"));
+        Assert.Equal("false", plainSwitch.GetAttribute("aria-checked"));
 
         var ardoiseOverGivre = Window(Theme("Ardoise"), Named("Givre"), _ => { });
-        Assert.Single(ardoiseOverGivre.FindAll("[role=switch]"));
+        var movingSwitch = Assert.Single(ardoiseOverGivre.FindAll("[role=switch]"));
+        Assert.False(movingSwitch.HasAttribute("disabled"));
+        Assert.Equal("true", movingSwitch.GetAttribute("aria-checked"));
     }
 
     [Fact]

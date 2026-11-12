@@ -51,9 +51,7 @@ internal static class ThemeCatalog
                 ("--omni-overlay-shadow", "var(--omni-layer-shadow-deep)"),
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
-            Shape(),
-            // Owner decision of 2026-11-12 (review R1-2): the default theme draws no backdrop and offers none.
-            OffersBackdrops: false),
+            Shape()),
 
         new("Ardoise", "Angles vifs, aucune ombre, capitales espacées.", "Océan",
             Shape(

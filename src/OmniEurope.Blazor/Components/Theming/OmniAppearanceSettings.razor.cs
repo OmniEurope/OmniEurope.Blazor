@@ -83,7 +83,7 @@ public partial class OmniAppearanceSettings : IDisposable
     /// </summary>
     [Parameter] public bool BackdropMotion { get; set; } = true;
 
-    /// <summary>Raised with the choice; bound, the window shows the row under a theme that moves its field.</summary>
+    /// <summary>Raised with the choice; bound, the window shows the Animation row, disabled and off over a backdrop that does not move.</summary>
     [Parameter] public EventCallback<bool> BackdropMotionChanged { get; set; }
 
     /// <summary>Text size, 1 to 10 with 5 as drawn (the host applies it, <c>data-oe-text-size</c>).</summary>

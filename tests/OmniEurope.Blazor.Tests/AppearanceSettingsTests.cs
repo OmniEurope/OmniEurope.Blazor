@@ -1,5 +1,6 @@
 using Bunit;
 using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -64,7 +65,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
-    public void Scale_rows_are_named_groups_with_distinct_buttons_and_their_level()
+    public void Scale_rows_are_named_groups_with_a_named_slider_between_two_distinct_buttons_and_their_level()
     {
         int? textSize = null;
         var window = Render<OmniAppearanceWindow>(parameters => parameters
@@ -80,20 +81,22 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         {
             var label = window.Find($"#{group.GetAttribute("aria-labelledby")}");
             Assert.Contains("omni-appearance-settings__label", label.ClassList);
-            Assert.NotNull(group.QuerySelector($"#{group.GetAttribute("aria-describedby")}.omni-badge"));
+            // R1-1: the slider is named by the row's label and speaks the percentage it draws.
+            var slider = group.QuerySelector("input[type=range]")!;
+            Assert.Equal(group.GetAttribute("aria-labelledby"), slider.GetAttribute("aria-labelledby"));
+            Assert.Equal(["1", "10", "1"], [slider.GetAttribute("min")!, slider.GetAttribute("max")!, slider.GetAttribute("step")!]);
         }
 
         // The short labels sit under the "Texte" and "Disposition" headings; the level reads as the percentage it draws
         // (level 8 is 118.75 %, level 3 is 87.5 %).
         Assert.Equal("Taille", window.Find($"#{groups[0].GetAttribute("aria-labelledby")}").TextContent.Trim());
         Assert.Equal("Contrôles", window.Find($"#{groups[1].GetAttribute("aria-labelledby")}").TextContent.Trim());
-        Assert.Equal("119 %", window.Find($"#{groups[0].GetAttribute("aria-describedby")}").TextContent.Trim());
-        Assert.Equal("88 %", window.Find($"#{groups[1].GetAttribute("aria-describedby")}").TextContent.Trim());
+        Assert.Equal(("8", "119 %", "119 %"), SliderOf(groups[0]));
+        Assert.Equal(("3", "88 %", "88 %"), SliderOf(groups[1]));
         var names = window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__actions[role=group] button[aria-label]").Select(button => button.GetAttribute("aria-label")).ToArray();
         Assert.Equal(
             ["Réduire la taille du texte", "Augmenter la taille du texte", "Défaut", "Réduire la taille des contrôles", "Augmenter la taille des contrôles", "Défaut"],
             names);
-        Assert.Empty(window.FindAll("input[type=range]"));
 
         groups[0].QuerySelector("button[aria-label='Augmenter la taille du texte']")!.Click();
         Assert.Equal(9, textSize);
@@ -113,7 +116,6 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         var choices = window.FindAll("[role=radiogroup][aria-label='Densité'] [role=radio]");
         Assert.Equal(["Compacte", "Confortable", "Aérée"], choices.Select(choice => choice.TextContent.Trim()));
         Assert.Equal("true", choices[1].GetAttribute("aria-checked"));
-        Assert.Empty(window.FindAll("input[type=range]"));
 
         choices[2].Click();
         Assert.Equal(OmniDensity.Spacious, density);
@@ -186,7 +188,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     [Fact]
     public void Text_size_window_row_steps_by_one_and_goes_back_to_the_default()
     {
-        // Review R1-1: the row is one line, reduce, the percentage drawn, enlarge, default; no slider.
+        // Review R1-1 (owner decision of 2026-11-12): the row is one line, reduce, a slider with its percentage, enlarge, default.
         var levels = new List<int>();
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
             .Add(component => component.TextSizeLevel, 7)
@@ -194,9 +196,12 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.DensityChanged, _ => { }));
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
-        var group = settings.Find(".omni-appearance-settings--window .omni-appearance-settings__actions[aria-describedby]");
-        Assert.Equal("113 %", group.QuerySelector(".omni-badge")!.TextContent.Trim());
-        Assert.Empty(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
+        var group = settings.Find(".omni-appearance-settings--window .omni-appearance-window__scale").ParentElement!;
+        Assert.Equal(("7", "113 %", "113 %"), SliderOf(group));
+        // The slider itself moves the level (one level per step), as the buttons do.
+        group.QuerySelector("input[type=range]")!.Input("9");
+        Assert.Equal([9], levels);
+        levels.Clear();
 
         group.QuerySelector("button[aria-label='Réduire la taille du texte']")!.Click();
         group.QuerySelector("button[aria-label='Augmenter la taille du texte']")!.Click();
@@ -213,7 +218,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.TextSizeLevel, 1)
             .Add(component => component.TextSizeLevelChanged, value => levels.Add(value)));
         Assert.True(lowest.Find("button[aria-label='Réduire la taille du texte']").HasAttribute("disabled"));
-        Assert.Equal("75 %", lowest.Find(".omni-badge").TextContent.Trim());
+        Assert.Equal(("1", "75 %", "75 %"), SliderOf(lowest.Find(".omni-appearance-settings--window")));
         lowest.Find("button[aria-label='Augmenter la taille du texte']").Click();
 
         var highest = Render<OmniAppearanceWindow>(parameters => parameters
@@ -221,7 +226,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.TextSizeLevel, 10)
             .Add(component => component.TextSizeLevelChanged, value => levels.Add(value)));
         Assert.True(highest.Find("button[aria-label='Augmenter la taille du texte']").HasAttribute("disabled"));
-        Assert.Equal("131 %", highest.Find(".omni-badge").TextContent.Trim());
+        Assert.Equal(("10", "131 %", "131 %"), SliderOf(highest.Find(".omni-appearance-settings--window")));
         highest.Find("button[aria-label='Réduire la taille du texte']").Click();
 
         Assert.Equal([2, 9], levels);
@@ -359,6 +364,13 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     private static string[] LabelsOf(AngleSharp.Dom.IElement section) =>
         [.. section.QuerySelectorAll(".omni-appearance-settings__row > .omni-appearance-settings__label").Select(label => label.TextContent.Trim())];
 
+    /// <summary>The first slider under <paramref name="scope"/>: its value, the percentage written beside it and the one it speaks.</summary>
+    private static (string Value, string Shown, string Spoken) SliderOf(AngleSharp.Dom.IElement scope)
+    {
+        var slider = scope.QuerySelector("input[type=range]")!;
+        return (slider.GetAttribute("value")!, scope.QuerySelector(".omni-slider__value")!.TextContent.Trim(), slider.GetAttribute("aria-valuetext")!);
+    }
+
     [Fact]
     public void Window_is_three_titled_sections_of_one_line_per_setting_in_the_order_they_are_read()
     {
@@ -420,12 +432,15 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
-    public void Animation_row_shows_only_over_a_backdrop_that_moves_and_when_bound()
+    public void Animation_row_shows_whenever_bound_and_is_enabled_only_over_a_backdrop_that_moves()
     {
         var plain = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.BackdropMotionChanged, _ => { }));
-        Assert.Empty(plain.FindAll("[role=switch]"));
+        // R1-4: over the plain page the row is still there, the switch disabled and off.
+        var plainSwitch = Assert.Single(plain.FindAll("[role=switch]"));
+        Assert.True(plainSwitch.HasAttribute("disabled"));
+        Assert.Equal("false", plainSwitch.GetAttribute("aria-checked"));
 
         var unbound = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
@@ -437,7 +452,8 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.Open, true)
             .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
             .Add(component => component.BackdropMotionChanged, _ => { }));
-        Assert.Single(moving.FindAll("[role=switch]"));
+        var movingSwitch = Assert.Single(moving.FindAll("[role=switch]"));
+        Assert.False(movingSwitch.HasAttribute("disabled"));
         Assert.Equal(["Style"], moving.FindAll(".omni-appearance-window__heading").Select(heading => heading.TextContent.Trim()));
     }
 
@@ -482,7 +498,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("subgrid", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__section"), "grid-template-columns"));
         Assert.Equal("subgrid", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-appearance-settings__row"), "grid-template-columns"));
         var box = ShippedLookTests.Body(".omni-appearance-window");
-        Assert.Equal("34rem", ShippedLookTests.Value(box, "inline-size"));
+        Assert.Equal("36rem", ShippedLookTests.Value(box, "inline-size"));
         Assert.Equal("calc(100vw - 2rem)", ShippedLookTests.Value(box, "max-inline-size"));
         Assert.Equal("100%", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-select-bar"), "inline-size"));
         Assert.Equal("1 1 0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode"), "flex"));
@@ -604,6 +620,53 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
+    public void Random_draws_the_backdrop_too_among_those_the_new_theme_offers_and_touches_no_other_setting()
+    {
+        // R1-5 (owner decision of 2026-11-12): theme, palette, font and backdrop are drawn; mode, density, sizes and width are not.
+        OmniThemePreset? theme = OmniThemePresets.All[0];
+        OmniThemePalette? palette = null;
+        OmniThemeFont? font = null;
+        OmniThemeBackdrop? backdrop = null;
+        var untouched = 0;
+        // Written parameters keep the window controlled by the host (it would follow the state otherwise).
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.PresetChanged, _ => { }));
+        var seen = new HashSet<string>();
+        for (var draw = 0; draw < 80; draw++)
+        {
+            var inForce = AppearanceChoices.EffectiveBackdrop(theme, backdrop);
+            var backdropEvents = 0;
+            window.Render(parameters => parameters
+                .Add(component => component.Preset, theme)
+                .Add(component => component.Palette, palette)
+                .Add(component => component.Font, font)
+                .Add(component => component.Backdrop, backdrop)
+                .Add(component => component.PresetChanged, value => theme = value)
+                .Add(component => component.PaletteChanged, value => palette = value)
+                .Add(component => component.FontChanged, value => font = value)
+                .Add(component => component.BackdropChanged, value => { backdropEvents++; backdrop = value; })
+                .Add(component => component.AppearanceChanged, _ => untouched++)
+                .Add(component => component.DensityChanged, _ => untouched++)
+                .Add(component => component.TextSizeLevelChanged, _ => untouched++)
+                .Add(component => component.ControlSizeLevelChanged, _ => untouched++)
+                .Add(component => component.FullWidthChanged, _ => untouched++));
+
+            window.Find(".omni-appearance-settings__random").Click();
+
+            Assert.Equal(1, backdropEvents);
+            var drawn = AppearanceChoices.EffectiveBackdrop(theme, backdrop);
+            Assert.Contains(drawn, OmniThemePresets.BackdropsFor(theme));
+            Assert.NotSame(inForce, drawn);
+            seen.Add(drawn.Name);
+        }
+
+        Assert.Equal(0, untouched);
+        // The plain page is one of the offered backdrops (BackdropsFor holds it); the 80 draws pick far more than a couple of them.
+        Assert.True(seen.Count > OmniThemeBackdrops.All.Count / 2, string.Join(", ", seen));
+    }
+
+    [Fact]
     public void Random_draws_a_theme_alone_when_the_palette_is_not_bound()
     {
         OmniThemePreset? drawn = OmniThemePresets.All[0];
@@ -690,7 +753,34 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal((null, 5, OmniDensity.Comfortable), (host.Preset, host.TextSize, host.Density));
         Assert.Empty(host.Closes);
         Reapply(window, host);
-        Assert.True(window.Find(".omni-appearance-window__reset").HasAttribute("disabled"));
+        // R1-7: Reset all stays available at the defaults too, since the host may hold extras of its own.
+        Assert.False(window.Find(".omni-appearance-window__reset").HasAttribute("disabled"));
+    }
+
+    [Fact]
+    public void Reset_all_under_the_default_theme_still_raises_every_bound_change_at_its_default_once()
+    {
+        // R1-7 (owner decision of 2026-11-12): a host that clears its own extras when the theme changes must hear
+        // the theme change even when the theme is already the default, and every other bound setting too.
+        var raised = new List<string>();
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.AppearanceChanged, value => raised.Add($"mode={value}"))
+            .Add(component => component.PresetChanged, value => raised.Add($"theme={value?.Name ?? "default"}"))
+            .Add(component => component.PaletteChanged, value => raised.Add($"palette={value?.Name ?? "default"}"))
+            .Add(component => component.FontChanged, value => raised.Add($"font={value?.Name ?? "default"}"))
+            .Add(component => component.BackdropChanged, value => raised.Add($"backdrop={value?.Name ?? "default"}"))
+            .Add(component => component.BackdropMotionChanged, value => raised.Add($"motion={value}"))
+            .Add(component => component.TextSizeLevelChanged, value => raised.Add($"text={value}"))
+            .Add(component => component.DensityChanged, value => raised.Add($"density={value}"))
+            .Add(component => component.ControlSizeLevelChanged, value => raised.Add($"controls={value}"))
+            .Add(component => component.FullWidthChanged, value => raised.Add($"width={value}")));
+
+        window.Find(".omni-appearance-window__reset").Click();
+
+        Assert.Equal(
+            ["mode=System", "theme=default", "palette=default", "font=default", "backdrop=default", "motion=True", "text=5", "density=Comfortable", "controls=5", "width=False"],
+            raised);
     }
 
     [Fact]
@@ -774,9 +864,13 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(window + ".omni-appearance-settings__actions > .omni-button"), "flex"));
         Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(window + ".omni-appearance-settings__row"), "min-inline-size"));
 
-        // The footer wraps its two groups and its buttons keep their text on one line.
+        // The footer wraps its two groups, which share the line, and a button wraps its text only when its whole row is too narrow.
         Assert.Equal("wrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer"), "flex-wrap"));
-        Assert.Equal("nowrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer .omni-button"), "white-space"));
+        var footerButton = ShippedLookTests.Body(".omni-appearance-window__footer .omni-button");
+        Assert.DoesNotContain("nowrap", footerButton, StringComparison.Ordinal);
+        Assert.Equal("1 1 auto", ShippedLookTests.Value(footerButton, "flex"));
+        Assert.Equal("100%", ShippedLookTests.Value(footerButton, "max-inline-size"));
+        Assert.Equal("1 1 auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__tools, .omni-appearance-window__decision"), "flex"));
     }
 
     [Theory]

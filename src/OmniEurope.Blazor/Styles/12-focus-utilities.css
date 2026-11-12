@@ -45,7 +45,7 @@
    sections (style, text, layout). The label column and the control column are shared by every line
    through nested subgrids, so the controls line up whatever the length of each label. The structure
    is the same on a phone: the window takes the width of the screen, the controls the width that remains. */
-.omni-appearance-window { inline-size: 34rem; max-inline-size: calc(100vw - 2rem); }
+.omni-appearance-window { inline-size: 36rem; max-inline-size: calc(100vw - 2rem); }
 .omni-appearance-settings--window { align-content: start; column-gap: var(--omni-space-md); grid-template-columns: fit-content(9rem) minmax(0, 1fr); inline-size: 100%; row-gap: var(--omni-space-md); }
 .omni-appearance-window__section { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; min-inline-size: 0; row-gap: var(--omni-space-sm); }
 .omni-appearance-window__heading { align-items: center; color: var(--omni-color-text-muted); display: flex; font-size: var(--omni-font-size-sm); font-weight: 650; gap: var(--omni-space-sm); grid-column: 1 / -1; line-height: 1.25; margin: 0; }
@@ -59,12 +59,18 @@
 /* Nothing in the window may widen it, whatever the theme: the controls of a line wrap (the select
    first, taking the width left, the buttons under it when a theme widens them - the Retro theme:
    uppercase, weight 800, offset shadows) instead of running past the track. The select gives way to
-   8rem, the buttons keep their own width, the percentage of a scale takes what is left between them. */
+   8rem, the buttons keep their own width, the slider of a scale takes what is left between its two. */
 .omni-appearance-settings--window .omni-appearance-settings__actions { flex-wrap: wrap; inline-size: 100%; min-inline-size: 0; }
 .omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { display: flex; inline-size: 100%; }
 .omni-appearance-settings--window .omni-appearance-settings__actions > .omni-drop-down { flex: 1 1 8rem; min-inline-size: 0; }
 .omni-appearance-settings--window .omni-appearance-settings__actions > .omni-button { flex: none; }
-.omni-appearance-settings--window .omni-appearance-settings__actions > .omni-badge { flex: 1 1 auto; justify-content: center; min-block-size: var(--omni-control-height); min-inline-size: 3.5em; }
+/* A scale row: the slider between the reduce and the enlarge buttons, its percentage at its end. The group takes
+   the line (the reset button keeps its own width after it) and the slider what the buttons leave. */
+.omni-appearance-window__scale { align-items: center; display: flex; flex: 1 1 11rem; gap: var(--omni-space-xs); min-inline-size: 0; }
+.omni-appearance-window__scale > .omni-button { flex: none; }
+.omni-appearance-window__scale > .omni-slider { flex: 1 1 auto; min-inline-size: 0; }
+.omni-appearance-window__scale .omni-slider__input { flex: 1 1 2.5rem; }
+.omni-appearance-window__scale .omni-slider__value { min-inline-size: 3.25em; text-align: end; white-space: nowrap; }
 /* The mode and the choices of a few (density, width) fill the control column, their options sharing it equally. */
 .omni-appearance-settings--window .omni-appearance-window__modes { display: flex; flex: 1 1 auto; }
 .omni-appearance-settings--window .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode { flex: 1 1 0; inline-size: auto; }
@@ -78,13 +84,17 @@
     /* A phone: the items of a choice bar (Density: Compact, Comfortable, Spacious) take the narrow space a word needs, so the three fit the control column at 375 px. */
     .omni-appearance-settings--window .omni-select-bar__item { padding-inline: var(--omni-space-xs); }
 }
-/* The footer: the actions on the whole look at the start (random, all back to the defaults), the
-   decision at the end (Cancel, then Apply, owner order of 2026-11-12); on a narrow window the decision wraps under, still at the end. */
-.omni-appearance-window__footer { align-items: center; display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; }
-.omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); }
-.omni-appearance-window__tools, .omni-appearance-window__decision { max-inline-size: 100%; min-inline-size: 0; }
-.omni-appearance-window__footer .omni-button { flex: none; max-inline-size: 100%; white-space: nowrap; }
-.omni-appearance-window__decision { margin-inline-start: auto; }
+/* The footer: the actions on the whole look at the start (random, all back to the defaults), the decision
+   at the end (Cancel, then Apply, owner order of 2026-11-12). Each group takes the width its buttons need
+   and both grow to share the line; when they do not fit on one (a theme that widens its buttons, such as
+   Octet with its spaced capitals, or a long translation) the decision wraps under the tools as a second
+   row, every button growing to fill its row, so the window never breaks. A label wider than its whole row
+   wraps inside its button instead of running out of the frame. */
+.omni-appearance-window__footer { display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: var(--omni-space-sm); max-inline-size: 100%; min-inline-size: 0; }
+.omni-appearance-window__footer .omni-button { flex: 1 1 auto; justify-content: center; max-inline-size: 100%; min-inline-size: 0; text-align: center; }
+.omni-appearance-window__footer .omni-button__content { min-inline-size: 0; }
+.omni-appearance-window__footer .omni-button__content > span { overflow-wrap: anywhere; }
 
 .omni-data-grid--preparing tbody > tr:not(.omni-data-grid__preparation, .omni-data-grid__spacer) { visibility: hidden; }
 .omni-rating { display: inline-flex; align-items: center; gap: 0; white-space: nowrap; color: var(--omni-color-warning); }

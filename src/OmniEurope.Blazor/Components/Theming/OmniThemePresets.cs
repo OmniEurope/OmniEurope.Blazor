@@ -43,12 +43,14 @@ public static class OmniThemePresets
     }
 
     /// <summary>
-    /// The backdrops a picker offers under the selected theme, or under the first one when unset:
-    /// <see cref="OmniThemeBackdrops.None"/> alone under Essentiel, which draws no backdrop (owner decision
-    /// of 2026-11-12), and every backdrop of <see cref="OmniThemeBackdrops.All"/> under any other theme.
+    /// The backdrops a picker offers under the selected theme, or under the first one when unset: every
+    /// backdrop of <see cref="OmniThemeBackdrops.All"/>, Essentiel included (owner decision of 2026-11-12,
+    /// which replaces the one that offered the plain page alone under Essentiel). Essentiel is still drawn
+    /// over the plain page by default (<see cref="DefaultBackdropFor"/>).
     /// </summary>
-    public static IReadOnlyList<OmniThemeBackdrop> BackdropsFor(OmniThemePreset? theme) =>
-        Definition(theme)?.OffersBackdrops == false ? [OmniThemeBackdrops.None] : OmniThemeBackdrops.All;
+    /// <param name="theme">The selected theme; null for the first one of the catalogue.</param>
+    /// <returns>The whole catalogue of backdrops, whatever the theme.</returns>
+    public static IReadOnlyList<OmniThemeBackdrop> BackdropsFor(OmniThemePreset? theme) => OmniThemeBackdrops.All;
 
     /// <summary>Every theme of the catalogue with its default palette and backdrop, the default one first.</summary>
     public static IReadOnlyList<OmniThemePreset> All { get; } =
