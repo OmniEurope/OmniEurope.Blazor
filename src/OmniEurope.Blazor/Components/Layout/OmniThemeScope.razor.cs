@@ -85,8 +85,8 @@ public partial class OmniThemeScope
     /// <summary>
     /// A backdrop from <see cref="OmniThemeBackdrops"/> to draw the <see cref="Preset"/> over, in place
     /// of its own (<see cref="OmniThemePreset.With(OmniThemeBackdrop)"/>); <see cref="OmniThemeBackdrops.None"/>
-    /// leaves the plain page. Null keeps the theme's own backdrop. A backdrop the theme does not offer
-    /// (<see cref="OmniThemePresets.BackdropsFor"/>: any under Essentiel, or without a preset) is not drawn.
+    /// leaves the plain page. Null keeps the theme's own backdrop. Every theme offers every backdrop of the catalogue
+    /// (<see cref="OmniThemePresets.BackdropsFor"/>), Essentiel included; without a <see cref="Preset"/> no backdrop is drawn.
     /// </summary>
     [Parameter]
     public OmniThemeBackdrop? Backdrop { get; set; }

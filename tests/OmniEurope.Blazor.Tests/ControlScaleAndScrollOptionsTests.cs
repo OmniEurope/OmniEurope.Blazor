@@ -36,11 +36,11 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
         settings.Find(".omni-appearance-settings__row--scale button").Click();
 
         // The settings always pass the theme and the palette to the window. The text size has its line (label "Taille",
-        // reduce, percentage, enlarge, default); the controls have none.
+        // reduce, slider with its percentage, enlarge, default); the controls have none.
         var labels = settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__label").Select(label => label.TextContent.Trim());
         Assert.Equal(["Thème", "Palette", "Taille", "Densité"], labels);
         Assert.DoesNotContain("Contrôles", labels);
-        Assert.Empty(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
+        Assert.Single(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
     }
 
     [Fact]
@@ -56,10 +56,11 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
         var rows = settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row");
         var row = rows.Single(candidate => candidate.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim() == "Contrôles");
         Assert.Equal(rows.Count - 1, rows.ToList().IndexOf(row));
-        Assert.Equal("119 %", row.QuerySelector(".omni-badge")!.TextContent.Trim());
+        Assert.Equal("119 %", row.QuerySelector(".omni-slider__value")!.TextContent.Trim());
+        Assert.Equal("8", row.QuerySelector("input[type=range]")!.GetAttribute("value"));
 
-        // Reduce, enlarge, then back to the default; no slider.
-        Assert.Empty(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
+        // Reduce, enlarge, then back to the default, and the slider between the two buttons.
+        Assert.Single(row.QuerySelectorAll("input[type=range]"));
         row.QuerySelector("button[aria-label='Réduire la taille des contrôles']")!.Click();
         Assert.Equal(7, controlSize);
         row.QuerySelector("button[aria-label='Augmenter la taille des contrôles']")!.Click();

@@ -355,12 +355,12 @@ export async function overlaySteps(session, results) {
   // 9. The appearance window: the control size and the Black hole theme, whose canvas the scope draws.
   await session.visit('/components/theme', '#demo-appearance-window');
   await clickOn('#demo-appearance-window');
-  await waitFor('la fenêtre d\'apparence', "document.querySelectorAll('.omni-appearance-window .omni-appearance-settings__actions[aria-describedby]').length === 2");
-  // The size of the controls is the second scale row: enlarge until its percentage reads level 7 (118.75 % is level 8, 112.5 % level 7).
-  await evaluate(`(async () => { const group = () => document.querySelectorAll('.omni-appearance-window .omni-appearance-settings__actions[aria-describedby]')[1]; for (let guard = 0; guard < 12 && document.documentElement.dataset.oeControlSize !== '7'; guard++) { const shown = group().querySelector('.omni-badge').textContent; const level = Math.round((parseFloat(shown) - 75) / 6.25) + 1; group().querySelectorAll('button')[level < 7 ? 1 : 0].click(); await new Promise(resolve => setTimeout(resolve, 150)); } })()`);
+  await waitFor('la fenêtre d\'apparence', "document.querySelectorAll('.omni-appearance-window .omni-appearance-window__scale').length === 2");
+  // The size of the controls is the second scale row: enlarge with its button until its slider reads level 7.
+  await evaluate(`(async () => { const group = () => document.querySelectorAll('.omni-appearance-window .omni-appearance-window__scale')[1]; for (let guard = 0; guard < 12 && document.documentElement.dataset.oeControlSize !== '7'; guard++) { const level = Math.round(parseFloat(group().querySelector('input[type="range"]').value)); group().querySelectorAll('button')[level < 7 ? 1 : 0].click(); await new Promise(resolve => setTimeout(resolve, 150)); } })()`);
   await waitFor('la taille des contrôles posée', "document.documentElement.dataset.oeControlSize === '7'").catch(async error => {
     // What the window held when the size did not land: which scale rows, their percentages and names, and the size set.
-    const state = await evaluate(`JSON.stringify({ size: document.documentElement.dataset.oeControlSize ?? null, rows: [...document.querySelectorAll('.omni-appearance-window .omni-appearance-settings__actions[aria-describedby]')].map(group => ({ label: document.getElementById(group.getAttribute('aria-labelledby'))?.textContent.trim(), percent: group.querySelector('.omni-badge')?.textContent.trim(), connected: group.isConnected })) })`);
+    const state = await evaluate(`JSON.stringify({ size: document.documentElement.dataset.oeControlSize ?? null, rows: [...document.querySelectorAll('.omni-appearance-window .omni-appearance-window__scale')].map(group => ({ label: document.getElementById(group.closest('[aria-labelledby]').getAttribute('aria-labelledby'))?.textContent.trim(), percent: group.querySelector('.omni-slider__value')?.textContent.trim(), connected: group.isConnected })) })`);
     throw new Error(`${error.message} État : ${state}`);
   });
   // The probe browser draws WebGL in software, which omni-black-hole.js refuses
@@ -398,11 +398,11 @@ export async function overlaySteps(session, results) {
     const themeSelect = () => windowOf().querySelector('select');
     const modeButtons = () => [...windowOf().querySelectorAll('.omni-appearance-window__modes button[role="radio"]')];
     const densityItems = () => [...windowOf().querySelector('[role="radiogroup"]:not(.omni-appearance-window__modes)').querySelectorAll('.omni-select-bar__item')];
-    // The text size is the first scale row (reduce, percentage, enlarge, default): step until its percentage is the one of the level asked.
+    // The text size is the first scale row (reduce button, slider, enlarge button, then default): step with its buttons until the slider reads the level asked.
     const setTextSize = async level => {
       for (let guard = 0; guard < 12; guard++) {
-        const group = windowOf().querySelectorAll('.omni-appearance-settings__actions[aria-describedby]')[0];
-        const shown = Math.round((parseFloat(group.querySelector('.omni-badge').textContent) - 75) / 6.25) + 1;
+        const group = windowOf().querySelectorAll('.omni-appearance-window__scale')[0];
+        const shown = Math.round(parseFloat(group.querySelector('input[type="range"]').value));
         if (shown === level) return;
         group.querySelectorAll('button')[shown < level ? 1 : 0].click();
         await settle();

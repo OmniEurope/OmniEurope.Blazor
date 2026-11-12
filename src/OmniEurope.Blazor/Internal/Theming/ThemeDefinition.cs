@@ -26,10 +26,6 @@ namespace OmniEurope.Blazor.Internal;
 /// The name of the backdrop of <see cref="BackdropCatalog"/> the theme is drawn over by default, or null
 /// for the plain page (<see cref="BackdropCatalog.NoneName"/>).
 /// </param>
-/// <param name="OffersBackdrops">
-/// False for a theme that offers no backdrop at all, only the plain page (Essentiel, owner decision of
-/// 2026-11-12); true for every other theme, which offers every backdrop of the catalogue.
-/// </param>
 internal sealed record ThemeDefinition(
     string Name,
     string Description,
@@ -38,5 +34,4 @@ internal sealed record ThemeDefinition(
     IReadOnlyDictionary<string, string> DarkShape,
     string? ContrastWaiver = null,
     bool DarkOnly = false,
-    string? DefaultBackdrop = null,
-    bool OffersBackdrops = true);
+    string? DefaultBackdrop = null);

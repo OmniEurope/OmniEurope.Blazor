@@ -57,7 +57,7 @@ public sealed class AppearanceStateTests : OmniBunitContext
 
         // Every row shows: the state applies each setting.
         Assert.Single(host.FindAll("#host-window select[aria-label='Police']"));
-        Assert.Equal(2, host.FindAll("#host-window [role='group'] .omni-badge").Count);
+        Assert.Equal(2, host.FindAll("#host-window [role='group'] input[type=range]").Count);
         host.Find("#host-window .omni-appearance-window__mode[title='Sombre']").Click();
         host.Find("#host-window select[aria-label='Thème']").Change(ThemeOption("Givre"));
 

@@ -270,7 +270,7 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
     [InlineData("Aplat", true)]
     [InlineData("Essentiel", false)]
     [InlineData("Néon", true)]
-    public void The_window_offers_the_setting_only_under_a_theme_that_moves_its_field(string themeName, bool offered)
+    public void The_window_always_shows_the_setting_and_enables_it_only_over_a_backdrop_that_moves(string themeName, bool moves)
     {
         bool? picked = null;
         var window = Render<OmniAppearanceWindow>(parameters => parameters
@@ -279,18 +279,48 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
             .Add(component => component.BackdropMotion, true)
             .Add(component => component.BackdropMotionChanged, value => picked = value));
 
-        var switches = window.FindAll("[role=switch]");
-        if (!offered)
+        var toggle = Assert.Single(window.FindAll("[role=switch]"));
+        Assert.Equal("Animation", window.Find("#" + toggle.GetAttribute("aria-labelledby")).TextContent.Trim());
+        if (!moves)
         {
-            Assert.Empty(switches);
+            // R1-4: the plain page does not move, so the switch is disabled and drawn off, although the stored choice is on.
+            Assert.True(toggle.HasAttribute("disabled"));
+            Assert.Equal("false", toggle.GetAttribute("aria-checked"));
+            toggle.Click();
+            Assert.Null(picked);
             return;
         }
 
-        var toggle = Assert.Single(switches);
+        Assert.False(toggle.HasAttribute("disabled"));
         Assert.Equal("true", toggle.GetAttribute("aria-checked"));
-        Assert.Equal("Animation", window.Find("#" + toggle.GetAttribute("aria-labelledby")).TextContent.Trim());
         toggle.Click();
         Assert.False(picked);
+    }
+
+    [Fact]
+    public void A_backdrop_that_does_not_move_never_overwrites_the_stored_choice_which_comes_back_with_the_next_one_that_moves()
+    {
+        var events = 0;
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
+            .Add(component => component.Backdrop, OmniThemeBackdrops.None)
+            .Add(component => component.BackdropMotion, false)
+            .Add(component => component.BackdropMotionChanged, _ => events++));
+        Assert.Equal("false", window.Find("[role=switch]").GetAttribute("aria-checked"));
+        Assert.True(window.Find("[role=switch]").HasAttribute("disabled"));
+
+        // Over a backdrop that moves the user's stored off is shown again; nothing was written meanwhile.
+        window.Render(parameters => parameters.Add(component => component.Backdrop, OmniThemeBackdrops.All.Single(item => item.Name == "Givre")));
+        Assert.Equal("false", window.Find("[role=switch]").GetAttribute("aria-checked"));
+        Assert.False(window.Find("[role=switch]").HasAttribute("disabled"));
+
+        // And a stored on is shown on over a moving backdrop, off over the plain page, still stored.
+        window.Render(parameters => parameters.Add(component => component.BackdropMotion, true));
+        Assert.Equal("true", window.Find("[role=switch]").GetAttribute("aria-checked"));
+        window.Render(parameters => parameters.Add(component => component.Backdrop, OmniThemeBackdrops.None));
+        Assert.Equal("false", window.Find("[role=switch]").GetAttribute("aria-checked"));
+        Assert.Equal(0, events);
     }
 
     [Fact]
