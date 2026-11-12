@@ -22,6 +22,7 @@ Les variations visuelles dynamiques passent par un ensemble fini de classes CSS,
 - `omni-document-viewer.js` : zoom de la visionneuse de document (`--omni-document-zoom` sur la zone des pages) et taille de chaque page (`--omni-document-page-width`, `--omni-document-page-height`), écrits par `setProperty` ;
 - `omni-focus.js` : position de tout menu du moteur commun, sous son déclencheur ou au pointeur (`--omni-menu-x`, `--omni-menu-y`), décalage d'un popover recadré dans la fenêtre (`--omni-popover-shift-x`) et position du panneau d'un sélecteur de date ou d'heure sous son champ (`--omni-picker-x`, `--omni-picker-y`, posées sur le panneau, qui quitte la page avec elles) ;
 - `omni-black-hole.js` : couleur d'un jeton du thème lue par une sonde masquée (`style.color`), retirée aussitôt lue ; le fond de Trou noir est dessiné par WebGL sur le `canvas` d'`OmniThemeScope`, sans style.
+- `omni-pixel-stars.js` : couleur de deux jetons du fond d'Octet lue par une sonde masquée (`style.color`), retirée aussitôt lue ; les étoiles sont dessinées sur le `canvas` 2D d'`OmniThemeScope` par l'API du canvas, sans style.
 
 `omni-page-header.js` (défilement du titre, repli des badges et actions de l'en-tête de page quand la ligne 1 déborde, à toute largeur) et `omni-stat-tile.js` (libellé d'`OmniStatTile` réduit puis coupé par `data-fit`, texte entier en `title`) mesurent et basculent des attributs seulement ; ils n'écrivent aucun style.
 

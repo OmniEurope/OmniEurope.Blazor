@@ -378,14 +378,15 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.DoesNotContain("--omni-card-frost", Css, StringComparison.Ordinal);
         Assert.All(OmniThemePresets.All, preset =>
         {
-            Assert.False(preset.Shape.ContainsKey("--omni-card-position"), preset.Name);
             Assert.False(preset.Shape.ContainsKey("--omni-card-frost"), preset.Name);
-            // The scope is isolated for the frost of its cards (Givre) or for the layer over its field
-            // (Trou noir's canvas), and for nothing else.
-            Assert.Equal(
-                preset.Shape.ContainsKey("--omni-card-filter") || preset.Shape.ContainsKey("--omni-scope-canvas"),
-                preset.Shape.ContainsKey("--omni-scope-isolation"));
+            Assert.False(preset.Shape.ContainsKey("--omni-card-position"), preset.Name);
+            // The theme isolates the scope for the frost of its cards (Givre) and may for the layer over a canvas
+            // (Trou noir); a theme that only gets a canvas from its backdrop (Octet) is isolated by the scope
+            // itself while the canvas draws (.omni-theme-scope--canvas, checked below); nothing else isolates.
+            Assert.True(!preset.Shape.ContainsKey("--omni-card-filter") || preset.Shape.ContainsKey("--omni-scope-isolation"), preset.Name);
+            Assert.True(!preset.Shape.ContainsKey("--omni-scope-isolation") || preset.Shape.ContainsKey("--omni-card-filter") || preset.Shape.ContainsKey("--omni-scope-canvas"), preset.Name);
         });
+        Assert.Equal("isolate", Value(Body(".omni-theme-scope--canvas"), "isolation"));
     }
 
     /// <summary>

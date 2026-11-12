@@ -19,6 +19,13 @@ internal static class BackdropCatalog
     [
         GivreBackdrop.Definition,
         TrouNoirBackdrop.Definition,
+        QuadrillageBackdrop.Definition,
+        RicochetsBackdrop.Definition,
+        BokehBackdrop.Definition,
+        HorizonBackdrop.Definition,
+        AquarelleBackdrop.Definition,
+        RayonsBackdrop.Definition,
+        EtoilesBackdrop.Definition,
     ];
 
     /// <summary>

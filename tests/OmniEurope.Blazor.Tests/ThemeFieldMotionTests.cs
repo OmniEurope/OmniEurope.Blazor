@@ -13,6 +13,7 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
 {
     private const string MotionToken = "--omni-scope-motion";
     private const string Turn = "var(--omni-scope-turn)";
+    private const string Sweep = "var(--omni-scope-sweep)";
     private const string NoShadow = "0 0 #0000";
 
     private static string Css => ShippedLookTests.Css;
@@ -30,7 +31,13 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         // The field reads the angle, so it changes at every step: not inherited either, or every
         // element of the scope would recompute with it.
         Assert.Equal("false", ShippedLookTests.Value(ShippedLookTests.Body("@property --omni-backdrop"), "inherits"));
-        Assert.Matches(@"@keyframes omni-scope-turn \{ to \{ --omni-scope-turn: 360deg; \} \}", Css);
+        Assert.Matches(@"@keyframes omni-scope-turn \{ to \{ --omni-scope-turn: 360deg; --omni-scope-sweep: 1; \} \}", Css);
+
+        // The sweep goes from 0 to 1 in the same cycle, for what slides or spreads, and is registered the same way.
+        var sweep = ShippedLookTests.Body("@property --omni-scope-sweep");
+        Assert.Equal("\"<number>\"", ShippedLookTests.Value(sweep, "syntax"));
+        Assert.Equal("false", ShippedLookTests.Value(sweep, "inherits"));
+        Assert.Equal("0", ShippedLookTests.Value(sweep, "initial-value"));
     }
 
     [Fact]
@@ -50,11 +57,12 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
     }
 
     [Fact]
-    public void Trou_noir_draws_its_field_on_a_canvas_and_no_other_theme_has_one()
+    public void Trou_noir_draws_its_field_on_a_canvas_and_only_Octet_has_another()
     {
-        // Owner decision of 2026-10-01: the hole is drawn by a shader, no other theme needs one. Owner decision
+        // Owner decision of 2026-10-01: the hole is drawn by a shader; review R1-3 (2026-11-12): the pixel stars of Octet
+        // are drawn on a 2D canvas, the only other. Owner decision
         // of 2026-10-09: in light mode the same hole is drawn turned over, in ink (white-hole).
-        Assert.Equal(["Trou noir"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-canvas")).Select(theme => theme.Name));
+        Assert.Equal(["Octet", "Trou noir"], OmniThemePresets.All.Where(theme => theme.Shape.ContainsKey("--omni-scope-canvas")).Select(theme => theme.Name));
         var preset = OmniThemePresets.All.Single(theme => theme.Name == "Trou noir");
         Assert.Equal("white-hole", preset.Light["--omni-scope-canvas"]);
         Assert.Equal("black-hole", preset.Dark["--omni-scope-canvas"]);
@@ -185,8 +193,8 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
         var moving = new List<string>();
         foreach (var preset in OmniThemePresets.All)
         {
-            // The angle turns the CSS field (Givre); a field drawn on a canvas (Trou noir) moves with its shader.
-            var reads = (preset.Shape.TryGetValue("--omni-backdrop", out var drawn) && drawn.Contains(Turn, StringComparison.Ordinal))
+            // The angle or the sweep moves the CSS field (Givre, Quadrillage...); a field drawn on a canvas (Trou noir, Étoiles) moves with its script.
+            var reads = (preset.Shape.TryGetValue("--omni-backdrop", out var drawn) && (drawn.Contains(Turn, StringComparison.Ordinal) || drawn.Contains(Sweep, StringComparison.Ordinal)))
                 || preset.Shape.ContainsKey("--omni-scope-canvas");
             var moves = preset.Shape.TryGetValue(MotionToken, out var motion);
             Assert.True(reads == moves, $"{preset.Name}: the field reads the angle = {reads}, the theme sets the motion = {moves}.");
@@ -201,8 +209,9 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
             }
         }
 
-        // Owner decision of 2026-09-30: Givre and Trou noir move their field, no other theme does.
-        Assert.Equal(["Givre", "Trou noir"], moving);
+        // Owner decision of 2026-09-30: Givre and Trou noir move their field; review R1-3 (2026-11-12): the animated
+        // backdrops of the themes that carry one move too. A theme without a backdrop of its own does not.
+        Assert.Equal(["Ardoise", "Galet", "Halo", "Néon", "Papier", "Rétro", "Octet", "Givre", "Trou noir"], moving);
     }
 
     [Fact]
@@ -257,7 +266,7 @@ public sealed class ThemeFieldMotionTests : OmniBunitContext
     [InlineData("Givre", true)]
     [InlineData("Trou noir", true)]
     [InlineData("Essentiel", false)]
-    [InlineData("Néon", false)]
+    [InlineData("Néon", true)]
     public void The_window_offers_the_setting_only_under_a_theme_that_moves_its_field(string themeName, bool offered)
     {
         bool? picked = null;

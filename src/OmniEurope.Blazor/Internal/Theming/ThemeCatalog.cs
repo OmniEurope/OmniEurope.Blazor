@@ -66,7 +66,8 @@ internal static class ThemeCatalog
                 ("--omni-heading-text-transform", "uppercase"), ("--omni-heading-letter-spacing", "0.05em"),
                 ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
                 ("--omni-font-family", Sans)),
-            Shape()),
+            Shape(),
+            DefaultBackdrop: "Quadrillage"),
 
         new("Galet", "Tout en rondeur, boutons pilule, liseré et ombre diffuse à la place de la bordure.", "Forêt",
             Shape(
@@ -82,7 +83,8 @@ internal static class ThemeCatalog
                 ("--omni-font-family", Rounded), ("--omni-heading-font-weight", "700")),
             Shape(
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))"),
-                ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 12%, transparent), 0 0.5rem 1.5rem rgb(0 0 0 / 45%)"))),
+                ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 12%, transparent), 0 0.5rem 1.5rem rgb(0 0 0 / 45%)")),
+            DefaultBackdrop: "Ricochets"),
 
         new("Halo", "Grandes rondeurs et halos colorés tirés de l’accent.", "Lavande",
             Shape(
@@ -99,7 +101,8 @@ internal static class ThemeCatalog
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-accent) 24%, transparent), 0 0.75rem 2rem color-mix(in srgb, var(--omni-color-accent) 20%, transparent)"),
                 ("--omni-button-shadow", "0 0.25rem 1rem color-mix(in srgb, var(--omni-color-accent) 45%, transparent)"),
-                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 42%, var(--omni-color-surface))"))),
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 42%, var(--omni-color-surface))")),
+            DefaultBackdrop: "Bokeh"),
 
         new("Néon", "Nuit électrique : lueurs d’accent, bordures teintées, capitales très espacées.", "Électrique",
             Shape(
@@ -115,7 +118,8 @@ internal static class ThemeCatalog
                 ("--omni-font-family", Technical)),
             Shape(
                 ("--omni-button-shadow", "0 0 0.9rem color-mix(in srgb, var(--omni-color-accent) 60%, transparent)"),
-                ("--omni-card-shadow", "0 0 1.5rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)"))),
+                ("--omni-card-shadow", "0 0 1.5rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)")),
+            DefaultBackdrop: "Horizon"),
 
         new("Papier", "Encre sur papier : filets de 2 px, empattements, aucune ombre.", "Or ancien",
             Shape(
@@ -133,7 +137,8 @@ internal static class ThemeCatalog
                 // A 2 px rule in the full text colour is garish on a near-black page.
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, var(--omni-color-surface))"),
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 58%, var(--omni-color-surface))"),
-                ("--omni-button-border-color", "color-mix(in srgb, var(--omni-color-text) 58%, var(--omni-color-surface))"))),
+                ("--omni-button-border-color", "color-mix(in srgb, var(--omni-color-text) 58%, var(--omni-color-surface))")),
+            DefaultBackdrop: "Aquarelle"),
 
         new("Rétro", "Contours épais et ombres dures décalées, sans flou.", "Braise",
             Shape(
@@ -151,7 +156,8 @@ internal static class ThemeCatalog
                 ("--omni-card-shadow", "0 0 0 2px var(--omni-color-surface), 0.375rem 0.375rem 0 var(--omni-color-text)"),
                 ("--omni-button-text-transform", "uppercase"), ("--omni-button-font-weight", "800"),
                 ("--omni-font-family", Geometric), ("--omni-heading-font-weight", "800")),
-            Shape()),
+            Shape(),
+            DefaultBackdrop: "Rayons"),
 
         new("Octet", "Console à huit bits : cadres en escalier, police d’écran.", "Mono",
             Shape(
@@ -168,7 +174,8 @@ internal static class ThemeCatalog
                 ("--omni-button-font-weight", "700"),
                 ("--omni-font-family", Screen), ("--omni-heading-font-family", Console),
                 ("--omni-heading-text-transform", "uppercase"), ("--omni-heading-letter-spacing", "0.04em")),
-            Shape()),
+            Shape(),
+            DefaultBackdrop: "Étoiles"),
 
         new("Nénuphar", "Coins asymétriques en feuille et reflets de lagune.", "Lagune",
             Shape(
