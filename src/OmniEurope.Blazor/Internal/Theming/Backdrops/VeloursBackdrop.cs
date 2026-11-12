@@ -52,7 +52,7 @@ internal static class VeloursBackdrop
             // The cloth is the accent over the surface, the folds the same hue a little deeper, the sheen
             // the page itself and the hairlines a faint tint of the text.
             ("--omni-backdrop-lit", "color-mix(in srgb, var(--omni-color-accent-fill) 6%, var(--omni-color-surface))"),
-            ("--omni-backdrop-shade", "color-mix(in srgb, var(--omni-color-accent-fill) 10%, var(--omni-color-surface))"),
+            ("--omni-backdrop-shade", "color-mix(in srgb, var(--omni-color-accent-fill) 9%, var(--omni-color-surface))"),
             ("--omni-backdrop-sheen", "var(--omni-color-surface)"),
             ("--omni-backdrop-weave", "color-mix(in srgb, var(--omni-color-text) 7%, var(--omni-color-surface))"),
             ("--omni-backdrop", Field),
@@ -61,6 +61,6 @@ internal static class VeloursBackdrop
             // At night the lit side of a fold is the lighter one, the sheen a pale tint of the accent.
             ("--omni-backdrop-lit", "color-mix(in srgb, var(--omni-color-accent-fill) 12%, var(--omni-color-surface))"),
             ("--omni-backdrop-shade", "color-mix(in srgb, var(--omni-color-accent-fill) 5%, var(--omni-color-surface))"),
-            ("--omni-backdrop-sheen", "color-mix(in srgb, var(--omni-color-accent-fill) 16%, var(--omni-color-surface))"),
+            ("--omni-backdrop-sheen", "color-mix(in srgb, var(--omni-color-accent-fill) 13%, var(--omni-color-surface))"),
             ("--omni-backdrop-weave", "color-mix(in srgb, var(--omni-color-text) 7%, var(--omni-color-surface))")));
 }

@@ -626,18 +626,21 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     .omni-progress--indeterminate .omni-progress__indicator { background: currentColor; opacity: 0.45; transform: none; width: 100%; }
 }
 
-/* A backdrop may move its colour field (Givre, Trou noir). --omni-scope-turn is an angle that makes one
+/* A backdrop may move its colour field (Givre, Quadrillage, Ricochets...). --omni-scope-turn is an angle that makes one
    turn per cycle; the backdrop reads it in its --omni-backdrop (the orbit of a colour orb, the origin of a
-   ring). Both are registered as not inherited: the angle then interpolates, and neither it nor the
+   ring); --omni-scope-sweep is a number that goes from 0 to 1 in the same cycle, for what slides or spreads
+   (the shift of a grid by its own period, the radius of a ripple). Both are registered as not inherited: the
+   value then interpolates, and neither it nor the
    field it moves is recomputed on every element of the scope at each step. Without @property the
-   angle jumps from nothing to a full turn, the same picture, so the field stays still. */
+   angle jumps from nothing to a full turn and the sweep from 0 to 1, the same picture, so the field stays still. */
 @property --omni-scope-turn { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 @property --omni-backdrop { syntax: "*"; inherits: false; }
+@property --omni-scope-sweep { syntax: "<number>"; inherits: false; initial-value: 0; }
 /* A backdrop made of shapes (Aplat's floating forms, Epure's dot screen) gives each layer of its
    --omni-backdrop its own tile: --omni-scope-backdrop-size, -position (which may read the turning angle,
    so not inherited either) and -repeat are lists with one entry per layer, neutral when a backdrop sets none. */
 @property --omni-scope-backdrop-position { syntax: "*"; inherits: false; }
-@keyframes omni-scope-turn { to { --omni-scope-turn: 360deg; } }
+@keyframes omni-scope-turn { to { --omni-scope-turn: 360deg; --omni-scope-sweep: 1; } }
 
 /* The scope sets the base size, it does not inherit the host's. The token existed for exactly this
    and was never applied at the root, so a control rendered at whatever size the surrounding page

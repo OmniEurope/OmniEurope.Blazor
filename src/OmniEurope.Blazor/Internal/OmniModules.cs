@@ -78,6 +78,9 @@ internal static class OmniModules
     /// <summary>Trou noir's field: the black hole drawn by a WebGL shader on the scope's canvas.</summary>
     internal const string BlackHole = Root + "omni-black-hole.js";
 
+    /// <summary>Octet's field: pixel stars that twinkle and scroll in parallax, drawn on the scope's canvas.</summary>
+    internal const string PixelStars = Root + "omni-pixel-stars.js";
+
     /// <summary>Tooltips, including the ones installed for native <c>title</c> attributes.</summary>
     internal const string Tooltip = Root + "omni-tooltip.js";
 }

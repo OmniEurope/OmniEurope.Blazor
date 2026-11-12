@@ -52,7 +52,7 @@ internal static class NenupharBackdrop
             // the accent hues, the leaves from the success hue; the light of the caustics is the page
             // itself, brighter than the tinted water around it.
             ("--omni-backdrop-shallow", "color-mix(in srgb, var(--omni-color-info-fill) 8%, var(--omni-color-surface))"),
-            ("--omni-backdrop-deep", "color-mix(in srgb, var(--omni-color-accent-fill) 12%, var(--omni-color-surface))"),
+            ("--omni-backdrop-deep", "color-mix(in srgb, var(--omni-color-accent-fill) 9%, var(--omni-color-surface))"),
             ("--omni-backdrop-glint", "var(--omni-color-surface)"),
             ("--omni-backdrop-leaf", "color-mix(in srgb, var(--omni-color-success-fill) 11%, var(--omni-color-surface))"),
             ("--omni-backdrop-rim", "color-mix(in srgb, var(--omni-color-success-fill) 15%, var(--omni-color-surface))"),
@@ -61,8 +61,8 @@ internal static class NenupharBackdrop
         BackdropDefinition.Tokens(
             // At night the water is deep and the light is a cold tint of the palette over it.
             ("--omni-backdrop-shallow", "color-mix(in srgb, var(--omni-color-info-fill) 12%, var(--omni-color-surface))"),
-            ("--omni-backdrop-deep", "color-mix(in srgb, var(--omni-color-accent-fill) 14%, var(--omni-color-surface))"),
-            ("--omni-backdrop-glint", "color-mix(in srgb, var(--omni-color-info-fill) 18%, var(--omni-color-surface))"),
+            ("--omni-backdrop-deep", "color-mix(in srgb, var(--omni-color-accent-fill) 12%, var(--omni-color-surface))"),
+            ("--omni-backdrop-glint", "color-mix(in srgb, var(--omni-color-info-fill) 14%, var(--omni-color-surface))"),
             ("--omni-backdrop-leaf", "color-mix(in srgb, var(--omni-color-success-fill) 14%, var(--omni-color-surface))"),
             ("--omni-backdrop-rim", "color-mix(in srgb, var(--omni-color-success-fill) 18%, var(--omni-color-surface))")));
 }

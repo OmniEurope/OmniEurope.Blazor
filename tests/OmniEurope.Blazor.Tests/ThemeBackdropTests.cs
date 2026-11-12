@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Tests;
 /// <summary>
 /// Review R1-2 (owner decisions of 2026-11-12): the field behind the page is a backdrop of a catalogue,
 /// chosen like the palette. Essentiel draws none and offers none; every other theme draws its own (Givre
-/// and Trou noir for now, None for the others until their backdrop exists) and offers every one; None
+/// and Trou noir, then the seven of review R1-3, None for the themes whose backdrop does not exist yet) and offers every one; None
 /// leaves the plain page; the choice travels with the preference and the theme default comes back on reset.
 /// </summary>
 public sealed class ThemeBackdropTests : OmniBunitContext
@@ -22,7 +22,9 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public void The_catalogue_holds_the_plain_page_then_the_backdrops_drawn()
     {
-        Assert.Equal(["Aucun", "Givre", "Trou noir", "Nénuphar", "Velours", "Relief", "Aplat", "Épure"], OmniThemeBackdrops.All.Select(backdrop => backdrop.Name));
+        Assert.Equal(
+            ["Aucun", "Givre", "Trou noir", "Quadrillage", "Ricochets", "Bokeh", "Horizon", "Aquarelle", "Rayons", "Étoiles", "Nénuphar", "Velours", "Relief", "Aplat", "Épure"],
+            OmniThemeBackdrops.All.Select(backdrop => backdrop.Name));
         Assert.Same(OmniThemeBackdrops.None, OmniThemeBackdrops.All[0]);
         Assert.Empty(OmniThemeBackdrops.None.Shape);
         Assert.Empty(OmniThemeBackdrops.None.DarkShape);
@@ -148,8 +150,13 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [InlineData("Relief", "Relief")]
     [InlineData("Aplat", "Aplat")]
     [InlineData("Épure", "Épure")]
-    [InlineData("Ardoise", "Aucun")]
-    [InlineData("Néon", "Aucun")]
+    [InlineData("Ardoise", "Quadrillage")]
+    [InlineData("Galet", "Ricochets")]
+    [InlineData("Halo", "Bokeh")]
+    [InlineData("Papier", "Aquarelle")]
+    [InlineData("Rétro", "Rayons")]
+    [InlineData("Octet", "Étoiles")]
+    [InlineData("Néon", "Horizon")]
     public void Every_other_theme_draws_its_own_backdrop_and_offers_every_one(string theme, string backdrop)
     {
         var preset = Theme(theme);
@@ -227,8 +234,9 @@ public sealed class ThemeBackdropTests : OmniBunitContext
         Assert.Equal("black-hole", overTrouNoir.Dark["--omni-scope-canvas"]);
 
         var back = overTrouNoir.With(OmniThemeBackdrops.None);
-        Assert.Equal(ardoise.Light.OrderBy(token => token.Key, StringComparer.Ordinal), back.Light.OrderBy(token => token.Key, StringComparer.Ordinal));
-        Assert.Equal(ardoise.Dark.OrderBy(token => token.Key, StringComparer.Ordinal), back.Dark.OrderBy(token => token.Key, StringComparer.Ordinal));
+        var plain = ardoise.With(OmniThemeBackdrops.None);
+        Assert.Equal(plain.Light.OrderBy(token => token.Key, StringComparer.Ordinal), back.Light.OrderBy(token => token.Key, StringComparer.Ordinal));
+        Assert.Equal(plain.Dark.OrderBy(token => token.Key, StringComparer.Ordinal), back.Dark.OrderBy(token => token.Key, StringComparer.Ordinal));
     }
 
     // ---- The scope ----
@@ -343,7 +351,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
         var window = Window(Theme("Givre"), null, value => picked = value);
 
         var options = window.Find("select[aria-label='Fond']").QuerySelectorAll("option").Select(option => option.TextContent);
-        Assert.Equal(["Aucun", "Givre (défaut)", "Trou noir", "Nénuphar", "Velours", "Relief", "Aplat", "Épure"], options);
+        Assert.Equal(["Aucun", "Givre (défaut)", "Trou noir", "Quadrillage", "Ricochets", "Bokeh", "Horizon", "Aquarelle", "Rayons", "Étoiles", "Nénuphar", "Velours", "Relief", "Aplat", "Épure"], options);
         // The animation switch has a row of its own, right under the backdrop row (review R1-1).
         var label = window.Find("#" + window.Find("[role=switch]").GetAttribute("aria-labelledby"));
         var animation = label.Closest(".omni-appearance-settings__row")!;

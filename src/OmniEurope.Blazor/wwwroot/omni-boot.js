@@ -49,12 +49,12 @@
     var themePattern = /^[A-Za-z0-9_-]{1,64}$/;
     var levelPattern = /^(10|[1-9])$/;
     var snapshotVersion = 1;
-    // What a stored snapshot may hold. The built-in looks stay well under every limit (a backdrop gradient is the
-    // longest value, about 800 characters; a test checks the whole catalog against these numbers); a value past
-    // them is corrupt or from another version, and is ignored.
+    // What a stored snapshot may hold. The built-in looks stay under every limit (a backdrop gradient is the
+    // longest value, up to about 7,500 characters for the perspective grid of Horizon; a test checks the whole
+    // catalog against these numbers); a value past them is corrupt or from another version, and is ignored.
     var maxSnapshotLength = 262144;
     var maxTokens = 256;
-    var maxTokenValueLength = 4096;
+    var maxTokenValueLength = 8192;
     var maxLanguageLength = 35;
     var tokenNamePattern = /^--[A-Za-z0-9_-]{1,64}$/;
     // A token value is a CSS value: never a declaration end, a block, a comment, a markup character, an
