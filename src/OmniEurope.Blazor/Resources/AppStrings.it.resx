@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Controlli</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Predefinito</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Casuale</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Scegli a caso un tema, una palette e un carattere</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Scegli a caso un tema, una palette, un carattere e uno sfondo</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Applica</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Ripristina</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Ripristina tutto</value></data>

@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Juhtelemendid</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Vaikimisi</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Juhuslik</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Vali juhuslik teema, palett ja font</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Vali juhuslik teema, palett, font ja taust</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Rakenda</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Taasta</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Taasta kõik</value></data>

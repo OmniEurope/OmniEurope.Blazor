@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Ovládacie prvky</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Predvolené</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Náhodne</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Náhodne vybrať motív, paletu a písmo</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Náhodne vybrať motív, paletu, písmo a pozadie</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Použiť</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Obnoviť</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Obnoviť všetko</value></data>

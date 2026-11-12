@@ -64,13 +64,15 @@
 .omni-appearance-settings--window .omni-appearance-settings__actions:has(.omni-drop-down) { display: flex; inline-size: 100%; }
 .omni-appearance-settings--window .omni-appearance-settings__actions > .omni-drop-down { flex: 1 1 8rem; min-inline-size: 0; }
 .omni-appearance-settings--window .omni-appearance-settings__actions > .omni-button { flex: none; }
-/* A scale row: the slider between the reduce and the enlarge buttons, its percentage at its end. The group takes
-   the line (the reset button keeps its own width after it) and the slider what the buttons leave. */
+/* A scale row: the slider centred between the reduce and the enlarge buttons (the same gap on both sides), its
+   percentage after the enlarge button. The slider's own wrapper (a plain div, no role) gives its two parts to the
+   group, so the percentage can leave the space between the buttons. The group takes the line (the reset button
+   keeps its own width after it) and the slider what the buttons and the percentage leave. */
 .omni-appearance-window__scale { align-items: center; display: flex; flex: 1 1 11rem; gap: var(--omni-space-xs); min-inline-size: 0; }
 .omni-appearance-window__scale > .omni-button { flex: none; }
-.omni-appearance-window__scale > .omni-slider { flex: 1 1 auto; min-inline-size: 0; }
-.omni-appearance-window__scale .omni-slider__input { flex: 1 1 2.5rem; }
-.omni-appearance-window__scale .omni-slider__value { min-inline-size: 3.25em; text-align: end; white-space: nowrap; }
+.omni-appearance-window__scale > .omni-slider { display: contents; }
+.omni-appearance-window__scale .omni-slider__input { flex: 1 1 2.5rem; min-inline-size: 0; }
+.omni-appearance-window__scale .omni-slider__value { min-inline-size: 3.25em; order: 1; text-align: end; white-space: nowrap; }
 /* The mode and the choices of a few (density, width) fill the control column, their options sharing it equally. */
 .omni-appearance-settings--window .omni-appearance-window__modes { display: flex; flex: 1 1 auto; }
 .omni-appearance-settings--window .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode { flex: 1 1 0; inline-size: auto; }

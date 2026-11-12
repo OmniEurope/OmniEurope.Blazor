@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Vadīklas</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Noklusējums</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Nejauši</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Nejauši izvēlēties motīvu, paleti un fontu</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Nejauši izvēlēties motīvu, paleti, fontu un fonu</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Lietot</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Atjaunot</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Atiestatīt visu</value></data>

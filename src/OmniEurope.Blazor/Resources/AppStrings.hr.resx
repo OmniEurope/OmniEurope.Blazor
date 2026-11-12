@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Kontrole</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Zadano</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Nasumično</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Nasumično odaberi temu, paletu i font</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Nasumično odaberi temu, paletu, font i pozadinu</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Primijeni</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Vrati</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Vrati sve</value></data>

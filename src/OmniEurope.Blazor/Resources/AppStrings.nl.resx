@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Besturing</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Standaard</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Willekeurig</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Een willekeurig thema, palet en lettertype kiezen</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Een willekeurig thema, palet, lettertype en achtergrond kiezen</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Toepassen</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Herstellen</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Alles herstellen</value></data>

@@ -210,6 +210,15 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
+    public void The_scale_slider_sits_centred_between_its_buttons_with_the_percentage_after_them()
+    {
+        // Owner request of 2026-11-12: the slider of Size and Controls is centred between reduce and enlarge, so the
+        // percentage leaves that space. Only a browser measures it; this pins the rules that place it.
+        Assert.Equal("contents", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__scale > .omni-slider"), "display"));
+        Assert.Equal("1", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__scale .omni-slider__value"), "order"));
+    }
+
+    [Fact]
     public void The_size_steps_stop_at_levels_one_and_ten()
     {
         var levels = new List<int>();

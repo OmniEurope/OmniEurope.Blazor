@@ -73,7 +73,7 @@ public sealed class AppMenuTests : OmniBunitContext
                 .Add(component => component.BackdropChanged, value => { events.Backdrop++; backdrop = value; }));
 
             var random = menu.Find(".omni-app-menu__theme-row > .omni-app-menu__random");
-            Assert.Equal("Tirer au hasard un thème, une palette et une police", random.GetAttribute("aria-label"));
+            Assert.Equal("Tirer au hasard un thème, une palette, une police et un fond", random.GetAttribute("aria-label"));
             Assert.Equal(random.GetAttribute("aria-label"), random.GetAttribute("title"));
             Assert.Contains("omni-button--icon", random.ClassList);
             random.Click();

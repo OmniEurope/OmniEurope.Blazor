@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Valdikliai</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Numatytasis</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Atsitiktinai</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Atsitiktinai parinkti temą, paletę ir šriftą</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Atsitiktinai parinkti temą, paletę, šriftą ir foną</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Taikyti</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Atkurti</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Atkurti viską</value></data>

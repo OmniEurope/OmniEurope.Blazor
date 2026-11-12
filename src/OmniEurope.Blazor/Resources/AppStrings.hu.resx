@@ -33,7 +33,7 @@
   <data name="SettingsControlSize" xml:space="preserve"><value>Vezérlők</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Alapértelmezett</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Véletlenszerű</value></data>
-  <data name="SettingsRandomTitle" xml:space="preserve"><value>Téma, paletta és betűtípus véletlenszerű kiválasztása</value></data>
+  <data name="SettingsRandomTitle" xml:space="preserve"><value>Téma, paletta, betűtípus és háttér véletlenszerű kiválasztása</value></data>
   <data name="SettingsApply" xml:space="preserve"><value>Alkalmaz</value></data>
   <data name="SettingsRestore" xml:space="preserve"><value>Visszaállítás</value></data>
   <data name="SettingsResetAll" xml:space="preserve"><value>Összes visszaállítása</value></data>
