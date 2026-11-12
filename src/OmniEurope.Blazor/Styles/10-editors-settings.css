@@ -253,7 +253,7 @@
 .omni-card--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 /* A fact tile (OmniFactTile): a title, then rows of icon, label and value. In a wide tile (18rem of content or
    more) the three columns are shared tracks (the icon, then the label and the value halving the rest,
-   R1-4, Aetheus R-34), the same for every row, so the icons, the labels and the values line up from one
+   review line R1-4), the same for every row, so the icons, the labels and the values line up from one
    row to the next and from one tile to the next of the same width in a tile grid. The value is drawn at the
    label size (--omni-font-size-label), a step under the body text, the label a step under it again.
    A label longer than its half is cut (a host fixes the label track once with

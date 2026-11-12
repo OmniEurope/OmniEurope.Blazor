@@ -10,7 +10,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Modifié
 
-- `OmniFactTile` (recette R1-4, demande d'Aetheus R-34) : dans une tuile large, le libellé et la valeur se partagent la place à parts égales (au lieu d'un libellé de 6,5 rem plafonné à 40 %), si bien que des libellés comme « Release déployée » ou « Durée moyenne des succès » ne sont plus coupés ; la valeur passe en `--omni-font-size-label`, un cran sous le texte courant. `--omni-fact-tile-label-width` fixe toujours la colonne de libellé ; la tuile étroite ne change pas.
+- `OmniFactTile` (recette R1-4, demande d'une application cliente) : dans une tuile large, le libellé et la valeur se partagent la place à parts égales (au lieu d'un libellé de 6,5 rem plafonné à 40 %), si bien que des libellés comme « Release déployée » ou « Durée moyenne des succès » ne sont plus coupés ; la valeur passe en `--omni-font-size-label`, un cran sous le texte courant. `--omni-fact-tile-label-width` fixe toujours la colonne de libellé ; la tuile étroite ne change pas.
 
 ### Corrigé
 
