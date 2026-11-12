@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # Recette d'OmniEurope.Blazor, points à faire
 
-> Statut : ouverte le 2026-10-09, R1-24 archivée le 2026-11-12 ; nouvelle passe le 2026-11-12, numérotation repartie à 1 après l'archive ; R1-1 à R1-4 de cette passe faites, prouvées et archivées le 2026-11-12 dans `recette-oe-fait.md`. Nouvelle série de retours le 2026-11-12, numérotée à partir de 1 (R1-1 à R1-6). Prochain numéro : **R1-7**.
+> Statut : ouverte le 2026-10-09, R1-24 archivée le 2026-11-12 ; nouvelle passe le 2026-11-12, numérotation repartie à 1 après l'archive ; R1-1 à R1-4 de cette passe faites, prouvées et archivées le 2026-11-12 dans `recette-oe-fait.md`. Nouvelle série de retours le 2026-11-12, numérotée à partir de 1 (R1-1 à R1-7). Prochain numéro : **R1-8**.
 
 ## État
 
@@ -28,7 +28,7 @@ Branche `develop`, deux agents en parallèle, chacun dans son worktree.
 
 | Lot | Lignes | Modèle | Vague | État |
 | --- | --- | --- | --- | --- |
-| D, fenêtre d'apparence du paquet | R1-1, R1-3, R1-4, R1-5, R1-6 | sonnet high | 1 | En cours |
+| D, fenêtre d'apparence du paquet | R1-1, R1-3, R1-4, R1-5, R1-6, R1-7 | sonnet high | 1 | En cours |
 | E, fenêtre principale de la vitrine | R1-2 | sonnet medium | 1 | En cours |
 
 ## Légende
@@ -46,6 +46,7 @@ Branche `develop`, deux agents en parallèle, chacun dans son worktree.
 | R1-4 | `OmniAppearanceWindow`, interrupteur Animation | Autre | L'interrupteur reste toujours affiché ; quand le fond dessiné ne bouge pas (« Aucun », par exemple sous Essentiel), il est désactivé et montré à faux. Déjà dit : non. Décision du propriétaire du 2026-11-12. | OE | Propriétaire, 2026-11-12. Aujourd'hui la ligne Animation n'apparaît que sous un fond qui bouge (`OmniAppearanceSettings`). | Ouvert décidé |
 | R1-5 | `OmniAppearanceWindow`, bouton Aléatoire | Bug | « Aléatoire » doit tout tirer au hasard, le fond compris. Déjà dit : non. Décision du propriétaire du 2026-11-12, qui remplace le choix de l'orchestrateur (« l'apparence au hasard garde le fond par défaut du thème »). Pris sur recommandation : le hasard tire le thème, la palette, le fond et la police (les choix de style), pas le mode, la densité, les tailles ni la largeur. | OE | Propriétaire, 2026-11-12. `AppearanceChoices.RandomLookAsync`. | Ouvert décidé |
 | R1-6 | `OmniAppearanceWindow` sous le thème Octet | Bug | La fenêtre casse sous Octet : les boutons du pied (Random, Reset all, Restore, Apply) passent sur deux lignes et sortent du cadre. Agrandir un peu la fenêtre ou réduire les boutons : elle ne doit casser sous aucun thème. Déjà dit : non. | OE | Propriétaire, 2026-11-12, capture à l'appui (Octet, palette Océan, fond Relief). Octet élargit ses boutons (capitales, cadres en escalier) ; la sonde `eng/scripts-probe/overlays.mjs` (balayage de la fenêtre sous chaque thème) doit le couvrir. | Ouvert |
+| R1-7 | `OmniAppearanceWindow`, bouton « Tout réinitialiser » (et la vitrine) | Autre | « Tout réinitialiser » doit tout remettre à zéro : thème, palette, mode, fond, animation, police, tailles, densité, largeur, et les retouches de jetons du personnaliseur de la vitrine. Déjà dit : non. Décision du propriétaire du 2026-11-12. | OE et vitrine | Propriétaire, 2026-11-12. `ResetAllAsync` (`OmniAppearanceWindow.razor.cs:272`) ne lève le changement de thème que si le thème diffère ; la vitrine n'efface ses retouches (`ThemeState._edits`) qu'au changement de thème, donc elles restent sous Essentiel. | Ouvert décidé |
 
 ## Critère de clôture
 
