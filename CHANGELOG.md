@@ -21,6 +21,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Corrigé
 
+- `OmniThemeScope` : des tirages aléatoires rapprochés (le dé du menu cliqué plusieurs fois) ne lèvent plus de `NullReferenceException` dans `SyncCanvasAsync`. Deux rendus qui se suivaient pendant l'arrêt de l'ancien script de canvas l'arrêtaient et le libéraient deux fois ; la synchronisation du canvas ne se chevauche plus elle-même et rejoue les derniers paramètres. Preuve : `ThemeBackdropTests.Renders_that_overlap_while_the_old_canvas_script_stops_hand_over_once_without_throwing` (rouge avant : deux balayages), et plus aucune erreur dans la console de la vitrine après des tirages et des bascules Trou noir / Étoiles en rafale.
+
 - L'analyseur `OE0001` livré dans le paquet référence de nouveau Roslyn 5.0.0 (SDK 10.0.100) : en 1.13.0 il référençait 5.9.0, qu'un SDK .NET 10 antérieur à 10.0.4xx refuse de charger (CS9057), si bien que la règle cessait de s'exécuter sans erreur chez ces consommateurs net10.0. `eng/Test-Package.ps1` refuse désormais un analyseur livré qui référence une Roslyn plus récente.
 - `OmniNumeric` ne se redessine plus à chaque frappe : la saisie et les touches autres qu'Entrée sont seulement mémorisées (sur un circuit serveur, chaque frappe renvoyait un rendu pour rien) ; Entrée valide et redessine comme avant.
 
