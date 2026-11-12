@@ -349,7 +349,8 @@ public partial class OmniThemeScope
     /// The script of the field a backdrop draws on a canvas rather than in CSS (`--omni-scope-canvas`,
     /// Trou noir's black hole through `omni-black-hole.js`), or null for every other one. The script reads
     /// the kind of the mode drawn (black-hole, white-hole) from the scope's tokens, so a change of mode
-    /// only repaints.
+    /// only repaints. The canvas element is keyed by this script: a canvas keeps the first kind of context it
+    /// gave (WebGL for Trou noir, 2D for the pixel stars of Octet), so another canvas backdrop gets a canvas of its own.
     /// </summary>
     private string? CanvasField => BackdropCatalog.CanvasScriptFor(DrawnPreset?.Shape.GetValueOrDefault("--omni-scope-canvas"));
 
