@@ -65,10 +65,10 @@
             </OmniSidebar>
             <ErrorBoundary @ref="_errorBoundary">
                 <ChildContent>
-                    <OmniMain ContentWidth="OmniLayoutWidth.Wide" Scrollable="true">@Body</OmniMain>
+                    <OmniMain ContentWidth="ContentWidth" Scrollable="true">@Body</OmniMain>
                 </ChildContent>
                 <ErrorContent Context="error">
-                    <OmniMain ContentWidth="OmniLayoutWidth.Wide" Scrollable="true">
+                    <OmniMain ContentWidth="ContentWidth" Scrollable="true">
                         <OmniAlert Severity="OmniSeverity.Danger" Title="@Text["ErrorTitle"]">
                             @Text["ErrorMessage"]
                             <OmniButton OnClick="@(_ => RecoverAsync())">@Text["Retry"]</OmniButton>
@@ -85,6 +85,10 @@
                           Preset="LookPreset" PresetChanged="SetPresetAsync"
                           Palette="WindowPalette" PaletteChanged="SetPaletteAsync"
                           Density="Theme.Density" DensityChanged="SetDensityAsync"
+                          Font="Theme.Font" FontChanged="SetFontAsync"
+                          TextSizeLevel="Theme.TextSizeLevel" TextSizeLevelChanged="SetTextSizeLevelAsync"
+                          ControlSizeLevel="Theme.ControlSizeLevel" ControlSizeLevelChanged="SetControlSizeLevelAsync"
+                          FullWidth="Theme.FullWidth" FullWidthChanged="SetFullWidthAsync"
                           Backdrop="Theme.Backdrop" BackdropChanged="SetBackdropAsync"
                           BackdropMotion="Theme.BackdropMotion" BackdropMotionChanged="SetBackdropMotionAsync" />
     </OmniComponentsHost>

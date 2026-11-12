@@ -28,6 +28,13 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     private const string DensityKey = "density";
     private const string MotionKey = "motion";
     private const string BackdropKey = "backdrop";
+    private const string FontKey = "font";
+    private const string TextSizeKey = "textSize";
+    private const string ControlSizeKey = "controlSize";
+    private const string FullWidthKey = "fullWidth";
+
+    /// <summary>The level of the text size and of the control size when the visitor chose none (the middle of 1 to 10).</summary>
+    public const int DefaultLevel = 5;
 
     /// <summary>The shape token a theme sets when it moves its colour field.</summary>
     private const string MotionToken = "--omni-scope-motion";
@@ -80,6 +87,18 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
 
     /// <summary>The density of the whole page, which a section with a density of its own overrides.</summary>
     public OmniDensity Density { get; private set; } = OmniDensity.Comfortable;
+
+    /// <summary>The font chosen for the text and the headings, or null for the one the theme comes with.</summary>
+    public OmniThemeFont? Font { get; private set; }
+
+    /// <summary>The text size level, 1 to 10; <see cref="DefaultLevel"/> leaves the page as shipped.</summary>
+    public int TextSizeLevel { get; private set; } = DefaultLevel;
+
+    /// <summary>The size level of the controls, 1 to 10; <see cref="DefaultLevel"/> leaves them as shipped.</summary>
+    public int ControlSizeLevel { get; private set; } = DefaultLevel;
+
+    /// <summary>Whether the content takes the whole width instead of the centred column.</summary>
+    public bool FullWidth { get; private set; }
 
     /// <summary>Whether the theme may move its colour field; the layout hands it to its theme scope.</summary>
     public bool BackdropMotion { get; private set; } = true;
@@ -213,6 +232,34 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
         await PushAsync(cancellationToken).ConfigureAwait(false);
     }
 
+    /// <summary>Sets the font of the text and the headings, or null for the theme's own.</summary>
+    public async Task SetFontAsync(OmniThemeFont? font, CancellationToken cancellationToken = default)
+    {
+        Font = font;
+        await PushAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>Sets the text size level; a level outside 1 to 10 is brought back into it.</summary>
+    public async Task SetTextSizeLevelAsync(int level, CancellationToken cancellationToken = default)
+    {
+        TextSizeLevel = Math.Clamp(level, 1, 10);
+        await PushAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>Sets the control size level; a level outside 1 to 10 is brought back into it.</summary>
+    public async Task SetControlSizeLevelAsync(int level, CancellationToken cancellationToken = default)
+    {
+        ControlSizeLevel = Math.Clamp(level, 1, 10);
+        await PushAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>Lets the content take the whole width, or returns it to the centred column.</summary>
+    public async Task SetFullWidthAsync(bool fullWidth, CancellationToken cancellationToken = default)
+    {
+        FullWidth = fullWidth;
+        await PushAsync(cancellationToken).ConfigureAwait(false);
+    }
+
     /// <summary>Lets the theme move its colour field, or holds it still.</summary>
     public async Task SetBackdropMotionAsync(bool moves, CancellationToken cancellationToken = default)
     {
@@ -294,6 +341,12 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
     private Dictionary<string, string> Overlay(IReadOnlyDictionary<string, string> half)
     {
         var merged = new Dictionary<string, string>(half, StringComparer.Ordinal);
+        if (Font is not null)
+        {
+            merged["--omni-font-family"] = Font.Family;
+            merged["--omni-heading-font-family"] = Font.Family;
+        }
+
         foreach (var (name, value) in _edits)
         {
             merged[name] = value;
@@ -366,6 +419,26 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             BackdropMotion = parsedMotion;
         }
 
+        if (saved.TryGetValue(FontKey, out var fontName))
+        {
+            Font = OmniThemeFonts.All.FirstOrDefault(font => font.Name == fontName);
+        }
+
+        if (saved.TryGetValue(TextSizeKey, out var textSize) && int.TryParse(textSize, System.Globalization.CultureInfo.InvariantCulture, out var parsedText) && parsedText is >= 1 and <= 10)
+        {
+            TextSizeLevel = parsedText;
+        }
+
+        if (saved.TryGetValue(ControlSizeKey, out var controlSize) && int.TryParse(controlSize, System.Globalization.CultureInfo.InvariantCulture, out var parsedControl) && parsedControl is >= 1 and <= 10)
+        {
+            ControlSizeLevel = parsedControl;
+        }
+
+        if (saved.TryGetValue(FullWidthKey, out var fullWidth) && bool.TryParse(fullWidth, out var parsedWidth))
+        {
+            FullWidth = parsedWidth;
+        }
+
         // Empty or absent: the theme's own backdrop. A name the catalogue no longer has keeps it too.
         if (saved.TryGetValue(BackdropKey, out var backdropName))
         {
@@ -389,7 +462,11 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             [ModeKey] = Mode.ToString(),
             [DensityKey] = Density.ToString(),
             [MotionKey] = BackdropMotion.ToString(),
-            [BackdropKey] = Backdrop?.Name ?? string.Empty
+            [BackdropKey] = Backdrop?.Name ?? string.Empty,
+            [FontKey] = Font?.Name ?? string.Empty,
+            [TextSizeKey] = TextSizeLevel.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            [ControlSizeKey] = ControlSizeLevel.ToString(System.Globalization.CultureInfo.InvariantCulture),
+            [FullWidthKey] = FullWidth.ToString()
         };
         return JsonSerializer.Serialize(saved);
     }
@@ -404,7 +481,9 @@ public sealed class ThemeState(ThemeTokenReader reader, IJSRuntime js)
             Dark,
             EffectiveMode.ToString().ToLowerInvariant(),
             StorageKey,
-            Serialize()).ConfigureAwait(false);
+            Serialize(),
+            TextSizeLevel,
+            ControlSizeLevel).ConfigureAwait(false);
         Changed?.Invoke();
     }
 }

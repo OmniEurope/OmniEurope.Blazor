@@ -54,13 +54,25 @@ function paint() {
     painted = root;
 }
 
+// The text and control size levels ride on the document root as data-oe-text-size and data-oe-control-size,
+// the attributes the package stylesheet reads; the default level leaves the attribute out.
+function setLevel(name, level) {
+    if (Number.isInteger(level) && level >= 1 && level <= 10 && level !== 5) {
+        document.documentElement.dataset[name] = String(level);
+    } else {
+        delete document.documentElement.dataset[name];
+    }
+}
+
 darkQuery.addEventListener('change', paint);
 
 window.omniShowcaseTheme = {
-    apply(light, dark, mode, storageKey, serialized) {
+    apply(light, dark, mode, storageKey, serialized, textSize, controlSize) {
         current = { light, dark, mode };
         paint();
         document.documentElement.setAttribute('data-omni-theme', mode);
+        setLevel('oeTextSize', textSize);
+        setLevel('oeControlSize', controlSize);
 
         try {
             window.localStorage.setItem(storageKey, serialized);
