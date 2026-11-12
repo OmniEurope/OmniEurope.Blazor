@@ -290,6 +290,35 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     [Fact]
+    public void A_switch_between_two_canvas_backdrops_hands_the_new_script_a_new_canvas()
+    {
+        // A canvas keeps the first kind of context it gave (WebGL for Trou noir), so the 2D stars of Étoiles
+        // cannot draw on the canvas the black hole used: each canvas backdrop gets a canvas of its own.
+        var blackHole = JSInterop.SetupModule(OmniModules.BlackHole);
+        blackHole.Mode = JSRuntimeMode.Loose;
+        blackHole.Setup<bool>("start", _ => true).SetResult(true);
+        var stars = JSInterop.SetupModule(OmniModules.PixelStars);
+        stars.Mode = JSRuntimeMode.Loose;
+        stars.Setup<bool>("start", _ => true).SetResult(true);
+
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Preset, Theme("Ardoise"))
+            .Add(component => component.Backdrop, Named("Trou noir"))
+            .AddChildContent("page"));
+        scope.WaitForAssertion(() => Assert.Single(blackHole.Invocations["start"]));
+
+        scope.Render(parameters => parameters.Add(component => component.Backdrop, Named("Étoiles")));
+
+        scope.WaitForAssertion(() => Assert.Single(stars.Invocations["start"]));
+        var first = (Microsoft.AspNetCore.Components.ElementReference)blackHole.Invocations["start"][0].Arguments[0]!;
+        var second = (Microsoft.AspNetCore.Components.ElementReference)stars.Invocations["start"][0].Arguments[0]!;
+        Assert.NotEqual(first.Id, second.Id);
+        // The black hole lets go of the canvas the page dropped.
+        Assert.NotEmpty(blackHole.Invocations["sweep"]);
+        Assert.Single(scope.FindAll("canvas.omni-theme-scope__canvas"));
+    }
+
+    [Fact]
     public void A_backdrop_handed_to_a_scope_under_Essentiel_is_not_drawn()
     {
         var module = JSInterop.SetupModule(OmniModules.Theme);

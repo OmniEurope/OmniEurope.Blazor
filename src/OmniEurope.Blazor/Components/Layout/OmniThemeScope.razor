@@ -18,8 +18,10 @@
          data-omni-theme-snapshot="@SnapshotStorageKey">
         @if (CanvasField is not null)
         {
-            @* A field a CSS background cannot draw (Trou noir's lensed black hole), behind the content. *@
-            <canvas @ref="_canvas" class="omni-theme-scope__canvas" aria-hidden="true"></canvas>
+            @* A field a CSS background cannot draw (Trou noir's lensed black hole, Étoiles' pixel stars), behind
+               the content. Keyed by its script: a canvas keeps the first kind of context it gave (WebGL, 2D), so
+               another canvas backdrop gets a canvas of its own. *@
+            <canvas @key="CanvasField" @ref="_canvas" class="omni-theme-scope__canvas" aria-hidden="true"></canvas>
         }
         @ChildContent
     </div>

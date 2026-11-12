@@ -379,8 +379,10 @@ public partial class OmniThemeScope
 
         if (_canvasModule is not null && _canvasScript != script)
         {
-            // Another canvas backdrop: the script of the previous one lets the canvas go first.
-            await _canvasModule.InvokeVoidAsync("stop", _canvas);
+            // Another canvas backdrop draws on a new canvas (the element is keyed by its script), so the old one
+            // is already out of the page and cannot be named: the previous script stops every canvas it draws
+            // that the page dropped.
+            await _canvasModule.InvokeVoidAsync("sweep");
             await _canvasModule.DisposeAsync();
             _canvasModule = null;
             _canvasRunning = false;
