@@ -35,13 +35,16 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
 
-        // The text size has its slider; the density is a choice of three, without one.
-        Assert.Single(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
-        Assert.DoesNotContain("Taille des contrôles", settings.Markup, StringComparison.Ordinal);
+        // The settings always pass the theme and the palette to the window. The text size has its line (label "Taille",
+        // reduce, percentage, enlarge, default); the controls have none.
+        var labels = settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__label").Select(label => label.TextContent.Trim());
+        Assert.Equal(["Thème", "Palette", "Taille", "Densité"], labels);
+        Assert.DoesNotContain("Contrôles", labels);
+        Assert.Empty(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
     }
 
     [Fact]
-    public void Bound_control_size_gets_its_steps_its_slider_and_its_default()
+    public void Bound_control_size_gets_its_steps_its_percentage_and_its_default()
     {
         int? controlSize = null;
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
@@ -49,17 +52,19 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
             .Add(component => component.ControlSizeLevelChanged, value => controlSize = value));
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
-        // Theme and palette, then the density, then the two sizes side by side (point 85).
+        // The look (its Style rows), then the density, then the controls on their own line under it (review R1-1).
         var rows = settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row");
-        Assert.Equal(5, rows.Count);
-        Assert.Contains("Taille des contrôles", rows[4].TextContent, StringComparison.Ordinal);
-        Assert.Contains("8/10", rows[4].TextContent, StringComparison.Ordinal);
+        var row = rows.Single(candidate => candidate.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim() == "Contrôles");
+        Assert.Equal(rows.Count - 1, rows.ToList().IndexOf(row));
+        Assert.Equal("119 %", row.QuerySelector(".omni-badge")!.TextContent.Trim());
 
-        // Text size and controls have a slider each; the density row before them has none.
-        settings.FindAll(".omni-appearance-settings--window input[type=range]")[1].Input("3");
-        Assert.Equal(3, controlSize);
-
-        settings.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row")[4].QuerySelectorAll("button").Last().Click();
+        // Reduce, enlarge, then back to the default; no slider.
+        Assert.Empty(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
+        row.QuerySelector("button[aria-label='Réduire la taille des contrôles']")!.Click();
+        Assert.Equal(7, controlSize);
+        row.QuerySelector("button[aria-label='Augmenter la taille des contrôles']")!.Click();
+        Assert.Equal(9, controlSize);
+        row.QuerySelectorAll("button").Last().Click();
         Assert.Equal(5, controlSize);
     }
 

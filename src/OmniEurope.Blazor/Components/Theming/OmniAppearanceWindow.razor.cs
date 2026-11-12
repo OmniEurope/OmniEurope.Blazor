@@ -1,8 +1,9 @@
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
-/// The small draggable window of the look, modeless so the page stays in view: theme, palette and mode,
-/// font and density, then the text size, the size of the controls and the width of the content. Controlled like
+/// The small draggable window of the look, modeless so the page stays in view, laid out as the options of a video game:
+/// one line per setting (a short label, then the control), under three sections. Style: mode, theme, palette,
+/// background and its animation; Text: font and text size; Layout: density, size of the controls and width of the content. Controlled like
 /// <see cref="OmniAppearanceSettings"/> (the host keeps and applies every value), and each row only
 /// shows once its change is bound. A host opens it from a menu entry ("Theme") through
 /// <see cref="Open"/>; <see cref="OmniAppearanceSettings"/> opens the same window from its look row.
@@ -66,8 +67,8 @@ public partial class OmniAppearanceWindow : IDisposable
     public OmniAppearance Appearance { get; set; } = OmniAppearance.System;
 
     /// <summary>
-    /// Raised with the mode picked; bound, the mode shows as three icon buttons joined beside the palette
-    /// (review point 92), or on a row of its own when the palette is not bound.
+    /// Raised with the mode picked; bound, the mode shows as three icon buttons joined, on the first line
+    /// of the Style section.
     /// </summary>
     [Parameter]
     public EventCallback<OmniAppearance> AppearanceChanged { get; set; }
@@ -111,8 +112,7 @@ public partial class OmniAppearanceWindow : IDisposable
 
     /// <summary>
     /// Raised with the choice; bound, it shows the switch over a backdrop that moves (Givre, Trou noir),
-    /// and over no other: the setting would do nothing there. It sits on the title line of the backdrop
-    /// row when that row shows, of the theme row otherwise.
+    /// and over no other: the setting would do nothing there. It has its own row, Animation, under the backdrop.
     /// </summary>
     [Parameter]
     public EventCallback<bool> BackdropMotionChanged { get; set; }
@@ -305,8 +305,16 @@ public partial class OmniAppearanceWindow : IDisposable
 
     private bool ShowsBackdropMotion => BackdropMotionChanged.HasDelegate && AppearanceChoices.MovesBackdrop(Preset, Backdrop);
 
-    private bool ShowsRows => AppearanceChanged.HasDelegate || PresetChanged.HasDelegate || PaletteChanged.HasDelegate || FontChanged.HasDelegate || BackdropChanged.HasDelegate || ShowsBackdropMotion
-        || TextSizeLevelChanged.HasDelegate || DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate || FullWidthChanged.HasDelegate;
+    /// <summary>The Style section shows once one of its rows does: mode, theme, palette, background, animation.</summary>
+    private bool ShowsStyle => AppearanceChanged.HasDelegate || PresetChanged.HasDelegate || PaletteChanged.HasDelegate || BackdropChanged.HasDelegate || ShowsBackdropMotion;
+
+    /// <summary>The Text section: font and text size.</summary>
+    private bool ShowsText => FontChanged.HasDelegate || TextSizeLevelChanged.HasDelegate;
+
+    /// <summary>The Layout section: density, size of the controls and width of the content.</summary>
+    private bool ShowsLayout => DensityChanged.HasDelegate || ControlSizeLevelChanged.HasDelegate || FullWidthChanged.HasDelegate;
+
+    private bool ShowsRows => ShowsStyle || ShowsText || ShowsLayout;
 
     /// <summary>The mode a theme drawn in one mode only fixes, or null.</summary>
     private OmniAppearance? FixedMode => Preset?.FixedAppearance;
@@ -344,17 +352,19 @@ public partial class OmniAppearanceWindow : IDisposable
     private IReadOnlyList<OmniOption<bool>> WidthOptions =>
         [new(false, Localize("ContentWidthCentered")), new(true, Localize("ContentWidthFull"))];
 
-    private double TextSizeValue => TextSizeLevel;
-
-    private double ControlSizeValue => ControlSizeLevel;
-
     private ScaleSetting TextSizeScale => new(
         "text-size", OmniIconName.TextSize, "SettingsTextSize", "SettingsTextSizeDecrease", "SettingsTextSizeIncrease",
-        TextSizeLevel, TextSizeLevelChanged, () => TextSizeValue);
+        TextSizeLevel, TextSizeLevelChanged);
 
     private ScaleSetting ControlSizeScale => new(
         "control-size", OmniIconName.CornersOut, "SettingsControlSize", "SettingsControlSizeDecrease", "SettingsControlSizeIncrease",
-        ControlSizeLevel, ControlSizeLevelChanged, () => ControlSizeValue);
+        ControlSizeLevel, ControlSizeLevelChanged);
+
+    /// <summary>
+    /// What a level draws, as a percentage of the default: 75 % at level 1 up to 131.25 % at level 10, 100 % at
+    /// level 5 (the steps of <c>data-oe-text-size</c> and <c>data-oe-control-size</c>).
+    /// </summary>
+    internal static double ScalePercent(int level) => 75d + 6.25d * (level - 1);
 
     /// <summary>The resource key of the name of a density.</summary>
     internal static string DensityKey(OmniDensity density) => density switch
@@ -427,121 +437,6 @@ public partial class OmniAppearanceWindow : IDisposable
 
     private static Task ChangeLevelAsync(ScaleSetting setting, int level) => setting.Changed.InvokeAsync(Math.Clamp(level, 1, 10));
 
-    /// <summary>
-    /// One scale row, the same for the text size and the size of the controls: its label, then a group
-    /// named by it (reduce, the level, enlarge, back to the default) described by the level, then a
-    /// slider over the same 1 to 10.
-    /// </summary>
-    private RenderFragment ScaleRow(ScaleSetting setting) => builder =>
-    {
-        var labelId = RowId(setting.Key);
-        var levelId = $"{labelId}-level";
-        var name = Localize(setting.NameKey);
-
-        builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", "omni-appearance-settings__row");
-
-        builder.OpenElement(2, "span");
-        builder.AddAttribute(3, "class", "omni-appearance-settings__label");
-        builder.AddAttribute(4, "id", labelId);
-        builder.OpenComponent<OmniIcon>(5);
-        builder.AddComponentParameter(6, nameof(OmniIcon.Name), setting.Icon);
-        builder.CloseComponent();
-        builder.AddContent(7, " " + name);
-        builder.CloseElement();
-
-        builder.OpenElement(8, "div");
-        builder.AddAttribute(9, "class", "omni-appearance-settings__actions");
-        builder.AddAttribute(10, "role", "group");
-        builder.AddAttribute(11, "aria-labelledby", labelId);
-        builder.AddAttribute(12, "aria-describedby", levelId);
-
-        builder.OpenComponent<OmniButton>(13);
-        builder.AddComponentParameter(14, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
-        builder.AddComponentParameter(15, nameof(OmniButton.Disabled), setting.Level <= 1);
-        builder.AddComponentParameter(16, nameof(OmniButton.Label), Localize(setting.DecreaseKey));
-        builder.AddComponentParameter(17, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => ChangeLevelAsync(setting, setting.Level - 1)));
-        builder.AddComponentParameter(18, nameof(OmniButton.Icon), Icon(OmniIconName.Remove));
-        builder.CloseComponent();
-
-        builder.OpenComponent<OmniBadge>(19);
-        builder.AddComponentParameter(20, nameof(OmniBadge.Id), levelId);
-        builder.AddComponentParameter(21, nameof(OmniBadge.Tone), OmniTone.Accent);
-        builder.AddComponentParameter(22, nameof(OmniBadge.Fill), OmniFill.Solid);
-        builder.AddComponentParameter(23, nameof(OmniBadge.ChildContent), (RenderFragment)(text => text.AddContent(0, Localize("SettingsLevel", setting.Level))));
-        builder.CloseComponent();
-
-        builder.OpenComponent<OmniButton>(24);
-        builder.AddComponentParameter(25, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
-        builder.AddComponentParameter(26, nameof(OmniButton.Disabled), setting.Level >= 10);
-        builder.AddComponentParameter(27, nameof(OmniButton.Label), Localize(setting.IncreaseKey));
-        builder.AddComponentParameter(28, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => ChangeLevelAsync(setting, setting.Level + 1)));
-        builder.AddComponentParameter(29, nameof(OmniButton.Icon), Icon(OmniIconName.Add));
-        builder.CloseComponent();
-
-        builder.OpenComponent<OmniButton>(30);
-        builder.AddComponentParameter(31, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
-        builder.AddComponentParameter(32, nameof(OmniButton.Disabled), setting.Level == 5);
-        builder.AddComponentParameter(33, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(this, () => ChangeLevelAsync(setting, 5)));
-        builder.AddComponentParameter(34, nameof(OmniButton.Icon), Icon(OmniIconName.Reset));
-        builder.AddComponentParameter(35, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
-        {
-            content.OpenElement(0, "span");
-            content.AddContent(1, Localize("SettingsDefault"));
-            content.CloseElement();
-        }));
-        builder.CloseComponent();
-        builder.CloseElement();
-
-        // The track runs 0 to 10 so that the default level 5 sits in the middle; the thumb cannot go below 1,
-        // the lowest level the preference keeps.
-        builder.OpenComponent<OmniSlider>(36);
-        builder.AddComponentParameter(37, nameof(OmniSlider.Minimum), 0d);
-        builder.AddComponentParameter(38, nameof(OmniSlider.SelectableMinimum), (double)AppearanceLook.MinimumLevel);
-        builder.AddComponentParameter(39, nameof(OmniSlider.Maximum), (double)AppearanceLook.MaximumLevel);
-        builder.AddComponentParameter(40, nameof(OmniSlider.Step), 1d);
-        builder.AddComponentParameter(41, nameof(OmniSlider.ShowValue), false);
-        builder.AddComponentParameter(42, nameof(OmniSlider.Value), (double)setting.Level);
-        builder.AddComponentParameter(43, nameof(OmniSlider.ValueChanged), EventCallback.Factory.Create<double>(this, value => ChangeLevelAsync(setting, (int)value)));
-        builder.AddComponentParameter(44, nameof(OmniSlider.ValueExpression), setting.ValueExpression);
-        builder.AddComponentParameter(45, "aria-label", name);
-        builder.CloseComponent();
-
-        builder.CloseElement();
-    };
-
-    /// <summary>
-    /// The motion of a theme that moves its field: its text, then the switch it names. It sits at the end
-    /// of the theme row's title line, or in a row of its own when the host binds no theme.
-    /// </summary>
-    private RenderFragment MotionSwitch => builder =>
-    {
-        var labelId = RowId("motion");
-        builder.OpenElement(0, "div");
-        builder.AddAttribute(1, "class", "omni-appearance-settings__motion");
-        builder.OpenElement(2, "span");
-        builder.AddAttribute(3, "id", labelId);
-        builder.OpenComponent<OmniIcon>(4);
-        builder.AddComponentParameter(5, nameof(OmniIcon.Name), OmniIconName.Sparkle);
-        builder.CloseComponent();
-        builder.AddContent(6, " " + Localize("SettingsBackdropMotion"));
-        builder.CloseElement();
-        builder.OpenComponent<OmniSwitch<bool>>(7);
-        builder.AddComponentParameter(8, nameof(OmniSwitch<bool>.Value), BackdropMotion);
-        builder.AddComponentParameter(9, nameof(OmniSwitch<bool>.ValueChanged), EventCallback.Factory.Create<bool>(this, SetBackdropMotionAsync));
-        builder.AddComponentParameter(10, nameof(OmniSwitch<bool>.ValueExpression), (Expression<Func<bool>>)(() => BackdropMotion));
-        builder.AddComponentParameter(11, "aria-labelledby", labelId);
-        builder.CloseComponent();
-        builder.CloseElement();
-    };
-
-    private static RenderFragment Icon(OmniIconName icon) => builder =>
-    {
-        builder.OpenComponent<OmniIcon>(0);
-        builder.AddComponentParameter(1, nameof(OmniIcon.Name), icon);
-        builder.CloseComponent();
-    };
-
     /// <summary>Every setting of the window at once, as the host holds them.</summary>
     private sealed record Look(
         OmniAppearance Appearance,
@@ -559,7 +454,7 @@ public partial class OmniAppearanceWindow : IDisposable
         public static Look Default { get; } = new(OmniAppearance.System, null, null, null, null, true, 5, OmniDensity.Comfortable, 5, false);
     }
 
-    /// <summary>What differs between the scale rows: ids, icon, texts, level, change and the slider's binding.</summary>
+    /// <summary>What differs between the scale rows: ids, icon, texts, level and change.</summary>
     private sealed record ScaleSetting(
         string Key,
         OmniIconName Icon,
@@ -567,6 +462,5 @@ public partial class OmniAppearanceWindow : IDisposable
         string DecreaseKey,
         string IncreaseKey,
         int Level,
-        EventCallback<int> Changed,
-        Expression<Func<double>> ValueExpression);
+        EventCallback<int> Changed);
 }

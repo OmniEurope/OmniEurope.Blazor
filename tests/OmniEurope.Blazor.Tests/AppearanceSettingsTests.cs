@@ -74,7 +74,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.TextSizeLevelChanged, value => textSize = value)
             .Add(component => component.ControlSizeLevelChanged, _ => { }));
 
-        var groups = window.FindAll(".omni-appearance-settings--window [role=group]");
+        var groups = window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__actions[role=group]");
         Assert.Equal(2, groups.Count);
         foreach (var group in groups)
         {
@@ -83,12 +83,17 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             Assert.NotNull(group.QuerySelector($"#{group.GetAttribute("aria-describedby")}.omni-badge"));
         }
 
-        Assert.Equal("Taille du texte", window.Find($"#{groups[0].GetAttribute("aria-labelledby")}").TextContent.Trim());
-        Assert.Equal("8/10", window.Find($"#{groups[0].GetAttribute("aria-describedby")}").TextContent.Trim());
-        var names = window.FindAll(".omni-appearance-settings--window button[aria-label]").Select(button => button.GetAttribute("aria-label")).ToArray();
+        // The short labels sit under the "Texte" and "Disposition" headings; the level reads as the percentage it draws
+        // (level 8 is 118.75 %, level 3 is 87.5 %).
+        Assert.Equal("Taille", window.Find($"#{groups[0].GetAttribute("aria-labelledby")}").TextContent.Trim());
+        Assert.Equal("Contrôles", window.Find($"#{groups[1].GetAttribute("aria-labelledby")}").TextContent.Trim());
+        Assert.Equal("119 %", window.Find($"#{groups[0].GetAttribute("aria-describedby")}").TextContent.Trim());
+        Assert.Equal("88 %", window.Find($"#{groups[1].GetAttribute("aria-describedby")}").TextContent.Trim());
+        var names = window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__actions[role=group] button[aria-label]").Select(button => button.GetAttribute("aria-label")).ToArray();
         Assert.Equal(
-            ["Réduire la taille du texte", "Augmenter la taille du texte", "Réduire la taille des contrôles", "Augmenter la taille des contrôles"],
+            ["Réduire la taille du texte", "Augmenter la taille du texte", "Défaut", "Réduire la taille des contrôles", "Augmenter la taille des contrôles", "Défaut"],
             names);
+        Assert.Empty(window.FindAll("input[type=range]"));
 
         groups[0].QuerySelector("button[aria-label='Augmenter la taille du texte']")!.Click();
         Assert.Equal(9, textSize);
@@ -123,7 +128,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.Open, true)
             .Add(component => component.FullWidthChanged, value => fullWidth = value));
 
-        var choices = window.FindAll("[role=radiogroup][aria-label='Largeur du contenu'] [role=radio]");
+        var choices = window.FindAll("[role=radiogroup][aria-label='Largeur'] [role=radio]");
         Assert.Equal(["Centré", "Pleine largeur"], choices.Select(choice => choice.TextContent.Trim()));
         Assert.Equal("true", choices[0].GetAttribute("aria-checked"));
 
@@ -138,7 +143,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.Open, true)
             .Add(component => component.DensityChanged, _ => { }));
 
-        Assert.Empty(window.FindAll("[aria-label='Largeur du contenu']"));
+        Assert.Empty(window.FindAll("[aria-label='Largeur']"));
     }
 
     [Fact]
@@ -150,7 +155,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.FullWidthChanged, value => fullWidth = value));
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
-        var choices = settings.FindAll("[role=radiogroup][aria-label='Largeur du contenu'] [role=radio]");
+        var choices = settings.FindAll("[role=radiogroup][aria-label='Largeur'] [role=radio]");
         Assert.Equal("true", choices[1].GetAttribute("aria-checked"));
 
         choices[0].Click();
@@ -179,42 +184,47 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
-    public void Text_size_window_row_has_a_slider()
+    public void Text_size_window_row_steps_by_one_and_goes_back_to_the_default()
     {
-        int? textSize = null;
+        // Review R1-1: the row is one line, reduce, the percentage drawn, enlarge, default; no slider.
+        var levels = new List<int>();
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
-            .Add(component => component.TextSizeLevelChanged, value => textSize = value)
+            .Add(component => component.TextSizeLevel, 7)
+            .Add(component => component.TextSizeLevelChanged, value => levels.Add(value))
             .Add(component => component.DensityChanged, _ => { }));
 
         settings.Find(".omni-appearance-settings__row--scale button").Click();
-        var slider = settings.Find(".omni-appearance-settings--window input[type=range]");
-        // The track runs 0 to 10 so that level 5 is in the middle; the lowest level that can be picked is 1.
-        Assert.Equal(("0", "10", "1"), (slider.GetAttribute("min"), slider.GetAttribute("max"), slider.GetAttribute("aria-valuemin")));
-        Assert.Equal("5", slider.GetAttribute("value"));
-        Assert.Equal("Taille du texte", slider.GetAttribute("aria-label"));
+        var group = settings.Find(".omni-appearance-settings--window .omni-appearance-settings__actions[aria-describedby]");
+        Assert.Equal("113 %", group.QuerySelector(".omni-badge")!.TextContent.Trim());
+        Assert.Empty(settings.FindAll(".omni-appearance-settings--window input[type=range]"));
 
-        slider.Input("8");
-        Assert.Equal(8, textSize);
+        group.QuerySelector("button[aria-label='Réduire la taille du texte']")!.Click();
+        group.QuerySelector("button[aria-label='Augmenter la taille du texte']")!.Click();
+        group.QuerySelector("button[aria-label='Défaut']")!.Click();
+        Assert.Equal([6, 8, 5], levels);
     }
 
     [Fact]
-    public void The_size_sliders_cannot_be_dragged_to_zero_and_keep_the_stored_levels_one_to_ten()
+    public void The_size_steps_stop_at_levels_one_and_ten()
     {
         var levels = new List<int>();
-        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+        var lowest = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
             .Add(component => component.TextSizeLevel, 1)
-            .Add(component => component.TextSizeLevelChanged, value => levels.Add(value))
-            .Add(component => component.DensityChanged, _ => { }));
-        settings.Find(".omni-appearance-settings__row--scale button").Click();
+            .Add(component => component.TextSizeLevelChanged, value => levels.Add(value)));
+        Assert.True(lowest.Find("button[aria-label='Réduire la taille du texte']").HasAttribute("disabled"));
+        Assert.Equal("75 %", lowest.Find(".omni-badge").TextContent.Trim());
+        lowest.Find("button[aria-label='Augmenter la taille du texte']").Click();
 
-        var slider = settings.Find(".omni-appearance-settings--window input[type=range]");
-        Assert.Equal("1", slider.GetAttribute("value"));
-        slider.Input("0");
-        slider.Input("10");
+        var highest = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.TextSizeLevel, 10)
+            .Add(component => component.TextSizeLevelChanged, value => levels.Add(value)));
+        Assert.True(highest.Find("button[aria-label='Augmenter la taille du texte']").HasAttribute("disabled"));
+        Assert.Equal("131 %", highest.Find(".omni-badge").TextContent.Trim());
+        highest.Find("button[aria-label='Réduire la taille du texte']").Click();
 
-        Assert.All(levels, level => Assert.InRange(level, 1, 10));
-        Assert.Equal(10, levels[^1]);
-        Assert.Equal("1", settings.Find(".omni-appearance-settings--window input[type=range]").GetAttribute("aria-valuemin"));
+        Assert.Equal([2, 9], levels);
     }
 
     [Fact]
@@ -332,45 +342,155 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("JetBrains Mono", picked?.Name);
     }
 
+    private IRenderedComponent<OmniAppearanceWindow> RenderFullWindow() => Render<OmniAppearanceWindow>(parameters => parameters
+        .Add(component => component.Open, true)
+        .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
+        .Add(component => component.AppearanceChanged, _ => { })
+        .Add(component => component.PresetChanged, _ => { })
+        .Add(component => component.PaletteChanged, _ => { })
+        .Add(component => component.BackdropChanged, _ => { })
+        .Add(component => component.BackdropMotionChanged, _ => { })
+        .Add(component => component.FontChanged, _ => { })
+        .Add(component => component.TextSizeLevelChanged, _ => { })
+        .Add(component => component.DensityChanged, _ => { })
+        .Add(component => component.ControlSizeLevelChanged, _ => { })
+        .Add(component => component.FullWidthChanged, _ => { }));
+
+    private static string[] LabelsOf(AngleSharp.Dom.IElement section) =>
+        [.. section.QuerySelectorAll(".omni-appearance-settings__row > .omni-appearance-settings__label").Select(label => label.TextContent.Trim())];
+
     [Fact]
-    public void Window_rows_go_two_by_two_in_the_order_they_are_read()
+    public void Window_is_three_titled_sections_of_one_line_per_setting_in_the_order_they_are_read()
     {
-        var window = Render<OmniAppearanceWindow>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
-            .Add(component => component.PresetChanged, _ => { })
-            .Add(component => component.PaletteChanged, _ => { })
-            .Add(component => component.FontChanged, _ => { })
-            .Add(component => component.BackdropMotionChanged, _ => { })
-            .Add(component => component.TextSizeLevelChanged, _ => { })
-            .Add(component => component.DensityChanged, _ => { })
-            .Add(component => component.ControlSizeLevelChanged, _ => { }));
+        var window = RenderFullWindow();
 
-        // Owner order of 2026-10-02 (review points 85 and 94): theme beside palette, font beside density,
-        // then the two sizes. The order of the markup is the order on screen, so the keyboard follows
-        // what the eye reads.
-        var names = window.FindAll(".omni-appearance-settings--window > .omni-appearance-settings__row > .omni-appearance-settings__label")
-            .Select(label => label.TextContent.Trim());
-        Assert.Equal(["Thème", "Palette", "Police", "Densité", "Taille du texte", "Taille des contrôles"], names);
-        // The motion of a moving theme sits at the end of its title line (point 86), right after the
-        // label and before the list, not in a row of its own.
-        var motion = window.Find(".omni-appearance-settings__row:first-child > .omni-appearance-settings__label + .omni-appearance-settings__motion");
-        Assert.Equal("Fond animé", motion.TextContent.Trim());
-        Assert.Equal("omni-appearance-settings__actions", motion.NextElementSibling!.ClassName);
-        Assert.Equal("0 0 auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings__label + .omni-appearance-settings__motion"), "flex"));
+        // Review R1-1, owner layout of 2026-11-12: Style (mode first, then theme, palette, background,
+        // animation), Text (font, size), Layout (density, controls, width). The markup order is the order
+        // on screen, so the keyboard follows what the eye reads.
+        var sections = window.FindAll(".omni-appearance-settings--window > .omni-appearance-window__section");
+        Assert.Equal(3, sections.Count);
+        Assert.Equal(["Style", "Texte", "Disposition"], sections.Select(section => section.QuerySelector("h3.omni-appearance-window__heading")!.TextContent.Trim()));
+        Assert.Equal(["Mode", "Thème", "Palette", "Fond", "Animation"], LabelsOf(sections[0]));
+        Assert.Equal(["Police", "Taille"], LabelsOf(sections[1]));
+        Assert.Equal(["Densité", "Contrôles", "Largeur"], LabelsOf(sections[2]));
 
-        // Two columns of at least 19rem in a window of 46rem: two fit, a third never does, and one
-        // remains when the screen narrows the window.
-        Assert.Equal(
-            "repeat(auto-fit, minmax(min(100%, 19rem), 1fr))",
-            ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window"), "grid-template-columns"));
-        var box = ShippedLookTests.Body(".omni-appearance-window");
-        Assert.Equal("46rem", ShippedLookTests.Value(box, "inline-size"));
-        Assert.Equal("calc(100vw - 2rem)", ShippedLookTests.Value(box, "max-inline-size"));
+        // Each section is a group named by its own heading (a real h3, not a bare span).
+        foreach (var section in sections)
+        {
+            Assert.Equal("group", section.GetAttribute("role"));
+            var heading = section.QuerySelector("h3")!;
+            Assert.Equal(heading.Id, section.GetAttribute("aria-labelledby"));
+            Assert.False(string.IsNullOrEmpty(heading.Id));
+        }
+
+        // One line per setting: a row holds one short label then one controls cell, nothing else.
+        var rows = window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row");
+        Assert.Equal(10, rows.Count);
+        Assert.All(rows, row =>
+        {
+            Assert.Equal(2, row.Children.Length);
+            Assert.Equal("omni-appearance-settings__label", row.Children[0].ClassName);
+            Assert.Equal("omni-appearance-settings__actions", row.Children[1].ClassName);
+        });
     }
 
     [Fact]
-    public void Mode_joins_the_palette_row_as_three_icon_buttons_and_restore_puts_it_back()
+    public void Mode_has_the_first_line_to_itself_and_the_animation_a_line_of_its_own_under_the_background()
+    {
+        var window = RenderFullWindow();
+        var rows = window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row");
+
+        // Mode: the first line of the window, three icon buttons and no other control.
+        var mode = rows[0];
+        Assert.Equal("Mode", mode.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
+        Assert.NotNull(mode.QuerySelector(".omni-appearance-window__modes"));
+        Assert.Equal(3, mode.QuerySelectorAll("button").Length);
+        Assert.Empty(mode.QuerySelectorAll("select, [role=switch]"));
+
+        // Animation: right under Background, a row of its own holding the switch, labelled by the row's label.
+        var background = rows.Single(row => row.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim() == "Fond");
+        var animation = background.NextElementSibling!;
+        Assert.Equal("Animation", animation.QuerySelector(".omni-appearance-settings__label")!.TextContent.Trim());
+        var toggle = animation.QuerySelector("[role=switch]")!;
+        Assert.Equal(animation.QuerySelector(".omni-appearance-settings__label")!.Id, toggle.GetAttribute("aria-labelledby"));
+        foreach (var other in rows.Where(row => row != animation))
+        {
+            Assert.Empty(other.QuerySelectorAll("[role=switch]"));
+        }
+    }
+
+    [Fact]
+    public void Animation_row_shows_only_over_a_backdrop_that_moves_and_when_bound()
+    {
+        var plain = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.BackdropMotionChanged, _ => { }));
+        Assert.Empty(plain.FindAll("[role=switch]"));
+
+        var unbound = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
+            .Add(component => component.PresetChanged, _ => { }));
+        Assert.Empty(unbound.FindAll("[role=switch]"));
+
+        var moving = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
+            .Add(component => component.BackdropMotionChanged, _ => { }));
+        Assert.Single(moving.FindAll("[role=switch]"));
+        Assert.Equal(["Style"], moving.FindAll(".omni-appearance-window__heading").Select(heading => heading.TextContent.Trim()));
+    }
+
+    [Fact]
+    public void A_section_shows_only_once_one_of_its_rows_is_bound()
+    {
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.DensityChanged, _ => { }));
+
+        Assert.Equal(["Disposition"], window.FindAll(".omni-appearance-window__heading").Select(heading => heading.TextContent.Trim()));
+        Assert.Empty(window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__row:not(:has(.omni-select-bar))"));
+    }
+
+    [Fact]
+    public void Resets_are_compact_icon_buttons_named_and_titled_with_the_default_text()
+    {
+        var window = RenderFullWindow();
+
+        // Theme, palette, background, font and the two scales: six, each icon only, named for assistive technologies and titled.
+        var resets = window.FindAll(".omni-appearance-settings--window .omni-appearance-settings__reset");
+        Assert.Equal(6, resets.Count);
+        Assert.All(resets, reset =>
+        {
+            Assert.Equal("Défaut", reset.GetAttribute("aria-label"));
+            Assert.Equal("Défaut", reset.GetAttribute("title"));
+            Assert.NotNull(reset.QuerySelector("svg"));
+            Assert.Equal(string.Empty, reset.TextContent.Trim());
+            Assert.Contains("omni-button--secondary", reset.ClassList);
+        });
+    }
+
+    [Fact]
+    public void Window_is_one_narrow_column_of_a_label_column_and_a_control_column_on_desktop_and_phone()
+    {
+        // Only a browser measures the width; this pins the rules: a label column that gives up to 9rem, the
+        // control column taking all that remains, rows and sections sharing both through subgrids, the
+        // window never wider than the screen, and the same structure under 40rem (the label icons give
+        // their width to the control).
+        var grid = ShippedLookTests.Body(".omni-appearance-settings--window");
+        Assert.Equal("fit-content(9rem) minmax(0, 1fr)", ShippedLookTests.Value(grid, "grid-template-columns"));
+        Assert.Equal("subgrid", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__section"), "grid-template-columns"));
+        Assert.Equal("subgrid", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-appearance-settings__row"), "grid-template-columns"));
+        var box = ShippedLookTests.Body(".omni-appearance-window");
+        Assert.Equal("34rem", ShippedLookTests.Value(box, "inline-size"));
+        Assert.Equal("calc(100vw - 2rem)", ShippedLookTests.Value(box, "max-inline-size"));
+        Assert.Equal("100%", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-select-bar"), "inline-size"));
+        Assert.Equal("1 1 0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode"), "flex"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Rules().Last(rule => rule.Selector == ".omni-appearance-settings--window .omni-appearance-settings__label .omni-icon").Body, "display"));
+    }
+
+    [Fact]
+    public void Mode_is_three_icon_buttons_on_its_line_and_restore_puts_it_back()
     {
         var mode = OmniAppearance.Light;
         IRenderedComponent<OmniAppearanceWindow> window = null!;
@@ -385,21 +505,16 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             .Add(component => component.PaletteChanged, _ => { })
             .Add(component => component.OpenChanged, _ => { }));
 
-        // Owner request of 2026-10-02 (review point 92): in the palette tile, three icon buttons
-        // joined in one group on the title line, right after the label and before the list, which keeps
-        // its width; the chosen one reads by its state.
-        var modesGroup = window.Find(".omni-appearance-settings__row > .omni-appearance-settings__label + .omni-appearance-window__modes");
-        Assert.Equal("Palette", modesGroup.PreviousElementSibling!.TextContent.Trim());
-        Assert.Equal("omni-appearance-settings__actions", modesGroup.NextElementSibling!.ClassName);
-        Assert.NotNull(modesGroup.NextElementSibling.QuerySelector("select[aria-label='Palette']"));
+        // Three icon buttons joined in one group in the control cell of the Mode line, the chosen one read by its state.
+        var group = window.Find(".omni-appearance-settings__row > .omni-appearance-settings__actions > .omni-appearance-window__modes");
+        Assert.Equal("Mode", group.ParentElement!.PreviousElementSibling!.TextContent.Trim());
         var buttons = window.FindAll(".omni-appearance-window__modes > button[role=radio]");
         Assert.Equal(["Clair", "Sombre", "Système"], buttons.Select(button => button.GetAttribute("aria-label")).ToArray());
         Assert.All(buttons, button => Assert.NotNull(button.QuerySelector("svg")));
         Assert.Equal("true", buttons[0].GetAttribute("aria-checked"));
 
-        // Joined: no radius between the buttons; pushed to the end of the title line.
+        // Joined: no radius between the buttons.
         Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__modes > .omni-button.omni-appearance-window__mode"), "border-radius"));
-        Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings__label + .omni-appearance-window__modes"), "margin-inline-start"));
 
         window.FindAll(".omni-appearance-window__modes > button[role=radio]")[1].Click();
         Assert.Equal(OmniAppearance.Dark, mode);
@@ -411,7 +526,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
-    public void Mode_keeps_a_row_of_its_own_without_a_palette_and_is_fixed_under_a_dark_only_theme()
+    public void Mode_is_bound_on_its_own_and_is_fixed_under_a_dark_only_theme()
     {
         OmniAppearance? raised = null;
         var window = Render<OmniAppearanceWindow>(parameters => parameters
@@ -624,9 +739,15 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Contains("omni-button--primary", apply.ClassList);
         var restore = window.Find(".omni-appearance-window__cancel");
         Assert.Equal("Restaurer", restore.TextContent.Trim());
-        Assert.Contains("omni-button--danger", restore.ClassList);
-        // Owner decision of 2026-10-02 (review point 87): Apply comes before Restore.
-        Assert.Contains("omni-appearance-window__cancel", apply.NextElementSibling!.ClassList);
+        // Review R1-1, owner decision of 2026-11-12: cancelling is not destructive, so Cancel is the grey
+        // Secondary, not the red Danger, and it comes before Apply (the validated footer: random, reset all,
+        // Cancel, Apply; this replaces the order of 2026-10-02, review point 87).
+        Assert.Contains("omni-button--secondary", restore.ClassList);
+        Assert.DoesNotContain("omni-button--danger", restore.ClassList);
+        Assert.Contains("omni-appearance-window__apply", restore.NextElementSibling!.ClassList);
+        Assert.Equal(
+            ["omni-appearance-settings__random", "omni-appearance-window__reset", "omni-appearance-window__cancel", "omni-appearance-window__apply"],
+            window.FindAll(".omni-appearance-window__footer button").Select(button => button.ClassList.Last(name => name.StartsWith("omni-appearance-", StringComparison.Ordinal))));
         apply.Click();
 
         Assert.Equal(changes, host.Changes);
@@ -658,18 +779,25 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("nowrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer .omni-button"), "white-space"));
     }
 
-    [Fact]
-    public void Scale_sliders_are_bound_to_the_text_size_and_the_control_size_levels()
+    [Theory]
+    [InlineData(1)]
+    [InlineData(2)]
+    [InlineData(3)]
+    [InlineData(4)]
+    [InlineData(5)]
+    [InlineData(6)]
+    [InlineData(7)]
+    [InlineData(8)]
+    [InlineData(9)]
+    [InlineData(10)]
+    public void The_percentage_of_a_scale_row_is_the_scale_the_root_draws_for_that_level(int level)
     {
-        var window = Render<OmniAppearanceWindow>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.TextSizeLevel, 7)
-            .Add(component => component.TextSizeLevelChanged, _ => { })
-            .Add(component => component.ControlSizeLevel, 3)
-            .Add(component => component.ControlSizeLevelChanged, _ => { }));
+        // The row says "119 %" for level 8: the same factor data-oe-text-size and data-oe-control-size apply.
+        var percent = OmniAppearanceWindow.ScalePercent(level);
+        var text = ShippedLookTests.Value(ShippedLookTests.Body($"html[data-oe-text-size=\"{level}\"]"), "font-size");
+        var control = ShippedLookTests.Value(ShippedLookTests.Body($"html[data-oe-control-size=\"{level}\"]"), "--omni-control-scale");
 
-        var bound = window.FindComponents<OmniSlider>().Select(slider => slider.Instance.ValueExpression!.Compile()()).ToArray();
-
-        Assert.Equal([7d, 3d], bound);
+        Assert.Equal(percent, double.Parse(text.TrimEnd('%'), System.Globalization.CultureInfo.InvariantCulture));
+        Assert.Equal(percent / 100, double.Parse(control, System.Globalization.CultureInfo.InvariantCulture));
     }
 }

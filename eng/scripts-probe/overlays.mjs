@@ -355,11 +355,12 @@ export async function overlaySteps(session, results) {
   // 9. The appearance window: the control size and the Black hole theme, whose canvas the scope draws.
   await session.visit('/components/theme', '#demo-appearance-window');
   await clickOn('#demo-appearance-window');
-  await waitFor('la fenêtre d\'apparence', "document.querySelector('.omni-appearance-window input[type=\"range\"][aria-label]') !== null");
-  await evaluate(`(() => { const range = [...document.querySelectorAll('.omni-appearance-window input[type="range"]')][1]; range.value = '7'; range.dispatchEvent(new Event('input', { bubbles: true })); range.dispatchEvent(new Event('change', { bubbles: true })); })()`);
+  await waitFor('la fenêtre d\'apparence', "document.querySelectorAll('.omni-appearance-window .omni-appearance-settings__actions[aria-describedby]').length === 2");
+  // The size of the controls is the second scale row: enlarge until its percentage reads level 7 (118.75 % is level 8, 112.5 % level 7).
+  await evaluate(`(async () => { const group = () => document.querySelectorAll('.omni-appearance-window .omni-appearance-settings__actions[aria-describedby]')[1]; for (let guard = 0; guard < 12 && document.documentElement.dataset.oeControlSize !== '7'; guard++) { const shown = group().querySelector('.omni-badge').textContent; const level = Math.round((parseFloat(shown) - 75) / 6.25) + 1; group().querySelectorAll('button')[level < 7 ? 1 : 0].click(); await new Promise(resolve => setTimeout(resolve, 150)); } })()`);
   await waitFor('la taille des contrôles posée', "document.documentElement.dataset.oeControlSize === '7'").catch(async error => {
-    // What the window held when the size did not land: which ranges, their values and names, and the size set.
-    const state = await evaluate(`JSON.stringify({ size: document.documentElement.dataset.oeControlSize ?? null, ranges: [...document.querySelectorAll('.omni-appearance-window input[type="range"]')].map(range => ({ label: range.getAttribute('aria-label'), value: range.value, min: range.min, max: range.max, connected: range.isConnected })) })`);
+    // What the window held when the size did not land: which scale rows, their percentages and names, and the size set.
+    const state = await evaluate(`JSON.stringify({ size: document.documentElement.dataset.oeControlSize ?? null, rows: [...document.querySelectorAll('.omni-appearance-window .omni-appearance-settings__actions[aria-describedby]')].map(group => ({ label: document.getElementById(group.getAttribute('aria-labelledby'))?.textContent.trim(), percent: group.querySelector('.omni-badge')?.textContent.trim(), connected: group.isConnected })) })`);
     throw new Error(`${error.message} État : ${state}`);
   });
   // The probe browser draws WebGL in software, which omni-black-hole.js refuses
@@ -397,7 +398,16 @@ export async function overlaySteps(session, results) {
     const themeSelect = () => windowOf().querySelector('select');
     const modeButtons = () => [...windowOf().querySelectorAll('.omni-appearance-window__modes button[role="radio"]')];
     const densityItems = () => [...windowOf().querySelector('[role="radiogroup"]:not(.omni-appearance-window__modes)').querySelectorAll('.omni-select-bar__item')];
-    const textSize = () => windowOf().querySelectorAll('input[type="range"]')[0];
+    // The text size is the first scale row (reduce, percentage, enlarge, default): step until its percentage is the one of the level asked.
+    const setTextSize = async level => {
+      for (let guard = 0; guard < 12; guard++) {
+        const group = windowOf().querySelectorAll('.omni-appearance-settings__actions[aria-describedby]')[0];
+        const shown = Math.round((parseFloat(group.querySelector('.omni-badge').textContent) - 75) / 6.25) + 1;
+        if (shown === level) return;
+        group.querySelectorAll('button')[shown < level ? 1 : 0].click();
+        await settle();
+      }
+    };
     const change = (element, value) => { element.value = value; element.dispatchEvent(new Event('input', { bubbles: true })); element.dispatchEvent(new Event('change', { bubbles: true })); };
     const nameOf = button => button.getAttribute('aria-label') || button.textContent.trim() || button.className;
     const measure = () => {
@@ -442,8 +452,7 @@ export async function overlaySteps(session, results) {
 
         const shown = modeButtons().findIndex(candidate => candidate.getAttribute('aria-checked') === 'true');
         for (const level of [1, 5, 10]) {
-          change(textSize(), String(level));
-          await settle();
+          await setTextSize(level);
           for (const density of [0, 1]) {
             densityItems()[density].click();
             await settle();
@@ -472,7 +481,7 @@ export async function overlaySteps(session, results) {
     }
 
     change(themeSelect(), themes[0].value);
-    change(textSize(), '5');
+    await setTextSize(5);
     densityItems()[1].click();
     if (initialMode >= 0 && !modeButtons()[initialMode].disabled) modeButtons()[initialMode].click();
     await settle();

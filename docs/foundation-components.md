@@ -249,14 +249,14 @@ Sans `backdrop-filter`, un calque flottant translucide retombe sur la surface op
 
 Le fond dessiné derrière la page est un réglage d'apparence, comme la palette (recette R1-2, décisions du propriétaire du 2026-11-12). `OmniThemeBackdrops.All` est le catalogue : `OmniThemeBackdrops.None` (« Aucun », la page unie) d'abord, puis Givre (les taches pastel en orbite) et Trou noir (le disque d'accrétion). Chaque thème a son fond par défaut, `OmniThemePresets.DefaultBackdropFor` : Givre et Trou noir le leur, Essentiel et les autres thèmes « Aucun » tant que leur fond n'existe pas. Essentiel n'en propose aucun : `OmniThemePresets.BackdropsFor` ne rend sous lui que « Aucun », et tous les fonds sous les autres thèmes. Un thème du catalogue porte les jetons de son fond (`OmniThemePreset.Backdrop`), si bien que son rendu par défaut est celui d'avant ; `OmniThemePreset.With(OmniThemeBackdrop)` retire les jetons du fond porté puis pose ceux de l'autre, et `OmniThemeScope.Backdrop` (nul : le fond du thème) le fait pour la portée, sauf sous un thème qui ne propose pas ce fond. Sous « Aucun », le thème garde tout le reste de sa forme (le dépoli de Givre, la page profonde de Trou noir) sur la page unie.
 
-La fenêtre de l'apparence montre la ligne « Fond » quand l'hôte lie `BackdropChanged` (`OmniAppearanceSettings` la transmet) : une liste du catalogue, le fond du thème suffixé « (défaut) » comme les palettes, « Aucun » traduit dans les 24 langues, et le bouton « Défaut ». L'interrupteur « Fond animé » se place au bout de la ligne de titre du fond. Un nouveau thème remet le fond à celui du thème (`null`), comme la palette et la police ; « Tout réinitialiser » aussi. Le choix est gardé par nom dans la préférence (`backdrop`, `OmniAppearanceState.Backdrop`, `SetBackdropAsync`) ; un nom absent ou inconnu garde le fond du thème. L'instantané de démarrage (`SnapshotKey`) rejoue les jetons peints, fond compris.
+La fenêtre de l'apparence montre la ligne « Fond » quand l'hôte lie `BackdropChanged` (`OmniAppearanceSettings` la transmet) : une liste du catalogue, le fond du thème suffixé « (défaut) » comme les palettes, « Aucun » traduit dans les 24 langues, et le bouton « Défaut ». L'interrupteur « Animation » a sa propre ligne sous celle du fond. Un nouveau thème remet le fond à celui du thème (`null`), comme la palette et la police ; « Tout réinitialiser » aussi. Le choix est gardé par nom dans la préférence (`backdrop`, `OmniAppearanceState.Backdrop`, `SetBackdropAsync`) ; un nom absent ou inconnu garde le fond du thème. L'instantané de démarrage (`SnapshotKey`) rejoue les jetons peints, fond compris.
 
 Ajouter un fond :
 
 1. un fichier `src/OmniEurope.Blazor/Internal/Theming/Backdrops/<Nom>Backdrop.cs` qui expose un `BackdropDefinition` : le nom (en français, jamais traduit, comme les noms de thème : c'est la clé de la préférence), une ligne de description, les jetons des deux modes (`Shape`) et ceux du seul mode sombre (`DarkShape`) ;
 2. une ligne dans `BackdropCatalog.All`, puis, pour le thème qui le porte par défaut, `DefaultBackdrop: "<Nom>"` dans `ThemeCatalog`. Rien d'autre : la fenêtre, la préférence, l'instantané et la vitrine le prennent du catalogue ;
 3. le dessin : `--omni-backdrop` (calques d'image, fixés à la fenêtre par la portée) et ses arrêts `--omni-backdrop-*`, que les contrôles de contraste mesurent. Les couleurs viennent des jetons de la palette (`var(--omni-color-*)`, `color-mix`), jamais d'une couleur écrite, hors le noir et le blanc neutres. Une règle que les jetons ne savent pas porter (des `@keyframes` propres) va dans une feuille de `src/OmniEurope.Blazor/Styles/` ;
-4. le mouvement : `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (jamais moins d'une minute) et `var(--omni-scope-turn)` lu dans `--omni-backdrop`. L'interrupteur « Fond animé » (`data-omni-backdrop-motion="off"`) et `prefers-reduced-motion: reduce` figent alors le fond sans autre code ; un fond immobile ne pose pas `--omni-scope-motion`, et l'interrupteur ne s'affiche pas ;
+4. le mouvement : `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (jamais moins d'une minute) et `var(--omni-scope-turn)` lu dans `--omni-backdrop`. L'interrupteur « Animation » (`data-omni-backdrop-motion="off"`) et `prefers-reduced-motion: reduce` figent alors le fond sans autre code ; un fond immobile ne pose pas `--omni-scope-motion`, et l'interrupteur ne s'affiche pas ;
 5. un fond sur un canvas : `--omni-scope-canvas: <genre>` dans les jetons et `CanvasScript` (un module de `OmniModules`) dans la définition. Le module exporte `start(canvas, scope, motion)` (rend `true` s'il dessine), `refresh(canvas)`, `stop(canvas)` et `sweep()`, lit ses couleurs dans les jetons calculés de la portée, ne dessine qu'une image quand `motion` vaut `false` ou que le mouvement est réduit, et ne touche le DOM que par l'API du canvas et le CSSOM (CSP stricte : aucun attribut `style`, aucune feuille injectée, aucun script en ligne). Le fond CSS reste le repli sans WebGL ; la portée s'isole tant que le canvas dessine.
 
 Chaque couple thème et fond hors défaut n'est pas mesuré par les tests de contraste : seuls les thèmes du catalogue, chacun sur son propre fond, le sont.
@@ -269,7 +269,7 @@ Les fonds Givre et Trou noir bougent, et eux seuls (décision du propriétaire d
 - la portée porte `animation: var(--omni-scope-motion, none)` ; un fond qui bouge pose `--omni-scope-motion: omni-scope-turn <N>s linear infinite` (120 s pour Givre comme pour Trou noir, jamais moins d'une minute) et lit `var(--omni-scope-turn)` dans son `--omni-backdrop` : l'orbite des taches de Givre ;
 - le fond reste immobile, angle à zéro, quand `OmniThemeScope.BackdropMotion` vaut `false` (la portée pose `data-omni-backdrop-motion="off"`) et toujours sous `prefers-reduced-motion: reduce`. Un navigateur sans `@property` garde lui aussi le fond immobile.
 
-`BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Fond animé » (un interrupteur, texte dans les 24 langues) n'apparaît que sur un fond qui bouge et, quand l'hôte lie des paramètres d'apparence, seulement s'il lie le changement ; l'hôte stocke alors la valeur et la remet à sa portée. Sans liaison, la valeur va dans `OmniAppearanceState`.
+`BackdropMotion` vaut `true` par défaut. `OmniAppearanceWindow` et `OmniAppearanceSettings` exposent `BackdropMotion` et `BackdropMotionChanged` : la ligne « Animation » (un interrupteur, texte dans les 24 langues) n'apparaît que sur un fond qui bouge et, quand l'hôte lie des paramètres d'apparence, seulement s'il lie le changement ; l'hôte stocke alors la valeur et la remet à sa portée. Sans liaison, la valeur va dans `OmniAppearanceState`.
 
 ```razor
 <OmniThemeScope Preset="@_preset" BackdropMotion="@_backdropMotion">
@@ -307,20 +307,23 @@ ouvre la fenêtre de l'apparence, sans voile et déplaçable. La police ne se r�
 quand l'hôte lie `FontChanged` (recette, points 84 et 92) ; le mode y est repris. `WindowOpen` et `WindowOpenChanged` suivent
 l'ouverture de cette fenêtre, ce qui permet à l'hôte de retirer son éventuel voile de menu.
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
-de menu (« Thème ») par `Open`/`OpenChanged`. Plus large que haute (46rem, jamais plus que l'écran), elle
-range ses réglages deux par deux, dans l'ordre de lecture : thème et palette, police et densité,
-taille du texte et taille des contrôles, puis largeur du contenu ; la ligne « Fond » suit la police, et l'interrupteur « Fond animé » se place au bout de sa ligne de
-titre (de celle du thème si le fond n'est pas lié). Quand l'hôte lie `AppearanceChanged` (avec `Appearance`), le mode s'affiche en trois
-boutons icônes collés au bout de la ligne de titre de la palette (sur une ligne
-à lui si la palette n'est pas liée), figé en sombre sous un thème `DarkOnly`. Une seule colonne dès que deux de 19rem ne tiennent
-plus. Quel que soit le thème, la fenêtre ne défile jamais en largeur : un thème qui élargit ses boutons (Rétro : capitales, graisse 800, ombres décalées) fait passer à la ligne la rangée de contrôles d'un réglage (la liste prend la largeur restante, jusqu'à 8rem, et le bouton « Par défaut » garde la sienne), et les deux groupes du pied passent à la ligne sans créer de largeur à faire défiler. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
+de menu (« Thème ») par `Open`/`OpenChanged`. Présentée en « options de jeu vidéo » (recette R1-1) : une colonne
+étroite (34rem, jamais plus que l'écran), une ligne par réglage, le libellé court au début et le réglage sur toute la largeur
+restante, sous trois sections titrées (un vrai titre `h3` nomme chaque groupe), dans l'ordre de lecture et de tabulation.
+Style : le mode (première ligne, trois boutons icônes collés, figés en sombre sous un thème `DarkOnly`), le thème, la palette, le fond,
+puis l'animation du fond (interrupteur sur sa propre ligne, libellé « Animation »). Texte : la police et la taille. Disposition : la densité,
+les contrôles et la largeur. La structure est la même sur téléphone : la colonne des libellés (9rem au plus) et celle des réglages sont partagées
+par sous-grille, et les icônes des libellés cèdent leur place au réglage sous 40rem. Les lignes qui ont une valeur par défaut portent un bouton
+icône de remise (nom et infobulle « Défaut ») ; les échelles de taille se règlent par moins, le pourcentage dessiné (75 % à 131 %, 100 % au
+niveau 5, les paliers de `data-oe-text-size` et `data-oe-control-size`), plus, puis la remise, sans curseur. Quel que soit le thème, la fenêtre ne défile jamais en largeur : un thème qui élargit ses boutons (Rétro : capitales, graisse 800, ombres décalées) fait passer à la ligne la rangée de contrôles d'un réglage (la liste prend la largeur restante, jusqu'à 8rem, et le bouton de remise garde la sienne), et les deux groupes du pied passent à la ligne sans créer de largeur à faire défiler. Dans le pied de la fenêtre, le bouton « Aléatoire » tire un thème autre que le courant et, si la
 palette est liée, une palette autre que celle en vigueur, et de même une police si elle est liée (`PresetChanged`, `PaletteChanged`, puis
-`FontChanged` avec `null` pour une police choisie pour l'ancien thème, `BackdropChanged` avec `null` pour un fond choisi pour lui). Quand l'hôte lie des paramètres d'apparence, chaque ligne n'apparaît que s'il lie son changement
+`FontChanged` avec `null` pour une police choisie pour l'ancien thème, `BackdropChanged` avec `null` pour un fond choisi pour lui) ; viennent ensuite « Tout par défaut », puis « Restaurer » (`Secondary`, annuler n'est pas destructif) avant « Valider » (`Primary`). 
+Quand l'hôte lie des paramètres d'apparence, chaque ligne n'apparaît que s'il lie son changement
 (`AppearanceChanged`, `PresetChanged`, `PaletteChanged`, `FontChanged`, `BackdropChanged`, `TextSizeLevelChanged`, `DensityChanged`,
-`ControlSizeLevelChanged`, `FullWidthChanged`) ; la ligne « Fond animé » (`BackdropMotionChanged`) demande en plus un fond
-qui bouge (voir « Fond animé »). Chaque ligne est un groupe nommé par son libellé ; les boutons moins et plus
+`ControlSizeLevelChanged`, `FullWidthChanged`) ; la ligne « Animation » (`BackdropMotionChanged`) demande en plus un fond
+qui bouge (voir « Fond animé »), et une section n'apparaît que si l'une de ses lignes apparaît. Chaque ligne à liste ou à échelle est un groupe nommé par son libellé ; les boutons moins et plus
 d'une échelle portent des noms distincts.
-La ligne « Largeur du contenu » (`FullWidth`, `FullWidthChanged`, recette R1-1) choisit entre « Centré »
+La ligne « Largeur » (`FullWidth`, `FullWidthChanged`, recette R1-1) choisit entre « Centré »
 (`false`, par défaut) et « Pleine largeur » (`true`). Le composant ne fait que lever le choix : l'hôte
 garde sa propre colonne centrée et passe `OmniLayoutWidth.FullWidth` à `OmniMain.ContentWidth` quand
 `FullWidth` vaut `true`, par exemple
@@ -343,13 +346,12 @@ Le thème et la palette de référence se nomment « Essentiel » ; les hôtes q
 doivent le traiter comme un alias lors de la restauration de leurs préférences.
 La densité est un `OmniDensity` (`Density`/`DensityChanged`), choisi dans un groupe radio segmenté
 (Compacte, Confortable, Aérée), que l'hôte passe tel quel à `OmniThemeScope.Density`. La taille du texte
-et la taille des contrôles proposent les niveaux 1 à 10 : un curseur suit les boutons moins et plus de
-chaque réglage. La piste du curseur va de 0 à 10 (`OmniSlider.Minimum` 0) et le plus petit niveau qu’on puisse choisir est 1
-(`SelectableMinimum` 1) : le niveau par défaut, 5, est au milieu de la piste, et le curseur ne descend pas à 0. Les valeurs
-enregistrées restent les niveaux 1 à 10, avec le même sens. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
-la responsabilité du stockage et les applique à sa portée quand elle lie ces paramètres ; sinon `OmniAppearanceState` les garde et les applique. Les boutons Défaut restaurent la valeur
+et la taille des contrôles proposent les niveaux 1 à 10, réglés par les boutons moins et plus qui encadrent le pourcentage
+dessiné (le niveau 5, par défaut, est 100 % ; chaque niveau ajoute ou retire 6,25 points, de 75 % à 131,25 %), sans curseur depuis la recette R1-1 : une ligne tient sur une
+seule ligne. Les valeurs enregistrées restent les niveaux 1 à 10, avec le même sens. Le contrôle reçoit les valeurs et émet leurs changements ; l'application conserve
+la responsabilité du stockage et les applique à sa portée quand elle lie ces paramètres ; sinon `OmniAppearanceState` les garde et les applique. Les boutons icônes de remise (« Défaut ») restaurent la valeur
 initiale de leur ligne, « Tout par défaut » toutes à la fois. Le pied de la fenêtre range à gauche « Aléatoire » et « Tout par défaut »,
-à droite « Valider » (bleu) puis « Restaurer » (rouge). Les changements s'appliquent en direct pendant
+à droite « Restaurer » (gris, `Secondary` : annuler n'est pas destructif) puis « Valider » (bleu). Les changements s'appliquent en direct pendant
 l'essai ; « Valider », la croix et Échap ferment en gardant l'apparence essayée, seul « Restaurer »
 rétablit l'apparence en vigueur à l'ouverture (mode compris) avant de fermer (recette, point 88).
 Le réglage Police propose les dix polices d'`OmniThemeFonts.All` : six piles système et quatre polices web
@@ -399,7 +401,7 @@ rendu, d'après ce que le balisage écrit :
   scope qui part retire les deux) et les ajoute à son instantané (`SnapshotKey`), qu'`omni-boot.js` pose
   avant le premier affichage. Il ne dessine rien tant que la préférence n'est pas lue.
 - `OmniAppearanceWindow` et `OmniAppearanceSettings` qui n'écrivent aucun des dix-huit paramètres
-  d'apparence (les neuf valeurs et leurs `…Changed`) : toutes les lignes s'affichent (« Fond animé » sous un thème qui bouge son fond seulement), les valeurs
+  d'apparence (les neuf valeurs et leurs `…Changed`) : toutes les lignes s'affichent (« Animation » sous un thème qui bouge son fond seulement), les valeurs
   viennent de l'état et les changements y sont écrits ; l'hôte n'ouvre que la fenêtre (`Open`).
 - `OmniAppMenu` qui n'écrit ni `Appearance`, ni `AppearanceChanged`, ni `Preset` : le mode et le thème
   viennent de l'état, le mode choisi y est écrit ; `OnThemeOpen` ouvre toujours la fenêtre de l'hôte.

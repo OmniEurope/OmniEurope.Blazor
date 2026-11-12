@@ -22,15 +22,15 @@
   <data name="SettingsTheme" xml:space="preserve"><value>Téma</value></data>
   <data name="SettingsPalette" xml:space="preserve"><value>Paletta</value></data>
   <data name="SettingsFont" xml:space="preserve"><value>Betűtípus</value></data>
-  <data name="SettingsTextSize" xml:space="preserve"><value>Szövegméret</value></data>
+  <data name="SettingsTextSize" xml:space="preserve"><value>Méret</value></data>
   <data name="SettingsDensity" xml:space="preserve"><value>Sűrűség</value></data>
-  <data name="SettingsContentWidth" xml:space="preserve"><value>Tartalom szélessége</value></data>
+  <data name="SettingsContentWidth" xml:space="preserve"><value>Szélesség</value></data>
   <data name="ContentWidthCentered" xml:space="preserve"><value>Középre igazítva</value></data>
   <data name="ContentWidthFull" xml:space="preserve"><value>Teljes szélesség</value></data>
-  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animált háttér</value></data>
+  <data name="SettingsBackdropMotion" xml:space="preserve"><value>Animáció</value></data>
   <data name="SettingsBackdrop" xml:space="preserve"><value>Háttér</value></data>
   <data name="SettingsBackdropNone" xml:space="preserve"><value>Nincs</value></data>
-  <data name="SettingsControlSize" xml:space="preserve"><value>Vezérlők mérete</value></data>
+  <data name="SettingsControlSize" xml:space="preserve"><value>Vezérlők</value></data>
   <data name="SettingsDefault" xml:space="preserve"><value>Alapértelmezett</value></data>
   <data name="SettingsRandom" xml:space="preserve"><value>Véletlenszerű</value></data>
   <data name="SettingsRandomTitle" xml:space="preserve"><value>Téma, paletta és betűtípus véletlenszerű kiválasztása</value></data>
@@ -42,7 +42,10 @@
   <data name="SettingsTextSizeIncrease" xml:space="preserve"><value>Szövegméret növelése</value></data>
   <data name="SettingsControlSizeDecrease" xml:space="preserve"><value>Vezérlők méretének csökkentése</value></data>
   <data name="SettingsControlSizeIncrease" xml:space="preserve"><value>Vezérlők méretének növelése</value></data>
-  <data name="SettingsLevel" xml:space="preserve"><value>{0}/10</value></data>
+  <data name="SettingsScaleValue" xml:space="preserve"><value>{0:0}%</value></data>
+  <data name="SettingsSectionStyle" xml:space="preserve"><value>Stílus</value></data>
+  <data name="SettingsSectionText" xml:space="preserve"><value>Szöveg</value></data>
+  <data name="SettingsSectionLayout" xml:space="preserve"><value>Elrendezés</value></data>
   <data name="SettingsLook" xml:space="preserve"><value>Téma és méretek</value></data>
   <data name="SettingsLookTitle" xml:space="preserve"><value>Téma, paletta és méretek</value></data>
   <data name="SettingsLookSummary" xml:space="preserve"><value>{0} · Szöveg {1} · {2}</value></data>
