@@ -45,7 +45,7 @@
    sections (style, text, layout). The label column and the control column are shared by every line
    through nested subgrids, so the controls line up whatever the length of each label. The structure
    is the same on a phone: the window takes the width of the screen, the controls the width that remains. */
-.omni-appearance-window { inline-size: 36rem; max-inline-size: calc(100vw - 2rem); }
+.omni-appearance-window { inline-size: 40rem; max-inline-size: calc(100vw - 2rem); }
 .omni-appearance-settings--window { align-content: start; column-gap: var(--omni-space-md); grid-template-columns: fit-content(9rem) minmax(0, 1fr); inline-size: 100%; row-gap: var(--omni-space-md); }
 .omni-appearance-window__section { display: grid; grid-column: 1 / -1; grid-template-columns: subgrid; min-inline-size: 0; row-gap: var(--omni-space-sm); }
 .omni-appearance-window__heading { align-items: center; color: var(--omni-color-text-muted); display: flex; font-size: var(--omni-font-size-sm); font-weight: 650; gap: var(--omni-space-sm); grid-column: 1 / -1; line-height: 1.25; margin: 0; }
@@ -89,16 +89,26 @@
     .omni-appearance-settings--window .omni-appearance-settings__row:has(.omni-select-bar) > .omni-appearance-settings__actions { grid-column: 1 / -1; }
 }
 /* The footer: the actions on the whole look at the start (random, all back to the defaults), the decision
-   at the end (Cancel, then Apply, owner order of 2026-11-12). Each group takes the width its buttons need
-   and both grow to share the line; when they do not fit on one (a theme that widens its buttons, such as
-   Octet with its spaced capitals, or a long translation) the decision wraps under the tools as a second
-   row, every button growing to fill its row, so the window never breaks. A label wider than its whole row
-   wraps inside its button instead of running out of the frame. */
-.omni-appearance-window__footer { display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); min-inline-size: 0; }
-.omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex: 1 1 auto; flex-wrap: wrap; gap: var(--omni-space-sm); max-inline-size: 100%; min-inline-size: 0; }
-.omni-appearance-window__footer .omni-button { flex: 1 1 auto; justify-content: center; max-inline-size: 100%; min-inline-size: 0; text-align: center; }
+   at the end (Cancel, then Apply, owner order of 2026-11-12). Each group keeps its buttons on one line at
+   their own width (no button stretched to fill a row); when both groups do not fit on one line (a theme
+   that widens its buttons, such as Octet with its spaced capitals, a large text size or a long
+   translation) the decision moves as a whole under the tools, at the end. A group never wraps inside
+   itself: a wrapping flex box nested in a wrapping flex line is sized as one line, and its second row ran
+   out of the footer, under the bottom edge of the window (owner capture of 2026-11-12, Octet). */
+.omni-appearance-window__footer { display: flex; flex: 1 1 100%; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: space-between; min-inline-size: 0; }
+.omni-appearance-window__tools, .omni-appearance-window__decision { display: flex; flex: 0 0 auto; flex-wrap: nowrap; gap: var(--omni-space-sm); min-inline-size: 0; }
+.omni-appearance-window__decision { margin-inline-start: auto; }
+.omni-appearance-window__footer .omni-button { flex: none; justify-content: center; min-inline-size: 0; text-align: center; }
 .omni-appearance-window__footer .omni-button__content { min-inline-size: 0; }
-.omni-appearance-window__footer .omni-button__content > span { overflow-wrap: anywhere; }
+/* On a phone the four buttons share a grid of equal cells, two per row, one per row once the text is large
+   (a cell needs 9rem, which grows with the text size); a label wraps between its words inside its cell. */
+@media (max-width: 39.99rem) {
+    .omni-appearance-window__footer { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); }
+    .omni-appearance-window__tools, .omni-appearance-window__decision { display: contents; }
+    .omni-appearance-window__footer .omni-button { box-sizing: border-box; justify-self: stretch; white-space: normal; }
+    /* The options of a choice bar share its line equally and wrap their words instead of scrolling. */
+    .omni-appearance-settings--window .omni-select-bar__item { flex: 1 1 0; min-inline-size: 0; overflow-wrap: anywhere; white-space: normal; }
+}
 
 .omni-data-grid--preparing tbody > tr:not(.omni-data-grid__preparation, .omni-data-grid__spacer) { visibility: hidden; }
 .omni-rating { display: inline-flex; align-items: center; gap: 0; white-space: nowrap; color: var(--omni-color-warning); }

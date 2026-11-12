@@ -330,7 +330,7 @@ quand l'hôte lie `FontChanged` (recette, points 84 et 92) ; le mode y est repri
 l'ouverture de cette fenêtre, ce qui permet à l'hôte de retirer son éventuel voile de menu.
 Cette fenêtre est aussi un composant, `OmniAppearanceWindow`, qu'un hôte ouvre depuis sa propre entrée
 de menu (« Thème ») par `Open`/`OpenChanged`. Présentée en « options de jeu vidéo » (recette R1-1) : une colonne
-étroite (36rem, jamais plus que l'écran), une ligne par réglage, le libellé court au début et le réglage sur toute la largeur
+étroite (40rem, jamais plus que l'écran), une ligne par réglage, le libellé court au début et le réglage sur toute la largeur
 restante, sous trois sections titrées (un vrai titre `h3` nomme chaque groupe), dans l'ordre de lecture et de tabulation.
 Style : le mode (première ligne, trois boutons icônes collés, figés en sombre sous un thème `DarkOnly`), le thème, la palette, le fond,
 puis l'animation du fond (interrupteur sur sa propre ligne, libellé « Animation »). Texte : la police et la taille. Disposition : la densité,

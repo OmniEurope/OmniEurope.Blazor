@@ -498,7 +498,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("subgrid", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__section"), "grid-template-columns"));
         Assert.Equal("subgrid", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-appearance-settings__row"), "grid-template-columns"));
         var box = ShippedLookTests.Body(".omni-appearance-window");
-        Assert.Equal("36rem", ShippedLookTests.Value(box, "inline-size"));
+        Assert.Equal("40rem", ShippedLookTests.Value(box, "inline-size"));
         Assert.Equal("calc(100vw - 2rem)", ShippedLookTests.Value(box, "max-inline-size"));
         Assert.Equal("100%", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-select-bar"), "inline-size"));
         Assert.Equal("1 1 0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-settings--window .omni-appearance-window__modes > .omni-button.omni-appearance-window__mode"), "flex"));
@@ -864,13 +864,25 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(window + ".omni-appearance-settings__actions > .omni-button"), "flex"));
         Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(window + ".omni-appearance-settings__row"), "min-inline-size"));
 
-        // The footer wraps its two groups, which share the line, and a button wraps its text only when its whole row is too narrow.
+        // The footer wraps its two groups as wholes, each group keeps its buttons on one line at their own
+        // width (a group that wrapped inside itself ran its second row under the window's bottom edge), and
+        // the decision stays at the end.
         Assert.Equal("wrap", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer"), "flex-wrap"));
-        var footerButton = ShippedLookTests.Body(".omni-appearance-window__footer .omni-button");
-        Assert.DoesNotContain("nowrap", footerButton, StringComparison.Ordinal);
-        Assert.Equal("1 1 auto", ShippedLookTests.Value(footerButton, "flex"));
-        Assert.Equal("100%", ShippedLookTests.Value(footerButton, "max-inline-size"));
-        Assert.Equal("1 1 auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__tools, .omni-appearance-window__decision"), "flex"));
+        var groups = ShippedLookTests.Body(".omni-appearance-window__tools, .omni-appearance-window__decision");
+        Assert.Equal("nowrap", ShippedLookTests.Value(groups, "flex-wrap"));
+        Assert.Equal("0 0 auto", ShippedLookTests.Value(groups, "flex"));
+        Assert.Equal("auto", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__decision"), "margin-inline-start"));
+        Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-appearance-window__footer .omni-button"), "flex"));
+
+        // On a phone the four buttons share a grid of equal cells whose minimum grows with the text size, and
+        // the options of a choice bar share its line instead of scrolling.
+        var phoneFooter = ShippedLookTests.Rules().Last(rule => rule.Selector == ".omni-appearance-window__footer").Body;
+        Assert.Equal("grid", ShippedLookTests.Value(phoneFooter, "display"));
+        Assert.Equal("repeat(auto-fit, minmax(min(100%, 9rem), 1fr))", ShippedLookTests.Value(phoneFooter, "grid-template-columns"));
+        Assert.Equal("contents", ShippedLookTests.Value(ShippedLookTests.Rules().Last(rule => rule.Selector == ".omni-appearance-window__tools, .omni-appearance-window__decision").Body, "display"));
+        var phoneItem = ShippedLookTests.Rules().Last(rule => rule.Selector == window + ".omni-select-bar__item").Body;
+        Assert.Equal("1 1 0", ShippedLookTests.Value(phoneItem, "flex"));
+        Assert.Equal("normal", ShippedLookTests.Value(phoneItem, "white-space"));
     }
 
     [Theory]
