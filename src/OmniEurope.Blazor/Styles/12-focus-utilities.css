@@ -75,6 +75,8 @@
 @media (max-width: 39.99rem) {
     .omni-appearance-settings--window { column-gap: var(--omni-space-sm); }
     .omni-appearance-settings--window .omni-appearance-settings__label .omni-icon { display: none; }
+    /* A phone: the items of a choice bar (Density: Compact, Comfortable, Spacious) take the narrow space a word needs, so the three fit the control column at 375 px. */
+    .omni-appearance-settings--window .omni-select-bar__item { padding-inline: var(--omni-space-xs); }
 }
 /* The footer: the actions on the whole look at the start (random, all back to the defaults), the
    decision at the end (Cancel, then Apply, owner order of 2026-11-12); on a narrow window the decision wraps under, still at the end. */
