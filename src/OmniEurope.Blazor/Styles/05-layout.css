@@ -633,6 +633,10 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
    angle jumps from nothing to a full turn, the same picture, so the field stays still. */
 @property --omni-scope-turn { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 @property --omni-backdrop { syntax: "*"; inherits: false; }
+/* A backdrop made of shapes (Aplat's floating forms, Epure's dot screen) gives each layer of its
+   --omni-backdrop its own tile: --omni-scope-backdrop-size, -position (which may read the turning angle,
+   so not inherited either) and -repeat are lists with one entry per layer, neutral when a backdrop sets none. */
+@property --omni-scope-backdrop-position { syntax: "*"; inherits: false; }
 @keyframes omni-scope-turn { to { --omni-scope-turn: 360deg; } }
 
 /* The scope sets the base size, it does not inherit the host's. The token existed for exactly this
@@ -645,6 +649,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
        the viewport so the translucent panels scroll over it; none for every other theme. */
     background-attachment: fixed;
     background-image: var(--omni-backdrop, none);
+    background-position: var(--omni-scope-backdrop-position, 0% 0%);
+    background-repeat: var(--omni-scope-backdrop-repeat, repeat);
+    background-size: var(--omni-scope-backdrop-size, auto);
     color: var(--omni-color-text);
     /* A theme that frosts its cards (Givre) makes the scope a stacking context: the frost of a card is
        painted at the bottom of it, just above the colour field it blurs (see .omni-card::before). */
@@ -666,6 +673,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     background: var(--omni-scope-page, var(--omni-color-surface));
     background-attachment: fixed;
     background-image: var(--omni-backdrop, none);
+    background-position: var(--omni-scope-backdrop-position, 0% 0%);
+    background-repeat: var(--omni-scope-backdrop-repeat, repeat);
+    background-size: var(--omni-scope-backdrop-size, auto);
     color: var(--omni-color-text);
     font-family: var(--omni-font-family);
 }

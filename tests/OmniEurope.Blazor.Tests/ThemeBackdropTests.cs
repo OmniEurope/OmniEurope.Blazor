@@ -20,12 +20,115 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     // ---- The catalogue ----
 
     [Fact]
-    public void The_catalogue_holds_the_plain_page_then_the_two_backdrops_that_were_theme_fields()
+    public void The_catalogue_holds_the_plain_page_then_the_backdrops_drawn()
     {
-        Assert.Equal(["Aucun", "Givre", "Trou noir"], OmniThemeBackdrops.All.Select(backdrop => backdrop.Name));
+        Assert.Equal(["Aucun", "Givre", "Trou noir", "Nénuphar", "Velours", "Relief", "Aplat", "Épure"], OmniThemeBackdrops.All.Select(backdrop => backdrop.Name));
         Assert.Same(OmniThemeBackdrops.None, OmniThemeBackdrops.All[0]);
         Assert.Empty(OmniThemeBackdrops.None.Shape);
         Assert.Empty(OmniThemeBackdrops.None.DarkShape);
+    }
+
+    /// <summary>The layers of a comma-separated CSS list, split where no parenthesis is open.</summary>
+    private static List<string> Layers(string list)
+    {
+        var parts = new List<string>();
+        var depth = 0;
+        var start = 0;
+        for (var index = 0; index < list.Length; index++)
+        {
+            switch (list[index])
+            {
+                case '(':
+                    depth++;
+                    break;
+                case ')':
+                    depth--;
+                    break;
+                case ',' when depth == 0:
+                    parts.Add(list[start..index].Trim());
+                    start = index + 1;
+                    break;
+            }
+        }
+
+        parts.Add(list[start..].Trim());
+        return parts;
+    }
+
+    /// <summary>
+    /// Review R1-3 (owner decisions of 2026-11-12): Nénuphar, Velours, Relief, Aplat and Épure each draw
+    /// and move a field in CSS alone, from palette tokens only, in both modes.
+    /// </summary>
+    [Theory]
+    [InlineData("Nénuphar")]
+    [InlineData("Velours")]
+    [InlineData("Relief")]
+    [InlineData("Aplat")]
+    [InlineData("Épure")]
+    public void An_animated_backdrop_is_drawn_in_css_from_palette_tokens_and_moves_with_the_turning_angle(string name)
+    {
+        var backdrop = Named(name);
+        Assert.Same(backdrop, Theme(name).Backdrop);
+        Assert.DoesNotContain("--omni-scope-canvas", backdrop.Shape.Keys);
+        Assert.False(string.IsNullOrWhiteSpace(backdrop.Description));
+        Assert.Equal("omni-scope-turn 120s linear infinite", backdrop.Shape["--omni-scope-motion"]);
+        Assert.DoesNotContain("--omni-scope-motion", backdrop.DarkShape.Keys);
+
+        // The turning angle is read by the field or by the place of its tiles, never by neither.
+        var moves = backdrop.Shape["--omni-backdrop"].Contains("var(--omni-scope-turn)", StringComparison.Ordinal)
+            || backdrop.Shape.GetValueOrDefault("--omni-scope-backdrop-position", string.Empty).Contains("var(--omni-scope-turn)", StringComparison.Ordinal);
+        Assert.True(moves, name);
+
+        // Every colour is drawn from a token of the palette, light and dark: no written colour, no image
+        // that a strict CSP or a palette could not follow.
+        foreach (var value in backdrop.Shape.Values.Concat(backdrop.DarkShape.Values))
+        {
+            Assert.DoesNotMatch(@"#[0-9a-fA-F]{3,8}\b|\brgba?\(|\bhsla?\(|url\(|\beval\b", value);
+        }
+
+        var stops = backdrop.Shape.Keys.Where(key => key.StartsWith("--omni-backdrop-", StringComparison.Ordinal)).Order(StringComparer.Ordinal).ToArray();
+        Assert.NotEmpty(stops);
+        Assert.Equal(stops, backdrop.Shape["--omni-backdrop"].Split("var(--omni-backdrop-").Skip(1).Select(part => "--omni-backdrop-" + part[..part.IndexOf(')', StringComparison.Ordinal)]).Distinct(StringComparer.Ordinal).Order(StringComparer.Ordinal));
+        Assert.All(backdrop.DarkShape.Keys, key => Assert.Contains(key, stops));
+    }
+
+    [Theory]
+    [InlineData("Aplat")]
+    [InlineData("Épure")]
+    public void A_backdrop_of_shapes_gives_every_layer_its_own_tile(string name)
+    {
+        var shape = Named(name).Shape;
+        var layers = Layers(shape["--omni-backdrop"]).Count;
+
+        Assert.True(layers > 1, name);
+        Assert.Equal(layers, Layers(shape["--omni-scope-backdrop-size"]).Count);
+        if (shape.TryGetValue("--omni-scope-backdrop-position", out var position))
+        {
+            Assert.Equal(layers, Layers(position).Count);
+        }
+
+        // A shape is drawn once in its tile; a screen repeats its dot.
+        Assert.Equal(name == "Aplat" ? "no-repeat" : null, shape.GetValueOrDefault("--omni-scope-backdrop-repeat"));
+    }
+
+    [Fact]
+    public void A_backdrop_that_names_no_tile_leaves_the_neutral_one_of_the_stylesheet()
+    {
+        Assert.All(OmniThemeBackdrops.All.Where(backdrop => backdrop.Name is not ("Aplat" or "Épure")), backdrop =>
+        {
+            Assert.DoesNotContain(backdrop.Shape.Keys, key => key.StartsWith("--omni-scope-backdrop-", StringComparison.Ordinal));
+            Assert.DoesNotContain(backdrop.DarkShape.Keys, key => key.StartsWith("--omni-scope-backdrop-", StringComparison.Ordinal));
+        });
+
+        var hooks = ShippedLookTests.Body("[data-omni-theme]");
+        Assert.Equal("auto", ShippedLookTests.Value(hooks, "--omni-scope-backdrop-size"));
+        Assert.Equal("0% 0%", ShippedLookTests.Value(hooks, "--omni-scope-backdrop-position"));
+        Assert.Equal("repeat", ShippedLookTests.Value(hooks, "--omni-scope-backdrop-repeat"));
+        var scope = ShippedLookTests.Body(".omni-theme-scope");
+        Assert.Equal("var(--omni-scope-backdrop-size, auto)", ShippedLookTests.Value(scope, "background-size"));
+        Assert.Equal("var(--omni-scope-backdrop-position, 0% 0%)", ShippedLookTests.Value(scope, "background-position"));
+        Assert.Equal("var(--omni-scope-backdrop-repeat, repeat)", ShippedLookTests.Value(scope, "background-repeat"));
+        Assert.Equal("false", ShippedLookTests.Value(ShippedLookTests.Body("@property --omni-scope-backdrop-position"), "inherits"));
     }
 
     [Fact]
@@ -40,6 +143,11 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Theory]
     [InlineData("Givre", "Givre")]
     [InlineData("Trou noir", "Trou noir")]
+    [InlineData("Nénuphar", "Nénuphar")]
+    [InlineData("Velours", "Velours")]
+    [InlineData("Relief", "Relief")]
+    [InlineData("Aplat", "Aplat")]
+    [InlineData("Épure", "Épure")]
     [InlineData("Ardoise", "Aucun")]
     [InlineData("Néon", "Aucun")]
     public void Every_other_theme_draws_its_own_backdrop_and_offers_every_one(string theme, string backdrop)
@@ -235,7 +343,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
         var window = Window(Theme("Givre"), null, value => picked = value);
 
         var options = window.Find("select[aria-label='Fond']").QuerySelectorAll("option").Select(option => option.TextContent);
-        Assert.Equal(["Aucun", "Givre (défaut)", "Trou noir"], options);
+        Assert.Equal(["Aucun", "Givre (défaut)", "Trou noir", "Nénuphar", "Velours", "Relief", "Aplat", "Épure"], options);
         // The motion switch sits on the title line of the backdrop row.
         var label = window.Find("#" + window.Find("[role=switch]").GetAttribute("aria-labelledby"));
         Assert.NotNull(label.Closest(".omni-appearance-settings__row")!.QuerySelector("select[aria-label='Fond']"));

@@ -19,6 +19,11 @@ internal static class BackdropCatalog
     [
         GivreBackdrop.Definition,
         TrouNoirBackdrop.Definition,
+        NenupharBackdrop.Definition,
+        VeloursBackdrop.Definition,
+        ReliefBackdrop.Definition,
+        AplatBackdrop.Definition,
+        EpureBackdrop.Definition,
     ];
 
     /// <summary>
