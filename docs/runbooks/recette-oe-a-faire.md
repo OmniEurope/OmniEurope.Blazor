@@ -10,6 +10,7 @@ propriétaire ou de la recette d'une application cliente, dont le numéro est ra
 Traitement direct demandé par le propriétaire le 2026-10-09.
 
 Historique de la passe précédente (anciens R1-1 à R1-29, nettoyage du 2026-10-29 et lots du 2026-10-29) : voir `recette-oe-fait.md` et l'historique Git de ce fichier.
+
 ### Lots du 2026-11-12 (R1-1 à R1-3)
 
 Branche `develop`, quatre agents au plus en parallèle.
