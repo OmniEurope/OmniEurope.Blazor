@@ -1,7 +1,7 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
 # Recette d'OmniEurope.Blazor, points à faire
 
-> Statut : ouverte le 2026-10-09. Prochain numéro : **R1-30**. Version cible : **1.11.0** (décision du propriétaire du 2026-11-01).
+> Statut : ouverte le 2026-10-09, **aucune ligne ouverte** depuis le 2026-11-12 (R1-24 archivée). Prochain numéro : **R1-30**.
 
 ## État
 
@@ -34,7 +34,6 @@ depuis la réserve de la ligne d'erreur).
 
 | N° | Page / composant | Type | Constat | Origine | Justification | État |
 | --- | --- | --- | --- | --- | --- | --- |
-| R1-24 | Constats de sécurité du pipeline `oe1-security` #3015 (6 constats) | Erreur | Six constats levés par le pipeline de sécurité de la forge : 1296 écoute de message sans contrôle d'origine (`eng/Test-ShowcaseLanguagesProbe.mjs:92`), 1297 pollution de prototype (`eng/Test-ThemeContrastProbe.mjs:958`), 1298 antiforgery désactivé (`samples/OmniEurope.Blazor.Catalog/Program.cs:40`), 1299 `MarkupString` dynamique (`OmniHtmlEditor.razor:323`), 1300 `innerHTML` non littéral (`wwwroot/html-editor/model.js:199`), 1295 clé d'API générique (`TextFieldTypesExample.razor.cs:6`). À regarder et corriger. Déjà dit : non. | OE | Propriétaire, 2026-10-29 ; export `recette-pieces-temporaires/oe1-pipelines-oe1-security-3015-executio-2026-10-29-1313.md`. Lecture du code : six faux positifs. 1296 est un WebSocket CDP en boucle locale, pas un `postMessage` ; 1297 boucle sur les noms de thème de la sonde, jamais sur une entrée analysée ; 1298 est `/csp-report`, que les navigateurs appellent sans jeton, anonyme et borné en taille ; 1299 et 1300 reçoivent du HTML passé par `OmniHtmlSanitizer` ou échappé (`tableHtml`, `escapeHtml`) ; 1295 est l'alphabet des mots de passe de démonstration. Fait le 2026-10-29 : un commentaire d'exception motivé sur chaque ligne, convention de la forge (`nosemgrep - raison`, `gitleaks:allow`). Prouvé : gitleaks 8.30.1 épinglé (image épinglée par la forge) sur le fichier, 1 fuite avant et 0 après ; compilation de la bibliothèque, des exemples et du catalogue verte. Non prouvé : opengrep 1.22.0 n'est pas installé localement, la disparition des cinq constats SAST attend une nouvelle exécution du pipeline. Décision du propriétaire du 2026-10-29 : pas de téléchargement d'opengrep, la preuve viendra de la prochaine exécution du pipeline de sécurité. | Partiel |
 
 ## Critère de clôture
 

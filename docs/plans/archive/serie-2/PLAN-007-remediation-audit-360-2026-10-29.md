@@ -44,7 +44,7 @@ Un point n'est « fait » qu'avec sa preuve observée (navigateur, HTTP réel, P
   - A360-007 : la vitrine publiée (`artifacts/showcase-smoke`) embarque aussi le runtime 10.0.14 selon
     `Test-WasmRuntimeVersion.ps1` ; la garde a son auto-test en CI (`Test-WasmRuntimeVersionFixtures.ps1`).
 
-### Annoncé, non prouvé
+### Annoncé, non prouvé (archivé en l'état le 2026-11-12, décision du propriétaire)
 
 - A360-002 : adoption de la date du serveur par le cache, couverte par les tests du synchroniseur (doubles),
   non rejouée dans un navigateur dont l'horloge est décalée.

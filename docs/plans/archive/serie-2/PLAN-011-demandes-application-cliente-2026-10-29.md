@@ -1,5 +1,5 @@
 <!-- SPDX-License-Identifier: EUPL-1.2 -->
-# PLAN-008 - Demandes d'une application cliente du 2026-10-29
+# PLAN-011 - Demandes d'une application cliente du 2026-10-29
 
 Neuf besoins génériques relevés par une application cliente (consommatrice de la 1.8.2) pendant une passe
 d'ergonomie, relus contre `develop`. Chaque point est d'abord confirmé manquant ; un point n'est « fait »
@@ -37,7 +37,7 @@ Constats de départ :
   - W-8 `OmniNavTile.Disabled` : pas de `href`, `aria-disabled`, opacité 0,55, taille 682 × 133 inchangée,
     non focalisable.
   - W-9 : `--omni-card-border-width` documenté comme prise publique ; à 0 sur une classe hôte, cartes
-    sans liseré (1 px vers 0). Il touche aussi grilles et éditeurs ; un `OmniCard.Bordered` reste à décider.
+    sans liseré (1 px vers 0). Il touche aussi grilles et éditeurs ; un `OmniCard.Bordered` reste à décider (reporté au PLAN-008, 2026-11-12).
 - 2026-10-29 : W-6, contrôle annoncé à 375 px mesuré après la revue de `/next` : la grille de la démonstration
   passe à une colonne (329 px) et la légende tient sur une ligne en 12 px, avec ou sans `WrapTitle`, sans
   coupure ni infobulle. Le débordement de la demande n'existe que dans une grille étroite à plusieurs

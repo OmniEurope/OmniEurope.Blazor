@@ -10,7 +10,8 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 - `NNN` est dense et suit l'ordre du registre ci-dessous.
 - La description emploie le moins de mots possible tout en restant non ambiguë.
 - Un plan partiellement livré est réduit à son seul reliquat réel.
-- Un plan terminé est déplacé dans l'archive de sa série ([archive/serie-1/](archive/serie-1/) pour PLAN-001 à PLAN-019 de la première série) avec ses annexes ; il garde son numéro.
+- Un plan terminé est déplacé dans l'archive de sa série ([archive/serie-1/](archive/serie-1/) pour PLAN-001 à PLAN-019 de la première série, [archive/serie-2/](archive/serie-2/) pour PLAN-001 à PLAN-011 de la deuxième) avec ses annexes ; il garde son numéro.
+- `PLAN-008` est réservé aux idées pour plus tard (règle globale), hors de la numérotation dense : [PLAN-008](PLAN-008-idees-plus-tard.md).
 - Toute suppression ou renumérotation met à jour les références documentaires actives ; les mentions historiques datées restent inchangées.
 - Une annexe d'un plan (journal d'exécution, maquette de référence) porte le numéro de son plan et un suffixe.
 
@@ -18,16 +19,9 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 
 | Plan | Travail restant | ADR |
 |---|---|---|
-| [PLAN-001](PLAN-001-reliquats-audit-et-retours-ui.md) | Plan unique depuis le 2026-10-12 : reliquats vérifiés de la première série, audit ciblé du 2026-10-11, défauts d'interface reproduits à partir des retours récurrents des applications ; annexe [classement des retours](PLAN-001-annexe-ret003.md) | Sans ADR supplémentaire |
-| [PLAN-002](PLAN-002-homogeneite-1-9-0.md) | Homogénéité de l'API publique, défauts et durcissements de l'audit du 2026-10-22, livrés en 1.9.0 (ruptures assumées) | Sans ADR supplémentaire |
-| [PLAN-003](PLAN-003-demandes-application-cliente-2026-10-23.md) | Dix demandes d'une application cliente du 2026-10-23, livrées en 1.9.0 en sept lots | Sans ADR supplémentaire |
-| [PLAN-004](PLAN-004-demandes-application-cliente-2026-10-23-bis.md) | Seconde demande de la même application cliente du 2026-10-23 (sept points, 1.9.0) | Sans ADR supplémentaire |
-| [PLAN-005](PLAN-005-galerie-depuis-demo-applicative.md) | Galerie de la vitrine reprise de la démo d'une application cliente : 71 pages, onglets aperçu, mobile et code, vitrine en anglais et français | Sans ADR supplémentaire |
-| [PLAN-006](PLAN-006-demandes-application-cliente-2026-10-28.md) | Neuf demandes d'une application cliente du 2026-10-28 : badges, champ de formulaire, tuile à texte ajusté, filtre de date de grille, trou noir, infobulles | Sans ADR supplémentaire |
-| [PLAN-007](PLAN-007-remediation-audit-360-2026-10-29.md) | Remédiation des huit constats de l'audit 360 du 2026-10-29 : chevron de la barre de choix, en-têtes sur erreur, tests API en CI, SBOM, capacité des visiteurs, dates des préférences, runtime WebAssembly, docs | Sans ADR supplémentaire |
-| [PLAN-008](PLAN-008-demandes-application-cliente-2026-10-29.md) | Neuf demandes d'une application cliente du 2026-10-29 : bouton discret de danger, réglages à plat, saisie avant confirmation, densité de liste, barre de progression segmentée, libellé long, nom court du menu, tuile désactivée, liseré des cartes | Sans ADR supplémentaire |
-| [PLAN-009](PLAN-009-remediation-audit-360-2026-10-30.md) | Terminé le 2026-10-30, sept lots ; quinze constats initiaux et deux écarts documentaires vérifiés, dix suites complètes consécutives, [recette et limites du lot 7](PLAN-009-lot-7-verifications.md) | Sans ADR supplémentaire |
-| [PLAN-010](PLAN-010-composants-document-et-dessin.md) | Trois composants pour une application cliente : dessin à main levée, visionneuse de document à champs, éditeur structuré à jeu de changements (1.12.0 visée) | Sans ADR supplémentaire |
+| [PLAN-008](PLAN-008-idees-plus-tard.md) | Réservé aux idées pour plus tard, traitées seulement sur demande du propriétaire | Sans ADR supplémentaire |
+
+Aucun autre plan actif depuis le 2026-11-12 : la deuxième série est archivée.
 
 ## Archives
 
@@ -56,3 +50,20 @@ lot 2) ; leurs anciens numéros locaux étaient respectivement 004, 007 et 008.
 | [PLAN-017](archive/serie-1/PLAN-017-corrections-audit-2026-10-07.md) | Corrections de l'audit du 2026-10-07 | Terminé dans la 1.7.0, archivé le 2026-10-12 |
 | [PLAN-018](archive/serie-1/PLAN-018-demandes-application-cliente-2026-10-08.md) | Demandes d'une application cliente du 2026-10-08 | Archivé le 2026-10-12 ; chargeur de modules (lots 5 et 6) repris dans le nouveau PLAN-001 |
 | [PLAN-019](archive/serie-1/PLAN-019-preferences-en-base.md) | Préférences en base, cache local et colonnes de grille | Archivé le 2026-10-12, livré pour la 1.8.0 ; retrait sec des types de stockage confirmé ; reliquats repris dans le nouveau PLAN-001 |
+
+### Deuxième série (archivée le 2026-11-12)
+
+Plans de la deuxième série (PLAN-001 à PLAN-011, ouverts du 2026-10-12 au 2026-11-04), rangés dans [archive/serie-2/](archive/serie-2/) par décision du propriétaire du 2026-11-12. L'ancien PLAN-008 de cette série est renuméroté PLAN-011 pour libérer le numéro réservé aux idées pour plus tard.
+
+| Plan | Objet | État |
+|---|---|---|
+| [PLAN-001](archive/serie-2/PLAN-001-reliquats-audit-et-retours-ui.md) | Reliquats de la première série, audit du 2026-10-11, retours UI récurrents ; annexe [classement des retours](archive/serie-2/PLAN-001-annexe-ret003.md) | Terminé le 2026-10-23 (1.9.0) |
+| [PLAN-002](archive/serie-2/PLAN-002-homogeneite-1-9-0.md) | Homogénéité de l'API publique, audit du 2026-10-22 | Livré en 1.9.0 |
+| [PLAN-003](archive/serie-2/PLAN-003-demandes-application-cliente-2026-10-23.md) | Dix demandes d'une application cliente du 2026-10-23 | Livré en 1.9.0 |
+| [PLAN-004](archive/serie-2/PLAN-004-demandes-application-cliente-2026-10-23-bis.md) | Seconde demande de la même application cliente du 2026-10-23 | Livré en 1.9.0 |
+| [PLAN-005](archive/serie-2/PLAN-005-galerie-depuis-demo-applicative.md) | Galerie de la vitrine reprise de la démo d'une application cliente | Galerie livrée ; lot H2 (déploiement) reporté au PLAN-008 |
+| [PLAN-006](archive/serie-2/PLAN-006-demandes-application-cliente-2026-10-28.md) | Neuf demandes d'une application cliente du 2026-10-28 | Livré |
+| [PLAN-007](archive/serie-2/PLAN-007-remediation-audit-360-2026-10-29.md) | Remédiation de l'audit 360 du 2026-10-29 | Livré ; A360-002 et A360-005 archivés sans preuve complète, décision du propriétaire |
+| [PLAN-009](archive/serie-2/PLAN-009-remediation-audit-360-2026-10-30.md) | Remédiation de l'audit 360 du 2026-10-30, annexes des lots 1 à 7 | Terminé le 2026-10-30 |
+| [PLAN-010](archive/serie-2/PLAN-010-composants-document-et-dessin.md) | Dessin, visionneuse de document, éditeur structuré | Livré en 1.12.0 |
+| [PLAN-011](archive/serie-2/PLAN-011-demandes-application-cliente-2026-10-29.md) | Neuf demandes d'une application cliente du 2026-10-29 (ancien PLAN-008) | Livré en 1.11.0 ; `OmniCard.Bordered` reporté au PLAN-008 |

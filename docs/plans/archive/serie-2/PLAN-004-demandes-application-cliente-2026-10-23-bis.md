@@ -5,7 +5,7 @@ sept points (le sixième et le septième arrivés après les cinq premiers), dé
 entre deux commits. Deux lots au plus en parallèle, chacun dans son worktree ; sondes de la vitrine lancées par
 l'orchestrateur seul, une passe à la fois, après la fusion.
 
-Règles communes : celles de PLAN-003 (noms suivant [public-api-conventions.md](../public-api-conventions.md),
+Règles communes : celles de PLAN-003 (noms suivant [public-api-conventions.md](../../../public-api-conventions.md),
 textes du paquet dans les 24 langues, `docs/public-api.txt`, index des composants, CHANGELOG `[1.9.0]` et guide de
 la famille à jour, aucun nom d'application cliente dans un fichier suivi).
 

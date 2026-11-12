@@ -9,7 +9,7 @@ Résoudre les quinze constats de l’audit du 30 octobre par changements minimau
 
 L’audit initial porte sur `develop` à `76daf06203bc285a4431823360b113633abd3a18` : 2 408 fichiers examinés, quinze constats (huit moyens, sept faibles). Ses identifiants ci-dessous sont ceux du **2026-10-30**, distincts des identifiants du PLAN-007 du 29 octobre. Rapport et preuves originaux conservés dans le dossier local de preuves de la session du 2026-10-30. Les sources et gardes du dépôt restent l’autorité.
 
-La branche du voile `work/veil-k3m9`, commit `80ddc8c8c98048949eabe4bd14e6c9bf6d321f7d`, ajoute `OmniPageVeil.Opacity` avec défaut 85 %. Son [audit distinct](../audits/audit-branche-voile-2026-10-30.md) est intégré au présent plan. Elle ne clôt aucun des quinze constats. Ses deux écarts documentaires sont suivis séparément, sans renuméroter l’audit initial.
+La branche du voile `work/veil-k3m9`, commit `80ddc8c8c98048949eabe4bd14e6c9bf6d321f7d`, ajoute `OmniPageVeil.Opacity` avec défaut 85 %. Son [audit distinct](../../../audits/audit-branche-voile-2026-10-30.md) est intégré au présent plan. Elle ne clôt aucun des quinze constats. Ses deux écarts documentaires sont suivis séparément, sans renuméroter l’audit initial.
 
 ## Priorités et traçabilité
 

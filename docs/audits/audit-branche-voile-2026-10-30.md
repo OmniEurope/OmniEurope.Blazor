@@ -18,7 +18,7 @@ Aucun défaut fonctionnel supplémentaire retenu dans ce périmètre ; deux éca
 | VEIL-DOC-001 | Faible | `eng/scripts-probe/veil.mjs:108` annonce « opaque » alors que la vraie sonde contrôle et relève `color(srgb 1 1 1 / 0.85)`. Les assertions restent correctes. | Décrire le fond à 85 % et conserver le relevé après nouvelle exécution. |
 | VEIL-DOC-002 | Faible | `CHANGELOG.md:13` classe le défaut passé de 100 à 85 sous Added ; `docs/versioning.md:6` impose Changed ou Breaking changes. La migration `Opacity="100"` est bien présente. | Classer le changement de défaut et sa migration sous Changed, sans choisir de nouvelle version. |
 
-Ces deux constats sont suivis au lot 6 du [PLAN-009](../plans/PLAN-009-remediation-audit-360-2026-10-30.md). Ils n’ont pas été corrigés pendant l’audit.
+Ces deux constats sont suivis au lot 6 du [PLAN-009](../plans/archive/serie-2/PLAN-009-remediation-audit-360-2026-10-30.md). Ils n’ont pas été corrigés pendant l’audit.
 
 ## Preuves sur le commit de la branche
 

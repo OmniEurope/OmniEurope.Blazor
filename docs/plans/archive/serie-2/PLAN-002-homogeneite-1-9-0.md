@@ -1,12 +1,12 @@
 # PLAN-002 : homogénéité, qualité et sécurité (1.9.0)
 
-Source : audit du 2026-10-22 (rapport local de l'audit, constats IDX, L1 à L4). Décision du propriétaire du 2026-10-22 : l'API publique est rendue homogène sans couche de compatibilité ni alias `[Obsolete]` (même motif qu'en 1.2.0, voir [versioning.md](../versioning.md)) ; la version suivante est la `1.9.0`. Exigence première : **tout fonctionne à la fin** (compilation, suites, gardes, vitrine vérifiée en navigateur, éditeur de code Monaco compris).
+Source : audit du 2026-10-22 (rapport local de l'audit, constats IDX, L1 à L4). Décision du propriétaire du 2026-10-22 : l'API publique est rendue homogène sans couche de compatibilité ni alias `[Obsolete]` (même motif qu'en 1.2.0, voir [versioning.md](../../../versioning.md)) ; la version suivante est la `1.9.0`. Exigence première : **tout fonctionne à la fin** (compilation, suites, gardes, vitrine vérifiée en navigateur, éditeur de code Monaco compris).
 
 Branche de travail : `release/1.9.0`, depuis `develop`. Trois lots au plus en parallèle, chacun dans son worktree, intégrés et vérifiés par l'orchestrateur avant le lot suivant.
 
 ## Conventions cibles
 
-1. Zone remplaçable : suffixe `Content` (`HeaderContent`, `FooterContent`, `ActionsContent`, `SummaryContent`, `SidePanelContent`) ; `docs/ui-conventions.md` aligné sur [public-api-conventions.md](../public-api-conventions.md).
+1. Zone remplaçable : suffixe `Content` (`HeaderContent`, `FooterContent`, `ActionsContent`, `SummaryContent`, `SidePanelContent`) ; `docs/ui-conventions.md` aligné sur [public-api-conventions.md](../../../public-api-conventions.md).
 2. `Title` = titre visible d'une tuile ou d'un conteneur ; `Label` = nom d'un champ ou nom accessible (`OmniStatTile.Label` devient `Title`, `OmniDescriptionItem.Label` devient `Term`, `OmniChart.Title` devient `Label` s'il n'est que le nom accessible).
 3. `OmniTextTone` reçoit `Info` et `Warning` ; `OmniHeaderTone` devient `OmniHeaderSurface` (paramètre `Surface`).
 4. Une seule énumération d'orientation `OmniOrientation` (ex-`OmniStackOrientation`), sens ARIA (direction de l'élément lui-même) ; les booléens `Vertical` deviennent `Orientation`.
@@ -31,7 +31,7 @@ Branche de travail : `release/1.9.0`, depuis `develop`. Trois lots au plus en pa
 | 3 | X1 | `OmniDataGrid` : `EstimatedRowHeight` nullable (hauteur de ligne de la densité), échec d'auto-fit écrit en console, plancher de 1,5 rem des contrôles d'en-tête | fusionné |
 | 3 | X2 | Un seul retrait de l'écran de démarrage (`hideSplash` retiré), clavier des onglets dans le script seul, un seul validateur de longueur CSS | fusionné |
 | 3 | Y1 | `OmniButton.Icon` (icône seule = `Icon` sans `ChildContent`), `OmniPopover.TriggerIcon`, plancher de 24 px de tout bouton (actions de ligne de grille à la hauteur des pastilles) | fusionné |
-| 4 | Livraison | `CHANGELOG.md` (Breaking changes et migrations), `versioning.md` (rupture assumée 1.9.0), version du paquet, `public-api.txt`, couverture, CRAP, sondes de la vitrine (passe complète `-JsCoverage`), vérification en navigateur | en cours |
+| 4 | Livraison | `CHANGELOG.md` (Breaking changes et migrations), `versioning.md` (rupture assumée 1.9.0), version du paquet, `public-api.txt`, couverture, CRAP, sondes de la vitrine (passe complète `-JsCoverage`), vérification en navigateur | fait (1.9.0 publiée, archivé le 2026-11-12) |
 
 ## Critère de fin de chaque lot
 

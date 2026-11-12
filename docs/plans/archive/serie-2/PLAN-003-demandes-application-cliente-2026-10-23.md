@@ -5,7 +5,7 @@ sur `release/1.9.0`, qui doit rester compilable entre deux commits (l'applicatio
 sources). Deux lots au plus en parallèle, chacun dans son worktree, relus et intégrés par l'orchestrateur ;
 les sondes de la vitrine sont lancées par l'orchestrateur seul, une passe à la fois, après la fusion.
 
-Règles communes : noms suivant [public-api-conventions.md](../public-api-conventions.md) ; textes du paquet
+Règles communes : noms suivant [public-api-conventions.md](../../../public-api-conventions.md) ; textes du paquet
 dans les 24 langues ; `docs/public-api.txt`, l'index des composants, le CHANGELOG `[1.9.0]` et le guide de la
 famille à jour ; aucun nom d'application cliente dans un fichier suivi.
 
