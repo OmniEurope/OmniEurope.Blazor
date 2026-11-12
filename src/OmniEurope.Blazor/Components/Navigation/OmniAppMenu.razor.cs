@@ -14,7 +14,7 @@ namespace OmniEurope.Blazor.Components;
 /// <remarks>
 /// A menu whose markup writes none of <see cref="Appearance"/>, <see cref="AppearanceChanged"/>,
 /// <see cref="Preset"/>, <see cref="PresetChanged"/>, <see cref="Palette"/>, <see cref="PaletteChanged"/>,
-/// <see cref="Font"/> and <see cref="FontChanged"/> follows the user's <see cref="OmniAppearanceState"/>: the
+/// <see cref="Font"/>, <see cref="FontChanged"/>, <see cref="Backdrop"/> and <see cref="BackdropChanged"/> follows the user's <see cref="OmniAppearanceState"/>: the
 /// look in force comes from it, and the mode picked and the look drawn are written to it. Writing any of them keeps the menu
 /// controlled by the host, as before. The choice is made at the first render; <see cref="OnThemeOpen"/>
 /// still opens the host's appearance window, which can follow the state too.
@@ -114,6 +114,17 @@ public partial class OmniAppMenu : IDisposable
     /// <summary>Raised with the font drawn by the random button; unbound, the button draws no font.</summary>
     [Parameter]
     public EventCallback<OmniThemeFont?> FontChanged { get; set; }
+
+    /// <summary>The backdrop in force, which the random button never draws again; null for the theme's own.</summary>
+    [Parameter]
+    public OmniThemeBackdrop? Backdrop { get; set; }
+
+    /// <summary>
+    /// Raised with the backdrop drawn by the random button, among those of <see cref="OmniThemePresets.BackdropsFor"/>
+    /// for the theme drawn; unbound, the button draws no backdrop.
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniThemeBackdrop?> BackdropChanged { get; set; }
 
     /// <summary>Raised by the Theme row, after the menu closes: the host opens its appearance window.</summary>
     [Parameter, EditorRequired]
@@ -229,7 +240,7 @@ public partial class OmniAppMenu : IDisposable
         if (!_decided)
         {
             _decided = true;
-            _shared = AppearanceFollower.Start(SharedAppearance, AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged), nameof(Font), nameof(FontChanged)),
+            _shared = AppearanceFollower.Start(SharedAppearance, AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged), nameof(Font), nameof(FontChanged), nameof(Backdrop), nameof(BackdropChanged)),
                 () => InvokeAsync(() =>
                 {
                     FollowState();
@@ -264,10 +275,12 @@ public partial class OmniAppMenu : IDisposable
         Preset = state.Preset;
         Palette = state.Palette;
         Font = state.Font;
+        Backdrop = state.Backdrop;
         AppearanceChanged = EventCallback.Factory.Create<OmniAppearance>(this, state.SetAppearanceAsync);
         PresetChanged = EventCallback.Factory.Create<OmniThemePreset?>(this, state.SetPresetAsync);
         PaletteChanged = EventCallback.Factory.Create<OmniThemePalette?>(this, state.SetPaletteAsync);
         FontChanged = EventCallback.Factory.Create<OmniThemeFont?>(this, state.SetFontAsync);
+        BackdropChanged = EventCallback.Factory.Create<OmniThemeBackdrop?>(this, state.SetBackdropAsync);
     }
 
     private async Task SetOpenAsync(bool open)
@@ -290,10 +303,10 @@ public partial class OmniAppMenu : IDisposable
     // The list offers only the codes of Languages, and no empty choice.
     private Task SetLanguageAsync(string? code) => LanguageChanged.InvokeAsync(code!);
 
-    // Following the state, the look drawn is written once, never theme by palette by font.
+    // Following the state, the look drawn is written once, never theme by palette by font by backdrop.
     private Task RandomLookAsync()
     {
-        Task Draw() => AppearanceChoices.RandomLookAsync(Preset, Palette, Font, PresetChanged, PaletteChanged, FontChanged);
+        Task Draw() => AppearanceChoices.RandomLookAsync(Preset, Palette, Font, PresetChanged, PaletteChanged, FontChanged, Backdrop, BackdropChanged);
         return _shared?.State is { } state ? state.BatchAsync(Draw) : Draw();
     }
 

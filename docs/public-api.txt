@@ -2549,6 +2549,8 @@ property public OmniEurope.Blazor.Components.OmniAnsiText.Mode : OmniEurope.Blaz
 property public OmniEurope.Blazor.Components.OmniAnsiText.Text : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Appearance : OmniEurope.Blazor.Components.OmniAppearance {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.AppearanceChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniAppearance> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppMenu.Backdrop : OmniEurope.Blazor.Components.OmniThemeBackdrop? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppMenu.BackdropChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniThemeBackdrop?> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Font : OmniEurope.Blazor.Components.OmniThemeFont? {get(public);set(public)} [Parameter]

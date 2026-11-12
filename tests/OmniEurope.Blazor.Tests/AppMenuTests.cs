@@ -48,6 +48,7 @@ public sealed class AppMenuTests : OmniBunitContext
         var theme = OmniThemePresets.All.Single(item => item.Name == "Papier");
         OmniThemePalette? palette = OmniThemePalettes.All.Single(item => item.Name == "Mono");
         OmniThemeFont? font = OmniThemeFonts.All.Single(item => item.Name == "JetBrains Mono");
+        OmniThemeBackdrop? backdrop = null;
         var opened = 0;
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.AppearanceChanged, _ => { })
@@ -59,14 +60,17 @@ public sealed class AppMenuTests : OmniBunitContext
             var themeBefore = theme;
             var paletteBefore = (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name;
             var fontBefore = (font ?? OmniThemePresets.DefaultFontFor(theme)).Name;
-            var events = (Theme: 0, Palette: 0, Font: 0);
+            var backdropBefore = (backdrop ?? OmniThemePresets.DefaultBackdropFor(theme)).Name;
+            var events = (Theme: 0, Palette: 0, Font: 0, Backdrop: 0);
             menu.Render(parameters => parameters
                 .Add(component => component.Preset, theme)
                 .Add(component => component.Palette, palette)
                 .Add(component => component.Font, font)
+                .Add(component => component.Backdrop, backdrop)
                 .Add(component => component.PresetChanged, value => { events.Theme++; theme = value ?? OmniThemePresets.All[0]; })
                 .Add(component => component.PaletteChanged, value => { events.Palette++; palette = value; })
-                .Add(component => component.FontChanged, value => { events.Font++; font = value; }));
+                .Add(component => component.FontChanged, value => { events.Font++; font = value; })
+                .Add(component => component.BackdropChanged, value => { events.Backdrop++; backdrop = value; }));
 
             var random = menu.Find(".omni-app-menu__theme-row > .omni-app-menu__random");
             Assert.Equal("Tirer au hasard un thème, une palette et une police", random.GetAttribute("aria-label"));
@@ -74,10 +78,12 @@ public sealed class AppMenuTests : OmniBunitContext
             Assert.Contains("omni-button--icon", random.ClassList);
             random.Click();
 
-            Assert.Equal((1, 1, 1), events);
+            // The same draw as the window's Random button: theme, palette, font and backdrop (owner decision of 2026-11-12).
+            Assert.Equal((1, 1, 1, 1), events);
             Assert.NotSame(themeBefore, theme);
             Assert.NotEqual(paletteBefore, (palette ?? OmniThemePresets.DefaultPaletteFor(theme)).Name);
             Assert.NotEqual(fontBefore, (font ?? OmniThemePresets.DefaultFontFor(theme)).Name);
+            Assert.NotEqual(backdropBefore, (backdrop ?? OmniThemePresets.DefaultBackdropFor(theme)).Name);
         }
 
         Assert.NotEmpty(menu.FindAll(".omni-app-menu__card"));

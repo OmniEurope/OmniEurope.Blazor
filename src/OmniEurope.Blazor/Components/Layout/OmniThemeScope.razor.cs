@@ -34,6 +34,9 @@ public partial class OmniThemeScope
     private bool _canvasRunning;
     private bool _canvasDrawn;
     private bool _canvasMotion;
+    private bool _canvasSyncing;
+    private bool _canvasSyncAgain;
+    private bool _canvasTokensChanged;
     private AppearanceFollower? _shared;
     private bool _decided;
     private bool _waiting;
@@ -358,9 +361,39 @@ public partial class OmniThemeScope
     /// Starts the canvas field when the theme asks for one, restarts it when the motion setting
     /// changes, repaints it with the new colours when the tokens changed, and stops it when the theme
     /// no longer asks. While it draws, the scope drops the CSS field it replaces
-    /// (`omni-theme-scope--canvas`); without WebGL the CSS field stays.
+    /// (`omni-theme-scope--canvas`); without WebGL the CSS field stays. A render that comes while a
+    /// previous one is still talking to the script (draws in a row) does not run alongside it: the
+    /// running pass goes round once more and syncs the latest parameters, so the old script is swept
+    /// and disposed once.
     /// </summary>
     private async Task SyncCanvasAsync(bool tokensChanged)
+    {
+        _canvasTokensChanged |= tokensChanged;
+        if (_canvasSyncing)
+        {
+            _canvasSyncAgain = true;
+            return;
+        }
+
+        _canvasSyncing = true;
+        try
+        {
+            do
+            {
+                _canvasSyncAgain = false;
+                var changed = _canvasTokensChanged;
+                _canvasTokensChanged = false;
+                await SyncCanvasOnceAsync(changed);
+            }
+            while (_canvasSyncAgain);
+        }
+        finally
+        {
+            _canvasSyncing = false;
+        }
+    }
+
+    private async Task SyncCanvasOnceAsync(bool tokensChanged)
     {
         var script = CanvasField;
         if (script is null)

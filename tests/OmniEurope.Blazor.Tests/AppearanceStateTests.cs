@@ -244,6 +244,8 @@ public sealed class AppearanceStateTests : OmniBunitContext
         // The shipped theme was in force: the draw is any other, and the menu stays open to draw again.
         host.WaitForAssertion(() => Assert.NotNull(State.Preset));
         Assert.NotSame(OmniThemePresets.All[0], State.Preset);
+        // The backdrop is drawn too, as by the window: another than the shipped theme's own.
+        Assert.NotEqual(OmniThemePresets.All[0].Backdrop.Name, AppearanceChoices.BackdropName(State.Preset, State.Backdrop));
         Assert.NotEmpty(host.FindAll(".omni-app-menu__card"));
         await Services.GetRequiredService<OmniPreferences>().SyncAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.Equal(savedBefore + 1, _store.Saved.Count);

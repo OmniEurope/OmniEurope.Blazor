@@ -319,6 +319,35 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Renders_that_overlap_while_the_old_canvas_script_stops_hand_over_once_without_throwing()
+    {
+        // Random draws in a row (the dice of the application menu) render again before the old canvas
+        // script has finished sweeping: the second render must not dispose a module the first already let go.
+        var blackHole = JSInterop.SetupModule(OmniModules.BlackHole);
+        blackHole.Mode = JSRuntimeMode.Loose;
+        blackHole.Setup<bool>("start", _ => true).SetResult(true);
+        var sweep = blackHole.SetupVoid("sweep");
+        var stars = JSInterop.SetupModule(OmniModules.PixelStars);
+        stars.Mode = JSRuntimeMode.Loose;
+        stars.Setup<bool>("start", _ => true).SetResult(true);
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Preset, Theme("Ardoise"))
+            .Add(component => component.Backdrop, Named("Trou noir"))
+            .AddChildContent("page"));
+        scope.WaitForAssertion(() => Assert.Single(blackHole.Invocations["start"]));
+
+        scope.Render(parameters => parameters.Add(component => component.Backdrop, Named("Étoiles")));
+        scope.Render(parameters => parameters.Add(component => component.BackdropMotion, false));
+        await scope.InvokeAsync(sweep.SetVoidResult);
+
+        scope.WaitForAssertion(() => Assert.NotEmpty(stars.Invocations["start"]));
+        Assert.Single(blackHole.Invocations["sweep"]);
+        Assert.Single(scope.FindAll("canvas.omni-theme-scope__canvas"));
+        // The last render's motion setting is the one the stars run with.
+        Assert.Equal(false, stars.Invocations["start"][^1].Arguments[2]);
+    }
+
+    [Fact]
     public void A_backdrop_handed_to_a_scope_under_Essentiel_is_drawn()
     {
         var module = JSInterop.SetupModule(OmniModules.Theme);
