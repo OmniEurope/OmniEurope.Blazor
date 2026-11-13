@@ -201,6 +201,7 @@
         "contentHash": "mPbcHzcmIWGNKtZzxb6En97frT0f//rFjx0RQMXwkjxMnieiQ+qIp3hWHX95kklZHynOn4BY/FtRCIE9MfKTQQ=="
       }
     },
+    "net10.0/win-x64": {},
     "net11.0": {
       "HtmlSanitizer": {
         "type": "Direct",
@@ -336,6 +337,7 @@
         "resolved": "11.0.0",
         "contentHash": "JZlrW64sFEC8jptrWNUD/SsTiZXgH1fcAZawIUyVsAUGGg/FeEAKV8SfYh+wH8N009BAkCl38KRO/gYZu+QUhA=="
       }
-    }
+    },
+    "net11.0/win-x64": {}
   }
 }
