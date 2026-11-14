@@ -24,6 +24,10 @@
     <OmniEuropeConsumerKey Condition="'$(OmniEuropeConsumerKey)' == '' and '$(_OmniEuropeConsumerSolution)' != ''">$([System.IO.Path]::GetFileName($(_OmniEuropeConsumerSolution.TrimEnd('\').TrimEnd('/'))))-$([MSBuild]::StableStringHash($(_OmniEuropeConsumerSolution.ToLowerInvariant())).ToString('x8'))</OmniEuropeConsumerKey>
     <BaseIntermediateOutputPath Condition="'$(OmniEuropeConsumerKey)' != ''">$(MSBuildProjectDirectory)\obj\consumers\$(OmniEuropeConsumerKey)\</BaseIntermediateOutputPath>
     <BaseOutputPath Condition="'$(OmniEuropeConsumerKey)' != ''">$(MSBuildProjectDirectory)\bin\consumers\$(OmniEuropeConsumerKey)\</BaseOutputPath>
+    <!-- A consumer restores these projects with its own settings, a RuntimeIdentifier included (a MAUI app):
+         its lock file lives in its own obj, so it never rewrites the repository's packages.lock.json with
+         runtime sections that a restore of this repository would then refuse in locked mode. -->
+    <NuGetLockFilePath Condition="'$(OmniEuropeConsumerKey)' != ''">$(BaseIntermediateOutputPath)packages.lock.json</NuGetLockFilePath>
     <!-- With a per-consumer base, the SDK only excludes that base from the default items: the repository's
          own obj and bin (generated sources of earlier builds) must stay out of the compilation as well. -->
     <DefaultItemExcludes>$(DefaultItemExcludes);obj/**;bin/**</DefaultItemExcludes>

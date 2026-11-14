@@ -139,6 +139,19 @@ foreach ($framework in $libraryFrameworks) {
     }
 }
 
+# The RID-agnostic libraries never lock a runtime section: one appears when a restore runs with a
+# RuntimeIdentifier (an application with a RID restoring them through a ProjectReference, `-r` on the
+# command line), and a later restore without it then fails in locked mode. Consumer builds keep their
+# own lock file under their per-consumer obj (Directory.Build.props), so only a restore of this
+# repository with a RID can write one here.
+foreach ($ridAgnosticLock in @('src/OmniEurope.Blazor/packages.lock.json', 'src/OmniEurope.Blazor.Analyzers/packages.lock.json', 'eng/OmniEurope.Analyzers/packages.lock.json')) {
+    $lock = Get-Content -LiteralPath (Join-Path $repoRoot $ridAgnosticLock) -Raw | ConvertFrom-Json
+    $runtimeSections = @($lock.dependencies.PSObject.Properties.Name | Where-Object { $_.Contains('/') })
+    if ($runtimeSections.Count -gt 0) {
+        throw "$ridAgnosticLock locks runtime sections ($($runtimeSections -join ', ')); restore it without a RuntimeIdentifier."
+    }
+}
+
 $hybridLock = Get-Content -LiteralPath (Join-Path $repoRoot 'samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json') -Raw | ConvertFrom-Json
 $hybridFramework = @($hybridLock.dependencies.PSObject.Properties | Where-Object Name -Like 'net11.0-windows*')[0].Value
 foreach ($id in @('Microsoft.Maui.Controls', 'Microsoft.AspNetCore.Components.WebView.Maui')) {
