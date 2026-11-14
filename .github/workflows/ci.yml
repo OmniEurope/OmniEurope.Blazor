@@ -161,6 +161,7 @@ jobs:
           ./eng/Test-Package.ps1 -PackagePath $package.FullName -SymbolPackagePath $symbols.FullName
           ./eng/Test-PackageFixtures.ps1 -PackagePath $package.FullName
           ./eng/Test-Budgets.ps1 -PackagePath $package.FullName
+          ./eng/Test-DeterministicPack.ps1 -PackagePath $package.FullName -SymbolPackagePath $symbols.FullName
       - name: Record validated package provenance
         shell: pwsh
         run: |

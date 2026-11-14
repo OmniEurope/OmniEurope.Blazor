@@ -26,6 +26,10 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <!-- Deterministic pack (Deterministic is on in Directory.Build.props): NuGet stamps every ZIP entry with this
+         fixed time instead of the pack time, so two packs of one build are byte for byte identical; a date
+         string, not a boolean ("true" is ignored). eng/Test-DeterministicPack.ps1 proves it in CI. -->
+    <DeterministicTimestamp Condition="'$(DeterministicTimestamp)' == ''">2000-01-01T00:00:00Z</DeterministicTimestamp>
   </PropertyGroup>
 
   <ItemGroup>
