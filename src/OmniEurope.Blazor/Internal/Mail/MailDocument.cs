@@ -111,7 +111,12 @@ internal static class MailDocument
 
     /// <summary>
     /// Writes each value in place of its token: in a text, as a text node of its own, so no value is ever
-    /// read as markup; in a link's address, as the whole address, kept only for http, https and mailto.
+    /// read as markup. In a link's address the address is never decoded: a token that is the whole address
+    /// (spaces around it aside) is replaced by its value as is; a token inside a larger address is replaced by
+    /// its value percent-encoded (<see cref="MailTemplateText.ReplaceInAddress"/>), the rest of the address
+    /// kept as written, so a literal <c>%26</c> keeps its meaning and a value adds no query parameter or
+    /// fragment. Either way the resulting address is kept only when it is absolute and http, https or mailto;
+    /// otherwise the link loses its <c>href</c>.
     /// </summary>
     private static void Substitute(IElement body, MailTemplateText text)
     {
@@ -134,13 +139,16 @@ internal static class MailDocument
         foreach (var link in body.QuerySelectorAll("a[href]").ToArray())
         {
             var href = link.GetAttribute("href")!;
-            var decoded = href.Contains('%', StringComparison.Ordinal) ? Uri.UnescapeDataString(href) : href;
-            if (!MailTemplateText.HasToken(decoded))
+            var tokens = MailTemplateText.AddressTokens(href);
+            if (tokens.Count == 0)
             {
                 continue;
             }
 
-            var address = text.Replace(decoded).Trim();
+            // A token as long as the trimmed address is the whole address: a match never starts or ends with a space.
+            var address = tokens[0].Length == href.Trim().Length
+                ? text.ValueOf(tokens[0].Groups["name"].Value).Trim()
+                : text.ReplaceInAddress(href);
             if (IsSafeAddress(address))
             {
                 link.SetAttribute("href", address);

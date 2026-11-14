@@ -242,6 +242,43 @@ public sealed class MailRendererTests
     }
 
     [Fact]
+    public void AVariableInsideAnAddress_IsEncoded_AddsNoParameter_AndKeepsTheTemplatesLiteralEscapes()
+    {
+        var result = OmniMailRenderer.Render(
+            "<p><a href=\"https://x.test/?a=1%26b%3Dc%23d&amp;q={{token}}\">recherche</a> <a href=\"https://x.test/{{ dossier }}/vue\">dossier</a></p>",
+            new Dictionary<string, string?> { ["token"] = "a&b=c#d", ["dossier"] = "javascript:alert(1)" });
+
+        var links = ContentCell(Parse(result)).QuerySelectorAll("a");
+        // The template's own %26, %3D and %23 stay encoded; the value is one encoded query value, not a new parameter or fragment.
+        Assert.Equal("https://x.test/?a=1%26b%3Dc%23d&q=a%26b%3Dc%23d", links[0].GetAttribute("href"));
+        var address = new Uri(links[0].GetAttribute("href")!);
+        Assert.Equal(string.Empty, address.Fragment);
+        Assert.Equal(2, address.Query.TrimStart('?').Split('&').Length);
+        // A token with spaces inside a path is found too, and its value cannot change the scheme.
+        Assert.Equal("https://x.test/javascript%3Aalert%281%29/vue", links[1].GetAttribute("href"));
+    }
+
+    [Fact]
+    public void AVariableThatIsTheWholeAddress_IsWrittenAsIs_AndKeptOnlyForASafeScheme()
+    {
+        var result = OmniMailRenderer.Render(
+            "<p><a href=\" {{good}} \">ouvrir</a> <a href=\"{{bad}}\">piège</a> <a href=\"{{tail}}/suite\">relatif</a></p>",
+            new Dictionary<string, string?>
+            {
+                ["good"] = "https://exemple.eu/d?x=%26&y=1#haut",
+                ["bad"] = "javascript:alert(1)",
+                ["tail"] = "https://exemple.eu"
+            });
+
+        var links = ContentCell(Parse(result)).QuerySelectorAll("a");
+        Assert.Equal("https://exemple.eu/d?x=%26&y=1#haut", links[0].GetAttribute("href"));
+        Assert.Null(links[1].GetAttribute("href"));
+        // A token that only starts the address is encoded like any part: the result is relative, so it is dropped.
+        Assert.Null(links[2].GetAttribute("href"));
+        Assert.DoesNotContain("javascript", result.Html, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
     public void AnInvariantCulture_WritesEnglishAsTheLanguage()
     {
         var result = OmniMailRenderer.Render("<p>x</p>", options: new OmniMailRenderOptions { Language = string.Empty });

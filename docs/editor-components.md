@@ -423,8 +423,12 @@ Le paquet n'envoie rien : `OmniMailRenderResult` va à l'expéditeur de l'applic
 `FindVariables(modèle)` liste les variables d'un modèle.
 
 - Sûreté : le modèle est assaini comme la valeur de l'éditeur ; une valeur est écrite comme texte, jamais lue
-  comme balisage ; l'adresse d'un lien faite d'une variable n'est gardée que si elle est une adresse absolue
-  `http`, `https` ou `mailto`, le lien perdant son adresse sinon.
+  comme balisage. L'adresse d'un lien n'est jamais décodée : une variable qui forme toute l'adresse
+  (`href="{{lien}}"`) est remplacée par sa valeur telle quelle ; une variable placée dans une adresse plus
+  longue (`https://exemple.eu/?q={{terme}}`) est remplacée par sa valeur encodée en pourcentage
+  (`Uri.EscapeDataString`), le reste de l'adresse restant tel qu'écrit : un `%26` du modèle garde son sens et
+  une valeur n'ajoute ni paramètre ni fragment. Dans les deux cas l'adresse obtenue n'est gardée que si elle
+  est absolue `http`, `https` ou `mailto`, le lien perdant son adresse sinon.
 - Mise en page : tableaux de présentation, chaque style écrit sur son élément (Gmail et Outlook ignorent les
   feuilles de style et les classes), classes d'alignement et de taille de l'éditeur changées en déclarations,
   carte de `Width` pixels (600 par défaut, de 320 à 1200), tenue pour Outlook par un tableau de largeur fixe

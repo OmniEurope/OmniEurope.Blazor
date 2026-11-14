@@ -238,8 +238,82 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         var markdown = Exporter.ToMarkdown(await Exporter.ReadAsync(export, Xunit.TestContext.Current.CancellationToken));
 
         Assert.Contains("# Titre sur deux lignes", markdown, StringComparison.Ordinal);
-        Assert.Contains("- Recherche : a|b c", markdown, StringComparison.Ordinal);
+        // A header value is escaped like a cell: its pipe is literal text, not a table separator.
+        Assert.Contains("- Recherche : a\\|b c", markdown, StringComparison.Ordinal);
         Assert.Contains("| 7 | x\\|y | un<br>deux<br>trois<br>quatre |", markdown, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void EscapeCell_AnEscapedPipeInTheData_StaysOneCellWithItsLiteralText()
+    {
+        // The backslash is doubled before the pipe is escaped: "a\\\|b" reads back as the text a\|b in one cell,
+        // where the old "a\\|b" was an escaped backslash followed by a real cell separator.
+        Assert.Equal("a\\\\\\|b", OmniTableExporter.EscapeCell("a\\|b"));
+    }
+
+    [Fact]
+    public void EscapeCell_RawHtmlInTheData_IsInert_AndALineBreakStaysARealBr()
+    {
+        var cell = OmniTableExporter.EscapeCell("<img src=x onerror=alert(1)>\n<script>x</script>");
+
+        Assert.DoesNotContain("<img", cell, StringComparison.Ordinal);
+        Assert.DoesNotContain("<script", cell, StringComparison.Ordinal);
+        Assert.Equal("&lt;img src=x onerror=alert\\(1\\)&gt;<br>&lt;script&gt;x&lt;/script&gt;", cell);
+        Assert.Equal("&lt;https://exemple.eu&gt;", OmniTableExporter.EscapeCell("<https://exemple.eu>"));
+    }
+
+    [Fact]
+    public void EscapeCell_MarkdownLinksImagesEmphasisAndCode_AreNotActive()
+    {
+        Assert.Equal("\\[x\\]\\(javascript:alert\\(1\\)\\)", OmniTableExporter.EscapeCell("[x](javascript:alert(1))"));
+        Assert.Equal("\\!\\[\\]\\(https://exemple.eu/p.png\\)", OmniTableExporter.EscapeCell("![](https://exemple.eu/p.png)"));
+        Assert.Equal("\\*gras\\* \\_ital\\_ \\`code\\` \\~\\~barré\\~\\~ \\# titre", OmniTableExporter.EscapeCell("*gras* _ital_ `code` ~~barré~~ # titre"));
+    }
+
+    [Fact]
+    public void EscapeCell_AnAmpersand_IsWrittenAsItsReference_SoAnEntityOfTheDataReadsBackAsTyped()
+    {
+        Assert.Equal("R&amp;D &amp;lt;", OmniTableExporter.EscapeCell("R&D &lt;"));
+        Assert.Equal("un<br>deux<br>trois<br>quatre", OmniTableExporter.EscapeCell("un\r\ndeux\ntrois\rquatre"));
+        Assert.Equal("fin<br>", OmniTableExporter.EscapeCell("fin\r"));
+    }
+
+    [Fact]
+    public void EscapeInline_StaysOnOneLine_AndOpensNoBlockAtTheStartOfALine()
+    {
+        Assert.Equal("a\\|b c &lt;b&gt; d e", OmniTableExporter.EscapeInline("a|b\r\nc <b>\nd\re"));
+        Assert.Equal("\\- liste", OmniTableExporter.EscapeInline("- liste"));
+        Assert.Equal("  \\+ liste", OmniTableExporter.EscapeInline("  + liste"));
+        Assert.Equal("\\=== souligné", OmniTableExporter.EscapeInline("=== souligné"));
+        Assert.Equal("12\\. ordonnée", OmniTableExporter.EscapeInline("12. ordonnée"));
+        Assert.Equal("\\# titre", OmniTableExporter.EscapeInline("# titre"));
+        // Digits not followed by a dot, a dot without digits, and a dash inside the text open nothing.
+        Assert.Equal("2026-09-26", OmniTableExporter.EscapeInline("2026-09-26"));
+        Assert.Equal("42", OmniTableExporter.EscapeInline("42"));
+        Assert.Equal(". point", OmniTableExporter.EscapeInline(". point"));
+        Assert.Equal("   ", OmniTableExporter.EscapeInline("   "));
+        // A cell never starts a line: its leading dash stays as is.
+        Assert.Equal("- x", OmniTableExporter.EscapeCell("- x"));
+    }
+
+    [Fact]
+    public async Task ToMarkdown_HostileData_LeavesNoActiveHtmlOrLinkInTheDocument()
+    {
+        var export = Export(0, []) with
+        {
+            Title = "<script>alert(1)</script>",
+            Fields = [new("[lien](javascript:x)", "<img src=x onerror=y>")],
+            EmptyText = null,
+            LoadPage = _ => Task.FromResult(new OmniDataGridResult<Row>([new Row(1, "[x](javascript:alert(1))", "<img src=x onerror=alert(1)>")], 1))
+        };
+
+        var markdown = Exporter.ToMarkdown(await Exporter.ReadAsync(export, Xunit.TestContext.Current.CancellationToken));
+
+        Assert.DoesNotContain("<script", markdown, StringComparison.Ordinal);
+        Assert.DoesNotContain("<img", markdown, StringComparison.Ordinal);
+        Assert.DoesNotContain("](javascript", markdown, StringComparison.Ordinal);
+        Assert.Contains("# &lt;script&gt;alert\\(1\\)&lt;/script&gt;", markdown, StringComparison.Ordinal);
+        Assert.Contains("| 1 | \\[x\\]\\(javascript:alert\\(1\\)\\) | &lt;img src=x onerror=alert\\(1\\)&gt; |", markdown, StringComparison.Ordinal);
     }
 
     [Fact]

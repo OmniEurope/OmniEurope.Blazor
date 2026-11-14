@@ -128,8 +128,9 @@ public sealed class OmniTableExporter
     /// The Markdown document of the rows: the title, the header lines, the row limit, the generation
     /// time (UTC), the rows written against the rows announced (with a note saying why when the table is
     /// partial), then the table. The texts come from the package resources in the current UI culture and
-    /// the numbers are written in the current culture; a cell is written as its text, with its pipes
-    /// escaped and its line breaks replaced.
+    /// the numbers are written in the current culture. Every text of the data (title, header labels and
+    /// values, empty text, column titles, cells) is written inert by <see cref="EscapeInline"/> or
+    /// <see cref="EscapeCell"/>: no HTML, link, image or emphasis of the data is active in the document.
     /// </summary>
     /// <param name="document">The rows to write.</param>
     /// <returns>The Markdown document.</returns>
@@ -209,26 +210,102 @@ public sealed class OmniTableExporter
     }
 
     /// <summary>
-    /// A Markdown table cell's text: a pipe would end the cell and a line break the row, so pipes are
-    /// escaped and line breaks become <c>&lt;br&gt;</c>. Null is an empty cell.
+    /// A Markdown table cell's text, written so the reader sees it as typed and nothing in it is active
+    /// markup: a backslash is doubled and a pipe escaped (<c>\|</c>), so neither ends the cell; the Markdown
+    /// punctuation that opens emphasis, a code span, a link, an image, a heading or a strikethrough
+    /// (<c>` * _ [ ] ( ) ! # ~</c>) is preceded by a backslash; <c>&amp;</c>, <c>&lt;</c> and <c>&gt;</c>
+    /// become their character references, so no HTML tag, autolink or entity of the data is read as one;
+    /// then each line break (CRLF, LF or CR) becomes <c>&lt;br&gt;</c>. Null is an empty cell.
     /// </summary>
     /// <param name="value">The cell text as the reader should see it.</param>
     /// <returns>The escaped cell text.</returns>
-    public static string EscapeCell(string? value) => value is null
-        ? string.Empty
-        : value.Replace("|", "\\|", StringComparison.Ordinal)
-            .Replace("\r\n", "<br>", StringComparison.Ordinal)
-            .Replace("\n", "<br>", StringComparison.Ordinal)
-            .Replace("\r", "<br>", StringComparison.Ordinal);
+    public static string EscapeCell(string? value) => Escape(value, "<br>", lineStart: false);
 
-    /// <summary>A Markdown heading or header value on one line: line breaks become spaces. Null is empty.</summary>
+    /// <summary>
+    /// A Markdown heading, header value or line of text on one line, inert like a cell
+    /// (<see cref="EscapeCell"/>): backslashes, pipes and the punctuation <c>` * _ [ ] ( ) ! # ~</c> are
+    /// preceded by a backslash and <c>&amp;</c>, <c>&lt;</c>, <c>&gt;</c> become character references. A
+    /// leading <c>-</c>, <c>+</c> or <c>=</c>, and the dot after leading digits (<c>1.</c>), are escaped too,
+    /// so a text written at the start of a line does not open a list or a heading underline. Each line break
+    /// becomes a space. Null is empty.
+    /// </summary>
     /// <param name="value">The text to write on one line.</param>
-    /// <returns>The text with its line breaks replaced.</returns>
-    public static string EscapeInline(string? value) => value is null
-        ? string.Empty
-        : value.Replace("\r\n", " ", StringComparison.Ordinal)
-            .Replace('\n', ' ')
-            .Replace('\r', ' ');
+    /// <returns>The escaped text, on one line.</returns>
+    public static string EscapeInline(string? value) => Escape(value, " ", lineStart: true);
+
+    /// <summary>The ASCII punctuation a backslash keeps literal (CommonMark 2.4) that could otherwise start markup in a line.</summary>
+    private const string MarkdownPunctuation = "\\|`*_[]()!#~";
+
+    private static string Escape(string? value, string lineBreak, bool lineStart)
+    {
+        if (value is null)
+        {
+            return string.Empty;
+        }
+
+        var marker = lineStart ? BlockMarkerIndex(value) : -1;
+        var escaped = new StringBuilder(value.Length + 16);
+        for (var index = 0; index < value.Length; index++)
+        {
+            var character = value[index];
+            switch (character)
+            {
+                case '\r' or '\n':
+                    if (character == '\r' && index + 1 < value.Length && value[index + 1] == '\n')
+                    {
+                        index++;
+                    }
+
+                    escaped.Append(lineBreak);
+                    break;
+                case '&':
+                    escaped.Append("&amp;");
+                    break;
+                case '<':
+                    escaped.Append("&lt;");
+                    break;
+                case '>':
+                    escaped.Append("&gt;");
+                    break;
+                default:
+                    if (index == marker || MarkdownPunctuation.Contains(character, StringComparison.Ordinal))
+                    {
+                        escaped.Append('\\');
+                    }
+
+                    escaped.Append(character);
+                    break;
+            }
+        }
+
+        return escaped.ToString();
+    }
+
+    /// <summary>
+    /// Where a text written at the start of a line would open a block: its first <c>-</c>, <c>+</c> or
+    /// <c>=</c> after leading spaces, or the dot after its leading digits; -1 when there is none.
+    /// </summary>
+    private static int BlockMarkerIndex(string value)
+    {
+        var start = 0;
+        while (start < value.Length && value[start] == ' ')
+        {
+            start++;
+        }
+
+        if (start < value.Length && value[start] is '-' or '+' or '=')
+        {
+            return start;
+        }
+
+        var end = start;
+        while (end < value.Length && char.IsAsciiDigit(value[end]))
+        {
+            end++;
+        }
+
+        return end > start && end < value.Length && value[end] == '.' ? end : -1;
+    }
 
     /// <summary>
     /// The rows as comma-separated values (RFC 4180): a heading line, then one line per row, ended by
