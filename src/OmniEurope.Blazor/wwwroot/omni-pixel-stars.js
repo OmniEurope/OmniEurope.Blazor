@@ -16,13 +16,9 @@
 // less motion, which the field follows as it changes. Nothing but the canvas API and a hidden probe element
 // read through the CSSOM is touched, as the strict CSP requires (no style attribute, no style element).
 
+import { createCanvasField, pixelRatio, readColour as readChannels } from './shared/canvas-field.js';
+
 const PIXEL = 2;
-const MAX_PIXEL_RATIO = 2;
-const pixelRatio = () => Math.min(Math.max(window.devicePixelRatio || 1, 1), MAX_PIXEL_RATIO);
-const FRAME_MS = 1000 / 30;
-// Animation frames come every 16.7 ms at 60 Hz, two of them a hair under FRAME_MS apart: without this slack
-// every third frame would be drawn.
-const FRAME_SLACK_MS = 2;
 // A gap longer than this between two frames (the tab was in the background) is not time the sky moved.
 const MAX_STEP_SECONDS = 0.25;
 const TAU = Math.PI * 2;
@@ -35,10 +31,6 @@ const LAYERS = [
     { area: 24000, left: 8, down: 3, strength: 0.85, glint: false },
     { area: 90000, left: 16, down: 6, strength: 1, glint: true },
 ];
-
-const states = new WeakMap();
-// The canvases being drawn, so a canvas the page dropped can be found again and stopped (sweep).
-const running = new Set();
 
 /** A small seeded generator (mulberry32): the same stars every time. */
 function generator(seed) {
@@ -68,40 +60,23 @@ const wrap = (value, size, unit) => Math.floor((((value % size) + size) % size) 
 
 /** A CSS colour token of the scope as an rgb() string, read through a probe element (the CSSOM, which a strict CSP allows). */
 function readColour(scope, token, fallback) {
-    const probe = document.createElement('span');
-    probe.hidden = true;
-    probe.style.color = `var(${token}, ${fallback})`;
-    scope.appendChild(probe);
-    const computed = getComputedStyle(probe).color;
-    probe.remove();
+    const colour = readChannels(scope, token, fallback);
     // rgb() comes on 0..255; a color-mix() comes back as color(srgb ...) on 0..1.
-    const scale = computed.startsWith('color(') ? 255 : 1;
-    const parts = computed.match(/[\d.]+/g) || [];
-    return parts.length >= 3 ? `rgb(${parts.slice(0, 3).map(value => Math.round(Number(value) * scale)).join(' ')})` : fallback;
+    return colour ? `rgb(${colour.channels.map(value => Math.round(value * (255 / colour.max))).join(' ')})` : fallback;
 }
 
 /**
- * Starts drawing the stars on the canvas; returns false when the canvas has no 2D context, in which case the
- * scope keeps the theme's CSS field. moving false draws one still frame. The colours are read from the scope
- * once per size, theme or mode change.
+ * The painter of one canvas, or null when it has no 2D context, in which case the scope keeps the theme's CSS
+ * field. The colours are read from the scope once per size, theme or mode change.
  */
-export function start(canvas, scope, moving) {
-    halt(canvas);
-    if (!canvas || !scope) {
-        return false;
-    }
-
+function prepare(canvas, scope) {
     const context = canvas.getContext('2d');
     if (!context) {
-        return false;
+        return null;
     }
 
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    // The system mode, followed by a scope in System mode: its change swaps the tokens with no .NET round trip.
-    const scheme = window.matchMedia('(prefers-color-scheme: dark)');
-    // elapsed: the seconds the sky has moved; last: the time of the previous frame drawn, 0 after a return to the page.
-    const state = { frame: 0, last: 0, elapsed: 0, moving, reduced, scheme, colours: null, stars: null, stamp: '', resize: null, visibility: null, motion: null };
-    const animated = () => state.moving && !state.reduced.matches;
+    // elapsed: the seconds the sky has moved.
+    const state = { elapsed: 0, colours: null, stars: null, stamp: '' };
 
     const draw = () => {
         const ratio = pixelRatio();
@@ -142,102 +117,35 @@ export function start(canvas, scope, moving) {
         context.globalAlpha = 1;
     };
 
-    const loop = now => {
-        state.frame = 0;
-        // The scope dropped its canvas (another theme): nothing left to draw on.
-        if (!canvas.isConnected) {
-            stop(canvas);
-            return;
-        }
-        if (now - state.last >= FRAME_MS - FRAME_SLACK_MS) {
-            if (state.last) {
-                state.elapsed += Math.min((now - state.last) / 1000, MAX_STEP_SECONDS);
+    return {
+        draw,
+        invalidate: () => {
+            state.colours = null;
+            state.stamp = '';
+        },
+        // The sky moves by the time since the previous frame; none after a return to the page.
+        tick: (now, last) => {
+            if (last) {
+                state.elapsed += Math.min((now - last) / 1000, MAX_STEP_SECONDS);
             }
-            state.last = now;
-            draw();
-        }
-        if (animated() && !document.hidden) {
-            state.frame = requestAnimationFrame(loop);
-        }
+        },
     };
-
-    state.resize = () => {
-        state.colours = null;
-        state.stamp = '';
-        if (!state.frame) {
-            draw();
-        }
-    };
-    state.visibility = () => {
-        if (document.hidden) {
-            return;
-        }
-        // The time spent away from the page is not time the sky moved.
-        state.last = 0;
-        if (animated() && !state.frame) {
-            state.frame = requestAnimationFrame(loop);
-        }
-    };
-    // The system asks for less motion, or no longer does: the field stops on its current frame, or moves again.
-    state.motion = () => {
-        if (!state.reduced.matches) {
-            state.visibility();
-        }
-        else if (state.frame) {
-            cancelAnimationFrame(state.frame);
-            state.frame = 0;
-        }
-    };
-    window.addEventListener('resize', state.resize);
-    document.addEventListener('visibilitychange', state.visibility);
-    state.scheme.addEventListener('change', state.resize);
-    state.reduced.addEventListener('change', state.motion);
-    states.set(canvas, state);
-    running.add(canvas);
-
-    state.last = performance.now();
-    draw();
-    if (animated()) {
-        state.frame = requestAnimationFrame(loop);
-    }
-    return true;
 }
+
+const field = createCanvasField(prepare);
+
+/**
+ * Starts drawing the stars on the canvas; returns false when the canvas has no 2D context, in which case the
+ * scope keeps the theme's CSS field. moving false draws one still frame. The colours are read from the scope
+ * once per size, theme or mode change.
+ */
+export const start = field.start;
 
 /** Repaints with the colours in force after the scope's tokens changed (another palette, another mode). */
-export function refresh(canvas) {
-    const state = canvas ? states.get(canvas) : undefined;
-    if (state) {
-        state.resize();
-    }
-}
+export const refresh = field.refresh;
 
 /** Stops drawing. */
-export function stop(canvas) {
-    halt(canvas);
-}
-
-function halt(canvas) {
-    const state = canvas ? states.get(canvas) : undefined;
-    if (!state) {
-        return;
-    }
-
-    if (state.frame) {
-        cancelAnimationFrame(state.frame);
-    }
-    window.removeEventListener('resize', state.resize);
-    document.removeEventListener('visibilitychange', state.visibility);
-    state.scheme.removeEventListener('change', state.resize);
-    state.reduced.removeEventListener('change', state.motion);
-    states.delete(canvas);
-    running.delete(canvas);
-}
+export const stop = field.stop;
 
 /** Stops every canvas this module draws that is no longer in the page (the scope left the theme). */
-export function sweep() {
-    for (const canvas of [...running]) {
-        if (!canvas.isConnected) {
-            stop(canvas);
-        }
-    }
-}
+export const sweep = field.sweep;

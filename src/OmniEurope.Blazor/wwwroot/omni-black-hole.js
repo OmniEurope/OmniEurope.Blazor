@@ -26,24 +26,15 @@
 // frames in a row, gets the still frame: drawn in software a frame took from 125 ms to 5 s, holding the
 // page's input that long.
 
+import { createCanvasField, pixelRatio, readColour as readChannels } from './shared/canvas-field.js';
+
 const INTENSITY = 0.5;
-// Drawn at the screen's own resolution, device pixels and not CSS pixels: a smaller canvas is stretched
-// over the window and shows its pixels. At most two device pixels per CSS pixel bound the cost.
-const MAX_PIXEL_RATIO = 2;
-const pixelRatio = () => Math.min(Math.max(window.devicePixelRatio || 1, 1), MAX_PIXEL_RATIO);
-const FRAME_MS = 1000 / 30;
-// Animation frames come every 16.7 ms at 60 Hz, two of them a hair under FRAME_MS apart: without this
-// slack every third frame was drawn, 20 a second instead of 30.
-const FRAME_SLACK_MS = 2;
 // Three frames in a row further apart than this (under 10 a second) and the field stops moving.
 const SLOW_FRAME_MS = 100;
 const SLOW_FRAMES = 3;
 // Seconds a copy of the gas turns before it starts again unwound. Short enough that the inner filaments
 // stay wider than a pixel on a small window, long enough that the fades go unnoticed.
 const LAYER_PERIOD = 60;
-const states = new WeakMap();
-// The canvases being drawn, so a canvas the page dropped can be found again and stopped (sweep).
-const running = new Set();
 
 const VERTEX = 'attribute vec2 a_position; void main() { gl_Position = vec4(a_position, 0.0, 1.0); }';
 
@@ -198,37 +189,23 @@ function compile(gl, type, source) {
 
 /** A CSS colour token of the scope as 0..1 RGB, read through a probe element (the CSSOM, which a strict CSP allows). */
 function readColour(scope, token, fallback) {
-    const probe = document.createElement('span');
-    probe.hidden = true;
-    probe.style.color = `var(${token}, ${fallback})`;
-    scope.appendChild(probe);
-    const computed = getComputedStyle(probe).color;
-    probe.remove();
+    const colour = readChannels(scope, token, fallback);
     // rgb() comes on 0..255; a color-mix() (Trou noir's page) comes back as color(srgb ...) on 0..1.
-    const scale = computed.startsWith('color(') ? 1 : 255;
-    const parts = computed.match(/[\d.]+/g) || [];
-    return parts.length >= 3 ? parts.slice(0, 3).map(value => Number(value) / scale) : [0, 0, 0];
+    return colour ? colour.channels.map(value => value / colour.max) : [0, 0, 0];
 }
 
 /**
- * Starts drawing the hole on the canvas; returns false when WebGL is unavailable, in which case the
- * scope keeps the theme's CSS field. moving false draws one still frame. The kind is read from the scope's
- * --omni-scope-canvas with its colours, once per size, theme or mode change: white-hole draws the hole
- * turned over, in ink on a light page; any other kind the black hole.
+ * The painter of one canvas, or null when WebGL is unavailable, in which case the scope keeps the theme's CSS
+ * field. The kind is read from the scope's --omni-scope-canvas with its colours, once per size, theme or mode
+ * change: white-hole draws the hole turned over, in ink on a light page; any other kind the black hole.
  */
-export function start(canvas, scope, moving) {
-    // A restart keeps the context: once lost, the canvas hands the same lost context back.
-    halt(canvas, false);
-    if (!canvas || !scope) {
-        return false;
-    }
-
+function prepare(canvas, scope) {
     // A software WebGL makes no context here: the theme's CSS field shows instead.
     const gl = canvas.getContext('webgl', { premultipliedAlpha: true, antialias: false, alpha: true, failIfMajorPerformanceCaveat: true });
     const vertex = gl && compile(gl, gl.VERTEX_SHADER, VERTEX);
     const fragment = gl && compile(gl, gl.FRAGMENT_SHADER, FRAGMENT);
     if (!vertex || !fragment || gl.isContextLost()) {
-        return false;
+        return null;
     }
 
     const program = gl.createProgram();
@@ -240,7 +217,7 @@ export function start(canvas, scope, moving) {
     gl.deleteShader(fragment);
     if (!gl.getProgramParameter(program, gl.LINK_STATUS)) {
         gl.deleteProgram(program);
-        return false;
+        return null;
     }
 
     gl.useProgram(program);
@@ -252,12 +229,8 @@ export function start(canvas, scope, moving) {
     gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0);
 
     const uniform = name => gl.getUniformLocation(program, name);
-    const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
-    // The system mode, followed by a scope in System mode: its change swaps the tokens with no .NET round trip.
-    const scheme = window.matchMedia('(prefers-color-scheme: dark)');
-    // last: the time of the previous frame drawn, 0 after a return to the page (no previous frame to time).
-    const state = { gl, program, buffer, frame: 0, last: 0, slow: 0, origin: performance.now(), moving, reduced, scheme, colours: null, inverted: false, resize: null, visibility: null, motion: null };
-    const animated = () => state.moving && !state.reduced.matches;
+    // slow: the frames in a row drawn further apart than SLOW_FRAME_MS; origin: where the time of the gas starts.
+    const state = { slow: 0, origin: performance.now(), colours: null, inverted: false };
 
     const draw = now => {
         const ratio = pixelRatio();
@@ -294,114 +267,49 @@ export function start(canvas, scope, moving) {
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, 4);
     };
 
-    const loop = now => {
-        state.frame = 0;
-        // The scope dropped its canvas (another theme): nothing left to draw on.
-        if (!canvas.isConnected) {
-            stop(canvas);
-            return;
-        }
-        if (now - state.last >= FRAME_MS - FRAME_SLACK_MS) {
-            // Frames this far apart hold the page's clicks and keys as long: a few in a row and the
-            // field stays still, on the frame just drawn, as with BackdropMotion off.
-            state.slow = state.last && now - state.last > SLOW_FRAME_MS ? state.slow + 1 : 0;
-            state.last = now;
-            draw(now);
-            if (state.slow >= SLOW_FRAMES) {
-                state.moving = false;
-            }
-        }
-        if (animated() && !document.hidden) {
-            state.frame = requestAnimationFrame(loop);
-        }
-    };
-
-    state.resize = () => {
-        state.colours = null;
-        if (!state.frame) {
-            draw(performance.now());
-        }
-    };
-    state.visibility = () => {
-        if (document.hidden) {
-            return;
-        }
+    return {
+        draw,
+        invalidate: () => {
+            state.colours = null;
+        },
+        // Frames this far apart hold the page's clicks and keys as long: a few in a row and the field stays
+        // still, on the frame just drawn, as with BackdropMotion off.
+        tick: (now, last) => {
+            state.slow = last && now - last > SLOW_FRAME_MS ? state.slow + 1 : 0;
+            return state.slow < SLOW_FRAMES;
+        },
         // The time spent away from the page is no slow frame.
-        state.last = 0;
-        state.slow = 0;
-        if (animated() && !state.frame) {
-            state.frame = requestAnimationFrame(loop);
-        }
+        resume: () => {
+            state.slow = 0;
+        },
+        release: lose => {
+            if (lose) {
+                gl.getExtension('WEBGL_lose_context')?.loseContext();
+            }
+            else {
+                // The context stays for the next start, which makes its own program and buffer.
+                gl.deleteProgram(program);
+                gl.deleteBuffer(buffer);
+            }
+        },
     };
-    // The system asks for less motion, or no longer does: the field stops on its current frame, or
-    // moves again.
-    state.motion = () => {
-        if (!state.reduced.matches) {
-            state.visibility();
-        }
-        else if (state.frame) {
-            cancelAnimationFrame(state.frame);
-            state.frame = 0;
-        }
-    };
-    window.addEventListener('resize', state.resize);
-    document.addEventListener('visibilitychange', state.visibility);
-    state.scheme.addEventListener('change', state.resize);
-    state.reduced.addEventListener('change', state.motion);
-    states.set(canvas, state);
-    running.add(canvas);
-
-    state.last = performance.now();
-    draw(state.last);
-    if (animated()) {
-        state.frame = requestAnimationFrame(loop);
-    }
-    return true;
 }
+
+const field = createCanvasField(prepare);
+
+/**
+ * Starts drawing the hole on the canvas; returns false when WebGL is unavailable, in which case the
+ * scope keeps the theme's CSS field. moving false draws one still frame. The kind is read from the scope's
+ * --omni-scope-canvas with its colours, once per size, theme or mode change: white-hole draws the hole
+ * turned over, in ink on a light page; any other kind the black hole.
+ */
+export const start = field.start;
 
 /** Repaints with the colours in force after the scope's tokens changed (another palette, another mode). */
-export function refresh(canvas) {
-    const state = canvas ? states.get(canvas) : undefined;
-    if (state) {
-        state.resize();
-    }
-}
+export const refresh = field.refresh;
 
 /** Stops drawing and releases the WebGL context. */
-export function stop(canvas) {
-    halt(canvas, true);
-}
-
-function halt(canvas, release) {
-    const state = canvas ? states.get(canvas) : undefined;
-    if (!state) {
-        return;
-    }
-
-    if (state.frame) {
-        cancelAnimationFrame(state.frame);
-    }
-    window.removeEventListener('resize', state.resize);
-    document.removeEventListener('visibilitychange', state.visibility);
-    state.scheme.removeEventListener('change', state.resize);
-    state.reduced.removeEventListener('change', state.motion);
-    if (release) {
-        state.gl.getExtension('WEBGL_lose_context')?.loseContext();
-    }
-    else {
-        // The context stays for the next start, which makes its own program and buffer.
-        state.gl.deleteProgram(state.program);
-        state.gl.deleteBuffer(state.buffer);
-    }
-    states.delete(canvas);
-    running.delete(canvas);
-}
+export const stop = field.stop;
 
 /** Stops every canvas this module draws that is no longer in the page (the scope left the theme). */
-export function sweep() {
-    for (const canvas of [...running]) {
-        if (!canvas.isConnected) {
-            stop(canvas);
-        }
-    }
-}
+export const sweep = field.sweep;
