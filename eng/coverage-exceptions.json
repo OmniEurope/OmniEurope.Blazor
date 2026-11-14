@@ -136,8 +136,14 @@
     {
       "file": "Components/Charts/OmniChartContext.cs",
       "lines": 0,
-      "branches": 2,
-      "reason": "VisibleCategoryIndexes avec un pas de catégorie nul ou négatif : au-delà de deux catégories, deux positions voisines diffèrent toujours d'une largeur de tracé positive. StackBaseline qui parcourt toutes les séries sans trouver la sienne : elle n'est appelée que pour une série enregistrée, qui figure donc dans la liste et arrête la boucle."
+      "branches": 1,
+      "reason": "VisibleCategoryIndexes avec un pas de catégorie nul ou négatif : au-delà de deux catégories, deux positions voisines diffèrent toujours d'une largeur de tracé positive."
+    },
+    {
+      "file": "Components/Charts/ChartBandLayout.cs",
+      "lines": 0,
+      "branches": 1,
+      "reason": "StackBaseline qui parcourt toutes les séries sans trouver la sienne : elle n'est appelée que pour une série enregistrée, qui figure donc dans la liste et arrête la boucle."
     },
     {
       "file": "Components/Charts/OmniChartGeometry.cs",
@@ -148,8 +154,14 @@
     {
       "file": "Components/Editor/OmniHtmlEditor.razor.cs",
       "lines": 0,
-      "branches": 4,
-      "reason": "SurfaceReference en face visuelle sans surface montée : SyncAsync revendique le montage avant tout await, au rendu qui suit le passage en face visuelle ; seule une commande déjà en vol entre ce passage et ce rendu y mène. InsertPaletteCharacterAsync verrouillé ou en face source : la palette n'est dessinée qu'en face visuelle et déverrouillée, seul un clic en vol l'atteint."
+      "branches": 2,
+      "reason": "SurfaceReference en face visuelle sans surface montée : SyncAsync revendique le montage avant tout await, au rendu qui suit le passage en face visuelle ; seule une commande déjà en vol entre ce passage et ce rendu y mène."
+    },
+    {
+      "file": "Internal/HtmlEditorPanelActions.cs",
+      "lines": 0,
+      "branches": 2,
+      "reason": "InsertPaletteCharacterAsync verrouillé ou en face source : la palette n'est dessinée qu'en face visuelle et déverrouillée, seul un clic en vol l'atteint."
     },
     {
       "file": "Components/Forms/OmniTemplateForm.razor",

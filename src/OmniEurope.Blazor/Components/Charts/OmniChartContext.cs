@@ -158,9 +158,6 @@ internal sealed class OmniChartContext
         }
     }
 
-    /// <summary>Share of a category band the columns of that category occupy together.</summary>
-    private const double BandFill = 0.8;
-
     private readonly List<SeriesRegistration> _series = [];
     private readonly Dictionary<object, (double Minimum, double Maximum)> _valueAxes = [];
     private readonly Dictionary<object, int> _automaticValueAxes = [];
@@ -170,11 +167,14 @@ internal sealed class OmniChartContext
     private readonly List<PieRegistration> _pies = [];
     private readonly HashSet<int> _hiddenColors = [];
     private readonly OmniChartRange _range = new();
+    private readonly ChartBandLayout _bands;
     private bool _domainsDirty = true;
     private (double Minimum, double Maximum) _xDomain = (0, 1);
     private (double Minimum, double Maximum) _valueDomain = (0, 1);
 
     internal int DomainCalculationCount { get; private set; }
+
+    internal OmniChartContext() => _bands = new ChartBandLayout(this);
 
     internal event Action? Changed;
 
@@ -328,6 +328,9 @@ internal sealed class OmniChartContext
     /// <summary>Whether category <paramref name="index"/> is shown: always without a range.</summary>
     internal bool InRange(int index) => _range.Contains(index);
 
+    /// <summary>The first category shown: the start of the range, else the first category.</summary>
+    internal int FirstCategory => _range.First;
+
     /// <summary>
     /// Where a point outside the range shown is sent by <see cref="ProjectCoordinates"/>: far above the
     /// view box, out of the clip the chart sets while a range is active. Only a decoration that walks
@@ -340,7 +343,7 @@ internal sealed class OmniChartContext
         _hiddenColors.Count == 0
         || (series.Kind == OmniChartSeriesKind.Auxiliary ? !IsDataHidden(series.Data) : !IsHidden(series.ColorIndex));
 
-    private IEnumerable<SeriesRegistration> DrawnSeries => _series.Where(IsDrawn);
+    internal IEnumerable<SeriesRegistration> DrawnSeries => _series.Where(IsDrawn);
 
     /// <summary>Whether any series is registered, markers and data labels included: those carry tips too.</summary>
     internal bool HasSeries => _series.Count > 0;
@@ -581,63 +584,14 @@ internal sealed class OmniChartContext
 
     internal string Points(object owner) => string.Join(' ', _range.Points(GetSeries(owner).Data).Select(Project));
 
-    internal string AreaPoints(object owner, bool stacked)
-    {
-        var series = GetSeries(owner);
-        if (series.Data.Count == 0)
-        {
-            return string.Empty;
-        }
+    /// <summary>The outline of an area series, see <see cref="ChartBandLayout.AreaPoints"/>.</summary>
+    internal string AreaPoints(object owner, bool stacked) => _bands.AreaPoints(owner, stacked);
 
-        var top = new List<string>(series.Data.Count);
-        var baseline = new List<string>(series.Data.Count);
-        for (var index = 0; index < series.Data.Count; index++)
-        {
-            if (!InRange(index))
-            {
-                continue;
-            }
+    /// <summary>A column inside its category band, see <see cref="ChartBandLayout.ColumnRect"/>.</summary>
+    internal (double X, double Y, double Width, double Height) ColumnRect(object owner, int index, bool stacked) => _bands.ColumnRect(owner, index, stacked);
 
-            var point = series.Data[index];
-            var start = stacked ? StackBaseline(series, index, point.Y) : 0;
-            top.Add(Project(point.X, start + point.Y));
-            baseline.Add(Project(point.X, start));
-        }
-        baseline.Reverse();
-        return string.Join(' ', top.Concat(baseline));
-    }
-
-    /// <summary>
-    /// A column inside its category band. Column series stand side by side in the band, every stacked
-    /// series sharing one place, so two series of the same category never cover each other.
-    /// </summary>
-    internal (double X, double Y, double Width, double Height) ColumnRect(object owner, int index, bool stacked)
-    {
-        var series = GetSeries(owner);
-        var point = series.Data[index];
-        var (slot, slots) = SlotOf(series, OmniChartSeriesKind.Column, OmniChartSeriesKind.StackedColumn);
-        var (start, width) = SlotSpan(PlotLeft, PlotRight, index, slot, slots);
-        var from = stacked ? StackBaseline(series, index, point.Y) : 0;
-        var first = ValueToY(from);
-        var second = ValueToY(from + point.Y);
-        return (start, Math.Min(first, second), width, Math.Abs(first - second));
-    }
-
-    /// <summary>
-    /// A horizontal bar inside its category band. Bar series stand one above the other in the band,
-    /// every stacked series sharing one place, each value starting where the previous one ended.
-    /// </summary>
-    internal (double X, double Y, double Width, double Height) BarRect(object owner, int index, bool stacked)
-    {
-        var series = GetSeries(owner);
-        var point = series.Data[index];
-        var (slot, slots) = SlotOf(series, OmniChartSeriesKind.Bar, OmniChartSeriesKind.StackedBar);
-        var (start, height) = SlotSpan(PlotTop, PlotBottom, index, slot, slots);
-        var from = stacked ? StackBaseline(series, index, point.Y) : 0;
-        var first = ValueToX(from);
-        var second = ValueToX(from + point.Y);
-        return (Math.Min(first, second), start, Math.Abs(first - second), height);
-    }
+    /// <summary>A horizontal bar inside its category band, see <see cref="ChartBandLayout.BarRect"/>.</summary>
+    internal (double X, double Y, double Width, double Height) BarRect(object owner, int index, bool stacked) => _bands.BarRect(owner, index, stacked);
 
     /// <summary>
     /// The rectangles of the column or bar series drawn on <paramref name="data"/>, one per point, with
@@ -707,7 +661,7 @@ internal sealed class OmniChartContext
     private static bool IsBanded(OmniChartSeriesKind kind) =>
         kind is OmniChartSeriesKind.Bar or OmniChartSeriesKind.StackedBar or OmniChartSeriesKind.Column or OmniChartSeriesKind.StackedColumn;
 
-    private string Project(double x, double y)
+    internal string Project(double x, double y)
     {
         var point = ProjectCoordinates(new OmniChartPoint(x, y));
         return $"{OmniChartGeometry.Number(point.X)},{OmniChartGeometry.Number(point.Y)}";
@@ -727,58 +681,6 @@ internal sealed class OmniChartContext
         }
 
         return start + (Ratio(x, XDomain) * (end - start));
-    }
-
-    /// <summary>
-    /// The place of a series among those sharing a band: every series of the separate kind takes its
-    /// own place, and all the series of the shared kind (the stacked ones) take a single place, where
-    /// the first of them appears.
-    /// </summary>
-    private (int Slot, int Slots) SlotOf(SeriesRegistration series, OmniChartSeriesKind separate, OmniChartSeriesKind shared)
-    {
-        var slot = 0;
-        var slots = 0;
-        var sharedSlot = -1;
-        foreach (var item in DrawnSeries)
-        {
-            var isShared = item.Kind == shared;
-            if (item.Kind != separate && !isShared)
-            {
-                continue;
-            }
-
-            int place;
-            if (isShared)
-            {
-                if (sharedSlot < 0)
-                {
-                    sharedSlot = slots++;
-                }
-
-                place = sharedSlot;
-            }
-            else
-            {
-                place = slots++;
-            }
-
-            if (ReferenceEquals(item.Owner, series.Owner))
-            {
-                slot = place;
-            }
-        }
-
-        return (slot, Math.Max(1, slots));
-    }
-
-    private (double Start, double Size) SlotSpan(double from, double to, int index, int slot, int slots)
-    {
-        index -= _range.First;
-        var band = (to - from) / CategoryCount;
-        var group = band * BandFill;
-        var size = group / slots;
-        var start = from + (index * band) + ((band - group) / 2) + (slot * size);
-        return (start + (size * 0.05), size * 0.9);
     }
 
     private (double Minimum, double Maximum) XDomain
@@ -847,29 +749,7 @@ internal sealed class OmniChartContext
         _domainsDirty = false;
     }
 
-    private double StackBaseline(SeriesRegistration current, int index, double value)
-    {
-        var baseline = 0d;
-        foreach (var series in DrawnSeries)
-        {
-            if (ReferenceEquals(series.Owner, current.Owner))
-            {
-                break;
-            }
-            if (series.Kind != current.Kind || index >= series.Data.Count)
-            {
-                continue;
-            }
-            var previous = series.Data[index].Y;
-            if (value >= 0 && previous >= 0 || value < 0 && previous < 0)
-            {
-                baseline += previous;
-            }
-        }
-        return baseline;
-    }
-
-    private SeriesRegistration GetSeries(object owner) =>
+    internal SeriesRegistration GetSeries(object owner) =>
         _series.First(item => ReferenceEquals(item.Owner, owner));
 
     private static double Ratio(double value, (double Minimum, double Maximum) domain) =>
@@ -917,5 +797,5 @@ internal sealed class OmniChartContext
     /// <summary>A pie or donut series: its title and its slices, positive values only, in the order they are drawn.</summary>
     internal sealed record PieRegistration(object Owner, string? Title, IReadOnlyList<OmniChartSlice> Slices);
 
-    private sealed record SeriesRegistration(object Owner, OmniChartSeriesKind Kind, IReadOnlyList<OmniChartPoint> Data, string? Title, int ColorIndex, bool ColorByPoint = false);
+    internal sealed record SeriesRegistration(object Owner, OmniChartSeriesKind Kind, IReadOnlyList<OmniChartPoint> Data, string? Title, int ColorIndex, bool ColorByPoint = false);
 }

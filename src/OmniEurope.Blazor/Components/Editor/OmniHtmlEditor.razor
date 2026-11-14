@@ -181,12 +181,12 @@
                            aria-invalid="@(_panels.LinkErrorKey is null ? null : "true")"
                            aria-describedby="@(_panels.LinkErrorKey is null ? null : LinkInputId + "-error")"
                            @oninput="args => _panels.LinkUrl = args.Value?.ToString() ?? string.Empty"
-                           @onkeyup="HandleLinkKeyAsync" />
-                    <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="ApplyLinkAsync">
+                           @onkeyup="PanelActions.HandleLinkKeyAsync" />
+                    <OmniButton Variant="OmniButtonVariant.Primary" Size="OmniControlSize.Small" OnClick="PanelActions.ApplyLinkAsync">
                         <Icon><OmniIcon Name="OmniIconName.Check" /></Icon>
                         <ChildContent><span>@Localize("HtmlEditorLinkApply")</span></ChildContent>
                     </OmniButton>
-                    <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="CloseLinkAsync">
+                    <OmniButton Variant="OmniButtonVariant.Danger" Size="OmniControlSize.Small" OnClick="PanelActions.CloseLinkAsync">
                         <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
                         <ChildContent><span>@Localize("HtmlEditorLinkCancel")</span></ChildContent>
                     </OmniButton>
@@ -243,14 +243,14 @@
             {
                 <div class="omni-html-editor__panel" role="group" aria-label="@Localize("HtmlEditorImportTable")">
                     <div class="omni-html-editor__panel-bar">
-                        <OmniUpload Display="OmniUploadDisplay.Field" Accept="@TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
-                                    OnFilesSelect="ReadTableFileAsync" Disabled="@_panels.TableBusy" Class="omni-html-editor__table-file" />
+                        <OmniUpload Display="OmniUploadDisplay.Field" Accept="@PanelActions.TableAccept" MaximumFileSize="@HtmlEditorTableFile.MaxBytes"
+                                    OnFilesSelect="PanelActions.ReadTableFileAsync" Disabled="@_panels.TableBusy" Class="omni-html-editor__table-file" />
                         <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="_panels.Close">
                             <Icon><OmniIcon Name="OmniIconName.Close" /></Icon>
                             <ChildContent><span>@Localize("HtmlEditorClosePanel")</span></ChildContent>
                         </OmniButton>
                     </div>
-                    <p class="omni-html-editor__panel-note">@Localize("HtmlEditorImportTableHint", TableAccept)</p>
+                    <p class="omni-html-editor__panel-note">@Localize("HtmlEditorImportTableHint", PanelActions.TableAccept)</p>
                     @if (_panels.TableErrorKey is { } tableErrorKey)
                     {
                         <p class="omni-html-editor__link-error" role="alert">@Localize(tableErrorKey)</p>
@@ -291,7 +291,7 @@
                         </div>
                         <div class="omni-html-editor__panel-bar">
                             <OmniCheckBox Class="omni-html-editor__check" @bind-Value="_panels.TableHeader">@Localize("HtmlEditorImportTableHeader")</OmniCheckBox>
-                            <OmniButton Variant="OmniButtonVariant.Success" Size="OmniControlSize.Small" OnClick="InsertTableAsync">
+                            <OmniButton Variant="OmniButtonVariant.Success" Size="OmniControlSize.Small" OnClick="PanelActions.InsertTableAsync">
                                 <Icon><OmniIcon Name="OmniIconName.Table" /></Icon>
                                 <ChildContent><span>@Localize("HtmlEditorImportTableInsert")</span></ChildContent>
                             </OmniButton>
@@ -323,7 +323,7 @@
                 @* The host's characters under the surface: a press keeps the caret there (OmniCharacterPalette). *@
                 @if (ShowsCharacterPalette)
                 {
-                    <OmniCharacterPalette Class="omni-html-editor__palette" Characters="Characters!" OnSelect="InsertPaletteCharacterAsync" aria-controls="@SurfaceId" />
+                    <OmniCharacterPalette Class="omni-html-editor__palette" Characters="Characters!" OnSelect="PanelActions.InsertPaletteCharacterAsync" aria-controls="@SurfaceId" />
                 }
                 @if (IsMenuOpen)
                 {
