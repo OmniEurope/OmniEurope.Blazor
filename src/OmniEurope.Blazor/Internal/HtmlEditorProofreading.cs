@@ -1,7 +1,9 @@
 using System.Text;
 using System.Text.Json;
 
-namespace OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Components;
+
+namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
 /// The proofreaders of an <see cref="OmniHtmlEditor"/>'s extensions as the surface script uses them: the blocks it

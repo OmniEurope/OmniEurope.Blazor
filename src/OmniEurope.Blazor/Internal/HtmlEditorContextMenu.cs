@@ -1,4 +1,6 @@
-namespace OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Components;
+
+namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
 /// The context menu of an <see cref="OmniHtmlEditor"/>: the package's one menu engine

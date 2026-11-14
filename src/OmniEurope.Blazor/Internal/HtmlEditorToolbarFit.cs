@@ -1,6 +1,7 @@
-using OmniEurope.Blazor.Internal;
 
-namespace OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Components;
+
+namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
 /// The toolbar of an <see cref="OmniHtmlEditor"/> seen from the script: the package tooltips of its

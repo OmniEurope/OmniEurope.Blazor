@@ -2,7 +2,7 @@
   "$comment": "Écarts de couverture définitifs de la RCL (PLAN-014) : lignes et branches qu'aucun test ne peut atteindre, avec leur raison. lines et branches sont les maxima admis pour le fichier ; un écart non admis ici ni dans eng/coverage-baseline.json fait échouer eng/Test-Coverage.ps1.",
   "exceptions": [
     {
-      "file": "Components/Editor/HtmlEditorVisualSurface.cs",
+      "file": "Internal/HtmlEditorVisualSurface.cs",
       "lines": 0,
       "branches": 1,
       "reason": "Ready refuse une surface démontée dont le module est chargé : c'est l'état de la face source, où chaque appelant teste d'abord la face (Visual) et ne lit donc jamais Ready. La garde reste pour qu'un futur appelant n'écrive pas dans une surface démontée."
@@ -92,7 +92,7 @@
       "reason": "TextSizeValue et ControlSizeValue ne servent que de cible à l'expression de liaison des curseurs (ValueExpression, lue par FieldIdentifier sans être évaluée) : leur corps n'est jamais exécuté."
     },
     {
-      "file": "Components/Editor/HtmlEditorProofreading.cs",
+      "file": "Internal/HtmlEditorProofreading.cs",
       "lines": 2,
       "branches": 5,
       "reason": "Proofreader sans passage ouvert, LoadSuggestionsAsync et RecordAsync sans passage ou sans relecteur : Proofreader n'est lu qu'avec un passage ouvert, le menu n'appelle LoadSuggestionsAsync qu'à son ouverture, sur le passage qu'il vient d'ouvrir, et ne dessine les entrées de RecordAsync que tant que le passage a un relecteur (elles disparaissent quand les extensions changent) ; seul un clic déjà en vol sur Blazor Server y mène."

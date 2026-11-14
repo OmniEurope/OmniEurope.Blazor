@@ -1,7 +1,9 @@
 using System.Net;
 using System.Text.Json;
 
-namespace OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Components;
+
+namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
 /// The source face of an <see cref="OmniHtmlEditor"/>: its built-in actions written as tags around the
