@@ -68,6 +68,20 @@ internal sealed partial class MailTemplateText(IReadOnlyDictionary<string, strin
         }
     }
 
+    /// <summary>
+    /// The tokens of a link address, their braces and spaces written as is or percent-encoded
+    /// (<c>%7B</c>, <c>%7D</c>, <c>%20</c>): the sanitiser hands an absolute address back in its encoded form.
+    /// </summary>
+    internal static MatchCollection AddressTokens(string address) => AddressToken().Matches(address);
+
+    /// <summary>
+    /// A link address with only its tokens replaced, each by its value percent-encoded as one URI data
+    /// component (<see cref="Uri.EscapeDataString(string)"/>), so a value never adds a path, query parameter or
+    /// fragment; the rest of the address is kept exactly as written.
+    /// </summary>
+    internal string ReplaceInAddress(string address) =>
+        AddressToken().Replace(address, match => Uri.EscapeDataString(ValueOf(match.Groups["name"].Value)));
+
     /// <summary>One line: line breaks and runs of spaces become one space.</summary>
     internal static string OneLine(string text)
     {
@@ -95,4 +109,7 @@ internal sealed partial class MailTemplateText(IReadOnlyDictionary<string, strin
 
     [GeneratedRegex(@"\{\{\s*(?<name>[A-Za-z][A-Za-z0-9_.\-]*)\s*\}\}")]
     private static partial Regex Token();
+
+    [GeneratedRegex(@"(?:\{|%7B){2}(?:\s|%20)*(?<name>[A-Za-z][A-Za-z0-9_.\-]*)(?:\s|%20)*(?:\}|%7D){2}", RegexOptions.IgnoreCase)]
+    private static partial Regex AddressToken();
 }

@@ -945,7 +945,15 @@ numérotée à partir de 1 qui donne `Skip`), `Fields` (des `OmniTableExportFiel
 `OmniTableExporter` (enregistré par `AddOmniEuropeBlazor`) en tire un `OmniTableExportDocument` par `ReadAsync`,
 que `RenderAsync` écrit dans n'importe quel format : un hôte qui veut aussi du CSV ou de l'Excel de cette source
 ne lit pas ses pages deux fois. `ToMarkdown(document)` donne le texte Markdown, `EscapeCell` et `EscapeInline`
-l'échappement d'une cellule et d'une ligne d'en-tête.
+l'échappement d'une cellule et d'une ligne d'en-tête. Tout texte des données (titre, libellés et valeurs
+d'en-tête, texte vide, titres de colonnes, cellules) y est écrit inerte : la barre oblique inverse et la barre
+verticale sont précédées d'une barre oblique inverse (une valeur `a\|b` reste une seule cellule de texte
+`a\|b`) ; la ponctuation Markdown qui ouvre un lien, une image, une emphase, un code, un titre ou un barré
+(`` ` * _ [ ] ( ) ! # ~ ``) l'est aussi ; `&`, `<` et `>` deviennent `&amp;`, `&lt;` et `&gt;`, si bien
+qu'aucune balise HTML, adresse automatique `<http://…>` ni entité des données n'est active. Dans une cellule,
+un saut de ligne (CRLF, LF ou CR) devient ensuite un vrai `<br>` ; `EscapeInline` le change en espace et
+échappe en plus un `-`, `+` ou `=` de tête et le point qui suit des chiffres de tête (`1.`), pour qu'une ligne
+n'ouvre ni liste ni soulignement de titre.
 `OnExport` reçoit l'`OmniTableExportDocument` produit une fois le fichier remis (une exception de son gestionnaire remonte, ce n'est pas un échec de l'export), `OnExportError` l'exception d'un échec ; `Text` (`string?`) remplace
 le libellé localisé du bouton. Quand la source n'annonce pas de total et que la lecture s'arrête sur une
 page pleine à la limite de lignes, le document écrit « N sur au moins M » et une note le dit :
