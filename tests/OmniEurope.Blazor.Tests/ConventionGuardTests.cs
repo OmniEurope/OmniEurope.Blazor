@@ -388,7 +388,7 @@ public sealed partial class ConventionGuardTests
     public void AuthenticityGateWiring_ReferencesExecutableProbesAndCurrentHybridDependencies()
     {
         var catalogHost = Read("eng", "Test-CatalogHost.ps1");
-        var editor = Read("src", "OmniEurope.Blazor", "Components", "Editor", "HtmlEditorSourceFace.cs")
+        var editor = Read("src", "OmniEurope.Blazor", "Internal", "HtmlEditorSourceFace.cs")
             + Read("src", "OmniEurope.Blazor", "wwwroot", "omniInterop.js");
         var packages = Read("Directory.Packages.props");
         using var hybridLock = JsonDocument.Parse(Read("samples", "OmniEurope.Blazor.HybridSmoke", "packages.lock.json"));

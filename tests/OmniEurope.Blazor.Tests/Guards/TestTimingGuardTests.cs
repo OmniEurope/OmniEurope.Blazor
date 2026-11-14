@@ -24,6 +24,7 @@ public sealed class TestTimingGuardTests
         ["tests/OmniEurope.Blazor.Tests/FormsSelectionFeedbackDefectTests.cs"] = (1, "before asserting that a submit read the model no further"),
         ["tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs"] = (2, "before asserting that a stale validation added no message"),
         ["tests/OmniEurope.Blazor.Tests/PreferenceFakes.cs"] = (1, "widens the window in which the concurrency fake detects two overlapping operations"),
+        ["tests/OmniEurope.Blazor.Tests/ThemeScopeDisposedWhileLoadingTests.cs"] = (2, "before asserting that a disposed scope called nothing on a released module, and loaded nothing again"),
         ["tests/OmniEurope.Blazor.Tests/ThemeScopeFollowStateTests.cs"] = (1, "before asserting that the prerender is still held"),
     };
 
