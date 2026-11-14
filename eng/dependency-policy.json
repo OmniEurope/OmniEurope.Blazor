@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "reviewedAt": "2026-11-11",
+  "reviewedAt": "2026-11-14",
   "packages": {
     "bunit": {
       "version": "2.15.2",
@@ -83,7 +83,7 @@
       "source": "https://www.nuget.org/packages/Microsoft.AspNetCore.Components.WebAssembly.Server/"
     },
     "Microsoft.Testing.Extensions.TrxReport": {
-      "version": "2.5.2",
+      "version": "2.5.3",
       "status": "latest-stable",
       "source": "https://www.nuget.org/packages/Microsoft.Testing.Extensions.TrxReport/"
     },
