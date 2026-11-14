@@ -873,7 +873,7 @@
         "type": "Project",
         "dependencies": {
           "Microsoft.AspNetCore.Components.WebAssembly": "[11.0.0, )",
-          "OmniEurope.Blazor": "[1.13.0, )",
+          "OmniEurope.Blazor": "[1.14.0, )",
           "OmniEurope.Blazor.Showcase.Examples": "[1.0.0, )",
           "OmniEurope.Blazor.Showcase.Shared": "[1.0.0, )"
         }
@@ -881,7 +881,7 @@
       "omnieurope.blazor.showcase.examples": {
         "type": "Project",
         "dependencies": {
-          "OmniEurope.Blazor": "[1.13.0, )"
+          "OmniEurope.Blazor": "[1.14.0, )"
         }
       },
       "omnieurope.blazor.showcase.shared": {
