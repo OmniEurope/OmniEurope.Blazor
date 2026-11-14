@@ -356,6 +356,33 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         Assert.Equal("JetBrains Mono", picked?.Name);
     }
 
+    [Fact]
+    public async Task Backdrop_changed_in_the_window_reaches_the_host_that_binds_it()
+    {
+        OmniThemeBackdrop? picked = null;
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.BackdropChanged, value => picked = value));
+        settings.Find(".omni-appearance-settings__row--scale button").Click();
+        var etoiles = OmniThemeBackdrops.All.First(backdrop => backdrop.Name == "Étoiles");
+
+        await settings.InvokeAsync(() => settings.FindComponent<OmniAppearanceWindow>().Instance.BackdropChanged.InvokeAsync(etoiles));
+
+        Assert.Same(etoiles, picked);
+    }
+
+    [Fact]
+    public void A_theme_or_backdrop_outside_the_catalogue_falls_back_to_the_theme_defaults()
+    {
+        var custom = OmniThemePresets.All[0] with { Name = "Maison" };
+        var handMade = OmniThemeBackdrops.All[1] with { Name = "Fait main" };
+
+        Assert.Same(OmniThemeFonts.All[0], OmniThemePresets.DefaultFontFor(custom));
+        Assert.Same(OmniThemeBackdrops.None, OmniThemePresets.DefaultBackdropFor(custom));
+        Assert.Equal(OmniThemePresets.All[0].Backdrop, AppearanceChoices.EffectiveBackdrop(OmniThemePresets.All[0], handMade));
+        Assert.Null(BackdropCatalog.CanvasScriptFor("aucun-canevas"));
+        Assert.NotNull(BackdropCatalog.CanvasScriptFor("black-hole"));
+    }
+
     private IRenderedComponent<OmniAppearanceWindow> RenderFullWindow() => Render<OmniAppearanceWindow>(parameters => parameters
         .Add(component => component.Open, true)
         .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Givre"))
