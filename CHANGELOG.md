@@ -27,6 +27,21 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - L'analyseur `OE0001` livré dans le paquet référence de nouveau Roslyn 5.0.0 (SDK 10.0.100) : en 1.13.0 il référençait 5.9.0, qu'un SDK .NET 10 antérieur à 10.0.4xx refuse de charger (CS9057), si bien que la règle cessait de s'exécuter sans erreur chez ces consommateurs net10.0. `eng/Test-Package.ps1` refuse désormais un analyseur livré qui référence une Roslyn plus récente.
 - `OmniNumeric` ne se redessine plus à chaque frappe : la saisie et les touches autres qu'Entrée sont seulement mémorisées (sur un circuit serveur, chaque frappe renvoyait un rendu pour rien) ; Entrée valide et redessine comme avant.
+- `OmniThemeScope` libéré pendant le chargement de son script de thème ou de fond (audit du 2026-11-13) : le module arrivé après la libération est libéré à son tour, sans aucun appel, et le rendu s'arrête là au lieu d'appeler un module libéré ou de le recharger.
+- Notice de licence de la police Source Serif 4 (`wwwroot/fonts/OFL-source-serif-4.txt`) : la ligne de copyright d'origine d'Adobe remplace « Google Inc. », recopié par erreur du paquet Fontsource ; SBOM et registre des licences régénérés.
+
+### Sécurité
+
+- Export Markdown d'`OmniTableExporter` (et de la grille) : tout texte des données est écrit inerte (audit du 2026-11-13). La barre oblique inverse et la barre verticale sont échappées (une valeur `a\|b` ne décale plus les colonnes), la ponctuation qui ouvre un lien, une image, une emphase ou un code aussi, et `&`, `<`, `>` deviennent des références de caractères : une balise HTML ou un lien `javascript:` d'une donnée ne s'active plus dans le fichier exporté. Le texte brut du fichier montre désormais ces barres obliques inverses.
+- Modèles de mail : une variable placée dans l'adresse d'un lien n'entraîne plus le décodage de toute l'adresse. Une variable qui forme toute l'adresse est remplacée par sa valeur ; une variable dans une adresse plus longue est remplacée par sa valeur encodée (`Uri.EscapeDataString`), le reste de l'adresse restant tel qu'écrit : un `%26` du modèle garde son sens et une valeur n'ajoute plus de paramètre. Le contrôle des schémas `http`, `https` et `mailto` reste en place.
+
+### Interne
+
+- Les adaptateurs d'`OmniHtmlEditor` (`HtmlEditorContextMenu`, `HtmlEditorProofreading`, `HtmlEditorSourceFace`, `HtmlEditorToolbarFit`, `HtmlEditorVisualSurface`) passent dans `Internal`, comme ceux de la grille et de la carte mentale ; `Guards/ComponentArchitectureGuardTests` garde leur emplacement, la pureté des moteurs et la présence de `ReadOnly` sur tout composant de saisie.
+- Les fonds animés sur canevas (Étoiles, Trou noir) partagent leur cycle de vie dans `wwwroot/shared/canvas-field.js` (boucle à 30 images par seconde, pause sur page cachée et sous mouvement réduit, libération du contexte).
+- Empaquetage NuGet déterministe : `DeterministicTimestamp` fixe, deux empaquetages du même build sont identiques octet pour octet, prouvé à chaque CI par `eng/Test-DeterministicPack.ps1`.
+- Verrous NuGet : un consommateur qui compile les sources par `ProjectReference` garde son propre `packages.lock.json` dans son `obj`, si bien qu'une application avec un RID ne réécrit plus les verrous du dépôt ; `eng/Test-DependencyPolicy.ps1` refuse une section de RID dans les verrous des bibliothèques.
+- Budget de performance d'`OmniSpreadsheet` (10 000 cellules, taille pratique annoncée) ; API de la vitrine : `/health` et `/health/ready` passent par la limite de lecture par adresse ; `Microsoft.Testing.Extensions.TrxReport` 2.5.3.
 
 ## [1.13.0] - 2026-11-11
 
