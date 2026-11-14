@@ -82,6 +82,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     // Every key read or written in this circuit: announced again when the signed-in user changes.
     private readonly HashSet<string> _known = new(StringComparer.Ordinal);
     private readonly SignedOutPreferences _signedOut = new();
+    private readonly PreferenceReads _reads;
     private Task<PreferenceSession?>? _opening;
     private bool _disposed;
 
@@ -115,6 +116,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         _minSyncGap = gap;
         _signedOutMode = options.SignedOut;
         _stopping = _disposal.Token;
+        _reads = new PreferenceReads(this, _storeAccess, _sync, _signedOut, _stopping);
     }
 
     /// <summary>
@@ -308,7 +310,7 @@ public sealed class OmniPreferences : IAsyncDisposable
             var cache = await OpenAsync(cancellationToken);
             try
             {
-                return await ReadFromAsync(cache, key, cancellationToken);
+                return await _reads.ReadFromAsync(cache, key, cancellationToken);
             }
             catch (ObjectDisposedException) when (Superseded(cache))
             {
@@ -322,112 +324,6 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// it is made again on the current opening.
     /// </summary>
     private bool Superseded(PreferenceCache? cache) => cache is { Released: true } && !_disposed;
-
-    private async Task<string?> ReadFromAsync(PreferenceCache? cache, string key, CancellationToken cancellationToken)
-    {
-        if (cache is null)
-        {
-            return await ReadUncachedAsync(key, cancellationToken);
-        }
-
-        var cached = await cache.ReadAsync(key, cancellationToken);
-        if (_store is null || cache.IsVisitor)
-        {
-            return cached?.Value;
-        }
-
-        var (firstRead, started, refresh) = ClaimRead(cache, key, cached is not null);
-        if (refresh)
-        {
-            Track(RefreshAsync(cache, key));
-            return cached!.Value;
-        }
-
-        if (started is not null)
-        {
-            Track(ReadFirstAsync(cache, key, started));
-        }
-
-        // A key read before, whose first read is over: the cache holds what the store said.
-        return firstRead is null ? cached?.Value : await firstRead.WaitAsync(cancellationToken);
-    }
-
-    /// <summary>A read with no cache open: the signed-out values of this circuit, else the store itself, else nothing.</summary>
-    private async Task<string?> ReadUncachedAsync(string key, CancellationToken cancellationToken)
-    {
-        if (_signedOut.Active)
-        {
-            return _signedOut.Read(key);
-        }
-
-        return _store is null ? null : (await _storeAccess!.TryGetAsync(key, cancellationToken))?.Value;
-    }
-
-    /// <summary>
-    /// Decides, under the gate, what a read of <paramref name="key"/> owes the store: a refresh behind a cached value, the
-    /// first read of a key nothing caches (<c>Started</c>, the caller then runs it), or the wait for a first read already
-    /// under way (<c>FirstRead</c>).
-    /// </summary>
-    private (Task<string?>? FirstRead, TaskCompletionSource<string?>? Started, bool Refresh) ClaimRead(PreferenceCache cache, string key, bool isCached)
-    {
-        lock (_gate)
-        {
-            if (!cache.Refreshed.Add(key))
-            {
-                return (cache.FirstReads.GetValueOrDefault(key), null, false);
-            }
-
-            if (isCached)
-            {
-                return (null, null, true);
-            }
-
-            // Registered before it runs: a read that comes while the store answers finds it.
-            var started = new TaskCompletionSource<string?>(TaskCreationOptions.RunContinuationsAsynchronously);
-            cache.FirstReads[key] = started.Task;
-            return (started.Task, started, false);
-        }
-    }
-
-    /// <summary>
-    /// The first read of a key nothing caches (a new device, a cleared browser): the store is read now so
-    /// that the first display is already right, under the service's lifetime rather than one caller's
-    /// token, since every concurrent read of the key waits for it.
-    /// </summary>
-    private async Task ReadFirstAsync(PreferenceCache cache, string key, TaskCompletionSource<string?> result)
-    {
-        try
-        {
-            var stored = await _storeAccess!.TryGetAsync(key, _stopping);
-            if (stored is null)
-            {
-                // The store has none: what the cache holds now (a write made meanwhile, or nothing).
-                result.TrySetResult((await cache.ReadAsync(key, _stopping))?.Value);
-                return;
-            }
-
-            // A write made while the store answered stays, and is what the caller reads (the store value
-            // is only refused over an entry cached meanwhile, so there is one when it is not applied).
-            var (before, applied) = await _sync!.ApplyIfStoreWinsAsync(cache, key, stored, _stopping);
-            result.TrySetResult(applied ? stored.Value : before!.Value);
-        }
-        catch (Exception exception)
-        {
-            // Every waiting read sees the failure; none is lost unobserved here.
-            result.TrySetException(exception);
-        }
-        finally
-        {
-            lock (_gate)
-            {
-                // Only its own entry: a reset of the user may have registered a newer read of the key meanwhile.
-                if (cache.FirstReads.TryGetValue(key, out var registered) && registered == result.Task)
-                {
-                    cache.FirstReads.Remove(key);
-                }
-            }
-        }
-    }
 
     private async Task WriteAsync(string key, string? value, CancellationToken cancellationToken)
     {
@@ -510,20 +406,6 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
     }
 
-    private async Task RefreshAsync(PreferenceCache cache, string key)
-    {
-        // The caller already has the cached value; the store is asked after it resumed.
-        await Task.Yield();
-        await RunInBackgroundAsync(async token =>
-        {
-            // Never limited: a page load re-reads each cached key it reads once, so a reload shows the store's value.
-            if (await _storeAccess!.TryGetAsync(key, token) is { } stored && await _sync!.ApplyStoredAsync(cache, key, stored, token) is { } change)
-            {
-                await RaiseAsync(change);
-            }
-        });
-    }
-
     /// <summary>
     /// An automatic synchronization. The periodic one is never limited; one started by a tab becoming visible
     /// (<paramref name="limited"/>) is skipped when the cache synchronized less than <see cref="OmniPreferencesOptions.MinSyncGap"/> ago.
@@ -563,7 +445,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
     }
 
-    private async Task RunInBackgroundAsync(Func<CancellationToken, Task> work)
+    internal async Task RunInBackgroundAsync(Func<CancellationToken, Task> work)
     {
         try
         {
@@ -591,7 +473,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
     }
 
-    private async Task RaiseAsync(OmniPreferenceChangedEventArgs change)
+    internal async Task RaiseAsync(OmniPreferenceChangedEventArgs change)
     {
         if (Changed is not { } handlers)
         {
@@ -856,7 +738,7 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
     }
 
-    private void Track(Task work)
+    internal void Track(Task work)
     {
         lock (_gate)
         {
