@@ -55,6 +55,9 @@
     <PackageReference Include="Microsoft.Extensions.Localization" />
     <!-- The built-in icon outlines, read once by Internal/PhosphorIconGlyphs.cs. -->
     <EmbeddedResource Include="Internal\PhosphorIcons.txt" LogicalName="OmniEurope.Blazor.PhosphorIcons.txt" />
+    <!-- Drops a WebAssembly consumer's stale OE webcil output after an upgrade (see the file). -->
+    <None Remove="buildTransitive/OmniEurope.Blazor.targets" />
+    <None Include="buildTransitive/OmniEurope.Blazor.targets" Pack="true" PackagePath="buildTransitive/" />
     <None Include="../../README.md" Pack="true" PackagePath="/" />
     <None Include="../../NOTICE.md" Pack="true" PackagePath="/" />
     <None Include="../../docs/sbom.cdx.json" Pack="true" PackagePath="compliance/" />

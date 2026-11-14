@@ -62,6 +62,7 @@ try {
         '^compliance/licenses/.+$',
 
         '^analyzers/dotnet/cs/OmniEurope\.Blazor\.Analyzers\.dll$',
+        '^buildTransitive/OmniEurope\.Blazor\.targets$',
         '^staticwebassets/omnieurope\.blazor\.css$',
         '^staticwebassets/omniInterop\.js$'
     )

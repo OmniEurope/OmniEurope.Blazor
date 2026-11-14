@@ -1,0 +1,43 @@
+<Project>
+  <!-- Shipped as buildTransitive/OmniEurope.Blazor.targets: runs in every project that references the package.
+
+       The .NET 11 WebAssembly SDK converts each DLL to webcil in _ConvertBuildDllsToWebcil, an incremental
+       target that compares file times: a DLL is converted again only when it is newer than its webcil output.
+       After an OE upgrade the new DLL can be older than that output (the package carries its commit time, and
+       the consumer may have built the previous version after that commit), and the host then keeps serving the
+       previous OE assembly with no error. This target remembers which OE files the webcil outputs were made
+       from and deletes those outputs when the files change (another version), so the SDK converts them again.
+       Without a version change nothing is deleted and the conversion stays incremental.
+
+       It only hooks the SDK target by name (BeforeTargets on a missing target is a no-op), so a .NET 10 host,
+       whose conversion is not incremental, and a non WebAssembly host are left alone. -->
+  <Target Name="_OmniEuropeDropStaleWebcil"
+          BeforeTargets="_ConvertBuildDllsToWebcil"
+          Condition="'$(_WasmEnableWebcil)' == 'true' And '@(_WasmDllBuildCandidates)' != ''">
+    <ItemGroup>
+      <_OmniEuropeWebcilSource Include="@(_WasmDllBuildCandidates)"
+                               Condition="'%(FileName)' == 'OmniEurope.Blazor' Or '%(FileName)' == 'OmniEurope.Blazor.resources'" />
+      <_OmniEuropeWebcilSourceLine Include="@(_OmniEuropeWebcilSource->'%(FullPath)')" />
+    </ItemGroup>
+    <PropertyGroup>
+      <_OmniEuropeWebcilStamp>$(IntermediateOutputPath)omnieurope.blazor.webcil.stamp</_OmniEuropeWebcilStamp>
+    </PropertyGroup>
+    <ReadLinesFromFile File="$(_OmniEuropeWebcilStamp)" Condition="Exists('$(_OmniEuropeWebcilStamp)')">
+      <Output TaskParameter="Lines" ItemName="_OmniEuropeWebcilPreviousLine" />
+    </ReadLinesFromFile>
+    <PropertyGroup>
+      <_OmniEuropeWebcilSources>@(_OmniEuropeWebcilSourceLine)</_OmniEuropeWebcilSources>
+      <_OmniEuropeWebcilPrevious>@(_OmniEuropeWebcilPreviousLine)</_OmniEuropeWebcilPrevious>
+    </PropertyGroup>
+
+    <Message Importance="normal" Text="OmniEurope.Blazor changed since its last webcil conversion: its webcil outputs are deleted so the SDK converts them again."
+             Condition="'@(_OmniEuropeWebcilSource)' != '' And '$(_OmniEuropeWebcilPrevious)' != '$(_OmniEuropeWebcilSources)'" />
+    <Delete Files="@(_OmniEuropeWebcilSource->'%(WebcilOutputPath)')"
+            Condition="'@(_OmniEuropeWebcilSource)' != '' And '$(_OmniEuropeWebcilPrevious)' != '$(_OmniEuropeWebcilSources)'" />
+    <WriteLinesToFile File="$(_OmniEuropeWebcilStamp)" Lines="@(_OmniEuropeWebcilSourceLine)" Overwrite="true"
+                      WriteOnlyWhenDifferent="true" Condition="'@(_OmniEuropeWebcilSource)' != ''" />
+    <ItemGroup Condition="'@(_OmniEuropeWebcilSource)' != ''">
+      <FileWrites Include="$(_OmniEuropeWebcilStamp)" />
+    </ItemGroup>
+  </Target>
+</Project>
