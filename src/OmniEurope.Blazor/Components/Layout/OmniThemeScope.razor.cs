@@ -41,6 +41,7 @@ public partial class OmniThemeScope
     private bool _decided;
     private bool _waiting;
     private bool _rootAttached;
+    private bool _disposed;
 
     /// <summary>The content the scope themes. Required.</summary>
     [Parameter, EditorRequired]
@@ -125,15 +126,37 @@ public partial class OmniThemeScope
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (_waiting)
+        if (_waiting || _disposed)
         {
             return;
         }
 
+        // A scope disposed while a script was still loading stops after that step: the script was released on
+        // arrival, so the steps that follow must not call it, nor load it again.
         var tokensChanged = await ApplyTokensAsync();
+        if (_disposed)
+        {
+            return;
+        }
+
         await SyncResolvedModeAsync();
+        if (_disposed)
+        {
+            return;
+        }
+
         await WriteSnapshotAsync();
+        if (_disposed)
+        {
+            return;
+        }
+
         await SyncCanvasAsync(tokensChanged);
+        if (_disposed)
+        {
+            return;
+        }
+
         await SyncDocumentRootAsync();
     }
 
@@ -235,8 +258,9 @@ public partial class OmniThemeScope
     /// <summary>The snapshot key, or null when none is usable.</summary>
     private string? SnapshotStorageKey => string.IsNullOrWhiteSpace(SnapshotKey) ? null : SnapshotKey;
 
-    private async Task<IJSObjectReference> LoadThemeModuleAsync() =>
-        _themeModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Theme);
+    /// <summary>The theme module, loaded on first use; null when the scope was disposed while it loaded (the module is released on arrival).</summary>
+    private async Task<IJSObjectReference?> LoadThemeModuleAsync() =>
+        _themeModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Theme, () => _disposed);
 
     /// <summary>Starts or stops following the system setting for <c>data-omni-theme-resolved</c>.</summary>
     private async Task SyncResolvedModeAsync()
@@ -249,7 +273,12 @@ public partial class OmniThemeScope
 
         if (follow)
         {
-            await (await LoadThemeModuleAsync()).InvokeVoidAsync("followSystem", _element);
+            if (await LoadThemeModuleAsync() is not { } module)
+            {
+                return;
+            }
+
+            await module.InvokeVoidAsync("followSystem", _element);
         }
         else
         {
@@ -278,7 +307,11 @@ public partial class OmniThemeScope
         }
 
         var (light, dark) = Resolve();
-        var module = await LoadThemeModuleAsync();
+        if (await LoadThemeModuleAsync() is not { } module)
+        {
+            return;
+        }
+
         var density = Density.ToString().ToLowerInvariant();
         if (shared is null)
         {
@@ -317,7 +350,11 @@ public partial class OmniThemeScope
             return false;
         }
 
-        var module = await LoadThemeModuleAsync();
+        if (await LoadThemeModuleAsync() is not { } module)
+        {
+            return false;
+        }
+
         // The scope that keeps the snapshot takes over from the boot copy in the same call that paints it,
         // so no frame shows the scope between the two.
         var handOver = SnapshotStorageKey is not null;
@@ -385,7 +422,7 @@ public partial class OmniThemeScope
                 _canvasTokensChanged = false;
                 await SyncCanvasOnceAsync(changed);
             }
-            while (_canvasSyncAgain);
+            while (_canvasSyncAgain && !_disposed);
         }
         finally
         {
@@ -423,7 +460,13 @@ public partial class OmniThemeScope
         }
 
         _canvasScript = script;
-        _canvasModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, script);
+        _canvasModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, script, () => _disposed);
+        if (_canvasModule is null)
+        {
+            // Disposed while the script loaded: it was released on arrival.
+            return;
+        }
+
         if (!_canvasRunning || _canvasMotion != BackdropMotion)
         {
             var drawn = await _canvasModule.InvokeAsync<bool>("start", _canvas, _element, BackdropMotion);
@@ -483,6 +526,7 @@ public partial class OmniThemeScope
     /// <summary>Clears the tokens written on the scope, stops following the system and releases the theme and canvas scripts, if they were loaded.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         _shared?.Dispose();
         if (_rootAttached)
         {
