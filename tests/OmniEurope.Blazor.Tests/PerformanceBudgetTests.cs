@@ -80,6 +80,32 @@ public sealed class PerformanceBudgetTests : OmniBunitContext
         Assert.True(allocated < 40 * 1024 * 1024, $"Allocations: {allocated} octets");
     }
 
+    [Fact]
+    public void TenThousandCellSpreadsheet_DrawnWhole_StaysWithinRegressionBudget()
+    {
+        // 1 000 rows of 10 columns, the last one a formula: the sheet draws every cell, without
+        // virtualization, so this is the practical size docs/performance-budgets.md announces.
+        var rows = Enumerable.Range(1, 1_000)
+            .Select(row => (IReadOnlyList<string>)[
+                $"Poste {row}", .. Enumerable.Range(1, 8).Select(column => (row * column).ToString(System.Globalization.CultureInfo.InvariantCulture)),
+                $"=SUM(B{row}:I{row})"])
+            .ToArray();
+        var sheet = OmniSpreadsheetData.FromRows(rows);
+        IRenderedComponent<OmniSpreadsheet> RenderSheet() => Render<OmniSpreadsheet>(parameters => parameters
+            .Add(component => component.Value, sheet)
+            .Add(component => component.Label, "Budget"));
+        using var functionalSheet = RenderSheet();
+        Assert.Equal(10_000, functionalSheet.FindAll("[role=gridcell]").Count);
+        var (elapsed, allocated) = MeasureMedian(() =>
+        {
+            using var rendered = RenderSheet();
+        });
+
+        Assert.True(elapsed < TimeSpan.FromSeconds(3), $"Temps médian: {elapsed}");
+        // Measured at 45 MB and 75 ms on 2026-11-14 (net11.0, Release).
+        Assert.True(allocated < 100 * 1024 * 1024, $"Allocations: {allocated} octets");
+    }
+
     private static (TimeSpan Elapsed, long Allocated) MeasureMedian(Action action)
     {
         action();

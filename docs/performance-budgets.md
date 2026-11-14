@@ -17,6 +17,9 @@ Depuis le 2026-11-11, sur décision du propriétaire, le paquet cible net10.0 et
 | DataGrid local, source de 10 000 lignes, page de 50 | 3 s et 160 Mio alloués |
 | SVG de 1 000 points | 3 s et 80 Mio alloués |
 | Graphique `OmniChart` de 1 000 points avec leurs zones de survol | 3 s et 40 Mio alloués |
+| `OmniSpreadsheet` de 1 000 lignes x 10 colonnes (10 000 cellules, une formule par ligne), dessinée entière | 3 s et 100 Mio alloués |
+
+`OmniSpreadsheet` dessine toutes ses cellules, sans fenêtre ni virtualisation, avec deux gestionnaires d'événement par cellule : sa taille pratique annoncée est celle du budget, 10 000 cellules. Le modèle en admet 250 000 (`OmniSpreadsheetData.MaxCells`), mais seul le rendu bUnit de 10 000 cellules est mesuré, pas le coût du navigateur ; une feuille plus grande se juge sur l'hôte réel, et un gros volume de lignes en lecture va dans une `OmniDataGrid` virtualisée.
 
 La DataGrid locale ne rend que la page demandée, mais matérialise la projection filtrée et triée avant pagination. En mode `ScrollMode="Virtual"`, seule la fenêtre visible est rendue et les décalages verticaux sont tenus dans un arbre de Fenwick, donc en coût logarithmique par mesure ; la mémoire reste proportionnelle au nombre total de lignes, à raison de deux tableaux de hauteurs. Le chargement distant virtualisé borne son cache à vingt-quatre blocs. `OmniDataList` avec `Virtualize` ne rend de même que les éléments proches de la zone visible, avec le même index de décalages, tandis que DropDown et les autres sélecteurs matérialisent encore toutes leurs options filtrées. Les chargements distants annulent la requête précédente et ignorent ses résultats obsolètes.
 

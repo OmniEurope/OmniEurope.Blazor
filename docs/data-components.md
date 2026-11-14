@@ -836,7 +836,7 @@ des formules calculées sur la feuille.
   découpage). Chaque modification produit une nouvelle feuille, remontée par `ValueChanged`.
 - **Taille.** Une feuille compte au plus `MaxRows` (10 000) lignes, `MaxColumns` (500, soit jusqu'à la colonne
   `SF`) colonnes et `MaxCells` (250 000) cellules : chaque modification recopie les cellules et le composant
-  les dessine toutes, sans virtualisation. `Create`, `FromRows`, `WithInput` (une adresse lointaine comme
+  les dessine toutes, sans virtualisation : la taille pratique annoncée est de 10 000 cellules, celle que mesure son budget de performance ([performance-budgets.md](performance-budgets.md)). `Create`, `FromRows`, `WithInput` (une adresse lointaine comme
   `A9999999` n'alloue plus les lignes intermédiaires), `AddRow` et `AddColumn` lèvent une
   `ArgumentOutOfRangeException` au-delà ; `FromJson` lève la `JsonException` documentée. Les boutons d'ajout
   du composant se désactivent à la limite.
