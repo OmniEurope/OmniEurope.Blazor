@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Corrigé
+
+- Paquet NuGet : les fichiers ne portent plus l'heure fixe du 2000-01-01 mais l'heure du commit empaqueté (`DeterministicTimestamp` lu par `git log -1 --format=%cI HEAD` au moment du pack). NuGet donne cette heure aux fichiers extraits, et le SDK WebAssembly ne reconvertit en webcil qu'une DLL plus récente que la sortie webcil déjà présente : avec l'heure fixe, un consommateur WASM qui passait de 1.13.0 à 1.14.0 sans build propre continuait de servir l'assembly 1.13 (signalé par Astranya). Deux empaquetages d'un même commit restent identiques octet pour octet. Limite : un consommateur qui a compilé l'ancienne version après le commit de la nouvelle garde l'ancienne sortie webcil jusqu'à un build propre. Preuve : consommateur WASM en gestion centrale des versions, 1.13.0 puis 1.14.0 publié (webcil resté à 2 747 677 octets), puis un paquet de ce commit (webcil reconverti).
+
 ## [1.14.0] - 2026-11-14
 
 ### Ajouté

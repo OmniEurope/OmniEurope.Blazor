@@ -26,11 +26,28 @@
     <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
     <IncludeSymbols>true</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
-    <!-- Deterministic pack (Deterministic is on in Directory.Build.props): NuGet stamps every ZIP entry with this
-         fixed time instead of the pack time, so two packs of one build are byte for byte identical; a date
-         string, not a boolean ("true" is ignored). eng/Test-DeterministicPack.ps1 proves it in CI. -->
-    <DeterministicTimestamp Condition="'$(DeterministicTimestamp)' == ''">2000-01-01T00:00:00Z</DeterministicTimestamp>
   </PropertyGroup>
+
+  <!-- Deterministic pack (Deterministic is on in Directory.Build.props): NuGet stamps every ZIP entry with
+       DeterministicTimestamp instead of the pack time, so two packs of one build are byte for byte identical
+       (eng/Test-DeterministicPack.ps1 proves it in CI); a date string, not a boolean ("true" is ignored).
+       The stamp is the commit time of HEAD, never a constant: NuGet gives the extracted files that time, and
+       the WebAssembly SDK converts a DLL to webcil only when it is newer than the previous webcil output, so a
+       constant older than any build left consumers on the previous OE version after an upgrade (1.14.0,
+       reported by Astranya). A later release commit always carries a later stamp. -->
+  <Target Name="_OmniSetPackTimestampFromCommit" BeforeTargets="GenerateNuspec" Condition="'$(DeterministicTimestamp)' == ''">
+    <PropertyGroup>
+      <!-- Exec runs a .cmd batch on Windows, where a single % is swallowed. -->
+      <_OmniCommitTimeFormat Condition="'$(OS)' == 'Windows_NT'">%25%25cI</_OmniCommitTimeFormat>
+      <_OmniCommitTimeFormat Condition="'$(OS)' != 'Windows_NT'">%25cI</_OmniCommitTimeFormat>
+    </PropertyGroup>
+    <Exec Command="git log -1 --format=$(_OmniCommitTimeFormat) HEAD" WorkingDirectory="$(MSBuildProjectDirectory)" ConsoleToMSBuild="true"
+          StandardOutputImportance="low" IgnoreExitCode="true">
+      <Output TaskParameter="ConsoleOutput" PropertyName="DeterministicTimestamp" />
+    </Exec>
+    <Error Condition="!$([System.Text.RegularExpressions.Regex]::IsMatch('$(DeterministicTimestamp)', '^\d{4}-\d\d-\d\dT\d\d:\d\d:\d\d(Z|[+-]\d\d:\d\d)$'))"
+           Text="Pack needs the commit time of HEAD for DeterministicTimestamp (git log returned '$(DeterministicTimestamp)'). Pack from a git checkout or pass -p:DeterministicTimestamp=yyyy-MM-ddTHH:mm:ssZ." />
+  </Target>
 
   <ItemGroup>
     <PackageReference Include="HtmlSanitizer" />

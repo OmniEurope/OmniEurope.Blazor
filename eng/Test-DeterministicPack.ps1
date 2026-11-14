@@ -8,8 +8,9 @@ param(
 $ErrorActionPreference = 'Stop'
 
 # Packs the same Release build a second time, into a fresh folder, and requires the .nupkg and the .snupkg
-# to be byte for byte identical to the first ones: Deterministic plus the fixed DeterministicTimestamp of
-# OmniEurope.Blazor.csproj leave nothing that depends on the time of the pack (docs/reproducibility.md).
+# to be byte for byte identical to the first ones: Deterministic plus the DeterministicTimestamp that
+# OmniEurope.Blazor.csproj takes from the HEAD commit time leave nothing that depends on the time of the
+# pack (docs/reproducibility.md).
 $repoRoot = Split-Path -Parent $PSScriptRoot
 $project = Join-Path $repoRoot 'src/OmniEurope.Blazor/OmniEurope.Blazor.csproj'
 $second = Join-Path ([IO.Path]::GetTempPath()) ("omni-pack-" + [Guid]::NewGuid().ToString('N'))
