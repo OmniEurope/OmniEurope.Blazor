@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Showcase.Components.Gallery;
 
 /// <summary>
 /// Theme and palette pickers and the light or dark toggle of a gallery page, bound to the showcase's own
-/// <see cref="ThemeState"/>.
+/// <see cref="ThemeState"/> (the package appearance state).
 /// </summary>
 public partial class GalleryThemePicker : IDisposable
 {
@@ -33,7 +33,7 @@ public partial class GalleryThemePicker : IDisposable
     {
         get
         {
-            var themePalette = ThemeState.DefaultPaletteOf(Theme.Theme);
+            var themePalette = OmniThemePresets.DefaultPaletteFor(Theme.Theme);
             return [.. OmniThemePalettes.All.Select(palette => new OmniOption<string>(
                 palette.Name,
                 ReferenceEquals(palette, themePalette) ? WithDefaultMark(palette.Name) : palette.Name))];
@@ -41,7 +41,7 @@ public partial class GalleryThemePicker : IDisposable
     }
 
     /// <summary>Whether the page is drawn dark; the system mode reads as light, as in the site header.</summary>
-    private bool IsDark => Theme.EffectiveMode is ThemeMode.Dark;
+    private bool IsDark => Theme.EffectiveMode is OmniAppearance.Dark;
 
     private string ModeLabel => IsDark ? Text["ModeLight"] : Text["ModeDark"];
 
@@ -63,7 +63,7 @@ public partial class GalleryThemePicker : IDisposable
             ? Theme.SelectPaletteAsync(palette)
             : Task.CompletedTask;
 
-    private Task ToggleModeAsync() => Theme.SetModeAsync(IsDark ? ThemeMode.Light : ThemeMode.Dark);
+    private Task ToggleModeAsync() => Theme.SetModeAsync(IsDark ? OmniAppearance.Light : OmniAppearance.Dark);
 
     private string WithDefaultMark(string name) => $"{name} ({Text["GalleryDefaultSuffix"]})";
 

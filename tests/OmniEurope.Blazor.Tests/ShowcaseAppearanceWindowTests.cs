@@ -4,8 +4,10 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Showcase.Components.Layout;
 using OmniEurope.Blazor.Showcase.Localization;
 using OmniEurope.Blazor.Showcase.Theming;
@@ -14,7 +16,7 @@ namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
 /// The four settings the showcase's appearance window gained (font, text size, control size, content width):
-/// they are kept in the visitor's browser store and replayed, bad stored values fall back to the defaults,
+/// they are kept as the package appearance preference and replayed, bad values left under the former showcase entry fall back to the defaults,
 /// the layout binds all four so the window shows the Text and Layout sections, and the content width reaches
 /// the main area. The browser effect of the levels (attributes on the document root) is checked in a real browser.
 /// </summary>
@@ -34,7 +36,8 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
     public async Task TheFourSettings_AreStored_AndReplayedByTheNextVisit()
     {
         var js = new StoreJs();
-        var state = StateOver(js);
+        var browser = new PreferenceBrowser();
+        var state = StateOver(js, browser);
         await state.InitializeAsync(Xunit.TestContext.Current.CancellationToken);
         var font = OmniThemeFonts.All[^1];
 
@@ -46,15 +49,13 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
         var apply = js.Calls.Last(call => call.Identifier == "omniShowcaseTheme.apply");
         Assert.Equal(8, apply.Arguments[5]);
         Assert.Equal(2, apply.Arguments[6]);
+        // The four settings are the package state's preference; the showcase entry keeps the hand edits alone.
         var serialized = (string)apply.Arguments[4]!;
-        var stored = JsonSerializer.Deserialize<Dictionary<string, string>>(serialized)!;
-        Assert.Equal(font.Name, stored["font"]);
-        Assert.Equal("8", stored["textSize"]);
-        Assert.Equal("2", stored["controlSize"]);
-        Assert.Equal("True", stored["fullWidth"]);
+        Assert.Empty(JsonSerializer.Deserialize<Dictionary<string, string>>(serialized)!);
+        Assert.Contains(browser.Storage.Values, entry => entry.Contains(font.Name, StringComparison.Ordinal));
         Assert.Equal(font.Family, state.Painted.Light["--omni-font-family"]);
 
-        var next = StateOver(new StoreJs { Stored = serialized });
+        var next = StateOver(new StoreJs { Stored = serialized }, browser);
         await next.InitializeAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.Equal(font, next.Font);
         Assert.Equal(8, next.TextSizeLevel);
@@ -74,8 +75,8 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
         await state.InitializeAsync(Xunit.TestContext.Current.CancellationToken);
 
         Assert.Null(state.Font);
-        Assert.Equal(ThemeState.DefaultLevel, state.TextSizeLevel);
-        Assert.Equal(ThemeState.DefaultLevel, state.ControlSizeLevel);
+        Assert.Equal(AppearanceLook.DefaultLevel, state.TextSizeLevel);
+        Assert.Equal(AppearanceLook.DefaultLevel, state.ControlSizeLevel);
         Assert.False(state.FullWidth);
     }
 
@@ -129,8 +130,18 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
         layout.WaitForAssertion(() => Assert.DoesNotContain("omni-main--wide", layout.Find("main.omni-main").ClassName, StringComparison.Ordinal));
     }
 
-    private static ThemeState StateOver(StoreJs js) =>
-        new(new ThemeTokenReader(new HttpClient(new StylesheetHandler()) { BaseAddress = new Uri("https://localhost/") }), js);
+    /// <summary>The showcase state over a package appearance state whose preference lives in <paramref name="browser"/>.</summary>
+    private static ThemeState StateOver(StoreJs js, PreferenceBrowser? browser = null)
+    {
+        var preferences = new OmniPreferences(
+            browser ?? new PreferenceBrowser(),
+            null,
+            new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan },
+            NullLogger<OmniPreferences>.Instance,
+            TimeProvider.System);
+        var appearance = new OmniAppearanceState(preferences, js, NullLogger<OmniAppearanceState>.Instance);
+        return new(new ThemeTokenReader(new HttpClient(new StylesheetHandler()) { BaseAddress = new Uri("https://localhost/") }), js, appearance);
+    }
 
     private sealed class StylesheetHandler : HttpMessageHandler
     {

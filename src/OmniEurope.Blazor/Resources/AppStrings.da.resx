@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Fjern fra favoritter</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Fjern</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Varighed</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Nøgternt udtryk som et forretningsprogram, radius 2,5 px, diskret elevation, uden seriffer.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Skarpe hjørner, ingen skygge, spatierede versaler.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Afrundet overalt, pilleknapper, en fin kant og en blød skygge i stedet for kant.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Store rundinger og farvede glorier fra accentfarven.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektrisk nat: accentskær, tonede kanter, bredt spatierede versaler.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Blæk på papir: linjer på 2 px, seriffer, ingen skygge.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Tykke konturer og hårde forskudte skygger uden sløring.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>8-bit-konsol: trappede rammer, skærmskrift.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asymmetriske bladformede hjørner og lagunerefleksioner.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Facetter, indre glanslys og dybe skygger.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Flader formet i siden: bløde lyse og mørke skygger, trykket ind ved klik.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Paneler af matteret glas over store pastelpletter, lys kant og store rundinger.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Flade farver uden skygge eller forløb, pilleknapper og udfyldte kort.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Sort på hvidt, tynde linjer, skarpe hjørner og meget store fede overskrifter.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Hældende akkretionsskive, der langsomt drejer bag siden: kulsort og en lysskive i mørk tilstand, lys side og samme skive i blæk med omvendte farver i lys tilstand; knap tilslørede kort.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo i begge tilstande, tydelige alvorsgrader.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Klar blå på skumbaggrund, marinenat i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Grangrøn på mosbaggrund, skovbund i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavendelviolet på syrenhvid, lilla nat i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektrisk cyan og violet, blæknat i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Poleret guld på cremefarvet papir, varm brun i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Glødende orange på ferskenbaggrund, rødt skær i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Rent sort og hvidt, kun alvorsgraderne i farve.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Laguneturkis, dyb blågrøn i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Blomme og rosa, mørk fløjl i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Klar blå på skygrå, antracit i mørk tilstand, orangerød til advarsler.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Kraftig indigo på perlehvid, himmelblå, mint og fersken som alvorsgrader, blålig nat i mørk tilstand.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Syren og rosa på hvidt, marineblå i mørk tilstand, himmelblå til information.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Sort blæk på knækket hvid, en enkelt diskret blækblå.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akkretionsrav på ren hvid, kulsort i mørk tilstand.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Ensfarvet side, ingen baggrund tegnet bag indholdet.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Store pastelpletter fra paletten, der langsomt driver bag siden.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Hældende akkretionsskive omkring et sort hul, der langsomt drejer bag siden.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Fint arkitektgitter, der langsomt glider diagonalt bag siden.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Koncentriske ringe fra en smut-sten, der breder sig og falmer bag siden.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Slørede lysbobler, der ånder og langsomt driver bag siden.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Synthwave-gitter i perspektiv, der suser mod en lysende horisont bag siden.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Blækpletter, der langsomt breder sig på papiret som akvarel bag siden.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro-solstråler, der langsomt drejer bag siden.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pixelstjerner, der funkler og glider forbi med parallakse bag siden.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Krusede vandrefleksioner og nogle drivende åkandeblade.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moiréglans, der glider over draperet fløjl.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Højdekurver fra et topografisk kort, der langsomt bølger.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Svævende geometriske pastelformer i Memphis-stil.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Meget fint punktraster, der pulserer blidt.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Systemets grænsefladeskrift, uden seriffer.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutral skrift uden seriffer, tegnet til skærme (fri webskrift).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Afrundede ender, venlig tone.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Åben og let skrift uden seriffer.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Skarpe cirkler og linjer, moderne udtryk.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Smal og regelmæssig, læses som et instrumentbræt.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Bred og meget letlæselig, designet til flydende læsning (fri webskrift).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Læseskrift med seriffer (fri webskrift).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Fine seriffer og moderat kontrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Fast bredde, alle tegn lige brede (fri webskrift).</value></data>
 </root>

@@ -28,7 +28,7 @@ internal static class RayonsBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Rayons",
-        "Rayons de soleil rétro qui tournent lentement derrière la page.",
+        "BackdropDescriptionRayons",
         BackdropDefinition.Tokens(
             ("--omni-backdrop-ray", "color-mix(in srgb, var(--omni-color-accent-fill) 6%, var(--omni-color-surface))"),
             ("--omni-backdrop-sun", "color-mix(in srgb, var(--omni-color-warning-fill) 14%, var(--omni-color-surface))"),

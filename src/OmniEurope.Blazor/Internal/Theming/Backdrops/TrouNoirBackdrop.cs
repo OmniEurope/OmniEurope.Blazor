@@ -19,7 +19,7 @@ internal static class TrouNoirBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Trou noir",
-        "Disque d’accrétion incliné autour d’un trou noir, qui tourne lentement derrière la page.",
+        "BackdropDescriptionTrouNoir",
         BackdropDefinition.Tokens(
             // The stops are drawn from the text over the surface (a backdrop writes no colour of its own), a
             // sober ring around a horizon of the page colour; the rule, the neutral badge and the text still

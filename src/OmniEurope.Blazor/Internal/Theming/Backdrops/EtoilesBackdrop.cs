@@ -31,7 +31,7 @@ internal static class EtoilesBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Étoiles",
-        "Étoiles en pixels qui scintillent et défilent en parallaxe derrière la page.",
+        "BackdropDescriptionEtoiles",
         BackdropDefinition.Tokens(
             // The stops are drawn from the text and the accent over the surface (a backdrop writes no colour of
             // its own); the canvas never paints a star brighter than them, so the text reads over a star as it

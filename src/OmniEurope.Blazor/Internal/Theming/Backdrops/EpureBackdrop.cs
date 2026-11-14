@@ -31,7 +31,7 @@ internal static class EpureBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Épure",
-        "Trame de points très fins qui pulse doucement.",
+        "BackdropDescriptionEpure",
         BackdropDefinition.Tokens(
             // The dots are a faint tint of the text over the surface, the wide grid a touch firmer: the
             // black on white of the theme, a screen only a close look picks out.

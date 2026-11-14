@@ -9,7 +9,10 @@ namespace OmniEurope.Blazor.Components;
 /// follows at once. <see cref="With(OmniThemePalette)"/> keeps the shape and swaps the colours for another palette.
 /// </remarks>
 /// <param name="Name">The theme name as shown in a picker.</param>
-/// <param name="Description">One line describing the theme.</param>
+/// <param name="Description">
+/// One line describing the theme. An entry of the catalogue reads it from the package resources in the current UI
+/// culture (see <see cref="Description"/>); its name stays French, never translated.
+/// </param>
 /// <param name="Light">Token overrides applied in light mode.</param>
 /// <param name="Dark">Token overrides applied in dark mode.</param>
 public sealed record OmniThemePreset(
@@ -19,6 +22,24 @@ public sealed record OmniThemePreset(
     IReadOnlyDictionary<string, string> Dark)
 {
     private static readonly IReadOnlyDictionary<string, string> NoTokens = new Dictionary<string, string>(StringComparer.Ordinal);
+
+    /// <summary>
+    /// One line describing the theme. A theme of the catalogue gives it in the current UI culture
+    /// (<see cref="System.Globalization.CultureInfo.CurrentUICulture"/>), read from the package resources in the 24 languages
+    /// each time it is asked for; a theme built by hand, or given another description through <c>with</c>, keeps the text it was given.
+    /// </summary>
+    public string Description
+    {
+        get => DescriptionKey is { } key ? CatalogDescriptions.Describe(key, field) : field;
+        init
+        {
+            field = value;
+            DescriptionKey = null;
+        }
+    } = Description;
+
+    /// <summary>The resource key of the description of a catalogue theme; null for a theme built by hand.</summary>
+    internal string? DescriptionKey { get; init; }
 
     /// <summary>
     /// The shape tokens of the theme (radii, borders, shadows, fonts, buttons), laid over both halves.

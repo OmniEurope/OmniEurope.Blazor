@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Ukloni iz favorita</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Ukloni</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Trajanje</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Odmjeren izgled poslovne aplikacije, polumjer 2,5 px, diskretno izdizanje, bez serifa.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Oštri kutovi, bez sjene, razmaknuta velika slova.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Sve zaobljeno, gumbi u obliku pilule, tanak rub i meka sjena umjesto obruba.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Velika zaobljenja i obojeni sjaj iz boje naglaska.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Električna noć: sjaj naglaska, obojeni obrubi, jako razmaknuta velika slova.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Tinta na papiru: crte od 2 px, serifi, bez sjene.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Debeli obrisi i oštre pomaknute sjene bez zamućenja.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Osmobitna konzola: stepenasti okviri, zaslonski font.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asimetrični kutovi u obliku lista i odsjaji lagune.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Kosine, unutarnji odsjaji i duboke sjene.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Površine oblikovane u stranici: meke svijetle i tamne sjene, utisnute pri pritisku.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Ploče od mutnog stakla iznad velikih pastelnih mrlja, svijetli rub i velika zaobljenja.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Plošne boje bez sjene i prijelaza, gumbi u obliku pilule i pune kartice.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Crno na bijelom, tanke crte, oštri kutovi i vrlo veliki podebljani naslovi.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Nagnuti akrecijski disk koji se polako okreće iza stranice: duboka crnina i svjetlosni disk u tamnom načinu, svijetla stranica i isti disk tintom, obrnutih boja, u svijetlom načinu; jedva zastrte kartice.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo u oba načina, jasne razine ozbiljnosti.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Jarko plava na pozadini morske pjene, morska noć u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Jelovo zelena na pozadini mahovine, šumsko raslinje u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavandno ljubičasta na lila bijeloj, sljezova noć u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Električna cijan i ljubičasta, noć boje tinte u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Polirano zlato na krem papiru, topla smeđa u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Žarko narančasta na pozadini boje breskve, crveni sjaj u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Čista crna i bijela, u boji samo razine ozbiljnosti.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Tirkizna boja lagune, duboka plavozelena u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Šljiva i ružičasta, tamni baršun u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Živo plava na oblačno sivoj, antracit u tamnom načinu, narančasto crvena za upozorenja.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Izraziti indigo na biserno bijeloj, nebeskoplava, metvica i breskva kao razine ozbiljnosti, plavkasta noć u tamnom načinu.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Lila i ružičasta na bijeloj, mornarsko plava u tamnom načinu, nebeskoplava za informacije.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Crna tinta na prljavo bijeloj, jedna jedina diskretna plava tinte.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akrecijski jantar na čisto bijeloj, duboka crnina u tamnom načinu.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Jednobojna stranica, iza sadržaja nije nacrtana pozadina.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Velike pastelne mrlje iz palete koje polako plutaju iza stranice.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Nagnuti akrecijski disk oko crne rupe koji se polako okreće iza stranice.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Fina arhitektonska mreža koja polako klizi dijagonalno iza stranice.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Koncentrični krugovi kamenčića koji odskakuje, koji se iza stranice šire i blijede.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Zamućeni mjehurići svjetla koji dišu i polako plutaju iza stranice.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Synthwave mreža u perspektivi koja juri prema blistavom obzoru iza stranice.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Mrlje tinte koje se poput akvarela polako razlijevaju po papiru iza stranice.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro sunčeve zrake koje se polako okreću iza stranice.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pikselne zvijezde koje trepere i klize u paralaksi iza stranice.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Valoviti odsjaji vode i nekoliko listova lopoča koji plutaju.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moaré sjaj koji klizi preko nabranog baršuna.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Izohipse topografske karte koje se polako valovito gibaju.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Lebdeći pastelni geometrijski oblici u stilu Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Vrlo fini raster točaka koji nježno pulsira.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Font sučelja sustava, bez serifa.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutralni font bez serifa dizajniran za zaslone (slobodni web-font).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Zaobljeni završeci, prijateljski ton.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Otvoren i lagan font bez serifa.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Čisti krugovi i ravne crte, moderan izgled.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Uzak i pravilan, čita se poput nadzorne ploče.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Širok i vrlo čitljiv, osmišljen za tečno čitanje (slobodni web-font).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Font sa serifima za čitanje (slobodni web-font).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Tanki serifi i umjeren kontrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Fiksne širine, svaki znak jednako širok (slobodni web-font).</value></data>
 </root>

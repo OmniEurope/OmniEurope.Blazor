@@ -19,17 +19,17 @@ internal static class FontCatalog
     public const string Console = "\"JetBrains Mono\", \"Lucida Console\", \"Courier New\", ui-monospace, monospace";
     public const string Humanist = "Inter, system-ui, -apple-system, \"Segoe UI\", Roboto, Arial, sans-serif";
 
-    public static IReadOnlyList<(string Name, string Description, string Family)> All { get; } =
+    public static IReadOnlyList<(string Name, string DescriptionKey, string Family)> All { get; } =
     [
-        ("Système", "La police de l’interface du système, sans empattement.", Sans),
-        ("Inter", "Sans empattement neutre dessinée pour les écrans (police web libre).", Humanist),
-        ("Arrondie", "Terminaisons arrondies, ton amical.", Rounded),
-        ("Douce", "Sans empattement ouverte et légère.", Soft),
-        ("Géométrique", "Cercles et droites nets, allure moderne.", Geometric),
-        ("Technique", "Étroite et régulière, lecture de tableau de bord.", Technical),
-        ("Lexend", "Large et très lisible, pensée pour la fluidité de lecture (police web libre).", Screen),
-        ("Source Serif", "Police de lecture à empattements (police web libre).", Serif),
-        ("Transitionnelle", "Empattements fins et contraste modéré.", Transitional),
-        ("JetBrains Mono", "Chasse fixe, chaque caractère de même largeur (police web libre).", Console),
+        ("Système", "FontDescriptionSysteme", Sans),
+        ("Inter", "FontDescriptionInter", Humanist),
+        ("Arrondie", "FontDescriptionArrondie", Rounded),
+        ("Douce", "FontDescriptionDouce", Soft),
+        ("Géométrique", "FontDescriptionGeometrique", Geometric),
+        ("Technique", "FontDescriptionTechnique", Technical),
+        ("Lexend", "FontDescriptionLexend", Screen),
+        ("Source Serif", "FontDescriptionSourceSerif", Serif),
+        ("Transitionnelle", "FontDescriptionTransitionnelle", Transitional),
+        ("JetBrains Mono", "FontDescriptionJetBrainsMono", Console),
     ];
 }

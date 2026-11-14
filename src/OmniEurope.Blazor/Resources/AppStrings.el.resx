@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Αφαίρεση από τα αγαπημένα</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Αφαίρεση</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Διάρκεια</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Λιτή εμφάνιση επαγγελματικής εφαρμογής, ακτίνα 2,5 px, διακριτική ανύψωση, χωρίς πατούρες.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Αιχμηρές γωνίες, χωρίς σκιά, αραιωμένα κεφαλαία.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Στρογγυλεμένο παντού, κουμπιά σε σχήμα κάψουλας, λεπτό περίγραμμα και απαλή σκιά αντί για πλαίσιο.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Μεγάλες καμπύλες και χρωματιστές άλως από το χρώμα έμφασης.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Ηλεκτρική νύχτα: λάμψεις έμφασης, χρωματισμένα περιγράμματα, πολύ αραιωμένα κεφαλαία.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Μελάνι σε χαρτί: γραμμές 2 px, πατούρες, χωρίς σκιά.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Παχιά περιγράμματα και σκληρές μετατοπισμένες σκιές, χωρίς θόλωση.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Κονσόλα οκτώ bit: κλιμακωτά πλαίσια, γραμματοσειρά οθόνης.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Ασύμμετρες γωνίες σε σχήμα φύλλου και αντανακλάσεις λιμνοθάλασσας.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Λοξοτμήσεις, εσωτερικές λάμψεις και βαθιές σκιές.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Επιφάνειες σμιλεμένες στη σελίδα: απαλές φωτεινές και σκοτεινές σκιές, βυθίζονται στο πάτημα.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Πάνελ από θαμπό γυαλί πάνω σε μεγάλες παστέλ κηλίδες, φωτεινό περίγραμμα και μεγάλες καμπύλες.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Επίπεδα χρώματα χωρίς σκιά ή διαβάθμιση, κουμπιά σε σχήμα κάψουλας και γεμάτες κάρτες.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Μαύρο σε λευκό, λεπτές γραμμές, αιχμηρές γωνίες και πολύ μεγάλοι έντονοι τίτλοι.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Κεκλιμένος δίσκος προσαύξησης που περιστρέφεται αργά πίσω από τη σελίδα: απόλυτο μαύρο και δίσκος φωτός στη σκοτεινή λειτουργία, φωτεινή σελίδα και ο ίδιος δίσκος με μελάνι, με αντεστραμμένα χρώματα, στη φωτεινή λειτουργία· κάρτες μόλις πεπλωμένες.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Λουλακί και στις δύο λειτουργίες, ευδιάκριτα επίπεδα σοβαρότητας.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Έντονο μπλε σε φόντο αφρού, θαλασσινή νύχτα στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Πράσινο του έλατου σε φόντο βρύων, χαμόκλαδα στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Βιολετί της λεβάντας σε λιλά λευκό, μοβ νύχτα στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Ηλεκτρικό κυανό και βιολετί, νύχτα μελανιού στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Γυαλισμένος χρυσός σε κρεμ χαρτί, ζεστό καφέ στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Πορτοκαλί της θράκας σε φόντο ροδακινί, κόκκινη λάμψη στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Καθαρό μαύρο και λευκό, μόνο τα επίπεδα σοβαρότητας έγχρωμα.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Τιρκουάζ λιμνοθάλασσας, βαθύ γαλαζοπράσινο στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Δαμασκηνί και ροζ, σκούρο βελούδο στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Ζωηρό μπλε σε γκρι του σύννεφου, ανθρακί στη σκοτεινή λειτουργία, πορτοκαλοκόκκινο για τις ειδοποιήσεις.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Έντονο λουλακί σε μαργαριταρένιο λευκό, γαλάζιο, μέντα και ροδακινί ως επίπεδα σοβαρότητας, γαλαζωπή νύχτα στη σκοτεινή λειτουργία.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Λιλά και ροζ σε λευκό, ναυτικό μπλε στη σκοτεινή λειτουργία, γαλάζιο για τις πληροφορίες.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Μαύρο μελάνι σε υπόλευκο, ένα μόνο διακριτικό μπλε μελανιού.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Κεχριμπάρι προσαύξησης σε καθαρό λευκό, απόλυτο μαύρο στη σκοτεινή λειτουργία.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Μονόχρωμη σελίδα, χωρίς σχεδιασμένο φόντο πίσω από το περιεχόμενο.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Μεγάλες παστέλ κηλίδες της παλέτας που παρασύρονται αργά πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Κεκλιμένος δίσκος προσαύξησης γύρω από μια μαύρη τρύπα, που περιστρέφεται αργά πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Λεπτό αρχιτεκτονικό πλέγμα που γλιστρά αργά διαγώνια πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Ομόκεντροι κυματισμοί από ένα βότσαλο που αναπηδά, που απλώνονται και σβήνουν πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Θολές φυσαλίδες φωτός που αναπνέουν και παρασύρονται αργά πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Πλέγμα synthwave σε προοπτική που τρέχει προς έναν φωτεινό ορίζοντα πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Κηλίδες μελανιού που απλώνονται αργά στο χαρτί, σαν ακουαρέλα, πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Ρετρό ακτίνες ήλιου που περιστρέφονται αργά πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Αστέρια από pixel που τρεμοπαίζουν και κυλούν με παράλλαξη πίσω από τη σελίδα.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Κυματιστές αντανακλάσεις του νερού και μερικά φύλλα νούφαρου που παρασύρονται.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Λάμψη μουαρέ που γλιστρά πάνω σε πτυχωμένο βελούδο.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Ισοϋψείς καμπύλες τοπογραφικού χάρτη που κυματίζουν αργά.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Αιωρούμενα παστέλ γεωμετρικά σχήματα, σε στυλ Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Πολύ λεπτός κάνναβος κουκκίδων που πάλλεται απαλά.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Η γραμματοσειρά της διεπαφής του συστήματος, χωρίς πατούρες.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Ουδέτερη γραμματοσειρά χωρίς πατούρες για οθόνες (ελεύθερη γραμματοσειρά web).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Στρογγυλεμένες απολήξεις, φιλικός τόνος.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Ανοιχτή και ελαφριά γραμματοσειρά χωρίς πατούρες.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Καθαροί κύκλοι και ευθείες, σύγχρονη εμφάνιση.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Στενή και ομοιόμορφη, διαβάζεται σαν πίνακας οργάνων.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Φαρδιά και πολύ ευανάγνωστη, σχεδιασμένη για άνετη ανάγνωση (ελεύθερη γραμματοσειρά web).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Γραμματοσειρά ανάγνωσης με πατούρες (ελεύθερη γραμματοσειρά web).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Λεπτές πατούρες και μέτρια αντίθεση.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Σταθερού πλάτους, κάθε χαρακτήρας ίδιου πλάτους (ελεύθερη γραμματοσειρά web).</value></data>
 </root>

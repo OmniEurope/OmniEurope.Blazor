@@ -46,7 +46,7 @@ internal static class NenupharBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Nénuphar",
-        "Reflets de l’eau qui ondulent et quelques feuilles de nénuphar à la dérive.",
+        "BackdropDescriptionNenuphar",
         BackdropDefinition.Tokens(
             // Every stop is drawn from the palette over the surface: the water from the information and
             // the accent hues, the leaves from the success hue; the light of the caustics is the page

@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Премахване от любимите</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Премахване</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Продължителност</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Семпъл стил на бизнес приложение, радиус 2,5 px, дискретно издигане, безсерифен шрифт.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Остри ъгли, без сянка, разредени главни букви.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Всичко заоблено, бутони във форма на хапче, тънък кант и мека сянка вместо рамка.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Големи заобляния и цветни ореоли от акцентния цвят.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Електрическа нощ: акцентно сияние, оцветени рамки, силно разредени главни букви.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Мастило върху хартия: линии от 2 px, серифи, без сянка.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Дебели контури и твърди изместени сенки без размиване.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Осембитова конзола: стъпаловидни рамки, екранен шрифт.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Асиметрични ъгли във форма на лист и отблясъци на лагуна.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Скосявания, вътрешни отблясъци и дълбоки сенки.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Повърхности, моделирани в страницата: меки светли и тъмни сенки, вдлъбнати при натискане.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Панели от матово стъкло над големи пастелни петна, светъл кант и големи заобляния.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Плътни цветове без сянка и преливане, бутони във форма на хапче и плътни карти.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Черно върху бяло, тънки линии, остри ъгли и много големи удебелени заглавия.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Наклонен акреционен диск, който бавно се върти зад страницата: абсолютно черно и светъл диск в тъмен режим, светла страница и същият диск с мастило, в обърнати цветове, в светъл режим; едва забулени карти.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Индиго в двата режима, ясни нива на сериозност.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Наситено синьо на фон от морска пяна, морска нощ в тъмен режим.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Елово зелено на фон от мъх, подлес в тъмен режим.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Лавандулово виолетово върху люляково бяло, лилава нощ в тъмен режим.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Електрическо циан и виолетово, мастилена нощ в тъмен режим.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Полирано злато върху кремава хартия, топло кафяво в тъмен режим.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Жарко оранжево на прасковен фон, червено сияние в тъмен режим.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Чисто черно и бяло, в цвят са само нивата на сериозност.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Тюркоаз на лагуна, дълбоко синьо-зелено в тъмен режим.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Сливово и розово, тъмно кадифе в тъмен режим.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Ярко синьо върху облачно сиво, антрацит в тъмен режим, оранжево-червено за предупреждения.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Наситено индиго върху седефено бяло, небесносиньо, ментово и прасковено за нивата на сериозност, синкава нощ в тъмен режим.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Люляково и розово върху бяло, тъмносиньо в тъмен режим, небесносиньо за информация.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Черно мастило върху мръснобяло, едно-единствено дискретно мастиленосиньо.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Акреционен кехлибар върху чисто бяло, абсолютно черно в тъмен режим.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Едноцветна страница, без нарисуван фон зад съдържанието.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Големи пастелни петна от палитрата, които бавно се носят зад страницата.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Наклонен акреционен диск около черна дупка, който бавно се върти зад страницата.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Фина архитектурна мрежа, която бавно се плъзга по диагонал зад страницата.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Концентрични кръгове от подскачащо камъче, които се разширяват и избледняват зад страницата.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Размити светлинни мехурчета, които дишат и бавно се носят зад страницата.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Синтуейв мрежа в перспектива, която се носи към сияещ хоризонт зад страницата.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Мастилени петна, които бавно се разливат по хартията като акварел зад страницата.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Ретро слънчеви лъчи, които бавно се въртят зад страницата.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Пикселни звезди, които блещукат и се движат с паралакс зад страницата.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Вълнообразни отблясъци на водата и няколко носещи се листа от водна лилия.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Муаров блясък, който се плъзга по драпирано кадифе.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Хоризонтали на топографска карта, които бавно се вълнуват.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Носещи се пастелни геометрични форми в стил Мемфис.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Много фин растер от точки, който леко пулсира.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Шрифтът на системния интерфейс, безсерифен.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Неутрален безсерифен шрифт, създаден за екрани (свободен уеб шрифт).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Заоблени окончания, приятелски тон.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Отворен и лек безсерифен шрифт.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Чисти кръгове и прави линии, модерен вид.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Тесен и равномерен, чете се като табло за управление.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Широк и много четлив, създаден за плавно четене (свободен уеб шрифт).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Серифен шрифт за четене (свободен уеб шрифт).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Тънки серифи и умерен контраст.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Моноширинен, всеки знак е със същата ширина (свободен уеб шрифт).</value></data>
 </root>

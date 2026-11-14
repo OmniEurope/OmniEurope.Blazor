@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Pašalinti iš mėgstamiausių</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Pašalinti</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Trukmė</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Santūri verslo programos išvaizda, 2,5 px spindulys, subtilus pakėlimas, šriftas be užraitų.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Aštrūs kampai, jokio šešėlio, išretintos didžiosios raidės.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Viskas suapvalinta, piliulės formos mygtukai, plonas kraštas ir minkštas šešėlis vietoj rėmelio.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Dideli suapvalinimai ir spalvoti oreolai iš akcento spalvos.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektrinė naktis: akcento švytėjimas, atspalvinti kraštai, labai išretintos didžiosios raidės.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Rašalas ant popieriaus: 2 px linijos, užraitai, jokio šešėlio.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Stori kontūrai ir kieti paslinkti šešėliai be suliejimo.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Aštuonių bitų konsolė: laiptuoti rėmeliai, ekrano šriftas.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asimetriniai lapo formos kampai ir lagūnos atspindžiai.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Nuožulnos, vidiniai blizgesiai ir gilūs šešėliai.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Puslapyje išlietos plokštumos: minkšti šviesūs ir tamsūs šešėliai, paspaudus įdubę.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Matinio stiklo plokštės virš didelių pastelinių dėmių, šviesus kraštas ir dideli suapvalinimai.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Vientisos spalvos be šešėlio ir perėjimo, piliulės formos mygtukai ir užpildytos kortelės.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Juoda ant baltos, plonos linijos, aštrūs kampai ir labai didelės pusjuodės antraštės.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Pasviręs akrecinis diskas, lėtai besisukantis už puslapio: gili juoda ir šviesos diskas tamsiame režime, šviesus puslapis ir tas pats diskas rašalu, apverstomis spalvomis, šviesiame režime; vos pridengtos kortelės.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo abiejuose režimuose, aiškūs svarbos lygiai.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Ryški mėlyna ant jūros putų fono, jūrinė naktis tamsiame režime.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Eglių žalia ant samanų fono, pomiškis tamsiame režime.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Levandų violetinė ant alyvinės baltos, rausvai violetinė naktis tamsiame režime.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektrinė žydra ir violetinė, rašalo naktis tamsiame režime.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Poliruotas auksas ant kreminio popieriaus, šilta ruda tamsiame režime.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Žarijų oranžinė ant persikinio fono, raudonas žėrėjimas tamsiame režime.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Gryna juoda ir balta, spalvoti tik svarbos lygiai.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Lagūnos turkis, gili melsvai žalia tamsiame režime.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Slyvinė ir rožinė, tamsus aksomas tamsiame režime.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Ryški mėlyna ant debesų pilkos, antracitas tamsiame režime, oranžiškai raudona įspėjimams.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Ryškus indigo ant perlinės baltos, žydra, mėtinė ir persikinė kaip svarbos lygiai, melsva naktis tamsiame režime.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Alyvinė ir rožinė ant baltos, tamsiai mėlyna tamsiame režime, žydra informacijai.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Juodas rašalas ant balkšvos, viena vienintelė santūri rašalo mėlyna.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akrecijos gintaras ant grynos baltos, gili juoda tamsiame režime.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Vienspalvis puslapis, už turinio nepiešiamas joks fonas.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Didelės paletės pastelinės dėmės, lėtai dreifuojančios už puslapio.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Pasviręs akrecinis diskas aplink juodąją skylę, lėtai besisukantis už puslapio.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Smulkus architekto tinklelis, lėtai slenkantis įstrižai už puslapio.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Šokinėjančio akmenuko koncentriniai ratilai, kurie už puslapio plečiasi ir išblunka.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Išsilieję šviesos burbulai, kurie kvėpuoja ir lėtai dreifuoja už puslapio.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Perspektyvinis synthwave tinklelis, lekiantis link švytinčio horizonto už puslapio.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Rašalo dėmės, lėtai besiliejančios popieriumi tarsi akvarelė už puslapio.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro saulės spinduliai, lėtai besisukantys už puslapio.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pikselinės žvaigždės, kurios mirga ir slenka paralakse už puslapio.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Raibuliuojantys vandens atspindžiai ir keli dreifuojantys vandens lelijos lapai.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Muarinis blizgesys, slystantis drapiruotu aksomu.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Topografinio žemėlapio horizontalės, lėtai banguojančios.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Plūduriuojančios pastelinės geometrinės figūros Memphis stiliumi.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Labai smulkus taškų rastras, švelniai pulsuojantis.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Sistemos sąsajos šriftas be užraitų.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutralus šriftas be užraitų, sukurtas ekranams (laisvas žiniatinklio šriftas).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Suapvalintos galūnės, draugiškas tonas.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Atviras ir lengvas šriftas be užraitų.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Aiškūs apskritimai ir tiesės, moderni išvaizda.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Siauras ir tolygus, skaitomas kaip prietaisų skydelis.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Platus ir labai įskaitomas, sukurtas sklandžiam skaitymui (laisvas žiniatinklio šriftas).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Skaitymo šriftas su užraitais (laisvas žiniatinklio šriftas).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Ploni užraitai ir vidutinis kontrastas.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Lygiaplotis, kiekvienas ženklas vienodo pločio (laisvas žiniatinklio šriftas).</value></data>
 </root>

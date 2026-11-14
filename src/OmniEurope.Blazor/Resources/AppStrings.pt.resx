@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Remover dos favoritos</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Remover</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Duração</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Aspeto sóbrio de aplicação de gestão, raio de 2,5 px, elevação discreta, sem serifa.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Cantos vivos, sem sombra, maiúsculas espaçadas.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Tudo arredondado, botões em pílula, filete e sombra difusa em vez do contorno.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Grandes curvas e halos coloridos tirados do destaque.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Noite elétrica: brilhos de destaque, contornos tingidos, maiúsculas muito espaçadas.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Tinta sobre papel: filetes de 2 px, serifas, sem sombra.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Contornos espessos e sombras duras desfasadas, sem desfocagem.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Consola de oito bits: molduras em degraus, tipo de letra de ecrã.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Cantos assimétricos em folha e reflexos de laguna.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Biséis, reflexos internos e sombras profundas.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Superfícies modeladas na página: sombras suaves claras e escuras, afundadas ao premir.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Painéis de vidro fosco sobre grandes manchas pastel, filete claro e grandes arredondamentos.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Cores planas sem sombra nem gradiente, botões em pílula e cartões cheios.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Preto sobre branco, filetes finos, cantos vivos e títulos muito grandes a negrito.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Disco de acreção inclinado que roda lentamente atrás da página: preto absoluto e disco de luz no modo escuro, página clara e o mesmo disco a tinta, com cores invertidas, no modo claro; cartões mal velados.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Índigo nos dois modos, gravidades nítidas.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Azul franco sobre fundo de espuma, noite marinha no modo escuro.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Verde-abeto sobre fundo de musgo, sub-bosque no modo escuro.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Violeta-alfazema sobre branco lilás, noite malva no modo escuro.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Ciano elétrico e violeta, noite de tinta no modo escuro.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Ouro brunido sobre papel creme, castanho quente no modo escuro.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Laranja-brasa sobre fundo pêssego, brilho vermelho no modo escuro.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Preto e branco puros, só as gravidades a cores.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Turquesa de laguna, verde-azulado profundo no modo escuro.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Ameixa e rosa, veludo escuro no modo escuro.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Azul vivo sobre cinzento-nuvem, antracite no modo escuro, vermelho alaranjado nos alertas.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Índigo franco sobre branco nacarado, céu, menta e pêssego como gravidades, noite azulada no modo escuro.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Lilás e rosa sobre branco, azul-marinho no modo escuro, azul-céu na informação.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Tinta preta sobre branco-sujo, um único azul-tinta discreto.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Âmbar de acreção sobre branco puro, preto absoluto no modo escuro.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Página lisa, sem fundo desenhado atrás do conteúdo.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Grandes manchas pastel da paleta que derivam lentamente atrás da página.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Disco de acreção inclinado em torno de um buraco negro, que roda lentamente atrás da página.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Grelha fina de arquiteto que desliza lentamente na diagonal atrás da página.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Ondas concêntricas de uma pedra que ressalta, que se alargam e se desvanecem atrás da página.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Bolhas de luz desfocadas que respiram e derivam lentamente atrás da página.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Grelha synthwave em perspetiva que corre para um horizonte luminoso atrás da página.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Manchas de tinta que se espalham lentamente no papel, como aguarela, atrás da página.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Raios de sol retro que rodam lentamente atrás da página.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Estrelas em píxeis que cintilam e deslizam em paralaxe atrás da página.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Reflexos da água que ondulam e algumas folhas de nenúfar à deriva.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Reflexo moiré que desliza sobre um drapeado de veludo.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Curvas de nível de um mapa topográfico que ondulam lentamente.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Formas geométricas pastel que flutuam, ao estilo Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Trama de pontos muito finos que pulsa suavemente.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>O tipo de letra da interface do sistema, sem serifa.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Sem serifa neutro desenhado para ecrãs (tipo de letra web livre).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Terminações arredondadas, tom amigável.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Sem serifa aberto e leve.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Círculos e retas nítidos, aspeto moderno.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Estreito e regular, leitura de painel de bordo.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Largo e muito legível, pensado para a fluidez da leitura (tipo de letra web livre).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Tipo de letra de leitura com serifas (tipo de letra web livre).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Serifas finas e contraste moderado.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Monoespaçado, todos os caracteres com a mesma largura (tipo de letra web livre).</value></data>
 </root>

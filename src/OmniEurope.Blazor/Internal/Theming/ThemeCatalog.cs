@@ -33,7 +33,7 @@ internal static class ThemeCatalog
 
     public static IReadOnlyList<ThemeDefinition> All { get; } =
     [
-        new("Essentiel", "Allure sobre d'application de gestion, rayon de 2,5 px, élévation discrète, sans empattement.", "Essentiel",
+        new("Essentiel", "ThemeDescriptionEssentiel", "Essentiel",
             Shape(
                 ("--omni-radius", DefaultRadius), ("--omni-radius-sm", DefaultRadius), ("--omni-radius-lg", DefaultRadius),
                 ("--omni-button-radius", DefaultRadius),
@@ -53,7 +53,7 @@ internal static class ThemeCatalog
                 ("--omni-font-family", Sans)),
             Shape()),
 
-        new("Ardoise", "Angles vifs, aucune ombre, capitales espacées.", "Océan",
+        new("Ardoise", "ThemeDescriptionArdoise", "Océan",
             Shape(
                 // Press: no movement, the button sinks like a flat key.
                 ("--omni-button-press-transform", "none"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.25rem rgb(0 0 0 / 30%)"),
@@ -67,7 +67,7 @@ internal static class ThemeCatalog
             Shape(),
             DefaultBackdrop: "Quadrillage"),
 
-        new("Galet", "Tout en rondeur, boutons pilule, liseré et ombre diffuse à la place de la bordure.", "Forêt",
+        new("Galet", "ThemeDescriptionGalet", "Forêt",
             Shape(
                 // Press: the pebble squashes a little under the finger.
                 ("--omni-button-press-transform", "scale(0.95)"),
@@ -84,7 +84,7 @@ internal static class ThemeCatalog
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 12%, transparent), 0 0.5rem 1.5rem rgb(0 0 0 / 45%)")),
             DefaultBackdrop: "Ricochets"),
 
-        new("Halo", "Grandes rondeurs et halos colorés tirés de l’accent.", "Lavande",
+        new("Halo", "ThemeDescriptionHalo", "Lavande",
             Shape(
                 // Press: the halo tightens under the button, which shrinks a touch.
                 ("--omni-button-press-transform", "scale(0.97)"), ("--omni-button-press-shadow", "0 0.0625rem 0.25rem color-mix(in srgb, var(--omni-color-accent) 55%, transparent)"),
@@ -102,7 +102,7 @@ internal static class ThemeCatalog
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 42%, var(--omni-color-surface))")),
             DefaultBackdrop: "Bokeh"),
 
-        new("Néon", "Nuit électrique : lueurs d’accent, bordures teintées, capitales très espacées.", "Électrique",
+        new("Néon", "ThemeDescriptionNeon", "Électrique",
             Shape(
                 // Press: no movement, the glow flares up.
                 ("--omni-button-press-transform", "none"), ("--omni-button-press-shadow", "0 0 0.25rem var(--omni-color-accent), 0 0 1.75rem color-mix(in srgb, var(--omni-color-accent) 85%, transparent)"),
@@ -119,7 +119,7 @@ internal static class ThemeCatalog
                 ("--omni-card-shadow", "0 0 1.5rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)")),
             DefaultBackdrop: "Horizon"),
 
-        new("Papier", "Encre sur papier : filets de 2 px, empattements, aucune ombre.", "Or ancien",
+        new("Papier", "ThemeDescriptionPapier", "Or ancien",
             Shape(
                 // Press: a stamp, the rule doubles and the button slides one pixel diagonally.
                 ("--omni-button-press-transform", "translate(1px, 1px)"), ("--omni-button-press-shadow", "inset 0 0 0 1px var(--omni-color-text)"),
@@ -138,7 +138,7 @@ internal static class ThemeCatalog
                 ("--omni-button-border-color", "color-mix(in srgb, var(--omni-color-text) 58%, var(--omni-color-surface))")),
             DefaultBackdrop: "Aquarelle"),
 
-        new("Rétro", "Contours épais et ombres dures décalées, sans flou.", "Braise",
+        new("Rétro", "ThemeDescriptionRetro", "Braise",
             Shape(
                 // Press: the button drops into its shadow, which disappears.
                 ("--omni-button-press-transform", "translate(0.25rem, 0.25rem)"), ("--omni-button-press-shadow", "0 0 0 2px var(--omni-color-surface)"),
@@ -157,7 +157,7 @@ internal static class ThemeCatalog
             Shape(),
             DefaultBackdrop: "Rayons"),
 
-        new("Octet", "Console à huit bits : cadres en escalier, police d’écran.", "Mono",
+        new("Octet", "ThemeDescriptionOctet", "Mono",
             Shape(
                 // Press: the console key drops one step and takes a pixel shadow on top.
                 ("--omni-button-press-transform", "translateY(0.125rem)"), ("--omni-button-press-shadow", Staircase("0.1875rem") + ", inset 0 0.1875rem 0 rgb(0 0 0 / 35%)"),
@@ -175,7 +175,7 @@ internal static class ThemeCatalog
             Shape(),
             DefaultBackdrop: "Étoiles"),
 
-        new("Nénuphar", "Coins asymétriques en feuille et reflets de lagune.", "Lagune",
+        new("Nénuphar", "ThemeDescriptionNenuphar", "Lagune",
             Shape(
                 // Press: a ripple leaves the button, like a drop on water.
                 ("--omni-button-press-transform", "scale(0.97)"), ("--omni-button-press-shadow", "0 0 0 0.375rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)"),
@@ -197,7 +197,7 @@ internal static class ThemeCatalog
                 ("--omni-button-shadow", "0 0.25rem 0.875rem color-mix(in srgb, var(--omni-color-accent) 40%, transparent)")),
             DefaultBackdrop: "Nénuphar"),
 
-        new("Velours", "Biseaux, reflets internes et ombres profondes.", "Prune",
+        new("Velours", "ThemeDescriptionVelours", "Prune",
             Shape(
                 // Press: the button sinks into the velvet, the highlight vanishes.
                 ("--omni-button-press-transform", "translateY(1px)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.375rem rgb(0 0 0 / 40%)"),
@@ -225,7 +225,7 @@ internal static class ThemeCatalog
         // page by inset shadows alone, and the secondary button is moulded in the page colour. The
         // dark shadow is the page darkened, so it keeps the palette's hue. The focus state keeps its
         // guarantee: a solid accent ring, and the focused field takes the accent rule.
-        new("Relief", "Surfaces modelées dans la page : ombres douces claire et sombre, appui en creux.", "Nuage",
+        new("Relief", "ThemeDescriptionRelief", "Nuage",
             Shape(
                 // Press: the key sinks, its two shadows turn inward.
                 ("--omni-button-press-transform", "scale(0.98)"),
@@ -270,7 +270,7 @@ internal static class ThemeCatalog
         // tooltips it holds), and the card lays over it a milky translucent fill, a 1 px light rim, a top
         // highlight and a large soft shadow. Below the contrast thresholds (waiver): only the focus ring
         // keeps its guarantee.
-        new("Givre", "Panneaux de verre dépoli sur un fond de grandes taches pastel, liseré clair et grands arrondis.", "Opale",
+        new("Givre", "ThemeDescriptionGivre", "Opale",
             Shape(
                 // Press: the pane gives a little under the finger and frosts from inside.
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0.125rem 0.5rem rgb(0 0 0 / 20%)"),
@@ -334,7 +334,7 @@ internal static class ThemeCatalog
         // contrast thresholds (waiver): the cards are a bold field of the accent, the secondary button a
         // field of the information colour, and the filled alerts lose the glow the package gives them.
         // Grids stay plain panels of the page, the white block laid on the field.
-        new("Aplat", "Aplats de couleur sans ombre ni dégradé, boutons pilule et cartes pleines.", "Pastel",
+        new("Aplat", "ThemeDescriptionAplat", "Pastel",
             Shape(
                 // Press: nothing moves, the fill changes shade (the primary field pales, away from its ink).
                 ("--omni-button-press-transform", "none"), ("--omni-button-press-shadow", NoShadow),
@@ -376,7 +376,7 @@ internal static class ThemeCatalog
         // Minimalism: black on white, no shadow, no radius, hairlines, very large bold headings. The
         // primary action is drawn in ink and the palette's accent is kept for one discreet place: the
         // hover of that action and the text accents (links, current tab).
-        new("Épure", "Noir sur blanc, filets fins, angles vifs et très grands titres gras.", "Encre",
+        new("Épure", "ThemeDescriptionEpure", "Encre",
             Shape(
                 // Press: the ink key drops one pixel, nothing else.
                 ("--omni-button-press-transform", "translateY(1px)"), ("--omni-button-press-shadow", NoShadow),
@@ -415,7 +415,7 @@ internal static class ThemeCatalog
         // the canvas kinds the shader reads from the scope). The cards are a faint veil closed by a hairline,
         // so the field shows through them; the dense surfaces (grids, dialogs) are opaque. The theme holds
         // the contrast thresholds with every palette in both modes.
-        new("Trou noir", "Disque d’accrétion incliné qui tourne lentement derrière la page : noir absolu et disque de lumière en sombre, page claire et le même disque à l’encre, couleurs inversées, en clair ; cartes à peine voilées.", "Horizon",
+        new("Trou noir", "ThemeDescriptionTrouNoir", "Horizon",
             Shape(
                 // Press: the button gives way from its edge, a soft shade falling inside (deeper in dark mode).
                 ("--omni-button-press-transform", "scale(0.96)"), ("--omni-button-press-shadow", "inset 0 0 0.75rem rgb(0 0 0 / 18%)"),

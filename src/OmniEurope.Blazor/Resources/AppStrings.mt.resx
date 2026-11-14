@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Neħħi mill-favoriti</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Neħħi</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Tul ta' żmien</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Dehra sobrja ta' applikazzjoni tan-negozju, raġġ ta' 2.5 px, elevazzjoni diskreta, mingħajr serif.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Kantunieri ppuntati, l-ebda dell, ittri kapitali spazjati.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Kollox imdawwar, buttuni f'forma ta' pillola, xifer fin u dell artab minflok bordura.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Kurvi kbar u aloni kkuluriti meħuda mill-kulur tal-enfasi.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Lejl elettriku: dija tal-enfasi, borduri mlewna, ittri kapitali spazjati ħafna.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Linka fuq il-karta: linji ta' 2 px, serif, l-ebda dell.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Kontorni ħoxnin u dellijiet iebsa spostati, mingħajr ċpar.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Konsol ta' tmien bits: oqfsa f'taraġ, tipa tal-iskrin.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Kantunieri asimmetriċi f'forma ta' werqa u riflessi ta' laguna.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Smussar, riflessi interni u dellijiet profondi.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Uċuħ immudellati fil-paġna: dellijiet rotob ċari u skuri, mgħaddsin meta tagħfas.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Pannelli tal-ħġieġ mattat fuq tebgħat kbar pastell, xifer ċar u kurvi kbar.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Kuluri ċatti mingħajr dell jew gradjent, buttuni f'forma ta' pillola u kards mimlija.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Iswed fuq abjad, linji rqaq, kantunieri ppuntati u titli kbar ħafna u grassi.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Diska ta' akkrezzjoni mmejla li ddur bil-mod wara l-paġna: iswed assolut u diska ta' dawl fil-modalità skura, paġna ċara u l-istess diska bil-linka, b'kuluri maqluba, fil-modalità ċara; kards bilkemm imgħottija.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo fiż-żewġ modalitajiet, livelli ta' severità ċari.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Blu qawwi fuq sfond ta' ragħwa, lejl marittimu fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Aħdar tal-arżnu fuq sfond tal-ħażiż, sottobosk fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Vjola tal-lavanda fuq abjad lilla, lejl malva fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Ċjan elettriku u vjola, lejl tal-linka fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Deheb lustrat fuq karta krema, kannella sħun fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Oranġjo tal-ġamar fuq sfond ta' ħawħ, dija ħamra fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Iswed u abjad puri, il-livelli ta' severità biss bil-kulur.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Turkważ tal-laguna, aħdar fil-blu profond fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Għanbaqar u roża, bellus skur fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Blu ħaj fuq griż tas-sħab, antraċite fil-modalità skura, aħmar fl-oranġjo għat-twissijiet.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Indigo qawwi fuq abjad tal-perla, ċelesti, nagħniegħ u ħawħ bħala livelli ta' severità, lejl fil-blu fil-modalità skura.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Lilla u roża fuq abjad, blu navy fil-modalità skura, ċelesti għall-informazzjoni.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Linka sewda fuq abjad maħmuġ, blu tal-linka diskret wieħed biss.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Ambra tal-akkrezzjoni fuq abjad pur, iswed assolut fil-modalità skura.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Paġna b'kulur wieħed, l-ebda sfond imfassal wara l-kontenut.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Tebgħat kbar pastell tal-paletta li jinġarru bil-mod wara l-paġna.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Diska ta' akkrezzjoni mmejla madwar toqba sewda, li ddur bil-mod wara l-paġna.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Grilja fina ta' perit li tiżżerżaq bil-mod b'mod dijagonali wara l-paġna.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Mewġiet konċentriċi ta' ġebla li taqbeż fuq l-ilma, li jitwessgħu u jisparixxu wara l-paġna.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Bżieżaq tad-dawl imċajpra li jieħdu n-nifs u jinġarru bil-mod wara l-paġna.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Grilja synthwave fil-perspettiva li tiġri lejn orizzont jiddi wara l-paġna.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Tebgħat tal-linka li jinfirxu bil-mod fuq il-karta, bħall-akwarell, wara l-paġna.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Raġġi tax-xemx retro li jduru bil-mod wara l-paġna.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Stilel tal-pixels li jteptpu u jiskrollaw f'parallassi wara l-paġna.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Riflessi tal-ilma li jixxenglu u ftit weraq tan-nilufru li jinġarru.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Leqqa moiré li tiżżerżaq fuq bellus imdendel.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Linji tal-kontorn ta' mappa topografika li jimmewġu bil-mod.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Forom ġeometriċi pastell li jżommu f'wiċċ l-arja, stil Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Grilja ta' tikek fini ħafna li tħabbat bil-mod.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>It-tipa tal-interfaċċja tas-sistema, mingħajr serif.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Tipa newtrali mingħajr serif imfassla għall-iskrins (tipa tal-web b'xejn).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Truf imdawra, ton ħbiberuż.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Tipa miftuħa u ħafifa mingħajr serif.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Ċrieki u linji dritti nodfa, dehra moderna.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Dejqa u regolari, tinqara bħal dashboard.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Wiesgħa u tinqara ħafna, imfassla għal qari fluwenti (tipa tal-web b'xejn).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Tipa tal-qari b'serif (tipa tal-web b'xejn).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Serif fini u kuntrast moderat.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Monospazjata, kull karattru tal-istess wisa' (tipa tal-web b'xejn).</value></data>
 </root>

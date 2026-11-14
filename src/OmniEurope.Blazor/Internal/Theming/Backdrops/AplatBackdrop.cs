@@ -57,7 +57,7 @@ internal static class AplatBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Aplat",
-        "Formes géométriques pastel qui flottent, façon Memphis.",
+        "BackdropDescriptionAplat",
         BackdropDefinition.Tokens(
             // One pastel per hue of the palette, drawn over the surface: the page keeps its colour and the
             // text keeps its reading on every shape.

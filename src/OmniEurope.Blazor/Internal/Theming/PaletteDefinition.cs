@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Internal;
 /// contrast ratios, so they are never adjusted by hand to make a test pass.
 /// </summary>
 /// <param name="Name">The palette name.</param>
-/// <param name="Description">One line describing the palette.</param>
+/// <param name="DescriptionKey">The resource key of the one line describing the palette (<c>AppStrings</c>, every language).</param>
 /// <param name="Accent">The accent colour.</param>
 /// <param name="Success">The success severity.</param>
 /// <param name="Info">The informational severity.</param>
@@ -22,7 +22,7 @@ namespace OmniEurope.Blazor.Internal;
 /// </param>
 internal sealed record PaletteDefinition(
     string Name,
-    string Description,
+    string DescriptionKey,
     string Accent,
     string Success,
     string Info,

@@ -47,7 +47,7 @@ internal static class VeloursBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Velours",
-        "Reflet moiré qui glisse sur un drapé de velours.",
+        "BackdropDescriptionVelours",
         BackdropDefinition.Tokens(
             // The cloth is the accent over the surface, the folds the same hue a little deeper, the sheen
             // the page itself and the hairlines a faint tint of the text.

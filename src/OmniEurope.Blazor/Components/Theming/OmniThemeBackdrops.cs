@@ -11,14 +11,20 @@ public static class OmniThemeBackdrops
     /// <summary>No backdrop: the plain page of the theme. The default of Essentiel and of every theme without a backdrop of its own.</summary>
     public static OmniThemeBackdrop None { get; } = new(
         BackdropCatalog.NoneName,
-        BackdropCatalog.NoneDescription,
+        CatalogDescriptions.Neutral(BackdropCatalog.NoneDescriptionKey),
         new Dictionary<string, string>(StringComparer.Ordinal),
-        new Dictionary<string, string>(StringComparer.Ordinal));
+        new Dictionary<string, string>(StringComparer.Ordinal))
+    {
+        DescriptionKey = BackdropCatalog.NoneDescriptionKey,
+    };
 
     /// <summary>Every backdrop of the catalogue, <see cref="None"/> first.</summary>
     public static IReadOnlyList<OmniThemeBackdrop> All { get; } =
     [
         None,
-        .. BackdropCatalog.All.Select(backdrop => new OmniThemeBackdrop(backdrop.Name, backdrop.Description, backdrop.Shape, backdrop.DarkShape)),
+        .. BackdropCatalog.All.Select(backdrop => new OmniThemeBackdrop(backdrop.Name, CatalogDescriptions.Neutral(backdrop.DescriptionKey), backdrop.Shape, backdrop.DarkShape)
+        {
+            DescriptionKey = backdrop.DescriptionKey,
+        }),
     ];
 }

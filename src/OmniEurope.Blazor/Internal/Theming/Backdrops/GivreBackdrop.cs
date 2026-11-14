@@ -28,7 +28,7 @@ internal static class GivreBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Givre",
-        "Grandes taches pastel de la palette qui dérivent lentement derrière la page.",
+        "BackdropDescriptionGivre",
         BackdropDefinition.Tokens(
             ("--omni-backdrop-start", "color-mix(in srgb, var(--omni-color-info-fill) 42%, var(--omni-color-surface))"),
             ("--omni-backdrop-middle", "color-mix(in srgb, var(--omni-color-accent-fill) 34%, var(--omni-color-surface))"),

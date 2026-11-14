@@ -56,13 +56,36 @@ function paint() {
 
 // The text and control size levels ride on the document root as data-oe-text-size and data-oe-control-size,
 // the attributes the package stylesheet reads; the default level leaves the attribute out.
-function setLevel(name, level) {
-    if (Number.isInteger(level) && level >= 1 && level <= 10 && level !== 5) {
-        document.documentElement.dataset[name] = String(level);
-    } else {
-        delete document.documentElement.dataset[name];
+const levels = { oeTextSize: null, oeControlSize: null };
+let levelsKnown = false;
+
+function levelValue(level) {
+    return Number.isInteger(level) && level >= 1 && level <= 10 && level !== 5 ? String(level) : null;
+}
+
+function writeLevel(name) {
+    const value = levels[name];
+    const root = document.documentElement;
+    if (value === null) {
+        if (name in root.dataset) {
+            delete root.dataset[name];
+        }
+    } else if (root.dataset[name] !== value) {
+        root.dataset[name] = value;
     }
 }
+
+// The levels belong to the package appearance state the showcase follows. A demonstration whose theme scope follows
+// that state writes the same levels while it is shown, and its last scope removes them from the root when it leaves
+// the page: the showcase writes its levels back at once, so leaving that page does not reset the visitor's sizes.
+new MutationObserver(() => {
+    if (!levelsKnown) {
+        return;
+    }
+
+    writeLevel('oeTextSize');
+    writeLevel('oeControlSize');
+}).observe(document.documentElement, { attributes: true, attributeFilter: ['data-oe-text-size', 'data-oe-control-size'] });
 
 darkQuery.addEventListener('change', paint);
 
@@ -71,8 +94,11 @@ window.omniShowcaseTheme = {
         current = { light, dark, mode };
         paint();
         document.documentElement.setAttribute('data-omni-theme', mode);
-        setLevel('oeTextSize', textSize);
-        setLevel('oeControlSize', controlSize);
+        levels.oeTextSize = levelValue(textSize);
+        levels.oeControlSize = levelValue(controlSize);
+        levelsKnown = true;
+        writeLevel('oeTextSize');
+        writeLevel('oeControlSize');
 
         try {
             window.localStorage.setItem(storageKey, serialized);

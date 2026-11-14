@@ -57,7 +57,7 @@ internal static class HorizonBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Horizon",
-        "Grille synthwave en perspective qui file vers un horizon lumineux derrière la page.",
+        "BackdropDescriptionHorizon",
         BackdropDefinition.Tokens(
             ("--omni-backdrop-line", "color-mix(in srgb, var(--omni-color-accent-fill) 8%, var(--omni-color-surface))"),
             ("--omni-backdrop-glow", "color-mix(in srgb, var(--omni-color-accent-fill) 6%, var(--omni-color-surface))"),

@@ -38,7 +38,7 @@
     </OmniFormField>
     <div class="showcase-workshop-bar__field">
         <span class="omni-label" id="workshop-mode-label">@Text["WorkshopMode"]</span>
-        <OmniSelectBar TValue="ThemeMode" Id="workshop-mode" Label="@Text["WorkshopMode"]" Options="ModeOptions"
+        <OmniSelectBar TValue="OmniAppearance" Id="workshop-mode" Label="@Text["WorkshopMode"]" Options="ModeOptions"
                        Disabled="Theme.Theme.DarkOnly" @bind-Value:get="Theme.EffectiveMode" @bind-Value:set="SetModeAsync" />
     </div>
     <OmniFormField For="workshop-density">
@@ -113,7 +113,7 @@
 
     <aside class="showcase-workshop__rail" aria-labelledby="customize-contrast-title">
         <OmniHeading Id="customize-contrast-title" Level="OmniHeadingLevel.H2">@Text["WorkshopContrastTitle"]</OmniHeading>
-        <p>@Text[Theme.EffectiveMode is ThemeMode.System ? "WorkshopContrastSystem" : "WorkshopContrastLead"]</p>
+        <p>@Text[Theme.EffectiveMode is OmniAppearance.System ? "WorkshopContrastSystem" : "WorkshopContrastLead"]</p>
         <OmniAlert Severity="@(Failures == 0 ? OmniSeverity.Success : OmniSeverity.Warning)">
             @Text["WorkshopContrastVerdict", Contrasts.Count - Failures, Contrasts.Count]
         </OmniAlert>

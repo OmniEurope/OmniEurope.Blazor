@@ -61,10 +61,10 @@ public partial class MainLayout : IAsyncDisposable
     }
 
     /// <summary>The mode the scope draws: the one chosen, except under a theme drawn in dark mode only, always dark.</summary>
-    private OmniAppearance CurrentAppearance => ToAppearance(Theme.EffectiveMode);
+    private OmniAppearance CurrentAppearance => Theme.EffectiveMode;
 
     /// <summary>The mode the menu and the window show as chosen (a dark-only theme fixes it on its own).</summary>
-    private OmniAppearance MenuAppearance => ToAppearance(Theme.Mode);
+    private OmniAppearance MenuAppearance => Theme.Mode;
 
     /// <summary>The theme the menu and the window show: null while it is the first of the catalogue, the shipped one.</summary>
     private OmniThemePreset? LookPreset => ReferenceEquals(Theme.Theme, OmniThemePresets.All[0]) ? null : Theme.Theme;
@@ -177,20 +177,6 @@ public partial class MainLayout : IAsyncDisposable
         GC.SuppressFinalize(this);
     }
 
-    private static OmniAppearance ToAppearance(ThemeMode mode) => mode switch
-    {
-        ThemeMode.Dark => OmniAppearance.Dark,
-        ThemeMode.System => OmniAppearance.System,
-        _ => OmniAppearance.Light
-    };
-
-    private static ThemeMode ToMode(OmniAppearance appearance) => appearance switch
-    {
-        OmniAppearance.Dark => ThemeMode.Dark,
-        OmniAppearance.System => ThemeMode.System,
-        _ => ThemeMode.Light
-    };
-
     private void SetSidebarOpen(bool open) => _sidebarOpen = open;
 
     private void OpenAppearanceWindow() => _appearanceWindowOpen = true;
@@ -199,7 +185,7 @@ public partial class MainLayout : IAsyncDisposable
 
     private Task ChangeLanguageAsync(string code) => Languages.SwitchAsync(code);
 
-    private Task SetAppearanceAsync(OmniAppearance appearance) => Theme.SetModeAsync(ToMode(appearance));
+    private Task SetAppearanceAsync(OmniAppearance appearance) => Theme.SetModeAsync(appearance);
 
     /// <summary>A theme comes whole with its own palette; null is the first theme of the catalogue.</summary>
     private Task SetPresetAsync(OmniThemePreset? preset) => Theme.SelectThemeAsync(preset ?? OmniThemePresets.All[0]);

@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Internal;
 /// shadow or border is expressed from a colour token so that it follows any palette.
 /// </summary>
 /// <param name="Name">The theme name.</param>
-/// <param name="Description">One line describing the theme.</param>
+/// <param name="DescriptionKey">The resource key of the one line describing the theme (<c>AppStrings</c>, every language).</param>
 /// <param name="DefaultPalette">The name of the palette the theme is shown with by default.</param>
 /// <param name="Shape">
 /// Radii, border widths, shadows, fonts and the way buttons are drawn, laid over both modes. The field
@@ -28,7 +28,7 @@ namespace OmniEurope.Blazor.Internal;
 /// </param>
 internal sealed record ThemeDefinition(
     string Name,
-    string Description,
+    string DescriptionKey,
     string DefaultPalette,
     IReadOnlyDictionary<string, string> Shape,
     IReadOnlyDictionary<string, string> DarkShape,

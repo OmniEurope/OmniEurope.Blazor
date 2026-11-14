@@ -42,7 +42,7 @@ internal static class RicochetsBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Ricochets",
-        "Ondes concentriques d’un galet qui ricoche, qui s’élargissent et s’effacent derrière la page.",
+        "BackdropDescriptionRicochets",
         BackdropDefinition.Tokens(
             ("--omni-backdrop-ring", "color-mix(in srgb, var(--omni-color-info-fill) 12%, var(--omni-color-surface))"),
             ("--omni-backdrop-tide", "color-mix(in srgb, var(--omni-color-accent-fill) 7%, var(--omni-color-surface))"),
