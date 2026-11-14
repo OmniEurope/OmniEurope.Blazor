@@ -1029,7 +1029,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -1051,7 +1051,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
         }
       ]
     },
@@ -1073,7 +1073,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -1095,7 +1095,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
         }
       ]
     },
@@ -1117,7 +1117,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -1139,7 +1139,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
         }
       ]
     },
@@ -3696,6 +3696,28 @@
     {
       "type": "library",
       "name": "System.Buffers",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Buffers@4.6.0",
+      "purl": "pkg:nuget/System.Buffers@4.6.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "System.Buffers",
       "version": "4.6.1",
       "bom-ref": "pkg:nuget/System.Buffers@4.6.1",
       "purl": "pkg:nuget/System.Buffers@4.6.1",
@@ -3711,7 +3733,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -3755,7 +3777,29 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "System.Collections.Immutable",
+      "version": "9.0.0",
+      "bom-ref": "pkg:nuget/System.Collections.Immutable@9.0.0",
+      "purl": "pkg:nuget/System.Collections.Immutable@9.0.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -3916,6 +3960,28 @@
     {
       "type": "library",
       "name": "System.Memory",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Memory@4.6.0",
+      "purl": "pkg:nuget/System.Memory@4.6.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "System.Memory",
       "version": "4.6.3",
       "bom-ref": "pkg:nuget/System.Memory@4.6.3",
       "purl": "pkg:nuget/System.Memory@4.6.3",
@@ -3931,7 +3997,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -3960,6 +4026,28 @@
     {
       "type": "library",
       "name": "System.Numerics.Vectors",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Numerics.Vectors@4.6.0",
+      "purl": "pkg:nuget/System.Numerics.Vectors@4.6.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "System.Numerics.Vectors",
       "version": "4.6.1",
       "bom-ref": "pkg:nuget/System.Numerics.Vectors@4.6.1",
       "purl": "pkg:nuget/System.Numerics.Vectors@4.6.1",
@@ -3975,7 +4063,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -3997,7 +4085,51 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "System.Reflection.Metadata",
+      "version": "9.0.0",
+      "bom-ref": "pkg:nuget/System.Reflection.Metadata@9.0.0",
+      "purl": "pkg:nuget/System.Reflection.Metadata@9.0.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "System.Runtime.CompilerServices.Unsafe",
+      "version": "6.1.0",
+      "bom-ref": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.0",
+      "purl": "pkg:nuget/System.Runtime.CompilerServices.Unsafe@6.1.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -4019,7 +4151,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -4070,6 +4202,28 @@
     {
       "type": "library",
       "name": "System.Threading.Tasks.Extensions",
+      "version": "4.6.0",
+      "bom-ref": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.0",
+      "purl": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "System.Threading.Tasks.Extensions",
       "version": "4.6.3",
       "bom-ref": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.3",
       "purl": "pkg:nuget/System.Threading.Tasks.Extensions@4.6.3",
@@ -4085,7 +4239,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "eng/OmniEurope.Analyzers/packages.lock.json"
         }
       ]
     },
@@ -4475,7 +4629,7 @@
         },
         {
           "name": "omnieurope:license-file-sha256",
-          "value": "18aabf190848725e2576eefb5c29ba06aac1029d02132252a7f312eac2e50cf3"
+          "value": "77bcb06906baede63adad41f870472cc78f36745bfdc88cd28c6823763bb537e"
         },
         {
           "name": "omnieurope:vendored-files",

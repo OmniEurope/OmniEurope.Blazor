@@ -53,10 +53,12 @@ app.UseCors(ServiceCollectionExtensions.FrontCorsPolicy);
 app.UseRateLimiter();
 
 // Liveness answers as long as the process serves requests; readiness also needs PostgreSQL. The
-// deployment's health check targets /health/ready.
+// deployment's health check targets /health/ready. Both routes that query PostgreSQL share the per-address
+// read window, so no caller can turn the database probe into a load of its own.
 app.MapHealthChecks("/health/live", new HealthCheckOptions { Predicate = _ => false });
-app.MapHealthChecks("/health/ready", new HealthCheckOptions { Predicate = check => check.Tags.Contains("ready") });
-app.MapHealthChecks("/health");
+app.MapHealthChecks("/health/ready", new HealthCheckOptions { Predicate = check => check.Tags.Contains("ready") })
+    .RequireRateLimiting(ShowcaseRateLimiterPolicies.Reads);
+app.MapHealthChecks("/health").RequireRateLimiting(ShowcaseRateLimiterPolicies.Reads);
 app.MapControllers();
 
 await DbInitializer.MigrateAsync(app.Services, app.Lifetime.ApplicationStopping);

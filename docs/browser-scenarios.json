@@ -59,7 +59,7 @@
     },
     {
       "id": "showcase-theme-contrast-matrix",
-      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (run only when named, -Probe Contrast, owner decision of 2026-10-12; manual gate, not in CI)",
       "script": "eng/Test-ThemeContrastProbe.mjs",
       "components": ["OmniThemeScope", "OmniButton", "OmniLink", "OmniTabs", "OmniDataGrid", "OmniBadge", "OmniAlert", "OmniCard", "OmniKanban", "OmniStatusStrip"],
       "assertions": ["every theme x palette x mode combination of the catalogue (450 on 2026-09-30; 435 since 1.4.0, a dark-only theme being measured in dark only) applied through the customizer pickers", "a dark-only theme (OmniThemePreset.DarkOnly) asked in light first still draws dark, or fails and is not measured further", "painted colour against the effective background at rest, under forced hover and under focus, at the static thresholds", "shortfalls of the waived themes (Relief, Givre, Aplat) counted under acceptedContrastWaiver, focus state included; only the focus ring stays mandatory, checked by ThemePaletteTests", "shipped look equal to Essentiel + Essentiel", "grid cells stay table-cell, icon-only buttons show their icon whole", "no horizontal overflow at 375 px", "empty failure registry in artifacts/theme-contrast-registry.json"]
@@ -77,6 +77,13 @@
       "script": "eng/Test-ShowcaseLanguagesProbe.mjs",
       "components": ["every component of the showcase gallery"],
       "assertions": ["every discovered showcase page in English and French, at 1280 and 390 px (four language-width pairs, 316 page measurements for 79 pages on 2026-10-30)", "no text node reaches past the padding box of the element laying it out (across by more than 1 px, down by more than half a line)", "text cut on purpose with an ellipsis, inside a scroll container, SVG text and code exempted", "no page scrolls sideways (a width that lasts 600 ms)", "only the rendered page is measured: menus, lists and dialogs stay closed", "the detector sees a box and a row it overflows on purpose before each language, or the probe fails", "fails when nothing is measured", "zero CSP violations", "zero browser console errors"]
+    },
+    {
+      "id": "showcase-script-paths",
+      "host": "Static WebAssembly showcase with strict CSP headers, served by eng/Test-ShowcaseHost.ps1 (one of its seven default probes; manual gate, not in CI)",
+      "script": "eng/Test-ShowcaseScriptsProbe.mjs",
+      "components": ["every component whose package script no other probe reaches; parts in eng/scripts-probe/ (overlays, editor, boards, keys, combo, focus, chevrons, veil, ink, structured, requests, leaks, preferences, columns)"],
+      "assertions": ["each part drives its page by trusted input (mouse, keyboard, touch, HTML5 drag, clipboard) and checks what the page shows after each step", "Escape inside a dialog closes the open list or panel first and the dialog only on a second press, the Tab trap holds", "focus returns to the opener of a dialog opened from a dialog", "no page leaves more document or window listeners after a second round trip than after the first", "appearance preferences written to localStorage, restored after reload, synchronised across tabs by the storage event, held in memory when localStorage throws", "grid column layout dragged, restored after reload and reset", "OMNI_SCRIPTS_ONLY runs named parts only and refuses an unknown name", "zero CSP violations", "zero browser console errors"]
     }
   ]
 }

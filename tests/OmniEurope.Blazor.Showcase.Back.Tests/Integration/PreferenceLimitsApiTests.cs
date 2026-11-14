@@ -77,6 +77,23 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         SecurityHeaderAssert.Carried(refused);
     }
 
+    [Theory]
+    [InlineData("/health/ready")]
+    [InlineData("/health")]
+    public async Task TheDatabaseHealthRoutes_RefusePastTheReadRateWith429(string route)
+    {
+        await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string> { ["RateLimiting:ReadsPerMinute"] = "2" });
+        using var client = factory.CreateClient();
+
+        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync(route, Token)).StatusCode);
+        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync(route, Token)).StatusCode);
+        using var refused = await client.GetAsync(route, Token);
+
+        Assert.Equal(HttpStatusCode.TooManyRequests, refused.StatusCode);
+        // Liveness never queries PostgreSQL and stays outside the window.
+        Assert.Equal(HttpStatusCode.OK, (await client.GetAsync("/health/live", Token)).StatusCode);
+    }
+
     [Fact]
     public async Task NewVisitors_PastTheAddressQuota_AreRefusedWith429()
     {

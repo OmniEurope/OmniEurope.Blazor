@@ -741,7 +741,8 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json",
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
       ]
     },
     {
@@ -757,7 +758,6 @@
       "lockFiles": [
         "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
         "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json",
         "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
       ]
     },
@@ -772,7 +772,8 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json",
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
       ]
     },
     {
@@ -788,7 +789,6 @@
       "lockFiles": [
         "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
         "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json",
         "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
       ]
     },
@@ -803,7 +803,8 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json",
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
       ]
     },
     {
@@ -819,7 +820,6 @@
       "lockFiles": [
         "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
         "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json",
         "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
       ]
     },
@@ -2513,6 +2513,20 @@
     },
     {
       "id": "System.Buffers",
+      "version": "4.6.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Buffers",
       "version": "4.6.1",
       "license": {
         "kind": "expression",
@@ -2522,8 +2536,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        "eng/OmniEurope.Analyzers/packages.lock.json"
       ]
     },
     {
@@ -2551,7 +2564,20 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers/packages.lock.json",
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Collections.Immutable",
+      "version": "9.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
         "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
       ]
     },
@@ -2655,6 +2681,20 @@
     },
     {
       "id": "System.Memory",
+      "version": "4.6.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Memory",
       "version": "4.6.3",
       "license": {
         "kind": "expression",
@@ -2664,8 +2704,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        "eng/OmniEurope.Analyzers/packages.lock.json"
       ]
     },
     {
@@ -2684,6 +2723,20 @@
     },
     {
       "id": "System.Numerics.Vectors",
+      "version": "4.6.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Numerics.Vectors",
       "version": "4.6.1",
       "license": {
         "kind": "expression",
@@ -2693,8 +2746,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        "eng/OmniEurope.Analyzers/packages.lock.json"
       ]
     },
     {
@@ -2708,7 +2760,34 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers/packages.lock.json",
+        "eng/OmniEurope.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Reflection.Metadata",
+      "version": "9.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Runtime.CompilerServices.Unsafe",
+      "version": "6.1.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
         "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
       ]
     },
@@ -2723,8 +2802,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        "eng/OmniEurope.Analyzers/packages.lock.json"
       ]
     },
     {
@@ -2761,6 +2839,20 @@
     },
     {
       "id": "System.Threading.Tasks.Extensions",
+      "version": "4.6.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "System.Threading.Tasks.Extensions",
       "version": "4.6.3",
       "license": {
         "kind": "expression",
@@ -2770,8 +2862,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        "eng/OmniEurope.Analyzers/packages.lock.json"
       ]
     },
     {
