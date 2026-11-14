@@ -86,11 +86,11 @@ public sealed class ShowcaseCustomizerTests : OmniBunitContext
 
         // The options follow OmniDensity: compact, comfortable, spacious.
         page.Find("#workshop-density").Change("2");
-        // Light, dark, system: the options follow ThemeMode.
-        page.FindAll("#workshop-mode [role=radio]")[2].Click();
+        // Light, dark, system: the options follow the customizer order; dark moves away from the default (system).
+        page.FindAll("#workshop-mode [role=radio]")[1].Click();
 
         Assert.Equal(OmniDensity.Spacious, state.Density);
-        Assert.Equal(ThemeMode.System, state.Mode);
+        Assert.Equal(OmniAppearance.Dark, state.Mode);
     }
 
     /// <summary>The preview stacks the mockup's compositions, each with a density of its own on demand.</summary>

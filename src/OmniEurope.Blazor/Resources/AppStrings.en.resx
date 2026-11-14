@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Remove from favorites</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Remove</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Duration</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Sober business-application look, 2.5 px radius, discreet elevation, sans-serif.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Sharp corners, no shadow, spaced capitals.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Rounded throughout, pill buttons, a fine edge and a soft shadow instead of a border.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Large curves and coloured halos drawn from the accent.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Electric night: accent glows, tinted borders, widely spaced capitals.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Ink on paper: 2 px rules, serifs, no shadow.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Thick outlines and hard offset shadows, no blur.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Eight-bit console: stepped frames, screen font.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asymmetric leaf-shaped corners and lagoon reflections.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Bevels, inner highlights and deep shadows.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Surfaces moulded into the page: soft light and dark shadows, pressed in when held.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Frosted glass panels over large pastel blots, light edge and large rounded corners.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Flat colour with no shadow or gradient, pill buttons and solid cards.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Black on white, thin rules, sharp corners and very large bold headings.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Tilted accretion disc slowly turning behind the page: pure black and a disc of light in dark mode, a light page and the same disc in ink, colours inverted, in light mode; barely veiled cards.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo in both modes, clear-cut severities.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Bright blue on a sea-foam background, navy night in dark mode.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Fir green on a moss background, undergrowth in dark mode.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavender violet on lilac white, mauve night in dark mode.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Electric cyan and violet, ink night in dark mode.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Burnished gold on cream paper, warm brown in dark mode.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Ember orange on a peach background, red glow in dark mode.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Pure black and white, only the severities in colour.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Lagoon turquoise, deep blue-green in dark mode.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Plum and pink, dark velvet in dark mode.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Bright blue on cloud grey, charcoal in dark mode, orange-red for alerts.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Bold indigo on pearl white, sky, mint and peach severities, bluish night in dark mode.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Lilac and pink on white, navy blue in dark mode, sky blue for information.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Black ink on off-white, a single discreet ink blue.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Accretion amber on pure white, pure black in dark mode.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Plain page, no backdrop drawn behind the content.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Large pastel blots of the palette slowly drifting behind the page.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Tilted accretion disc around a black hole, slowly turning behind the page.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Fine architect's grid slowly sliding diagonally behind the page.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Concentric ripples of a skipping stone, widening and fading behind the page.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Blurred bubbles of light breathing and slowly drifting behind the page.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Synthwave grid in perspective racing towards a glowing horizon behind the page.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Ink blots slowly spreading on paper, like watercolour, behind the page.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro sun rays slowly turning behind the page.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pixel stars twinkling and scrolling in parallax behind the page.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Rippling water reflections and a few drifting water-lily leaves.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moiré sheen sliding over draped velvet.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Contour lines of a topographic map, slowly undulating.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Floating pastel geometric shapes, Memphis style.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Very fine dot grid, gently pulsing.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>The system's interface font, sans-serif.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutral sans-serif designed for screens (free web font).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Rounded terminals, friendly tone.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Open, light sans-serif.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Crisp circles and lines, modern look.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Narrow and regular, reads like a dashboard.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Wide and highly legible, designed for reading fluency (free web font).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Serif reading font (free web font).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Fine serifs and moderate contrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Monospaced, every character the same width (free web font).</value></data>
 </root>

@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Usuń z ulubionych</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Usuń</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Czas trwania</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Stonowany styl aplikacji biznesowej, promień 2,5 px, dyskretne uniesienie, czcionka bezszeryfowa.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Ostre narożniki, bez cienia, rozstrzelone wersaliki.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Wszystko zaokrąglone, przyciski w kształcie pigułki, cienka krawędź i miękki cień zamiast obramowania.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Duże zaokrąglenia i kolorowe poświaty z koloru akcentu.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektryczna noc: poświaty akcentu, barwione obramowania, mocno rozstrzelone wersaliki.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Atrament na papierze: linie 2 px, szeryfy, bez cienia.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Grube kontury i twarde przesunięte cienie bez rozmycia.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Konsola ośmiobitowa: schodkowe ramki, czcionka ekranowa.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asymetryczne narożniki w kształcie liścia i odblaski laguny.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Fazy, wewnętrzne połyski i głębokie cienie.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Powierzchnie wymodelowane w stronie: miękkie jasne i ciemne cienie, wciśnięte przy kliknięciu.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Panele z matowego szkła na dużych pastelowych plamach, jasna krawędź i duże zaokrąglenia.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Płaskie kolory bez cienia i gradientu, przyciski w kształcie pigułki i pełne karty.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Czerń na bieli, cienkie linie, ostre narożniki i bardzo duże pogrubione nagłówki.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Nachylony dysk akrecyjny powoli obracający się za stroną: głęboka czerń i świetlny dysk w trybie ciemnym, jasna strona i ten sam dysk atramentem, w odwróconych kolorach, w trybie jasnym; ledwie przesłonięte karty.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indygo w obu trybach, wyraziste poziomy ważności.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Intensywny błękit na tle morskiej piany, morska noc w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Zieleń jodły na tle mchu, poszycie leśne w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lawendowy fiolet na liliowej bieli, fiołkoworóżowa noc w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektryczny cyjan i fiolet, atramentowa noc w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Polerowane złoto na kremowym papierze, ciepły brąz w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Pomarańcz żaru na brzoskwiniowym tle, czerwona poświata w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Czysta czerń i biel, tylko poziomy ważności w kolorze.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Turkus laguny, głęboka niebieskozielona barwa w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Śliwka i róż, ciemny aksamit w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Żywy błękit na chmurnej szarości, antracyt w trybie ciemnym, pomarańczowa czerwień w alertach.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Wyraziste indygo na perłowej bieli, błękit, mięta i brzoskwinia jako poziomy ważności, niebieskawa noc w trybie ciemnym.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Liliowy i róż na bieli, granat w trybie ciemnym, błękit dla informacji.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Czarny atrament na złamanej bieli, jeden dyskretny atramentowy błękit.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Bursztyn akrecji na czystej bieli, głęboka czerń w trybie ciemnym.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Jednolita strona, bez tła rysowanego za treścią.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Duże pastelowe plamy z palety, powoli dryfujące za stroną.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Nachylony dysk akrecyjny wokół czarnej dziury, powoli obracający się za stroną.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Cienka siatka architekta, powoli przesuwająca się po skosie za stroną.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Koncentryczne kręgi kamyka puszczanego po wodzie, rozszerzające się i znikające za stroną.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Rozmyte bańki światła, które oddychają i powoli dryfują za stroną.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Siatka synthwave w perspektywie, pędząca ku świetlistemu horyzontowi za stroną.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Plamy atramentu powoli rozlewające się po papierze jak akwarela za stroną.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Promienie słońca w stylu retro, powoli obracające się za stroną.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pikselowe gwiazdy, które migoczą i przesuwają się z paralaksą za stroną.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Falujące odblaski wody i kilka dryfujących liści lilii wodnej.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Połysk mory sunący po udrapowanym aksamicie.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Poziomice mapy topograficznej, powoli falujące.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Unoszące się pastelowe kształty geometryczne w stylu Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Bardzo drobny raster kropek, łagodnie pulsujący.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Czcionka interfejsu systemu, bezszeryfowa.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutralna czcionka bezszeryfowa zaprojektowana dla ekranów (wolna czcionka internetowa).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Zaokrąglone zakończenia, przyjazny ton.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Otwarta, lekka czcionka bezszeryfowa.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Wyraźne okręgi i proste, nowoczesny wygląd.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Wąska i regularna, czytana jak deska rozdzielcza.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Szeroka i bardzo czytelna, zaprojektowana z myślą o płynności czytania (wolna czcionka internetowa).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Szeryfowa czcionka do czytania (wolna czcionka internetowa).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Cienkie szeryfy i umiarkowany kontrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Stałej szerokości, każdy znak tej samej szerokości (wolna czcionka internetowa).</value></data>
 </root>

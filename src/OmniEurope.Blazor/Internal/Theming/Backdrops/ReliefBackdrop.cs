@@ -50,7 +50,7 @@ internal static class ReliefBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Relief",
-        "Courbes de niveau d’une carte topographique qui ondulent lentement.",
+        "BackdropDescriptionRelief",
         BackdropDefinition.Tokens(
             // The lines are a faint tint of the text over the surface, the index lines a touch firmer, the
             // high ground a breath of the accent: the page keeps its colour and its neumorphic cards.

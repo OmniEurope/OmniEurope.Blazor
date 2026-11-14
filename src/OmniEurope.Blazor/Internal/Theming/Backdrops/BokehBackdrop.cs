@@ -38,7 +38,7 @@ internal static class BokehBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Bokeh",
-        "Bulles de lumière floues qui respirent et dérivent lentement derrière la page.",
+        "BackdropDescriptionBokeh",
         BackdropDefinition.Tokens(
             ("--omni-backdrop-rose", "color-mix(in srgb, var(--omni-color-accent-fill) 8%, var(--omni-color-surface))"),
             ("--omni-backdrop-sky", "color-mix(in srgb, var(--omni-color-info-fill) 12%, var(--omni-color-surface))"),

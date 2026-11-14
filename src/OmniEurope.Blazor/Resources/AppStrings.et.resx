@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Eemalda lemmikutest</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Eemalda</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Kestus</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Rahulik ärirakenduse stiil, 2,5 px raadius, tagasihoidlik kõrgendus, seriifideta.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Teravad nurgad, varjuta, hõredad suurtähed.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Läbivalt ümar, pillikujulised nupud, peen äär ja pehme vari raami asemel.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Suured ümarused ja rõhuvärvist võetud värvilised halod.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektriline öö: rõhuvärvi kuma, toonitud ääred, väga hõredad suurtähed.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Tint paberil: 2 px jooned, seriifid, varjuta.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Paksud piirjooned ja teravad nihutatud varjud, ilma häguta.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>8-bitine konsool: astmelised raamid, ekraanikiri.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asümmeetrilised lehekujulised nurgad ja laguuni peegeldused.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Faasid, sisemised läiked ja sügavad varjud.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Lehele vormitud pinnad: pehmed heledad ja tumedad varjud, vajutades sissepoole.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Mattklaasist paneelid suurte pastelllaikude kohal, hele äär ja suured ümarused.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Ühtlased värvid ilma varju ja üleminekuta, pillikujulised nupud ja täidetud kaardid.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Must valgel, peened jooned, teravad nurgad ja väga suured paksud pealkirjad.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Kaldu akretsiooniketas, mis pöörleb aeglaselt lehe taga: sügav must ja valgusketas tumedas režiimis, hele leht ja sama ketas tindiga, ümberpööratud värvidega, heledas režiimis; vaevu looritatud kaardid.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo mõlemas režiimis, selged tõsidusastmed.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Erksinine vahutaustal, merelik öö tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Kuuseroheline samblataustal, alusmets tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavendliviolett lillakasvalgel, mauve öö tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektriline tsüaan ja violett, tindine öö tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Poleeritud kuld kreemjal paberil, soe pruun tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Hõõguv oranž virsikutaustal, punane kuma tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Puhas must ja valge, ainult tõsidusastmed värvilised.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Laguuni türkiis, sügav sinakasroheline tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Ploom ja roosa, tume samet tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Erksinine pilvehallil, antratsiit tumedas režiimis, oranžikaspunane hoiatustes.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Tugev indigo pärlvalgel, taevasinine, münt ja virsik tõsidusastmetena, sinakas öö tumedas režiimis.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Lilla ja roosa valgel, meresinine tumedas režiimis, taevasinine teabes.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Must tint murdvalgel, üksainus tagasihoidlik tindisinine.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akretsiooni merevaik puhtal valgel, sügav must tumedas režiimis.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Ühevärviline leht, sisu taha ei joonistata tausta.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Paleti suured pastelllaigud, mis triivivad aeglaselt lehe taga.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Kaldu akretsiooniketas musta augu ümber, mis pöörleb aeglaselt lehe taga.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Peen arhitektivõrgustik, mis libiseb aeglaselt diagonaalis lehe taga.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Põrkava kivi kontsentrilised lained, mis lehe taga laienevad ja hääbuvad.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Hägused valgusmullid, mis hingavad ja triivivad aeglaselt lehe taga.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Perspektiivis synthwave-võrgustik, mis kihutab helendava horisondi poole lehe taga.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Tindiplekid, mis valguvad aeglaselt paberile nagu akvarell lehe taga.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retrostiilis päikesekiired, mis pöörlevad aeglaselt lehe taga.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pikselitähed, mis vilguvad ja liiguvad parallaksis lehe taga.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Virvendavad veepeegeldused ja mõned triivivad vesiroosilehed.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Muaree läige, mis libiseb üle drapeeritud sameti.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Topograafilise kaardi samakõrgusjooned, mis aeglaselt lainetavad.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Hõljuvad geomeetrilised pastellkujundid Memphise stiilis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Väga peen punktvõrgustik, mis pulseerib õrnalt.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Süsteemi kasutajaliidese kiri, seriifideta.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutraalne seriifideta kiri ekraanidele (vaba veebikiri).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Ümarad lõpud, sõbralik toon.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Avar ja kerge seriifideta kiri.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Selged ringid ja sirged, moodne ilme.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Kitsas ja ühtlane, loetav nagu armatuurlaud.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Lai ja väga loetav, loodud sujuvaks lugemiseks (vaba veebikiri).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Seriifidega lugemiskiri (vaba veebikiri).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Peened seriifid ja mõõdukas kontrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Püsilaiusega, iga märk sama laiusega (vaba veebikiri).</value></data>
 </root>

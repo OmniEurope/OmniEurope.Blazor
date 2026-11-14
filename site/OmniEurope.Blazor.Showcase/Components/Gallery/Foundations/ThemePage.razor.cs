@@ -5,7 +5,7 @@ using OmniEurope.Blazor.Showcase.Theming;
 namespace OmniEurope.Blazor.Showcase.Components.Gallery.Foundations;
 
 /// <summary>
-/// The Theme page: the appearance of the whole showcase, bound to its own <see cref="ThemeState"/>, and
+/// The Theme page: the appearance of the whole showcase, bound to the showcase <see cref="ThemeState"/> (the package appearance state plus the customizer edits), and
 /// what a theme scope does to a sample, nested so the look of the page stays the visitor's.
 /// </summary>
 public partial class ThemePage : IDisposable
@@ -32,12 +32,7 @@ public partial class ThemePage : IDisposable
     private OmniDensity ScopeDensity { get; set; } = OmniDensity.Comfortable;
 
     /// <summary>The mode the showcase is drawn in, as the appearance the settings and the tiles speak.</summary>
-    private OmniAppearance ModuleAppearance => Look.EffectiveMode switch
-    {
-        ThemeMode.Dark => OmniAppearance.Dark,
-        ThemeMode.System => OmniAppearance.System,
-        _ => OmniAppearance.Light
-    };
+    private OmniAppearance ModuleAppearance => Look.EffectiveMode;
 
     /// <summary>The palette as the settings expect it: null while it is the palette the theme comes with.</summary>
     private OmniThemePalette? PaletteSetting => Look.HasThemePalette ? null : Look.Palette;
@@ -68,12 +63,7 @@ public partial class ThemePage : IDisposable
 
     private void OnLookChanged() => InvokeAsync(StateHasChanged);
 
-    private Task SetAppearanceAsync(OmniAppearance appearance) => Look.SetModeAsync(appearance switch
-    {
-        OmniAppearance.Dark => ThemeMode.Dark,
-        OmniAppearance.System => ThemeMode.System,
-        _ => ThemeMode.Light
-    });
+    private Task SetAppearanceAsync(OmniAppearance appearance) => Look.SetModeAsync(appearance);
 
     /// <summary>A theme picked in the settings or in the window; null is the first of the catalogue.</summary>
     private Task SetPresetAsync(OmniThemePreset? preset) => SelectPresetAsync(preset ?? OmniThemePresets.All[0]);

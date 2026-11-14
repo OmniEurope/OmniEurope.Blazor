@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Internal;
 /// colour tokens of the palette in force, so it follows any palette.
 /// </summary>
 /// <param name="Name">The backdrop name, as theme names are: French, never translated, and the key the preference keeps.</param>
-/// <param name="Description">One line describing the backdrop.</param>
+/// <param name="DescriptionKey">The resource key of the one line describing the backdrop (<c>AppStrings</c>, every language).</param>
 /// <param name="Shape">
 /// The tokens laid over both modes: <c>--omni-backdrop</c> (the CSS field, pinned to the viewport by the
 /// scope), its <c>--omni-backdrop-*</c> stops, <c>--omni-scope-motion</c> when it moves and
@@ -19,7 +19,7 @@ namespace OmniEurope.Blazor.Internal;
 /// </param>
 internal sealed record BackdropDefinition(
     string Name,
-    string Description,
+    string DescriptionKey,
     IReadOnlyDictionary<string, string> Shape,
     IReadOnlyDictionary<string, string> DarkShape,
     string? CanvasScript = null)

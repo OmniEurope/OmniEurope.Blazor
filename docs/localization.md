@@ -8,6 +8,8 @@ builder.Services.AddOmniEuropeBlazor();
 
 Les composants utilisent `IStringLocalizer<AppStrings>`. Les noms de marque, identifiants, valeurs techniques et contenus fournis par le consommateur ne sont pas traduits automatiquement.
 
+Les descriptions des thèmes, palettes, fonds et polices du catalogue sont traduites dans les 24 langues et lues dans la culture d'interface courante ; leurs noms ne sont pas traduits, ce sont les clés des préférences ([foundation-components.md](foundation-components.md), « Thèmes, palettes et densité »). Ces descriptions se lisent dans les ressources du paquet, sans le localiseur : `AddOmniEuropeTextOverrides` ne les remplace pas, et un hôte qui veut son propre texte construit son entrée avec `with { Description = ... }`.
+
 ## Remplacer un texte du paquet
 
 Un texte qui dépend du contexte métier se remplace de deux façons :
@@ -75,3 +77,4 @@ Les 23 langues autres que le français ont été relues le 2026-09-29 par des ag
 - **Blocs des modèles de mails** (recette R1-75, 2026-10-16) : les 7 textes du paquet pour le groupe « Insérer un bloc » d'`OmniMailTemplateEditor` (`MailTemplateEditorBlocks`, `MailTemplateEditorBanner`, `MailTemplateEditorBannerInfo`, `MailTemplateEditorBannerSuccess`, `MailTemplateEditorBannerWarning`, `MailTemplateEditorBannerDanger`, `MailTemplateEditorButton`) et le texte de démonstration `DemoEditorMailPieces` ont été traduits dans les 23 langues sans relecture par un locuteur natif.
 - **Zone de dessin** (PLAN-010, lot 1, 2026-11-04) : les 9 textes du paquet pour `OmniInkCanvas` (`InkCanvasLabel`, `InkCanvasHelp`, `InkToolbar`, `InkColor`, `InkWidth`, `InkUndo`, `InkClear`, `InkUndone`, `InkCleared`) ont été traduits dans les 23 langues sans relecture par un locuteur natif ; dans l'aide `InkCanvasHelp`, la touche d'effacement porte le nom du clavier en français, allemand, espagnol et italien (Suppr, Entf, Supr, Canc) et reste « Delete » dans les autres langues.
 - **Éditeur de document structuré** (PLAN-010, lot 3, 2026-11-04) : les 7 textes du paquet pour `OmniDocumentEditor` (`DocumentEditorBlockLabel`, `DocumentEditorRunLabel`, `DocumentEditorFieldEmpty`, `DocumentEditorInsertDrawing`, `DocumentEditorReplaceDrawing`, `DocumentEditorDrawing`, `DocumentEditorDrawingApply`) ont été traduits dans les 23 langues sans relecture par un locuteur natif ; « Annuler » et « Document » reprennent des textes déjà traduits.
+- **Descriptions du catalogue de thèmes** (2026-11-14) : les 55 descriptions des thèmes, palettes, fonds et polices (`ThemeDescription*`, `PaletteDescription*`, `BackdropDescription*`, `FontDescription*`) ont été traduites dans les 23 langues sans relecture par un locuteur natif.

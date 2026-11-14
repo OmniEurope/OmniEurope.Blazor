@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Aus Favoriten entfernen</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Entfernen</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Dauer</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Nüchterner Stil einer Geschäftsanwendung, Radius 2,5 px, dezente Erhebung, serifenlos.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Scharfe Ecken, kein Schatten, gesperrte Großbuchstaben.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Durchgehend gerundet, Pillen-Schaltflächen, feine Kante und weicher Schatten statt Rahmen.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Große Rundungen und farbige Lichthöfe aus der Akzentfarbe.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektrische Nacht: Akzentleuchten, getönte Rahmen, weit gesperrte Großbuchstaben.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Tinte auf Papier: 2-px-Linien, Serifen, kein Schatten.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Dicke Konturen und harte, versetzte Schatten ohne Unschärfe.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>8-Bit-Konsole: gestufte Rahmen, Bildschirmschrift.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asymmetrische Blattecken und Lagunenspiegelungen.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Fasen, innere Glanzlichter und tiefe Schatten.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>In die Seite modellierte Flächen: weiche helle und dunkle Schatten, beim Drücken eingesenkt.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Milchglasflächen über großen Pastellflecken, heller Rand und große Rundungen.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Flächige Farben ohne Schatten und Verlauf, Pillen-Schaltflächen und volle Karten.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Schwarz auf Weiß, feine Linien, scharfe Ecken und sehr große, fette Überschriften.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Geneigte Akkretionsscheibe, die sich langsam hinter der Seite dreht: tiefes Schwarz und Lichtscheibe im Dunkelmodus, helle Seite und dieselbe Scheibe in Tinte mit umgekehrten Farben im Hellmodus; kaum verschleierte Karten.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo in beiden Modi, klare Schweregrade.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Kräftiges Blau auf Gischtgrund, Marinenacht im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Tannengrün auf Moosgrund, Unterholz im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavendelviolett auf Fliederweiß, Malvennacht im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektrisches Cyan und Violett, Tintennacht im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Brüniertes Gold auf Cremepapier, warmes Braun im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Glutorange auf Pfirsichgrund, rotes Glühen im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Reines Schwarz und Weiß, nur die Schweregrade farbig.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Lagunentürkis, tiefes Blaugrün im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Pflaume und Rosa, dunkler Samt im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Kräftiges Blau auf Wolkengrau, Anthrazit im Dunkelmodus, Orangerot für Warnungen.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Kräftiges Indigo auf Perlweiß, Himmelblau, Mint und Pfirsich als Schweregrade, bläuliche Nacht im Dunkelmodus.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Flieder und Rosa auf Weiß, Marineblau im Dunkelmodus, Himmelblau für Informationen.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Schwarze Tinte auf gebrochenem Weiß, ein einziges dezentes Tintenblau.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akkretionsbernstein auf reinem Weiß, tiefes Schwarz im Dunkelmodus.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Einfarbige Seite, kein Hintergrund hinter dem Inhalt.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Große Pastellflecken der Palette, die langsam hinter der Seite treiben.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Geneigte Akkretionsscheibe um ein Schwarzes Loch, die sich langsam hinter der Seite dreht.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Feines Architektenraster, das langsam diagonal hinter der Seite gleitet.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Konzentrische Wellen eines springenden Kiesels, die sich hinter der Seite ausbreiten und verblassen.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Unscharfe Lichtblasen, die hinter der Seite atmen und langsam treiben.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Synthwave-Raster in Perspektive, das auf einen leuchtenden Horizont hinter der Seite zurast.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Tintenflecken, die sich wie Aquarell langsam auf dem Papier hinter der Seite ausbreiten.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro-Sonnenstrahlen, die sich langsam hinter der Seite drehen.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pixelsterne, die funkeln und mit Parallaxe hinter der Seite vorbeiziehen.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Kräuselnde Wasserspiegelungen und einige treibende Seerosenblätter.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moiré-Glanz, der über drapierten Samt gleitet.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Höhenlinien einer topografischen Karte, die sich langsam wellen.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Schwebende geometrische Pastellformen im Memphis-Stil.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Sehr feines Punktraster, das sanft pulsiert.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Die Oberflächenschrift des Systems, serifenlos.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutrale serifenlose Schrift für Bildschirme (freie Webschrift).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Abgerundete Enden, freundlicher Ton.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Offene, leichte serifenlose Schrift.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Klare Kreise und Geraden, moderner Stil.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Schmal und gleichmäßig, wie auf einem Armaturenbrett.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Breit und sehr gut lesbar, für flüssiges Lesen entworfen (freie Webschrift).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Leseschrift mit Serifen (freie Webschrift).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Feine Serifen und mäßiger Kontrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Festbreitenschrift, jedes Zeichen gleich breit (freie Webschrift).</value></data>
 </root>

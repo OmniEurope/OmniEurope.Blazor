@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Ta bort från favoriter</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Ta bort</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Varaktighet</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Stram stil för affärsprogram, radie 2,5 px, diskret upphöjning, sanseriff.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Skarpa hörn, ingen skugga, spärrade versaler.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Rundat överallt, pillerknappar, en fin kant och en mjuk skugga i stället för ram.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Stora rundningar och färgade glorior från accentfärgen.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektrisk natt: accentsken, tonade ramar, glest spärrade versaler.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Bläck på papper: linjer på 2 px, seriffer, ingen skugga.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Tjocka konturer och hårda förskjutna skuggor, utan oskärpa.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>8-bitarskonsol: trappstegsramar, skärmtypsnitt.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asymmetriska bladformade hörn och lagunreflexer.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Fasningar, inre glansdagrar och djupa skuggor.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Ytor formade i sidan: mjuka ljusa och mörka skuggor, intryckta vid klick.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Paneler av frostat glas över stora pastellfläckar, ljus kant och stora rundningar.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Plana färger utan skugga eller övertoning, pillerknappar och fyllda kort.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Svart på vitt, tunna linjer, skarpa hörn och mycket stora feta rubriker.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Lutad ackretionsskiva som långsamt roterar bakom sidan: kolsvart och en ljusskiva i mörkt läge, ljus sida och samma skiva i bläck, med omvända färger, i ljust läge; knappt beslöjade kort.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo i båda lägena, tydliga allvarlighetsgrader.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Klarblått på skumvit bakgrund, marin natt i mörkt läge.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Grangrönt på mossbakgrund, undervegetation i mörkt läge.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavendelviolett på lila vitt, malvafärgad natt i mörkt läge.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektrisk cyan och violett, bläcknatt i mörkt läge.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Polerat guld på krämfärgat papper, varmt brunt i mörkt läge.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Glödande orange på persikobakgrund, rött sken i mörkt läge.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Rent svart och vitt, bara allvarlighetsgraderna i färg.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Lagunturkos, djupt blågrönt i mörkt läge.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Plommon och rosa, mörk sammet i mörkt läge.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Klarblått på molngrått, antracit i mörkt läge, orangerött för varningar.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Kraftig indigo på pärlvitt, himmelsblått, mint och persika som allvarlighetsgrader, blåaktig natt i mörkt läge.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Lila och rosa på vitt, marinblått i mörkt läge, himmelsblått för information.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Svart bläck på benvitt, en enda diskret bläckblå.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Ackretionsbärnsten på rent vitt, kolsvart i mörkt läge.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Enfärgad sida, ingen bakgrund ritad bakom innehållet.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Stora pastellfläckar ur paletten som långsamt driver bakom sidan.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Lutad ackretionsskiva runt ett svart hål, som långsamt roterar bakom sidan.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Fint arkitektrutnät som långsamt glider diagonalt bakom sidan.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Koncentriska ringar från en studsande sten, som vidgas och bleknar bakom sidan.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Suddiga ljusbubblor som andas och långsamt driver bakom sidan.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Synthwave-rutnät i perspektiv som rusar mot en lysande horisont bakom sidan.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Bläckfläckar som långsamt flyter ut på papperet, som akvarell, bakom sidan.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retrosolstrålar som långsamt roterar bakom sidan.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pixelstjärnor som tindrar och glider i parallax bakom sidan.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Krusande vattenreflexer och några drivande näckrosblad.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moaréglans som glider över draperad sammet.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Höjdkurvor på en topografisk karta som långsamt böljar.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Svävande geometriska pastellformer i Memphis-stil.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Mycket fint punktraster som pulserar mjukt.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Systemets gränssnittstypsnitt, sanseriff.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutral sanseriff ritad för skärmar (fritt webbtypsnitt).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Rundade avslut, vänlig ton.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Öppen och lätt sanseriff.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Skarpa cirklar och linjer, modernt intryck.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Smal och jämn, läses som en instrumentpanel.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Bred och mycket lättläst, utformad för flytande läsning (fritt webbtypsnitt).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Läsetypsnitt med seriffer (fritt webbtypsnitt).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Fina seriffer och måttlig kontrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Fast bredd, alla tecken lika breda (fritt webbtypsnitt).</value></data>
 </root>

@@ -43,9 +43,12 @@ internal static class ThemePresetFactory
         ArgumentNullException.ThrowIfNull(palette);
         return new OmniThemePalette(
             palette.Name,
-            palette.Description,
+            CatalogDescriptions.Neutral(palette.DescriptionKey),
             BuildColors(palette, OmniAppearance.Light),
-            BuildColors(palette, OmniAppearance.Dark));
+            BuildColors(palette, OmniAppearance.Dark))
+        {
+            DescriptionKey = palette.DescriptionKey,
+        };
     }
 
     /// <summary>
@@ -57,8 +60,9 @@ internal static class ThemePresetFactory
         ArgumentNullException.ThrowIfNull(theme);
         ArgumentNullException.ThrowIfNull(palette);
         ArgumentNullException.ThrowIfNull(backdrop);
-        var bare = new OmniThemePreset(theme.Name, theme.Description, palette.Light, palette.Dark)
+        var bare = new OmniThemePreset(theme.Name, CatalogDescriptions.Neutral(theme.DescriptionKey), palette.Light, palette.Dark)
         {
+            DescriptionKey = theme.DescriptionKey,
             Shape = OmniThemePreset.Merge(theme.Shape, backdrop.Shape),
             DarkShape = OmniThemePreset.Merge(theme.DarkShape, backdrop.DarkShape),
             ContrastWaiver = theme.ContrastWaiver,

@@ -62,7 +62,7 @@ public partial class Customizer : IDisposable
     private IReadOnlyList<OmniOption<string>> PaletteOptions { get; } =
         [.. OmniThemePalettes.All.Select(palette => new OmniOption<string>(palette.Name, palette.Name))];
 
-    private IReadOnlyList<OmniOption<ThemeMode>> ModeOptions { get; set; } = [];
+    private IReadOnlyList<OmniOption<OmniAppearance>> ModeOptions { get; set; } = [];
 
     private IReadOnlyList<OmniOption<OmniDensity>> DensityOptions { get; set; } = [];
 
@@ -70,7 +70,7 @@ public partial class Customizer : IDisposable
 
     /// <summary>The pairs measured on the half previewed; the system mode shows the light one.</summary>
     private IReadOnlyList<ContrastResult> Contrasts =>
-        ContrastAudit.Measure(Theme.EffectiveMode is ThemeMode.Dark ? Theme.Dark : Theme.Light, Theme.Tokens);
+        ContrastAudit.Measure(Theme.EffectiveMode is OmniAppearance.Dark ? Theme.Dark : Theme.Light, Theme.Tokens);
 
     private int Failures => Contrasts.Count(result => !result.Passes);
 
@@ -78,9 +78,9 @@ public partial class Customizer : IDisposable
     {
         ModeOptions =
         [
-            new(ThemeMode.Light, Text["WorkshopModeLight"]),
-            new(ThemeMode.Dark, Text["WorkshopModeDark"]),
-            new(ThemeMode.System, Text["WorkshopModeSystem"])
+            new(OmniAppearance.Light, Text["WorkshopModeLight"]),
+            new(OmniAppearance.Dark, Text["WorkshopModeDark"]),
+            new(OmniAppearance.System, Text["WorkshopModeSystem"])
         ];
         DensityOptions =
         [
@@ -112,7 +112,7 @@ public partial class Customizer : IDisposable
 
     private string SwatchValue(string name)
     {
-        var half = Theme.EffectiveMode is ThemeMode.Dark ? Theme.Dark : Theme.Light;
+        var half = Theme.EffectiveMode is OmniAppearance.Dark ? Theme.Dark : Theme.Light;
         return half.TryGetValue(name, out var value)
             ? value
             : Theme.Tokens.FirstOrDefault(token => token.Name == name)?.DefaultValue ?? string.Empty;
@@ -129,7 +129,7 @@ public partial class Customizer : IDisposable
             ? Theme.SelectPaletteAsync(palette)
             : Task.CompletedTask;
 
-    private Task SetModeAsync(ThemeMode mode) => Theme.SetModeAsync(mode);
+    private Task SetModeAsync(OmniAppearance mode) => Theme.SetModeAsync(mode);
 
     private Task SetDensityAsync(OmniDensity density) => Theme.SetDensityAsync(density);
 

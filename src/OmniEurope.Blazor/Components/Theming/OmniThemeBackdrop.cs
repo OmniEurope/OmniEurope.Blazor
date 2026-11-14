@@ -13,7 +13,10 @@ namespace OmniEurope.Blazor.Components;
 /// system does not ask for reduced motion.
 /// </remarks>
 /// <param name="Name">The backdrop name as shown in a picker.</param>
-/// <param name="Description">One line describing the backdrop.</param>
+/// <param name="Description">
+/// One line describing the backdrop. An entry of the catalogue reads it from the package resources in the current UI
+/// culture (see <see cref="Description"/>); its name stays French, never translated.
+/// </param>
 /// <param name="Shape">The tokens laid over both modes (<c>--omni-backdrop</c>, its stops, its motion).</param>
 /// <param name="DarkShape">The tokens laid over the dark mode only, after <paramref name="Shape"/>.</param>
 public sealed record OmniThemeBackdrop(
@@ -22,6 +25,24 @@ public sealed record OmniThemeBackdrop(
     IReadOnlyDictionary<string, string> Shape,
     IReadOnlyDictionary<string, string> DarkShape)
 {
+    /// <summary>
+    /// One line describing the backdrop. A backdrop of the catalogue gives it in the current UI culture
+    /// (<see cref="System.Globalization.CultureInfo.CurrentUICulture"/>), read from the package resources in the 24 languages
+    /// each time it is asked for; a backdrop built by hand, or given another description through <c>with</c>, keeps the text it was given.
+    /// </summary>
+    public string Description
+    {
+        get => DescriptionKey is { } key ? CatalogDescriptions.Describe(key, field) : field;
+        init
+        {
+            field = value;
+            DescriptionKey = null;
+        }
+    } = Description;
+
+    /// <summary>The resource key of the description of a catalogue backdrop; null for a backdrop built by hand.</summary>
+    internal string? DescriptionKey { get; init; }
+
     /// <summary>The names of every token the backdrop sets, in either mode.</summary>
     internal IEnumerable<string> TokenNames => Shape.Keys.Concat(DarkShape.Keys).Distinct(StringComparer.Ordinal);
 }

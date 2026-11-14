@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Poista suosikeista</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Poista</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Kesto</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Hillitty liiketoimintasovelluksen tyyli, 2,5 px:n säde, hienovarainen korotus, päätteetön.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Terävät kulmat, ei varjoa, harvennetut versaalit.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Pyöreä kauttaaltaan, pillerinmuotoiset painikkeet, ohut reuna ja pehmeä varjo kehyksen sijaan.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Suuret pyöristykset ja korostusväristä otetut värilliset hehkut.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Sähköinen yö: korostusvärin hehku, sävytetyt reunat, väljästi harvennetut versaalit.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Mustetta paperilla: 2 px:n viivat, päätteet, ei varjoa.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Paksut ääriviivat ja kovat siirretyt varjot ilman sumennusta.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>8-bittinen konsoli: porrastetut kehykset, näyttöfontti.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Epäsymmetriset lehdenmuotoiset kulmat ja laguunin heijastukset.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Viisteet, sisäiset kiillot ja syvät varjot.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Sivuun muotoillut pinnat: pehmeät vaaleat ja tummat varjot, painuu sisään painettaessa.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Himmeälasiset paneelit suurten pastellitäplien päällä, vaalea reuna ja suuret pyöristykset.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Tasaiset värit ilman varjoa tai liukuvärjäystä, pillerinmuotoiset painikkeet ja täytetyt kortit.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Mustaa valkoisella, ohuet viivat, terävät kulmat ja hyvin suuret lihavoidut otsikot.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Kallistettu kertymäkiekko, joka pyörii hitaasti sivun takana: syvä musta ja valokiekko tummassa tilassa, vaalea sivu ja sama kiekko musteella käänteisin värein vaaleassa tilassa; tuskin verhotut kortit.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo molemmissa tiloissa, selkeät vakavuustasot.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Kirkas sininen vaahtotaustalla, merellinen yö tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Kuusenvihreä sammaltaustalla, aluskasvillisuus tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Laventelinvioletti liilanvalkoisella, malvanvärinen yö tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Sähköinen syaani ja violetti, musteinen yö tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Kiillotettu kulta kermanvärisellä paperilla, lämmin ruskea tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Hiilloksen oranssi persikkataustalla, punainen hehku tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Puhdas musta ja valkoinen, vain vakavuustasot värillisinä.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Laguunin turkoosi, syvä sinivihreä tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Luumu ja roosa, tumma sametti tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Kirkas sininen pilvenharmaalla, antrasiitti tummassa tilassa, oranssinpunainen varoituksissa.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Voimakas indigo helmenvalkoisella, taivaansininen, minttu ja persikka vakavuustasoina, sinertävä yö tummassa tilassa.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Liila ja roosa valkoisella, laivastonsininen tummassa tilassa, taivaansininen tiedotteissa.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Musta muste luonnonvalkoisella, yksi ainoa hillitty mustesininen.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Kertymän meripihka puhtaalla valkoisella, syvä musta tummassa tilassa.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Yksivärinen sivu, sisällön taakse ei piirretä taustaa.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Paletin suuria pastellitäpliä, jotka ajelehtivat hitaasti sivun takana.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Kallistettu kertymäkiekko mustan aukon ympärillä, joka pyörii hitaasti sivun takana.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Hieno arkkitehdin ruudukko, joka liukuu hitaasti vinottain sivun takana.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Pomppivan kiven samankeskiset renkaat, jotka laajenevat ja häipyvät sivun takana.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Sumeita valokuplia, jotka hengittävät ja ajelehtivat hitaasti sivun takana.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Perspektiivinen synthwave-ruudukko, joka kiitää kohti hehkuvaa horisonttia sivun takana.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Mustetahroja, jotka leviävät hitaasti paperille kuin vesiväri sivun takana.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retrohenkisiä auringonsäteitä, jotka pyörivät hitaasti sivun takana.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pikselitähtiä, jotka tuikkivat ja liukuvat parallaksina sivun takana.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Väreileviä vedenheijastuksia ja muutama ajelehtiva lumpeenlehti.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moirékiilto, joka liukuu laskostetun sametin yli.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Topografisen kartan korkeuskäyrät, jotka aaltoilevat hitaasti.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Leijuvia geometrisia pastellimuotoja Memphis-tyyliin.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Erittäin hieno pisterasteri, joka sykkii pehmeästi.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Järjestelmän käyttöliittymäfontti, päätteetön.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutraali päätteetön fontti näytöille (vapaa verkkofontti).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Pyöristetyt päätteet, ystävällinen sävy.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Avoin ja kevyt päätteetön fontti.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Selkeät ympyrät ja suorat, moderni ilme.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Kapea ja tasainen, luetaan kuin kojelautaa.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Leveä ja erittäin luettava, suunniteltu sujuvaan lukemiseen (vapaa verkkofontti).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Päätteellinen lukufontti (vapaa verkkofontti).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Ohuet päätteet ja maltillinen kontrasti.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Tasalevyinen, jokainen merkki yhtä leveä (vapaa verkkofontti).</value></data>
 </root>

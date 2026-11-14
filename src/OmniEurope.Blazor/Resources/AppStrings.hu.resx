@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Eltávolítás a kedvencek közül</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Eltávolítás</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Időtartam</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Visszafogott üzleti alkalmazás stílus, 2,5 px-es lekerekítés, diszkrét kiemelés, talpatlan betű.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Éles sarkok, árnyék nélkül, ritkított nagybetűk.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Mindenütt lekerekített, kapszula alakú gombok, vékony szegély és lágy árnyék keret helyett.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Nagy lekerekítések és a kiemelőszínből vett színes fényudvarok.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektromos éjszaka: kiemelőszínű derengés, színezett szegélyek, erősen ritkított nagybetűk.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Tinta papíron: 2 px-es vonalak, talpas betű, árnyék nélkül.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Vastag körvonalak és éles, eltolt árnyékok elmosás nélkül.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Nyolcbites konzol: lépcsőzetes keretek, képernyőbetű.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Aszimmetrikus, levél alakú sarkok és lagúnás tükröződések.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Élletörések, belső csillogások és mély árnyékok.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Az oldalba mintázott felületek: lágy világos és sötét árnyékok, megnyomva besüllyednek.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Matt üveg panelek nagy pasztell foltok fölött, világos szegély és nagy lekerekítések.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Egyszínű felületek árnyék és színátmenet nélkül, kapszula alakú gombok és telt kártyák.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Fekete a fehéren, vékony vonalak, éles sarkok és nagyon nagy, félkövér címek.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Az oldal mögött lassan forgó, megdöntött akkréciós korong: mélyfekete és fénykorong sötét módban, világos oldal és ugyanaz a korong tintával, fordított színekkel világos módban; alig fátyolos kártyák.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigó mindkét módban, határozott súlyossági színek.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Élénkkék tajtékszínű alapon, tengeri éjszaka sötét módban.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Fenyőzöld moha alapon, aljnövényzet sötét módban.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Levendulalila orgonafehéren, mályvaszínű éjszaka sötét módban.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektromos ciánkék és ibolya, tintaszínű éjszaka sötét módban.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Fényezett arany krémszínű papíron, meleg barna sötét módban.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Parázsnarancs barackszínű alapon, vörös izzás sötét módban.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Tiszta fekete és fehér, csak a súlyossági szintek színesek.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Lagúnatürkiz, mély kékeszöld sötét módban.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Szilva és rózsaszín, sötét bársony sötét módban.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Élénkkék felhőszürkén, antracit sötét módban, narancsvörös a figyelmeztetésekhez.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Határozott indigó gyöngyházfehéren, égkék, menta és barack súlyossági színek, kékes éjszaka sötét módban.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Orgonalila és rózsaszín fehéren, sötétkék sötét módban, égkék az információkhoz.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Fekete tinta törtfehéren, egyetlen visszafogott tintakék.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akkréciós borostyán tiszta fehéren, mélyfekete sötét módban.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Egyszínű oldal, a tartalom mögé nem kerül rajzolt háttér.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>A paletta nagy pasztell foltjai, amelyek lassan sodródnak az oldal mögött.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Fekete lyuk körüli megdöntött akkréciós korong, amely lassan forog az oldal mögött.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Finom építészrács, amely lassan csúszik átlósan az oldal mögött.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Egy kacsázó kavics koncentrikus hullámai, amelyek az oldal mögött tágulnak és elhalványulnak.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Elmosódott fénybuborékok, amelyek lélegeznek és lassan sodródnak az oldal mögött.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Perspektivikus synthwave rács, amely egy ragyogó horizont felé száguld az oldal mögött.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Tintafoltok, amelyek akvarellként lassan szétterülnek a papíron az oldal mögött.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retró napsugarak, amelyek lassan forognak az oldal mögött.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pixeles csillagok, amelyek szikráznak és parallaxisban vonulnak az oldal mögött.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Hullámzó vízi tükröződések és néhány sodródó tavirózsalevél.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moaré csillogás, amely redőzött bársonyon siklik.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Egy domborzati térkép szintvonalai, amelyek lassan hullámzanak.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Lebegő pasztell geometriai formák Memphis-stílusban.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Nagyon finom pontrács, amely lágyan lüktet.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>A rendszer felületének betűtípusa, talpatlan.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Semleges talpatlan betű képernyőkre tervezve (szabad webes betűtípus).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Lekerekített szárvégek, barátságos hangvétel.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Nyitott, könnyed talpatlan betű.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Tiszta körök és egyenesek, modern megjelenés.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Keskeny és szabályos, úgy olvasható, mint egy műszerfal.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Széles és jól olvasható, a gördülékeny olvasásra tervezve (szabad webes betűtípus).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Talpas olvasóbetű (szabad webes betűtípus).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Vékony talpak és mérsékelt kontraszt.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Rögzített szélességű, minden karakter egyforma széles (szabad webes betűtípus).</value></data>
 </root>

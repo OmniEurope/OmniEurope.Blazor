@@ -46,7 +46,7 @@ internal static class AquarelleBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Aquarelle",
-        "Taches d’encre qui s’étalent lentement sur le papier, comme de l’aquarelle, derrière la page.",
+        "BackdropDescriptionAquarelle",
         BackdropDefinition.Tokens(
             ("--omni-backdrop-ink", "color-mix(in srgb, var(--omni-color-accent-fill) 8%, var(--omni-color-surface))"),
             ("--omni-backdrop-wash", "color-mix(in srgb, var(--omni-color-info-fill) 12%, var(--omni-color-surface))"),

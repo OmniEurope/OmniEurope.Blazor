@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Verwijderen uit favorieten</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Verwijderen</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Duur</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Sobere stijl van een bedrijfsapplicatie, straal van 2,5 px, subtiele verhoging, schreefloos.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Scherpe hoeken, geen schaduw, gespatieerde hoofdletters.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Overal afgerond, pilknoppen, een fijne rand en een zachte schaduw in plaats van een omlijning.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Grote rondingen en gekleurde halo's uit de accentkleur.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektrische nacht: accentgloed, getinte randen, ruim gespatieerde hoofdletters.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Inkt op papier: lijnen van 2 px, schreven, geen schaduw.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Dikke contouren en harde verschoven schaduwen, zonder vervaging.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>8-bitsconsole: getrapte kaders, schermlettertype.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asymmetrische bladvormige hoeken en lagunereflecties.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Afschuiningen, interne glanzen en diepe schaduwen.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>In de pagina gevormde vlakken: zachte lichte en donkere schaduwen, ingedrukt bij een klik.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Panelen van matglas op grote pastelvlekken, lichte rand en ruime afrondingen.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Vlakke kleuren zonder schaduw of verloop, pilknoppen en volle kaarten.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Zwart op wit, dunne lijnen, scherpe hoeken en zeer grote vette koppen.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Gekantelde accretieschijf die langzaam achter de pagina draait: diepzwart en een lichtschijf in donkere modus, een lichte pagina en dezelfde schijf in inkt, met omgekeerde kleuren, in lichte modus; nauwelijks gesluierde kaarten.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo in beide modi, duidelijke ernstniveaus.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Helder blauw op een schuimachtergrond, marinenacht in donkere modus.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Dennengroen op een mosachtergrond, kreupelhout in donkere modus.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavendelviolet op lila wit, mauve nacht in donkere modus.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektrisch cyaan en violet, inktnacht in donkere modus.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Gepolijst goud op crèmekleurig papier, warm bruin in donkere modus.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Gloeiend oranje op een perzikachtergrond, rode gloed in donkere modus.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Puur zwart en wit, alleen de ernstniveaus in kleur.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Lagunaturkoois, diep blauwgroen in donkere modus.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Pruim en roze, donker fluweel in donkere modus.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Helder blauw op wolkengrijs, antraciet in donkere modus, oranjerood voor meldingen.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Krachtig indigo op parelwit, hemelsblauw, mint en perzik als ernstniveaus, blauwige nacht in donkere modus.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Lila en roze op wit, marineblauw in donkere modus, hemelsblauw voor informatie.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Zwarte inkt op gebroken wit, één enkel ingetogen inktblauw.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Accretie-amber op zuiver wit, diepzwart in donkere modus.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Effen pagina, geen achtergrond getekend achter de inhoud.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Grote pastelvlekken uit het palet die langzaam achter de pagina drijven.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Gekantelde accretieschijf rond een zwart gat, die langzaam achter de pagina draait.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Fijn architectenraster dat langzaam diagonaal achter de pagina schuift.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Concentrische golven van een stuiterende kiezel, die zich achter de pagina verbreden en vervagen.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Vage lichtbellen die ademen en langzaam achter de pagina drijven.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Synthwaveraster in perspectief dat naar een stralende horizon achter de pagina snelt.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Inktvlekken die zich als aquarel langzaam over het papier achter de pagina verspreiden.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro zonnestralen die langzaam achter de pagina draaien.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pixelsterren die fonkelen en met parallax achter de pagina voorbijschuiven.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Rimpelende waterreflecties en een paar drijvende waterleliebladeren.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moiréglans die over gedrapeerd fluweel glijdt.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Hoogtelijnen van een topografische kaart die langzaam golven.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Zwevende geometrische pastelvormen in Memphisstijl.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Zeer fijn puntraster dat zacht pulseert.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Het interfacelettertype van het systeem, schreefloos.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutrale schreefloze letter ontworpen voor schermen (vrij weblettertype).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Afgeronde uiteinden, vriendelijke toon.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Open, lichte schreefloze letter.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Strakke cirkels en lijnen, moderne uitstraling.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Smal en regelmatig, leest als een dashboard.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Breed en zeer leesbaar, ontworpen voor vlot lezen (vrij weblettertype).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Leeslettertype met schreven (vrij weblettertype).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Fijne schreven en gematigd contrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Vaste breedte, elk teken even breed (vrij weblettertype).</value></data>
 </root>

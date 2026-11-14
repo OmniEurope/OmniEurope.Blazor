@@ -10,5 +10,8 @@ public static class OmniThemeFonts
 {
     /// <summary>Every font of the catalogue, the default theme's one first.</summary>
     public static IReadOnlyList<OmniThemeFont> All { get; } =
-        [.. FontCatalog.All.Select(font => new OmniThemeFont(font.Name, font.Description, font.Family))];
+        [.. FontCatalog.All.Select(font => new OmniThemeFont(font.Name, CatalogDescriptions.Neutral(font.DescriptionKey), font.Family)
+        {
+            DescriptionKey = font.DescriptionKey,
+        })];
 }

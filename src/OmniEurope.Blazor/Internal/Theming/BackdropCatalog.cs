@@ -11,8 +11,8 @@ internal static class BackdropCatalog
     /// <summary>The name of the plain page, <see cref="Components.OmniThemeBackdrops.None"/>.</summary>
     internal const string NoneName = "Aucun";
 
-    /// <summary>The description of the plain page; kept here because the component sources carry no French literal.</summary>
-    internal const string NoneDescription = "Page unie, sans fond dessiné derrière le contenu.";
+    /// <summary>The resource key of the description of the plain page.</summary>
+    internal const string NoneDescriptionKey = "BackdropDescriptionAucun";
 
     /// <summary>Every backdrop drawn, in the order of the pickers, after the plain page.</summary>
     public static IReadOnlyList<BackdropDefinition> All { get; } =

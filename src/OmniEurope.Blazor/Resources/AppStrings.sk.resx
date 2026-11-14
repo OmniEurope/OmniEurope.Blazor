@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Odstrániť z obľúbených</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Odstrániť</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Trvanie</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Striedmy vzhľad podnikovej aplikácie, polomer 2,5 px, decentné vyvýšenie, bezpätkové písmo.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Ostré rohy, žiadny tieň, preriedené verzálky.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Všetko zaoblené, tlačidlá v tvare pilulky, jemný lem a mäkký tieň namiesto rámčeka.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Veľké zaoblenia a farebné žiary z farby zvýraznenia.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektrická noc: žiara zvýraznenia, tónované okraje, výrazne preriedené verzálky.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Atrament na papieri: linky 2 px, pätky, žiadny tieň.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Hrubé obrysy a ostré posunuté tiene bez rozmazania.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Osembitová konzola: stupňovité rámčeky, obrazovkové písmo.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asymetrické rohy v tvare listu a odlesky lagúny.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Skosenia, vnútorné lesky a hlboké tiene.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Plochy vymodelované v stránke: mäkké svetlé a tmavé tiene, pri stlačení zatlačené.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Panely z matného skla nad veľkými pastelovými škvrnami, svetlý lem a veľké zaoblenia.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Ploché farby bez tieňa a prechodu, tlačidlá v tvare pilulky a plné karty.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Čierna na bielej, tenké linky, ostré rohy a veľmi veľké tučné nadpisy.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Naklonený akrečný disk, ktorý sa pomaly otáča za stránkou: hlboká čierna a svetelný disk v tmavom režime, svetlá stránka a ten istý disk atramentom s obrátenými farbami vo svetlom režime; sotva zahalené karty.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo v oboch režimoch, výrazné úrovne závažnosti.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Sýta modrá na pozadí morskej peny, morská noc v tmavom režime.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Jedľová zelená na pozadí machu, lesný podrast v tmavom režime.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Levanduľová fialová na orgovánovo bielej, slezová noc v tmavom režime.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektrická azúrová a fialová, atramentová noc v tmavom režime.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Leštené zlato na krémovom papieri, teplá hnedá v tmavom režime.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Žeravá oranžová na broskyňovom pozadí, červená žiara v tmavom režime.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Čistá čierna a biela, farebné iba úrovne závažnosti.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Tyrkys lagúny, hlboká modrozelená v tmavom režime.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Slivková a ružová, tmavý zamat v tmavom režime.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Jasná modrá na oblačne sivej, antracit v tmavom režime, oranžovočervená pre upozornenia.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Výrazné indigo na perleťovo bielej, blankytná, mätová a broskyňová ako úrovne závažnosti, modrastá noc v tmavom režime.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Orgovánová a ružová na bielej, námornícka modrá v tmavom režime, blankytná pre informácie.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Čierny atrament na lomenej bielej, jediná decentná atramentová modrá.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akrečný jantár na čistej bielej, hlboká čierna v tmavom režime.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Jednofarebná stránka, za obsahom sa nekreslí žiadne pozadie.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Veľké pastelové škvrny z palety, ktoré pomaly plávajú za stránkou.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Naklonený akrečný disk okolo čiernej diery, ktorý sa pomaly otáča za stránkou.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Jemná architektonická mriežka, ktorá pomaly kĺže diagonálne za stránkou.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Sústredné kruhy odrazeného kamienka, ktoré sa za stránkou rozširujú a miznú.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Rozmazané svetelné bubliny, ktoré dýchajú a pomaly plávajú za stránkou.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Mriežka synthwave v perspektíve, ktorá sa rúti k žiariacemu obzoru za stránkou.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Atramentové škvrny, ktoré sa ako akvarel pomaly rozpíjajú po papieri za stránkou.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro slnečné lúče, ktoré sa pomaly otáčajú za stránkou.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pixelové hviezdy, ktoré trblietajú a ubiehajú v paralaxe za stránkou.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Zvlnené odlesky vody a niekoľko unášaných listov lekna.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Moaré lesk, ktorý kĺže po nariasenom zamate.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Vrstevnice topografickej mapy, ktoré sa pomaly vlnia.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Vznášajúce sa pastelové geometrické tvary v štýle Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Veľmi jemný raster bodiek, ktorý jemne pulzuje.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Písmo rozhrania systému, bezpätkové.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neutrálne bezpätkové písmo navrhnuté pre obrazovky (voľné webové písmo).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Zaoblené zakončenia, priateľský tón.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Otvorené a ľahké bezpätkové písmo.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Čisté kruhy a priamky, moderný vzhľad.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Úzke a pravidelné, číta sa ako prístrojová doska.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Široké a veľmi čitateľné, navrhnuté na plynulé čítanie (voľné webové písmo).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Pätkové písmo na čítanie (voľné webové písmo).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Jemné pätky a mierny kontrast.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Neproporcionálne, každý znak rovnako široký (voľné webové písmo).</value></data>
 </root>

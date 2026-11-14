@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Elimină din favorite</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Elimină</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Durată</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Aspect sobru de aplicație de gestiune, rază de 2,5 px, elevație discretă, fără serife.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Colțuri ascuțite, fără umbră, majuscule spațiate.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Totul rotunjit, butoane în formă de pastilă, chenar fin și umbră difuză în locul bordurii.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Rotunjiri mari și halouri colorate luate din culoarea de accent.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Noapte electrică: străluciri de accent, borduri nuanțate, majuscule foarte spațiate.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Cerneală pe hârtie: linii de 2 px, serife, fără umbră.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Contururi groase și umbre dure decalate, fără estompare.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Consolă pe opt biți: rame în trepte, font de ecran.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Colțuri asimetrice în formă de frunză și reflexe de lagună.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Teșituri, reflexe interioare și umbre adânci.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Suprafețe modelate în pagină: umbre moi luminoase și întunecate, adâncite la apăsare.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Panouri de sticlă mată peste pete mari pastelate, chenar deschis și rotunjiri mari.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Culori plate fără umbră sau degrade, butoane în formă de pastilă și carduri pline.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Negru pe alb, linii fine, colțuri ascuțite și titluri foarte mari, îngroșate.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Disc de acreție înclinat care se rotește lent în spatele paginii: negru absolut și disc de lumină în modul întunecat, pagină deschisă și același disc în cerneală, cu culori inversate, în modul luminos; carduri abia voalate.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo în ambele moduri, niveluri de gravitate clare.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Albastru intens pe fond de spumă, noapte marină în modul întunecat.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Verde de brad pe fond de mușchi, subarboret în modul întunecat.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Violet lavandă pe alb liliachiu, noapte mov în modul întunecat.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Cyan electric și violet, noapte de cerneală în modul întunecat.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Aur brunat pe hârtie crem, maro cald în modul întunecat.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Portocaliu de jar pe fond de piersică, strălucire roșie în modul întunecat.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Alb și negru pur, doar nivelurile de gravitate colorate.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Turcoaz de lagună, verde-albastru profund în modul întunecat.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Prună și roz, catifea întunecată în modul întunecat.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Albastru viu pe gri de nor, antracit în modul întunecat, roșu-portocaliu pentru alerte.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Indigo intens pe alb sidefat, bleu, mentă și piersică pentru niveluri de gravitate, noapte albăstruie în modul întunecat.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Liliachiu și roz pe alb, bleumarin în modul întunecat, bleu pentru informații.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Cerneală neagră pe alb murdar, un singur albastru de cerneală discret.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Chihlimbar de acreție pe alb pur, negru absolut în modul întunecat.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Pagină uniformă, fără fundal desenat în spatele conținutului.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Pete mari pastelate din paletă care plutesc lent în spatele paginii.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Disc de acreție înclinat în jurul unei găuri negre, care se rotește lent în spatele paginii.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Grilă fină de arhitect care alunecă lent în diagonală în spatele paginii.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Unde concentrice ale unei pietre care sare pe apă, care se lărgesc și se estompează în spatele paginii.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Bule de lumină estompate care respiră și plutesc lent în spatele paginii.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Grilă synthwave în perspectivă care gonește spre un orizont luminos în spatele paginii.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Pete de cerneală care se întind lent pe hârtie, ca acuarela, în spatele paginii.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Raze de soare retro care se rotesc lent în spatele paginii.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Stele din pixeli care sclipesc și defilează în paralaxă în spatele paginii.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Reflexe ondulate ale apei și câteva frunze de nufăr în derivă.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Luciu moarat care alunecă pe o draperie de catifea.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Curbe de nivel ale unei hărți topografice care se unduiesc lent.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Forme geometrice pastelate care plutesc, în stil Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Rețea de puncte foarte fine care pulsează ușor.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Fontul interfeței sistemului, fără serife.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Font fără serife neutru, conceput pentru ecrane (font web liber).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Terminații rotunjite, ton prietenos.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Font fără serife deschis și ușor.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Cercuri și linii drepte nete, aspect modern.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Îngust și regulat, se citește ca un tablou de bord.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Lat și foarte lizibil, conceput pentru o lectură fluentă (font web liber).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Font de lectură cu serife (font web liber).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Serife fine și contrast moderat.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Monospațiat, fiecare caracter de aceeași lățime (font web liber).</value></data>
 </root>

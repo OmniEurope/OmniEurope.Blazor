@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Noņemt no izlases</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Noņemt</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Ilgums</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Atturīgs biznesa lietotnes stils, 2,5 px rādiuss, diskrēts pacēlums, bezserifu fonts.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Asi stūri, bez ēnas, retināti lielie burti.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Viss noapaļots, tabletes formas pogas, smalka mala un maiga ēna apmales vietā.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Lieli noapaļojumi un krāsaini oreoli no akcenta krāsas.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Elektriska nakts: akcenta mirdzums, tonētas apmales, ļoti retināti lielie burti.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Tinte uz papīra: 2 px līnijas, serifi, bez ēnas.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Biezas kontūras un asas nobīdītas ēnas bez izpludinājuma.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Astoņu bitu konsole: pakāpienveida rāmji, ekrāna fonts.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Asimetriski lapas formas stūri un lagūnas atspīdumi.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Nošķelumi, iekšēji atspīdumi un dziļas ēnas.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Lapā izveidotas virsmas: maigas gaišas un tumšas ēnas, nospiežot iespiestas.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Matēta stikla paneļi virs lieliem pasteļtoņu plankumiem, gaiša mala un lieli noapaļojumi.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Vienlaidu krāsas bez ēnas un pārejas, tabletes formas pogas un pildītas kartītes.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Melns uz balta, smalkas līnijas, asi stūri un ļoti lieli treknraksta virsraksti.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Slīps akrēcijas disks, kas lēni griežas aiz lapas: dziļi melns un gaismas disks tumšajā režīmā, gaiša lapa un tas pats disks tintē ar apgrieztām krāsām gaišajā režīmā; tikko aizplīvurotas kartītes.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Indigo abos režīmos, skaidri nopietnības līmeņi.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Spilgti zils uz jūras putu fona, jūras nakts tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Egļu zaļš uz sūnu fona, pamežs tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Lavandas violets uz ceriņbalta, mauve nakts tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Elektrisks ciāns un violets, tintes nakts tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Pulēts zelts uz krēmkrāsas papīra, silti brūns tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Kvēlojoši oranžs uz persiku fona, sarkana kvēle tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Tīri melns un balts, krāsaini tikai nopietnības līmeņi.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Lagūnas tirkīzs, dziļi zilganzaļš tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Plūmju un rozā, tumšs samts tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Spilgti zils uz mākoņpelēka, antracīts tumšajā režīmā, oranžsarkans brīdinājumiem.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Spēcīgs indigo uz pērļbalta, debeszils, piparmētru un persiku nopietnības līmeņiem, zilgana nakts tumšajā režīmā.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Ceriņu un rozā uz balta, tumši zils tumšajā režīmā, debeszils informācijai.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Melna tinte uz pelēcīgi balta, viens vienīgs atturīgs tintes zils.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Akrēcijas dzintars uz tīri balta, dziļi melns tumšajā režīmā.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Vienkrāsaina lapa, aiz satura netiek zīmēts fons.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Lieli paletes pasteļtoņu plankumi, kas lēni dreifē aiz lapas.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Slīps akrēcijas disks ap melno caurumu, kas lēni griežas aiz lapas.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Smalks arhitekta režģis, kas lēni slīd pa diagonāli aiz lapas.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Lēkājoša oļa koncentriski viļņi, kas aiz lapas izplešas un izgaist.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Izplūduši gaismas burbuļi, kas elpo un lēni dreifē aiz lapas.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Perspektīvā synthwave režģis, kas traucas uz mirdzošu horizontu aiz lapas.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Tintes traipi, kas lēni izplūst pa papīru kā akvarelis aiz lapas.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Retro saules stari, kas lēni griežas aiz lapas.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Pikseļu zvaigznes, kas mirgo un slīd paralaksē aiz lapas.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Viļņojoši ūdens atspīdumi un dažas dreifējošas ūdensrožu lapas.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Muarē spīdums, kas slīd pār drapētu samtu.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Topogrāfiskas kartes horizontāles, kas lēni viļņojas.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Peldošas pasteļtoņu ģeometriskas formas Memphis stilā.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Ļoti smalks punktu rastrs, kas maigi pulsē.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Sistēmas saskarnes fonts, bezserifu.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Neitrāls bezserifu fonts, veidots ekrāniem (brīvs tīmekļa fonts).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Noapaļoti gali, draudzīgs tonis.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Atvērts un viegls bezserifu fonts.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Skaidri apļi un taisnes, moderns izskats.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Šaurs un vienmērīgs, lasāms kā mērinstrumentu panelis.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Plats un ļoti salasāms, veidots plūstošai lasīšanai (brīvs tīmekļa fonts).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Serifu lasīšanas fonts (brīvs tīmekļa fonts).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Smalki serifi un mērens kontrasts.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Fiksēta platuma, katra rakstzīme vienā platumā (brīvs tīmekļa fonts).</value></data>
 </root>

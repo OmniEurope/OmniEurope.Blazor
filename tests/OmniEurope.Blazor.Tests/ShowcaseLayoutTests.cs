@@ -115,7 +115,7 @@ public sealed class ShowcaseLayoutTests : OmniBunitContext
 
         layout.FindAll(".omni-app-menu__mode [role=radio]")[1].Click();
 
-        Assert.Equal(ThemeMode.Dark, state.Mode);
+        Assert.Equal(OmniAppearance.Dark, state.Mode);
         Assert.Equal("dark", layout.Find("#showcase-theme").GetAttribute("data-omni-theme"));
     }
 

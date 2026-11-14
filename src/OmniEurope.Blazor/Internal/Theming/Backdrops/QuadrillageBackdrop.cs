@@ -38,7 +38,7 @@ internal static class QuadrillageBackdrop
 
     public static BackdropDefinition Definition { get; } = new(
         "Quadrillage",
-        "Fine grille d’architecte qui glisse lentement en diagonale derrière la page.",
+        "BackdropDescriptionQuadrillage",
         BackdropDefinition.Tokens(
             ("--omni-backdrop-line", "color-mix(in srgb, var(--omni-color-accent-fill) 5%, var(--omni-color-surface))"),
             ("--omni-backdrop-major", "color-mix(in srgb, var(--omni-color-accent-fill) 8%, var(--omni-color-surface))"),

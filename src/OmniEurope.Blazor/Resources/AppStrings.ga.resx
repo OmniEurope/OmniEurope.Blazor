@@ -786,4 +786,59 @@
   <data name="NavTileFavoriteRemove" xml:space="preserve"><value>Bain de na ceanáin</value></data>
   <data name="BadgeRemove" xml:space="preserve"><value>Bain</value></data>
   <data name="DurationLabel" xml:space="preserve"><value>Fad</value></data>
+  <data name="ThemeDescriptionEssentiel" xml:space="preserve"><value>Cuma stuama feidhmchláir ghnó, ga 2.5 px, ardú discréideach, gan searifeanna.</value></data>
+  <data name="ThemeDescriptionArdoise" xml:space="preserve"><value>Coirnéil ghéara, gan scáth, ceannlitreacha spásáilte.</value></data>
+  <data name="ThemeDescriptionGalet" xml:space="preserve"><value>Cruinn ar fad, cnaipí piolla, imeall caol agus scáth bog in áit imlíne.</value></data>
+  <data name="ThemeDescriptionHalo" xml:space="preserve"><value>Cuair mhóra agus fáinní solais daite ón dath béime.</value></data>
+  <data name="ThemeDescriptionNeon" xml:space="preserve"><value>Oíche leictreach: lonrú béime, imlínte daite, ceannlitreacha an-spásáilte.</value></data>
+  <data name="ThemeDescriptionPapier" xml:space="preserve"><value>Dúch ar pháipéar: línte 2 px, searifeanna, gan scáth.</value></data>
+  <data name="ThemeDescriptionRetro" xml:space="preserve"><value>Imlínte tiubha agus scáthanna crua fritháirithe, gan doiléiriú.</value></data>
+  <data name="ThemeDescriptionOctet" xml:space="preserve"><value>Consól ocht ngiotán: frámaí céimneacha, cló scáileáin.</value></data>
+  <data name="ThemeDescriptionNenuphar" xml:space="preserve"><value>Coirnéil neamhshiméadracha i gcruth duilleoige agus frithchaithimh murlaigh.</value></data>
+  <data name="ThemeDescriptionVelours" xml:space="preserve"><value>Beibheil, frithchaithimh inmheánacha agus scáthanna doimhne.</value></data>
+  <data name="ThemeDescriptionRelief" xml:space="preserve"><value>Dromchlaí múnlaithe sa leathanach: scáthanna boga geala agus dorcha, brúite isteach nuair a chliceáiltear.</value></data>
+  <data name="ThemeDescriptionGivre" xml:space="preserve"><value>Painéil ghloine mhata thar bhlotaí móra pastail, imeall geal agus cuair mhóra.</value></data>
+  <data name="ThemeDescriptionAplat" xml:space="preserve"><value>Dathanna cothroma gan scáth ná grádán, cnaipí piolla agus cártaí lána.</value></data>
+  <data name="ThemeDescriptionEpure" xml:space="preserve"><value>Dubh ar bhán, línte caola, coirnéil ghéara agus ceannteidil an-mhóra throma.</value></data>
+  <data name="ThemeDescriptionTrouNoir" xml:space="preserve"><value>Diosca fabhraithe claonta ag casadh go mall taobh thiar den leathanach: dubh iomlán agus diosca solais sa mhód dorcha, leathanach geal agus an diosca céanna i ndúch, dathanna inbhéartaithe, sa mhód geal; cártaí faoi bhrat éadrom.</value></data>
+  <data name="PaletteDescriptionEssentiel" xml:space="preserve"><value>Plúiréis sa dá mhód, leibhéil déine soiléire.</value></data>
+  <data name="PaletteDescriptionOcean" xml:space="preserve"><value>Gorm glé ar chúlra cúir, oíche mhara sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionForet" xml:space="preserve"><value>Glas giúise ar chúlra caonaigh, fásra coille sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionLavande" xml:space="preserve"><value>Corcra labhandair ar bhán liathchorcra, oíche mhuave sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionElectrique" xml:space="preserve"><value>Cian leictreach agus violet, oíche dhúigh sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionOrAncien" xml:space="preserve"><value>Ór snasta ar pháipéar uachtair, donn te sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionBraise" xml:space="preserve"><value>Oráiste aibhleoige ar chúlra péitseoige, lonrú dearg sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionMono" xml:space="preserve"><value>Dubh agus bán glan, na leibhéil déine amháin i ndath.</value></data>
+  <data name="PaletteDescriptionLagune" xml:space="preserve"><value>Turcaid murlaigh, gormghlas domhain sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionPrune" xml:space="preserve"><value>Pluma agus bándearg, veilbhit dhorcha sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionNuage" xml:space="preserve"><value>Gorm geal ar liath scamaill, gualdubh sa mhód dorcha, flanndearg do rabhaidh.</value></data>
+  <data name="PaletteDescriptionOpale" xml:space="preserve"><value>Plúiréis láidir ar bhán péarla, spéirghorm, mismín agus péitseog mar leibhéil déine, oíche ghormach sa mhód dorcha.</value></data>
+  <data name="PaletteDescriptionPastel" xml:space="preserve"><value>Liathchorcra agus bándearg ar bhán, dúghorm sa mhód dorcha, spéirghorm don fhaisnéis.</value></data>
+  <data name="PaletteDescriptionEncre" xml:space="preserve"><value>Dúch dubh ar bhánbhuí, aon ghorm dúigh discréideach amháin.</value></data>
+  <data name="PaletteDescriptionHorizon" xml:space="preserve"><value>Ómra fabhraithe ar bhán glan, dubh iomlán sa mhód dorcha.</value></data>
+  <data name="BackdropDescriptionAucun" xml:space="preserve"><value>Leathanach aondathach, gan cúlra tarraingthe taobh thiar den ábhar.</value></data>
+  <data name="BackdropDescriptionGivre" xml:space="preserve"><value>Blotaí móra pastail den phailéad ag imeacht le sruth go mall taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionTrouNoir" xml:space="preserve"><value>Diosca fabhraithe claonta timpeall ar pholl dubh, ag casadh go mall taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionQuadrillage" xml:space="preserve"><value>Greille mhín ailtire ag sleamhnú go mall go fiarthrasna taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionRicochets" xml:space="preserve"><value>Cuilithíní comhlárnacha cloiche ag scimeáil, ag leathnú agus ag céimniú taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionBokeh" xml:space="preserve"><value>Boilgeoga solais doiléire ag análú agus ag imeacht go mall taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionHorizon" xml:space="preserve"><value>Greille synthwave i bpeirspictíocht ag rásáil i dtreo léaslíne lonrach taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionAquarelle" xml:space="preserve"><value>Blotaí dúigh ag leathadh go mall ar an bpáipéar, cosúil le huiscedhath, taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionRayons" xml:space="preserve"><value>Gathanna gréine retro ag casadh go mall taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionEtoiles" xml:space="preserve"><value>Réaltaí picteilíní ag drithliú agus ag scrollú i bparallaics taobh thiar den leathanach.</value></data>
+  <data name="BackdropDescriptionNenuphar" xml:space="preserve"><value>Frithchaithimh uisce ag cuilithíní agus cúpla duilleog lile uisce ag imeacht le sruth.</value></data>
+  <data name="BackdropDescriptionVelours" xml:space="preserve"><value>Loinnir mhoiré ag sleamhnú thar veilbhit fhillte.</value></data>
+  <data name="BackdropDescriptionRelief" xml:space="preserve"><value>Línte comhairde léarscáile topagrafaí ag tonnadh go mall.</value></data>
+  <data name="BackdropDescriptionAplat" xml:space="preserve"><value>Cruthanna geoiméadracha pastail ag snámh, i stíl Memphis.</value></data>
+  <data name="BackdropDescriptionEpure" xml:space="preserve"><value>Greille an-mhín poncanna ag preabadh go séimh.</value></data>
+  <data name="FontDescriptionSysteme" xml:space="preserve"><value>Cló chomhéadan an chórais, gan searifeanna.</value></data>
+  <data name="FontDescriptionInter" xml:space="preserve"><value>Cló neodrach gan searifeanna deartha do scáileáin (cló gréasáin saor).</value></data>
+  <data name="FontDescriptionArrondie" xml:space="preserve"><value>Foircinn chruinne, ton cairdiúil.</value></data>
+  <data name="FontDescriptionDouce" xml:space="preserve"><value>Cló oscailte éadrom gan searifeanna.</value></data>
+  <data name="FontDescriptionGeometrique" xml:space="preserve"><value>Ciorcail agus línte díreacha glana, cuma nua-aimseartha.</value></data>
+  <data name="FontDescriptionTechnique" xml:space="preserve"><value>Caol agus rialta, léitear é mar dheais.</value></data>
+  <data name="FontDescriptionLexend" xml:space="preserve"><value>Leathan agus an-inléite, deartha le haghaidh léitheoireacht líofa (cló gréasáin saor).</value></data>
+  <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Cló léitheoireachta le searifeanna (cló gréasáin saor).</value></data>
+  <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Searifeanna míne agus codarsnacht mheasartha.</value></data>
+  <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Aonspásáilte, gach carachtar ar an leithead céanna (cló gréasáin saor).</value></data>
 </root>
