@@ -137,9 +137,9 @@ Les textes de licence distribués dans les paquets tiers sont conservés sous `d
 | `Microsoft.NET.Sdk.WebAssembly.Pack` | `11.0.0` | MIT | `expression` | - |
 | `Microsoft.NETCore.Platforms` | `1.1.0` | http://go.microsoft.com/fwlink/?LinkId=329770 | `url` | - |
 | `Microsoft.Testing.Extensions.Telemetry` | `2.5.2` | MIT | `expression` | - |
-| `Microsoft.Testing.Extensions.TrxReport` | `2.5.2` | MIT | `expression` | - |
-| `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `2.5.2` | MIT | `expression` | - |
-| `Microsoft.Testing.Platform` | `2.5.2` | MIT | `expression` | - |
+| `Microsoft.Testing.Extensions.TrxReport` | `2.5.3` | MIT | `expression` | - |
+| `Microsoft.Testing.Extensions.TrxReport.Abstractions` | `2.5.3` | MIT | `expression` | - |
+| `Microsoft.Testing.Platform` | `2.5.3` | MIT | `expression` | - |
 | `Microsoft.Testing.Platform.MSBuild` | `2.5.2` | MIT | `expression` | - |
 | `Microsoft.VisualStudio.SolutionPersistence` | `1.0.52` | MIT | `expression` | - |
 | `Microsoft.Web.WebView2` | `1.0.4314.35` | LICENSE.txt | `file` | `docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4314.35--LICENSE.txt` |

@@ -2912,9 +2912,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Extensions.TrxReport",
-      "version": "2.5.2",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.2",
-      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.2",
+      "version": "2.5.3",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.3",
+      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport@2.5.3",
       "licenses": [
         {
           "expression": "MIT"
@@ -2934,9 +2934,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
-      "version": "2.5.2",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.2",
-      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.2",
+      "version": "2.5.3",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.3",
+      "purl": "pkg:nuget/Microsoft.Testing.Extensions.TrxReport.Abstractions@2.5.3",
       "licenses": [
         {
           "expression": "MIT"
@@ -2956,9 +2956,9 @@
     {
       "type": "library",
       "name": "Microsoft.Testing.Platform",
-      "version": "2.5.2",
-      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform@2.5.2",
-      "purl": "pkg:nuget/Microsoft.Testing.Platform@2.5.2",
+      "version": "2.5.3",
+      "bom-ref": "pkg:nuget/Microsoft.Testing.Platform@2.5.3",
+      "purl": "pkg:nuget/Microsoft.Testing.Platform@2.5.3",
       "licenses": [
         {
           "expression": "MIT"

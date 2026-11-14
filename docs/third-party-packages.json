@@ -2089,7 +2089,7 @@
     },
     {
       "id": "Microsoft.Testing.Extensions.TrxReport",
-      "version": "2.5.2",
+      "version": "2.5.3",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2106,7 +2106,7 @@
     },
     {
       "id": "Microsoft.Testing.Extensions.TrxReport.Abstractions",
-      "version": "2.5.2",
+      "version": "2.5.3",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2123,7 +2123,7 @@
     },
     {
       "id": "Microsoft.Testing.Platform",
-      "version": "2.5.2",
+      "version": "2.5.3",
       "license": {
         "kind": "expression",
         "value": "MIT",
