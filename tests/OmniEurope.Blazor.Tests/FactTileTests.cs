@@ -272,12 +272,12 @@ public sealed class FactTileTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(reach, "min-inline-size"));
         Assert.Equal("0", ShippedLookTests.Value(reach, "min-block-size"));
 
-        // The columns: a fixed icon track, then the label and the value halving the rest (R1-4), shared by the
-        // rows block and, as a subgrid, by every row; a host may still fix the label track with
-        // --omni-fact-tile-label-width; tiles of one width resolve them alike, so they match from one tile to the next.
+        // The columns: a fixed icon track, then the label as wide as its widest text but never more than half of
+        // the rest (R1-4, then Aetheus 2026-11-15), then the value on the room left, shared by the rows block and,
+        // as a subgrid, by every row; a host may still fix the label track with --omni-fact-tile-label-width.
         var rows = ShippedLookTests.Body(".omni-fact-tile__rows");
         Assert.Equal("var(--omni-fact-tile-columns)", ShippedLookTests.Value(rows, "grid-template-columns"));
-        Assert.Contains("--omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) minmax(0, var(--omni-fact-tile-label-width, 1fr)) minmax(0, 1fr)", rows, StringComparison.Ordinal);
+        Assert.Contains("--omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) var(--omni-fact-tile-label-width, fit-content(calc((100% - var(--omni-fact-tile-icon-width, 1.25rem) - 2 * var(--omni-space-sm)) / 2))) minmax(0, 1fr)", rows, StringComparison.Ordinal);
         Assert.Equal("grid", ShippedLookTests.Value(rows, "display"));
         // The value is drawn a step under the body text, at the label size (R1-4), the label a step under it again.
         Assert.Equal("var(--omni-font-size-label)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-fact-tile__value"), "font-size"));

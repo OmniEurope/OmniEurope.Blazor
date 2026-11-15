@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Modifié
+
+- `OmniFactTile` (demande d'Aetheus du 2026-11-15) : dans une tuile large, la colonne de libellé prend la largeur du plus long libellé de la tuile, plafonnée à la moitié de la place laissée par l'icône comme avant, et la valeur prend tout le reste. Un libellé court comme « A lancé » ne retient plus la moitié de la tuile, si bien que la valeur n'est plus coupée alors qu'il reste de la place ; un libellé long reste plafonné et coupé comme avant. Les valeurs de deux tuiles voisines de même largeur ne s'alignent donc plus d'office : un hôte qui veut cet alignement pose `--omni-fact-tile-label-width: 1fr` (l'ancien partage à parts égales) ou une largeur fixe sur la grille.
+
 ### Corrigé
 
 - Paquet NuGet : les fichiers ne portent plus l'heure fixe du 2000-01-01 mais l'heure du commit empaqueté (`DeterministicTimestamp` lu par `git log -1 --format=%cI HEAD` au moment du pack). NuGet donne cette heure aux fichiers extraits, et le SDK WebAssembly ne reconvertit en webcil qu'une DLL plus récente que la sortie webcil déjà présente : avec l'heure fixe, un consommateur WASM qui passait de 1.13.0 à 1.14.0 sans build propre continuait de servir l'assembly 1.13 (signalé par Astranya). Deux empaquetages d'un même commit restent identiques octet pour octet. Preuve : consommateur WASM en gestion centrale des versions, 1.13.0 puis 1.14.0 publié (webcil resté à 2 747 677 octets), puis un paquet de ce commit (webcil reconverti).

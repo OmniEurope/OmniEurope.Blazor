@@ -252,12 +252,14 @@
 .omni-stat-tile--action:focus-visible,
 .omni-card--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 /* A fact tile (OmniFactTile): a title, then rows of icon, label and value. In a wide tile (18rem of content or
-   more) the three columns are shared tracks (the icon, then the label and the value halving the rest,
-   review line R1-4), the same for every row, so the icons, the labels and the values line up from one
-   row to the next and from one tile to the next of the same width in a tile grid. The value is drawn at the
+   more) the three columns are shared tracks, the same for every row, so the icons, the labels and the values
+   line up from one row to the next: the icon, then the label as wide as the widest label of the tile but never
+   more than half of the rest (review line R1-4, then Aetheus 2026-11-15: a short label no longer holds half the
+   tile, so the value keeps the room it needs), then the value on all the room left. The value is drawn at the
    label size (--omni-font-size-label), a step under the body text, the label a step under it again.
    A label longer than its half is cut (a host fixes the label track once with
-   --omni-fact-tile-label-width, or the icon width with --omni-fact-tile-icon-width, on the grid). The height of
+   --omni-fact-tile-label-width, any track size such as 8rem or 1fr, so tiles of one width line their values up
+   from one tile to the next; or the icon width with --omni-fact-tile-icon-width, on the grid). The height of
    a row follows the density, like a control. Each row is a subgrid of the rows block (the same tracks again
    where subgrid is missing). The label and the value stay on one line, cut by an ellipsis; the package tooltip
    (omni-tooltip.js) reads them whole. A badge in a value is drawn small. The rows block scrolls when the tile is
@@ -281,7 +283,7 @@
 .omni-fact-tile--title-end > .omni-fact-tile__title { justify-content: flex-end; text-align: end; }
 .omni-fact-tile__title-icon { color: var(--omni-color-accent-strong); display: inline-flex; flex: none; }
 .omni-fact-tile__title-text { min-inline-size: 0; overflow-wrap: anywhere; }
-.omni-fact-tile__rows { --omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) minmax(0, var(--omni-fact-tile-label-width, 1fr)) minmax(0, 1fr); align-content: start; column-gap: var(--omni-space-sm); display: grid; flex: 1 1 auto; grid-template-columns: var(--omni-fact-tile-columns); min-block-size: 0; overflow-x: hidden; overflow-y: auto; row-gap: var(--omni-space-xs); }
+.omni-fact-tile__rows { --omni-fact-tile-columns: var(--omni-fact-tile-icon-width, 1.25rem) var(--omni-fact-tile-label-width, fit-content(calc((100% - var(--omni-fact-tile-icon-width, 1.25rem) - 2 * var(--omni-space-sm)) / 2))) minmax(0, 1fr); align-content: start; column-gap: var(--omni-space-sm); display: grid; flex: 1 1 auto; grid-template-columns: var(--omni-fact-tile-columns); min-block-size: 0; overflow-x: hidden; overflow-y: auto; row-gap: var(--omni-space-xs); }
 .omni-fact-tile--action > .omni-fact-tile__rows { overflow: hidden; }
 .omni-fact-tile__row { align-items: center; column-gap: inherit; display: grid; grid-column: 1 / -1; grid-template-columns: var(--omni-fact-tile-columns); grid-template-columns: subgrid; min-block-size: calc(var(--omni-control-height) * 0.875); min-inline-size: 0; }
 .omni-fact-tile__icon { align-items: center; color: var(--omni-color-accent-strong); display: inline-flex; justify-content: center; min-inline-size: 0; overflow: hidden; }
