@@ -273,7 +273,7 @@ public sealed class FactTileTests : OmniBunitContext
         Assert.Equal("0", ShippedLookTests.Value(reach, "min-block-size"));
 
         // The columns: a fixed icon track, then the label as wide as its widest text but never more than half of
-        // the rest (R1-4, then Aetheus 2026-11-15), then the value on the room left, shared by the rows block and,
+        // the rest (R1-4, then a consumer request of 2026-11-15), then the value on the room left, shared by the rows block and,
         // as a subgrid, by every row; a host may still fix the label track with --omni-fact-tile-label-width.
         var rows = ShippedLookTests.Body(".omni-fact-tile__rows");
         Assert.Equal("var(--omni-fact-tile-columns)", ShippedLookTests.Value(rows, "grid-template-columns"));

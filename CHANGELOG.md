@@ -4,9 +4,11 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.14.1] - 2026-11-16
+
 ### Modifié
 
-- `OmniFactTile` (demande d'Aetheus du 2026-11-15) : dans une tuile large, la colonne de libellé prend la largeur du plus long libellé de la tuile, plafonnée à la moitié de la place laissée par l'icône comme avant, et la valeur prend tout le reste. Un libellé court comme « A lancé » ne retient plus la moitié de la tuile, si bien que la valeur n'est plus coupée alors qu'il reste de la place ; un libellé long reste plafonné et coupé comme avant. Les valeurs de deux tuiles voisines de même largeur ne s'alignent donc plus d'office : un hôte qui veut cet alignement pose `--omni-fact-tile-label-width: 1fr` (l'ancien partage à parts égales) ou une largeur fixe sur la grille.
+- `OmniFactTile` (demande d'un consommateur du 2026-11-15) : dans une tuile large, la colonne de libellé prend la largeur du plus long libellé de la tuile, plafonnée à la moitié de la place laissée par l'icône comme avant, et la valeur prend tout le reste. Un libellé court comme « A lancé » ne retient plus la moitié de la tuile, si bien que la valeur n'est plus coupée alors qu'il reste de la place ; un libellé long reste plafonné et coupé comme avant. Les valeurs de deux tuiles voisines de même largeur ne s'alignent donc plus d'office : un hôte qui veut cet alignement pose `--omni-fact-tile-label-width: 1fr` (l'ancien partage à parts égales) ou une largeur fixe sur la grille.
 
 ### Corrigé
 
