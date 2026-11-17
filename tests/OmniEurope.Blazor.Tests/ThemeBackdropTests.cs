@@ -384,6 +384,27 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     [Fact]
+    public void Without_a_preset_the_backdrop_chosen_is_laid_over_the_palette_chosen()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Theme);
+        module.Mode = JSRuntimeMode.Loose;
+        var palette = OmniThemePalettes.All[1];
+        Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.Light)
+            .Add(component => component.Palette, palette)
+            .Add(component => component.Backdrop, Named("Givre"))
+            .AddChildContent("page"));
+
+        var apply = module.Invocations["apply"][^1];
+        var light = (IReadOnlyDictionary<string, string>)apply.Arguments[1]!;
+        var dark = (IReadOnlyDictionary<string, string>)apply.Arguments[2]!;
+        Assert.Equal(palette.Light["--omni-color-accent"], light["--omni-color-accent"]);
+        Assert.Equal(palette.Dark["--omni-color-accent"], dark["--omni-color-accent"]);
+        Assert.Equal(Named("Givre").Shape["--omni-backdrop"], light["--omni-backdrop"]);
+        Assert.Equal(Named("Givre").DarkShape["--omni-backdrop-glow"], dark["--omni-backdrop-glow"]);
+    }
+
+    [Fact]
     public void Without_a_preset_no_backdrop_chosen_writes_no_token()
     {
         var module = JSInterop.SetupModule(OmniModules.Theme);

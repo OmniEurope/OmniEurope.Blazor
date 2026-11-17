@@ -388,12 +388,12 @@ public partial class OmniThemeScope
     /// than its own is drawn by writing that backdrop's tokens alone, so the host's own token overrides stay;
     /// null when no backdrop is chosen or the chosen one is the default theme's.
     /// </summary>
+    /// <remarks>Read only where no preset is drawn (<see cref="DrawnBackdrop"/>, the colours and the canvas without <see cref="DrawnPreset"/>).</remarks>
     private OmniThemeBackdrop? LooseBackdrop =>
-        Preset is null && Backdrop is not null
-        && AppearanceChoices.EffectiveBackdrop(null, Backdrop) is var backdrop
-        && !ReferenceEquals(backdrop, AppearanceChoices.EffectivePreset(null).Backdrop)
-            ? backdrop
-            : null;
+        Backdrop is null ? null : OtherThanTheDefaultTheme(AppearanceChoices.EffectiveBackdrop(null, Backdrop));
+
+    private static OmniThemeBackdrop? OtherThanTheDefaultTheme(OmniThemeBackdrop backdrop) =>
+        ReferenceEquals(backdrop, AppearanceChoices.EffectivePreset(null).Backdrop) ? null : backdrop;
 
     /// <summary>The preset as the scope draws it, over <see cref="DrawnBackdrop"/>; null without a preset.</summary>
     private OmniThemePreset? DrawnPreset => Preset?.With(DrawnBackdrop!);

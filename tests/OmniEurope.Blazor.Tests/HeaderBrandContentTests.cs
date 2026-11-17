@@ -45,6 +45,21 @@ public sealed class HeaderBrandContentTests : OmniBunitContext
     }
 
     [Fact]
+    public void BrandContent_GoesInsideTheHomeLink_WhenTheBrandLinksHome()
+    {
+        var header = Render<OmniHeader>(parameters => parameters
+            .Add(component => component.Brand, "Contoso")
+            .Add(component => component.BrandHref, "/")
+            .Add(component => component.BrandLogo, "logo.png")
+            .Add(component => component.BrandContent, Mark)
+            .AddChildContent("x"));
+
+        var link = header.Find("a.omni-header__brand--link");
+        Assert.NotNull(link.QuerySelector(".omni-header__brand-content .host-mark"));
+        Assert.Null(link.QuerySelector("img"));
+    }
+
+    [Fact]
     public void WithoutBrandContent_TheMarkupIsUnchanged()
     {
         var header = Render<OmniHeader>(parameters => parameters

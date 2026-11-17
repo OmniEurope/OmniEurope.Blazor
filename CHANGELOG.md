@@ -4,6 +4,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.14.2] - 2026-11-17
+
 ### Ajouté
 
 - `OmniUpload.Label` (`string?`) : nom accessible du champ fichier (voir « Corrigé »).

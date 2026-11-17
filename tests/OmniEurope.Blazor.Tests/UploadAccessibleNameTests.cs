@@ -49,6 +49,15 @@ public sealed class UploadAccessibleNameTests : OmniBunitContext
     }
 
     [Fact]
+    public void HostAttributesWithoutAnAriaLabel_StayOnTheRoot()
+    {
+        var upload = Render<OmniUpload>(parameters => parameters.AddUnmatched("data-test", "upload"));
+
+        Assert.Equal("upload", upload.Find(".omni-upload").GetAttribute("data-test"));
+        Assert.False(string.IsNullOrWhiteSpace(upload.Find("input.omni-upload__input").GetAttribute("aria-label")));
+    }
+
+    [Fact]
     public void InsideAFormFieldThatLabelsIt_TheLabelForNamesTheControl()
     {
         var field = Render<OmniFormField>(parameters => parameters
