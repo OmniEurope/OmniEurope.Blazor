@@ -58,14 +58,25 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
         _range = _window.Compute(_scrollTop, _viewportHeight, grid.VirtualizationOverscanCount);
     }
 
-    /// <summary>Forgets the slot layout after an expansion change and recomputes the window over the new one.</summary>
+    /// <summary>
+    /// Forgets the slot layout after an expansion change and recomputes the window over the new one. The
+    /// rows of a tree that is not slotted move to other indexes when a branch opens or closes, so the
+    /// heights measured by index no longer describe them.
+    /// </summary>
     internal void RefreshSlots()
     {
         grid.Rows.ForgetSlots();
-        if (grid.View.StructuredVirtual)
+        if (!grid.View.Virtualized)
         {
-            Sync();
+            return;
         }
+
+        if (!grid.View.StructuredVirtual)
+        {
+            _window.ResetMeasurements();
+        }
+
+        Sync();
     }
 
     internal void ResetMeasurements() => _window.ResetMeasurements();

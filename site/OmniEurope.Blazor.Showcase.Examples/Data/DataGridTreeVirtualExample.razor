@@ -1,0 +1,35 @@
+@* A tree of 5 000 nodes, every folder open, in a virtualized grid: ScrollMode Virtual with ChildrenOf keeps in
+   the page only the rows of the scroll window, the flattened open nodes being the scrolled list. Opening or
+   closing a folder (the chevron, a click on the row with ToggleTreeOnRowClick, Right and Left) changes the
+   height of the list at once; the two buttons open and close every folder. Height gives the viewport its
+   size, FixedRowHeight draws every row at the height of the density. *@
+<OmniDataGrid @ref="_grid" TItem="ArchiveNode" Id="demo-grid-tree-virtual"
+              ScrollMode="OmniDataGridScrollMode.Virtual"
+              Height="20rem"
+              FixedRowHeight="true"
+              HeaderWrap="OmniDataGridHeaderWrap.Truncate"
+              Items="ArchiveNode.Sample"
+              Caption="Archive"
+              KeyOf="node => node.Id"
+              ChildrenOf="node => node.Children"
+              InitiallyExpanded="node => true"
+              ToggleTreeOnRowClick="true"
+              Filterable="false"
+              ShowHeaderBar="true"
+              HeaderBarExport="OmniDataGridBarExport.None">
+    <HeaderBarContent>
+        <OmniRow Gap="OmniSpacing.Small">
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="ExpandAsync">
+                <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon><ChildContent><span>Expand all</span></ChildContent>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="OmniControlSize.Small" OnClick="CollapseAsync">
+                <Icon><OmniIcon Name="OmniIconName.CornersIn" /></Icon><ChildContent><span>Collapse all</span></ChildContent>
+            </OmniButton>
+        </OmniRow>
+    </HeaderBarContent>
+    <Columns>
+        <OmniDataGridColumn TItem="ArchiveNode" Property="Name" Title="Name" />
+        <OmniDataGridColumn TItem="ArchiveNode" Property="Kind" Title="Kind" />
+        <OmniDataGridColumn TItem="ArchiveNode" Property="Size" Title="Size (KB)" />
+    </Columns>
+</OmniDataGrid>

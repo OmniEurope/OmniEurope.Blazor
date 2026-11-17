@@ -349,8 +349,10 @@ public partial class OmniDataGrid<TItem>
     /// row (null or empty for a leaf). Each row with children gets a chevron in the tree column
     /// (<see cref="TreeColumnKey"/>) and every level an indentation; closing a row hides all its descendants.
     /// Siblings are sorted by the grid's sorts within their parent; a filter keeps the rows it matches with
-    /// their ancestors and descendants, every kept row shown open while it is active. A tree grid renders all
-    /// its rows: <see cref="ScrollMode"/>, the pager and grouping do not apply, and <see cref="Load"/> is refused.
+    /// their ancestors and descendants, every kept row shown open while it is active. With
+    /// <see cref="OmniDataGridScrollMode.Virtual"/> only the rows of the scroll window (the open nodes, flattened)
+    /// are rendered; otherwise a tree grid renders all its rows. The pager and grouping do not apply, and
+    /// <see cref="Load"/> is refused.
     /// Rows are identified by <see cref="KeyOf"/>.
     /// </summary>
     [Parameter]

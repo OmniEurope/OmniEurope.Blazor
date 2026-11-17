@@ -86,6 +86,7 @@ internal sealed class GridTree<TItem>(OmniDataGrid<TItem> grid)
         }
 
         Invalidate();
+        grid.Virtual.RefreshSlots();
         _receivedKeys = grid.TreeExpandedKeys;
         await grid.TreeExpandedKeysChanged.InvokeAsync(_expanded.ToArray());
         grid.Render();

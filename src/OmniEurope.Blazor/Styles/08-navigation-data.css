@@ -626,6 +626,11 @@
    (one-line editors, buttons) fit the row less its rules, whatever their size (recette R-017). */
 .omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td { padding-block: 0; }
 .omni-data-grid--fixed-row-height tbody tr.omni-data-grid__row--editing td :is(.omni-input, .omni-button) { max-block-size: calc(var(--omni-row-height) - 0.25rem); min-block-size: 0; }
+/* The chevron of a tree row keeps its own size (the badge height of the density) but counts for one line of
+   text in a fixed row: a taller box centred on the baseline grew the row past its height (38.5 px for 36 at the
+   comfortable density), and the virtual window counts every row at the fixed height. Its margin takes the
+   difference on both sides, inside the padding of the cell. */
+.omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) .omni-data-grid__tree { margin-block: calc((1.25rem - var(--omni-badge-height)) / 2); vertical-align: top; }
 /* Any other grid: a read cell is its block padding twice and one line, an editor one control, taller
    than the line in every density. The cells holding an editor give up half of the difference on each
    side, so the row keeps its read height (G-D26-04: 40 then 45 px). A control laid on the top of its line

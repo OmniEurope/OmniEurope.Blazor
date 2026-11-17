@@ -23,8 +23,8 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     private bool _columnsRendered;
     private bool _parametersObserved;
 
-    // A tree grid renders all its rows: neither paged nor virtualized, whatever ScrollMode says.
-    internal bool Virtualized => grid.ScrollMode == OmniDataGridScrollMode.Virtual && !grid.Tree.Active;
+    // A tree grid is virtualized over its visible rows, the flattened tree; it is never paged, whatever ScrollMode says.
+    internal bool Virtualized => grid.ScrollMode == OmniDataGridScrollMode.Virtual;
     internal bool Paged => grid.ScrollMode == OmniDataGridScrollMode.Paged && !grid.Tree.Active;
 
     /// <summary>
@@ -35,6 +35,13 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     internal bool StructuredVirtual => Virtualized && grid.Load is null
         && (grid.DetailTemplate is not null || grid.Grouping.ActiveGroups.Count > 0);
 
+    /// <summary>
+    /// The rows of a local virtualized grid: the items of its projection or, for a tree, the visible nodes
+    /// (the open branches only), which are what the virtual window indexes.
+    /// </summary>
+    private int LocalVirtualCount => grid.Tree.Active ? grid.Tree.Nodes.Count : VirtualLocalItems.Count;
+
+    /// <summary>The items of the projection; for a tree, every item the filters keep, whatever is collapsed.</summary>
     internal IReadOnlyList<TItem> VirtualLocalItems => grid.Tree.Active ? grid.Tree.AllItems : _virtualLocalItems ??= GridProjection<TItem>.Create(
         grid.Items, grid.ColumnSet.EffectiveColumns, grid.Query.Filters, grid.Query.Sorts,
         grid.CaseSensitiveFilters, grid.IgnoreDiacritics, 1, int.MaxValue).Items;
@@ -50,7 +57,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
 
     internal int TotalCount => grid.Count
         ?? (Virtualized
-            ? grid.Load is null ? VirtualLocalItems.Count : _virtualSource.TotalCount
+            ? grid.Load is null ? LocalVirtualCount : _virtualSource.TotalCount
             : grid.Tree.Active ? grid.Tree.Nodes.Count
             : grid.Load is null ? LocalView.TotalCount : _remote.TotalCount);
 
@@ -191,10 +198,9 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     {
         if (grid.Load is null)
         {
-            var items = VirtualLocalItems;
-            if (index >= 0 && index < items.Count)
+            if (index >= 0 && index < LocalVirtualCount)
             {
-                item = items[index];
+                item = grid.Tree.Active ? grid.Tree.Nodes[index].Item : VirtualLocalItems[index];
                 return true;
             }
 

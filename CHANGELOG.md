@@ -6,7 +6,12 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Ajouté
 
+- `OmniDataGrid` en arbre (`ChildrenOf`) : `ScrollMode="Virtual"` est maintenant suivi avec `Items`. La liste défilée est l'arbre aplati des branches ouvertes, et seules les lignes de la fenêtre sont dans la page (5 000 nœuds ouverts : une quinzaine de lignes), les lignes d'espacement tenant la hauteur du reste. Ouvrir ou fermer une branche (chevron, clic de ligne, Gauche et Droite, `ExpandAllTreeRowsAsync`, `CollapseAllTreeRowsAsync`) met à jour le total et la fenêtre ; niveaux, `aria-expanded`, `aria-rowcount`, `aria-rowindex`, sélection, `DetailTemplate`, tri, filtre et arrêt de tabulation unique restent ceux de la grille plate virtualisée. `Load` reste refusé avec un arbre ; hors `Virtual`, l'arbre rend toujours toutes ses lignes. Aucune API publique nouvelle. Vitrine : « Grille en arbre virtualisée » (page Variantes de la grille), partie `treevirtual` de la sonde des scripts.
 - `OmniDataGrid` : clavier entre les lignes cliquables. Un seul arrêt de tabulation parmi elles (tabindex roulant : la ligne qui a pris le focus en dernier, sinon la première), Bas et Haut vers la ligne suivante ou précédente, Début et Fin vers la première ou la dernière ligne rendue, sans retour au bord opposé et sans défilement de la page. Une touche pressée dans un contrôle de la ligne reste à ce contrôle ; Entrée, Espace et, dans un arbre, Gauche et Droite ne changent pas. Aucune API publique nouvelle.
+
+### Corrigé
+
+- `OmniDataGrid` en arbre avec `FixedRowHeight` : la ligne portant un chevron dépassait la hauteur fixe (38,5 px pour 36 en densité confortable), si bien qu'une fenêtre virtuelle comptait ses lignes trop basses. Le chevron et son conteneur tiennent maintenant sur une ligne de texte.
 
 ## [1.14.2] - 2026-11-17
 
