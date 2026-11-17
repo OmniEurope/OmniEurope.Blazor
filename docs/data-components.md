@@ -487,6 +487,16 @@ vue : la page affichée d'une grille paginée. L'export n'écrit ni pieds de gro
   et Espace. Les cellules de contrôle (case, chevron, boutons d'édition) et les cellules d'une ligne
   en édition gardent leurs clics et leurs touches : cocher une case n'est pas aussi un clic de
   ligne qui la décocherait, et un espace tapé dans un éditeur ne sélectionne pas la ligne.
+- Clavier entre les lignes. Quand les lignes sont cliquables, la grille n’a qu’un seul arrêt de tabulation
+  parmi elles (tabindex roulant) : la ligne qui a pris le focus en dernier porte `tabindex="0"`, la
+  première tant qu’aucune n’en a pris, et les autres `tabindex="-1"` (elles restent focalisables au clic).
+  Bas et Haut portent le focus à la ligne suivante ou précédente, Début et Fin à la première ou à la
+  dernière ligne rendue, sans retour au bord opposé, et la page ne défile pas pour ces touches. Une ligne
+  non sélectionnable (`RowRender`) est sautée. Seule une touche pressée sur la ligne elle-même déplace :
+  dans un contrôle de la ligne (bouton, lien, champ), la touche reste à ce contrôle. Entrée, Espace et,
+  dans un arbre, Gauche et Droite ne changent pas. Le déplacement est fait par le script de focus de la
+  page (lignes marquées `data-omni-row-nav`), chargé au premier focus d’une ligne. En virtualisation, il
+  s’arrête à la dernière ligne rendue : la fenêtre ne défile pas d’elle-même pour atteindre la suivante.
 - `OnRowClick` et `OnRowDoubleClick` reçoivent un `OmniDataGridRowMouseEventArgs<TItem>` : l'élément, sa
   position et les touches Ctrl, Maj, Alt et Méta tenues (toutes fausses quand la ligne est activée au
   clavier), pour sélectionner au Ctrl ou Maj clic et agir sur un clic simple. `OnRowContextMenu` reçoit le

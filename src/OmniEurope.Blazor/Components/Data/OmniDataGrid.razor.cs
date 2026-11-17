@@ -33,6 +33,7 @@ public partial class OmniDataGrid<TItem>
         Rows = new(this);
         Grouping = new(this);
         Selection = new(this);
+        RowFocus = new(this);
         Expansion = new(this);
         Editing = new(this);
         Paging = new(this);
@@ -59,6 +60,7 @@ public partial class OmniDataGrid<TItem>
     internal GridRowBuilder<TItem> Rows { get; }
     internal GridGrouping<TItem> Grouping { get; }
     internal GridSelection<TItem> Selection { get; }
+    internal GridRowFocus<TItem> RowFocus { get; }
     internal GridExpansion<TItem> Expansion { get; }
     internal GridRowEditing<TItem> Editing { get; }
     internal GridPaging<TItem> Paging { get; }

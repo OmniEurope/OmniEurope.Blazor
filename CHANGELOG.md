@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Ajouté
+
+- `OmniDataGrid` : clavier entre les lignes cliquables. Un seul arrêt de tabulation parmi elles (tabindex roulant : la ligne qui a pris le focus en dernier, sinon la première), Bas et Haut vers la ligne suivante ou précédente, Début et Fin vers la première ou la dernière ligne rendue, sans retour au bord opposé et sans défilement de la page. Une touche pressée dans un contrôle de la ligne reste à ce contrôle ; Entrée, Espace et, dans un arbre, Gauche et Droite ne changent pas. Aucune API publique nouvelle.
+
 ## [1.14.2] - 2026-11-17
 
 ### Ajouté

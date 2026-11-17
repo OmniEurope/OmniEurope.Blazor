@@ -3,7 +3,8 @@
 // as radio groups (one tab stop, arrows, Home, End), and a chart legend drawn in the SVG reached by Tab
 // and pressed by Enter or Space without scrolling the page; a grid row in edit mode saved by Enter and
 // cancelled by Escape, at its read height (PLAN-001 lot 5); an accordion whose headers answer the arrows,
-// Home and End, whose help mark and own controls never toggle a row, and whose whole header is clickable.
+// Home and End, whose help mark and own controls never toggle a row, and whose whole header is clickable; the
+// rows of a grid the host listens to, one tab stop moved by the arrows, Home and End.
 
 export async function keySteps(session, results) {
   const { evaluate, waitFor, key, type, check, clickOn } = session;
@@ -146,4 +147,37 @@ export async function keySteps(session, results) {
   await waitFor('le contrôle propre compte son clic', "document.querySelector('#demo-accordion-clicks').textContent.includes('1')");
   check(await evaluate("document.querySelector('#demo-accordion-run').getAttribute('aria-expanded') === 'false'"), 'Un contrôle propre a basculé sa ligne.');
   step('accordéon : flèches, Début, Fin, Entrée, Espace, clic sur la valeur, aide et contrôle propre sans bascule');
+
+  // 7. Grid rows the host listens to (OnRowDoubleClick): one tab stop, the row that last took the focus; Down,
+  // Up, Home and End move between the rows without wrapping and without scrolling the page; a key pressed in a
+  // control of a row (its edit button) is left to that control.
+  await session.visit('/components/data-grid-variants', '#demo-grid-edit');
+  const navRows = "[...document.querySelectorAll('#demo-grid-edit tbody tr[data-omni-row-nav]')]";
+  const stopAt = index => `${navRows}.filter(row => row.tabIndex === 0).length === 1 && ${navRows}[${index}].tabIndex === 0 && document.activeElement === ${navRows}[${index}]`;
+  const rowCount = await evaluate(`${navRows}.length`);
+  check(rowCount >= 3, `La grille d'édition n'a que ${rowCount} lignes qui prennent le focus.`);
+  check(await evaluate(`${navRows}.filter(row => row.tabIndex === 0).length === 1 && ${navRows}[0].tabIndex === 0`), 'Les lignes n\'ont pas un seul arrêt de tabulation, sur la première.');
+  await evaluate(`${navRows}[0].scrollIntoView({ block: 'center' }); ${navRows}[0].focus()`);
+  const gridScroll = await evaluate('window.scrollY');
+  await key('ArrowDown', 'ArrowDown', 40);
+  await waitFor('Bas atteint la ligne suivante, qui devient l\'arrêt de tabulation', stopAt(1));
+  await key('ArrowDown', 'ArrowDown', 40);
+  await waitFor('Bas atteint la troisième ligne', stopAt(2));
+  await key('ArrowUp', 'ArrowUp', 38);
+  await waitFor('Haut revient à la deuxième ligne', stopAt(1));
+  await key('End', 'End', 35);
+  await waitFor('Fin atteint la dernière ligne', stopAt(rowCount - 1));
+  await key('ArrowDown', 'ArrowDown', 40);
+  await key('ArrowDown', 'ArrowDown', 40);
+  check(await evaluate(stopAt(rowCount - 1)), 'Bas sur la dernière ligne l\'a quittée ou a fait un tour.');
+  await key('Home', 'Home', 36);
+  await waitFor('Début atteint la première ligne', stopAt(0));
+  await key('ArrowUp', 'ArrowUp', 38);
+  check(await evaluate(stopAt(0)), 'Haut sur la première ligne l\'a quittée ou a fait un tour.');
+  check(await evaluate(`window.scrollY === ${gridScroll}`), 'Une flèche, Début ou Fin a fait défiler la page.');
+  const rowButton = `${navRows}[0].querySelector('td.omni-data-grid__actions button')`;
+  await evaluate(`${rowButton}.focus()`);
+  await key('ArrowDown', 'ArrowDown', 40);
+  check(await evaluate(`document.activeElement === ${rowButton}`), 'Bas dans le bouton d\'une ligne a déplacé le focus vers une autre ligne.');
+  step('grille : un arrêt de tabulation, Bas, Haut, Début et Fin entre les lignes, touche d\'un contrôle laissée à ce contrôle');
 }

@@ -30,6 +30,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private bool _columnHoverAttached;
     private bool _editCellAttached;
     private string? _wheelScopeAttached;
+    private bool _rowKeysEnabled;
     private bool _renderReady;
 
     /// <summary>The module, or null while nothing has needed it.</summary>
@@ -129,6 +130,21 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         {
             await CompletePreparationAsync();
         }
+    }
+
+    /// <summary>
+    /// Turns on, at the first focus of a row, the page keys of the focus module: Up, Down, Home and End
+    /// between the rows that take the focus (rows marked <c>data-omni-row-nav</c>).
+    /// </summary>
+    internal async Task EnsureRowKeysAsync()
+    {
+        if (_rowKeysEnabled)
+        {
+            return;
+        }
+
+        _rowKeysEnabled = true;
+        await OmniPageKeys.EnableAsync(grid.JavaScript);
     }
 
     /// <summary>

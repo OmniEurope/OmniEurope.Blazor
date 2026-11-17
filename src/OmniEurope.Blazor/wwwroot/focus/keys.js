@@ -11,6 +11,11 @@
 // - An accordion marked data-omni-accordion (OmniAccordion): on one of its toggles (data-omni-accordion-toggle),
 //   Up and Down move the focus to the previous or next toggle of that accordion, wrapping, Home and End to
 //   the first or the last, as the WAI-ARIA accordion pattern has it. Nothing is opened by the move.
+// - A row of a data grid marked data-omni-row-nav (OmniDataGrid rows the host made interactive), when the key
+//   is pressed on the row itself: Up and Down move the focus to the previous or next such row of the same
+//   body, Home and End to the first or the last, without wrapping and without scrolling the page. A key
+//   pressed in a control inside the row is left to that control. The grid keeps the single tab stop (tabindex
+//   0 on the row that last took the focus) from the focus the move leaves on the row.
 // - An element marked data-omni-key-button that is not a native button (an entry of a chart legend drawn
 //   in the SVG): Enter and Space activate it as a click would, Space without scrolling the page.
 
@@ -33,7 +38,7 @@ function onKeyDown(event) {
         return;
     }
 
-    if (!moveInRadioGroup(event) && !moveInAccordion(event)) {
+    if (!moveInRadioGroup(event) && !moveInAccordion(event) && !moveInGridRows(event)) {
         pressKeyButton(event);
     }
 }
@@ -100,6 +105,24 @@ function moveInAccordion(event) {
         : event.key === 'End' ? toggles.length - 1
         : (index + (event.key === 'ArrowDown' ? 1 : -1) + toggles.length) % toggles.length;
     toggles[next].focus();
+    return true;
+}
+
+// The rows are the siblings of the pressed one: a body holds the rows it renders, a nested grid has its own body.
+function moveInGridRows(event) {
+    const keys = ['ArrowUp', 'ArrowDown', 'Home', 'End'];
+    const row = event.target;
+    if (event.shiftKey || !keys.includes(event.key) || !row.hasAttribute('data-omni-row-nav')) {
+        return false;
+    }
+
+    const rows = Array.from(row.parentElement.children).filter(sibling => sibling.hasAttribute('data-omni-row-nav'));
+    const index = rows.indexOf(row);
+    event.preventDefault();
+    const next = event.key === 'Home' ? 0
+        : event.key === 'End' ? rows.length - 1
+        : Math.max(0, Math.min(rows.length - 1, index + (event.key === 'ArrowDown' ? 1 : -1)));
+    rows[next].focus();
     return true;
 }
 
