@@ -148,6 +148,13 @@ public partial class OmniAppearanceWindow : IDisposable
     [Parameter]
     public EventCallback<bool> FullWidthChanged { get; set; }
 
+    /// <summary>
+    /// The content width of the application's own default, which "All to default" puts back: false (the centred
+    /// column) by default, true for an application drawn at the whole width unless the user asks otherwise.
+    /// </summary>
+    [Parameter]
+    public bool DefaultFullWidth { get; set; }
+
     /// <summary>Size of the controls, 1 to 10 with 5 as drawn (<c>data-oe-control-size</c>).</summary>
     [Parameter]
     public int ControlSizeLevel { get; set; } = 5;
@@ -268,10 +275,10 @@ public partial class OmniAppearanceWindow : IDisposable
 
     /// <summary>
     /// Every bound setting back to its default, each one raised even when it already holds it, the theme included
-    /// (owner decision of 2026-11-12, R1-7): a host that clears its own extras when the theme changes then resets
+    /// (owner decision of 2026-11-12, R1-7), the content width to <see cref="DefaultFullWidth"/>: a host that clears its own extras when the theme changes then resets
     /// everything, whatever the theme in force. The window stays open, Cancel can still undo it.
     /// </summary>
-    private Task ResetAllAsync() => InBatchAsync(() => ApplyLookCoreAsync(Look.Default, everything: true));
+    private Task ResetAllAsync() => InBatchAsync(() => ApplyLookCoreAsync(Look.Default with { FullWidth = DefaultFullWidth }, everything: true));
 
     /// <summary>
     /// Raises the change of every bound setting that differs from <paramref name="look"/> (every one with <c>everything</c>). The palette, the backdrop and

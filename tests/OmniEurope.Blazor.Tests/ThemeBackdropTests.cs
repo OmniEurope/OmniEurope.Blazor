@@ -363,6 +363,54 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     [Fact]
+    public void Without_a_preset_the_backdrop_chosen_is_drawn_alone_over_the_default_theme()
+    {
+        // A client application's request of 2026-11-17: under "Essentiel (default)" (Preset null), choosing
+        // a backdrop in the window changed nothing on screen.
+        var module = JSInterop.SetupModule(OmniModules.Theme);
+        module.Mode = JSRuntimeMode.Loose;
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.Light)
+            .Add(component => component.Backdrop, Named("Givre"))
+            .AddChildContent("page"));
+
+        var light = LightPainted(module);
+        Assert.Equal(Named("Givre").Shape["--omni-backdrop"], light["--omni-backdrop"]);
+        // Only the backdrop's tokens: the default theme stays the stylesheet's, with the host's own overrides.
+        Assert.Equal(Named("Givre").Shape.Keys.Order(StringComparer.Ordinal), light.Keys.Order(StringComparer.Ordinal));
+
+        scope.Render(parameters => parameters.Add(component => component.Backdrop, (OmniThemeBackdrop?)null));
+        Assert.NotEmpty(module.Invocations["clear"]);
+    }
+
+    [Fact]
+    public void Without_a_preset_no_backdrop_chosen_writes_no_token()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Theme);
+        module.Mode = JSRuntimeMode.Loose;
+        Render<OmniThemeScope>(parameters => parameters.AddChildContent("page"));
+        Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Backdrop, OmniThemePresets.All[0].Backdrop)
+            .AddChildContent("page"));
+
+        Assert.Empty(module.Invocations["apply"]);
+    }
+
+    [Fact]
+    public void Without_a_preset_a_canvas_backdrop_draws_its_canvas()
+    {
+        var blackHole = JSInterop.SetupModule(OmniModules.BlackHole);
+        blackHole.Mode = JSRuntimeMode.Loose;
+        blackHole.Setup<bool>("start", _ => true).SetResult(true);
+
+        var scope = Render<OmniThemeScope>(parameters => parameters
+            .Add(component => component.Backdrop, Named("Trou noir"))
+            .AddChildContent("page"));
+
+        Assert.Single(scope.FindAll("canvas.omni-theme-scope__canvas"));
+    }
+
+    [Fact]
     public void The_boot_snapshot_holds_the_backdrop_drawn()
     {
         var module = JSInterop.SetupModule(OmniModules.Theme);

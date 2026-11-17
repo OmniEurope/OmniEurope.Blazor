@@ -186,6 +186,33 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     }
 
     [Fact]
+    public void Reset_all_puts_back_the_application_default_width()
+    {
+        // A client application's request of 2026-11-17: an application drawn at the whole width by default
+        // saw "All to default" bring back the centred column.
+        var fullWidth = false;
+        var window = Render<OmniAppearanceWindow>(parameters => parameters
+            .Add(component => component.Open, true)
+            .Add(component => component.DefaultFullWidth, true)
+            .Add(component => component.FullWidth, fullWidth)
+            .Add(component => component.FullWidthChanged, value => fullWidth = value));
+
+        window.Find(".omni-appearance-window__reset").Click();
+
+        Assert.True(fullWidth);
+    }
+
+    [Fact]
+    public void The_settings_hand_the_application_default_width_to_their_window()
+    {
+        var settings = Render<OmniAppearanceSettings>(parameters => parameters
+            .Add(component => component.DefaultFullWidth, true)
+            .Add(component => component.FullWidthChanged, _ => { }));
+
+        Assert.True(settings.FindComponent<OmniAppearanceWindow>().Instance.DefaultFullWidth);
+    }
+
+    [Fact]
     public void Text_size_window_row_steps_by_one_and_goes_back_to_the_default()
     {
         // Review R1-1 (owner decision of 2026-11-12): the row is one line, reduce, a slider with its percentage, enlarge, default.

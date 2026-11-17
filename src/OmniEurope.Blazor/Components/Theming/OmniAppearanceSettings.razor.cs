@@ -121,6 +121,9 @@ public partial class OmniAppearanceSettings : IDisposable
     /// <summary>Raised with the width picked; bound, the window shows the content width row.</summary>
     [Parameter] public EventCallback<bool> FullWidthChanged { get; set; }
 
+    /// <summary>The application's own default content width, which "All to default" of the window puts back (<see cref="OmniAppearanceWindow.DefaultFullWidth"/>).</summary>
+    [Parameter] public bool DefaultFullWidth { get; set; }
+
     /// <summary>
     /// Whether the appearance window is open. The component opens it from its look row and closes it
     /// with the window; a host may open or close it too, and bind it both ways.

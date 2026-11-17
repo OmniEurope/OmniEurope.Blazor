@@ -90,7 +90,8 @@ public partial class OmniThemeScope
     /// A backdrop from <see cref="OmniThemeBackdrops"/> to draw the <see cref="Preset"/> over, in place
     /// of its own (<see cref="OmniThemePreset.With(OmniThemeBackdrop)"/>); <see cref="OmniThemeBackdrops.None"/>
     /// leaves the plain page. Null keeps the theme's own backdrop. Every theme offers every backdrop of the catalogue
-    /// (<see cref="OmniThemePresets.BackdropsFor"/>), Essentiel included; without a <see cref="Preset"/> no backdrop is drawn.
+    /// (<see cref="OmniThemePresets.BackdropsFor"/>), Essentiel included; without a <see cref="Preset"/> the chosen backdrop is drawn over the default
+    /// theme, the scope writing that backdrop's tokens alone.
     /// </summary>
     [Parameter]
     public OmniThemeBackdrop? Backdrop { get; set; }
@@ -377,10 +378,22 @@ public partial class OmniThemeScope
     }
 
     /// <summary>
-    /// The backdrop the scope draws its preset over: <see cref="Backdrop"/> when the theme offers it, the
-    /// one the preset carries otherwise (its own); null without a preset, which paints no backdrop.
+    /// The backdrop the scope draws: <see cref="Backdrop"/> when the theme offers it, the one the preset
+    /// carries otherwise (its own); without a preset, <see cref="LooseBackdrop"/>.
     /// </summary>
-    private OmniThemeBackdrop? DrawnBackdrop => Preset is null ? null : AppearanceChoices.EffectiveBackdrop(Preset, Backdrop);
+    private OmniThemeBackdrop? DrawnBackdrop => Preset is null ? LooseBackdrop : AppearanceChoices.EffectiveBackdrop(Preset, Backdrop);
+
+    /// <summary>
+    /// Without a preset, the default theme is the stylesheet's own (Essentiel): a <see cref="Backdrop"/> other
+    /// than its own is drawn by writing that backdrop's tokens alone, so the host's own token overrides stay;
+    /// null when no backdrop is chosen or the chosen one is the default theme's.
+    /// </summary>
+    private OmniThemeBackdrop? LooseBackdrop =>
+        Preset is null && Backdrop is not null
+        && AppearanceChoices.EffectiveBackdrop(null, Backdrop) is var backdrop
+        && !ReferenceEquals(backdrop, AppearanceChoices.EffectivePreset(null).Backdrop)
+            ? backdrop
+            : null;
 
     /// <summary>The preset as the scope draws it, over <see cref="DrawnBackdrop"/>; null without a preset.</summary>
     private OmniThemePreset? DrawnPreset => Preset?.With(DrawnBackdrop!);
@@ -392,7 +405,8 @@ public partial class OmniThemeScope
     /// only repaints. The canvas element is keyed by this script: a canvas keeps the first kind of context it
     /// gave (WebGL for Trou noir, 2D for the pixel stars of Octet), so another canvas backdrop gets a canvas of its own.
     /// </summary>
-    private string? CanvasField => BackdropCatalog.CanvasScriptFor(DrawnPreset?.Shape.GetValueOrDefault("--omni-scope-canvas"));
+    private string? CanvasField => BackdropCatalog.CanvasScriptFor(
+        (DrawnPreset?.Shape ?? LooseBackdrop?.Shape)?.GetValueOrDefault("--omni-scope-canvas"));
 
     /// <summary>
     /// Starts the canvas field when the theme asks for one, restarts it when the motion setting
@@ -518,6 +532,15 @@ public partial class OmniThemeScope
         {
             var painted = Palette is null ? drawn : drawn.With(Palette);
             return (painted.Light, painted.Dark);
+        }
+
+        if (LooseBackdrop is { } backdrop)
+        {
+            var light = OmniThemePreset.Merge(Palette?.Light ?? new Dictionary<string, string>(StringComparer.Ordinal), backdrop.Shape);
+            var dark = OmniThemePreset.Merge(
+                OmniThemePreset.Merge(Palette?.Dark ?? new Dictionary<string, string>(StringComparer.Ordinal), backdrop.Shape),
+                backdrop.DarkShape);
+            return (light, dark);
         }
 
         return Palette is null ? (null, null) : (Palette.Light, Palette.Dark);

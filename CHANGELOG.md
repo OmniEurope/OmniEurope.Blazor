@@ -10,9 +10,11 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - `OmniLink.StopPropagation` (`bool`, `false` par défaut) : le clic et les touches du lien ne remontent plus au parent, par exemple la ligne d'un `OmniDataGrid` qui ne déclenche donc pas `OnRowClick`.
 - `OmniLink` sans `Href` (désormais facultatif) : rendu en `<button type="button" class="omni-link">`, une action accessible au clavier qui garde l'apparence du lien.
 - `OmniHeader.BrandContent` (`RenderFragment?`) : contenu de marque libre (logo SVG, composant) à la place de `BrandLogo`, sur la même ligne que `Brand`.
+- `OmniAppearanceWindow.DefaultFullWidth` et `OmniAppearanceSettings.DefaultFullWidth` (`bool`, `false` par défaut) : la largeur par défaut de l'application, que « Tout par défaut » remet au lieu de toujours revenir à la colonne centrée.
 
 ### Corrigé
 
+- `OmniThemeScope` : sans thème choisi (« Essentiel (défaut) », `Preset` nul), le fond choisi dans la fenêtre d'apparence n'était pas dessiné. Il l'est maintenant, la portée n'écrivant que les jetons de ce fond.
 - Accessibilité, trois violations axe-core 4.14 relevées par un consommateur le 2026-11-17 (sévérité sérieuse ou critique) :
   - `OmniAppMenu` (`label-content-name-mismatch`) : le bouton montrait le nom ou les initiales de l'utilisateur, mais son nom accessible (« Menu de l'application », ou « Menu de l'application: nom ») ne contenait pas ce texte. Un utilisateur de commande vocale ne pouvait donc pas l'activer en disant ce qu'il voit. Le nom commence maintenant par le texte montré : « nom, Menu de l'application » sous `Name`, « JD, Menu de l'application: nom » sous `Initials`. L'infobulle ne change pas.
   - `OmniChart` (`nested-interactive`) : le SVG était une image (`role="img"`, enfants présentationnels) alors qu'une légende à droite y place des entrées focalisables qui masquent leur série. Tant qu'une telle entrée est dans le dessin, le SVG est un groupe nommé (`role="group"`, même `aria-label`) ; sinon, il reste une image.
