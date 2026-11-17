@@ -70,9 +70,11 @@ Une colonne se déclare par lambda ou par nom de propriété.
 - Le tableau ne descend jamais sous la somme des largeurs déclarées, des `MinWidth` et, pour une
   colonne sans largeur, du plancher `--omni-data-grid-column-min-width` (8 rem) : plus étroit, le
   viewport défile de côté au lieu d'écraser à zéro les colonnes sans largeur. Une largeur en
-  pourcentage compte comme une colonne sans largeur. `MinWidth` est tenue exactement quand elle
-  porte sur la seule colonne sans largeur ; à plusieurs, ces colonnes se partagent la place à
-  parts égales au-dessus de ce minimum global.
+  pourcentage compte comme une colonne sans largeur. Les colonnes sans largeur se partagent la
+  place à parts égales ; le `MinWidth` d'une telle colonne est un plancher de la colonne elle-même :
+  quand sa part tombe en dessous (titre coupé sous `HeaderWrap.Truncate`, écran étroit), le script
+  (`fitColumns`) lui donne exactement ce `MinWidth`, et une part plus large reste intacte. Un `Width`
+  déclaré l'emporte toujours.
 - `TextAlign` (un `OmniAlignment` : `Start` par défaut, `Center`, `End`) aligne les cellules d'une colonne, jamais son en-tête : le titre reste au début de l'en-tête, même pour une colonne numérique alignée à la fin. `HeaderAlign` (`OmniAlignment?`, nul par défaut : au début) aligne l'en-tête seul, à la fin ou au centre, le titre toujours avant ses icônes de filtre et de tri. `Stretch` n'a pas de sens pour du texte : il se lit comme `Start`.
 - `TextAlign`, `Class`, `HeaderClass`, `Visible`, `Hideable`, `Resizable`, `Sortable`, `Filterable` et
   `Groupable` complètent la déclaration (`Hideable` : voir « Réordonner, masquer et réinitialiser les

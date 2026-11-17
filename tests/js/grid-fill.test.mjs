@@ -50,46 +50,32 @@ const gridWith = (...children) => {
     return grid;
 };
 
-const room = grid => Number.parseFloat(grid.properties.get('--omni-grid-viewport-room'));
-
-test('a viewport the 75dvh floor makes taller than its grid leaves the rows no more than the room left', () => {
-    // The floor (75dvh = 705 px) holds the viewport above the 678 px grid: the difference is negative.
-    const viewport = new FakeElement({ top: 262, height: 705 });
-    const grid = gridWith(viewport);
+test('the grid is given the height left under its top, and nothing caps the MinHeight floor', () => {
+    // The floor (75dvh = 705 px) holds the viewport above the 678 px left: it stays a true floor (owner rule
+    // of 2026-11-08), the page scrolls past the grid, so no room that would cap it is written.
+    const toolbar = new FakeElement({ top: 262, height: 40 });
+    const viewport = new FakeElement({ top: 302, height: 705 });
+    const pager = new FakeElement({ top: 1007, height: 36 });
+    const grid = gridWith(toolbar, viewport, pager);
     viewport.grid = grid;
 
     attachFill(viewport);
 
     assert.equal(grid.properties.get('--omni-grid-fill-height'), '678px');
-    assert.equal(room(grid), 678);
+    assert.equal(grid.properties.has('--omni-grid-viewport-room'), false);
     detachFill(viewport);
+    assert.equal(grid.properties.has('--omni-grid-fill-height'), false);
 });
 
-test('the toolbar above and the pager below an overflowing viewport are taken off the room', () => {
-    const toolbar = new FakeElement({ top: 262, height: 40 });
-    const viewport = new FakeElement({ top: 302, height: 705 });
-    const pager = new FakeElement({ top: 1007, height: 36 });
-    const menu = new FakeElement({ top: 300, height: 2000 }, { position: 'absolute' });
-    const grid = gridWith(toolbar, viewport, pager, menu);
+test('a grid whose content above fills the window is given 0 px and keeps its floor alone', () => {
+    const viewport = new FakeElement({ top: 1200, height: 705 });
+    const grid = new FakeElement({ top: 1200, height: 705 });
+    viewport.parentElement = grid;
+    grid.children.push(viewport);
     viewport.grid = grid;
 
     attachFill(viewport);
 
-    assert.equal(room(grid), 678 - 40 - 36);
-    assert.ok(room(grid) <= 678);
-    detachFill(viewport);
-});
-
-test('a viewport that fits its grid keeps the room its height less the bars', () => {
-    const toolbar = new FakeElement({ top: 262, height: 40 });
-    const viewport = new FakeElement({ top: 302, height: 600 });
-    const pager = new FakeElement({ top: 902, height: 36 }, { marginBottom: '0' });
-    const grid = gridWith(toolbar, viewport, pager);
-    grid.computed.borderBottomWidth = '2';
-    viewport.grid = grid;
-
-    attachFill(viewport);
-
-    assert.equal(room(grid), 678 - 40 - 36 - 2);
+    assert.equal(grid.properties.get('--omni-grid-fill-height'), '0px');
     detachFill(viewport);
 });

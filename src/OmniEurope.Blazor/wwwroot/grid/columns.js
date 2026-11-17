@@ -4,7 +4,7 @@
 import { notifyDotNet } from './notify.js';
 import { release } from './release.js';
 import { forgetContentSizing, isContentSizing, sizeContent } from './content-sizing.js';
-import { lengthInPixels } from './resize.js';
+import { columnMinimum, lengthInPixels } from './resize.js';
 
 /**
  * Applies the CSS length of every column and the sticky offset of the frozen ones. Widths land on
@@ -65,6 +65,31 @@ function fitStateOf(viewport) {
     return state;
 }
 
+// The MinWidth of each column in pixels, by <col>, with what it was resolved from.
+const resolvedMinimums = new WeakMap();
+
+/**
+ * A column's MinWidth in pixels, resolved once per length and font: resolving it lays out a probe inside the
+ * viewport, a mutation the content fit observes, so resolving it on every pass would run the fit again on
+ * every frame. A text size or density that changes the grid's font resolves it again.
+ */
+function resolvedMinimum(viewport, col) {
+    const declared = col.style.getPropertyValue('--omni-col-min').trim();
+    if (!declared) {
+        return 0;
+    }
+
+    const font = `${getComputedStyle(document.documentElement).fontSize}|${getComputedStyle(viewport).fontSize}`;
+    const cached = resolvedMinimums.get(col);
+    if (cached?.declared === declared && cached.font === font) {
+        return cached.pixels;
+    }
+
+    const pixels = columnMinimum(viewport, col);
+    resolvedMinimums.set(col, { declared, font, pixels });
+    return pixels;
+}
+
 /**
  * A column sizes itself to its content when the host gave it no width, the reader did not resize it
  * and it did not ask for Truncate: the markup says so with the two attributes of its <col>.
@@ -121,6 +146,10 @@ function fitColumns(viewport, refresh = false) {
     // Titles are meant to end in an ellipsis under HeaderWrap.Truncate: they do not widen the column.
     const fitTitles = !viewport.closest('.omni-data-grid--header-truncate');
     const fitCells = eligible.some(Boolean);
+    // MinWidth of a column without a Width: under table-layout: fixed a <col> has no minimum of its own,
+    // so the share the layout leaves it is read and raised to that floor when it falls below (HeaderWrap
+    // .Truncate included). A wider share is left alone; a declared Width wins.
+    const minimums = cols.map(col => col.hasAttribute('data-omni-width') ? 0 : resolvedMinimum(viewport, col));
     let changed = false;
     // The title shrinks inside the header's flex row and the row's other items take part of any width
     // added, and a widened column narrows the others: a few passes until nothing is cut. Under
@@ -129,6 +158,10 @@ function fitColumns(viewport, refresh = false) {
     // That floor holds over a width the host declared as well.
     for (let pass = 0; pass < 8; pass++) {
         const wanted = new Array(cols.length).fill(0);
+        // Kept apart from what the content wants: a floor is not a fitted width, so it is never remembered
+        // as one and goes with the MinWidth that set it.
+        const floors = minimums.map((minimum, index) =>
+            minimum > 0 && header.children[index].getBoundingClientRect().width < minimum - 0.5 ? Math.ceil(minimum) : 0);
         if (fitTitles) {
             [...header.children].forEach((cell, index) => {
                 const overflow = Math.max(0, ...[...cell.querySelectorAll('.omni-data-grid__header, .omni-data-grid__sort, .omni-data-grid__title')]
@@ -155,9 +188,9 @@ function fitColumns(viewport, refresh = false) {
 
         let grown = false;
         wanted.forEach((width, index) => {
-            if (width > 0) {
-                cols[index].style.setProperty('--omni-col-width', `${width}px`);
-                if (eligible[index]) {
+            if (width > 0 || floors[index] > 0) {
+                cols[index].style.setProperty('--omni-col-width', `${Math.max(width, floors[index])}px`);
+                if (width > 0 && eligible[index]) {
                     state.widths.set(cols[index].getAttribute('data-omni-col'), width);
                 }
                 grown = true;

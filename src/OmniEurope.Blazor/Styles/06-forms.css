@@ -1,6 +1,9 @@
 .omni-label { color: var(--omni-color-text); display: inline-flex; font-size: var(--omni-font-size-label); font-weight: 600; gap: var(--omni-space-xs); }
 .omni-label__required { color: var(--omni-color-danger); }
 .omni-form-field { display: grid; gap: var(--omni-field-gap); }
+/* A field without a label keeps the label's line, as it keeps its error line: a button placed in a field
+   without a label lines up with the controls of the fields beside it. The empty label says nothing. */
+.omni-form-field > .omni-label { min-block-size: 1lh; }
 /* A form's actions: one row at the end, like a dialog footer (OmniFormActions). */
 .omni-form-actions { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; }
 .omni-inline-form-keys { display: contents; }
