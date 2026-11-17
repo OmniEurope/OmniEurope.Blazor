@@ -53,6 +53,9 @@ const EXEMPT = [
   // The error line a form field keeps (R-12) is one line of the fixed 0.75rem error text (min-block-size
   // 1lh): text, which the density does not resize; the field and its control do follow the density.
   ['.omni-form-field__message, .omni-form-field__control .omni-validation-message', 'ligne d\'erreur réservée d\'un champ (R-12) : une ligne du texte d\'erreur fixe, 1lh'],
+  // The label line a form field keeps, labelled or not (min-block-size 1lh, so a button in a field without a
+  // label lines up with its labelled neighbours): one line of the label text, which the density does not resize.
+  ['.omni-form-field > .omni-label', 'ligne de libellé réservée d\'un champ : une ligne du texte du libellé, 1lh'],
   // The counter of a tab title is a mark of the fixed xs text beside the title, as a status dot is.
   ['.omni-tabs__title .omni-badge', 'compteur d\'un titre d\'onglet : marque du texte xs fixe, comme une pastille de statut'],
   // The spreadsheet page echoes the active cell in a compact list of its own (showcase CSS: no padding,
