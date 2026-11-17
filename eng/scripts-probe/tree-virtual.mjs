@@ -85,6 +85,27 @@ export async function treeVirtualSteps(session, results) {
   await waitFor('tous les dossiers ouverts', `${rowCount} === ${nodes} && ${renderedCount} < 100`);
   step('arbre virtuel : tout fermer puis tout ouvrir');
 
+  // Every density: a folder with its chevron is exactly as tall as a file, at the row height of the density
+  // (the tokens --omni-grid-row-estimate: 24, 36 and 44 px), and the chevron itself still follows the density.
+  await scrollTo(0);
+  await waitFor('le haut de la liste', `document.querySelector(${JSON.stringify(rows)}).querySelector('td[data-omni-col="Name"]').textContent.trim() === 'Folder 1'`);
+  const chevrons = {};
+  for (const [density, expected] of [['compact', 24], ['comfortable', 36], ['spacious', 44]]) {
+    await evaluate(`document.getElementById('showcase-theme').setAttribute('data-omni-density', '${density}')`);
+    await pause(300);
+    const seen = await evaluate(`(() => {
+      const all = [...document.querySelectorAll(${JSON.stringify(rows)})];
+      const folders = all.filter(row => row.hasAttribute('aria-expanded'));
+      return { heights: [...new Set(all.map(row => row.getBoundingClientRect().height))], folders: folders.length, chevron: document.querySelector(${JSON.stringify(`${rows} .omni-data-grid__tree-toggle`)}).getBoundingClientRect().height };
+    })()`);
+    check(seen.folders > 0, `Arbre virtuel en ${density} : aucun dossier dans la fenêtre, la sonde ne prouverait rien.`);
+    check(seen.heights.length === 1 && seen.heights[0] === expected, `Arbre virtuel en ${density} : hauteurs de ligne ${seen.heights.join(', ')} px, ${expected} attendus pour les dossiers comme pour les fichiers.`);
+    chevrons[density] = seen.chevron;
+    step(`arbre virtuel en ${density} : lignes de ${expected} px (${seen.folders} dossier(s)), chevron de ${seen.chevron} px`);
+  }
+  check(chevrons.compact !== chevrons.spacious, `Arbre virtuel : le chevron garde ${chevrons.compact} px de la densité compacte à la spacieuse.`);
+  await evaluate("document.getElementById('showcase-theme').setAttribute('data-omni-density', 'comfortable')");
+
   await pause(200);
   const csp = await evaluate('window.__omniCsp');
   check(csp.length === 0, `Violations CSP après l'arbre virtuel : ${csp.join(' | ')}`);
