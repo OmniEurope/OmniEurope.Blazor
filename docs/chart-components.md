@@ -52,8 +52,11 @@ Les parties d'un graphique se déclarent par leurs paramètres de contenu et de 
   interrupteur : un clic masque la série (et ses marqueurs et étiquettes), l'axe se recalcule sans elle,
   l'entrée reste atténuée et barrée ; un second clic la réaffiche. Sous ou au-dessus du graphique
   l'entrée est un bouton (`aria-pressed`, clavier) ; à droite, dans le dessin, elle s'atteint aussi par Tab
-  et s'active par Entrée ou Espace (`role="button"`, `aria-pressed`), le dessin restant une seule image pour
-  les technologies d'assistance, qui lisent le tableau de données. Les parts d'un camembert ne basculent pas.
+  et s'active par Entrée ou Espace (`role="button"`, `aria-pressed`). Une image ne peut pas contenir de
+  contrôle (ses enfants sont présentationnels, règle axe `nested-interactive`) : tant qu'une telle entrée est
+  dans le dessin, le SVG est un groupe nommé (`role="group"`, même `aria-label`) ; sans elle, il reste une
+  image (`role="img"`). Le tableau de données reste l'alternative lue par les technologies d'assistance.
+  Les parts d'un camembert ne basculent pas.
 - La marge à gauche d'un tracé vertical tient la graduation la plus longue de l'axe des valeurs
   (14 unités au moins, 1,7 par caractère) : un montant long n'est jamais dessiné hors du graphique.
 - `OmniCategoryAxis` n'écrit que les libellés qui tiennent sans se chevaucher : quand tous ne

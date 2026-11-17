@@ -4,7 +4,7 @@
 @inject Microsoft.Extensions.Logging.ILogger<OmniUpload> Logger
 
 @* Id goes on the native file control, the focusable element, so an OmniFormField For= names it. *@
-<div @attributes="AdditionalAttributes" class="@RootClass">
+<div @attributes="RootAttributes" class="@RootClass">
     @if (ReadOnly)
     {
         @* Read-only: the files held are listed and the group takes the focus; nothing offers to choose, drop
@@ -64,6 +64,7 @@
                        OnChange="HandleFilesAsync"
                        accept="@EffectiveAccept"
                        disabled="@(Disabled || _uploading)"
+                       aria-label="@InputLabel"
                        aria-describedby="@($"{FieldValueId} {HintId}")" />
         </div>
         <span id="@HintId" class="omni-upload__hint">@Hint</span>
@@ -82,6 +83,7 @@
                        multiple="@Multiple"
                        accept="@EffectiveAccept"
                        disabled="@(Disabled || _uploading)"
+                       aria-label="@InputLabel"
                        aria-describedby="@HintId" />
             <span class="omni-disc omni-upload__disc" aria-hidden="true"><OmniIcon Name="OmniIconName.Upload" Class="omni-upload__icon" /></span>
             <span class="omni-upload__prompt">

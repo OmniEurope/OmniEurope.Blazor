@@ -198,6 +198,14 @@ internal sealed class OmniChartContext
     internal bool IsLegendOutside(object owner) => _legends.TryGetValue(owner, out var legend) && IsOutside(legend);
 
     /// <summary>
+    /// Whether the drawing holds a control of the keyboard: an entry of a legend in the column right of the
+    /// plot that hides its series. An image cannot hold one (its children are presentational, axe
+    /// nested-interactive), so the drawing is then a named group.
+    /// </summary>
+    internal bool HasControlInside =>
+        _legends.Values.Any(legend => !IsOutside(legend) && LegendEntries(legend).Any(entry => CanToggle(legend, entry)));
+
+    /// <summary>
     /// Widens the view box to <paramref name="aspectRatio"/> (width over height, 1 = square); null
     /// lets the chart choose, wide for a time series and square otherwise.
     /// </summary>

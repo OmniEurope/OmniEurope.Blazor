@@ -4,7 +4,16 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Ajouté
+
+- `OmniUpload.Label` (`string?`) : nom accessible du champ fichier (voir « Corrigé »).
+
 ### Corrigé
+
+- Accessibilité, trois violations axe-core 4.14 relevées par un consommateur le 2026-11-17 (sévérité sérieuse ou critique) :
+  - `OmniAppMenu` (`label-content-name-mismatch`) : le bouton montrait le nom ou les initiales de l'utilisateur, mais son nom accessible (« Menu de l'application », ou « Menu de l'application: nom ») ne contenait pas ce texte. Un utilisateur de commande vocale ne pouvait donc pas l'activer en disant ce qu'il voit. Le nom commence maintenant par le texte montré : « nom, Menu de l'application » sous `Name`, « JD, Menu de l'application: nom » sous `Initials`. L'infobulle ne change pas.
+  - `OmniChart` (`nested-interactive`) : le SVG était une image (`role="img"`, enfants présentationnels) alors qu'une légende à droite y place des entrées focalisables qui masquent leur série. Tant qu'une telle entrée est dans le dessin, le SVG est un groupe nommé (`role="group"`, même `aria-label`) ; sinon, il reste une image.
+  - `OmniUpload` (`label`, `label-title-only`) : hors d'un `OmniFormField`, le champ fichier n'avait aucun nom, seulement des descriptions. Un `aria-label` passé au composant tombait sur sa racine, un `div` sans rôle. Le champ fichier est maintenant nommé, dans cet ordre : `Label` (nouveau), puis l'`aria-label` passé au composant (retiré de la racine) ; sinon, avec un `Id`, le libellé qui pointe sur cet `Id` (`OmniFormField` `For` ou `OmniLabel` `For`) ; sans `Id`, le texte montré (« Parcourir » en `Display="Field"`, l'invite de dépôt pour la zone).
 
 - `OmniDataGridColumn.MinWidth` (demande d'un consommateur du 2026-11-17) : sur une colonne sans `Width`, le minimum n'avait aucun effet dans le dimensionnement par défaut. La grille est en `table-layout: fixed`, où une `<col>` n'a pas de minimum propre, et aucune règle ne lisait `--omni-col-min` : la colonne gardait sa part (150 px observés) et son titre était coupé sous `HeaderWrap.Truncate`. Le passage d'ajustement des colonnes (`fitColumns`) lit maintenant la part de chaque colonne qui porte un `MinWidth`. Quand cette part tombe en dessous, la colonne reçoit exactement ce minimum ; une part plus large n'est pas touchée, et un `Width` déclaré l'emporte toujours. Le plancher n'est pas mémorisé comme une largeur ajustée au contenu : retirer `MinWidth` rend sa part à la colonne. Mesuré dans la vitrine à 375 px : colonne à 119 px avant, 240 px (15rem) après ; à 1440 px, une part de 584 px sous un `MinWidth` de 6rem reste à 584 px.
 - `OmniFormField` sans `Label` ni `LabelContent` (demande d'un consommateur du 2026-11-17) : le libellé vide mesurait 0 px, si bien qu'un bouton placé dans un tel champ, pour l'aligner sur des champs voisins d'une rangée alignée en haut, montait de la hauteur d'une ligne de libellé. Le libellé d'un champ garde désormais au moins une ligne (`min-block-size: 1lh`), comme sa ligne d'erreur ; vide, il n'annonce toujours rien. Mesuré dans la vitrine (règle posée par CSSOM sur la page servie) : bas d'un bouton medium 17 px au-dessus du bas d'un `OmniTextBox` libellé avant, 0 px après, à 1440 et à 375 px.

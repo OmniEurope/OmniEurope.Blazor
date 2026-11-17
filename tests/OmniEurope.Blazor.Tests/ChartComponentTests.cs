@@ -31,7 +31,9 @@ public sealed class ChartComponentTests : OmniBunitContext
         var charts = Render<ChartTestHost>();
 
         Assert.Equal(2, charts.FindAll(".omni-chart__svg").Count);
-        Assert.Equal("img", charts.Find("#sales .omni-chart__svg").GetAttribute("role"));
+        // Its legend in the column right of the plot hides series from the keyboard: the drawing is a named
+        // group, an image cannot hold a control (axe nested-interactive).
+        Assert.Equal("group", charts.Find("#sales .omni-chart__svg").GetAttribute("role"));
         Assert.Contains("Ventes mensuelles", charts.Find("#sales desc").TextContent, StringComparison.Ordinal);
         Assert.Equal(3, charts.FindAll("#sales .omni-chart__markers circle").Count);
         Assert.Equal(4, charts.FindAll(".omni-chart__pie path, .omni-chart__donut path").Count);

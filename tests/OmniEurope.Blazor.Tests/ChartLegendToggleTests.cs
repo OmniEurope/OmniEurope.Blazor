@@ -114,6 +114,22 @@ public sealed class ChartLegendToggleTests : OmniBunitContext
         });
     }
 
+    [Theory]
+    [InlineData(OmniLegendPlacement.Right, true, "group")]
+    [InlineData(OmniLegendPlacement.Right, false, "img")]
+    [InlineData(OmniLegendPlacement.Bottom, true, "img")]
+    [InlineData(OmniLegendPlacement.Top, true, "img")]
+    public void TheDrawing_IsAGroupOnlyWhenItHoldsAToggle(OmniLegendPlacement position, bool allowToggle, string role)
+    {
+        // An image's children are presentational: a toggle inside it is an interactive element nested in
+        // another (axe nested-interactive, request of a client application of 2026-11-17). Below or above,
+        // the toggles are HTML buttons outside the drawing, which stays an image.
+        var chart = Chart(position, allowToggle);
+
+        chart.WaitForAssertion(() => Assert.Equal(role, chart.Find(".omni-chart__svg").GetAttribute("role")));
+        Assert.Equal(chart.Find(".omni-chart__svg").GetAttribute("aria-label"), chart.Instance.Label);
+    }
+
     [Fact]
     public void WithoutToggle_TheLegendStaysAPlainKey()
     {

@@ -121,7 +121,9 @@ public sealed class AppMenuTests : OmniBunitContext
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.UserName, "admin")
             .Add(component => component.AppearanceChanged, _ => { }));
-        Assert.Equal("Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
+        // The accessible name starts with the shown name (WCAG 2.5.3, axe label-content-name-mismatch).
+        Assert.Equal("admin, Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
+        Assert.Equal("Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("title"));
         // With a name, the trigger holds the user icon, the name and the chevron, and is not square.
         Assert.DoesNotContain("omni-button--icon", menu.Find(".omni-app-menu__trigger").ClassList);
         Assert.Equal(2, menu.FindAll(".omni-app-menu__trigger .omni-icon").Count);
@@ -147,7 +149,7 @@ public sealed class AppMenuTests : OmniBunitContext
         Assert.Equal(initials, menu.Find(".omni-app-menu__trigger-initials").TextContent);
         Assert.Empty(menu.FindAll(".omni-app-menu__trigger-name"));
         Assert.DoesNotContain(userName, trigger.TextContent, StringComparison.Ordinal);
-        Assert.Equal($"Menu de l’application: {userName}", trigger.GetAttribute("aria-label"));
+        Assert.Equal($"{initials}, Menu de l’application: {userName}", trigger.GetAttribute("aria-label"));
         Assert.Equal($"Menu de l’application: {userName}", trigger.GetAttribute("title"));
         Assert.Equal(2, menu.FindAll(".omni-app-menu__trigger .omni-icon").Count);
         trigger.Click();
@@ -199,7 +201,7 @@ public sealed class AppMenuTests : OmniBunitContext
     }
 
     [Fact]
-    public void Name_display_stays_the_default_and_keeps_the_label_alone_as_the_accessible_name()
+    public void Name_display_stays_the_default_and_its_accessible_name_starts_with_the_shown_name()
     {
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.UserName, "admin")
@@ -207,7 +209,7 @@ public sealed class AppMenuTests : OmniBunitContext
 
         Assert.Equal(OmniAppMenuUserDisplay.Name, menu.Instance.UserDisplay);
         Assert.Equal("admin", menu.Find(".omni-app-menu__trigger-name").TextContent);
-        Assert.Equal("Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
+        Assert.Equal("admin, Menu de l’application", menu.Find(".omni-app-menu__trigger").GetAttribute("aria-label"));
     }
 
     [Fact]

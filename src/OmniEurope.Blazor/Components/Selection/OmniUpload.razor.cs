@@ -430,6 +430,31 @@ public partial class OmniUpload
     /// <summary>How many of the most recent files a reduced list shows.</summary>
     private const int ReducedCount = 3;
 
+    /// <summary>
+    /// The accessible name of the file control, which wins over any label. Left unset, the host's own
+    /// <c>aria-label</c> names it; with neither, a control given an <see cref="OmniComponentBase.Id"/> is named
+    /// by the label that points at that id (an <see cref="OmniFormField"/> whose <c>For</c> is the id, or an
+    /// <see cref="OmniLabel"/> <c>For</c>), and a control without an id, which no label can point at, by the
+    /// text it shows ("Browse" for the field, the drop prompt for the zone).
+    /// </summary>
+    [Parameter]
+    public string? Label { get; set; }
+
+    // The aria-label of the file control: none when an Id lets a page label name it and nothing else is given.
+    private string? InputLabel =>
+        Internal.OmniAriaLabel.Of(Label, AdditionalAttributes) ?? (Id is not null
+            ? null
+            : IsField
+                ? Localize("UploadBrowseButton")
+                : $"{Localize(Multiple ? "UploadDropMany" : "UploadDropOne")} {Localize("UploadBrowse")}");
+
+    // The host's attributes for the root, without the aria-label, which names the file control instead:
+    // on the root, a div without a role, it named nothing.
+    private IReadOnlyDictionary<string, object>? RootAttributes =>
+        AdditionalAttributes is { } attributes && attributes.ContainsKey("aria-label")
+            ? attributes.Where(pair => pair.Key != "aria-label").ToDictionary(pair => pair.Key, pair => pair.Value)
+            : AdditionalAttributes;
+
     private bool IsField => Display == OmniUploadDisplay.Field && !Multiple;
     private string BaseId => Id ?? _generatedId;
     private string ListId => $"{BaseId}-list";

@@ -180,6 +180,16 @@ public partial class OmniAppMenu : IDisposable
     // The full name is not on the trigger in the shortened forms, so it names the trigger and its tooltip.
     private string TriggerLabel => UserName is null || UserDisplay == OmniAppMenuUserDisplay.Name ? EffectiveLabel : $"{EffectiveLabel}: {UserName}";
 
+    // The trigger's accessible name starts with the text it shows (WCAG 2.5.3, label in name): a voice
+    // user says what is written on it. The name, or the initials, comes first, then the tooltip's label;
+    // the icon alone shows no text and keeps the tooltip's label.
+    private string TriggerName => UserName is not { } name ? EffectiveLabel : ShownDisplayFor(name) switch
+    {
+        OmniAppMenuUserDisplay.Name => $"{name}, {EffectiveLabel}",
+        OmniAppMenuUserDisplay.Initials => $"{ShownInitialsOf(name)}, {TriggerLabel}",
+        _ => TriggerLabel,
+    };
+
     // The first letter or digit of the first and of the last word (one word gives one letter); an
     // e-mail address is read up to its @. Words are cut at anything that is not a letter or a digit.
     private static string InitialsOf(string name)
