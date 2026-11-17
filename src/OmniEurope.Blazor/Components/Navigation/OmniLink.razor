@@ -2,19 +2,39 @@
 @inherits OmniComponentBase
 
 @* The host's attributes come first; the validated href, the target and the merged rel come after,
-   so that none of them can replace the link's own. *@
-<a @attributes="AdditionalAttributes"
-   id="@Id"
-   class="@Css("omni-link", ShowsExternalIcon ? "omni-link--external" : null)"
-   target="@EffectiveTarget"
-   rel="@EffectiveRel"
-   aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
-   @onclick="OnClick"
-   href="@SafeHref">
-    @ChildContent
-    @if (ShowsExternalIcon)
-    {
-        <OmniIcon Name="OmniIconName.OpenExternal" Size="OmniControlSize.Small" Class="omni-link__external" />
-        <span class="omni-visually-hidden">@Localize("LinkOpensInNewTab")</span>
-    }
-</a>
+   so that none of them can replace the link's own. Without an Href the link is an action: a native
+   button of the same look (same classes), which only runs OnClick. StopPropagation keeps the click
+   and the key press from reaching an ancestor's own handler (a data grid row). *@
+@if (IsAction)
+{
+    <button @attributes="AdditionalAttributes"
+            id="@Id"
+            type="button"
+            class="@Css("omni-link")"
+            aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+            @onclick="OnClick"
+            @onclick:stopPropagation="StopPropagation"
+            @onkeydown:stopPropagation="StopPropagation">
+        @ChildContent
+    </button>
+}
+else
+{
+    <a @attributes="AdditionalAttributes"
+       id="@Id"
+       class="@Css("omni-link", ShowsExternalIcon ? "omni-link--external" : null)"
+       target="@EffectiveTarget"
+       rel="@EffectiveRel"
+       aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+       @onclick="OnClick"
+       @onclick:stopPropagation="StopPropagation"
+       @onkeydown:stopPropagation="StopPropagation"
+       href="@SafeHref">
+        @ChildContent
+        @if (ShowsExternalIcon)
+        {
+            <OmniIcon Name="OmniIconName.OpenExternal" Size="OmniControlSize.Small" Class="omni-link__external" />
+            <span class="omni-visually-hidden">@Localize("LinkOpensInNewTab")</span>
+        }
+    </a>
+}

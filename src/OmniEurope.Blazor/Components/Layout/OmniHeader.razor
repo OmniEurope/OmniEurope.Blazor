@@ -13,7 +13,11 @@
     @if (HasBrand && SafeBrandHref is not null)
     {
         <a class="omni-header__brand omni-header__brand--link" href="@SafeBrandHref">
-            @if (!string.IsNullOrWhiteSpace(BrandLogo))
+            @if (BrandContent is not null)
+            {
+                <span class="omni-header__brand-content">@BrandContent</span>
+            }
+            else if (!string.IsNullOrWhiteSpace(BrandLogo))
             {
                 <img class="omni-header__logo-image" src="@BrandLogo" alt="@LogoAlt" aria-hidden="@LogoHidden" />
             }
@@ -26,7 +30,11 @@
     else if (HasBrand)
     {
         <span class="omni-header__brand">
-            @if (!string.IsNullOrWhiteSpace(BrandLogo))
+            @if (BrandContent is not null)
+            {
+                <span class="omni-header__brand-content">@BrandContent</span>
+            }
+            else if (!string.IsNullOrWhiteSpace(BrandLogo))
             {
                 <img class="omni-header__logo-image" src="@BrandLogo" alt="@LogoAlt" aria-hidden="@LogoHidden" />
             }
