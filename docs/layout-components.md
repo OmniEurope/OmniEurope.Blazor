@@ -5,7 +5,7 @@ Ces composants posent la structure d'une application et d'une page : la coquille
 | Composant | Rôle |
 | --- | --- |
 | `OmniLayout` | Coquille de page pleine largeur qui accueille l'en-tête, la barre latérale et le corps. |
-| `OmniHeader` | Landmark `header` de l'application, collant ou non : marque (logo, nom, lien d'accueil), actions et boutons de fenêtre ; `Surface` (`OmniHeaderSurface` : `Surface`, par défaut, ou `Accent`, la bande de l'application) en règle la peinture. |
+| `OmniHeader` | Landmark `header` de l'application, collant ou non : marque (logo, nom, lien d'accueil ; `BrandContent` place un balisage de l'hôte, SVG ou icône, à la place de l'image `BrandLogo`, qu'il supplante si les deux sont donnés), actions et boutons de fenêtre ; `Surface` (`OmniHeaderSurface` : `Surface`, par défaut, ou `Accent`, la bande de l'application) en règle la peinture. |
 | `OmniBody` | Zone flexible entre les landmarks, qui range la barre latérale et le contenu principal. |
 | `OmniMain` | Landmark `main`, cible du lien d'évitement ; peut centrer le contenu à une largeur plafonnée et devenir le conteneur qui défile. |
 | `OmniSkipLink` | Lien d'évitement (WCAG 2.4.1), à placer en premier dans la mise en page : caché jusqu'au focus, il donne le focus à `TargetId` (sinon au premier `main`) par script, sans suivre son adresse, qu'une balise `<base href="/">` ferait mener à la page racine. `Text` remplace « Aller au contenu principal ». |

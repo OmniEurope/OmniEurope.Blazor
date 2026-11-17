@@ -216,6 +216,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-header__brand--link { color: inherit; text-decoration: none; }
 .omni-header__brand--link:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-header__logo-image { block-size: calc(var(--omni-icon-box) * 0.8); flex: none; inline-size: auto; }
+.omni-header__brand-content { align-items: center; display: inline-flex; flex: none; }
 .omni-header--branded > .omni-sidebar-toggle { order: -1; }
 /* The header control shares the same horizontal axis as the collapsed sidebar icons. */
 .omni-header .omni-sidebar-toggle { inline-size: var(--omni-sidebar-rail); margin-inline-start: calc(-1 * var(--omni-header-pad-x)); min-inline-size: var(--omni-sidebar-rail); }

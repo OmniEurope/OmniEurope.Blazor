@@ -35,6 +35,16 @@ public partial class OmniHeader
     public string? BrandLogo { get; set; }
 
     /// <summary>
+    /// A mark of the host's own markup (an inline SVG, an icon, a component), drawn before
+    /// <see cref="Brand"/> on the same line and with the same alignment as the logo image. When both
+    /// <see cref="BrandContent"/> and <see cref="BrandLogo"/> are set, <see cref="BrandContent"/> wins
+    /// and the image is not rendered. The host names it itself if the brand has no <see cref="Brand"/>
+    /// text. Null, the default, leaves the markup unchanged.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? BrandContent { get; set; }
+
+    /// <summary>
     /// Where the brand leads: given an address, the logo and the name are one link, typically to the
     /// application's home page. Null or blank, the default, leaves the brand a plain label.
     /// </summary>
@@ -51,7 +61,7 @@ public partial class OmniHeader
     [Parameter]
     public RenderFragment? SidebarToggle { get; set; }
 
-    private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandLogo);
+    private bool HasBrand => !string.IsNullOrWhiteSpace(Brand) || !string.IsNullOrWhiteSpace(BrandLogo) || BrandContent is not null;
 
     private bool HasName => !string.IsNullOrWhiteSpace(Brand);
 

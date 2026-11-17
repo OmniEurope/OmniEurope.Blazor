@@ -9,9 +9,23 @@ public partial class OmniLink
 {
     private static readonly string[] ExternalRelTokens = ["noopener", "noreferrer"];
 
-    /// <summary>The address, checked by the package's URI policy (an unsafe scheme throws).</summary>
-    [Parameter, EditorRequired]
-    public string Href { get; set; } = string.Empty;
+    /// <summary>
+    /// The address, checked by the package's URI policy (an unsafe scheme throws). Null or blank, the
+    /// default, makes the component an action rather than a link: a <c>button type="button"</c> of the same
+    /// look (same classes), keyboard-accessible, that only runs <see cref="OnClick"/>. <see cref="NewTab"/>
+    /// has no effect on it.
+    /// </summary>
+    [Parameter]
+    public string? Href { get; set; }
+
+    /// <summary>
+    /// Keeps the click and the key press on the link from bubbling to an ancestor's handler, so that a link
+    /// (or action) in a data grid cell does not also raise the grid's <c>OnRowClick</c> or its row key
+    /// handling. False, the default, changes nothing. It is opt-in, not automatic, because the component
+    /// cannot know it sits in a grid cell and an ancestor's handler is otherwise wanted (a delegated click).
+    /// </summary>
+    [Parameter]
+    public bool StopPropagation { get; set; }
 
     /// <summary>The text of the link.</summary>
     [Parameter, EditorRequired]
@@ -31,6 +45,8 @@ public partial class OmniLink
     /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
+
+    private bool IsAction => string.IsNullOrWhiteSpace(Href);
 
     private bool ShowsExternalIcon => NewTab;
 
