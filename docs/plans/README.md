@@ -11,6 +11,7 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 - La description emploie le moins de mots possible tout en restant non ambiguë.
 - Un plan partiellement livré est réduit à son seul reliquat réel.
 - Un plan terminé est déplacé dans l'archive de sa série ([archive/serie-1/](archive/serie-1/) pour PLAN-001 à PLAN-019 de la première série, [archive/serie-2/](archive/serie-2/) pour PLAN-001 à PLAN-011 de la deuxième) avec ses annexes ; il garde son numéro.
+- `PLAN-001` est réservé à la recette (règle globale), hors de la numérotation dense : [PLAN-001](PLAN-001-recette.md).
 - `PLAN-008` est réservé aux idées pour plus tard (règle globale), hors de la numérotation dense : [PLAN-008](PLAN-008-idees-plus-tard.md).
 - Toute suppression ou renumérotation met à jour les références documentaires actives ; les mentions historiques datées restent inchangées.
 - Une annexe d'un plan (journal d'exécution, maquette de référence) porte le numéro de son plan et un suffixe.
@@ -19,9 +20,10 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 
 | Plan | Travail restant | ADR |
 |---|---|---|
+| [PLAN-001](PLAN-001-recette.md) | Recette : demandes reçues et non terminées, une ligne chacune avec son état | Sans ADR supplémentaire |
 | [PLAN-008](PLAN-008-idees-plus-tard.md) | Réservé aux idées pour plus tard, traitées seulement sur demande du propriétaire | Sans ADR supplémentaire |
 
-Aucun autre plan actif depuis le 2026-11-12 : la deuxième série est archivée.
+Aucun autre plan actif depuis le 2026-11-12 : la deuxième série est archivée ; la recette est rouverte le 2026-11-17.
 
 ## Archives
 
