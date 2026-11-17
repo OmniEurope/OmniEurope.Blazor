@@ -18,7 +18,7 @@ public sealed class HeaderBrandContentTests : OmniBunitContext
     public void BrandContent_RendersInTheBrandArea_BeforeTheName()
     {
         var header = Render<OmniHeader>(parameters => parameters
-            .Add(component => component.Brand, "Bellwether")
+            .Add(component => component.Brand, "Contoso")
             .Add(component => component.BrandContent, Mark)
             .AddChildContent("x"));
 
@@ -28,7 +28,7 @@ public sealed class HeaderBrandContentTests : OmniBunitContext
         Assert.Contains("omni-header__brand-content", children[0].ClassList);
         Assert.NotNull(children[0].QuerySelector("svg.host-mark"));
         Assert.Contains("omni-header__brand-name", children[1].ClassList);
-        Assert.Equal("Bellwether", children[1].TextContent);
+        Assert.Equal("Contoso", children[1].TextContent);
     }
 
     [Fact]
@@ -48,7 +48,7 @@ public sealed class HeaderBrandContentTests : OmniBunitContext
     public void WithoutBrandContent_TheMarkupIsUnchanged()
     {
         var header = Render<OmniHeader>(parameters => parameters
-            .Add(component => component.Brand, "Bellwether")
+            .Add(component => component.Brand, "Contoso")
             .Add(component => component.BrandLogo, "logo.png")
             .AddChildContent("x"));
 

@@ -494,6 +494,8 @@
 .omni-link { color: var(--omni-color-accent-strong); text-decoration: none; text-underline-offset: 0.15em; }
 .omni-link:hover { text-decoration: underline 0.08em; }
 .omni-link:focus-visible { border-radius: var(--omni-radius-sm); box-shadow: var(--omni-focus-ring); outline: none; }
+/* A link without Href is a native button: it drops the button's own background, border, padding and font. */
+button.omni-link { appearance: none; background-color: transparent; border: 0; cursor: pointer; font: inherit; padding: 0; }
 /* A link that opens a new tab says so with the external-link icon after its text, on the same baseline. */
 .omni-link__external { display: inline-block; height: 0.875em; margin-inline-start: 0.25em; vertical-align: -0.0625em; width: 0.875em; }
 

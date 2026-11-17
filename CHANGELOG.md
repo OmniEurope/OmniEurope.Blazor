@@ -7,6 +7,9 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 ### Ajouté
 
 - `OmniUpload.Label` (`string?`) : nom accessible du champ fichier (voir « Corrigé »).
+- `OmniLink.StopPropagation` (`bool`, `false` par défaut) : le clic et les touches du lien ne remontent plus au parent, par exemple la ligne d'un `OmniDataGrid` qui ne déclenche donc pas `OnRowClick`.
+- `OmniLink` sans `Href` (désormais facultatif) : rendu en `<button type="button" class="omni-link">`, une action accessible au clavier qui garde l'apparence du lien.
+- `OmniHeader.BrandContent` (`RenderFragment?`) : contenu de marque libre (logo SVG, composant) à la place de `BrandLogo`, sur la même ligne que `Brand`.
 
 ### Corrigé
 

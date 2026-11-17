@@ -1,12 +1,13 @@
 @using Microsoft.AspNetCore.Components.Forms
 
-@* A whole application shell: a top bar with a collapse button, a brand, a search, help, a bell and the account
+@* A whole application shell: a top bar with a collapse button, a brand (a mark given by BrandContent, then its name), a search, help, a bell and the account
    menu, a side menu that collapses to a rail of icons, and the content. The menu does not navigate: it marks
    the section chosen. *@
 <OmniLayout>
     @* The collapse button goes through SidebarToggle: the header puts it on the axis of the rail icons,
        whatever content follows. *@
     <OmniHeader Brand="Boutique">
+        <BrandContent><OmniIcon Name="OmniIconName.Home" /></BrandContent>
         <SidebarToggle>
             <OmniSidebarToggle Controls="application-shell-menu" Open="MenuOpen" OpenChanged="@(value => MenuOpen = value)"
                                Label="Collapse or expand the menu" />

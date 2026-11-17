@@ -100,4 +100,13 @@ public sealed class LinkActionAndGridTests : OmniBunitContext
 
         Assert.Equal(1, clicks);
     }
+
+    [Fact]
+    public void TheActionButton_DropsTheNativeButtonLook()
+    {
+        Assert.Contains(
+            "button.omni-link { appearance: none; background-color: transparent; border: 0; cursor: pointer; font: inherit; padding: 0; }",
+            StylesheetSource.Read(),
+            StringComparison.Ordinal);
+    }
 }

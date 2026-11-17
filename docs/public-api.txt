@@ -4356,6 +4356,7 @@ property public OmniEurope.Blazor.Components.OmniUpload.Disabled : System.Boolea
 property public OmniEurope.Blazor.Components.OmniUpload.Display : OmniEurope.Blazor.Components.OmniUploadDisplay {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Files : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniUploadFile> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.FilesChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniUploadFile>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniUpload.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.MaximumFileSize : System.Int64 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.MaximumFiles : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniUpload.Multiple : System.Boolean {get(public);set(public)} [Parameter]
