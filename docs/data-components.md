@@ -268,7 +268,8 @@ passer l'événement. Arrivées en bout de liste, les lignes s'arrêtent sans fa
 
 `ScrollMode` choisit comment atteindre les lignes hors écran : `Paged` (par défaut) rend `PageSize` lignes sous
 une barre de pagination, `Virtual` remplace la pagination par un défilement sur l'intégralité du jeu de lignes,
-`All` rend toutes les lignes d'un coup, sans pagination ni virtualisation.
+`All` rend toutes les lignes d'un coup, sans pagination ni virtualisation. Une grille en arbre
+(`ChildrenOf`) suit `Virtual` sur ses lignes visibles (voir « Lignes en arbre »).
 
 ```razor
 <OmniDataGrid TItem="LogLine"
@@ -594,9 +595,22 @@ sont reconnues par `KeyOf`.
 - **Tri et filtres.** Le tri range les frères sous leur parent, à chaque niveau. Un filtre garde les lignes
   qu'il retient, leurs ancêtres (pour les situer) et leurs descendants ; tant qu'il est actif, chaque ligne
   gardée est montrée ouverte, sans toucher à l'état enregistré.
-- **Limites.** Une grille en arbre rend toutes ses lignes : `ScrollMode`, la pagination et la virtualisation ne
-  s'y appliquent pas, ni le regroupement (`Groups` est ignoré). `Load` est refusé par une exception, l'arbre
-  demandant toutes les lignes. L'agrégat de pied de grille porte sur les lignes de premier niveau ; l'export
+- **Virtualisation.** Avec `ScrollMode="OmniDataGridScrollMode.Virtual"`, la grille en arbre virtualise ses
+  lignes visibles : la liste défilée est l'arbre aplati (les branches ouvertes seulement), et seules les lignes de
+  la fenêtre, avec le surbalayage habituel, sont dans la page, les deux lignes d'espacement tenant la hauteur du
+  reste (5 000 nœuds ouverts : une quinzaine de lignes dans le DOM). Ouvrir ou fermer une branche (chevron, clic
+  de ligne, Gauche et Droite, `ExpandAllTreeRowsAsync`, `CollapseAllTreeRowsAsync`, `TreeExpandedKeys`) change le
+  total et la fenêtre, et remet à zéro les hauteurs mesurées, les lignes changeant d'index. `aria-level` et
+  `aria-expanded` restent ceux du nœud ; `aria-rowcount` est le nombre de nœuds visibles et `aria-rowindex` leur
+  rang dans cette liste, comme pour une grille plate virtualisée (il n'y a pas d'`aria-setsize` ni
+  d'`aria-posinset`, virtualisé ou non). `DetailTemplate` fonctionne comme en virtualisation plate (une
+  case par nœud, détail compris). Comme pour toute grille virtualisée, la case à cocher d'en-tête et le bouton
+  « tout développer » des détails ne sont pas offerts, et la flèche Bas ou Haut s'arrête à la dernière ligne
+  rendue. La virtualisation de l'arbre est locale : elle suppose `Items`, la fenêtre étant calculée sur l'arbre
+  entier ; `Paged` et `All` rendent toujours toutes les lignes.
+- **Limites.** Hors `ScrollMode="Virtual"`, une grille en arbre rend toutes ses lignes : la pagination ne s'y
+  applique pas, ni le regroupement (`Groups` est ignoré). `Load` est refusé par une exception, l'arbre
+  demandant toutes les lignes, virtualisé ou non. L'agrégat de pied de grille porte sur les lignes de premier niveau ; l'export
   écrit toutes les lignes retenues, à tous les niveaux et dans l'ordre de l'arbre, sans retrait.
 
 ## Pagination

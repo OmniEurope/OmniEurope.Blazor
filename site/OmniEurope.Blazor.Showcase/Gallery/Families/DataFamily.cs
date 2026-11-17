@@ -27,13 +27,14 @@ internal static class DataFamily
                 "Data/DataGridCappedExample.razor",
                 "Data/DataGridRunStatusExample.razor", "Data/DataGridRunStatusExample.razor.cs",
                 "Data/DataGridTreeExample.razor", "Data/DataGridTreeExample.razor.cs",
+                "Data/DataGridTreeVirtualExample.razor", "Data/DataGridTreeVirtualExample.razor.cs",
                 "Data/DataGridEditExample.razor", "Data/DataGridEditExample.razor.cs",
                 "Data/DataGridPicturesExample.razor", "Data/DataGridPicturesExample.razor.cs",
                 "Data/DataGridFillExample.razor", "Data/DataGridFillExample.razor.cs",
                 "Data/DataGridFillBoxExample.razor", "Data/DataGridFillBoxExample.razor.cs",
                 "Data/FilterHighlightExample.razor", "Data/FilterHighlightExample.razor.cs",
                 "Data/FileDownloadExample.razor", "Data/FileDownloadExample.razor.cs",
-                "Data/CaseRow.cs", "Data/SiteRow.cs", "Data/StatementLine.cs", "Data/PipelineRun.cs"
+                "Data/CaseRow.cs", "Data/SiteRow.cs", "Data/StatementLine.cs", "Data/ArchiveNode.cs", "Data/PipelineRun.cs"
             ]),
         new("data-grid-runs", "DataGridRunsTitle", "DataGridRunsDescription", OmniIconName.Gauge,
             ["OmniDataGrid", "OmniDataGridColumn"],

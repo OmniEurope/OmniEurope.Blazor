@@ -275,6 +275,8 @@
   <data name="VariantsTemplatedTitle" xml:space="preserve"><value>Templated columns that arrive late</value></data>
   <data name="VariantsTreeHint" xml:space="preserve"><value>An income statement whose categories carry sub-totals; the buttons open, close and export the whole tree.</value></data>
   <data name="VariantsTreeTitle" xml:space="preserve"><value>Tree grid</value></data>
+  <data name="VariantsTreeVirtualHint" xml:space="preserve"><value>Five thousand nodes, every folder open, in a virtualized grid: only the rows in view are in the page, and opening or closing a folder changes the length of the list.</value></data>
+  <data name="VariantsTreeVirtualTitle" xml:space="preserve"><value>Virtualized tree grid</value></data>
   <data name="VariantsTruncationHint" xml:space="preserve"><value>A long value is cut with an ellipsis, whole in its tooltip; in a narrow frame the columns share what is left.</value></data>
   <data name="VariantsTruncationTitle" xml:space="preserve"><value>Truncated values</value></data>
   <data name="VariantsHighlightTitle" xml:space="preserve"><value>Filter highlight</value></data>

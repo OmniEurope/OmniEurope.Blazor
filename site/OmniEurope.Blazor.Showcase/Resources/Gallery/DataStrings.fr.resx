@@ -275,6 +275,8 @@
   <data name="VariantsTemplatedTitle" xml:space="preserve"><value>Colonnes à modèle qui arrivent tard</value></data>
   <data name="VariantsTreeHint" xml:space="preserve"><value>Un compte de résultat dont les catégories portent des sous-totaux ; les boutons ouvrent, ferment et exportent tout l&apos;arbre.</value></data>
   <data name="VariantsTreeTitle" xml:space="preserve"><value>Grille en arbre</value></data>
+  <data name="VariantsTreeVirtualHint" xml:space="preserve"><value>Cinq mille nœuds, chaque dossier ouvert, dans une grille virtualisée : seules les lignes à l&apos;écran sont dans la page, et ouvrir ou fermer un dossier change la longueur de la liste.</value></data>
+  <data name="VariantsTreeVirtualTitle" xml:space="preserve"><value>Grille en arbre virtualisée</value></data>
   <data name="VariantsTruncationHint" xml:space="preserve"><value>Une valeur longue est coupée par une ellipse, entière dans son infobulle ; dans un cadre étroit, les colonnes se partagent ce qui reste.</value></data>
   <data name="VariantsTruncationTitle" xml:space="preserve"><value>Valeurs tronquées</value></data>
   <data name="VariantsHighlightTitle" xml:space="preserve"><value>Surlignage d&apos;un filtre</value></data>

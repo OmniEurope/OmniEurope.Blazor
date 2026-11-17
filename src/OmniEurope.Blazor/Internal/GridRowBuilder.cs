@@ -33,7 +33,7 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
     {
         var items = grid.View.VirtualLocalItems;
         var groups = grid.Grouping.ActiveGroups;
-        var rows = groups.Count > 0 ? grid.Grouping.GroupedRows(groups, items) : FlatRows(items);
+        var rows = groups.Count > 0 ? grid.Grouping.GroupedRows(groups, items) : grid.Tree.Active ? TreeRows() : FlatRows(items);
         var slots = rows.Select((row, slot) => row with { Slot = slot }).ToArray();
 
         // The projection is rebuilt on every parameter pass; the measured heights only go when the
@@ -73,12 +73,14 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
 
         if (grid.View.Virtualized)
         {
+            // A tree grid renders the window of its visible nodes, each row keeping its depth and expander state.
+            var tree = grid.Tree.Active ? grid.Tree.Nodes : null;
             var virtualRows = new List<GridRenderRow<TItem>>(Math.Max(0, range.Count));
             for (var index = range.StartIndex; index < range.EndIndex; index++)
             {
                 var found = grid.View.TryGetVirtualItem(index, out var virtualItem);
                 virtualRows.Add(found
-                    ? Describe(virtualItem, index, [], false)
+                    ? Describe(virtualItem, index, [], false) with { Tree = tree?[index] }
                     : new GridRenderRow<TItem>(index, default!, false, [], false, null, false, false));
             }
 

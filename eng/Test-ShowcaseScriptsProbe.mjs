@@ -26,9 +26,10 @@ import { overlaySteps } from './scripts-probe/overlays.mjs';
 import { preferenceSteps } from './scripts-probe/preferences.mjs';
 import { requestSteps } from './scripts-probe/requests.mjs';
 import { structuredDocumentSteps } from './scripts-probe/structured-document.mjs';
+import { treeVirtualSteps } from './scripts-probe/tree-virtual.mjs';
 import { veilSteps } from './scripts-probe/veil.mjs';
 
-const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, charts: chartSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, columns: columnSteps, caret: caretSteps, combo: comboSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps, ink: inkSteps, structured: structuredDocumentSteps, viewer: documentViewerSteps };
+const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, charts: chartSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, columns: columnSteps, caret: caretSteps, combo: comboSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps, ink: inkSteps, structured: structuredDocumentSteps, viewer: documentViewerSteps, treevirtual: treeVirtualSteps };
 const only = process.env.OMNI_SCRIPTS_ONLY?.split(',').map(name => name.trim()).filter(Boolean);
 // A name that is no part, or a choice that keeps none, would validate a run that drove nothing.
 const unknown = only?.filter(name => !Object.hasOwn(parts, name)) ?? [];
