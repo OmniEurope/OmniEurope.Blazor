@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Tipa tal-qari b'serif (tipa tal-web b'xejn).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Serif fini u kuntrast moderat.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Monospazjata, kull karattru tal-istess wisa' (tipa tal-web b'xejn).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Vidjo ta' {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Vidjo</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofonu mitfi</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Qsim tal-iskrin</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera mixgħula</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Skrin sħiħ</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Oħroġ mill-iskrin sħiħ</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Disinn fuq il-vidjo</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Azzjonijiet tal-vidjo</value></data>
 </root>

@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Päätteellinen lukufontti (vapaa verkkofontti).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Ohuet päätteet ja maltillinen kontrasti.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Tasalevyinen, jokainen merkki yhtä leveä (vapaa verkkofontti).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Video: {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofoni mykistetty</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Näytön jakaminen</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera päällä</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Koko näyttö</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Poistu koko näytön tilasta</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Piirros videon päällä</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Videon toiminnot</value></data>
 </root>

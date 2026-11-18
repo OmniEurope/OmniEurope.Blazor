@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Læseskrift med seriffer (fri webskrift).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Fine seriffer og moderat kontrast.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Fast bredde, alle tegn lige brede (fri webskrift).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Video fra {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofon slået fra</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Skærmdeling</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera aktivt</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Fuld skærm</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Afslut fuld skærm</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Tegning på videoen</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Handlinger for videoen</value></data>
 </root>

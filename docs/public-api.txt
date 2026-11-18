@@ -92,6 +92,7 @@ component OmniEurope.Blazor.Components.OmniMain
 component OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>
 component OmniEurope.Blazor.Components.OmniMarkers
 component OmniEurope.Blazor.Components.OmniMediaStage<TItem>
+component OmniEurope.Blazor.Components.OmniMediaTile
 component OmniEurope.Blazor.Components.OmniMenuItem
 component OmniEurope.Blazor.Components.OmniMindMap
 component OmniEurope.Blazor.Components.OmniMindMapNodeProperties
@@ -326,6 +327,7 @@ ctor public OmniEurope.Blazor.Components.OmniMain()
 ctor public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniMarkers()
 ctor public OmniEurope.Blazor.Components.OmniMediaStage<TItem>()
+ctor public OmniEurope.Blazor.Components.OmniMediaTile()
 ctor public OmniEurope.Blazor.Components.OmniMenuItem()
 ctor public OmniEurope.Blazor.Components.OmniMindMap()
 ctor public OmniEurope.Blazor.Components.OmniMindMapDocument()
@@ -805,6 +807,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.MapPinLine : OmniE
 field public static OmniEurope.Blazor.Components.OmniIconName.Medal : OmniEurope.Blazor.Components.OmniIconName const = 48
 field public static OmniEurope.Blazor.Components.OmniIconName.Megaphone : OmniEurope.Blazor.Components.OmniIconName const = 157
 field public static OmniEurope.Blazor.Components.OmniIconName.Menu : OmniEurope.Blazor.Components.OmniIconName const = 5
+field public static OmniEurope.Blazor.Components.OmniIconName.MicrophoneSlash : OmniEurope.Blazor.Components.OmniIconName const = 251
 field public static OmniEurope.Blazor.Components.OmniIconName.Monitor : OmniEurope.Blazor.Components.OmniIconName const = 49
 field public static OmniEurope.Blazor.Components.OmniIconName.MusicNote : OmniEurope.Blazor.Components.OmniIconName const = 215
 field public static OmniEurope.Blazor.Components.OmniIconName.NumberedList : OmniEurope.Blazor.Components.OmniIconName const = 50
@@ -908,6 +911,7 @@ field public static OmniEurope.Blazor.Components.OmniIconName.UserFocus : OmniEu
 field public static OmniEurope.Blazor.Components.OmniIconName.UserMinus : OmniEurope.Blazor.Components.OmniIconName const = 200
 field public static OmniEurope.Blazor.Components.OmniIconName.UserPlus : OmniEurope.Blazor.Components.OmniIconName const = 103
 field public static OmniEurope.Blazor.Components.OmniIconName.Users : OmniEurope.Blazor.Components.OmniIconName const = 90
+field public static OmniEurope.Blazor.Components.OmniIconName.VideoCamera : OmniEurope.Blazor.Components.OmniIconName const = 252
 field public static OmniEurope.Blazor.Components.OmniIconName.Warning : OmniEurope.Blazor.Components.OmniIconName const = 3
 field public static OmniEurope.Blazor.Components.OmniIconName.Waveform : OmniEurope.Blazor.Components.OmniIconName const = 217
 field public static OmniEurope.Blazor.Components.OmniIconName.Webhook : OmniEurope.Blazor.Components.OmniIconName const = 185
@@ -947,6 +951,8 @@ field public static OmniEurope.Blazor.Components.OmniLogLevel.Warning : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniMailVariableKind.Block : OmniEurope.Blazor.Components.OmniMailVariableKind const = 2
 field public static OmniEurope.Blazor.Components.OmniMailVariableKind.Link : OmniEurope.Blazor.Components.OmniMailVariableKind const = 1
 field public static OmniEurope.Blazor.Components.OmniMailVariableKind.Text : OmniEurope.Blazor.Components.OmniMailVariableKind const = 0
+field public static OmniEurope.Blazor.Components.OmniMediaFit.Contain : OmniEurope.Blazor.Components.OmniMediaFit const = 0
+field public static OmniEurope.Blazor.Components.OmniMediaFit.Cover : OmniEurope.Blazor.Components.OmniMediaFit const = 1
 field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Blue : System.String const = "blue"
 field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Gray : System.String const = "gray"
 field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Green : System.String const = "green"
@@ -1305,6 +1311,9 @@ method protected override OmniEurope.Blazor.Components.OmniMarkers.OnParametersS
 method protected override OmniEurope.Blazor.Components.OmniMediaStage<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMediaStage<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniMediaStage<TItem>.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMediaTile.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMediaTile.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniMediaTile.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMenuItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMindMap.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMindMap.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
@@ -1743,6 +1752,10 @@ method public OmniEurope.Blazor.Components.OmniMailVariable.Equals(OmniEurope.Bl
 method public OmniEurope.Blazor.Components.OmniMain.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniMarkers.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniMediaTile.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniMediaTile.ExportDataUrlAsync(System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<System.String>
+method public OmniEurope.Blazor.Components.OmniMediaTile.ExportPngAsync(System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.Task<System.Byte[]>
+method public OmniEurope.Blazor.Components.OmniMediaTile.ToggleFullscreenAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniMindMap.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniMindMapDocument.<Clone>$() : OmniEurope.Blazor.Components.OmniMindMapDocument
 method public OmniEurope.Blazor.Components.OmniMindMapDocument.Equals(OmniEurope.Blazor.Components.OmniMindMapDocument? other) : System.Boolean
@@ -3676,6 +3689,27 @@ property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.KeyOf : Syste
 property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.MainItem : TItem? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.MainItemChanged : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.ActionsContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.CameraActive : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Drawing : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.DrawingTool : OmniEurope.Blazor.Components.OmniInkTool {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.DrawingToolChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniInkTool> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Fit : OmniEurope.Blazor.Components.OmniMediaFit {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Initials : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.MicrophoneMuted : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Muted : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Name : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.ScreenSharing : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.ShowDrawingToolbar : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.ShowFullscreen : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Stream : Microsoft.JSInterop.IJSObjectReference? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.StrokeAdded : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniInkStroke> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.StrokeColor : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.StrokeWidth : System.Double {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.Strokes : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.StrokesChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.StrokesRemoved : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMenuItem.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniMenuItem.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMenuItem.Href : System.String? {get(public);set(public)} [Parameter]
@@ -4747,7 +4781,9 @@ type public OmniEurope.Blazor.Components.OmniMailVariableKind [enum, sealed] : S
 type public OmniEurope.Blazor.Components.OmniMain [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkers [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniMediaFit [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniMediaStage<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniMediaTile [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMenuItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMindMap [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMindMapDocument [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapDocument>

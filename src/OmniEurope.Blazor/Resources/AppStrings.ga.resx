@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Cló léitheoireachta le searifeanna (cló gréasáin saor).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Searifeanna míne agus codarsnacht mheasartha.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Aonspásáilte, gach carachtar ar an leithead céanna (cló gréasáin saor).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Físeán de {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Físeán</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Micreafón balbhaithe</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Scáileán á roinnt</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Ceamara ar siúl</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Lánscáileán</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Scoir den lánscáileán</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Líníocht ar an bhfíseán</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Gníomhartha físeáin</value></data>
 </root>

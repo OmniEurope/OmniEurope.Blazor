@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Patkové písmo pro čtení (volné webové písmo).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Jemné patky a mírný kontrast.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Neproporcionální, každý znak stejně široký (volné webové písmo).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Video uživatele {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofon ztlumen</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Sdílení obrazovky</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera je zapnutá</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Celá obrazovka</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Ukončit celou obrazovku</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Kresba na videu</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Akce videa</value></data>
 </root>

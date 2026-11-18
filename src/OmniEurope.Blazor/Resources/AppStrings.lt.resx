@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Skaitymo šriftas su užraitais (laisvas žiniatinklio šriftas).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Ploni užraitai ir vidutinis kontrastas.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Lygiaplotis, kiekvienas ženklas vienodo pločio (laisvas žiniatinklio šriftas).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>{0} vaizdas</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Vaizdas</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofonas nutildytas</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Ekrano bendrinimas</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera įjungta</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Visas ekranas</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Išeiti iš viso ekrano</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Piešinys ant vaizdo</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Vaizdo veiksmai</value></data>
 </root>

@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Leeslettertype met schreven (vrij weblettertype).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Fijne schreven en gematigd contrast.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Vaste breedte, elk teken even breed (vrij weblettertype).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Video van {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Microfoon gedempt</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Scherm delen</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Camera aan</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Volledig scherm</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Volledig scherm verlaten</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Tekening op de video</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Video-acties</value></data>
 </root>

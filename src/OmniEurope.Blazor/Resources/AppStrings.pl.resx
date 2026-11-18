@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Szeryfowa czcionka do czytania (wolna czcionka internetowa).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Cienkie szeryfy i umiarkowany kontrast.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Stałej szerokości, każdy znak tej samej szerokości (wolna czcionka internetowa).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Wideo użytkownika {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Wideo</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofon wyciszony</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Udostępnianie ekranu</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera włączona</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Pełny ekran</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Wyjdź z pełnego ekranu</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Rysunek na wideo</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Akcje wideo</value></data>
 </root>

@@ -1,0 +1,78 @@
+@* Two tiles bound to the same stream, each with a drawing layer. A tile transports nothing: this page is the transport. A
+   stroke drawn on one tile (StrokeAdded) is appended, with the same Id, to the strokes of the other, and the strokes one
+   removes (StrokesRemoved: eraser, undo, clear) are removed by Id from the other, so what one draws appears on the other
+   whatever its size: a stroke is 0 to 1 of the video picture. The second tile is square, so its picture is placed
+   differently, and gives its initials itself. The settings of the page choose the stream, the fit, the sound, the status
+   icons, the full-screen button and the drawing parameters. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <div class="gallery-media-tiles">
+        <OmniMediaTile @ref="_first"
+                       Id="media-tile-a"
+                       Stream="CurrentStream"
+                       Name="Ada Lovelace"
+                       Fit="Fit"
+                       Muted="Muted"
+                       ShowFullscreen="ShowFullscreen"
+                       MicrophoneMuted="MicrophoneMuted"
+                       ScreenSharing="ScreenSharing"
+                       CameraActive="CameraActive"
+                       Drawing="Drawing"
+                       ShowDrawingToolbar="ShowDrawingToolbar"
+                       DrawingTool="Tool"
+                       DrawingToolChanged="ToolChanged"
+                       @bind-Strokes="StrokesA"
+                       StrokeAdded="DrawnOnFirst"
+                       StrokesRemoved="RemovedOnFirst">
+            <ActionsContent>
+                <OmniButton Id="media-tile-capture" Variant="OmniButtonVariant.Ghost" Label="Capture the frame" OnClick="ExportAsync">
+                    <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+                </OmniButton>
+            </ActionsContent>
+        </OmniMediaTile>
+        <OmniMediaTile @ref="_second"
+                       Id="media-tile-b"
+                       Class="gallery-media-tile--square"
+                       Stream="CurrentStream"
+                       Name="Grace Hopper"
+                       Initials="GH"
+                       Fit="Fit"
+                       Muted="Muted"
+                       ShowFullscreen="ShowFullscreen"
+                       MicrophoneMuted="MicrophoneMuted"
+                       ScreenSharing="ScreenSharing"
+                       CameraActive="CameraActive"
+                       Drawing="Drawing"
+                       ShowDrawingToolbar="ShowDrawingToolbar"
+                       DrawingTool="Tool"
+                       DrawingToolChanged="ToolChanged"
+                       @bind-Strokes="StrokesB"
+                       StrokeAdded="DrawnOnSecond"
+                       StrokesRemoved="RemovedOnSecond" />
+    </div>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniBadge Id="media-tile-count-a" Tone="OmniTone.Info">First tile: @StrokesA.Count @(StrokesA.Count == 1 ? "stroke" : "strokes")</OmniBadge>
+        <OmniBadge Id="media-tile-count-b" Tone="OmniTone.Info">Second tile: @StrokesB.Count @(StrokesB.Count == 1 ? "stroke" : "strokes")</OmniBadge>
+        <OmniButton Id="media-tile-camera" Variant="OmniButtonVariant.Secondary" OnClick="UseCameraAsync">
+            <Icon><OmniIcon Name="OmniIconName.VideoCamera" /></Icon>
+            <ChildContent><span>Use my camera</span></ChildContent>
+        </OmniButton>
+        <OmniButton Id="media-tile-demo" Variant="OmniButtonVariant.Secondary" OnClick="UseDemoAsync">
+            <Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon>
+            <ChildContent><span>Use the demo stream</span></ChildContent>
+        </OmniButton>
+        <OmniButton Id="media-tile-fullscreen-code" Variant="OmniButtonVariant.Secondary" OnClick="FullscreenAsync">
+            <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon>
+            <ChildContent><span>Full screen from code</span></ChildContent>
+        </OmniButton>
+        <OmniButton Id="media-tile-export" Variant="OmniButtonVariant.Secondary" OnClick="ExportAsync">
+            <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
+            <ChildContent><span>Export as PNG</span></ChildContent>
+        </OmniButton>
+    </OmniRow>
+    <OmniText Id="media-tile-message" Tone="OmniTextTone.Muted" role="status">@Message</OmniText>
+    @if (Exported is not null)
+    {
+        <img id="media-tile-export-image" class="gallery-media-export" src="@Exported" alt="The exported video frame with the strokes drawn over it" />
+        <OmniText Tone="OmniTextTone.Muted">The current frame at the native size of the video, with the strokes of the first tile over it: @ExportKilobytes KB of PNG, made in the browser.</OmniText>
+    }
+</OmniStack>

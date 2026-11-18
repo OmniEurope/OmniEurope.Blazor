@@ -1130,6 +1130,24 @@
     white-space: nowrap;
 }
 
+/* Media tile page: two tiles side by side when the page is wide (the second one square, so the same strokes land on a
+   picture placed differently), one under the other on a phone. The tile paints its own stage; only the layout is here. */
+.gallery-media-tiles {
+    align-items: start;
+    display: grid;
+    gap: var(--omni-space-md);
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 20rem), 1fr));
+}
+
+.gallery-media-tile--square { --omni-media-tile-aspect: 1; }
+
+.gallery-media-export {
+    border-radius: var(--omni-radius);
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+}
+
 /* Structured document page: the style key "emphasis" the example host puts on a run is drawn bold. */
 .gallery-structured-emphasis {
     font-weight: 700;

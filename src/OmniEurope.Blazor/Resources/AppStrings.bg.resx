@@ -848,4 +848,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Серифен шрифт за четене (свободен уеб шрифт).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Тънки серифи и умерен контраст.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Моноширинен, всеки знак е със същата ширина (свободен уеб шрифт).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Видео на {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Видео</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Микрофонът е заглушен</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Споделяне на екрана</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Камерата е включена</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Цял екран</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Изход от цял екран</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Рисунка върху видеото</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Действия за видеото</value></data>
 </root>
