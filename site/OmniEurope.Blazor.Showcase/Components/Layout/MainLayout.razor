@@ -6,7 +6,10 @@
    application menu at its end, the loading bar under it, then the sidebar and the main area. The application
    only fills their slots. The theme is handed over painted (palette and hand edits included): a theme with a
    canvas backdrop draws it behind every page, as in a real application. ThemeState still pushes the same
-   tokens through the CSSOM, so the two writers agree. *@
+   tokens through the CSSOM, so the two writers agree. Nothing is drawn before the visitor's look is read
+   (OnInitializedAsync): the boot splash covers the page meanwhile, in that look (omni-boot.js). *@
+@if (_loaded)
+{
 <OmniThemeScope Id="showcase-theme" Appearance="CurrentAppearance" Density="Theme.Density" Preset="Theme.Painted" BackdropMotion="Theme.BackdropMotion">
     @* The host draws the dialogs and notifications the pages ask for through OmniOverlayService; it
        receives the injected instance, so a dialog content reaching the service by injection gets the same. *@
@@ -98,3 +101,4 @@
 
 @* Retire l'écran de démarrage de index.html une fois l'application rendue : fondu, puis suppression. *@
 <OmniBootSplash />
+}

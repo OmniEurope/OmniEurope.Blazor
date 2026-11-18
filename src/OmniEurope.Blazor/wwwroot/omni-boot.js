@@ -2,14 +2,30 @@
 // Blazor starts, as a plain script file (no module, nothing inline, so it runs under
 // `script-src 'self'`):
 //
+//   <script src="_content/OmniEurope.Blazor/omni-boot.js"></script>
+//
+// Without any attribute (the default), it reads the package's own browser copy of the user's appearance,
+// the cache OmniPreferences keeps (localStorage, `omni:pref:<scope>:omni.appearance`), and lays that look
+// on the document element before the first paint: mode, resolved half, density, backdrop motion, text and
+// control size levels, and the tokens of the theme, palette, font and backdrop. The tokens come from the
+// boot copy the outermost OmniThemeScope adds to that same cache entry (its `Boot` member, local to this
+// browser, never sent to the store, see omni-preferences.js): the values the scope painted last, so nothing
+// is computed here. A copy drawn for another look than the entry holds (the preference changed elsewhere
+// since) is left out, and the attributes are then taken from the preference alone. When the browser holds
+// several users' entries, the one drawn or changed last is read. Nothing is written anywhere.
+//
+// The host may also name keys of its own (an older form, still honoured):
+//
 //   <script src="_content/OmniEurope.Blazor/omni-boot.js"
 //           data-theme-snapshot-key="my-app:theme"
 //           data-text-size-key="my-app:text-size"
 //           data-control-size-key="my-app:control-size"
 //           data-language-key="my-app:language"></script>
 //
-// Before the first paint it reads the keys the host names from localStorage and applies them to the
-// document element. Every key is optional and a value that is not well formed is ignored.
+// It reads the keys the host names from localStorage and applies them to the document element. Every
+// key is optional and a value that is not well formed is ignored. A valid snapshot of
+// data-theme-snapshot-key is replayed instead of the package's copy; the plain keys apply first and the
+// package's copy, when there is one, sets the same root attributes after them.
 //
 // - data-theme-snapshot-key: the snapshot an OmniThemeScope with the same SnapshotKey wrote of what it
 //   painted (version, appearance, density, backdrop motion, light and dark tokens, and the text and
@@ -32,9 +48,15 @@
 //   data-oe-control-size, as omni-appearance.js sets them.
 // - data-language-key: the language, as the lang attribute, falling back to the browser's language.
 //
+// The package's copy is handed over the same way: the outermost scope calls OmniBoot.handOverTheme(true)
+// in the call that first paints its tokens, or when it keeps its boot copy; the copy laid on that scope (the
+// outermost `.omni-theme-scope`, when it draws the same half) leaves at once, the root once the splash has
+// left. OmniBootSplash also calls OmniBoot.settleTheme() when it removes the splash, so the copy never
+// outlives the splash, even under a scope that paints no token of its own.
+//
 // It also publishes window.OmniBoot: `culture`, the validated saved language (or null) for the host's
-// own `Blazor.start({ applicationCulture })`; `handOverTheme()`, called by the package; and
-// `releaseTheme()`, which removes the boot copy of the theme at once. The boot splash is not removed
+// own `Blazor.start({ applicationCulture })`; `handOverTheme()` and `settleTheme()`, called by the package;
+// and `releaseTheme()`, which removes the boot copy of the theme at once. The boot splash is not removed
 // here: the OmniBootSplash component does it once the application has rendered (omniInterop.js), the
 // same way whether or not this script is loaded.
 (function () {
@@ -56,6 +78,14 @@
     var maxTokens = 256;
     var maxTokenValueLength = 8192;
     var maxLanguageLength = 35;
+    // The package's cache (Internal/PreferenceCache.cs, OmniAppearanceState.PreferenceKey): an entry holds the
+    // preference JSON (Value, up to a few hundred characters) and the boot copy, a snapshot (Boot).
+    var preferencePrefix = 'omni:pref:';
+    var appearanceSuffix = ':omni.appearance';
+    var maxEntryLength = maxSnapshotLength + 16384;
+    var maxValueLength = 8192;
+    // The settings of the preference a boot copy must have been drawn for (the content width is not drawn here).
+    var lookSettings = ['appearance', 'preset', 'palette', 'font', 'backdrop', 'density', 'backdropMotion', 'textSize', 'controlSize'];
     var tokenNamePattern = /^--[A-Za-z0-9_-]{1,64}$/;
     // A token value is a CSS value: never a declaration end, a block, a comment, a markup character, an
     // escape, a control character, nor a function that fetches something.
@@ -153,30 +183,31 @@
         });
     }
 
-    function readSnapshot(key) {
-        var raw = read(key);
-        if (!raw || raw.length > maxSnapshotLength) {
+    // A JSON object of at most `limit` characters, or null.
+    function parseObject(raw, limit) {
+        if (typeof raw !== 'string' || !raw || raw.length > limit) {
             return null;
         }
 
-        var entry;
         try {
-            entry = JSON.parse(raw);
+            var value = JSON.parse(raw);
+            return value && typeof value === 'object' && !Array.isArray(value) ? value : null;
         } catch (error) {
             return null;
         }
+    }
 
-        if (!entry || entry.version !== snapshotVersion || appearances[entry.appearance] !== true) {
-            return null;
-        }
-
+    // The boot copy to lay: `kind` tells a host snapshot from the package's copy, which differ in the scope
+    // they paint and in who may hand them over.
+    function themeOf(kind, key, look, halves) {
         return {
+            kind: kind,
             key: key,
-            appearance: entry.appearance,
-            density: densities[entry.density] === true ? entry.density : null,
-            levels: [['data-oe-text-size', entry.textSize], ['data-oe-control-size', entry.controlSize]],
-            backdropMotion: entry.backdropMotion !== false,
-            halves: { light: tokensOf(entry.light), dark: tokensOf(entry.dark) },
+            appearance: look.appearance,
+            density: densities[look.density] === true ? look.density : null,
+            levels: [['data-oe-text-size', look.textSize], ['data-oe-control-size', look.controlSize]],
+            backdropMotion: look.backdropMotion !== false,
+            halves: halves,
             attributes: [],
             root: { element: root, names: [] },
             scopes: [],
@@ -187,7 +218,95 @@
         };
     }
 
-    var theme = readSnapshot(data.themeSnapshotKey);
+    // A snapshot, as OmniThemeScope writes it (version, attributes, both halves of the tokens).
+    function snapshotOf(entry, kind, key) {
+        if (!entry || entry.version !== snapshotVersion || appearances[entry.appearance] !== true) {
+            return null;
+        }
+
+        return themeOf(kind, key, entry, { light: tokensOf(entry.light), dark: tokensOf(entry.dark) });
+    }
+
+    function readSnapshot(key) {
+        var raw = read(key);
+        return raw ? snapshotOf(parseObject(raw, maxSnapshotLength), 'snapshot', key) : null;
+    }
+
+    // ---- The package's own copy: the appearance preference of OmniPreferences ----
+
+    // The storage keys of every user's appearance entry in this browser; none when the storage refuses.
+    function appearanceKeys() {
+        var keys = [];
+        try {
+            var storage = window.localStorage;
+            for (var i = 0; i < storage.length; i++) {
+                var name = storage.key(i);
+                if (typeof name === 'string' && name.length > preferencePrefix.length + appearanceSuffix.length
+                    && name.indexOf(preferencePrefix) === 0 && name.slice(-appearanceSuffix.length) === appearanceSuffix) {
+                    keys.push(name);
+                }
+            }
+        } catch (error) {
+            return [];
+        }
+
+        return keys;
+    }
+
+    function lower(value) {
+        return typeof value === 'string' ? value.toLowerCase() : value === undefined ? null : value;
+    }
+
+    // Whether a boot copy was drawn for the look the entry holds now (names compared without case, as
+    // OmniAppearanceState reads the enumerations).
+    function sameLook(drawn, stored) {
+        return drawn !== null && lookSettings.every(function (name) { return lower(drawn[name]) === lower(stored[name]); });
+    }
+
+    // When an entry was last drawn (its boot copy, this device's clock) or changed (its date).
+    function rankOf(entry) {
+        var drawn = entry.Boot && typeof entry.Boot === 'object' && typeof entry.Boot.drawnAt === 'number' && isFinite(entry.Boot.drawnAt)
+            ? entry.Boot.drawnAt : -Infinity;
+        var changed = typeof entry.UpdatedAt === 'string' ? Date.parse(entry.UpdatedAt) : NaN;
+        return Math.max(drawn, isNaN(changed) ? -Infinity : changed);
+    }
+
+    function readPreferences() {
+        var best = null;
+        appearanceKeys().forEach(function (name) {
+            var entry = parseObject(read(name), maxEntryLength);
+            var rank = entry ? rankOf(entry) : -Infinity;
+            if (entry && (best === null || rank > best.rank)) {
+                best = { entry: entry, rank: rank };
+            }
+        });
+
+        // A removed preference (a tombstone, Value null) is the default look: nothing to lay.
+        var look = best ? parseObject(best.entry.Value, maxValueLength) : null;
+        if (!look) {
+            return null;
+        }
+
+        var boot = best.entry.Boot && typeof best.entry.Boot === 'object' ? best.entry.Boot : null;
+        if (boot && sameLook(parseObject(boot.value, maxValueLength), look)) {
+            var copy = snapshotOf(boot, 'preferences', null);
+            if (copy) {
+                return copy;
+            }
+        }
+
+        // No copy of the tokens for this look: the attributes the preference gives on its own.
+        var appearance = lower(look.appearance);
+        return themeOf('preferences', null, {
+            appearance: appearances[appearance] === true ? appearance : 'system',
+            density: lower(look.density),
+            textSize: look.textSize,
+            controlSize: look.controlSize,
+            backdropMotion: look.backdropMotion
+        }, { light: null, dark: null });
+    }
+
+    var theme = readSnapshot(data.themeSnapshotKey) || readPreferences();
 
     // Sets a root attribute, remembering the value it had before the boot copy for the release.
     function setOnRoot(name, value) {
@@ -217,12 +336,23 @@
         }
     }
 
+    // The scope that paints the application: one with the same snapshot key for a host snapshot, the
+    // outermost theme scope (none around it) for the package's copy, as the scope that keeps that copy is.
+    function paints(element) {
+        if (theme.kind === 'snapshot') {
+            return element.getAttribute('data-omni-theme-snapshot') === theme.key;
+        }
+
+        var parent = element.parentElement;
+        return !(parent && typeof parent.closest === 'function' && parent.closest('.omni-theme-scope') !== null);
+    }
+
     function adoptScopes() {
-        var found = document.querySelectorAll('[data-omni-theme-snapshot]');
+        var found = document.querySelectorAll(theme.kind === 'snapshot' ? '[data-omni-theme-snapshot]' : '.omni-theme-scope');
         for (var i = 0; i < found.length; i++) {
             var element = found[i];
             var known = theme.scopes.some(function (target) { return target.element === element; });
-            if (!known && element.getAttribute('data-omni-theme-snapshot') === theme.key) {
+            if (!known && paints(element)) {
                 var target = { element: element, names: [] };
                 theme.scopes.push(target);
                 paintScope(target);
@@ -292,17 +422,17 @@
         }
     }
 
-    // The scope paints from now on: the copy leaves it at once, and the root once nothing holds it.
-    function handOverTheme() {
-        if (!theme || theme.scopesReleased) {
-            return false;
+    var hold = typeof data.themeHold === 'string' ? data.themeHold : '.omni-boot-splash';
+
+    // Removes the whole copy once nothing holds it any more: at once when nothing does now.
+    function releaseWhenFree() {
+        if (theme.holdObserver || theme.released) {
+            return;
         }
 
-        releaseScopes();
-        var hold = typeof data.themeHold === 'string' ? data.themeHold : '.omni-boot-splash';
         if (!hold || !held(hold) || !window.MutationObserver) {
             releaseTheme();
-            return true;
+            return;
         }
 
         theme.holdObserver = new MutationObserver(function () {
@@ -311,6 +441,30 @@
             }
         });
         theme.holdObserver.observe(root, { childList: true, subtree: true });
+    }
+
+    // The scope paints from now on: the copy leaves it at once, and the root once nothing holds it. The
+    // outermost scope asks with `fromPreferences` true: it takes over the package's copy only, never a host
+    // snapshot that another scope of the page keeps.
+    function handOverTheme(fromPreferences) {
+        if (!theme || theme.scopesReleased || (fromPreferences === true && theme.kind !== 'preferences')) {
+            return false;
+        }
+
+        releaseScopes();
+        releaseWhenFree();
+        return true;
+    }
+
+    // The splash is leaving (OmniBootSplash): the package's copy leaves with it, scope included, so it never
+    // outlives the splash under a scope that paints no token of its own. Without a splash in the page, the
+    // copy waits for the scope's hand-over.
+    function settleTheme() {
+        if (!theme || theme.kind !== 'preferences' || theme.released || !hold || !held(hold)) {
+            return false;
+        }
+
+        releaseWhenFree();
         return true;
     }
 
@@ -353,6 +507,7 @@
     window.OmniBoot = {
         culture: culture,
         handOverTheme: handOverTheme,
+        settleTheme: settleTheme,
         releaseTheme: releaseTheme
     };
 })();

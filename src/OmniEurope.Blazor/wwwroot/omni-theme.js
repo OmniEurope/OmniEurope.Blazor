@@ -9,19 +9,27 @@ const follows = new WeakMap();
 // The scope that keeps the snapshot (OmniThemeScope.SnapshotKey) takes over from the copy omni-boot.js
 // laid before Blazor started: that copy leaves the scope now and the document root once the boot
 // splash has left. Without omni-boot.js, or without a snapshot replayed, there is nothing to release.
-function handOver() {
+// The outermost scope (fromPreferences) takes over the copy omni-boot.js laid from the package's own
+// preference cache, never a host snapshot another scope keeps.
+function handOver(fromPreferences) {
     const boot = globalThis.OmniBoot;
-    if (boot && typeof boot.handOverTheme === 'function') {
+    if (!boot || typeof boot.handOverTheme !== 'function') {
+        return;
+    }
+
+    if (fromPreferences === true) {
+        boot.handOverTheme(true);
+    } else {
         boot.handOverTheme();
     }
 }
 
-export function apply(element, light, dark, appearance, takeOver) {
+export function apply(element, light, dark, appearance, takeOver, fromPreferences) {
     if (!element) {
         return;
     }
 
-    clear(element, takeOver);
+    clear(element, takeOver, fromPreferences);
     const media = appearance === 'system' ? window.matchMedia('(prefers-color-scheme: dark)') : null;
     const state = { media, names: new Set(), paint: null };
     state.paint = () => {
@@ -45,9 +53,11 @@ export function apply(element, light, dark, appearance, takeOver) {
     state.paint();
 }
 
-export function clear(element, takeOver) {
+export function clear(element, takeOver, fromPreferences) {
     if (takeOver) {
         handOver();
+    } else if (fromPreferences === true) {
+        handOver(true);
     }
 
     const state = element ? scopes.get(element) : undefined;

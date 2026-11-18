@@ -123,7 +123,9 @@ la page, sans erreur.
   `omni-boot.js` avant le rendu, taille du texte et des contrôles comprises) n'est pas partitionné. Il
   garde le dernier aspect dessiné dans ce navigateur, quel que soit l'utilisateur : le suivant voit cet
   aspect au premier affichage, puis le sien dès que la page est rendue. Un hôte qui veut l'éviter suffixe
-  `SnapshotKey` par utilisateur. La portée est redemandée à la base à chaque lecture, écriture et
+  `SnapshotKey` par utilisateur. Il en va de même de la copie d'amorçage du chemin par défaut (voir « Copie
+  d'amorçage de l'apparence »), rangée dans l'entrée de chaque utilisateur mais choisie avant Blazor sans savoir
+  qui est connecté. La portée est redemandée à la base à chaque lecture, écriture et
   synchronisation : si elle a changé (déconnexion puis connexion d'un autre compte, même sans appel à
   `ResetUserAsync`), le service change de partition au premier usage suivant, comme le fait
   `ResetUserAsync`. Les valeurs non confirmées de l'ancien utilisateur restent dans sa partition, elles ne
@@ -132,6 +134,38 @@ la page, sans erreur.
 
 Une valeur illisible (JSON abîmé, forme changée) se relit comme `default` ; une entrée de cache illisible
 est traitée comme absente, la valeur de la base ou le défaut de l'appelant prenant le relais.
+
+### Copie d'amorçage de l'apparence
+
+`omni-boot.js`, inclus sans attribut dans le `head`, lit ce cache avant que Blazor démarre et pose
+l'apparence de l'utilisateur sur `<html>` avant la première image (voir
+[foundation-components.md](foundation-components.md), « Peindre l'apparence avant Blazor ») : l'application
+n'a ni clé `localStorage` ni script d'amorçage à elle, les préférences restent dans `OmniPreferences` seul.
+Le script ne fait que lire ; il n'écrit rien nulle part.
+
+- **Ce qu'il lit** : l'entrée `omni:pref:<portée>:omni.appearance`, `{ "Value": "<JSON de l'apparence>",
+  "UpdatedAt": ..., "Dirty": ... }`, dont la valeur donne le mode, la densité, le mouvement du fond et les
+  niveaux de texte et de contrôles (noms comparés sans casse ; une valeur inconnue garde son défaut).
+- **Ce que le paquet y ajoute** : pour les jetons du thème, que le script ne sait pas calculer, la portée
+  `OmniThemeScope` la plus extérieure range dans **la même entrée** un membre `Boot` : la copie de ce qu'elle a
+  peint (`version`, `value` (la préférence pour laquelle elle a été dessinée), `appearance`, `density`,
+  `backdropMotion`, `light`, `dark`, `textSize`, `controlSize`, et `drawnAt`, l'instant du dessin à l'horloge
+  du poste). Ce membre est local au navigateur : `omni-preferences.js` le retire de tout ce qu'il rend à .NET
+  (`get`, `entries`), il n'est donc jamais envoyé à la base, et il le garde à chaque réécriture de l'entrée
+  (synchronisation, confirmation). Aucune autre clé n'est ajoutée. Si le quota refuse l'entrée avec sa copie,
+  l'entrée est écrite sans elle (le chargement suivant pose alors les attributs seuls).
+- **Copie périmée** : si la préférence a changé depuis le dessin (un autre poste, un autre onglet), la copie
+  est écartée et seuls les attributs tirés de la préférence sont posés ; la portée range une nouvelle copie dès
+  qu'elle a peint.
+- **Plusieurs utilisateurs** dans le même navigateur : la portée connectée n'est pas connue avant Blazor ;
+  le script pose l'entrée dessinée ou changée en dernier. Comme l'instantané `SnapshotKey`, cette copie
+  d'amorçage n'est donc pas une garantie de partition : l'utilisateur suivant voit cet aspect au premier
+  affichage, puis le sien dès que la page est rendue. Le cache lui-même reste partitionné.
+- **Nouveau poste** : un utilisateur connecté sur un poste qui n'a rien en local voit la première page une
+  fois dans l'apparence par défaut, puis la sienne dès qu'elle est lue en base ; dès le chargement suivant,
+  la première image est juste. Ce premier affichage par défaut est inévitable sans donnée locale.
+- **Sans stockage** (`localStorage` qui lève) : rien n'est posé, la page démarre sans erreur dans
+  l'apparence par défaut.
 
 ### Prérendu
 
@@ -417,7 +451,7 @@ store.
 
 | Clé | Contenu |
 |---|---|
-| `omni.appearance` (`OmniAppearanceState.PreferenceKey`) | L'apparence tenue par `OmniAppearanceState`, voir [foundation-components.md](foundation-components.md), « Apparence portée par le paquet ». |
+| `omni.appearance` (`OmniAppearanceState.PreferenceKey`) | L'apparence tenue par `OmniAppearanceState`, voir [foundation-components.md](foundation-components.md), « Apparence portée par le paquet ». Son entrée de cache porte aussi, dans ce navigateur seulement, la copie d'amorçage (`Boot`, voir « Copie d'amorçage de l'apparence »). |
 | `omni.grid.<StateKey>` | L'état d'une grille à `StateKey` (filtres, tris, largeurs, ordre et visibilité des colonnes), voir [data-components.md](data-components.md), « Enregistrement de l'état ». |
 
 ## Limites

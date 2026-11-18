@@ -4,9 +4,9 @@ import path from 'node:path';
 import { test } from 'node:test';
 import vm from 'node:vm';
 
-// omni-boot.js is a plain script a host puts in the head of its page, before Blazor starts. No host of
-// the repository loads it (the showcase starts without it), so its logic is proved here: the script runs
-// in a fresh context per test, against a page made of the few objects it reads.
+// omni-boot.js is a plain script a host puts in the head of its page, before Blazor starts. Its logic is
+// proved here (the showcase loads it, and the scripts probe proves its first frames in a real browser): the
+// script runs in a fresh context per test, against a page made of the few objects it reads.
 const source = fs.readFileSync(path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot/omni-boot.js'), 'utf8');
 
 class FakeElement {
@@ -18,6 +18,19 @@ class FakeElement {
             setProperty: (name, value) => this.tokens.set(name, value),
             removeProperty: name => this.tokens.delete(name)
         };
+    }
+
+    // The theme scopes nested in another one name it; the outermost has none.
+    parentElement = null;
+
+    closest(selector) {
+        for (let element = this; element; element = element.parentElement) {
+            if (selector === '.omni-theme-scope' && element.classes?.includes('omni-theme-scope')) {
+                return element;
+            }
+        }
+
+        return null;
     }
 
     getAttribute(name) { return this.attributes.get(name) ?? null; }
@@ -52,7 +65,15 @@ const boot = ({ data = {}, stored = {}, elements = [], dark = false, storage = '
                 }
 
                 return Object.hasOwn(stored, key) ? stored[key] : null;
-            }
+            },
+            get length() {
+                if (storage === 'blocked') {
+                    throw new Error('SecurityError');
+                }
+
+                return Object.keys(stored).length;
+            },
+            key: index => Object.keys(stored)[index] ?? null
         },
         matchMedia: () => darkQuery
     };
@@ -252,4 +273,179 @@ test('under the system mode the copy follows the colour scheme until it is relea
     prefer('light');
     assert.equal(page.schemeListeners.length, 0, 'the listener leaves at the first change after the release');
     assert.equal(root.tokens.size, 0);
+});
+
+// ---- The package's own copy: the appearance entry of the OmniPreferences cache ----
+
+const look = (overrides = {}) => ({
+    version: 1, appearance: 'Dark', preset: 'Halo', palette: null, font: null, backdrop: null,
+    density: 'Compact', backdropMotion: true, textSize: 7, controlSize: 3, fullWidth: false, ...overrides
+});
+// A cache entry as PreferenceCache writes it, with the boot copy omni-preferences.js keeps beside it.
+const cached = ({ value = look(), boot = {}, updatedAt = '2026-11-18T10:00:00+00:00', withBoot = true } = {}) => JSON.stringify({
+    Value: value === null ? null : JSON.stringify(value),
+    UpdatedAt: updatedAt,
+    Dirty: false,
+    ...(withBoot ? {
+        Boot: {
+            version: 1, value: JSON.stringify(value ?? look()), appearance: 'dark', density: 'compact', backdropMotion: true,
+            textSize: 7, controlSize: 3, drawnAt: Date.parse('2026-11-18T11:00:00Z'),
+            light: { '--omni-color-surface': '#fafafa' }, dark: { '--omni-color-surface': '#101820', '--omni-color-text': '#eeeeee' },
+            ...boot
+        }
+    } : {})
+});
+const scopeElement = (attributes, parent = null) => Object.assign(new FakeElement(attributes), { classes: ['omni-theme-scope'], parentElement: parent });
+const appearanceKey = 'omni:pref:local:omni.appearance';
+
+test('without any attribute, the appearance the cache holds is laid on the root before the first paint, tokens included', () => {
+    const { root } = boot({ stored: { 'omni:pref:user-1:omni.appearance': cached(), 'omni:pref:user-1:omni.grid.x': '{"Value":"{}"}' } });
+
+    assert.equal(root.getAttribute('data-omni-theme'), 'dark');
+    assert.equal(root.getAttribute('data-omni-theme-resolved'), 'dark');
+    assert.equal(root.getAttribute('data-omni-density'), 'compact');
+    assert.equal(root.getAttribute('data-omni-backdrop-motion'), null);
+    assert.equal(root.getAttribute('data-omni-theme-boot'), '');
+    assert.equal(root.getAttribute('data-oe-text-size'), '7');
+    assert.equal(root.getAttribute('data-oe-control-size'), '3');
+    assert.deepEqual([...root.tokens], [['--omni-color-surface', '#101820'], ['--omni-color-text', '#eeeeee']]);
+});
+
+test('the copy paints the outermost theme scope only, when it draws the same half', () => {
+    const outer = scopeElement({ 'data-omni-theme': 'dark' });
+    const inner = scopeElement({ 'data-omni-theme': 'dark' }, outer);
+    const { page, mutate } = boot({ stored: { [appearanceKey]: cached() } });
+
+    page.elements.push(inner, outer);
+    mutate();
+
+    assert.equal(outer.tokens.get('--omni-color-surface'), '#101820');
+    assert.equal(inner.tokens.size, 0, 'a nested scope draws its own look');
+
+    const light = scopeElement({ 'data-omni-theme': 'light' });
+    const other = boot({ stored: { [appearanceKey]: cached() } });
+    other.page.elements.push(light);
+    other.mutate();
+    assert.equal(light.tokens.size, 0, 'a scope drawn in the other half keeps its own');
+});
+
+test('a copy drawn for another look, or no copy at all, leaves the tokens out and takes the attributes from the preference', () => {
+    const changed = look({ appearance: 'light', density: 'spacious', backdropMotion: false, textSize: 9, controlSize: 5 });
+    for (const raw of [cached({ value: changed, boot: { value: JSON.stringify(look()) } }), cached({ value: changed, withBoot: false })]) {
+        const { root } = boot({ stored: { [appearanceKey]: raw } });
+        assert.equal(root.getAttribute('data-omni-theme'), 'light');
+        assert.equal(root.getAttribute('data-omni-theme-resolved'), 'light');
+        assert.equal(root.getAttribute('data-omni-density'), 'spacious');
+        assert.equal(root.getAttribute('data-omni-backdrop-motion'), 'off');
+        assert.equal(root.getAttribute('data-oe-text-size'), '9');
+        assert.equal(root.getAttribute('data-oe-control-size'), null);
+        assert.equal(root.tokens.size, 0);
+    }
+});
+
+test('names are compared without case, as the state reads them, and the content width does not matter', () => {
+    const drawn = look({ appearance: 'dark', density: 'compact', fullWidth: true });
+    const { root } = boot({ stored: { [appearanceKey]: cached({ value: look(), boot: { value: JSON.stringify(drawn) } }) } });
+    assert.equal(root.tokens.get('--omni-color-surface'), '#101820');
+});
+
+test('a removed, malformed or foreign entry lays nothing, and an unknown setting keeps its default', () => {
+    const refused = [
+        cached({ value: null }),
+        '{not json',
+        JSON.stringify({ Value: '{not json', UpdatedAt: 'x' }),
+        JSON.stringify({ Value: 42 }),
+        JSON.stringify([1, 2]),
+        'x'.repeat(262144 + 16385)
+    ];
+    for (const raw of refused) {
+        const { root, api } = boot({ stored: { [appearanceKey]: raw } });
+        assert.equal(root.getAttribute('data-omni-theme-boot'), null, raw.slice(0, 30));
+        assert.equal(api.handOverTheme(true), false);
+    }
+
+    const odd = boot({ stored: { [appearanceKey]: cached({ value: look({ appearance: 'Sepia', density: 'Huge', textSize: 12, controlSize: '4' }), withBoot: false }) } });
+    assert.equal(odd.root.getAttribute('data-omni-theme'), 'system');
+    assert.equal(odd.root.getAttribute('data-omni-density'), null);
+    assert.equal(odd.root.getAttribute('data-oe-text-size'), null);
+
+    const corrupt = boot({ stored: { [appearanceKey]: cached({ boot: { dark: { '--omni-x': 'url(https://example.test/a.png)' } } }) } });
+    assert.equal(corrupt.root.getAttribute('data-omni-theme'), 'dark', 'the attributes still apply');
+    assert.equal(corrupt.root.tokens.size, 0, 'a half with a refused token is dropped whole');
+});
+
+test('with several users in the browser, the entry drawn or changed last is laid', () => {
+    const { root } = boot({
+        stored: {
+            'omni:pref:old-user:omni.appearance': cached({ boot: { drawnAt: Date.parse('2026-11-01T00:00:00Z') }, updatedAt: '2026-11-01T00:00:00+00:00' }),
+            'omni:pref:new-user:omni.appearance': cached({ value: look({ appearance: 'Light', density: 'Spacious' }), withBoot: false, updatedAt: '2026-11-18T12:00:00+00:00' })
+        }
+    });
+
+    assert.equal(root.getAttribute('data-omni-theme'), 'light');
+    assert.equal(root.getAttribute('data-omni-density'), 'spacious');
+});
+
+test('a valid host snapshot wins over the package copy, which the outermost scope then cannot hand over', () => {
+    const { root, api } = boot({
+        data: { themeSnapshotKey: 'snap' },
+        stored: { snap: snapshot({ density: 'spacious' }), [appearanceKey]: cached() }
+    });
+
+    assert.equal(root.getAttribute('data-omni-density'), 'spacious');
+    assert.equal(api.handOverTheme(true), false, 'the host snapshot belongs to its own scope');
+    assert.equal(api.settleTheme(), false);
+    assert.equal(api.handOverTheme(), true);
+
+    const fallback = boot({ data: { themeSnapshotKey: 'snap' }, stored: { snap: '{broken', [appearanceKey]: cached() } });
+    assert.equal(fallback.root.getAttribute('data-omni-density'), 'compact', 'an unusable host snapshot falls back to the package copy');
+});
+
+test('the outermost scope hands the package copy over: the scope at once, the root once the splash is gone', () => {
+    const splash = Object.assign(new FakeElement(), { classes: ['omni-boot-splash'] });
+    const scope = scopeElement({ 'data-omni-theme': 'dark' });
+    const { root, page, api, mutate } = boot({ stored: { [appearanceKey]: cached() }, elements: [splash, scope] });
+    mutate();
+    assert.equal(scope.tokens.size, 2);
+
+    assert.equal(api.handOverTheme(true), true);
+    assert.equal(scope.tokens.size, 0);
+    assert.equal(root.getAttribute('data-omni-theme-boot'), '');
+    page.elements.splice(page.elements.indexOf(splash), 1);
+    mutate();
+    assert.equal(root.getAttribute('data-omni-theme-boot'), null);
+    assert.equal(root.tokens.size, 0);
+    assert.equal(root.getAttribute('data-oe-text-size'), '7', 'the levels stay for good, as the scope writes the same');
+});
+
+test('the leaving splash takes the package copy with it, scope included; without a splash it waits for the scope', () => {
+    const splash = Object.assign(new FakeElement(), { classes: ['omni-boot-splash'] });
+    const scope = scopeElement({ 'data-omni-theme': 'dark' });
+    const { root, page, api, mutate } = boot({ stored: { [appearanceKey]: cached() }, elements: [splash, scope] });
+    mutate();
+
+    assert.equal(api.settleTheme(), true);
+    assert.equal(scope.tokens.size, 2, 'held while the splash fades');
+    page.elements.splice(page.elements.indexOf(splash), 1);
+    mutate();
+    assert.equal(scope.tokens.size, 0);
+    assert.equal(root.getAttribute('data-omni-theme-boot'), null);
+    assert.equal(api.settleTheme(), false, 'released once');
+
+    const bare = boot({ stored: { [appearanceKey]: cached() } });
+    assert.equal(bare.api.settleTheme(), false);
+    assert.equal(bare.root.getAttribute('data-omni-theme-boot'), '');
+});
+
+test('a storage that throws on every access, the length included, leaves the page to its defaults without an error', () => {
+    const { root, api } = boot({ stored: { [appearanceKey]: cached() }, storage: 'blocked' });
+
+    assert.equal(root.getAttribute('data-omni-theme'), null);
+    assert.equal(root.getAttribute('data-omni-theme-boot'), null);
+    assert.equal(api.handOverTheme(true), false);
+    assert.equal(api.settleTheme(), false);
+});
+
+test('nothing is ever written: the boot script only reads', () => {
+    assert.equal(/setItem|removeItem|\.clear\(/.test(source), false);
 });
