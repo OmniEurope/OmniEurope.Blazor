@@ -25,7 +25,8 @@ public static class GalleryCatalog
         ChartsFamily.Family,
         SchedulingFamily.Family,
         EditorFamily.Family,
-        DiagramFamily.Family
+        DiagramFamily.Family,
+        MediaFamily.Family
     ];
 
     /// <summary>Every page, family after family.</summary>

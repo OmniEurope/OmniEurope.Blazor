@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Wyczyść rysunek</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Cofnięto ostatnią kreskę</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Wyczyszczono rysunek</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Scena multimedialna</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Pokaż {0} w dużym rozmiarze</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} jest teraz wyświetlany w dużym rozmiarze</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Element {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Pasek narzędzi dokumentu</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Pomniejsz</value></data>

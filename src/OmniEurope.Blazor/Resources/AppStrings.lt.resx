@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Išvalyti piešinį</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Paskutinis brūkšnys atšauktas</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Piešinys išvalytas</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Medijos scena</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Rodyti {0} dideliu</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} dabar rodomas didelis</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Elementas {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokumentas</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumento įrankių juosta</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Sumažinti</value></data>

@@ -1,0 +1,42 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@typeparam TItem
+
+@* One main item and a strip of thumbnails, drawn as ONE flat list: every item is a direct child of the same element,
+   under a stable key, whatever its role. The role is a CSS class (omni-media-stage__item--main), and the layout is the
+   style sheet's: switching the main item changes a class, so the elements, and a <video> inside one, are moved by
+   the browser's layout and never recreated. A thumbnail is selected by its own button (a sibling of its content,
+   never nested in it): it covers the thumbnail below the content, so a click on the picture reaches it while the
+   interactive controls of the content (their pointer events are restored) keep their own clicks. *@
+<div @attributes="AdditionalAttributes"
+     id="@Id"
+     class="@Css("omni-media-stage", _entries.Length == 1 ? "omni-media-stage--single" : null, _entries.Length == 0 ? "omni-media-stage--empty" : null)"
+     role="group"
+     aria-label="@LocalizeOr(Label, "MediaStageLabel")">
+    <div class="omni-media-stage__frame">
+        <div class="omni-media-stage__items">
+            @for (var index = 0; index < _entries.Length; index++)
+            {
+                var position = index;
+                var entry = _entries[position];
+                var isMain = position == _mainIndex;
+                <div @key="entry.Key"
+                     @ref="_itemElements[position]"
+                     tabindex="@(isMain ? "-1" : null)"
+                     class="@(isMain ? "omni-media-stage__item omni-media-stage__item--main" : "omni-media-stage__item")"
+                     data-omni-media-stage-item="@position.ToString(CultureInfo.InvariantCulture)">
+                    <div class="omni-media-stage__content">@ItemTemplate!(entry.Item)</div>
+                    @if (!isMain)
+                    {
+                        <button type="button"
+                                class="omni-media-stage__select"
+                                aria-label="@Localize("MediaStageShowLarge", NameOf(position))"
+                                @onclick="() => SelectAsync(position)"></button>
+                        <span class="omni-media-stage__badge" aria-hidden="true"><OmniIcon Name="OmniIconName.CornersOut" /></span>
+                    }
+                </div>
+            }
+        </div>
+    </div>
+    <div class="omni-visually-hidden" role="status" aria-live="polite" aria-atomic="true">@_announcement</div>
+</div>

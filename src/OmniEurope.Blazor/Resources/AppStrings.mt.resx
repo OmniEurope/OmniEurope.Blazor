@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Neħħi t-tpinġija</value></data>
   <data name="InkUndone" xml:space="preserve"><value>L-aħħar linja ġiet ikkanċellata</value></data>
   <data name="InkCleared" xml:space="preserve"><value>It-tpinġija tneħħiet</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Palk tal-midja</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Uri {0} kbir</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} issa qed jintwera kbir</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Element {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Toolbar tad-dokument</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Żum 'l barra</value></data>

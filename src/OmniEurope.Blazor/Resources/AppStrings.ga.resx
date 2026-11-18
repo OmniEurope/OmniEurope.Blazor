@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Glan an líníocht</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Cealaíodh an stróc deireanach</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Glanadh an líníocht</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Stáitse meán</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Taispeáin {0} mór</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>Taispeántar {0} mór anois</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Mír {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Doiciméad</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra uirlisí an doiciméid</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zúmáil amach</value></data>

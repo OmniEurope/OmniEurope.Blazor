@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Borrar el dibujo</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Último trazo deshecho</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Dibujo borrado</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Escena multimedia</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Mostrar {0} en grande</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} se muestra ahora en grande</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Elemento {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Documento</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra de herramientas del documento</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Alejar</value></data>

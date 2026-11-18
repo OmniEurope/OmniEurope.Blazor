@@ -1089,6 +1089,47 @@
     block-size: auto;
 }
 
+/* Media stage page: a participant is a coloured placeholder (a tint of a theme colour over the surface), the
+   place a video tile takes in a real call. The tint keeps the text colour of the theme readable in both modes. */
+.gallery-media-placeholder {
+    --gallery-media-tint: var(--omni-color-accent);
+    align-items: center;
+    background-color: color-mix(in srgb, var(--gallery-media-tint) 22%, var(--omni-color-surface));
+    color: var(--omni-color-text);
+    display: flex;
+    flex-direction: column;
+    gap: var(--omni-space-xs);
+    justify-content: center;
+    min-block-size: 0;
+    padding: var(--omni-space-xs);
+}
+
+.gallery-media-placeholder--2 { --gallery-media-tint: var(--omni-color-success); }
+.gallery-media-placeholder--3 { --gallery-media-tint: var(--omni-color-info); }
+.gallery-media-placeholder--4 { --gallery-media-tint: var(--omni-color-warning); }
+.gallery-media-placeholder--5 { --gallery-media-tint: var(--omni-color-danger); }
+.gallery-media-placeholder--6 { --gallery-media-tint: var(--omni-color-text-muted); }
+.gallery-media-placeholder--7 { --gallery-media-tint: var(--omni-color-accent-strong); }
+
+.gallery-media-placeholder__initials {
+    align-items: center;
+    background-color: color-mix(in srgb, var(--gallery-media-tint) 55%, var(--omni-color-surface));
+    border-radius: 50%;
+    display: inline-flex;
+    font-weight: 700;
+    justify-content: center;
+    min-inline-size: 2.25rem;
+    aspect-ratio: 1;
+}
+
+.gallery-media-placeholder__name {
+    font-weight: 600;
+    max-inline-size: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
 /* Structured document page: the style key "emphasis" the example host puts on a run is drawn bold. */
 .gallery-structured-emphasis {
     font-weight: 700;

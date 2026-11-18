@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Kustuta joonis</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Viimane joon on tagasi võetud</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Joonis on kustutatud</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Meedialava</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Näita {0} suurena</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} on nüüd suurena</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Üksus {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumendi tööriistariba</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Suumi välja</value></data>

@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Izbriši risbo</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Zadnja poteza je razveljavljena</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Risba je izbrisana</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Medijski oder</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Prikaži {0} veliko</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} je zdaj prikazan veliko</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Element {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Orodna vrstica dokumenta</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Pomanjšaj</value></data>

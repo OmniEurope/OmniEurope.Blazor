@@ -21,7 +21,7 @@ Demande d'une application cliente du 2026-11-18 (module de partage d'écran WebR
 
 ### Lot 3 : `OmniMediaStage<TItem>` (famille Media)
 
-- `Items`, `ItemTemplate`, `ItemKey`, `MainItem`/`MainItemChanged` (premier élément par défaut), `Label`.
+- `Items`, `ItemTemplate`, `KeyOf` (convention du dépôt pour la clé d'un élément, au lieu de `ItemKey`), `ItemLabel` (nom d'un élément pour le bouton de sa vignette), `MainItem`/`MainItemChanged` (premier élément par défaut), `Label`.
 - Un conteneur plat à clés stables : changer le principal déplace les éléments sans recréer les `<video>`.
 - Clic sur une vignette ou son bouton « Afficher en grand » (clavier) : bascule du principal.
 - Responsive par requête de conteneur : large = principal à gauche, vignettes à droite ou dessous ; 375 px = principal en haut, vignettes défilantes dessous. Démontré avec 6 vignettes.
@@ -32,7 +32,7 @@ Demande d'une application cliente du 2026-11-18 (module de partage d'écran WebR
 |---|---|---|
 | 1 | `OmniInkCanvas` collaboratif | à faire |
 | 2 | `OmniMediaTile` + démonstration complète (deux tuiles qui s'échangent les traits, export PNG) | à faire, après le lot 1 |
-| 3 | `OmniMediaStage<TItem>` | à faire, en parallèle du lot 1 |
+| 3 | `OmniMediaStage<TItem>` | fait sur `worktree-stg3`, à intégrer (preuve navigateur : sonde `mediastage`) |
 
 ## Critère d'acceptation (de la demande)
 

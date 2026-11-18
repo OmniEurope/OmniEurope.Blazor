@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Vymazať kresbu</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Posledný ťah bol vrátený späť</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Kresba bola vymazaná</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Mediálna scéna</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Zobraziť {0} veľké</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} sa teraz zobrazuje veľké</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Položka {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Panel nástrojov dokumentu</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Oddialiť</value></data>

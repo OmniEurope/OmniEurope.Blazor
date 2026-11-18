@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Rensa ritningen</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Sista linjen ångrad</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Ritningen rensad</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Mediescen</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Visa {0} stort</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} visas nu stort</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Objekt {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumentets verktygsfält</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zooma ut</value></data>

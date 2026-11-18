@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Διαγραφή σχεδίου</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Η τελευταία γραμμή αναιρέθηκε</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Το σχέδιο διαγράφηκε</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Σκηνή πολυμέσων</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Μεγάλη προβολή του {0}</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>Το {0} εμφανίζεται τώρα σε μεγάλο μέγεθος</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Στοιχείο {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Έγγραφο</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Γραμμή εργαλείων εγγράφου</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Σμίκρυνση</value></data>

@@ -1,0 +1,42 @@
+/* OmniMediaStage: one main item and a strip of thumbnails, from the width of the stage itself (container queries).
+   Every item is a direct child of .omni-media-stage__items, in the order of the items, so the markup never moves an
+   element when the main item changes: the main one is taken out of the flow (position: absolute, against the frame,
+   which is not a scroll container, so it neither scrolls nor is clipped with the strip) and sized to 16:9 from the
+   width of the stage; the thumbnails are the strip's flow items, a row that scrolls sideways when narrow and a column
+   that scrolls down when wide. Nothing here is a style attribute: the sizes are all lengths of the container.
+   --omni-media-stage-main-max-height (40rem) caps the main item; --omni-media-stage-thumb-width replaces the width of
+   a thumbnail (9rem narrow, 14% of the stage clamped between 8 and 12rem wide); --omni-media-stage-gap (the small
+   space) is the space between items. Frames, tokens and shadows only: no one-sided border or bar. */
+.omni-media-stage { container-type: inline-size; display: block; min-inline-size: 0; overflow: clip; overflow-clip-margin: 0.25rem; }
+.omni-media-stage__frame { --omni-media-stage-main-block: min(56.25cqw, var(--omni-media-stage-main-max-height, 40rem)); box-sizing: border-box; padding-block-start: calc(var(--omni-media-stage-main-block) + var(--omni-media-stage-gap, var(--omni-space-sm))); position: relative; }
+.omni-media-stage--single > .omni-media-stage__frame { padding-block-start: var(--omni-media-stage-main-block); }
+.omni-media-stage--empty > .omni-media-stage__frame { padding-block-start: 0; }
+.omni-media-stage__items { box-sizing: border-box; display: flex; flex-direction: row; gap: var(--omni-media-stage-gap, var(--omni-space-sm)); margin: -0.1875rem; min-inline-size: 0; overflow-x: auto; overflow-y: hidden; overscroll-behavior-x: contain; padding: 0.1875rem; scrollbar-width: thin; }
+.omni-media-stage__item { background: var(--omni-color-surface-muted); border-radius: var(--omni-card-radius, var(--omni-radius)); box-sizing: border-box; flex: 0 0 var(--omni-media-stage-thumb-width, 9rem); inline-size: var(--omni-media-stage-thumb-width, 9rem); isolation: isolate; aspect-ratio: 16 / 9; min-inline-size: 0; overflow: hidden; position: relative; }
+.omni-media-stage__item--main { aspect-ratio: auto; block-size: var(--omni-media-stage-main-block); flex: none; inline-size: auto; inset-block-start: 0; inset-inline: 0; position: absolute; }
+.omni-media-stage__content { block-size: 100%; display: grid; inline-size: 100%; min-block-size: 0; min-inline-size: 0; }
+.omni-media-stage__content > * { min-block-size: 0; min-inline-size: 0; }
+/* A thumbnail is picked by its button, which covers it under the content: the content lets a click through, except on
+   its own controls. */
+.omni-media-stage__item:not(.omni-media-stage__item--main) > .omni-media-stage__content { pointer-events: none; position: relative; z-index: 1; }
+.omni-media-stage__item:not(.omni-media-stage__item--main) > .omni-media-stage__content :is(a, button, input, select, textarea, summary, label, [role="button"], [tabindex], [contenteditable="true"]) { pointer-events: auto; }
+.omni-media-stage__select { appearance: none; background: transparent; border: 0; border-radius: inherit; cursor: pointer; inset: 0; margin: 0; padding: 0; position: absolute; z-index: 0; }
+.omni-media-stage__item:not(.omni-media-stage__item--main):hover { box-shadow: 0 0 0 var(--omni-border-width) var(--omni-color-accent); }
+.omni-media-stage__item:has(> .omni-media-stage__select:focus-visible) { box-shadow: var(--omni-focus-ring); }
+.omni-media-stage__select:focus-visible { outline: none; }
+.omni-media-stage__item--main:focus { outline: none; }
+.omni-media-stage__item--main:focus-visible { box-shadow: var(--omni-focus-ring); }
+.omni-media-stage__badge { align-items: center; background: color-mix(in srgb, var(--omni-color-surface) 88%, transparent); border-radius: var(--omni-radius-sm); box-shadow: var(--omni-layer-shadow); color: var(--omni-color-text); display: inline-flex; inset-block-start: var(--omni-space-xs); inset-inline-end: var(--omni-space-xs); opacity: 0; padding: var(--omni-space-xs); pointer-events: none; position: absolute; z-index: 2; }
+.omni-media-stage__item:is(:hover, :has(> .omni-media-stage__select:focus-visible)) > .omni-media-stage__badge { opacity: 1; }
+@media (hover: none) { .omni-media-stage__badge { opacity: 1; } }
+
+/* Wide: the main item on the left, the thumbnails in a column on the right as tall as the main item. */
+@container (min-width: 40rem) {
+  .omni-media-stage__frame { --omni-media-stage-thumb: var(--omni-media-stage-thumb-width, clamp(8rem, 14cqw, 12rem)); --omni-media-stage-main-inline: calc(100cqw - var(--omni-media-stage-thumb) - var(--omni-media-stage-gap, var(--omni-space-sm))); --omni-media-stage-main-block: min(calc(var(--omni-media-stage-main-inline) * 9 / 16), var(--omni-media-stage-main-max-height, 40rem)); column-gap: var(--omni-media-stage-gap, var(--omni-space-sm)); display: grid; grid-template-columns: minmax(0, 1fr) var(--omni-media-stage-thumb); padding-block-start: 0; }
+  .omni-media-stage--single > .omni-media-stage__frame { --omni-media-stage-main-inline: 100cqw; grid-template-columns: minmax(0, 1fr); padding-block-start: 0; }
+  .omni-media-stage--empty > .omni-media-stage__frame { --omni-media-stage-main-block: 0px; }
+  .omni-media-stage__items { block-size: calc(var(--omni-media-stage-main-block) + 0.375rem); flex-direction: column; grid-column: 2; overflow-x: hidden; overflow-y: auto; overscroll-behavior-y: contain; }
+  .omni-media-stage--single > .omni-media-stage__frame > .omni-media-stage__items { grid-column: 1; }
+  .omni-media-stage__item { flex: none; inline-size: 100%; }
+  .omni-media-stage__item--main { inline-size: var(--omni-media-stage-main-inline); inset-inline: 0 auto; }
+}

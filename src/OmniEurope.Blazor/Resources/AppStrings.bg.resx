@@ -767,6 +767,10 @@
   <data name="InkClear" xml:space="preserve"><value>Изчистване на рисунката</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Последният щрих е отменен</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Рисунката е изчистена</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Медийна сцена</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Покажи {0} в голям размер</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} се показва в голям размер</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Елемент {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Документ</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Лента с инструменти за документа</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Намаляване</value></data>

@@ -91,6 +91,7 @@ component OmniEurope.Blazor.Components.OmniMailTemplateEditor
 component OmniEurope.Blazor.Components.OmniMain
 component OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>
 component OmniEurope.Blazor.Components.OmniMarkers
+component OmniEurope.Blazor.Components.OmniMediaStage<TItem>
 component OmniEurope.Blazor.Components.OmniMenuItem
 component OmniEurope.Blazor.Components.OmniMindMap
 component OmniEurope.Blazor.Components.OmniMindMapNodeProperties
@@ -324,6 +325,7 @@ ctor public OmniEurope.Blazor.Components.OmniMailVariable(System.String Name, Sy
 ctor public OmniEurope.Blazor.Components.OmniMain()
 ctor public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniMarkers()
+ctor public OmniEurope.Blazor.Components.OmniMediaStage<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniMenuItem()
 ctor public OmniEurope.Blazor.Components.OmniMindMap()
 ctor public OmniEurope.Blazor.Components.OmniMindMapDocument()
@@ -1298,6 +1300,9 @@ method protected override OmniEurope.Blazor.Components.OmniMain.OnInitializedAsy
 method protected override OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.OnParametersSet() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMediaStage<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMediaStage<TItem>.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniMediaStage<TItem>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMenuItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMindMap.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMindMap.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
@@ -3657,6 +3662,13 @@ property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Var
 property public OmniEurope.Blazor.Components.OmniMarkers.ColorIndex : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMarkers.Data : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniChartPoint> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMarkers.Radius : System.Double {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.ItemLabel : System.Func<TItem,System.String>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.ItemTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.Items : System.Collections.Generic.IReadOnlyList<TItem> {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.KeyOf : System.Func<TItem,System.Object>? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.MainItem : TItem? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.MainItemChanged : Microsoft.AspNetCore.Components.EventCallback<TItem> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMenuItem.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniMenuItem.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMenuItem.Href : System.String? {get(public);set(public)} [Parameter]
@@ -4727,6 +4739,7 @@ type public OmniEurope.Blazor.Components.OmniMailVariableKind [enum, sealed] : S
 type public OmniEurope.Blazor.Components.OmniMain [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkers [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniMediaStage<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMenuItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniMindMap [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMindMapDocument [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMindMapDocument>
