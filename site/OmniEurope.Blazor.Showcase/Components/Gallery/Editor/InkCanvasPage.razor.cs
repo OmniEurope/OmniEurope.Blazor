@@ -12,7 +12,15 @@ public partial class InkCanvasPage
 
     private bool Wide { get; set; }
 
+    private OmniInkTool Tool { get; set; }
+
     private bool ReadOnly { get; set; }
+
+    private bool EraserChosen
+    {
+        get => Tool == OmniInkTool.Eraser;
+        set => Tool = value ? OmniInkTool.Eraser : OmniInkTool.Pen;
+    }
 
     private bool Disabled { get; set; }
 }

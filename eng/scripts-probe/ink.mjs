@@ -2,7 +2,10 @@
 // a mouse stroke, a pen stroke with its pressure, a touch stroke (the page does not scroll), Ctrl+Z and Delete from
 // the keyboard, the sample strokes redrawn after a resize and after a change of theme (a stroke in the theme colour
 // is dark in the light theme and light in the dark one), a read-only and a disabled pad that draw nothing, the
-// signature shape (aspect ratio), and the PNG export, whose decoded image is transparent where nothing is drawn.
+// signature shape (aspect ratio), the PNG export, whose decoded image is transparent where nothing is drawn, and the
+// shared-drawing parts: the eraser (a path removes each whole stroke it touches, from the pointer and the toolbar,
+// blocked when read only), the StrokeAdded and StrokesRemoved counters of the page (drawn and removed strokes counted,
+// the strokes the host gives not), and a frame whose background a parent can make transparent.
 // The pixels are read back from the canvas, because the strokes exist only there.
 
 export async function inkSteps(session, results) {
@@ -92,9 +95,9 @@ export async function inkSteps(session, results) {
   await waitFor('le modèle dessiné', `${opaqueCount} > 200`);
   const sample = await pixels();
   check(sample.count > 200, `Modèle absent du canevas : ${JSON.stringify(sample)}.`);
-  await clickOn('#ink-demo .omni-ink-canvas__toolbar button:nth-of-type(1)');
+  await clickOn('#ink-demo .omni-ink-canvas__toolbar button[title="Undo last stroke"]');
   await waitForStrokes('Annuler de la barre', 2);
-  await clickOn('#ink-demo .omni-ink-canvas__toolbar button:nth-of-type(2)');
+  await clickOn('#ink-demo .omni-ink-canvas__toolbar button[title="Clear drawing"]');
   await waitForStrokes('Effacer de la barre', 0);
   check((await pixels()).count === 0, 'Le canevas garde des pixels après Effacer.');
   step('Annuler et Effacer de la barre, modèle donné par la valeur dessiné');
@@ -136,7 +139,7 @@ export async function inkSteps(session, results) {
   await drag([at(frame, 0.2, 0.9), at(frame, 0.6, 0.9)]);
   await pause(300);
   check((await strokes()) === 1, 'Un trait est ajouté sur une zone en lecture seule.');
-  check(await evaluate("[...document.querySelectorAll('#ink-demo .omni-ink-canvas__toolbar button')].every(button => button.disabled)"), 'La barre reste active en lecture seule.');
+  check(await evaluate("[...document.querySelectorAll('#ink-demo .omni-ink-canvas__toolbar button')].every(button => button.disabled)"), 'La barre (crayon, gomme, annuler, effacer) reste active en lecture seule.');
   await clickOn('[role=switch][aria-label="Read only"]');
   await clickOn('[role=switch][aria-label="Disabled"]');
   await waitFor('la zone désactivée', `!document.querySelector(${JSON.stringify(surface)}).hasAttribute('tabindex')`);
@@ -172,4 +175,76 @@ export async function inkSteps(session, results) {
   check(exported.opaque > 100 && exported.red < 10, `Trait de couleur de thème pas noir dans l'image exportée : ${JSON.stringify(exported)}.`);
   await clickOn('[role=switch][aria-label="Signature shape"]');
   step(`export PNG : ${exported.width} par ${exported.height} pixels, fond transparent, trait de couleur de thème en noir`);
+
+  // 10. The eraser. The page counts what the canvas reports: strokes added (drawn here) and removed (eraser, undo, clear).
+  const counter = id => evaluate(`Number.parseInt(document.getElementById(${JSON.stringify(id)}).textContent, 10)`);
+  const opaqueIn = (from, to) => evaluate(`(() => { const canvas = document.querySelector(${JSON.stringify(surface)}); const data = canvas.getContext('2d').getImageData(0, Math.floor(canvas.height * ${from}), canvas.width, Math.floor(canvas.height * (${to} - ${from}))).data; let count = 0; for (let index = 3; index < data.length; index += 4) if (data[index] > 0) count++; return count; })()`);
+  const toolbar = '#ink-demo .omni-ink-canvas__toolbar';
+  await focusSurface();
+  await key('Delete', 'Delete', 46);
+  await waitForStrokes('le dessin vidé', 0);
+  const added = await counter('ink-added');
+  const removed = await counter('ink-removed');
+  frame = await box();
+  await drag([at(frame, 0.1, 0.25), at(frame, 0.5, 0.25), at(frame, 0.9, 0.25)]);
+  await drag([at(frame, 0.1, 0.75), at(frame, 0.5, 0.75), at(frame, 0.9, 0.75)]);
+  await waitForStrokes('deux traits horizontaux', 2);
+  check((await counter('ink-added')) === added + 2 && (await counter('ink-removed')) === removed, 'StrokeAdded ne compte pas exactement les deux traits dessinés.');
+  const bothStrokes = (await pixels()).count;
+  check(await opaqueIn(0, 0.5) > 50 && await opaqueIn(0.5, 1) > 50, 'Les deux traits horizontaux ne sont pas dans les moitiés haute et basse.');
+  await clickOn(`${toolbar} button[aria-label="Eraser"]`);
+  await waitFor('la gomme pressée', `document.querySelector('${toolbar} button[aria-label="Eraser"]').getAttribute('aria-pressed') === 'true' && document.querySelector('${toolbar} button[aria-label="Pen"]').getAttribute('aria-pressed') === 'false'`);
+  const cursor = await evaluate(`getComputedStyle(document.querySelector(${JSON.stringify(surface)})).cursor`);
+  check(cursor.startsWith('url('), `Le curseur de la gomme n'est pas dessiné : ${cursor}.`);
+  // A vertical path from above the first stroke to between the two removes the first one only.
+  await drag([at(frame, 0.5, 0.05), at(frame, 0.5, 0.2), at(frame, 0.5, 0.4)]);
+  await waitForStrokes('le trait du haut effacé', 1);
+  check(await opaqueIn(0, 0.5) === 0 && await opaqueIn(0.5, 1) > 50, 'Le trait du haut reste dessiné, ou celui du bas a disparu.');
+  check((await pixels()).count < bothStrokes, 'La gomme ne retire aucun pixel.');
+  check((await counter('ink-removed')) === removed + 1 && (await counter('ink-added')) === added + 2, 'StrokesRemoved ne compte pas le trait effacé, ou StrokeAdded a bougé.');
+  // A path that touches nothing changes nothing; a click on the stroke removes it, with the eraser only.
+  await drag([at(frame, 0.2, 0.4), at(frame, 0.8, 0.4)]);
+  await pause(300);
+  check((await strokes()) === 1, 'Un chemin loin de tout trait en a effacé un.');
+  await drag([at(frame, 0.3, 0.75)]);
+  await waitForStrokes('le trait du bas effacé d\'un clic', 0);
+  check((await pixels()).count === 0 && (await counter('ink-removed')) === removed + 2, 'Le canevas garde des pixels après la gomme, ou StrokesRemoved ne compte pas deux traits.');
+  step('gomme : chemin qui retire le seul trait touché (hautes, basses, pixels), clic qui retire un trait, curseur dessiné, StrokeAdded et StrokesRemoved comptés');
+
+  // 11. What the host gives is not reported; the pen comes back; the eraser is blocked when read only; undo counts too.
+  await clickOn('#ink-sample');
+  await waitForStrokes('le modèle donné par l\'hôte', 3);
+  await pause(300);
+  check((await counter('ink-added')) === added + 2 && (await counter('ink-removed')) === removed + 2, 'Une valeur donnée par l\'hôte lève StrokeAdded ou StrokesRemoved.');
+  await clickOn(`${toolbar} button[aria-label="Pen"]`);
+  await waitFor('le crayon pressé', `document.querySelector('${toolbar} button[aria-label="Pen"]').getAttribute('aria-pressed') === 'true'`);
+  await drag([at(frame, 0.05, 0.95), at(frame, 0.95, 0.95)]);
+  await waitForStrokes('un trait au crayon après la gomme', 4);
+  check((await counter('ink-added')) === added + 3, 'Le crayon ne dessine plus après la gomme.');
+  await clickOn('[role=switch][aria-label="Eraser"]');
+  await waitFor('la gomme choisie par la page', `document.querySelector(${JSON.stringify(surface)}).dataset.omniInkTool === 'eraser'`);
+  await clickOn('[role=switch][aria-label="Read only"]');
+  await waitFor('la zone en lecture seule', `document.querySelector(${JSON.stringify(surface)}).dataset.omniInkLocked === 'true'`);
+  await drag([at(frame, 0.05, 0.95), at(frame, 0.95, 0.95)]);
+  await pause(300);
+  check((await strokes()) === 4 && (await counter('ink-removed')) === removed + 2, 'La gomme efface sur une zone en lecture seule.');
+  await clickOn('[role=switch][aria-label="Read only"]');
+  await waitFor('la zone modifiable', `document.querySelector(${JSON.stringify(surface)}).dataset.omniInkLocked !== 'true'`);
+  await clickOn('[role=switch][aria-label="Eraser"]');
+  await waitFor('le crayon rendu par la page', `document.querySelector(${JSON.stringify(surface)}).dataset.omniInkTool === 'pen'`);
+  await focusSurface();
+  await ctrlZ();
+  await waitForStrokes('Ctrl+Z après le crayon', 3);
+  check((await counter('ink-removed')) === removed + 3, 'Ctrl+Z ne lève pas StrokesRemoved.');
+  step('valeur de l\'hôte sans événement, crayon rendu après la gomme, gomme sans effet en lecture seule, Ctrl+Z compté');
+
+  // 12. The frame can be made transparent by a parent: the surface itself never paints a background.
+  const backgrounds = () => evaluate(`JSON.stringify({ surface: getComputedStyle(document.querySelector(${JSON.stringify(surface)})).backgroundColor, frame: getComputedStyle(document.querySelector('#ink-demo .omni-ink-canvas__frame')).backgroundColor })`).then(JSON.parse);
+  const before = await backgrounds();
+  check(before.surface === 'rgba(0, 0, 0, 0)' && before.frame !== 'rgba(0, 0, 0, 0)', `Fonds avant : ${JSON.stringify(before)} (la surface doit être transparente, le cadre opaque).`);
+  await evaluate("document.getElementById('ink-demo').style.setProperty('--omni-ink-background', 'transparent')");
+  const after = await backgrounds();
+  await evaluate("document.getElementById('ink-demo').style.removeProperty('--omni-ink-background')");
+  check(after.surface === 'rgba(0, 0, 0, 0)' && after.frame === 'rgba(0, 0, 0, 0)', `Fonds après la surcharge du parent : ${JSON.stringify(after)}.`);
+  step('fond : la surface est transparente, le cadre le devient par --omni-ink-background posée par un parent');
 }

@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Rensa ritningen</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Sista linjen ångrad</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Ritningen rensad</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Penna</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Suddgummi</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Linjer raderade</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumentets verktygsfält</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zooma ut</value></data>

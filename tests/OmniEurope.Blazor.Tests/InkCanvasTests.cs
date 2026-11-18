@@ -166,7 +166,7 @@ public sealed class InkCanvasTests : OmniBunitContext
 
         canvas.Render();
 
-        Assert.False(canvas.FindAll("button")[0].HasAttribute("disabled"));
+        Assert.False(canvas.FindAll("button:not([aria-pressed])")[0].HasAttribute("disabled"));
         Assert.Single(_module.Invocations["setStrokes"]);
     }
 
@@ -238,8 +238,8 @@ public sealed class InkCanvasTests : OmniBunitContext
         Assert.Equal(4, stroke.Width);
         Assert.Equal([new OmniInkPoint(0.1, 0.2, null), new(0.3, 0.4, 0.5), new(1, 0, 0.25)], stroke.Points);
         Assert.Single(_module.Invocations["setStrokes"]);
-        Assert.False(canvas.FindAll("button")[0].HasAttribute("disabled"));
-        Assert.False(canvas.FindAll("button")[1].HasAttribute("disabled"));
+        Assert.False(canvas.FindAll("button:not([aria-pressed])")[0].HasAttribute("disabled"));
+        Assert.False(canvas.FindAll("button:not([aria-pressed])")[1].HasAttribute("disabled"));
     }
 
     [Fact]
@@ -290,7 +290,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         await Draw(canvas, "#111111");
         await Draw(canvas, "#222222");
 
-        canvas.FindAll("button")[0].Click();
+        canvas.FindAll("button:not([aria-pressed])")[0].Click();
 
         Assert.Equal(["#111111"], _raised[^1].Select(stroke => stroke.Color));
         Assert.Equal(["#111111"], (string[])_module.Invocations["setStrokes"][1].Arguments[1]!);
@@ -304,13 +304,13 @@ public sealed class InkCanvasTests : OmniBunitContext
         await Draw(canvas);
         await Draw(canvas);
 
-        canvas.FindAll("button")[1].Click();
+        canvas.FindAll("button:not([aria-pressed])")[1].Click();
 
         Assert.Empty(_raised[^1]);
         Assert.Empty((string[])_module.Invocations["setStrokes"][1].Arguments[1]!);
         Assert.Equal("Dessin effacé", Announcement(canvas));
-        Assert.True(canvas.FindAll("button")[0].HasAttribute("disabled"));
-        Assert.True(canvas.FindAll("button")[1].HasAttribute("disabled"));
+        Assert.True(canvas.FindAll("button:not([aria-pressed])")[0].HasAttribute("disabled"));
+        Assert.True(canvas.FindAll("button:not([aria-pressed])")[1].HasAttribute("disabled"));
     }
 
     [Fact]
@@ -386,14 +386,324 @@ public sealed class InkCanvasTests : OmniBunitContext
             (color, width, points) => { calls.Add($"stroke {color} {width} {points.Length}"); return Task.CompletedTask; },
             () => { calls.Add("undo"); return Task.CompletedTask; },
             () => { calls.Add("clear"); return Task.CompletedTask; },
-            color => { calls.Add($"theme {color}"); return Task.CompletedTask; });
+            color => { calls.Add($"theme {color}"); return Task.CompletedTask; },
+            (indices, count) => { calls.Add($"erase {string.Join(',', indices)} of {count}"); return Task.CompletedTask; });
 
         await bridge.OnStroke("red", 2, [1, 2, 3]);
         await bridge.OnUndo();
         await bridge.OnClear();
         await bridge.OnThemeColor("#e0e0e0");
+        await bridge.OnErase([0, 2], 3);
 
-        Assert.Equal(["stroke red 2 3", "undo", "clear", "theme #e0e0e0"], calls);
+        Assert.Equal(["stroke red 2 3", "undo", "clear", "theme #e0e0e0", "erase 0,2 of 3"], calls);
+    }
+
+    // ----- Shared drawing: ids, events, tool ---------------------------------------------------------
+
+    private readonly List<OmniInkStroke> _added = [];
+    private readonly List<IReadOnlyList<OmniInkStroke>> _removed = [];
+
+    private IRenderedComponent<OmniInkCanvas> RenderShared(Action<ComponentParameterCollectionBuilder<OmniInkCanvas>>? configure = null)
+        => RenderCanvas(parameters =>
+        {
+            parameters.Add(canvas => canvas.StrokeAdded, EventCallback.Factory.Create<OmniInkStroke>(this, stroke => _added.Add(stroke)));
+            parameters.Add(canvas => canvas.StrokesRemoved, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, strokes => _removed.Add(strokes)));
+            configure?.Invoke(parameters);
+        });
+
+    private static Task Erase(IRenderedComponent<OmniInkCanvas> canvas, int count, params int[] indices)
+        => canvas.InvokeAsync(() => canvas.Instance.HandleEraseAsync(indices, count));
+
+    private static OmniInkStroke Remote(string id, string color = "#abcdef") => Stroke(color) with { Id = id };
+
+    [Fact]
+    public async Task AStrokeDrawnOnTheCanvas_GetsAFreshId_32HexDigits_AndTheEventsCarryTheSameStroke()
+    {
+        var canvas = RenderShared();
+
+        await Draw(canvas, "#111111");
+        await Draw(canvas, "#222222");
+
+        var first = _raised[0].Single();
+        var second = _raised[1][1];
+        Assert.Matches("^[0-9a-f]{32}$", first.Id);
+        Assert.Matches("^[0-9a-f]{32}$", second.Id);
+        Assert.NotEqual(first.Id, second.Id);
+        Assert.Same(first, _raised[1][0]);
+        Assert.Equal([first, second], _added);
+    }
+
+    [Fact]
+    public void AStrokeTheHostGives_KeepsItsOwnIdOrNone_AndRaisesNothing()
+    {
+        var withId = Remote("remote-1");
+        var withoutId = Stroke();
+        var canvas = RenderShared(parameters => parameters.Add(c => c.Value, [withId, withoutId]));
+
+        var pushed = (string[])_module.Invocations["setStrokes"][0].Arguments[1]!;
+        Assert.Equal(2, pushed.Length);
+        Assert.Equal("remote-1", withId.Id);
+        Assert.Null(withoutId.Id);
+        canvas.Render(parameters => parameters.Add(c => c.Value, [withId, withoutId, Remote("remote-2")]));
+        Assert.Empty(_added);
+        Assert.Empty(_removed);
+        Assert.Empty(_raised);
+    }
+
+    [Fact]
+    public async Task StrokeAdded_IsRaisedAfterValueChanged_ForEveryDrawnStroke_ButNotForARefusedOne()
+    {
+        var order = new List<string>();
+        var canvas = Render<OmniInkCanvas>(parameters => parameters
+            .Add(c => c.ValueChanged, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, _ => order.Add("value")))
+            .Add(c => c.StrokeAdded, EventCallback.Factory.Create<OmniInkStroke>(this, _ => order.Add("added"))));
+
+        await Draw(canvas);
+        await Draw(canvas, flat: new double[2]);
+        canvas.Render(parameters => parameters.Add(c => c.ReadOnly, true));
+        await Draw(canvas);
+
+        Assert.Equal(["value", "added"], order);
+    }
+
+    [Fact]
+    public async Task StrokesRemoved_IsRaisedForUndo_AfterValueChanged_WithTheStrokeRemoved()
+    {
+        var order = new List<string>();
+        var canvas = Render<OmniInkCanvas>(parameters => parameters
+            .Add(c => c.ValueChanged, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, _ => order.Add("value")))
+            .Add(c => c.StrokesRemoved, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, strokes => { order.Add("removed"); _removed.Add(strokes); })));
+        await Draw(canvas, "#111111");
+        await Draw(canvas, "#222222");
+        order.Clear();
+
+        canvas.FindAll("button:not([aria-pressed])")[0].Click();
+
+        Assert.Equal(["value", "removed"], order);
+        var removed = Assert.Single(_removed);
+        Assert.Equal(["#222222"], removed.Select(stroke => stroke.Color));
+    }
+
+    [Fact]
+    public async Task StrokesRemoved_IsRaisedForClear_WithEveryStroke_AndForUndoAndClearFromTheKeysAndTheHost()
+    {
+        var canvas = RenderShared();
+        await Draw(canvas, "#111111");
+        await Draw(canvas, "#222222");
+        await Draw(canvas, "#333333");
+
+        await canvas.InvokeAsync(canvas.Instance.HandleUndoKeyAsync);
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+        await canvas.InvokeAsync(canvas.Instance.HandleClearKeyAsync);
+        Assert.Equal([["#333333"], ["#222222"], ["#111111"]], _removed.Select(list => list.Select(stroke => stroke.Color).ToArray()));
+
+        await Draw(canvas, "#444444");
+        await Draw(canvas, "#555555");
+        _removed.Clear();
+        canvas.FindAll("button:not([aria-pressed])")[1].Click();
+        Assert.Equal(["#444444", "#555555"], Assert.Single(_removed).Select(stroke => stroke.Color));
+
+        await canvas.InvokeAsync(canvas.Instance.ClearAsync);
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+        Assert.Single(_removed);
+    }
+
+    [Fact]
+    public async Task TheHostCanUndoAndClear_ReadOnly_AndStillGetsStrokesRemoved()
+    {
+        var canvas = RenderShared(parameters => parameters.Add(c => c.ReadOnly, true).Add(c => c.Value, [Stroke("#111111"), Stroke("#222222")]));
+
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+        await canvas.InvokeAsync(canvas.Instance.ClearAsync);
+
+        Assert.Equal([["#222222"], ["#111111"]], _removed.Select(list => list.Select(stroke => stroke.Color).ToArray()));
+    }
+
+    [Fact]
+    public async Task AValueFromTheHost_RaisesNoStrokeAddedAndNoStrokesRemoved_EvenWhenItDropsStrokes()
+    {
+        var canvas = RenderShared(parameters => parameters.Add(c => c.Value, [Remote("a"), Remote("b")]));
+        await Draw(canvas);
+        _added.Clear();
+
+        canvas.Render(parameters => parameters.Add(c => c.Value, [Remote("a")]));
+        canvas.Render(parameters => parameters.Add(c => c.Value, []));
+
+        Assert.Empty(_added);
+        Assert.Empty(_removed);
+    }
+
+    [Fact]
+    public async Task Undo_RemovesTheLastStrokeDrawnHere_WhenRemoteStrokesCameAfter()
+    {
+        var canvas = RenderShared();
+        await Draw(canvas, "#aaaaaa");
+        var mine = _raised[^1].Single();
+        var withRemotes = new List<OmniInkStroke>(_raised[^1]) { Remote("r1", "#bbbbbb"), Remote("r2", "#cccccc") };
+        canvas.Render(parameters => parameters.Add(c => c.Value, withRemotes));
+        _removed.Clear();
+
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+
+        Assert.Equal(["#bbbbbb", "#cccccc"], _raised[^1].Select(stroke => stroke.Color));
+        Assert.Same(mine, Assert.Single(Assert.Single(_removed)));
+        Assert.Equal(["#bbbbbb", "#cccccc"], ((string[])_module.Invocations["setStrokes"][^1].Arguments[1]!));
+    }
+
+    [Fact]
+    public async Task Undo_TakesTheOwnStrokesNewestFirst_ThenFallsBackToTheLastStroke()
+    {
+        var canvas = RenderShared();
+        await Draw(canvas, "#111111");
+        await Draw(canvas, "#222222");
+        var all = new List<OmniInkStroke> { Remote("r0", "#999999"), _raised[^1][0], Remote("r1", "#888888"), _raised[^1][1], Remote("r2", "#777777") };
+        canvas.Render(parameters => parameters.Add(c => c.Value, all));
+
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+        Assert.Equal(["#999999", "#111111", "#888888", "#777777"], _raised[^1].Select(stroke => stroke.Color));
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+        Assert.Equal(["#999999", "#888888", "#777777"], _raised[^1].Select(stroke => stroke.Color));
+
+        // Nothing of this canvas is left: the last stroke of the drawing goes, as for a single user.
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+        Assert.Equal(["#999999", "#888888"], _raised[^1].Select(stroke => stroke.Color));
+    }
+
+    [Fact]
+    public async Task Undo_WithAHostListThatDroppedTheOwnStroke_UndoesTheLastStrokeInstead()
+    {
+        var canvas = RenderShared();
+        await Draw(canvas, "#111111");
+        canvas.Render(parameters => parameters.Add(c => c.Value, [Remote("r0", "#999999"), Remote("r1", "#888888")]));
+
+        await canvas.InvokeAsync(canvas.Instance.UndoAsync);
+
+        Assert.Equal(["#999999"], _raised[^1].Select(stroke => stroke.Color));
+    }
+
+    [Fact]
+    public async Task Eraser_RemovesTheTouchedStrokes_InOneValueChanged_ThenStrokesRemoved_AndPushesTheRest()
+    {
+        var canvas = RenderShared(parameters => parameters.Add(c => c.Value, [Remote("a", "#111111"), Remote("b", "#222222"), Remote("c", "#333333")]));
+
+        await Erase(canvas, 3, 2, 0, 2);
+
+        Assert.Equal(["#222222"], Assert.Single(_raised).Select(stroke => stroke.Color));
+        Assert.Equal(["#111111", "#333333"], Assert.Single(_removed).Select(stroke => stroke.Color));
+        Assert.Empty(_added);
+        Assert.Equal(["#222222"], (string[])_module.Invocations["setStrokes"][^1].Arguments[1]!);
+        Assert.Equal("Traits effacés", Announcement(canvas));
+    }
+
+    [Fact]
+    public async Task Eraser_OnALockedCanvas_AHostListInTheMeantime_OrBadIndices_RemovesNothing_AndTheScriptGetsTheStrokesBack()
+    {
+        var canvas = RenderShared(parameters => parameters.Add(c => c.ReadOnly, true).Add(c => c.Value, [Remote("a"), Remote("b")]));
+        var pushes = _module.Invocations["setStrokes"].Count;
+
+        await Erase(canvas, 2, 0);
+        Assert.Equal(pushes + 1, _module.Invocations["setStrokes"].Count);
+
+        canvas.Render(parameters => parameters.Add(c => c.ReadOnly, false));
+        pushes = _module.Invocations["setStrokes"].Count;
+        await Erase(canvas, 3, 0);
+        await Erase(canvas, 2, 2);
+        await Erase(canvas, 2, -1);
+        await Erase(canvas, 2);
+        await canvas.InvokeAsync(() => canvas.Instance.HandleEraseAsync(null!, 2));
+
+        Assert.Equal(pushes + 5, _module.Invocations["setStrokes"].Count);
+        Assert.Empty(_raised);
+        Assert.Empty(_removed);
+    }
+
+    [Fact]
+    public async Task Eraser_AfterDispose_DoesNothing()
+    {
+        var canvas = RenderShared(parameters => parameters.Add(c => c.Value, [Remote("a")]));
+        await canvas.Instance.DisposeAsync();
+
+        await Erase(canvas, 1, 0);
+
+        Assert.Empty(_raised);
+        Assert.Empty(_removed);
+    }
+
+    [Fact]
+    public void Tool_IsPen_ByDefault_AndTheMarkupTellsTheScriptWhichOneItIs()
+    {
+        var canvas = RenderCanvas();
+        Assert.Equal("pen", canvas.Find("canvas").GetAttribute("data-omni-ink-tool"));
+        Assert.DoesNotContain("omni-ink-canvas--eraser", canvas.Find("div.omni-ink-canvas").ClassName, StringComparison.Ordinal);
+
+        canvas.Render(parameters => parameters.Add(c => c.Tool, OmniInkTool.Eraser));
+        Assert.Equal("eraser", canvas.Find("canvas").GetAttribute("data-omni-ink-tool"));
+        Assert.Contains("omni-ink-canvas--eraser", canvas.Find("div.omni-ink-canvas").ClassName, StringComparison.Ordinal);
+        Assert.DoesNotContain("style=", canvas.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    [Fact]
+    public void Toolbar_HasAPenAndAnEraserToggle_PressedAccordingToTheTool_AndLocalized()
+    {
+        var canvas = RenderCanvas();
+
+        var tools = canvas.FindAll("[role=toolbar] button[aria-pressed]");
+        Assert.Equal(["Crayon", "Gomme"], tools.Select(button => button.GetAttribute("aria-label")));
+        Assert.Equal(["Crayon", "Gomme"], tools.Select(button => button.GetAttribute("title")));
+        Assert.Equal(["true", "false"], tools.Select(button => button.GetAttribute("aria-pressed")));
+        Assert.All(tools, button => Assert.False(button.HasAttribute("disabled")));
+
+        canvas.Render(parameters => parameters.Add(c => c.Tool, OmniInkTool.Eraser));
+        Assert.Equal(["false", "true"], canvas.FindAll("[role=toolbar] button[aria-pressed]").Select(button => button.GetAttribute("aria-pressed")));
+    }
+
+    [Fact]
+    public void ToolButtons_ChooseTheTool_RaiseToolChanged_AndTheParameterTakesOverWhenItChanges()
+    {
+        var raised = new List<OmniInkTool>();
+        var canvas = RenderCanvas(parameters => parameters.Add(c => c.ToolChanged, EventCallback.Factory.Create<OmniInkTool>(this, raised.Add)));
+
+        canvas.FindAll("[role=toolbar] button[aria-pressed]")[1].Click();
+        Assert.Equal([OmniInkTool.Eraser], raised);
+        Assert.Equal("eraser", canvas.Find("canvas").GetAttribute("data-omni-ink-tool"));
+
+        // Pressing the tool already chosen raises nothing.
+        canvas.FindAll("[role=toolbar] button[aria-pressed]")[1].Click();
+        Assert.Single(raised);
+
+        canvas.Render();
+        Assert.Equal("eraser", canvas.Find("canvas").GetAttribute("data-omni-ink-tool"));
+
+        canvas.FindAll("[role=toolbar] button[aria-pressed]")[0].Click();
+        Assert.Equal([OmniInkTool.Eraser, OmniInkTool.Pen], raised);
+        Assert.Equal("pen", canvas.Find("canvas").GetAttribute("data-omni-ink-tool"));
+
+        canvas.Render(parameters => parameters.Add(c => c.Tool, OmniInkTool.Eraser));
+        Assert.Equal("eraser", canvas.Find("canvas").GetAttribute("data-omni-ink-tool"));
+    }
+
+    [Fact]
+    public void ToolButtons_AreDisabled_WhenTheCanvasIsReadOnlyOrDisabled_AndALockedCanvasMarksTheScript()
+    {
+        var readOnly = RenderCanvas(parameters => parameters.Add(c => c.ReadOnly, true).Add(c => c.Tool, OmniInkTool.Eraser));
+        var disabled = RenderCanvas(parameters => parameters.Add(c => c.Disabled, true));
+
+        Assert.All(readOnly.FindAll("[role=toolbar] button[aria-pressed]"), button => Assert.True(button.HasAttribute("disabled")));
+        Assert.All(disabled.FindAll("[role=toolbar] button[aria-pressed]"), button => Assert.True(button.HasAttribute("disabled")));
+        // The eraser is blocked in the script like the pen: the same locked marker, read at every press.
+        Assert.Equal("true", readOnly.Find("canvas").GetAttribute("data-omni-ink-locked"));
+        Assert.Equal("eraser", readOnly.Find("canvas").GetAttribute("data-omni-ink-tool"));
+    }
+
+    [Fact]
+    public async Task TheKeysStayTheSame_WhateverTheTool()
+    {
+        var canvas = RenderShared(parameters => parameters.Add(c => c.Tool, OmniInkTool.Eraser).Add(c => c.Value, [Remote("a"), Remote("b")]));
+
+        await canvas.InvokeAsync(canvas.Instance.HandleUndoKeyAsync);
+        Assert.Equal(["#abcdef"], _raised[^1].Select(stroke => stroke.Color));
+        await canvas.InvokeAsync(canvas.Instance.HandleClearKeyAsync);
+        Assert.Empty(_raised[^1]);
     }
 
     // ----- Toolbar -----------------------------------------------------------------------------------
@@ -407,7 +717,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         Assert.Equal("Outils de dessin", toolbar.GetAttribute("aria-label"));
         Assert.Equal("Couleur du trait", canvas.Find("input[type=color]").GetAttribute("aria-label"));
         Assert.Equal("Épaisseur du trait", canvas.Find("input[type=range]").GetAttribute("aria-label"));
-        var buttons = canvas.FindAll("[role=toolbar] button");
+        var buttons = canvas.FindAll("[role=toolbar] button:not([aria-pressed])");
         Assert.Equal(["Annuler le dernier trait", "Effacer le dessin"], buttons.Select(button => button.GetAttribute("aria-label")));
         Assert.All(buttons, button => Assert.True(button.HasAttribute("disabled")));
         Assert.Empty(canvas.FindAll("[role=toolbar] output"));
@@ -652,9 +962,10 @@ public sealed class InkCanvasTests : OmniBunitContext
 
             Assert.Equal("Drawing area", canvas.Find("canvas").GetAttribute("aria-label"));
             Assert.Equal("Drawing tools", canvas.Find("[role=toolbar]").GetAttribute("aria-label"));
-            Assert.Equal("Undo last stroke", canvas.FindAll("[role=toolbar] button")[0].GetAttribute("aria-label"));
-            Assert.Equal("Clear drawing", canvas.FindAll("[role=toolbar] button")[1].GetAttribute("aria-label"));
+            Assert.Equal("Undo last stroke", canvas.FindAll("[role=toolbar] button:not([aria-pressed])")[0].GetAttribute("aria-label"));
+            Assert.Equal("Clear drawing", canvas.FindAll("[role=toolbar] button:not([aria-pressed])")[1].GetAttribute("aria-label"));
             Assert.Equal("Stroke colour", canvas.Find("input[type=color]").GetAttribute("aria-label"));
+            Assert.Equal(["Pen", "Eraser"], canvas.FindAll("[role=toolbar] button[aria-pressed]").Select(button => button.GetAttribute("aria-label")));
             Assert.Equal("Stroke width", canvas.Find("input[type=range]").GetAttribute("aria-label"));
         }
         finally

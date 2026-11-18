@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Borrar el dibujo</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Último trazo deshecho</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Dibujo borrado</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Lápiz</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Borrador</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Trazos borrados</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Documento</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra de herramientas del documento</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Alejar</value></data>

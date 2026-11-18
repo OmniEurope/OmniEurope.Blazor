@@ -3,7 +3,10 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Showcase.Examples.Editor;
 
-/// <summary>A freehand drawing pad bound to its strokes, with a sample to load and an export as a transparent PNG.</summary>
+/// <summary>
+/// A freehand drawing pad bound to its strokes, with a sample to load, an export as a transparent PNG, the pen and
+/// the eraser, and counters of the strokes the canvas reports as added and removed.
+/// </summary>
 public partial class InkCanvasExample
 {
     private const int ExportWidth = 600;
@@ -24,6 +27,14 @@ public partial class InkCanvasExample
     [Parameter]
     public bool Disabled { get; set; }
 
+    /// <summary>What the pointer does: draw (the pen) or erase whole strokes (the eraser).</summary>
+    [Parameter]
+    public OmniInkTool Tool { get; set; }
+
+    /// <summary>Raised when the toolbar chooses the pen or the eraser.</summary>
+    [Parameter]
+    public EventCallback<OmniInkTool> ToolChanged { get; set; }
+
     /// <summary>The drawing area is three times wider than high, like a signature pad; otherwise it is 12rem high.</summary>
     [Parameter]
     public bool Wide { get; set; }
@@ -31,6 +42,14 @@ public partial class InkCanvasExample
     private IReadOnlyList<OmniInkStroke> Strokes { get; set; } = [];
 
     private string? Exported { get; set; }
+
+    private int Added { get; set; }
+
+    private int Removed { get; set; }
+
+    private void CountAdded(OmniInkStroke stroke) => Added++;
+
+    private void CountRemoved(IReadOnlyList<OmniInkStroke> strokes) => Removed += strokes.Count;
 
     private int ExportHeight => Wide ? ExportHeightWide : ExportHeightDefault;
 

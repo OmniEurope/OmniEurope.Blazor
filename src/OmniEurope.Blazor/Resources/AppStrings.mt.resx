@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Neħħi t-tpinġija</value></data>
   <data name="InkUndone" xml:space="preserve"><value>L-aħħar linja ġiet ikkanċellata</value></data>
   <data name="InkCleared" xml:space="preserve"><value>It-tpinġija tneħħiet</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Pinna</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Għomma</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Il-linji tħassru</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Toolbar tad-dokument</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Żum 'l barra</value></data>

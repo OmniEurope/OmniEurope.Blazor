@@ -921,6 +921,8 @@ field public static OmniEurope.Blazor.Components.OmniImageLoading.Eager : OmniEu
 field public static OmniEurope.Blazor.Components.OmniImageLoading.Lazy : OmniEurope.Blazor.Components.OmniImageLoading const = 1
 field public static OmniEurope.Blazor.Components.OmniInkStroke.ReferenceWidth : System.Double const = 600
 field public static OmniEurope.Blazor.Components.OmniInkStroke.ThemeColor : System.String const = "currentColor"
+field public static OmniEurope.Blazor.Components.OmniInkTool.Eraser : OmniEurope.Blazor.Components.OmniInkTool const = 1
+field public static OmniEurope.Blazor.Components.OmniInkTool.Pen : OmniEurope.Blazor.Components.OmniInkTool const = 0
 field public static OmniEurope.Blazor.Components.OmniJustification.Between : OmniEurope.Blazor.Components.OmniJustification const = 3
 field public static OmniEurope.Blazor.Components.OmniJustification.Center : OmniEurope.Blazor.Components.OmniJustification const = 1
 field public static OmniEurope.Blazor.Components.OmniJustification.End : OmniEurope.Blazor.Components.OmniJustification const = 2
@@ -3483,7 +3485,11 @@ property public OmniEurope.Blazor.Components.OmniInkCanvas.Height : System.Strin
 property public OmniEurope.Blazor.Components.OmniInkCanvas.Label : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInkCanvas.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInkCanvas.ShowToolbar : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.StrokeAdded : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniInkStroke> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInkCanvas.StrokeWidth : System.Double {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.StrokesRemoved : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke>> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.Tool : OmniEurope.Blazor.Components.OmniInkTool {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniInkCanvas.ToolChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniInkTool> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInkCanvas.Value : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInkCanvas.ValueChanged : Microsoft.AspNetCore.Components.EventCallback<System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkStroke>> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniInkCanvas.Width : System.String? {get(public);set(public)} [Parameter]
@@ -3491,6 +3497,7 @@ property public OmniEurope.Blazor.Components.OmniInkPoint.Pressure : System.Doub
 property public OmniEurope.Blazor.Components.OmniInkPoint.X : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniInkPoint.Y : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniInkStroke.Color : System.String {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniInkStroke.Id : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniInkStroke.Points : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniInkPoint> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniInkStroke.Width : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniInlineFormKeyHost.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
@@ -4694,6 +4701,7 @@ type public OmniEurope.Blazor.Components.OmniImageLoading [enum, sealed] : Syste
 type public OmniEurope.Blazor.Components.OmniInkCanvas [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniInkPoint [struct, sealed] : System.ValueType, System.IEquatable<OmniEurope.Blazor.Components.OmniInkPoint>
 type public OmniEurope.Blazor.Components.OmniInkStroke [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniInkStroke>
+type public OmniEurope.Blazor.Components.OmniInkTool [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniInlineFormKeyHost [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniInputBase<TValue> [class, abstract] : Microsoft.AspNetCore.Components.Forms.InputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniJustification [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

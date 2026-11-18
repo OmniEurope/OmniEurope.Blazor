@@ -13,7 +13,7 @@ La famille Editor couvre onze composants :
 | `OmniDocumentViewer` | Document converti par l'hôte, lu page par page : pages image ou HTML assaini, champs `data-oe-field` surlignés sur les pages HTML, zoom et ajustement à la largeur. |
 | `OmniCharacterPalette` | Rangée de caractères fournis par l'hôte (lettres de la langue saisie) ; un clic rend le caractère sans retirer le focus d'un éditeur. |
 | `OmniMailTemplateEditor` | Modèle de mail : objet, corps `OmniHtmlEditor`, variables insérées au curseur, aperçu du mail rendu ; `OmniMailRenderer` rend le modèle côté serveur pour les clients de messagerie. |
-| `OmniInkCanvas` | Zone de dessin à main levée (souris, stylet avec pression, doigt) : traits en coordonnées relatives, couleur, épaisseur, Annuler, Effacer, export en PNG transparent. |
+| `OmniInkCanvas` | Zone de dessin à main levée (souris, stylet avec pression, doigt) : traits en coordonnées relatives, crayon et gomme, couleur, épaisseur, Annuler, Effacer, export en PNG transparent ; couche de dessin partagée (identifiant des traits, `StrokeAdded`, `StrokesRemoved`) que l'hôte transporte lui-même entre navigateurs. |
 | `OmniDocumentEditor` | Éditeur structuré minimal d'un document converti par l'hôte (modèle neutre `OmniDocument`) : texte modifié sur place, champs remplis avec la saisie de leur type (texte, date, liste, nombre), dessin sous un paragraphe, jeu de changements rapporté à l'hôte. |
 
 `OmniHtmlEditor` produit du HTML assaini ; `OmniMailTemplateEditor` en fait un modèle de mail ; `OmniCodeEditor` édite du texte brut ; `OmniCharacterPalette` fournit des caractères à insérer ; `OmniInkCanvas` recueille un dessin ; `OmniDocumentEditor` modifie un document converti par l'hôte ; les cinq autres affichent sans éditer.
@@ -694,8 +694,8 @@ propriétés CSS personnalisées posées par le script (CSSOM), comme les autres
 
 ### Le trait : `OmniInkStroke` et `OmniInkPoint`
 
-`OmniInkStroke(Color, Width, Points)` est un enregistrement immuable ; `OmniInkPoint(X, Y, Pressure)` en est un
-point. `X` et `Y` sont **relatifs** à la zone, de 0 (bord gauche, bord haut) à 1 (bord droit, bord bas) : un
+`OmniInkStroke(Color, Width, Points)` est un enregistrement immuable, avec une propriété `Id` (`string?`, `init`,
+`null` par défaut, voir « Dessin partagé ») ; `OmniInkPoint(X, Y, Pressure)` en est un point. `X` et `Y` sont **relatifs** à la zone, de 0 (bord gauche, bord haut) à 1 (bord droit, bord bas) : un
 trait ne dépend pas de la taille à laquelle il a été dessiné, et se redessine à l'identique après un
 redimensionnement. `Pressure` (`double?`, de 0 à 1) est la pression du stylet ; `null` pour une souris ou un
 doigt. Une pression de 0,5 trace la ligne à l'épaisseur du trait, moins de pression l'amincit, plus l'épaissit.
@@ -711,8 +711,26 @@ qui suit un changement de thème (clair ou sombre) sans que le dessin soit refai
 ### Paramètres
 
 - `Value` (`IReadOnlyList<OmniInkStroke>`, vide par défaut, jamais `null`) et `ValueChanged` : le composant ne
-  modifie jamais la liste reçue, il en lève une nouvelle à chaque trait, annulation et effacement, et dessine
-  celle que l'hôte donne quand ce n'est pas celle qu'il a levée en dernier. Sans liaison, il garde son dessin.
+  modifie jamais la liste reçue, il en lève une nouvelle à chaque trait, effacement à la gomme, annulation et
+  effacement du dessin, et dessine celle que l'hôte donne quand ce n'est pas celle qu'il a levée en dernier. Sans
+  liaison, il garde son dessin.
+- `Tool` (`OmniInkTool` : `Pen` par défaut, `Eraser`) et `ToolChanged` : ce que fait le pointeur. Avec `Eraser`, il ne
+  dessine rien : il suit un chemin, et à son relâchement chaque trait **entier** que le chemin a touché est retiré,
+  en un seul `ValueChanged`. Un trait est touché quand le chemin passe à moins de la moitié de sa largeur dessinée
+  (celle que la pression du stylet lui donne par tronçon) plus une tolérance de 5 pixels CSS ; le chemin est balayé
+  segment par segment, un geste rapide ne saute donc pas un trait fin, et un simple clic sur un trait le retire. Les
+  traits touchés s'estompent pendant le geste. Le test se fait dans le script, en pixels, sur la géométrie des
+  traits ; .NET reçoit les indices touchés et le nombre de traits que le script tient, les vérifie contre sa propre
+  liste (liste donnée par l'hôte entre-temps, indice hors limites : rien n'est retiré et le script reçoit les traits
+  courants) puis retire. `ReadOnly` et `Disabled` bloquent la gomme comme le crayon ; le clavier ne change pas. La barre
+  d'outils propose le crayon et la gomme (deux `OmniToggleButton` à `aria-pressed`, icônes `Edit` et `Eraser`) ; un
+  choix de la barre remplace le paramètre jusqu'à ce qu'il change, comme la couleur. Le curseur de la gomme est un
+  cercle (image `data:` de la feuille de style, autorisée par `img-src` du contrat CSP, `cell` en secours), sans style en ligne.
+- `StrokeAdded` (`EventCallback<OmniInkStroke>`) : un trait dessiné **sur cette zone**, levé après `ValueChanged`
+  (c'est le dernier de la nouvelle liste, avec son `Id`). `StrokesRemoved` (`EventCallback<IReadOnlyList<OmniInkStroke>>`) :
+  les traits retirés par la zone, dans l'ordre du dessin, après `ValueChanged`, quel qu'en soit le geste (gomme, Ctrl+Z,
+  Suppr, barre d'outils, `UndoAsync`, `ClearAsync`). Ni l'un ni l'autre n'est levé pour un `Value` donné par l'hôte, ni
+  pour un trait refusé (zone verrouillée, trait mal formé).
 - `Color` (`string?`) : la couleur des prochains traits ; `null` (défaut) pour la couleur du texte du thème.
   `StrokeWidth` (`double`, 2 par défaut, au-dessus de zéro) : leur épaisseur, à la largeur de référence. Le
   champ couleur et le curseur de la barre d'outils les remplacent jusqu'à ce que le paramètre change.
@@ -731,8 +749,10 @@ qui suit un changement de thème (clair ou sombre) sans que le dessin soit refai
 
 ### Méthodes
 
-- `UndoAsync()` retire le dernier trait et `ClearAsync()` les retire tous, chacun levant `ValueChanged` ; sur un
-  dessin vide, rien. Ce sont les méthodes de l'hôte : elles marchent aussi en `ReadOnly` ou `Disabled`.
+- `UndoAsync()` retire le dernier trait dessiné sur cette zone qui est encore dans le dessin (à défaut, le dernier
+  trait du dessin : seul, le comportement est celui d'avant) et `ClearAsync()` les retire tous, chacun levant
+  `ValueChanged` puis `StrokesRemoved` ; sur un dessin vide, rien. Ce sont les méthodes de l'hôte : elles marchent aussi en
+  `ReadOnly` ou `Disabled`.
 - `ExportPngAsync(int width, int height, CancellationToken cancellationToken = default)` dessine les traits sur fond **transparent** et rend les octets d'un
   PNG de `width` par `height` pixels (1 à 8192, sinon `ArgumentOutOfRangeException`). Les positions relatives
   sont étirées sur l'image : donner le rapport de la zone garde ses proportions. Un trait en couleur de thème
@@ -740,20 +760,47 @@ qui suit un changement de thème (clair ou sombre) sans que le dessin soit refai
   image sous forme d'adresse `data:image/png;base64,…`. L'export exige le script : appelé après la fin de vie du
   composant, il lève `ObjectDisposedException`. Le jeton annule l'export, avant ou pendant le dessin par le script : `OperationCanceledException`, aucun résultat partiel.
 
+### Dessin partagé
+
+La zone ne transporte rien : l'hôte envoie ce qu'elle rapporte aux autres navigateurs (SignalR, WebSocket, autre) et lui
+rend le résultat par `Value`.
+
+- **Identifiant.** `OmniInkStroke.Id` (`string?`) est posé par la zone sur chaque trait qu'elle dessine, un `Guid` neuf en
+  32 chiffres hexadécimaux (`Guid.NewGuid().ToString("N")`) ; un trait construit par l'hôte garde l'identifiant qu'il lui
+  donne, ou `null`. La zone ne vérifie pas l'unicité et ne réécrit jamais un identifiant. Elle ne se sert que de ceux des
+  traits qu'elle a dessinés (pour annuler) ; l'égalité de l'enregistrement compare `Color`, `Width`, `Id` et `Points` (par
+  référence) : deux traits dessinés sur une zone ne sont jamais égaux, et c'est `Id` qu'il faut comparer pour reconnaître un
+  trait d'un navigateur à l'autre.
+- **Émettre.** `StrokeAdded` donne le trait à envoyer, `StrokesRemoved` les traits à faire retirer (par leur `Id`) chez les
+  autres. **Recevoir.** L'hôte construit la liste (la sienne plus le trait reçu, ou sans les traits retirés) et la donne par
+  `Value` : la zone la dessine sans lever ni `StrokeAdded` ni `StrokesRemoved`, ce qui évite qu'un trait reçu soit renvoyé en
+  écho.
+- **Annuler.** Ctrl+Z, le bouton et `UndoAsync` retirent le dernier trait **dessiné sur cette zone** qui est encore dans le
+  dessin : un utilisateur n'annule pas le trait qu'un autre a tracé après le sien. Sans trait propre (zone qui n'a rien dessiné,
+  ou dont les traits ont disparu d'une liste donnée par l'hôte), c'est le dernier trait du dessin, comme en usage seul. La
+  gomme, elle, retire n'importe quel trait touché, le sien ou celui d'un autre.
+- **Fond transparent.** Rien dans la zone ne peint de fond : le canevas est transparent entre les traits (l'export PNG aussi).
+  Seul le cadre a un fond et une bordure (complète, sur quatre côtés) ; pour poser la zone sur une image ou une vidéo, une
+  classe du parent règle les propriétés CSS `--omni-ink-background` (fond du cadre, `transparent` pour le retirer ; par
+  défaut le fond de carte ou de surface du thème) et `--omni-ink-border-color` (couleur de la bordure du cadre, par défaut
+  `--omni-color-border`) ; `Class` donne aussi une classe à la racine de la zone. Aucun style en ligne n'est nécessaire :
+  `.ma-video .omni-ink-canvas { --omni-ink-background: transparent; }` suffit.
+
 ### Clavier et accessibilité
 
 La zone est un `role="img"` nommé par `Label` et décrit par une aide masquée ; elle est focalisable (Tab, et un
-appui dessus lui donne le focus). Quand elle a le focus, **Ctrl+Z** (Cmd+Z) annule le dernier trait et
-**Suppr** efface le dessin ; chaque action est annoncée dans une zone `role="status"`. Les boutons de la barre
-sont dans l'ordre de tabulation et nommés (nom et infobulle). Les couleurs viennent des jetons du thème
+appui dessus lui donne le focus). Quand elle a le focus, **Ctrl+Z** (Cmd+Z) annule le dernier trait (le dernier trait dessiné ici, voir « Dessin partagé ») et
+**Suppr** efface le dessin, quel que soit l'outil ; chaque action, la gomme comprise (« Traits effacés »), est annoncée dans une zone `role="status"`. Les boutons de la barre
+(crayon et gomme à `aria-pressed`, annuler, effacer) sont dans l'ordre de tabulation et nommés (nom et infobulle). Le bouton Effacer
+porte l'icône `Delete` (corbeille) depuis que la gomme a pris l'icône `Eraser`. Les couleurs viennent des jetons du thème
 (clair et sombre) ; le dessin se redessine quand le thème, le schéma de couleur du système ou la taille de la
-zone change. Les textes (zone, aide, barre, couleur, épaisseur, Annuler, Effacer, annonces) sont localisés
+zone change. Les textes (zone, aide, barre, crayon, gomme, couleur, épaisseur, Annuler, Effacer, annonces) sont localisés
 dans les 24 langues du paquet.
 
 ### Limites
 
 Le tracé est lissé par des courbes entre les points (souris, doigt) ou segment par segment avec la pression
-(stylet) ; il n'y a ni gomme au trait, ni rétablissement, ni sélection d'un trait. Le dessin à plusieurs doigts
+(stylet) ; la gomme retire des traits entiers, jamais une partie de trait ; il n'y a ni rétablissement, ni sélection d'un trait. Le dessin à plusieurs doigts
 n'est pas pris en charge : seul le pointeur principal trace.
 
 ## OmniDocumentViewer : document page par page

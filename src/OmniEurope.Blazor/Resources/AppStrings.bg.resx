@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Изчистване на рисунката</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Последният щрих е отменен</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Рисунката е изчистена</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Писалка</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Гума</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Щрихите са изтрити</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Документ</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Лента с инструменти за документа</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Намаляване</value></data>

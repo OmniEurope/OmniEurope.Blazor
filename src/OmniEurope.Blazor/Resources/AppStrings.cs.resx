@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Vymazat kresbu</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Poslední tah byl vrácen zpět</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Kresba byla vymazána</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Pero</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Guma</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Tahy byly vymazány</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Panel nástrojů dokumentu</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Oddálit</value></data>

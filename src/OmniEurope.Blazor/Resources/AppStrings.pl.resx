@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Wyczyść rysunek</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Cofnięto ostatnią kreskę</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Wyczyszczono rysunek</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Pióro</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Gumka</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Kreski usunięte</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Pasek narzędzi dokumentu</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Pomniejsz</value></data>

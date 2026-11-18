@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Glan an líníocht</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Cealaíodh an stróc deireanach</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Glanadh an líníocht</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Peann</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Scriosán</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Scriosadh na stróic</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Doiciméad</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra uirlisí an doiciméid</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zúmáil amach</value></data>

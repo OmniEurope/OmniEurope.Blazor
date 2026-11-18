@@ -1,5 +1,7 @@
 @* A freehand drawing pad: the strokes are the bound value, the count below follows them, and the drawing exports as a
-   transparent PNG (shown here on a chequered backdrop, so the transparency can be seen). *@
+   transparent PNG (shown here on a chequered backdrop, so the transparency can be seen). The two badges count what the
+   canvas reports for a shared drawing: the strokes drawn here (StrokeAdded) and the strokes it removed (StrokesRemoved),
+   never the strokes the host gives, such as the sample. *@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniInkCanvas @ref="_canvas"
                    Id="ink-demo"
@@ -8,9 +10,15 @@
                    ShowToolbar="ShowToolbar"
                    ReadOnly="ReadOnly"
                    Disabled="Disabled"
+                   Tool="Tool"
+                   ToolChanged="ToolChanged"
+                   StrokeAdded="CountAdded"
+                   StrokesRemoved="CountRemoved"
                    AspectRatio="@(Wide ? 3d : null)" />
     <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
         <OmniBadge Id="ink-count" Tone="OmniTone.Info">@Strokes.Count @(Strokes.Count == 1 ? "stroke" : "strokes")</OmniBadge>
+        <OmniBadge Id="ink-added" Tone="OmniTone.Success">@Added added</OmniBadge>
+        <OmniBadge Id="ink-removed" Tone="OmniTone.Warning">@Removed removed</OmniBadge>
         <OmniButton Id="ink-sample" Variant="OmniButtonVariant.Secondary" OnClick="LoadSample">
             <OmniIcon Name="OmniIconName.Edit" />
             <span>Load a sample</span>

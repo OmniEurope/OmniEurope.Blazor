@@ -11,6 +11,14 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["InkCanvasEraser"]" Description="@Text["InkCanvasEraserDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Eraser" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EraserChosen"
+                                aria-label="@Text["InkCanvasEraser"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["InkCanvasWide"]" Description="@Text["InkCanvasWideDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Image" /></Icon>
                 <ChildContent>
@@ -38,7 +46,7 @@
             <HeaderContent>@Text["InkCanvasPreviewTitle"]</HeaderContent>
             <ChildContent>
                 <OmniText Tone="OmniTextTone.Muted">@Text["InkCanvasPreviewDescription"]</OmniText>
-                <InkCanvasExample ShowToolbar="ShowToolbar" Wide="Wide" ReadOnly="ReadOnly" Disabled="Disabled" />
+                <InkCanvasExample ShowToolbar="ShowToolbar" Wide="Wide" ReadOnly="ReadOnly" Disabled="Disabled" @bind-Tool="Tool" />
             </ChildContent>
         </OmniCard>
     </Preview>
