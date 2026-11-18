@@ -8,10 +8,26 @@
 <div @ref="_root"
      @attributes="AdditionalAttributes"
      id="@BaseId"
-     class="@Css("omni-ink-canvas", Disabled ? "omni-ink-canvas--disabled" : null, ReadOnly ? "omni-ink-canvas--readonly" : null)">
+     class="@Css("omni-ink-canvas", Disabled ? "omni-ink-canvas--disabled" : null, ReadOnly ? "omni-ink-canvas--readonly" : null, CurrentTool == OmniInkTool.Eraser ? "omni-ink-canvas--eraser" : null)">
     @if (ShowToolbar)
     {
         <div class="omni-ink-canvas__toolbar" role="toolbar" aria-label="@Localize("InkToolbar")">
+            <OmniToggleButton Class="omni-ink-canvas__tool"
+                              Label="@Localize("InkPen")"
+                              title="@Localize("InkPen")"
+                              Disabled="@Locked"
+                              Value="@(CurrentTool == OmniInkTool.Pen)"
+                              ValueChanged="@(_ => SelectToolAsync(OmniInkTool.Pen))">
+                <OmniIcon Name="OmniIconName.Edit" />
+            </OmniToggleButton>
+            <OmniToggleButton Class="omni-ink-canvas__tool"
+                              Label="@Localize("InkEraser")"
+                              title="@Localize("InkEraser")"
+                              Disabled="@Locked"
+                              Value="@(CurrentTool == OmniInkTool.Eraser)"
+                              ValueChanged="@(_ => SelectToolAsync(OmniInkTool.Eraser))">
+                <OmniIcon Name="OmniIconName.Eraser" />
+            </OmniToggleButton>
             <OmniColorPicker Class="omni-ink-canvas__color"
                              ShowValue="false"
                              Disabled="@Locked"
@@ -41,7 +57,7 @@
                         title="@Localize("InkClear")"
                         Disabled="@(!CanUndo)"
                         OnClick="ClearAsync">
-                <Icon><OmniIcon Name="OmniIconName.Eraser" /></Icon>
+                <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
             </OmniButton>
         </div>
     }
@@ -55,6 +71,7 @@
                 aria-describedby="@HelpId"
                 data-omni-ink-color="@StrokeColor"
                 data-omni-ink-width="@PenWidth.ToString("0.##", CultureInfo.InvariantCulture)"
+                data-omni-ink-tool="@(CurrentTool == OmniInkTool.Eraser ? "eraser" : "pen")"
                 data-omni-ink-locked="@(Locked ? "true" : null)"></canvas>
     </div>
     <div class="omni-visually-hidden" role="status" aria-live="polite" aria-atomic="true">@_announcement</div>

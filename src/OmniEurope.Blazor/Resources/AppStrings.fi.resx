@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Tyhjennä piirros</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Viimeinen veto kumottu</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Piirros tyhjennetty</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Kynä</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Pyyhekumi</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Vedot poistettu</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Asiakirja</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Asiakirjan työkalurivi</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Loitonna</value></data>

@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Notīrīt zīmējumu</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Pēdējā līnija atsaukta</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Zīmējums notīrīts</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Pildspalva</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Dzēšgumija</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Līnijas izdzēstas</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokuments</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumenta rīkjosla</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Tālināt</value></data>

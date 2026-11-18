@@ -14,10 +14,20 @@ namespace OmniEurope.Blazor.Components;
 /// </para>
 /// <para>
 /// Keyboard: the drawing area takes the focus; Ctrl+Z (Cmd+Z) undoes the last stroke and Delete clears the
-/// drawing, both announced. The toolbar (<see cref="ShowToolbar"/>) offers the colour and width of the next
-/// strokes, Undo and Clear. <see cref="ReadOnly"/> keeps the drawing visible and focusable but draws nothing and
+/// drawing, both announced. The toolbar (<see cref="ShowToolbar"/>) offers the pen and the eraser
+/// (<see cref="Tool"/>), the colour and width of the next strokes, Undo and Clear. <see cref="ReadOnly"/> keeps the drawing visible and focusable but draws nothing and
 /// disables the toolbar; <see cref="Disabled"/> also removes the area from the tab order. The programmatic
 /// methods (<see cref="UndoAsync"/>, <see cref="ClearAsync"/>) belong to the host and work in both states.
+/// </para>
+/// <para>
+/// A shared drawing: the canvas transports nothing, the host does. <see cref="StrokeAdded"/> and
+/// <see cref="StrokesRemoved"/> report what the user did on this canvas (never what the host gave through
+/// <see cref="Value"/>), so the host can send it to the other browsers and give them back as a new
+/// <see cref="Value"/>. Every stroke drawn here has an <see cref="OmniInkStroke.Id"/>, and Undo first removes the last
+/// stroke this canvas drew that is still in the drawing, so a user does not undo a stroke someone else drew after theirs.
+/// The drawing surface paints no background of its own (transparent between strokes); the frame around it takes its
+/// background and border colour from custom properties a parent can override (see the guide,
+/// <c>--omni-ink-background</c>), so the canvas can lie over a picture or a video.
 /// </para>
 /// </remarks>
 public partial class OmniInkCanvas
@@ -35,6 +45,9 @@ public partial class OmniInkCanvas
     private IReadOnlyList<OmniInkStroke> _strokes = [];
     private string? _seenColor;
     private double _seenStrokeWidth = double.NaN;
+    private readonly HashSet<string> _ownIds = [];
+    private OmniInkTool? _chosenTool;
+    private OmniInkTool _seenTool;
     private string? _chosenColor;
     private string? _themeColor;
     private double? _chosenWidth;
@@ -53,9 +66,38 @@ public partial class OmniInkCanvas
     [Parameter]
     public IReadOnlyList<OmniInkStroke> Value { get; set; } = [];
 
-    /// <summary>Raised with the new list of strokes after a stroke, an undo or a clear.</summary>
+    /// <summary>Raised with the new list of strokes after a stroke, an erasure, an undo or a clear.</summary>
     [Parameter]
     public EventCallback<IReadOnlyList<OmniInkStroke>> ValueChanged { get; set; }
+
+    /// <summary>
+    /// Raised with each stroke the user draws on this canvas, after <see cref="ValueChanged"/> (the stroke is the last
+    /// of the new list, with its <see cref="OmniInkStroke.Id"/>). Never raised for strokes in a <see cref="Value"/> the
+    /// host gives, nor for a refused stroke (a locked canvas), so a host can send exactly the user&apos;s strokes to others.
+    /// </summary>
+    [Parameter]
+    public EventCallback<OmniInkStroke> StrokeAdded { get; set; }
+
+    /// <summary>
+    /// Raised with the strokes this canvas removed, in drawing order, after <see cref="ValueChanged"/>: by the eraser, by
+    /// Undo (Ctrl+Z, toolbar or <see cref="UndoAsync"/>) and by Clear (Delete, toolbar or <see cref="ClearAsync"/>). Never raised
+    /// for strokes that disappear because the host gave another <see cref="Value"/>.
+    /// </summary>
+    [Parameter]
+    public EventCallback<IReadOnlyList<OmniInkStroke>> StrokesRemoved { get; set; }
+
+    /// <summary>
+    /// What the pointer does: <see cref="OmniInkTool.Pen"/>, the default, draws; <see cref="OmniInkTool.Eraser"/>
+    /// removes every whole stroke the pointer path touches, in one change raised when the pointer is released. The
+    /// toolbar pen and eraser buttons override it, raising <see cref="ToolChanged"/>, until this parameter changes.
+    /// <see cref="ReadOnly"/> and <see cref="Disabled"/> block the eraser like the pen. The keyboard is unaffected.
+    /// </summary>
+    [Parameter]
+    public OmniInkTool Tool { get; set; }
+
+    /// <summary>Raised with the tool the user chose on the toolbar.</summary>
+    [Parameter]
+    public EventCallback<OmniInkTool> ToolChanged { get; set; }
 
     /// <summary>
     /// The colour of the next strokes, as a CSS colour. Null, the default, draws in the text colour of the theme
@@ -128,6 +170,8 @@ public partial class OmniInkCanvas
 
     private bool CanUndo => !Locked && _strokes.Count > 0;
 
+    private OmniInkTool CurrentTool => _chosenTool ?? Tool;
+
     private string? PenColor => _chosenColor ?? Color;
 
     private string StrokeColor => PenColor ?? OmniInkStroke.ThemeColor;
@@ -176,7 +220,14 @@ public partial class OmniInkCanvas
             {
                 _strokes = Value;
                 _pushPending = true;
+                ForgetGoneStrokes();
             }
+        }
+
+        if (Tool != _seenTool)
+        {
+            _seenTool = Tool;
+            _chosenTool = null;
         }
 
         if (!string.Equals(Color, _seenColor, StringComparison.Ordinal))
@@ -216,7 +267,7 @@ public partial class OmniInkCanvas
             if (!_attached)
             {
                 _attached = true;
-                _bridge = DotNetObjectReference.Create(new Internal.InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync, HandleThemeColorAsync));
+                _bridge = DotNetObjectReference.Create(new Internal.InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync, HandleThemeColorAsync, HandleEraseAsync));
                 var themeColor = await module.InvokeAsync<string?>("attach", _canvas, _bridge);
                 if (IsHexColor(themeColor) && themeColor != _themeColor)
                 {
@@ -271,8 +322,10 @@ public partial class OmniInkCanvas
     }
 
     /// <summary>
-    /// Removes the last stroke and raises <see cref="ValueChanged"/> with the shorter list; does nothing when the
-    /// drawing is empty. The host may call it whatever <see cref="ReadOnly"/> and <see cref="Disabled"/> say.
+    /// Removes the last stroke this canvas drew that is still in the drawing (the last stroke of the drawing when
+    /// this canvas drew none of them, as with a single user), raises <see cref="ValueChanged"/> with the shorter list
+    /// then <see cref="StrokesRemoved"/> with that stroke; does nothing when the drawing is empty. The host may call
+    /// it whatever <see cref="ReadOnly"/> and <see cref="Disabled"/> say.
     /// </summary>
     /// <returns>A task that completes when the value has been raised.</returns>
     public Task UndoAsync() => InvokeAsync(async () =>
@@ -282,12 +335,13 @@ public partial class OmniInkCanvas
             return;
         }
 
-        await ReplaceAsync(_strokes.Take(_strokes.Count - 1).ToList(), Localize("InkUndone"));
+        await RemoveAsync([LastOwnIndex()], Localize("InkUndone"));
     });
 
     /// <summary>
-    /// Removes every stroke and raises <see cref="ValueChanged"/> with an empty list; does nothing when the drawing
-    /// is already empty. The host may call it whatever <see cref="ReadOnly"/> and <see cref="Disabled"/> say.
+    /// Removes every stroke and raises <see cref="ValueChanged"/> with an empty list then <see cref="StrokesRemoved"/>
+    /// with all the strokes removed; does nothing when the drawing is already empty. The host may call it whatever
+    /// <see cref="ReadOnly"/> and <see cref="Disabled"/> say.
     /// </summary>
     /// <returns>A task that completes when the value has been raised.</returns>
     public Task ClearAsync() => InvokeAsync(async () =>
@@ -297,7 +351,7 @@ public partial class OmniInkCanvas
             return;
         }
 
-        await ReplaceAsync([], Localize("InkCleared"));
+        await RemoveAsync(Enumerable.Range(0, _strokes.Count).ToArray(), Localize("InkCleared"));
     });
 
     /// <summary>
@@ -357,12 +411,36 @@ public partial class OmniInkCanvas
             return;
         }
 
+        stroke = stroke with { Id = Guid.NewGuid().ToString("N") };
+        _ownIds.Add(stroke.Id!);
         var next = new List<OmniInkStroke>(_strokes.Count + 1);
         next.AddRange(_strokes);
         next.Add(stroke);
         _strokes = next;
         await ValueChanged.InvokeAsync(next);
+        await StrokeAdded.InvokeAsync(stroke);
         StateHasChanged();
+    });
+
+    // The eraser touched these strokes of the list the script holds, count strokes long. A list that is not the one
+    // held here (the host gave another in the meantime), a locked canvas or an index out of range removes nothing, and
+    // the script gets the current strokes back.
+    internal Task HandleEraseAsync(int[] indices, int count) => InvokeAsync(async () =>
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        var touched = indices?.Distinct().Order().ToArray() ?? [];
+        if (Locked || count != _strokes.Count || touched.Length == 0 || touched[0] < 0 || touched[^1] >= _strokes.Count)
+        {
+            _pushPending = true;
+            StateHasChanged();
+            return;
+        }
+
+        await RemoveAsync(touched, Localize("InkErased"));
     });
 
     internal Task HandleUndoKeyAsync() => Locked || _disposed ? Task.CompletedTask : UndoAsync();
@@ -382,19 +460,73 @@ public partial class OmniInkCanvas
         return InvokeAsync(StateHasChanged);
     }
 
+    private Task SelectToolAsync(OmniInkTool tool)
+    {
+        if (tool == CurrentTool)
+        {
+            return Task.CompletedTask;
+        }
+
+        _chosenTool = tool;
+        return ToolChanged.InvokeAsync(tool);
+    }
+
     private void ChooseColor(string? color) => _chosenColor = color;
 
     private void ChooseWidth(double width) => _chosenWidth = width;
 
-    // The new list replaces the old one in the canvas and, once raised, in the host's binding; the script is told
-    // to draw it, as the strokes no longer match what it holds.
-    private async Task ReplaceAsync(IReadOnlyList<OmniInkStroke> next, string announcement)
+    // The strokes at these indices (ascending, distinct, in range) leave the drawing: the new list replaces the old
+    // one in the canvas and, once raised, in the host's binding; the script is told to draw it, as the strokes no
+    // longer match what it holds. The removed strokes are reported after the value.
+    private async Task RemoveAsync(int[] indices, string announcement)
     {
-        _strokes = next;
+        var removed = indices.Select(index => _strokes[index]).ToList();
+        var kept = new List<OmniInkStroke>(_strokes.Count - removed.Count);
+        for (var index = 0; index < _strokes.Count; index++)
+        {
+            if (Array.BinarySearch(indices, index) < 0)
+            {
+                kept.Add(_strokes[index]);
+            }
+        }
+
+        _strokes = kept;
         _pushPending = true;
         Announce(announcement);
-        await ValueChanged.InvokeAsync(next);
+        foreach (var stroke in removed)
+        {
+            if (stroke.Id is not null)
+            {
+                _ownIds.Remove(stroke.Id);
+            }
+        }
+
+        await ValueChanged.InvokeAsync(kept);
+        await StrokesRemoved.InvokeAsync(removed);
         StateHasChanged();
+    }
+
+    // The last stroke this canvas drew that the drawing still holds; the last stroke when there is none.
+    private int LastOwnIndex()
+    {
+        for (var index = _strokes.Count - 1; index >= 0; index--)
+        {
+            if (_strokes[index].Id is { } id && _ownIds.Contains(id))
+            {
+                return index;
+            }
+        }
+
+        return _strokes.Count - 1;
+    }
+
+    // A list the host gave replaces the drawing: the ids of strokes drawn here that it no longer holds are forgotten.
+    private void ForgetGoneStrokes()
+    {
+        if (_ownIds.Count > 0)
+        {
+            _ownIds.IntersectWith(_strokes.Where(stroke => stroke.Id is not null).Select(stroke => stroke.Id!));
+        }
     }
 
     private Task<IJSObjectReference?> ModuleAsync()

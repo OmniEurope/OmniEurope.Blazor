@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Išvalyti piešinį</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Paskutinis brūkšnys atšauktas</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Piešinys išvalytas</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Rašiklis</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Trintukas</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Brūkšniai ištrinti</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokumentas</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumento įrankių juosta</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Sumažinti</value></data>

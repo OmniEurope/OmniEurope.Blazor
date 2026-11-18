@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Διαγραφή σχεδίου</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Η τελευταία γραμμή αναιρέθηκε</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Το σχέδιο διαγράφηκε</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Στυλό</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Γόμα</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Οι γραμμές διαγράφηκαν</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Έγγραφο</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Γραμμή εργαλείων εγγράφου</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Σμίκρυνση</value></data>

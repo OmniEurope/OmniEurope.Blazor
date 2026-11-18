@@ -105,9 +105,11 @@
   <data name="InkCanvasSettingsTitle" xml:space="preserve"><value>Réglages de la zone de dessin</value></data>
   <data name="InkCanvasSettingsDescription" xml:space="preserve"><value>Ce que la zone montre et ce qu'elle accepte.</value></data>
   <data name="InkCanvasToolbar" xml:space="preserve"><value>Barre d'outils</value></data>
-  <data name="InkCanvasToolbarDescription" xml:space="preserve"><value>Couleur, épaisseur, Annuler et Effacer au-dessus de la zone de dessin.</value></data>
+  <data name="InkCanvasToolbarDescription" xml:space="preserve"><value>Crayon et gomme, couleur, épaisseur, Annuler et Effacer au-dessus de la zone de dessin.</value></data>
   <data name="InkCanvasWide" xml:space="preserve"><value>Forme de signature</value></data>
   <data name="InkCanvasWideDescription" xml:space="preserve"><value>Une zone trois fois plus large que haute (AspectRatio) au lieu de la hauteur de 12rem par défaut.</value></data>
+  <data name="InkCanvasEraser" xml:space="preserve"><value>Gomme</value></data>
+  <data name="InkCanvasEraserDescription" xml:space="preserve"><value>Le pointeur efface chaque trait entier que son chemin touche au lieu de dessiner (Tool). La barre d'outils passe aussi de l'un à l'autre.</value></data>
   <data name="InkCanvasReadOnly" xml:space="preserve"><value>Lecture seule</value></data>
   <data name="InkCanvasReadOnlyDescription" xml:space="preserve"><value>Le dessin reste visible et focalisable mais ne peut pas être modifié.</value></data>
   <data name="InkCanvasDisabled" xml:space="preserve"><value>Désactivée</value></data>

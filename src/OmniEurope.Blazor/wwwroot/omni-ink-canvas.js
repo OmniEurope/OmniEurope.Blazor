@@ -4,7 +4,9 @@
 // pointer events of the canvas (mouse, pen with its pressure, finger: touch-action is none in the stylesheet, and
 // the pointer is captured so a line goes on outside the canvas), draws the stroke being put down, and reports it to
 // .NET when the pointer is released. .NET sends the strokes back (setStrokes) when they changed otherwise: undo,
-// clear, a value given by the host. It never writes a style on the canvas; the size of the drawing area goes
+// clear, a value given by the host. With the eraser tool (data-omni-ink-tool) the pointer draws nothing: it follows a
+// path, strokes it touches are shown faded, and on release their indices are reported (OnErase, with the number of
+// strokes held so .NET can tell a stale list) and removed here at once. It never writes a style on the canvas; the size of the drawing area goes
 // through custom properties on the component root (setLayout), the one path a strict style-src leaves open.
 //
 // Strokes cross as plain numbers: colours[], widths[] and, per stroke, a flat array of x, y, pressure triples
@@ -19,6 +21,10 @@ const MAX_WIDTH = 48;
 const MIN_LINE = 0.5;
 // A sample closer than this (CSS pixels) to the last one is dropped.
 const MIN_STEP = 0.5;
+// The eraser touches a stroke within this many CSS pixels of its drawn edge, so a thin line is easy to hit.
+const ERASER_TOLERANCE = 5;
+// A stroke the eraser touched but did not remove yet is drawn at this opacity.
+const FADED_ALPHA = 0.3;
 const pads = new WeakMap();
 
 const unpack = (colors, widths, flats) => colors.map((color, index) => {
@@ -81,10 +87,71 @@ function drawStroke(context, stroke, width, height, inkOf) {
     context.stroke();
 }
 
-function paint(context, strokes, width, height, inkOf) {
-    for (const stroke of strokes) {
+function paint(context, strokes, width, height, inkOf, faded) {
+    strokes.forEach((stroke, index) => {
+        context.globalAlpha = faded?.has(index) ? FADED_ALPHA : 1;
         drawStroke(context, stroke, width, height, inkOf);
+    });
+    context.globalAlpha = 1;
+}
+
+// ----- Eraser hit-test, in CSS pixels -----
+
+const cross = (ax, ay, bx, by, cx, cy) => (bx - ax) * (cy - ay) - (by - ay) * (cx - ax);
+
+function distanceToSegment(px, py, ax, ay, bx, by) {
+    const dx = bx - ax;
+    const dy = by - ay;
+    const lengthSquared = dx * dx + dy * dy;
+    const along = lengthSquared === 0 ? 0 : Math.min(1, Math.max(0, ((px - ax) * dx + (py - ay) * dy) / lengthSquared));
+    return Math.hypot(px - (ax + along * dx), py - (ay + along * dy));
+}
+
+// The smallest distance between the segments a-b and c-d (a segment may be a single point).
+function segmentDistance(a, b, c, d) {
+    const crosses = cross(a.x, a.y, b.x, b.y, c.x, c.y) * cross(a.x, a.y, b.x, b.y, d.x, d.y) < 0
+        && cross(c.x, c.y, d.x, d.y, a.x, a.y) * cross(c.x, c.y, d.x, d.y, b.x, b.y) < 0;
+    if (crosses) {
+        return 0;
     }
+
+    return Math.min(
+        distanceToSegment(a.x, a.y, c.x, c.y, d.x, d.y),
+        distanceToSegment(b.x, b.y, c.x, c.y, d.x, d.y),
+        distanceToSegment(c.x, c.y, a.x, a.y, b.x, b.y),
+        distanceToSegment(d.x, d.y, a.x, a.y, b.x, b.y));
+}
+
+// Whether the eraser path segment a-b touches the stroke: within half of the drawn width of the stretch it meets (the
+// width a pen gives it by pressure), plus the tolerance.
+function touches(stroke, a, b, width, height) {
+    const unit = stroke.width * (width / REFERENCE_WIDTH);
+    const px = stroke.points.map(point => ({ x: point.x * width, y: point.y * height }));
+    if (px.length === 1) {
+        const half = Math.max(unit * pressureFactor(stroke.points[0].pressure), MIN_LINE) / 2;
+        return distanceToSegment(px[0].x, px[0].y, a.x, a.y, b.x, b.y) <= half + ERASER_TOLERANCE;
+    }
+
+    for (let at = 1; at < px.length; at++) {
+        const pressure = (stroke.points[at - 1].pressure ?? 0.5) / 2 + (stroke.points[at].pressure ?? 0.5) / 2;
+        const half = Math.max(unit * pressureFactor(pressure), MIN_LINE) / 2;
+        if (segmentDistance(a, b, px[at - 1], px[at]) <= half + ERASER_TOLERANCE) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+// Adds to hits the indices of the strokes the segment a-b (CSS pixels) touches.
+function sweep(pad, a, b, hits) {
+    const width = pad.canvas.clientWidth;
+    const height = pad.canvas.clientHeight;
+    pad.strokes.forEach((stroke, index) => {
+        if (!hits.has(index) && touches(stroke, a, b, width, height)) {
+            hits.add(index);
+        }
+    });
 }
 
 // Backing store at the device resolution, drawing in CSS pixels; skipped while the canvas has no size (hidden).
@@ -109,7 +176,7 @@ function redraw(pad) {
     context.clearRect(0, 0, cssWidth, cssHeight);
     const text = getComputedStyle(canvas).color;
     const inkOf = color => (color === THEME_COLOR ? text : color);
-    paint(context, pad.strokes, cssWidth, cssHeight, inkOf);
+    paint(context, pad.strokes, cssWidth, cssHeight, inkOf, pad.erasing?.hits);
     if (pad.active) {
         drawStroke(context, pad.active.stroke, cssWidth, cssHeight, inkOf);
     }
@@ -131,6 +198,7 @@ function pointOf(canvas, event) {
 const flatten = points => points.flatMap(point => [point.x, point.y, point.pressure ?? -1]);
 
 const isLocked = canvas => canvas.dataset.omniInkLocked === 'true';
+const isEraser = canvas => canvas.dataset.omniInkTool === 'eraser';
 
 function tell(dotnet, method, ...values) {
     try {
@@ -161,7 +229,12 @@ export function attach(canvas, dotnet) {
         return null;
     }
 
-    const pad = { canvas, strokes: [], active: null, observers: [], hex: resolveHex(canvas) };
+    const pad = { canvas, strokes: [], active: null, erasing: null, observers: [], hex: resolveHex(canvas) };
+
+    const cssPoint = event => {
+        const box = canvas.getBoundingClientRect();
+        return { x: event.clientX - box.left, y: event.clientY - box.top };
+    };
 
     const onPointerDown = event => {
         if (pad.active || !event.isPrimary || (event.pointerType === 'mouse' && event.button !== 0) || isLocked(canvas)) {
@@ -172,6 +245,14 @@ export function attach(canvas, dotnet) {
         event.preventDefault();
         canvas.focus({ preventScroll: true });
         canvas.setPointerCapture(event.pointerId);
+        if (isEraser(canvas)) {
+            const start = cssPoint(event);
+            pad.erasing = { pointerId: event.pointerId, last: start, hits: new Set() };
+            sweep(pad, start, start, pad.erasing.hits);
+            redraw(pad);
+            return;
+        }
+
         pad.active = {
             pointerId: event.pointerId,
             stroke: {
@@ -184,6 +265,22 @@ export function attach(canvas, dotnet) {
     };
 
     const onPointerMove = event => {
+        if (pad.erasing && event.pointerId === pad.erasing.pointerId) {
+            const samples = event.getCoalescedEvents?.() ?? [];
+            const before = pad.erasing.hits.size;
+            for (const sample of samples.length > 0 ? samples : [event]) {
+                const next = cssPoint(sample);
+                sweep(pad, pad.erasing.last, next, pad.erasing.hits);
+                pad.erasing.last = next;
+            }
+
+            if (pad.erasing.hits.size !== before) {
+                redraw(pad);
+            }
+
+            return;
+        }
+
         if (!pad.active || event.pointerId !== pad.active.pointerId) {
             return;
         }
@@ -202,7 +299,26 @@ export function attach(canvas, dotnet) {
         redraw(pad);
     };
 
+    const finishErase = event => {
+        const hits = [...pad.erasing.hits].sort((first, second) => first - second);
+        const count = pad.strokes.length;
+        pad.erasing = null;
+        if (event.type === 'pointercancel' || hits.length === 0) {
+            redraw(pad);
+            return;
+        }
+
+        pad.strokes = pad.strokes.filter((_, index) => !hits.includes(index));
+        redraw(pad);
+        tell(dotnet, 'OnErase', hits, count);
+    };
+
     const finish = event => {
+        if (pad.erasing && event.pointerId === pad.erasing.pointerId) {
+            finishErase(event);
+            return;
+        }
+
         if (!pad.active || event.pointerId !== pad.active.pointerId) {
             return;
         }
@@ -291,6 +407,8 @@ export function setStrokes(canvas, colors, widths, points) {
     }
 
     pad.strokes = unpack(colors, widths, points);
+    // The indices the eraser had gathered belong to the list it replaces.
+    pad.erasing?.hits.clear();
     redraw(pad);
 }
 

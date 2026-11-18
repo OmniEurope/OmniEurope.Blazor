@@ -16,6 +16,8 @@ class FakeContext {
     lineWidth = 1;
     lineCap = '';
     lineJoin = '';
+    globalAlpha = 1;
+    alphas = [];
 
     setTransform(...values) { this.log.push(['setTransform', ...values]); }
     clearRect(...values) { this.log.push(['clearRect', ...values]); }
@@ -24,7 +26,7 @@ class FakeContext {
     lineTo(...values) { this.log.push(['lineTo', ...values]); }
     quadraticCurveTo(...values) { this.log.push(['curve', ...values]); }
     arc(...values) { this.log.push(['arc', ...values]); }
-    stroke() { this.log.push(['stroke', this.strokeStyle, this.lineWidth]); }
+    stroke() { this.log.push(['stroke', this.strokeStyle, this.lineWidth]); this.alphas.push(this.globalAlpha); }
     fill() { this.log.push(['fill', this.fillStyle]); }
     of(name) { return this.log.filter(entry => entry[0] === name); }
 }
@@ -75,7 +77,7 @@ installPage();
 const ink = await import(pathToFileURL(path.join(wwwroot, 'omni-ink-canvas.js')).href);
 
 // A canvas 600 by 200 CSS pixels whose box starts at (10, 20), and the .NET side that records what it is told.
-const pad = ({ width = 600, height = 200, locked = false, color = 'currentColor', penWidth = '2', scope = null, text = null } = {}) => {
+const pad = ({ width = 600, height = 200, locked = false, color = 'currentColor', penWidth = '2', scope = null, text = null, tool = 'pen' } = {}) => {
     installPage();
     if (text) globalThis.getComputedStyle = () => ({ color: text });
     const listeners = new Map();
@@ -86,7 +88,7 @@ const pad = ({ width = 600, height = 200, locked = false, color = 'currentColor'
         clientHeight: height,
         width: 0,
         height: 0,
-        dataset: { omniInkColor: color, omniInkWidth: penWidth, ...(locked ? { omniInkLocked: 'true' } : {}) },
+        dataset: { omniInkColor: color, omniInkWidth: penWidth, omniInkTool: tool, ...(locked ? { omniInkLocked: 'true' } : {}) },
         context,
         listeners,
         focused: false,
@@ -443,4 +445,147 @@ test('exportPng fails clearly when the browser cannot encode the image', async (
     };
 
     await assert.rejects(ink.exportPng([], [], [], 10, 10), /PNG/);
+});
+
+// ----- The eraser -----
+
+// Two strokes on a 600 by 200 canvas: a horizontal line at y = 100 (2 wide) and a vertical one at x = 500 (2 wide).
+const twoStrokes = canvas => ink.setStrokes(canvas, ['#111111', '#222222'], [2, 2], [[0.1, 0.5, -1, 0.9, 0.5, -1], [0.8333333, 0.1, -1, 0.8333333, 0.9, -1]]);
+
+test('the eraser draws nothing: a path over a stroke fades it, and on release .NET is told its index and the stroke count', () => {
+    const { canvas, dotnet, context, fire } = pad({ tool: 'eraser' });
+    twoStrokes(canvas);
+
+    assert.equal(fire('pointerdown', pointer(300, 50)), true);
+    assert.equal(canvas.captured, 1);
+    fire('pointermove', pointer(300, 150));
+    // The touched stroke is drawn faded while the pointer is still down; the other keeps its full ink.
+    assert.deepEqual(context.alphas.slice(-2), [0.3, 1]);
+    fire('pointerup', pointer(300, 150));
+
+    assert.deepEqual(dotnet.calls, [['OnErase', [0], 2]]);
+    // The stroke is gone from the pad at once: the next erase sees one stroke, now at index 0.
+    fire('pointerdown', pointer(500, 20));
+    fire('pointerup', pointer(500, 60));
+    assert.deepEqual(dotnet.calls.at(-1), ['OnErase', [0], 1]);
+    assert.equal(dotnet.calls.some(call => call[0] === 'OnStroke'), false);
+});
+
+test('one release reports every stroke the whole path touched, in order, once each', () => {
+    const { canvas, dotnet, fire } = pad({ tool: 'eraser' });
+    twoStrokes(canvas);
+
+    fire('pointerdown', pointer(520, 150));
+    fire('pointermove', pointer(300, 150));
+    fire('pointermove', pointer(300, 90));
+    fire('pointermove', pointer(300, 110));
+    fire('pointermove', pointer(500, 50));
+    fire('pointerup', pointer(500, 50));
+
+    assert.deepEqual(dotnet.calls, [['OnErase', [0, 1], 2]]);
+});
+
+test('the path is swept segment by segment: a fast move across a thin stroke, between two samples, still touches it', () => {
+    const { canvas, dotnet, fire } = pad({ tool: 'eraser' });
+    twoStrokes(canvas);
+
+    fire('pointerdown', pointer(300, 20));
+    fire('pointermove', pointer(300, 180));
+    fire('pointerup', pointer(300, 180));
+
+    assert.deepEqual(dotnet.calls, [['OnErase', [0], 2]]);
+});
+
+test('a stroke is touched within half its drawn width plus a small tolerance, not farther', () => {
+    const near = pad({ tool: 'eraser' });
+    twoStrokes(near.canvas);
+    near.fire('pointerdown', pointer(300, 105));
+    near.fire('pointerup', pointer(300, 105));
+    assert.deepEqual(near.dotnet.calls, [['OnErase', [0], 2]]);
+
+    const far = pad({ tool: 'eraser' });
+    twoStrokes(far.canvas);
+    far.fire('pointerdown', pointer(300, 110));
+    far.fire('pointerup', pointer(300, 110));
+    assert.deepEqual(far.dotnet.calls, []);
+
+    // A wider stroke is touched from farther: 24 wide at 600 pixels is 12 each side, plus the tolerance.
+    const wide = pad({ tool: 'eraser' });
+    ink.setStrokes(wide.canvas, ['#111111'], [24], [[0.1, 0.5, -1, 0.9, 0.5, -1]]);
+    wide.fire('pointerdown', pointer(300, 115));
+    wide.fire('pointerup', pointer(300, 115));
+    assert.deepEqual(wide.dotnet.calls, [['OnErase', [0], 1]]);
+});
+
+test('a pen stroke is touched at the width its pressure draws, and a single dot is touched too', () => {
+    const { canvas, dotnet, fire } = pad({ tool: 'eraser' });
+    // Pressure 1 draws 1.5 times the width: 20 wide at 600 pixels makes 30, 15 each side. A dot at (0.2, 0.2) is 8 wide.
+    ink.setStrokes(canvas, ['#111111', '#222222'], [20, 8], [[0.1, 0.5, 1, 0.9, 0.5, 1], [0.2, 0.2, -1]]);
+
+    fire('pointerdown', pointer(300, 118));
+    fire('pointerup', pointer(300, 118));
+    assert.deepEqual(dotnet.calls.at(-1), ['OnErase', [0], 2]);
+
+    fire('pointerdown', pointer(122, 40));
+    fire('pointerup', pointer(122, 40));
+    assert.deepEqual(dotnet.calls.at(-1), ['OnErase', [0], 1]);
+});
+
+test('a release that touched nothing, and a cancelled path, tell .NET nothing and leave the strokes', () => {
+    const { canvas, dotnet, context, fire } = pad({ tool: 'eraser' });
+    twoStrokes(canvas);
+
+    fire('pointerdown', pointer(50, 20));
+    fire('pointerup', pointer(60, 20));
+    fire('pointerdown', pointer(300, 100));
+    fire('pointercancel', pointer(300, 100));
+
+    assert.deepEqual(dotnet.calls, []);
+    // The cancelled path left nothing faded: the last repaint drew both strokes at full ink.
+    assert.deepEqual(context.alphas.slice(-2), [1, 1]);
+    // The strokes are still there: erasing again reports index 0 of two.
+    fire('pointerdown', pointer(300, 100));
+    fire('pointerup', pointer(300, 100));
+    assert.deepEqual(dotnet.calls, [['OnErase', [0], 2]]);
+});
+
+test('a locked canvas does not erase, and another pointer or button is ignored', () => {
+    const locked = pad({ tool: 'eraser', locked: true });
+    twoStrokes(locked.canvas);
+    assert.equal(locked.fire('pointerdown', pointer(300, 100)), false);
+    locked.fire('pointerup', pointer(300, 100));
+    assert.deepEqual(locked.dotnet.calls, []);
+
+    const { canvas, dotnet, fire } = pad({ tool: 'eraser' });
+    twoStrokes(canvas);
+    fire('pointerdown', pointer(300, 100, { button: 2 }));
+    fire('pointerdown', pointer(300, 100, { isPrimary: false }));
+    fire('pointerup', pointer(300, 100));
+    assert.deepEqual(dotnet.calls, []);
+});
+
+test('the tool is read at each press: with the pen the same gesture draws, with the eraser it erases', () => {
+    const { canvas, dotnet, fire } = pad();
+    twoStrokes(canvas);
+
+    fire('pointerdown', pointer(300, 100));
+    fire('pointerup', pointer(300, 100));
+    canvas.dataset.omniInkTool = 'eraser';
+    fire('pointerdown', pointer(300, 100));
+    fire('pointerup', pointer(300, 100));
+
+    // The dot the pen put down is a third stroke at the same place, so the eraser touches it as well.
+    assert.deepEqual(dotnet.calls.map(call => call[0]), ['OnStroke', 'OnErase']);
+    assert.deepEqual(dotnet.calls[1], ['OnErase', [0, 2], 3]);
+});
+
+test('strokes .NET pushes while the eraser is down drop the indices gathered for the list they replace', () => {
+    const { canvas, dotnet, fire } = pad({ tool: 'eraser' });
+    twoStrokes(canvas);
+
+    fire('pointerdown', pointer(300, 100));
+    ink.setStrokes(canvas, ['#333333'], [2], [[0.1, 0.1, -1, 0.9, 0.1, -1]]);
+    fire('pointerup', pointer(300, 100));
+
+    assert.deepEqual(dotnet.calls, []);
 });

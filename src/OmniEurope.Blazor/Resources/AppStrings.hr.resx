@@ -767,6 +767,9 @@
   <data name="InkClear" xml:space="preserve"><value>Izbriši crtež</value></data>
   <data name="InkUndone" xml:space="preserve"><value>Zadnji potez je poništen</value></data>
   <data name="InkCleared" xml:space="preserve"><value>Crtež je izbrisan</value></data>
+  <data name="InkPen" xml:space="preserve"><value>Olovka</value></data>
+  <data name="InkEraser" xml:space="preserve"><value>Gumica</value></data>
+  <data name="InkErased" xml:space="preserve"><value>Potezi su izbrisani</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Alatna traka dokumenta</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Smanji</value></data>

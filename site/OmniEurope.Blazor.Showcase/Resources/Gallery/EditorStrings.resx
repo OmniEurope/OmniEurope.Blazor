@@ -105,9 +105,11 @@
   <data name="InkCanvasSettingsTitle" xml:space="preserve"><value>Drawing pad settings</value></data>
   <data name="InkCanvasSettingsDescription" xml:space="preserve"><value>What the pad shows and what it accepts.</value></data>
   <data name="InkCanvasToolbar" xml:space="preserve"><value>Toolbar</value></data>
-  <data name="InkCanvasToolbarDescription" xml:space="preserve"><value>Colour, width, Undo and Clear above the drawing area.</value></data>
+  <data name="InkCanvasToolbarDescription" xml:space="preserve"><value>Pen and eraser, colour, width, Undo and Clear above the drawing area.</value></data>
   <data name="InkCanvasWide" xml:space="preserve"><value>Signature shape</value></data>
   <data name="InkCanvasWideDescription" xml:space="preserve"><value>An area three times wider than high (AspectRatio) instead of the default 12rem height.</value></data>
+  <data name="InkCanvasEraser" xml:space="preserve"><value>Eraser</value></data>
+  <data name="InkCanvasEraserDescription" xml:space="preserve"><value>The pointer erases every whole stroke its path touches instead of drawing (Tool). The toolbar switches between the two as well.</value></data>
   <data name="InkCanvasReadOnly" xml:space="preserve"><value>Read only</value></data>
   <data name="InkCanvasReadOnlyDescription" xml:space="preserve"><value>The drawing stays visible and focusable but cannot be changed.</value></data>
   <data name="InkCanvasDisabled" xml:space="preserve"><value>Disabled</value></data>
