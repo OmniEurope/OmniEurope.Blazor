@@ -21,9 +21,10 @@ structurelles ; un plan décrit un travail, pas l'état du produit.
 | Plan | Travail restant | ADR |
 |---|---|---|
 | [PLAN-001](PLAN-001-recette.md) | Recette : demandes reçues et non terminées, une ligne chacune avec son état | Sans ADR supplémentaire |
+| [PLAN-002](PLAN-002-composants-media-partage-ecran.md) | Tuile vidéo, calque de dessin partagé et scène pour le partage d'écran (demande d'une application cliente du 2026-11-18) | Sans ADR supplémentaire |
 | [PLAN-008](PLAN-008-idees-plus-tard.md) | Réservé aux idées pour plus tard, traitées seulement sur demande du propriétaire | Sans ADR supplémentaire |
 
-Aucun autre plan actif depuis le 2026-11-12 : la deuxième série est archivée ; la recette est rouverte le 2026-11-17.
+La deuxième série est archivée depuis le 2026-11-12 ; la recette est rouverte le 2026-11-17 ; PLAN-002 ouvert le 2026-11-18.
 
 ## Archives
 
