@@ -30,7 +30,7 @@ Demande d'une application cliente du 2026-11-18 (module de partage d'écran WebR
 
 | Lot | Objet | État |
 |---|---|---|
-| 1 | `OmniInkCanvas` collaboratif | à faire |
+| 1 | `OmniInkCanvas` collaboratif | livré (44556fb3), tests et sonde ink rejoués |
 | 2 | `OmniMediaTile` + démonstration complète (deux tuiles qui s'échangent les traits, export PNG) | à faire, après le lot 1 |
 | 3 | `OmniMediaStage<TItem>` | à faire, en parallèle du lot 1 |
 
