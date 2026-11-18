@@ -18,6 +18,8 @@ param(
 # dotnet.native.wasm, so a runtime script of another build than the pinned native runtime fails. A script that
 # still declares a version (the older `var x="10.0.15",y="Release"` form) is checked against the pin instead.
 # Any of them other than the pin fails, as does a publish with no runtime at all.
+# A native relink (wasm-tools workload installed) writes dotnet.native.js unminified (`gitHash: "<sha>"`), so the
+# commit is read with or without the space; the commit itself must still match.
 $ErrorActionPreference = 'Stop'
 $repoRoot = Split-Path -Parent $PSScriptRoot
 
@@ -35,7 +37,7 @@ $productVersion = [regex]"(?<![\d.])$line\.(\d+)\.0(?![\d.])"
 $packPath = [regex]'(?i)microsoft\.netcore\.app\.runtime\.mono\.(?:multithread\.)?browser-wasm[\\/](\d+\.\d+\.\d+)'
 $runtimeScript = [regex]'var \w+="(\d+\.\d+\.\d+)",\w+="(?:Release|Debug)"'
 $nativeCommit = [regex]'@Commit: ([0-9a-f]{40})(?![0-9a-f])'
-$scriptCommit = [regex]'gitHash:"([0-9a-f]{40})"'
+$scriptCommit = [regex]'gitHash:\s*"([0-9a-f]{40})"'
 
 $failures = [System.Collections.Generic.List[string]]::new()
 $checked = 0

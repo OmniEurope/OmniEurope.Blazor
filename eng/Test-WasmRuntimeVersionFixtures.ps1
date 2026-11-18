@@ -14,7 +14,8 @@ $otherCommit = '1111111111111111111111111111111111111111'
 
 # $Script is the dotnet.runtime.js content: 'version' declares a version (older form), 'commit' declares the
 # commit of the build it comes from (.NET 11 form), 'none' declares nothing; any other value is the commit.
-function New-Publish([string]$Name, [string]$NativeVersion, [string]$Script, [string]$ScriptKind = 'version') {
+# $RelinkedCommit, when set, replaces dotnet.native.js by the unminified form a native relink writes.
+function New-Publish([string]$Name, [string]$NativeVersion, [string]$Script, [string]$ScriptKind = 'version', [string]$RelinkedCommit) {
     $framework = Join-Path $root "$Name\wwwroot\_framework"
     New-Item -ItemType Directory -Path $framework -Force | Out-Null
     if ($NativeVersion) {
@@ -29,6 +30,10 @@ function New-Publish([string]$Name, [string]$NativeVersion, [string]$Script, [st
         if ($ScriptKind -eq 'commit') {
             Set-Content -LiteralPath (Join-Path $framework 'dotnet.js') -Value "const l={gitHash:`"$commit`",config:n};"
             Set-Content -LiteralPath (Join-Path $framework 'dotnet.native.abc123.js') -Value "var Module={gitHash:`"$commit`"};"
+        }
+        if ($RelinkedCommit) {
+            # A native relink (wasm-tools workload) writes dotnet.native.js unminified.
+            Set-Content -LiteralPath (Join-Path $framework 'dotnet.native.abc123.js') -Value "var Module = {`n  gitHash: `"$RelinkedCommit`", });"
         }
     }
     return (Join-Path $root $Name)
@@ -48,6 +53,8 @@ function Assert-Rejected([string]$Path, [string]$Case) {
 try {
     & $guard -PublishPath (New-Publish 'pinned' '11.0.0.0' '11.0.0') -ExpectedVersion 11.0.0
     & $guard -PublishPath (New-Publish 'pinned-commit' '11.0.0.0' $commit 'commit') -ExpectedVersion 11.0.0
+    & $guard -PublishPath (New-Publish 'relinked' '11.0.0.0' $commit 'commit' $commit) -ExpectedVersion 11.0.0
+    Assert-Rejected (New-Publish 'relinked-other' '11.0.0.0' $commit 'commit' $otherCommit) 'a relinked native script of another build commit'
     Assert-Rejected (New-Publish 'older' '10.0.15.0' '10.0.15') 'an older runtime'
     Assert-Rejected (New-Publish 'empty' $null $null) 'a publish with no runtime'
     Assert-Rejected (New-Publish 'script' '11.0.0.0' '10.0.15') 'a runtime script of another version'
