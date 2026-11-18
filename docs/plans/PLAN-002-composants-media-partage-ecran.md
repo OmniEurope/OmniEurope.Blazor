@@ -31,7 +31,7 @@ Demande d'une application cliente du 2026-11-18 (module de partage d'écran WebR
 | Lot | Objet | État |
 |---|---|---|
 | 1 | `OmniInkCanvas` collaboratif | livré (44556fb3), tests et sonde ink rejoués |
-| 2 | `OmniMediaTile` + démonstration complète (deux tuiles qui s'échangent les traits, export PNG) | en cours |
+| 2 | `OmniMediaTile` + démonstration complète (deux tuiles qui s'échangent les traits, export PNG) | livré (fusion 177d2ffe) : sondes `ink`, `mediastage`, `mediatile` rejouées sur develop, contrôle visuel à 1440 et 375 px (trait propagé, export 640 x 480) |
 | 3 | `OmniMediaStage<TItem>` | livré (e2f439eb), sonde `mediastage` rejouée après fusion |
 
 ## Critère d'acceptation (de la demande)
