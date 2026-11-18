@@ -15,6 +15,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Corrigé
 
+- `OmniNavTile` avec `IsFavorite` : le bouton étoile (`.omni-nav-tile__favorite`) mesurait 32 px fixes quelle que soit la densité ; son côté suit désormais la densité comme les autres boutons à icône seule (hauteur de contrôle plus 0,25 rem : 28, 32 et 38 px en compact, confortable et spacieux), l'apparence par défaut (confortable, 32 px) est inchangée. Showcase : les drapeaux de l'exemple `OmniCountryFlag` sont servis par le showcase (SVG originaux dans `wwwroot/flags`) au lieu d'un CDN externe que la CSP bloque ; la CSP n'est pas élargie.
 - `OmniDataGrid` en arbre avec `FixedRowHeight` : la ligne portant un chevron dépassait la hauteur fixe (38,5 px pour 36 en densité confortable), si bien qu'une fenêtre virtuelle comptait ses lignes trop basses. Le chevron et son conteneur tiennent maintenant sur une ligne de texte.
 
 ## [1.14.2] - 2026-11-17

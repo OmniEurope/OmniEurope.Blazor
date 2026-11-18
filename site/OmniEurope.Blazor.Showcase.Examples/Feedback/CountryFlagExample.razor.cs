@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Showcase.Examples.Feedback;
 /// <summary>A few countries, with or without a picture template and with or without their code; an invalid code last.</summary>
 public partial class CountryFlagExample
 {
-    private const string Template = "https://flagcdn.com/{code}.svg";
+    private const string Template = "_content/OmniEurope.Blazor.Showcase.Examples/flags/{code}.svg";
 
     private static readonly string[] Codes = ["FR", "DE", "BE", "ES", "IT", "JP", "ZZ"];
 
