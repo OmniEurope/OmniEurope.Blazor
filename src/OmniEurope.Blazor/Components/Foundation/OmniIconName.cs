@@ -507,5 +507,9 @@ public enum OmniIconName
     /// <summary>Leaf: ecology, environmental footprint.</summary>
     Leaf,
     /// <summary>Shield with a cross inside: a security problem, a failed or refused protection.</summary>
-    ShieldX
+    ShieldX,
+    /// <summary>Microphone crossed by a slash: a muted microphone.</summary>
+    MicrophoneSlash,
+    /// <summary>Video camera: a camera that is filming.</summary>
+    VideoCamera
 }

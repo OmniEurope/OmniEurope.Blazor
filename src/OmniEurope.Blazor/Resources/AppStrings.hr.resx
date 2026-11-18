@@ -844,4 +844,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Font sa serifima za čitanje (slobodni web-font).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Tanki serifi i umjeren kontrast.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Fiksne širine, svaki znak jednako širok (slobodni web-font).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Videozapis korisnika {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Videozapis</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofon je isključen</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Dijeljenje zaslona</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera je uključena</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Cijeli zaslon</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Izlaz iz cijelog zaslona</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Crtež na videozapisu</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Radnje videozapisa</value></data>
 </root>

@@ -1,0 +1,142 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A live video tile. The video is a <video> whose srcObject omni-media-tile.js sets to the MediaStream the application owns;
+   over it come the optional drawing layer (an OmniInkCanvas the script lays exactly over the picture, through custom
+   properties), then the chips: status icons at the top start, the action bar at the top end, the name at the bottom start.
+   The chips are over a translucent scrim so they read on any video, and let the pointer through to the drawing except
+   for the buttons. The drawing toolbar sits above the stage, never over the picture. *@
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@Id"
+     role="group"
+     aria-label="@EffectiveLabel"
+     data-omni-media-fit="@(Fit == OmniMediaFit.Cover ? "cover" : "contain")"
+     class="@Css("omni-media-tile", Fit == OmniMediaFit.Cover ? "omni-media-tile--cover" : "omni-media-tile--contain", Stream is null ? "omni-media-tile--empty" : null, _fullscreen ? "omni-media-tile--fullscreen" : null)">
+    @if (Drawing && ShowDrawingToolbar)
+    {
+        <div class="omni-media-tile__toolbar" role="toolbar" aria-label="@Localize("InkToolbar")">
+            <OmniToggleButton Class="omni-media-tile__tool"
+                              Label="@Localize("InkPen")"
+                              title="@Localize("InkPen")"
+                              Value="@(CurrentTool == OmniInkTool.Pen)"
+                              ValueChanged="@(_ => SelectToolAsync(OmniInkTool.Pen))">
+                <OmniIcon Name="OmniIconName.Edit" />
+            </OmniToggleButton>
+            <OmniToggleButton Class="omni-media-tile__tool"
+                              Label="@Localize("InkEraser")"
+                              title="@Localize("InkEraser")"
+                              Value="@(CurrentTool == OmniInkTool.Eraser)"
+                              ValueChanged="@(_ => SelectToolAsync(OmniInkTool.Eraser))">
+                <OmniIcon Name="OmniIconName.Eraser" />
+            </OmniToggleButton>
+            <OmniColorPicker Class="omni-media-tile__color"
+                             ShowValue="false"
+                             aria-label="@Localize("InkColor")"
+                             title="@Localize("InkColor")"
+                             @bind-Value:get="PickerColor"
+                             @bind-Value:set="ChooseColor" />
+            <OmniSlider Class="omni-media-tile__width"
+                        Minimum="1"
+                        Maximum="12"
+                        Step="0.5"
+                        ShowValue="false"
+                        aria-label="@Localize("InkWidth")"
+                        title="@Localize("InkWidth")"
+                        @bind-Value:get="PenWidth"
+                        @bind-Value:set="ChooseWidth" />
+            <OmniButton Variant="OmniButtonVariant.Ghost"
+                        Label="@Localize("InkUndo")"
+                        title="@Localize("InkUndo")"
+                        Disabled="@(_current.Count == 0)"
+                        OnClick="UndoAsync">
+                <Icon><OmniIcon Name="OmniIconName.ArrowUUpLeft" /></Icon>
+            </OmniButton>
+            <OmniButton Variant="OmniButtonVariant.Ghost"
+                        Label="@Localize("InkClear")"
+                        title="@Localize("InkClear")"
+                        Disabled="@(_current.Count == 0)"
+                        OnClick="ClearAsync">
+                <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+            </OmniButton>
+        </div>
+    }
+    <div class="omni-media-tile__stage">
+        <video class="omni-media-tile__video" autoplay playsinline muted="@Muted" aria-hidden="true"></video>
+        @if (Stream is null)
+        {
+            <div class="omni-media-tile__placeholder" aria-hidden="true">
+                <span class="omni-media-tile__avatar">
+                    @if (AvatarText.Length > 0)
+                    {
+                        @AvatarText
+                    }
+                    else
+                    {
+                        <OmniIcon Name="OmniIconName.User" />
+                    }
+                </span>
+            </div>
+        }
+        @if (Drawing)
+        {
+            <div class="omni-media-tile__picture" data-omni-media-picture>
+                <OmniInkCanvas @ref="_ink"
+                               Class="omni-media-tile__ink"
+                               ShowToolbar="false"
+                               Label="@Localize("MediaTileDrawingLabel")"
+                               Value="Strokes"
+                               ValueChanged="HandleStrokesChanged"
+                               StrokeAdded="StrokeAdded"
+                               StrokesRemoved="StrokesRemoved"
+                               Tool="CurrentTool"
+                               Color="PenColor"
+                               StrokeWidth="PenWidth" />
+            </div>
+        }
+        @if (MicrophoneMuted || ScreenSharing || CameraActive)
+        {
+            <div class="omni-media-tile__status">
+                @if (MicrophoneMuted)
+                {
+                    <span class="omni-media-tile__badge" role="img" aria-label="@Localize("MediaTileMicrophoneMuted")" title="@Localize("MediaTileMicrophoneMuted")">
+                        <OmniIcon Name="OmniIconName.MicrophoneSlash" />
+                    </span>
+                }
+                @if (ScreenSharing)
+                {
+                    <span class="omni-media-tile__badge" role="img" aria-label="@Localize("MediaTileScreenSharing")" title="@Localize("MediaTileScreenSharing")">
+                        <OmniIcon Name="OmniIconName.Monitor" />
+                    </span>
+                }
+                @if (CameraActive)
+                {
+                    <span class="omni-media-tile__badge" role="img" aria-label="@Localize("MediaTileCameraActive")" title="@Localize("MediaTileCameraActive")">
+                        <OmniIcon Name="OmniIconName.VideoCamera" />
+                    </span>
+                }
+            </div>
+        }
+        @if (ActionsContent is not null || ShowFullscreen)
+        {
+            <div class="omni-media-tile__actions" role="toolbar" aria-label="@Localize("MediaTileActions")">
+                @ActionsContent
+                @if (ShowFullscreen)
+                {
+                    <OmniButton Class="omni-media-tile__fullscreen"
+                                Variant="OmniButtonVariant.Ghost"
+                                Label="@(_fullscreen ? Localize("MediaTileExitFullscreen") : Localize("MediaTileFullscreen"))"
+                                title="@(_fullscreen ? Localize("MediaTileExitFullscreen") : Localize("MediaTileFullscreen"))"
+                                OnClick="ToggleFullscreenAsync">
+                        <Icon><OmniIcon Name="@(_fullscreen ? OmniIconName.CornersIn : OmniIconName.CornersOut)" /></Icon>
+                    </OmniButton>
+                }
+            </div>
+        }
+        @if (!string.IsNullOrWhiteSpace(Name))
+        {
+            <div class="omni-media-tile__name">@Name</div>
+        }
+    </div>
+</div>

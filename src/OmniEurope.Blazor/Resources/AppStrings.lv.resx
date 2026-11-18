@@ -844,4 +844,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Serifu lasīšanas fonts (brīvs tīmekļa fonts).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Smalki serifi un mērens kontrasts.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Fiksēta platuma, katra rakstzīme vienā platumā (brīvs tīmekļa fonts).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>{0} video</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofons izslēgts</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Ekrāna kopīgošana</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera ieslēgta</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Pilnekrāna režīms</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Iziet no pilnekrāna režīma</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Zīmējums uz video</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Video darbības</value></data>
 </root>

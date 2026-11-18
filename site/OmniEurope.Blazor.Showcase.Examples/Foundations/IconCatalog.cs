@@ -263,5 +263,7 @@ public static class IconCatalog
         OmniIconName.Percent,
         OmniIconName.Leaf,
         OmniIconName.ShieldX,
+        OmniIconName.MicrophoneSlash,
+        OmniIconName.VideoCamera,
     ];
 }

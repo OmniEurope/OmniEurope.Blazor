@@ -844,4 +844,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Font de lectură cu serife (font web liber).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Serife fine și contrast moderat.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Monospațiat, fiecare caracter de aceeași lățime (font web liber).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Video: {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Microfon dezactivat</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Partajarea ecranului</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Cameră activă</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Ecran complet</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Ieșire din ecran complet</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Desen peste video</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Acțiuni video</value></data>
 </root>

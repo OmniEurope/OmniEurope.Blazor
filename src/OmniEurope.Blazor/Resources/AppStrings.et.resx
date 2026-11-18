@@ -844,4 +844,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Seriifidega lugemiskiri (vaba veebikiri).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Peened seriifid ja mõõdukas kontrast.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Püsilaiusega, iga märk sama laiusega (vaba veebikiri).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>{0} video</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofon on vaigistatud</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Ekraani jagamine</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kaamera on sees</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Täisekraan</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Välju täisekraanist</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Joonistus videol</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Video toimingud</value></data>
 </root>

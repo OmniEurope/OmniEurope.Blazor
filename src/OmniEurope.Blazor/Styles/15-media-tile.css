@@ -1,0 +1,34 @@
+/* OmniMediaTile: a live video on a dark stage, 16:9 by default (--omni-media-tile-aspect, as a ratio: 4 / 3). The video
+   fills the stage and object-fit draws the picture in it (contain keeps all of it, cover fills the stage). The drawing
+   layer, an OmniInkCanvas, sits in .omni-media-tile__picture, whose box omni-media-tile.js sets from the picture
+   the video really shows: --omni-media-picture-left, -top, -width and -height, through the CSSOM (no style attribute).
+   Without a picture the four are unset and the box has no size, so it shows nothing and takes no pointer. In cover the
+   box is larger than the stage and the stage clips it. The ink frame is transparent over the video and has no border,
+   so the canvas fills the box exactly (a border would shrink it and shift every stroke).
+   The chips over the video (status icons, name, action bar) are on a translucent dark scrim with light text, whatever the
+   theme, so they read on any picture; they let the pointer through to the drawing except for the buttons. No liseré: a chip
+   is a filled, fully rounded box. The tile moves nothing, so prefers-reduced-motion has nothing to calm.
+   --omni-media-tile-background replaces the stage colour behind the video. */
+.omni-media-tile { background: var(--omni-media-tile-background, #0b0d12); border-radius: var(--omni-radius); box-sizing: border-box; color: #fff; display: flex; flex-direction: column; inline-size: 100%; min-inline-size: 0; overflow: hidden; position: relative; }
+.omni-media-tile__toolbar { align-items: center; background: var(--omni-color-surface-muted); color: var(--omni-color-text); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-media-tile__width { inline-size: 8rem; }
+.omni-media-tile__stage { aspect-ratio: var(--omni-media-tile-aspect, 16 / 9); flex: 0 0 auto; inline-size: 100%; min-block-size: 0; overflow: hidden; position: relative; }
+.omni-media-tile__video { background: var(--omni-media-tile-background, #0b0d12); block-size: 100%; display: block; inline-size: 100%; inset: 0; object-fit: contain; position: absolute; }
+.omni-media-tile--cover .omni-media-tile__video { object-fit: cover; }
+.omni-media-tile--empty .omni-media-tile__video { display: none; }
+.omni-media-tile__placeholder { background: var(--omni-color-surface-muted); container-type: size; display: grid; inset: 0; place-items: center; position: absolute; }
+.omni-media-tile__avatar { align-items: center; aspect-ratio: 1; background: var(--omni-color-accent-subtle); block-size: min(55%, 7rem); border-radius: 50%; color: var(--omni-color-accent-strong); display: inline-flex; font-size: clamp(0.875rem, 18cqmin, 2.75rem); font-weight: 600; justify-content: center; line-height: 1; user-select: none; }
+.omni-media-tile__avatar .omni-icon { --omni-icon-size: 55%; }
+.omni-media-tile__picture { block-size: var(--omni-media-picture-height, 0px); inline-size: var(--omni-media-picture-width, 0px); inset-block-start: var(--omni-media-picture-top, 0px); inset-inline-start: var(--omni-media-picture-left, 0px); overflow: hidden; position: absolute; }
+.omni-media-tile__ink { --omni-ink-background: transparent; --omni-ink-border-color: transparent; block-size: 100%; inline-size: 100%; }
+.omni-media-tile__ink .omni-ink-canvas__frame { block-size: 100%; border: 0; border-radius: 0; }
+.omni-media-tile__status, .omni-media-tile__actions, .omni-media-tile__name { pointer-events: none; position: absolute; }
+.omni-media-tile__status { align-items: center; display: flex; gap: var(--omni-space-xs); inset-block-start: var(--omni-space-sm); inset-inline-start: var(--omni-space-sm); }
+.omni-media-tile__badge { align-items: center; background: rgb(0 0 0 / 0.6); border-radius: 999px; color: #fff; display: inline-flex; justify-content: center; min-block-size: 1.75rem; min-inline-size: 1.75rem; }
+.omni-media-tile__badge .omni-icon { --omni-icon-size: 1rem; }
+.omni-media-tile__actions { align-items: center; background: rgb(0 0 0 / 0.6); border-radius: 999px; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); inset-block-start: var(--omni-space-sm); inset-inline-end: var(--omni-space-sm); justify-content: flex-end; max-inline-size: calc(100% - 2 * var(--omni-space-sm)); padding: 0.125rem var(--omni-space-xs); }
+.omni-media-tile__actions > * { pointer-events: auto; }
+.omni-media-tile__actions .omni-button--ghost { --omni-button-ink: #fff; --omni-button-fill-hover: rgb(255 255 255 / 0.22); --omni-button-fill-active: rgb(255 255 255 / 0.32); }
+.omni-media-tile__name { background: rgb(0 0 0 / 0.6); border-radius: 999px; color: #fff; font-size: var(--omni-font-size-sm); inset-block-end: var(--omni-space-sm); inset-inline-start: var(--omni-space-sm); line-height: 1.25rem; max-inline-size: calc(100% - 2 * var(--omni-space-sm)); overflow: hidden; padding: 0.125rem var(--omni-space-sm); text-overflow: ellipsis; white-space: nowrap; }
+.omni-media-tile:fullscreen { border-radius: 0; block-size: 100%; inline-size: 100%; }
+.omni-media-tile:fullscreen .omni-media-tile__stage { aspect-ratio: auto; flex: 1 1 auto; }

@@ -844,4 +844,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Leseschrift mit Serifen (freie Webschrift).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Feine Serifen und mäßiger Kontrast.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Festbreitenschrift, jedes Zeichen gleich breit (freie Webschrift).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Video von {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Video</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Mikrofon stummgeschaltet</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Bildschirmfreigabe</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Kamera aktiv</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Vollbild</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Vollbild beenden</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Zeichnung auf dem Video</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Aktionen für das Video</value></data>
 </root>

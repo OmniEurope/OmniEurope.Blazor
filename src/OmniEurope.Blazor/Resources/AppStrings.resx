@@ -844,4 +844,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Police de lecture à empattements (police web libre).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Empattements fins et contraste modéré.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Chasse fixe, chaque caractère de même largeur (police web libre).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Vidéo de {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Vidéo</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Microphone coupé</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Partage d'écran</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Caméra active</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Plein écran</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Quitter le plein écran</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Dessin sur la vidéo</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Actions de la vidéo</value></data>
 </root>

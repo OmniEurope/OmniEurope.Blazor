@@ -844,4 +844,13 @@
   <data name="FontDescriptionSourceSerif" xml:space="preserve"><value>Γραμματοσειρά ανάγνωσης με πατούρες (ελεύθερη γραμματοσειρά web).</value></data>
   <data name="FontDescriptionTransitionnelle" xml:space="preserve"><value>Λεπτές πατούρες και μέτρια αντίθεση.</value></data>
   <data name="FontDescriptionJetBrainsMono" xml:space="preserve"><value>Σταθερού πλάτους, κάθε χαρακτήρας ίδιου πλάτους (ελεύθερη γραμματοσειρά web).</value></data>
+  <data name="MediaTileLabel" xml:space="preserve"><value>Βίντεο: {0}</value></data>
+  <data name="MediaTileLabelUnnamed" xml:space="preserve"><value>Βίντεο</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Το μικρόφωνο είναι σε σίγαση</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Κοινή χρήση οθόνης</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Η κάμερα είναι ενεργή</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Πλήρης οθόνη</value></data>
+  <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Έξοδος από πλήρη οθόνη</value></data>
+  <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Σχέδιο πάνω στο βίντεο</value></data>
+  <data name="MediaTileActions" xml:space="preserve"><value>Ενέργειες βίντεο</value></data>
 </root>
