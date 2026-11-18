@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Pero</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Guma</value></data>
   <data name="InkErased" xml:space="preserve"><value>Tahy byly vymazány</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Mediální scéna</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Zobrazit {0} ve velkém</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} je nyní zobrazeno ve velkém</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Položka {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Panel nástrojů dokumentu</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Oddálit</value></data>

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="MediaStageTitle" xml:space="preserve"><value>Media stage</value></data>
+  <data name="MediaStageDescription" xml:space="preserve"><value>A call scene: one large main item and up to six thumbnails, the main one switched by a click or from the keyboard. Every item keeps its element when the main one changes, so a video keeps playing. Wide, the thumbnails sit in a column beside the main item; narrow, in a row below it that scrolls sideways.</value></data>
+  <data name="MediaStageSettingsTitle" xml:space="preserve"><value>Media stage settings</value></data>
+  <data name="MediaStageSettingsDescription" xml:space="preserve"><value>What the scene holds.</value></data>
+  <data name="MediaStageCount" xml:space="preserve"><value>Participants</value></data>
+  <data name="MediaStageCountDescription" xml:space="preserve"><value>From none (an empty stage) to seven (one main item and six thumbnails); with one there is no thumbnail strip.</value></data>
+  <data name="MediaStagePreviewTitle" xml:space="preserve"><value>Call</value></data>
+  <data name="MediaStagePreviewDescription" xml:space="preserve"><value>Click a thumbnail, or Tab to its "Show large" button and press Enter, to make it the main item. Resize the window to see the layout follow the width of the stage.</value></data>
+</root>

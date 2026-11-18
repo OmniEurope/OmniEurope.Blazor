@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Pliiats</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Kustutuskumm</value></data>
   <data name="InkErased" xml:space="preserve"><value>Jooned kustutatud</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Meedialava</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Näita {0} suurena</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} on nüüd suurena</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Üksus {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumendi tööriistariba</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Suumi välja</value></data>

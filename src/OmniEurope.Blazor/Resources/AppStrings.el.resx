@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Στυλό</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Γόμα</value></data>
   <data name="InkErased" xml:space="preserve"><value>Οι γραμμές διαγράφηκαν</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Σκηνή πολυμέσων</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Μεγάλη προβολή του {0}</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>Το {0} εμφανίζεται τώρα σε μεγάλο μέγεθος</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Στοιχείο {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Έγγραφο</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Γραμμή εργαλείων εγγράφου</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Σμίκρυνση</value></data>
