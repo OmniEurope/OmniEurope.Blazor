@@ -118,6 +118,10 @@ const EXEMPT_SELF = [
   // The frame of OmniInkCanvas and its surface are the drawing sheet: Height (12rem by default) or AspectRatio
   // gives their shape, which a signature must keep whatever the page density (owner decision 2026-11-05). The
   // toolbar above the sheet is outside the frame and stays measured.
+  // The thumbnail strip of OmniMediaStage and the frame of each item are picture frames: 16:9 from the width of the
+  // stage (container query lengths), like a video, whatever the density. What an item holds (a tile, its name and
+  // buttons) stays measured.
+  ['.omni-media-stage__items, .omni-media-stage__content', 'cadres d\x27image de la scène média : 16:9 depuis la largeur de la scène, comme une vidéo, la densité ne les redimensionne pas'],
   ['.omni-ink-canvas__frame, .omni-ink-canvas__surface', 'feuille de dessin : sa forme (Height ou AspectRatio) ne dépend pas de la densité, une signature garde ses proportions'],
   // A grid Height (applied as --omni-grid-viewport on the viewport) is the consumer's explicit length, as
   // MaxHeight is; the rows inside are measured.
