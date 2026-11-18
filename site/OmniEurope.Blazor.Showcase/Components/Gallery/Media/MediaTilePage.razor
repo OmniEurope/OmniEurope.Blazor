@@ -1,0 +1,96 @@
+@page "/components/media-tile"
+@using OmniEurope.Blazor.Showcase.Examples.Media
+
+<GalleryPageFrame Slug="media-tile">
+    <Settings>
+        <OmniSettingsSection Title="@Text["MediaTileSettingsTitle"]" Description="@Text["MediaTileSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["MediaTileStream"]" Description="@Text["MediaTileStreamDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.VideoCamera" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="HasStream" aria-label="@Text["MediaTileStream"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileCover"]" Description="@Text["MediaTileCoverDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.CornersOut" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CoverChosen" aria-label="@Text["MediaTileCover"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileMuted"]" Description="@Text["MediaTileMutedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.SpeakerX" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Muted" aria-label="@Text["MediaTileMuted"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileFullscreen"]" Description="@Text["MediaTileFullscreenDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowFullscreen" aria-label="@Text["MediaTileFullscreen"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileMicrophoneMuted"]" Description="@Text["MediaTileMicrophoneMutedDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.MicrophoneSlash" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="MicrophoneMuted" aria-label="@Text["MediaTileMicrophoneMuted"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileScreenSharing"]" Description="@Text["MediaTileScreenSharingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Monitor" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ScreenSharing" aria-label="@Text["MediaTileScreenSharing"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileCameraActive"]" Description="@Text["MediaTileCameraActiveDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.VideoCamera" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CameraActive" aria-label="@Text["MediaTileCameraActive"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileDrawing"]" Description="@Text["MediaTileDrawingDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Drawing" aria-label="@Text["MediaTileDrawing"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileDrawingToolbar"]" Description="@Text["MediaTileDrawingToolbarDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Palette" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowDrawingToolbar" aria-label="@Text["MediaTileDrawingToolbar"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["MediaTileEraser"]" Description="@Text["MediaTileEraserDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Eraser" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="EraserChosen" aria-label="@Text["MediaTileEraser"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["MediaTilePreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["MediaTilePreviewDescription"]</OmniText>
+                <MediaTileExample HasStream="HasStream"
+                                  Fit="@(CoverChosen ? OmniMediaFit.Cover : OmniMediaFit.Contain)"
+                                  Muted="Muted"
+                                  ShowFullscreen="ShowFullscreen"
+                                  MicrophoneMuted="MicrophoneMuted"
+                                  ScreenSharing="ScreenSharing"
+                                  CameraActive="CameraActive"
+                                  Drawing="Drawing"
+                                  ShowDrawingToolbar="ShowDrawingToolbar"
+                                  @bind-Tool="Tool" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

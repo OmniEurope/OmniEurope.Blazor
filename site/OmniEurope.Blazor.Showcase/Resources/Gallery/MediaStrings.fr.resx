@@ -12,4 +12,30 @@
   <data name="MediaStageCountDescription" xml:space="preserve"><value>De aucun (scène vide) à sept (un principal et six vignettes) ; avec un seul, il n'y a pas de bande de vignettes.</value></data>
   <data name="MediaStagePreviewTitle" xml:space="preserve"><value>Appel</value></data>
   <data name="MediaStagePreviewDescription" xml:space="preserve"><value>Cliquez une vignette, ou allez au clavier sur son bouton « Afficher en grand » et validez par Entrée, pour en faire l'élément principal. Redimensionnez la fenêtre pour voir la disposition suivre la largeur de la scène.</value></data>
+  <data name="MediaTileTitle" xml:space="preserve"><value>Tuile vidéo</value></data>
+  <data name="MediaTileDescription" xml:space="preserve"><value>Une vidéo en direct que l’application possède (un appel, un partage d’écran, une caméra) avec son nom, ses icônes d’état, les actions de l’hôte, un bouton plein écran et un calque de dessin posé exactement sur l’image. Deux tuiles sur un même flux s’échangent leurs traits par la page, et l’image s’exporte en PNG avec les traits par-dessus.</value></data>
+  <data name="MediaTileSettingsTitle" xml:space="preserve"><value>Réglages de la tuile vidéo</value></data>
+  <data name="MediaTileSettingsDescription" xml:space="preserve"><value>Ce que les tuiles montrent et comment l’image s’y place.</value></data>
+  <data name="MediaTileStream" xml:space="preserve"><value>Flux</value></data>
+  <data name="MediaTileStreamDescription" xml:space="preserve"><value>Les tuiles montrent le flux de démonstration (un canevas animé) ou, désactivé, aucun flux : les initiales sur un disque, avec toujours le nom et les icônes.</value></data>
+  <data name="MediaTileCover" xml:space="preserve"><value>Remplir la tuile</value></data>
+  <data name="MediaTileCoverDescription" xml:space="preserve"><value>Fit : Cover remplit toute la tuile et coupe l’image, Contain (par défaut) la montre entière avec des bandes. Le calque de dessin suit l’image dans les deux cas.</value></data>
+  <data name="MediaTileMuted" xml:space="preserve"><value>Son coupé</value></data>
+  <data name="MediaTileMutedDescription" xml:space="preserve"><value>La vidéo se joue sans son (par défaut : elle démarre seule et son propre flux ne fait pas d’écho). Le flux d’un pair distant se règle à faux.</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Bouton plein écran</value></data>
+  <data name="MediaTileFullscreenDescription" xml:space="preserve"><value>Le bouton de la barre d’actions qui met la tuile en plein écran (ShowFullscreen) ; ToggleFullscreenAsync fait de même depuis le code.</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Microphone coupé</value></data>
+  <data name="MediaTileMicrophoneMutedDescription" xml:space="preserve"><value>L’icône d’état du microphone coupé.</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Partage d’écran</value></data>
+  <data name="MediaTileScreenSharingDescription" xml:space="preserve"><value>L’icône d’état du partage d’écran.</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Caméra active</value></data>
+  <data name="MediaTileCameraActiveDescription" xml:space="preserve"><value>L’icône d’état de la caméra.</value></data>
+  <data name="MediaTileDrawing" xml:space="preserve"><value>Calque de dessin</value></data>
+  <data name="MediaTileDrawingDescription" xml:space="preserve"><value>Un canevas posé exactement sur l’image que montre la vidéo, bandes exclues en Contain ; ses traits sont de 0 à 1 de l’image, les mêmes à toutes les tailles de tuile.</value></data>
+  <data name="MediaTileDrawingToolbar" xml:space="preserve"><value>Barre d’outils du dessin</value></data>
+  <data name="MediaTileDrawingToolbarDescription" xml:space="preserve"><value>Crayon et gomme, couleur, épaisseur, Annuler et Effacer dans une barre au-dessus de la vidéo, jamais sur l’image.</value></data>
+  <data name="MediaTileEraser" xml:space="preserve"><value>Gomme</value></data>
+  <data name="MediaTileEraserDescription" xml:space="preserve"><value>Le pointeur efface des traits entiers au lieu de dessiner (DrawingTool) ; un trait effacé sur une tuile disparaît de l’autre.</value></data>
+  <data name="MediaTilePreviewTitle" xml:space="preserve"><value>Deux tuiles, un flux</value></data>
+  <data name="MediaTilePreviewDescription" xml:space="preserve"><value>Dessinez sur l’une ou l’autre : le trait apparaît sur l’autre, qui est carrée, et un effacement suit. Exporter en PNG montre l’image avec les traits par-dessus.</value></data>
 </root>

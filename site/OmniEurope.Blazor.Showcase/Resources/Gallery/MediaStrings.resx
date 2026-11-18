@@ -12,4 +12,30 @@
   <data name="MediaStageCountDescription" xml:space="preserve"><value>From none (an empty stage) to seven (one main item and six thumbnails); with one there is no thumbnail strip.</value></data>
   <data name="MediaStagePreviewTitle" xml:space="preserve"><value>Call</value></data>
   <data name="MediaStagePreviewDescription" xml:space="preserve"><value>Click a thumbnail, or Tab to its "Show large" button and press Enter, to make it the main item. Resize the window to see the layout follow the width of the stage.</value></data>
+  <data name="MediaTileTitle" xml:space="preserve"><value>Media tile</value></data>
+  <data name="MediaTileDescription" xml:space="preserve"><value>A live video the application owns (a call, a screen share, a camera) with its name, status icons, host actions, a full-screen button and a drawing layer laid exactly over the picture. Two tiles on one stream exchange their strokes through the page, and the frame exports as a PNG with the strokes over it.</value></data>
+  <data name="MediaTileSettingsTitle" xml:space="preserve"><value>Media tile settings</value></data>
+  <data name="MediaTileSettingsDescription" xml:space="preserve"><value>What the tiles show and how the picture sits in them.</value></data>
+  <data name="MediaTileStream" xml:space="preserve"><value>Stream</value></data>
+  <data name="MediaTileStreamDescription" xml:space="preserve"><value>The tiles show the demo stream (an animated canvas) or, off, no stream: the initials on a disc, still with the name and the icons.</value></data>
+  <data name="MediaTileCover" xml:space="preserve"><value>Fill the tile</value></data>
+  <data name="MediaTileCoverDescription" xml:space="preserve"><value>Fit: Cover fills the whole tile and cuts the picture off, Contain (the default) shows all of it with bands. The drawing layer follows the picture either way.</value></data>
+  <data name="MediaTileMuted" xml:space="preserve"><value>Muted</value></data>
+  <data name="MediaTileMutedDescription" xml:space="preserve"><value>The video plays without sound (the default, so it starts alone and one’s own stream does not echo). A remote peer’s stream is set to false.</value></data>
+  <data name="MediaTileFullscreen" xml:space="preserve"><value>Full-screen button</value></data>
+  <data name="MediaTileFullscreenDescription" xml:space="preserve"><value>The button in the action bar that makes the tile full screen (ShowFullscreen); ToggleFullscreenAsync does the same from code.</value></data>
+  <data name="MediaTileMicrophoneMuted" xml:space="preserve"><value>Microphone muted</value></data>
+  <data name="MediaTileMicrophoneMutedDescription" xml:space="preserve"><value>The muted-microphone status icon.</value></data>
+  <data name="MediaTileScreenSharing" xml:space="preserve"><value>Screen sharing</value></data>
+  <data name="MediaTileScreenSharingDescription" xml:space="preserve"><value>The screen-sharing status icon.</value></data>
+  <data name="MediaTileCameraActive" xml:space="preserve"><value>Camera on</value></data>
+  <data name="MediaTileCameraActiveDescription" xml:space="preserve"><value>The camera status icon.</value></data>
+  <data name="MediaTileDrawing" xml:space="preserve"><value>Drawing layer</value></data>
+  <data name="MediaTileDrawingDescription" xml:space="preserve"><value>A canvas laid exactly over the picture the video shows, bands excluded in Contain; its strokes are 0 to 1 of the picture, the same on every tile size.</value></data>
+  <data name="MediaTileDrawingToolbar" xml:space="preserve"><value>Drawing toolbar</value></data>
+  <data name="MediaTileDrawingToolbarDescription" xml:space="preserve"><value>Pen and eraser, colour, width, Undo and Clear in a bar above the video, never over the picture.</value></data>
+  <data name="MediaTileEraser" xml:space="preserve"><value>Eraser</value></data>
+  <data name="MediaTileEraserDescription" xml:space="preserve"><value>The pointer erases whole strokes instead of drawing (DrawingTool); a stroke erased on one tile disappears from the other.</value></data>
+  <data name="MediaTilePreviewTitle" xml:space="preserve"><value>Two tiles, one stream</value></data>
+  <data name="MediaTilePreviewDescription" xml:space="preserve"><value>Draw on either tile: the stroke appears on the other, which is square, and an erasure follows. Export as PNG shows the frame with the strokes over it.</value></data>
 </root>
