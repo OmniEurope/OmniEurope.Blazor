@@ -25,6 +25,8 @@ public sealed class ThemeScopeBootCopyTests : OmniBunitContext
 
     private BunitJSModuleInterop ThemeModule { get; }
 
+    private BunitJSModuleInterop AppearanceModule { get; }
+
     public ThemeScopeBootCopyTests()
     {
         PreferencesModule = JSInterop.SetupModule(OmniModules.Preferences);
@@ -33,7 +35,8 @@ public sealed class ThemeScopeBootCopyTests : OmniBunitContext
         var stored = JsonSerializer.Serialize(new { version = 1, appearance = "Dark", preset = "Halo", density = "Compact", textSize = 7, controlSize = 3 }, Web);
         PreferencesModule.Setup<string?>("get", invocation => invocation.Arguments[0] as string == StorageKey)
             .SetResult(JsonSerializer.Serialize(new PreferenceCacheEntry(stored, DateTimeOffset.UtcNow, false)));
-        JSInterop.SetupModule(OmniModules.Appearance).Mode = JSRuntimeMode.Loose;
+        AppearanceModule = JSInterop.SetupModule(OmniModules.Appearance);
+        AppearanceModule.Mode = JSRuntimeMode.Loose;
         ThemeModule = JSInterop.SetupModule(OmniModules.Theme);
         ThemeModule.Mode = JSRuntimeMode.Loose;
     }
@@ -101,6 +104,32 @@ public sealed class ThemeScopeBootCopyTests : OmniBunitContext
         Assert.False((bool)apply.Arguments[5]!, "only the outermost scope takes over the package copy");
         Assert.Empty(Attached);
         Assert.Equal(2, outer.FindAll(".omni-theme-scope").Count);
+    }
+
+    private IReadOnlyList<JSRuntimeInvocation> TextSizeWrites => AppearanceModule.Invocations["setTextSizeLevel"];
+
+    [Fact]
+    public void A_scope_that_stays_alive_goes_on_to_attach_the_root_text_size_once_the_copy_is_kept()
+    {
+        var scope = Render<OmniThemeScope>(parameters => parameters.AddChildContent("Contenu"));
+
+        scope.WaitForAssertion(() => Assert.Single(TextSizeWrites));
+        Assert.Single(Attached);
+    }
+
+    [Fact]
+    public async Task A_scope_disposed_while_its_boot_copy_is_being_kept_stops_there_and_leaves_the_document_root_alone()
+    {
+        var holding = PreferencesModule.SetupVoid("attach", _ => true);
+        var scope = Render<OmniThemeScope>(parameters => parameters.AddChildContent("Contenu"));
+        scope.WaitForAssertion(() => Assert.Single(Attached));
+
+        await scope.Instance.DisposeAsync();
+        holding.SetVoidResult();
+        await Task.Delay(200, Xunit.TestContext.Current.CancellationToken);
+
+        Assert.Empty(TextSizeWrites);
+        Assert.Empty(AppearanceModule.Invocations["clearTextSizeLevel"]);
     }
 
     /// <summary>

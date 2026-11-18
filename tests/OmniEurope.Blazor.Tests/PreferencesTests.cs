@@ -514,6 +514,23 @@ public sealed class PreferencesTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AttachBootCopy_WhilePrerendering_AttachesNothing_ThenAttachesToTheEntryOfTheScopeOnceJavaScriptAnswers()
+    {
+        _browser.ImportFailure = new InvalidOperationException("JavaScript interop calls cannot be issued at this time.");
+        var preferences = Create();
+
+        await preferences.AttachBootCopyAsync("theme", "{\"boot\":1}", Token);
+
+        Assert.Empty(_browser.Attached);
+
+        _browser.ImportFailure = null;
+        await preferences.AttachBootCopyAsync("theme", "{\"boot\":2}", Token);
+
+        Assert.Equal((Key("u-7f3a", "theme"), "{\"boot\":2}"), Assert.Single(_browser.Attached));
+        Assert.Empty(_browser.Storage);
+    }
+
+    [Fact]
     public async Task TheStoreScope_PartitionsTheBrowserCache()
     {
         _browser.Storage[Key("u-other", "theme")] = Entry("\"aplat\"", Start);

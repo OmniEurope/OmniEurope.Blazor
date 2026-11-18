@@ -202,6 +202,41 @@ public sealed class MediaStageTests : OmniBunitContext
         Assert.Null(ItemOf(stage, "Ada").GetAttribute("tabindex"));
     }
 
+    [Theory]
+    [InlineData(0)]
+    [InlineData(-1)]
+    [InlineData(4)]
+    public async Task AChoiceOfTheMainItemOrOfAPositionTheListDoesNotHold_ChangesAndRaisesNothing(int index)
+    {
+        var stage = RenderStage();
+
+        await stage.InvokeAsync(() => stage.Instance.SelectAsync(index));
+
+        Assert.Equal("Ada", MainName(stage));
+        Assert.Empty(_raised);
+        Assert.Empty(stage.Find("[role=status]").TextContent);
+        Assert.Empty(JSInterop.Invocations);
+    }
+
+    public static TheoryData<Exception> LostCircuitFailures() =>
+    [
+        new Microsoft.JSInterop.JSDisconnectedException("circuit perdu"),
+        new TaskCanceledException("circuit perdu"),
+    ];
+
+    [Theory]
+    [MemberData(nameof(LostCircuitFailures))]
+    public async Task AFocusThatTheLostCircuitRefuses_DoesNotFailTheChoice(Exception failure)
+    {
+        JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true).SetException(failure);
+        var stage = RenderStage();
+
+        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+
+        Assert.Equal("Grace", MainName(stage));
+        Assert.Equal(["Grace"], _raised);
+        Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "Blazor._internal.domWrapper.focus");
+    }
     [Fact]
     public void WithoutAnItemLabel_TheButtonNamesTheItemByItsPosition()
     {

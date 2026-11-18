@@ -492,6 +492,54 @@ public sealed class AppearanceStateTests : OmniBunitContext
         Assert.Equal(OmniAppearance.Dark, State.Appearance);
     }
 
+    [Fact]
+    public async Task A_lost_circuit_does_not_fail_the_boot_copy_and_logs_nothing()
+    {
+        var logger = new CapturingLogger();
+        var state = new OmniAppearanceState(Services.GetRequiredService<OmniPreferences>(), JSInterop.JSRuntime, logger);
+        PreferencesModule.SetupVoid("attach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
+
+        await state.KeepBootCopyAsync("{}");
+
+        Assert.Single(PreferencesModule.Invocations["attach"]);
+        Assert.Empty(logger.Entries);
+    }
+
+    [Theory]
+    [MemberData(nameof(BootCopyRefusals))]
+    public async Task A_boot_copy_the_browser_refuses_is_logged_and_never_fails_the_caller(Exception refusal)
+    {
+        var logger = new CapturingLogger();
+        var state = new OmniAppearanceState(Services.GetRequiredService<OmniPreferences>(), JSInterop.JSRuntime, logger);
+        PreferencesModule.SetupVoid("attach", _ => true).SetException(refusal);
+
+        await state.KeepBootCopyAsync("{}");
+
+        Assert.Single(PreferencesModule.Invocations["attach"]);
+        var logged = Assert.Single(logger.Entries);
+        Assert.Equal(Microsoft.Extensions.Logging.LogLevel.Warning, logged.Level);
+        Assert.Same(refusal, logged.Exception);
+    }
+
+    public static TheoryData<Exception> BootCopyRefusals() =>
+    [
+        new JSException("quota"),
+        new ObjectDisposedException("module"),
+        new InvalidOperationException("JavaScript interop calls cannot be issued at this time."),
+    ];
+
+    /// <summary>A logger that keeps what the state logs.</summary>
+    private sealed class CapturingLogger : Microsoft.Extensions.Logging.ILogger<OmniAppearanceState>
+    {
+        public List<(Microsoft.Extensions.Logging.LogLevel Level, Exception? Exception)> Entries { get; } = [];
+
+        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
+
+        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
+
+        public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, Microsoft.Extensions.Logging.EventId eventId, TState state,
+            Exception? exception, Func<TState, Exception?, string> formatter) => Entries.Add((logLevel, exception));
+    }
     /// <summary>A store whose reads of one key wait until the test releases them.</summary>
     private sealed class GatedPreferenceStore(MemoryPreferenceStore inner) : IOmniPreferenceStore
     {

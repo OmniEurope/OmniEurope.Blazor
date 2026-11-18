@@ -467,6 +467,106 @@ public sealed class MediaTileTests : OmniBunitContext
         Assert.All(buttons(), button => Assert.True(button.HasAttribute("disabled")));
     }
 
+    [Fact]
+    public async Task ChoosingTheToolThatIsAlreadyCurrent_RaisesNothing()
+    {
+        var chosen = new List<OmniInkTool>();
+        var tile = RenderTile(parameters => parameters
+            .Add(t => t.Drawing, true)
+            .Add(t => t.DrawingToolChanged, EventCallback.Factory.Create<OmniInkTool>(this, tool => chosen.Add(tool))));
+
+        await tile.FindAll(".omni-media-tile__tool")[0].ClickAsync(new());
+
+        Assert.Empty(chosen);
+        Assert.Equal(OmniInkTool.Pen, Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance.Tool);
+    }
+
+    [Fact]
+    public void TheToolbarColourAndWidthChoices_GoToTheCanvas_InPlaceOfTheParameters()
+    {
+        var tile = RenderTile(parameters => parameters.Add(t => t.Drawing, true).Add(t => t.StrokeColor, "#112233").Add(t => t.StrokeWidth, 5));
+        var ink = Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance;
+        Assert.Equal("#112233", ink.Color);
+        Assert.Equal(5, ink.StrokeWidth);
+
+        tile.Find(".omni-media-tile__color input").Input("#00ff00");
+        tile.Find(".omni-media-tile__width input").Input("7");
+
+        Assert.Equal("#00ff00", ink.Color, ignoreCase: true);
+        Assert.Equal("#00ff00", tile.Find(".omni-media-tile__color input").GetAttribute("value"), ignoreCase: true);
+        Assert.Equal(7, ink.StrokeWidth);
+    }
+
+    [Theory]
+    [InlineData("#aabbcc", "#aabbcc")]
+    [InlineData("red", "#000000")]
+    [InlineData("#abc", "#000000")]
+    [InlineData("0123456", "#000000")]
+    [InlineData("#12345g", "#000000")]
+    public void ThePickerShowsAHexColourAsItIs_AndBlackForAnyOtherTextTheCanvasStillReceives(string strokeColor, string expectedPicker)
+    {
+        var tile = RenderTile(parameters => parameters.Add(t => t.Drawing, true).Add(t => t.StrokeColor, strokeColor));
+
+        Assert.Equal(expectedPicker, tile.Find(".omni-media-tile__color input").GetAttribute("value"));
+        Assert.Equal(strokeColor, Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance.Color);
+    }
+
+    [Fact]
+    public async Task Undo_TakesBackTheLastStroke_AndIsRaisedAsARemoval()
+    {
+        var removed = new List<IReadOnlyList<OmniInkStroke>>();
+        var changed = new List<IReadOnlyList<OmniInkStroke>>();
+        var tile = RenderTile(parameters => parameters
+            .Add(t => t.Drawing, true)
+            .Add(t => t.StrokesChanged, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, list => changed.Add(list)))
+            .Add(t => t.StrokesRemoved, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, list => removed.Add(list))));
+        var ink = Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance;
+        await tile.InvokeAsync(() => ink.HandleStrokeAsync("#123456", 4, [0.1, 0.2, -1, 0.3, 0.4, -1]));
+        await tile.InvokeAsync(() => ink.HandleStrokeAsync("#654321", 4, [0.5, 0.6, -1, 0.7, 0.8, -1]));
+
+        await tile.Find(".omni-media-tile__toolbar button[title='Annuler le dernier trait']").ClickAsync(new());
+
+        Assert.Equal("#654321", Assert.Single(Assert.Single(removed)).Color);
+        Assert.Equal("#123456", Assert.Single(changed[^1]).Color);
+    }
+
+    [Fact]
+    public async Task TheFullscreenStateTheScriptReports_ThroughItsBridge_ReachesTheTile()
+    {
+        var tile = RenderTile();
+        var bridge = ((DotNetObjectReference<MediaTileInteropBridge>)Assert.Single(_module.Invocations["attach"]).Arguments[1]!).Value;
+
+        await tile.InvokeAsync(() => bridge.OnFullscreenChanged(true));
+        Assert.Contains("omni-media-tile--fullscreen", tile.Find("div.omni-media-tile").ClassName, StringComparison.Ordinal);
+
+        await tile.InvokeAsync(() => bridge.OnFullscreenChanged(false));
+        Assert.DoesNotContain("omni-media-tile--fullscreen", tile.Find("div.omni-media-tile").ClassName, StringComparison.Ordinal);
+    }
+
+    // ----- A lost circuit ----------------------------------------------------------------------------
+
+    [Fact]
+    public void ALostCircuitWhileAttaching_IsIgnored_AndTheScriptIsNotCalledAgain()
+    {
+        _module.SetupVoid("attach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
+
+        var tile = RenderTile(parameters => parameters.Add(t => t.Stream, new FakeStream()));
+
+        Assert.Single(_module.Invocations["attach"]);
+        Assert.Empty(_module.Invocations["setStream"]);
+        Assert.Single(tile.FindAll("div.omni-media-tile"));
+    }
+
+    [Fact]
+    public async Task ALostCircuitWhileDetaching_DoesNotFailTheDisposal()
+    {
+        _module.SetupVoid("detach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
+        var tile = RenderTile();
+
+        await tile.Instance.DisposeAsync();
+
+        Assert.Single(_module.Invocations["detach"]);
+    }
     [Theory]
     [InlineData(0)]
     [InlineData(-1)]

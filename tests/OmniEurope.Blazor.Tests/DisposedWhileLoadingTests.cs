@@ -45,6 +45,19 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task MediaTile_RemovedWhileItsScriptLoads_AttachesNothing_AndItsDisposalEndsOnceTheScriptIsReleased()
+    {
+        var runtime = HoldImports();
+        var tile = Render<OmniMediaTile>(parameters => parameters.Add(component => component.Stream, new RecordingModule()));
+
+        // The disposal waits for the script that is still loading, so it ends once the script has arrived and been released.
+        var disposing = tile.Instance.DisposeAsync().AsTask();
+        await ReleasedWithoutAttachingAsync(runtime);
+
+        await disposing.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+    }
+
+    [Fact]
     public async Task Sidebar_RemovedWhileItsScriptLoads_AttachesNothing()
     {
         var runtime = HoldImports();

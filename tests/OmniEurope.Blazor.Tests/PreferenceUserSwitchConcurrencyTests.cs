@@ -125,6 +125,24 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     }
 
     [Fact]
+    public async Task ABootCopy_WaitingForAnOpeningThatAResetReleasesMeanwhile_IsAttachedOnTheCurrentOpeningInstead()
+    {
+        await using var preferences = Open();
+        var (reader, merging) = await HoldTheAccountsFirstMergeAsync(preferences);
+
+        var attaching = preferences.AttachBootCopyAsync("theme", "{\"boot\":1}", Token);
+        await preferences.ResetUserAsync(Token).WaitAsync(Patience, Token);
+
+        merging.Release();
+        await attaching.WaitAsync(Patience, Token);
+        Assert.Equal("aplat", await reader.WaitAsync(Patience, Token));
+
+        // The call made on the released opening was refused, and made again for the user signed in now: attached once.
+        Assert.Equal(("omni:pref:anne:theme", "{\"boot\":1}"), Assert.Single(_browser.Attached));
+        Assert.Equal(1, _browser.LiveModules);
+    }
+
+    [Fact]
     public async Task AWrite_WhoseOpeningIsReleasedWhileTheStoreSavesIt_CompletesAndIsNotSavedAgain()
     {
         await using var preferences = Open();
@@ -181,6 +199,7 @@ public sealed class PreferenceUserSwitchConcurrencyTests
         private readonly Lock _gate = new();
         private readonly Dictionary<string, string> _storage = new(StringComparer.Ordinal);
         private readonly List<Held> _held = [];
+        private readonly List<(string Key, string BootCopy)> _attached = [];
         private long _nextModule;
         private int _live;
         private TaskCompletionSource _disposed = new(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -193,6 +212,18 @@ public sealed class PreferenceUserSwitchConcurrencyTests
                 lock (_gate)
                 {
                     return _live;
+                }
+            }
+        }
+
+        /// <summary>The boot copies the script was told to attach, by storage key, in call order.</summary>
+        public IReadOnlyList<(string Key, string BootCopy)> Attached
+        {
+            get
+            {
+                lock (_gate)
+                {
+                    return [.. _attached];
                 }
             }
         }
@@ -282,6 +313,9 @@ public sealed class PreferenceUserSwitchConcurrencyTests
                         return _storage.TryGetValue(first!, out var value) ? JsonSerializer.Serialize(value) : "null";
                     case "set":
                         _storage[first!] = arguments[1].GetString()!;
+                        return "null";
+                    case "attach":
+                        _attached.Add((first!, arguments[1].GetString()!));
                         return "null";
                     case "entries":
                         return JsonSerializer.Serialize(_storage.Where(pair => pair.Key.StartsWith(first!, StringComparison.Ordinal)).Select(pair => new[] { pair.Key, pair.Value }));

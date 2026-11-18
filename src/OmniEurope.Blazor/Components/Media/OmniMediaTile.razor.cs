@@ -427,9 +427,10 @@ public partial class OmniMediaTile
 
     private void ChooseWidth(double width) => _chosenWidth = width;
 
-    private Task UndoAsync() => _ink?.UndoAsync() ?? Task.CompletedTask;
+    // The two buttons exist only while Drawing is on, and the same render gives the canvas its reference.
+    private Task UndoAsync() => _ink!.UndoAsync();
 
-    private Task ClearAsync() => _ink?.ClearAsync() ?? Task.CompletedTask;
+    private Task ClearAsync() => _ink!.ClearAsync();
 
     private Task<IJSObjectReference?> ModuleAsync()
         => _moduleTask ??= Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);

@@ -146,7 +146,12 @@ public partial class OmniMediaStage<TItem>
         return string.IsNullOrWhiteSpace(name) ? Localize("MediaStageItem", index + 1) : name;
     }
 
-    private async Task SelectAsync(int index)
+    /// <summary>
+    /// Makes the item at <paramref name="index"/> the main one. A choice that arrives for the item already shown large, or for a
+    /// position the list no longer holds (a second click on a thumbnail the browser had not yet seen replaced), changes nothing.
+    /// </summary>
+    /// <param name="index">The position of the chosen item in <see cref="Items"/>.</param>
+    internal async Task SelectAsync(int index)
     {
         if (index == _mainIndex || index < 0 || index >= _entries.Length)
         {

@@ -28,6 +28,9 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
 
     public List<string> WatchedPrefixes { get; } = [];
 
+    /// <summary>The boot copies attached to a cache entry, by storage key, in call order.</summary>
+    public List<(string Key, string BootCopy)> Attached { get; } = [];
+
     public List<int> Unwatched { get; } = [];
 
     public PreferenceInteropBridge? Bridge { get; private set; }
@@ -61,6 +64,7 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
             "import" => Import((string)args[0]!),
             "get" => Storage.TryGetValue((string)args[0]!, out var value) ? value : null,
             "set" => Set((string)args[0]!, (string)args[1]!),
+            "attach" => Attach((string)args[0]!, (string)args[1]!),
             "entries" => Storage.Where(pair => pair.Key.StartsWith((string)args[0]!, StringComparison.Ordinal))
                 .Select(pair => new[] { pair.Key, pair.Value }).ToArray(),
             "watch" => Watch((DotNetObjectReference<PreferenceInteropBridge>)args[0]!, (string)args[1]!),
@@ -98,6 +102,12 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
     {
         Writes++;
         Storage[key] = value;
+        return null;
+    }
+
+    private object? Attach(string key, string bootCopy)
+    {
+        Attached.Add((key, bootCopy));
         return null;
     }
 
