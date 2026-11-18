@@ -321,8 +321,9 @@
 .omni-nav-tile--disabled { cursor: not-allowed; opacity: 0.55; }
 .omni-nav-tile:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 /* IsFavorite: the host box holds the link and, over its corner, the star toggle (a sibling, never inside the link). */
+/* The star toggle is an icon-only control: its side follows the density (control height plus 0.25rem, so 2rem at the default). */
 .omni-nav-tile-host { block-size: 100%; display: block; min-inline-size: 0; position: relative; }
-.omni-nav-tile__favorite { align-items: center; appearance: none; background: transparent; block-size: 2rem; border: 0; border-radius: 50%; color: var(--omni-color-text-muted); cursor: pointer; display: inline-flex; inline-size: 2rem; inset-block-start: var(--omni-space-xs); inset-inline-end: var(--omni-space-xs); justify-content: center; margin: 0; padding: 0; position: absolute; }
+.omni-nav-tile__favorite { align-items: center; appearance: none; background: transparent; block-size: calc(var(--omni-control-height) + 0.25rem); border: 0; border-radius: 50%; color: var(--omni-color-text-muted); cursor: pointer; display: inline-flex; inline-size: calc(var(--omni-control-height) + 0.25rem); inset-block-start: var(--omni-space-xs); inset-inline-end: var(--omni-space-xs); justify-content: center; margin: 0; padding: 0; position: absolute; }
 button.omni-nav-tile__favorite:hover { background: color-mix(in srgb, currentColor 14%, transparent); color: var(--omni-color-text); }
 .omni-nav-tile__favorite:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 button.omni-nav-tile__favorite--on, button.omni-nav-tile__favorite--on:hover { color: var(--omni-color-warning); }
