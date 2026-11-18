@@ -96,6 +96,42 @@ public sealed class OmniAppearanceState : IDisposable
     /// <summary>The root attributes of the text and control sizes, applied while a scope follows the state.</summary>
     internal AppearanceDocumentRoot DocumentRoot { get; }
 
+    /// <summary>Whether the first read of the preference is over (<see cref="LoadAsync"/>): the settings are the user's, or the defaults when none is kept.</summary>
+    internal bool IsLoaded
+    {
+        get
+        {
+            lock (_gate)
+            {
+                return _loading is { IsCompletedSuccessfully: true };
+            }
+        }
+    }
+
+    /// <summary>The JSON of the preference for the current look, as it is written: what a boot copy is drawn for.</summary>
+    internal string PreferenceValue => PreferenceJson.Serialize(_look.ToPreference());
+
+    /// <summary>
+    /// Keeps the boot copy of what the outermost <see cref="OmniThemeScope"/> painted beside the preference in
+    /// the browser cache (see <see cref="OmniPreferences"/>), for <c>omni-boot.js</c>. A browser or a cache
+    /// that refuses is logged: the next boot then shows the attributes the preference gives on its own.
+    /// </summary>
+    internal async Task KeepBootCopyAsync(string bootCopy)
+    {
+        try
+        {
+            await _preferences.AttachBootCopyAsync(PreferenceKey, bootCopy);
+        }
+        catch (JSDisconnectedException)
+        {
+            // The page is gone, and nobody will boot it again from this circuit.
+        }
+        catch (Exception exception) when (exception is JSException or ObjectDisposedException or InvalidOperationException)
+        {
+            _logger.LogWarning(exception, "The boot copy of the appearance could not be kept; the next page load starts from the preference alone.");
+        }
+    }
+
     /// <summary>
     /// Reads the preference once per scope (the components that follow the state call it); later calls
     /// return the same task. A preference that cannot be read keeps the defaults, and a change made

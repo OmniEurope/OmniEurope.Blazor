@@ -103,3 +103,78 @@ test('a storage read failure still exposes the fallback', async () => {
     assert.equal(module.get('pref:value'), 'NEW');
     assert.deepEqual(module.entries('pref:'), [['pref:value', 'NEW']]);
 });
+
+// The boot copy (omni-boot.js): kept in the appearance entry, local to the browser, never handed to .NET.
+const entry = (value, extra = {}) => JSON.stringify({ Value: value, UpdatedAt: '2026-11-18T10:00:00+00:00', Dirty: false, ...extra });
+const bootCopy = JSON.stringify({ version: 1, value: '{"appearance":"Dark"}', appearance: 'dark', light: null, dark: { '--omni-color-surface': '#111111' } });
+
+test('attach lays the boot copy on the stored entry, dated, and hands the boot copy over to the outermost scope', async () => {
+    const { storage, module } = await fixture();
+    const handOvers = [];
+    globalThis.OmniBoot = { handOverTheme: fromPreferences => handOvers.push(fromPreferences) };
+    try {
+        module.set('omni:pref:local:omni.appearance', entry('{"appearance":"Dark"}'));
+        module.attach('omni:pref:local:omni.appearance', bootCopy);
+    }
+    finally {
+        delete globalThis.OmniBoot;
+    }
+
+    const stored = JSON.parse(storage.getItem('omni:pref:local:omni.appearance'));
+    assert.equal(stored.Value, '{"appearance":"Dark"}');
+    assert.equal(stored.Boot.dark['--omni-color-surface'], '#111111');
+    assert.equal(typeof stored.Boot.drawnAt, 'number');
+    assert.deepEqual(handOvers, [true]);
+});
+
+test('get and entries never hand the boot copy to .NET', async () => {
+    const { module } = await fixture();
+    module.set('omni:pref:local:omni.appearance', entry('{"appearance":"Dark"}'));
+    module.attach('omni:pref:local:omni.appearance', bootCopy);
+
+    const read = JSON.parse(module.get('omni:pref:local:omni.appearance'));
+    assert.equal(Object.hasOwn(read, 'Boot'), false);
+    assert.equal(read.Value, '{"appearance":"Dark"}');
+    const listed = JSON.parse(new Map(module.entries('omni:pref:local:')).get('omni:pref:local:omni.appearance'));
+    assert.equal(Object.hasOwn(listed, 'Boot'), false);
+});
+
+test('a later write of the entry keeps the boot copy: the one attached, or the one a previous page stored', async () => {
+    const { storage, module } = await fixture();
+    const key = 'omni:pref:local:omni.appearance';
+    module.attach(key, bootCopy);
+    // Not stored yet: the copy waits for the first write of the entry.
+    assert.equal(storage.getItem(key), null);
+    module.set(key, entry('{"appearance":"Dark"}', { Dirty: true }));
+    assert.equal(JSON.parse(storage.getItem(key)).Boot.appearance, 'dark');
+    module.set(key, entry('{"appearance":"Dark"}'));
+    assert.equal(JSON.parse(storage.getItem(key)).Dirty, false);
+    assert.equal(JSON.parse(storage.getItem(key)).Boot.appearance, 'dark');
+
+    // A new page (a fresh module) that never attached keeps what the previous one stored.
+    const url = pathToFileURL(path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot/omni-preferences.js'));
+    const next = await import(`${url.href}?test=${++sequence}`);
+    next.set(key, entry('{"appearance":"Light"}'));
+    assert.equal(JSON.parse(storage.getItem(key)).Value, '{"appearance":"Light"}');
+    assert.equal(JSON.parse(storage.getItem(key)).Boot.appearance, 'dark', 'kept: the boot script compares the look it was drawn for');
+});
+
+test('a boot copy the quota refuses leaves the entry written without it, and a malformed copy is ignored', async () => {
+    const { storage, module } = await fixture();
+    const key = 'omni:pref:local:omni.appearance';
+    module.attach(key, '{not json');
+    module.set(key, entry('{"appearance":"Dark"}'));
+    assert.equal(Object.hasOwn(JSON.parse(storage.getItem(key)), 'Boot'), false);
+
+    module.attach(key, bootCopy);
+    const original = storage.setItem.bind(storage);
+    storage.setItem = (name, value) => {
+        if (String(value).includes('"Boot"')) throw new DOMException('Quota reached', 'QuotaExceededError');
+        original(name, value);
+    };
+    module.set(key, entry('{"appearance":"Light"}'));
+    const stored = JSON.parse(storage.getItem(key));
+    assert.equal(stored.Value, '{"appearance":"Light"}');
+    assert.equal(Object.hasOwn(stored, 'Boot'), false);
+    assert.equal(module.get(key), entry('{"appearance":"Light"}'), 'persisted, not kept in memory');
+});

@@ -67,6 +67,7 @@ public sealed class ThemeState : IDisposable
     private DrawnLook _drawn;
     private int _changing;
     private bool _initialized;
+    private Task? _loading;
 
     /// <summary>Creates the state over the package's appearance state, which holds every setting.</summary>
     public ThemeState(ThemeTokenReader reader, IJSRuntime js, OmniAppearanceState appearance)
@@ -154,18 +155,32 @@ public sealed class ThemeState : IDisposable
     /// </summary>
     public async Task InitializeAsync(CancellationToken cancellationToken = default)
     {
-        _tokens = await _reader.ReadAsync(cancellationToken).ConfigureAwait(false);
-        await _appearance.LoadAsync(cancellationToken).ConfigureAwait(false);
-        var stored = await _js.InvokeAsync<string?>("omniShowcaseTheme.load", cancellationToken, StorageKey)
-            .ConfigureAwait(false);
+        await LoadAsync(cancellationToken).ConfigureAwait(false);
+        _initialized = true;
+        Remember();
+        await PushAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Reads the catalogue, the package state and the edits this browser kept, without painting: the layout waits for
+    /// it before its first render, so the page is drawn in the visitor's look from its first frame (the boot copy of
+    /// omni-boot.js covers the frames before). Later calls return the same read.
+    /// </summary>
+    public Task LoadAsync(CancellationToken cancellationToken = default) =>
+        (_loading ??= LoadCoreAsync()).WaitAsync(cancellationToken);
+
+    private async Task LoadCoreAsync()
+    {
+        _tokens = await _reader.ReadAsync().ConfigureAwait(false);
+        await _appearance.LoadAsync().ConfigureAwait(false);
+        var stored = await _js.InvokeAsync<string?>("omniShowcaseTheme.load", StorageKey).ConfigureAwait(false);
         if (!string.IsNullOrWhiteSpace(stored))
         {
             await RestoreAsync(stored).ConfigureAwait(false);
         }
 
-        _initialized = true;
         Remember();
-        await PushAsync(cancellationToken).ConfigureAwait(false);
+        Painted = _painted with { Light = Light, Dark = Dark };
     }
 
     /// <summary>The value in force for a token in the mode previewed, shipped value included.</summary>

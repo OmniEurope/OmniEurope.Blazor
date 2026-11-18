@@ -164,6 +164,8 @@ export function hideBootSplash(id) {
         return false;
     }
 
+    // The boot copy omni-boot.js laid from the package's preference cache leaves with the splash.
+    globalThis.OmniBoot?.settleTheme?.();
     const remove = () => splash.remove();
     const reducedMotion = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches === true;
     if (reducedMotion) {

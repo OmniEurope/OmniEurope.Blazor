@@ -95,6 +95,13 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope, b
         }
     }
 
+    /// <summary>
+    /// Attaches a boot copy (JSON) to the stored entry of <paramref name="key"/>, for <c>omni-boot.js</c>: the
+    /// script keeps it in the same entry, local to this browser, and never hands it back here.
+    /// </summary>
+    internal async Task AttachBootCopyAsync(string key, string bootCopy, CancellationToken cancellationToken) =>
+        await module.InvokeVoidAsync("attach", cancellationToken, StorageKey(key), bootCopy);
+
     /// <summary>Every readable entry of this scope; an entry that no longer parses is left out.</summary>
     internal async Task<Dictionary<string, PreferenceCacheEntry>> EntriesAsync(CancellationToken cancellationToken)
     {

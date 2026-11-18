@@ -197,7 +197,22 @@ Une portée claire ou sombre sans thème, palette, police ni clé d'instantané,
 
 ### Peindre l'apparence avant Blazor
 
-Le thème d'un site est porté entièrement par le paquet, première image comprise. La portée qui peint l'application reçoit `SnapshotKey` : à chaque changement d'apparence, elle range dans `localStorage`, sous cette clé, un instantané de ce qu'elle a peint. `omni-boot.js`, chargé dans le `head` avant Blazor, le rejoue sur la racine du document avant la première image. Rien n'y est recalculé : les valeurs sont celles que la portée a écrites, à l'identique.
+Le thème d'un site est porté entièrement par le paquet, première image comprise, sans aucune clé ni aucun script de l'application. Il suffit d'inclure `omni-boot.js` une fois dans le `head`, sans attribut :
+
+```html
+<head>
+    <link rel="stylesheet" href="_content/OmniEurope.Blazor/omnieurope.blazor.css" />
+    <script src="_content/OmniEurope.Blazor/omni-boot.js"></script>
+</head>
+```
+
+**Chemin par défaut : le cache d'`OmniPreferences`** (décision du propriétaire du 2026-11-18). Le script lit la copie locale de l'apparence que `OmniPreferences` tient déjà (`localStorage`, entrée `omni:pref:<portée>:omni.appearance`, voir [preferences.md](preferences.md), « Copie d'amorçage ») et pose sur `<html>`, avant la première image : `data-omni-theme`, `data-omni-theme-resolved` (mode `System` résolu par le réglage du système), `data-omni-density`, `data-omni-backdrop-motion`, `data-oe-text-size` et `data-oe-control-size`, plus les jetons de la moitié résolue (thème, palette, police, fond) et `data-omni-theme-boot`. L'écran de démarrage (hors de la racine Blazor) et la première page sont donc dessinés directement dans l'apparence enregistrée. La largeur du contenu n'est pas posée à la racine : `OmniMain` la lit de l'état à son premier rendu.
+
+Les jetons ne sont pas recalculés : la portée la plus extérieure de la page (aucune portée autour d'elle), qu'elle suive `OmniAppearanceState` ou que son hôte la lie, range à chaque changement d'apparence, une fois la préférence lue, une copie de ce qu'elle a peint (même forme que l'instantané ci-dessous, plus `value`, la préférence pour laquelle elle a été dessinée) dans le membre `Boot` de cette même entrée. Une copie dessinée pour un autre aspect que celui de l'entrée (changé sur un autre poste depuis) est écartée : les attributs viennent alors de la préférence seule, sans les jetons du thème. Au démarrage, la copie peint aussi la portée la plus extérieure dès son insertion (si elle dessine la même moitié). Passation : dans l'appel qui peint ses jetons pour la première fois, ou quand elle range sa copie, la portée appelle `OmniBoot.handOverTheme(true)` ; `OmniBootSplash` appelle `OmniBoot.settleTheme()` en retirant l'écran de démarrage, si bien que la copie part au plus tard avec lui. Aucun jeton n'est en double une fois la portée en place.
+
+Limite honnête : sur un **nouveau poste** (ou un navigateur vidé), rien n'est en local ; la première page s'affiche une fois dans l'apparence par défaut, puis dans celle de l'utilisateur dès que la préférence est lue (de la base pour un utilisateur connecté). Le chargement suivant est juste dès la première image. Sans `localStorage` (données de site bloquées, lecture qui lève), le script ne pose rien et la page démarre sans erreur dans l'apparence par défaut. Quand le navigateur tient les entrées de plusieurs utilisateurs, c'est la dernière dessinée ou changée qui est posée (celui qui se connecte ensuite voit cet aspect au premier affichage, puis le sien). Pour que la première image et la portée concordent, l'application rend sa portée avec les choix enregistrés dès son premier rendu (une portée qui suit l'état le fait d'elle-même ; un hôte qui lie la sienne attend la lecture, comme la mise en page de la vitrine).
+
+**Ancienne forme, toujours honorée : les clés de l'hôte.** La portée qui peint l'application reçoit `SnapshotKey` : à chaque changement d'apparence, elle range dans `localStorage`, sous cette clé, un instantané de ce qu'elle a peint, et le script le rejoue quand il reçoit la même clé (`data-theme-snapshot-key`). Un instantané valide de l'hôte passe avant la copie du paquet ; illisible ou absent, la copie du paquet prend le relais. Les clés simples (`data-appearance-key`, `data-text-size-key`...) s'appliquent d'abord, puis la copie du paquet pose les mêmes attributs par-dessus.
 
 ```html
 <head>
@@ -222,7 +237,7 @@ Passation : dans l'appel qui la peint pour la première fois, la portée appelle
 
 Pour que la première image et la portée concordent, le site rend la portée avec les choix enregistrés dès son premier rendu : une portée rendue d'abord avec les valeurs par défaut prend la main avec celles-ci, et écrit un instantané par défaut jusqu'au chargement des choix. Sans `data-theme-snapshot-key` ni `SnapshotKey`, rien ne change. `omni-boot.js` lit aussi, sur les clés que l'hôte nomme, la taille du texte et la taille des contrôles (`data-text-size-key`, `data-control-size-key`, niveau 1 à 10), posées comme `omni-appearance.js` les pose et laissées en place.
 
-Vérification manuelle (aucun banc de test JavaScript dans le dépôt) : servir une page avec `omni-boot.js` sous la CSP stricte, enregistrer un instantané par `snapshot` d'`omni-theme.js`, recharger, puis lire dans un script exécuté juste après `omni-boot.js` les attributs, les jetons et `getComputedStyle(document.documentElement).backgroundColor` de la racine ; ajouter un élément `data-omni-theme-snapshot` et constater les jetons posés avant l'image suivante ; appeler `apply(..., true)` et constater la libération de la racine au retrait de l'écran de démarrage ; en `System`, basculer `prefers-color-scheme` (émulation CDP) avant et après la passation. Les tests bUnit couvrent l'écriture de l'instantané, l'attribut résolu et le contrat partagé entre `omni-boot.js`, `omni-theme.js` et la feuille (`ThemeScopeBootSnapshotTests`).
+Preuves : `tests/js/boot.test.mjs` (lecture du cache et de l'instantané, valeurs mal formées, plusieurs utilisateurs, passation, stockage qui lève, aucune écriture), `tests/js/preferences.test.mjs` (copie gardée dans l'entrée, jamais rendue à .NET), `ThemeScopeBootSnapshotTests` et `ThemeScopeBootCopyTests` (bUnit : instantané, copie de la portée la plus extérieure, passation, contrat partagé entre les scripts et la feuille), et la partie `boot` de la sonde des scripts (vitrine réelle : chaque image peinte de l'écran de démarrage et de la première page relevée dès la première, voir [testing.md](testing.md)).
 
 ### Relief, Givre, Aplat, Épure et Trou noir
 
@@ -553,11 +568,12 @@ défaut). Le composant ne rend aucun élément : il ne prend ni `Id`, ni `Class`
 attribut qu'on lui passe est refusé au rendu plutôt qu'ignoré. Le retrait ne dépend pas de la fin de la transition : un minuteur de 600 ms le garantit dans un
 onglet en arrière-plan, et le mouvement réduit supprime l'écran sans fondu. `omni-boot.js`, script
 classique à inclure dans le `head` avant Blazor (aucun script en ligne, donc compatible
-`script-src 'self'`), applique avant la première image l'apparence, le thème et la langue enregistrés
-sous les clés que l'hôte nomme (`data-appearance-key`, `data-theme-key`, `data-text-size-key`, `data-control-size-key`,
-`data-language-key`), rejoue l'instantané d'`OmniThemeScope.SnapshotKey` (`data-theme-snapshot-key`, voir
-« Peindre l'apparence avant Blazor ») et
-publie `window.OmniBoot` (`culture`, `handOverTheme()`, `releaseTheme()`). Il ne retire pas l'écran de
+`script-src 'self'`), applique avant la première image, sans attribut, l'apparence que le cache
+d'`OmniPreferences` tient (voir « Peindre l'apparence avant Blazor »), et, dans l'ancienne forme, l'apparence,
+le thème et la langue enregistrés sous les clés que l'hôte nomme (`data-appearance-key`, `data-theme-key`,
+`data-text-size-key`, `data-control-size-key`, `data-language-key`) ou l'instantané d'`OmniThemeScope.SnapshotKey`
+(`data-theme-snapshot-key`). Il publie `window.OmniBoot` (`culture`, `handOverTheme()`, `settleTheme()`,
+`releaseTheme()`). En retirant l'écran, `OmniBootSplash` appelle `settleTheme()`. Il ne retire pas l'écran de
 démarrage : seul `OmniBootSplash` le fait, avec ou sans `omni-boot.js`.
 
 Preuves : `StatusStripAndBootSplashTests` (rôles et noms, tons, formes, liens, boutons, textes, appel du

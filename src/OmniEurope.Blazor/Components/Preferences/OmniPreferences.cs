@@ -289,6 +289,35 @@ public sealed class OmniPreferences : IAsyncDisposable
         _disposal.Dispose();
     }
 
+    /// <summary>
+    /// Attaches the boot copy of a look (JSON, see <see cref="OmniThemeScope"/>) to the browser cache entry of
+    /// <paramref name="key"/> of the user signed in now, for <c>omni-boot.js</c> to replay before Blazor starts.
+    /// The copy stays in this browser: neither the store nor <see cref="GetAsync{T}"/> ever sees it. Nothing
+    /// happens while the page is prerendered, or while no user is signed in and nothing is cached.
+    /// </summary>
+    internal async Task AttachBootCopyAsync(string key, string bootCopy, CancellationToken cancellationToken = default)
+    {
+        ArgumentException.ThrowIfNullOrWhiteSpace(key);
+        while (true)
+        {
+            var cache = await OpenAsync(cancellationToken);
+            if (cache is null)
+            {
+                return;
+            }
+
+            try
+            {
+                await cache.AttachBootCopyAsync(key, bootCopy, cancellationToken);
+                return;
+            }
+            catch (ObjectDisposedException) when (Superseded(cache))
+            {
+                // A change of user released this opening: attach it for the user signed in now.
+            }
+        }
+    }
+
     /// <summary>Whether the host registered a store: the preferences are then partitioned by its user scope.</summary>
     internal bool HasStore => _store is not null;
 

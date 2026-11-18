@@ -13,6 +13,12 @@ namespace OmniEurope.Blazor.Components;
 /// size and size of the controls on the document root (<c>data-oe-text-size</c>, <c>data-oe-control-size</c>)
 /// and keeps both levels in its snapshot. It draws nothing until the preference is read. A scope that
 /// writes any of the seven is controlled by its host, as before, and leaves the state alone.
+/// <para>
+/// The outermost scope of the page (no scope around it), whether it follows the state or its host binds it, keeps
+/// the boot copy of what it painted beside the user's appearance preference in the browser cache of
+/// <see cref="OmniPreferences"/>, once that preference was read, and takes over from the copy
+/// <c>omni-boot.js</c> laid from that cache before Blazor started, in the call that first paints its tokens.
+/// </para>
 /// </remarks>
 public partial class OmniThemeScope
 {
@@ -42,6 +48,11 @@ public partial class OmniThemeScope
     private bool _waiting;
     private bool _rootAttached;
     private bool _disposed;
+    private BootCopyState? _keptBootCopy;
+
+    /// <summary>The scope this one is nested in, if any: only the outermost keeps the boot copy of its look.</summary>
+    [CascadingParameter]
+    private OmniThemeScope? Outer { get; set; }
 
     /// <summary>The content the scope themes. Required.</summary>
     [Parameter, EditorRequired]
@@ -147,6 +158,12 @@ public partial class OmniThemeScope
         }
 
         await WriteSnapshotAsync();
+        if (_disposed)
+        {
+            return;
+        }
+
+        await KeepBootCopyAsync();
         if (_disposed)
         {
             return;
@@ -328,6 +345,44 @@ public partial class OmniThemeScope
         _writtenSnapshot = state;
     }
 
+    /// <summary>
+    /// The outermost scope keeps, beside the user's appearance preference in the browser cache of
+    /// <see cref="OmniPreferences"/>, the boot copy of what it painted (attributes, both halves of the tokens,
+    /// the two root levels), whenever that changed, for <c>omni-boot.js</c> to lay before Blazor starts; it
+    /// follows the state or its host binds it. Only once the preference was read: before, the look is not the user's.
+    /// </summary>
+    private async Task KeepBootCopyAsync()
+    {
+        if (Outer is not null || SharedAppearance is not { IsLoaded: true } state)
+        {
+            return;
+        }
+
+        var value = state.PreferenceValue;
+        var kept = new BootCopyState(value, EffectiveAppearance, Density, BackdropMotion, Preset, Palette, Font, DrawnBackdrop);
+        if (kept == _keptBootCopy)
+        {
+            return;
+        }
+
+        _keptBootCopy = kept;
+        var (light, dark) = Resolve();
+        var copy = new Internal.ThemeBootCopy(SnapshotVersion, value, AppearanceValue, Density.ToString().ToLowerInvariant(), BackdropMotion,
+            light, dark, state.TextSizeLevel, state.ControlSizeLevel);
+        await state.KeepBootCopyAsync(copy.ToJson());
+    }
+
+    /// <summary>What a boot copy was kept from (the preference covers the root levels); a change in any member keeps it again.</summary>
+    private sealed record BootCopyState(
+        string Value,
+        OmniAppearance Appearance,
+        OmniDensity Density,
+        bool BackdropMotion,
+        OmniThemePreset? Preset,
+        OmniThemePalette? Palette,
+        OmniThemeFont? Font,
+        OmniThemeBackdrop? Backdrop);
+
     /// <summary>What a snapshot was written from; a change in any member writes it again.</summary>
     private sealed record SnapshotState(
         string Key,
@@ -358,15 +413,17 @@ public partial class OmniThemeScope
 
         // The scope that keeps the snapshot takes over from the boot copy in the same call that paints it,
         // so no frame shows the scope between the two.
+        // The outermost scope takes over the copy omni-boot.js laid from the preference cache the same way.
         var handOver = SnapshotStorageKey is not null;
+        var fromPreferences = Outer is null;
         var (light, dark) = Resolve();
         if (light is null || dark is null)
         {
-            await module.InvokeVoidAsync("clear", _element, handOver);
+            await module.InvokeVoidAsync("clear", _element, handOver, fromPreferences);
         }
         else
         {
-            await module.InvokeVoidAsync("apply", _element, light, dark, AppearanceValue, handOver);
+            await module.InvokeVoidAsync("apply", _element, light, dark, AppearanceValue, handOver, fromPreferences);
         }
 
         _appliedPreset = Preset;

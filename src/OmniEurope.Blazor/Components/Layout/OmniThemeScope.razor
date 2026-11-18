@@ -21,6 +21,7 @@
             @* A field a CSS background cannot draw, behind the content; keyed by its script (see CanvasField). *@
             <canvas @key="CanvasField" @ref="_canvas" class="omni-theme-scope__canvas" aria-hidden="true"></canvas>
         }
-        @ChildContent
+        @* Each scope tells the ones nested in it that it holds them: only the outermost keeps the boot copy. *@
+        <CascadingValue Value="this" IsFixed="true">@ChildContent</CascadingValue>
     </div>
 }

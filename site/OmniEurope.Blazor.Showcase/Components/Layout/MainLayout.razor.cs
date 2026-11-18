@@ -19,6 +19,8 @@ public partial class MainLayout : IAsyncDisposable
     private bool _narrowViewport;
     private bool _appearanceWindowOpen;
     private bool _disposed;
+    private bool _loaded;
+    private bool _started;
     private IReadOnlyList<OmniSiteSearchDestination>? _searchDestinations;
     private string? _searchCulture;
 
@@ -133,13 +135,25 @@ public partial class MainLayout : IAsyncDisposable
         }
     }
 
+    /// <summary>
+    /// Reads the visitor's look before the first render: the layout draws nothing until then (the boot splash of
+    /// index.html covers the page, painted in that look by omni-boot.js), so its first frame is already the visitor's.
+    /// </summary>
+    protected override async Task OnInitializedAsync()
+    {
+        await Theme.LoadAsync();
+        _loaded = true;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (!firstRender)
+        // Once, after the first render that drew the shell.
+        if (!_loaded || _started)
         {
             return;
         }
 
+        _started = true;
         await Theme.InitializeAsync().ConfigureAwait(false);
 
         // Read once, then followed: the subscription reports only the crossings, not the state a page opens in.
