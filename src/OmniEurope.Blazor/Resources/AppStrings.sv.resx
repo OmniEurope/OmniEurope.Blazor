@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Penna</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Suddgummi</value></data>
   <data name="InkErased" xml:space="preserve"><value>Linjer raderade</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Mediescen</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Visa {0} stort</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} visas nu stort</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Objekt {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Dokumentets verktygsfält</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Zooma ut</value></data>

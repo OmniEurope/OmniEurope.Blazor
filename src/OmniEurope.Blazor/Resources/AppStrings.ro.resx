@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Creion</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Radieră</value></data>
   <data name="InkErased" xml:space="preserve"><value>Liniile au fost șterse</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Scenă media</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Afișează {0} mare</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} este acum afișat mare</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Element {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Document</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Bara de instrumente a documentului</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Micșorare</value></data>

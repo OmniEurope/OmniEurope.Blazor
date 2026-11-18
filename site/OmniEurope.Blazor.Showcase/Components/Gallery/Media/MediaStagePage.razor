@@ -1,0 +1,29 @@
+@page "/components/media-stage"
+@using OmniEurope.Blazor.Showcase.Examples.Media
+
+<GalleryPageFrame Slug="media-stage">
+    <Settings>
+        <OmniSettingsSection Title="@Text["MediaStageSettingsTitle"]" Description="@Text["MediaStageSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["MediaStageCount"]" Description="@Text["MediaStageCountDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Users" /></Icon>
+                <ChildContent>
+                    <OmniSlider Minimum="0"
+                                Maximum="7"
+                                Step="1"
+                                aria-label="@Text["MediaStageCount"]"
+                                @bind-Value:get="Count"
+                                @bind-Value:set="ChooseCount" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["MediaStagePreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["MediaStagePreviewDescription"]</OmniText>
+                <MediaStageExample Count="(int)Count" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

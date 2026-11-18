@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Kynä</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Pyyhekumi</value></data>
   <data name="InkErased" xml:space="preserve"><value>Vedot poistettu</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Mediaesitys</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Näytä {0} suurena</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} näkyy nyt suurena</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Kohde {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Asiakirja</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Asiakirjan työkalurivi</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Loitonna</value></data>

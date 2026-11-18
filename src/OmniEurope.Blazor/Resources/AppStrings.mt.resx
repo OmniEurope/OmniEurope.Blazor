@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Pinna</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Għomma</value></data>
   <data name="InkErased" xml:space="preserve"><value>Il-linji tħassru</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Palk tal-midja</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Uri {0} kbir</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} issa qed jintwera kbir</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Element {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Dokument</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Toolbar tad-dokument</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Żum 'l barra</value></data>

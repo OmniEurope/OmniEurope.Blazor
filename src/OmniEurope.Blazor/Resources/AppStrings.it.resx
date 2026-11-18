@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Penna</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Gomma</value></data>
   <data name="InkErased" xml:space="preserve"><value>Tratti cancellati</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Scena multimediale</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Mostra {0} in grande</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} è ora mostrato in grande</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Elemento {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Documento</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Barra degli strumenti del documento</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Riduci</value></data>

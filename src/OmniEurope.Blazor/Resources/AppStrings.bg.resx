@@ -770,6 +770,10 @@
   <data name="InkPen" xml:space="preserve"><value>Писалка</value></data>
   <data name="InkEraser" xml:space="preserve"><value>Гума</value></data>
   <data name="InkErased" xml:space="preserve"><value>Щрихите са изтрити</value></data>
+  <data name="MediaStageLabel" xml:space="preserve"><value>Медийна сцена</value></data>
+  <data name="MediaStageShowLarge" xml:space="preserve"><value>Покажи {0} в голям размер</value></data>
+  <data name="MediaStageShownLarge" xml:space="preserve"><value>{0} се показва в голям размер</value></data>
+  <data name="MediaStageItem" xml:space="preserve"><value>Елемент {0}</value></data>
   <data name="DocumentViewerLabel" xml:space="preserve"><value>Документ</value></data>
   <data name="DocumentViewerToolbar" xml:space="preserve"><value>Лента с инструменти за документа</value></data>
   <data name="DocumentViewerZoomOut" xml:space="preserve"><value>Намаляване</value></data>

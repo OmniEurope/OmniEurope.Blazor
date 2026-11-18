@@ -1,0 +1,26 @@
+@* A call scene: one main participant and up to six thumbnails. Every participant is drawn by ItemTemplate (here a
+   coloured placeholder, a video tile would sit there), KeyOf gives each a stable identity so that switching the main
+   one moves the elements instead of recreating them, and ItemLabel names the thumbnail buttons. MainItem is bound,
+   so the page can read and set who is on the big screen. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniMediaStage TItem="Participant"
+                    Id="media-stage-demo"
+                    Items="Shown"
+                    KeyOf="participant => participant.Id"
+                    ItemLabel="participant => participant.Name"
+                    @bind-MainItem="Main"
+                    Label="Call">
+        <ItemTemplate Context="participant">
+            <div class="@($"gallery-media-placeholder gallery-media-placeholder--{participant.Tone}")">
+                <span class="gallery-media-placeholder__initials" aria-hidden="true">@participant.Name[..1]</span>
+                <span class="gallery-media-placeholder__name">@participant.Name</span>
+            </div>
+        </ItemTemplate>
+    </OmniMediaStage>
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniBadge Id="media-stage-main" Tone="OmniTone.Info">Main: @(Main?.Name ?? Shown.FirstOrDefault()?.Name ?? "none")</OmniBadge>
+        <OmniButton Id="media-stage-reset" Variant="OmniButtonVariant.Secondary" OnClick="ResetMain">
+            <span>Back to the first</span>
+        </OmniButton>
+    </OmniRow>
+</OmniStack>
