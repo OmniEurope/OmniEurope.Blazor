@@ -77,3 +77,31 @@ test('a summary that is not the first of its details, or a disabled one, is not 
 
     assert.deepEqual(ids(focusableElements(dialog)), ['first']);
 });
+
+test('the sentinel of a dialog without any focusable element hands the focus to the dialog itself, at both edges', async () => {
+    const dom = installDom();
+    const { focusBoundary } = await import(pathToFileURL(path.join(wwwroot, 'focus/dialog.js')).href);
+    const sentinel = dom.el('button', { 'data-focus-sentinel': '' });
+    const dialog = dom.el('div', { role: 'dialog', tabindex: '-1' }, sentinel, dom.el('p', { text: 'Veuillez patienter.' }));
+    dom.body.append(dialog);
+
+    focusBoundary(dialog, true);
+    assert.ok(dialog.focused, 'coming in backwards, the focus does not stay on the sentinel');
+    dialog.focused = false;
+    focusBoundary(dialog, false);
+    assert.ok(dialog.focused);
+});
+
+test('the sentinels of a dialog hand the focus to its last and to its first element', async () => {
+    const dom = installDom();
+    const { focusBoundary } = await import(pathToFileURL(path.join(wwwroot, 'focus/dialog.js')).href);
+    const first = dom.el('button', { id: 'first' });
+    const last = dom.el('button', { id: 'last' });
+    const dialog = dom.el('div', { role: 'dialog', tabindex: '-1' }, first, last);
+    dom.body.append(dialog);
+
+    focusBoundary(dialog, true);
+    assert.ok(last.focused && !first.focused && !dialog.focused);
+    focusBoundary(dialog, false);
+    assert.ok(first.focused && !dialog.focused);
+});
