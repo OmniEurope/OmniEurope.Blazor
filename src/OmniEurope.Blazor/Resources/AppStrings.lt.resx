@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Išeiti iš viso ekrano</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Piešinys ant vaizdo</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Vaizdo veiksmai</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Žemėlapis</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Priartinti</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Nutolinti</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap bendradarbiai</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Rodyklės perkelia žemėlapį, + priartina, - nutolina.</value></data>
 </root>

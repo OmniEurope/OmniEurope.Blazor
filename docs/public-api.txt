@@ -89,6 +89,7 @@ component OmniEurope.Blazor.Components.OmniLoginShell
 component OmniEurope.Blazor.Components.OmniLogoLoader
 component OmniEurope.Blazor.Components.OmniMailTemplateEditor
 component OmniEurope.Blazor.Components.OmniMain
+component OmniEurope.Blazor.Components.OmniMap
 component OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>
 component OmniEurope.Blazor.Components.OmniMarkers
 component OmniEurope.Blazor.Components.OmniMediaStage<TItem>
@@ -275,6 +276,7 @@ ctor public OmniEurope.Blazor.Components.OmniFormActions()
 ctor public OmniEurope.Blazor.Components.OmniFormField()
 ctor public OmniEurope.Blazor.Components.OmniGantt()
 ctor public OmniEurope.Blazor.Components.OmniGanttTask()
+ctor public OmniEurope.Blazor.Components.OmniGeoPoint(System.Double Latitude, System.Double Longitude)
 ctor public OmniEurope.Blazor.Components.OmniGitGraph<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniGraphLayoutEdge(System.String From, System.String To)
 ctor public OmniEurope.Blazor.Components.OmniGraphLayoutNode(System.String Id, System.Double Width, System.Double Height)
@@ -324,6 +326,9 @@ ctor public OmniEurope.Blazor.Components.OmniMailTemplateEditor()
 ctor public OmniEurope.Blazor.Components.OmniMailTheme()
 ctor public OmniEurope.Blazor.Components.OmniMailVariable(System.String Name, System.String Label)
 ctor public OmniEurope.Blazor.Components.OmniMain()
+ctor public OmniEurope.Blazor.Components.OmniMap()
+ctor public OmniEurope.Blazor.Components.OmniMapLine()
+ctor public OmniEurope.Blazor.Components.OmniMapMarker()
 ctor public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniMarkers()
 ctor public OmniEurope.Blazor.Components.OmniMediaStage<TItem>()
@@ -606,6 +611,7 @@ field public static OmniEurope.Blazor.Components.OmniDynamicFieldKind.Text : Omn
 field public static OmniEurope.Blazor.Components.OmniFill.Outline : OmniEurope.Blazor.Components.OmniFill const = 1
 field public static OmniEurope.Blazor.Components.OmniFill.Solid : OmniEurope.Blazor.Components.OmniFill const = 2
 field public static OmniEurope.Blazor.Components.OmniFill.Tonal : OmniEurope.Blazor.Components.OmniFill const = 0
+field public static OmniEurope.Blazor.Components.OmniGeoPoint.MaxLatitude : System.Double const = 85.0511287798066
 field public static OmniEurope.Blazor.Components.OmniGraphDirection.LeftToRight : OmniEurope.Blazor.Components.OmniGraphDirection const = 0
 field public static OmniEurope.Blazor.Components.OmniGraphDirection.TopToBottom : OmniEurope.Blazor.Components.OmniGraphDirection const = 1
 field public static OmniEurope.Blazor.Components.OmniHeaderSurface.Accent : OmniEurope.Blazor.Components.OmniHeaderSurface const = 1
@@ -951,6 +957,11 @@ field public static OmniEurope.Blazor.Components.OmniLogLevel.Warning : OmniEuro
 field public static OmniEurope.Blazor.Components.OmniMailVariableKind.Block : OmniEurope.Blazor.Components.OmniMailVariableKind const = 2
 field public static OmniEurope.Blazor.Components.OmniMailVariableKind.Link : OmniEurope.Blazor.Components.OmniMailVariableKind const = 1
 field public static OmniEurope.Blazor.Components.OmniMailVariableKind.Text : OmniEurope.Blazor.Components.OmniMailVariableKind const = 0
+field public static OmniEurope.Blazor.Components.OmniMap.DefaultTileUrl : System.String const = "https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+field public static OmniEurope.Blazor.Components.OmniMapMarkerKind.End : OmniEurope.Blazor.Components.OmniMapMarkerKind const = 3
+field public static OmniEurope.Blazor.Components.OmniMapMarkerKind.Point : OmniEurope.Blazor.Components.OmniMapMarkerKind const = 0
+field public static OmniEurope.Blazor.Components.OmniMapMarkerKind.Start : OmniEurope.Blazor.Components.OmniMapMarkerKind const = 1
+field public static OmniEurope.Blazor.Components.OmniMapMarkerKind.Waypoint : OmniEurope.Blazor.Components.OmniMapMarkerKind const = 2
 field public static OmniEurope.Blazor.Components.OmniMediaFit.Contain : OmniEurope.Blazor.Components.OmniMediaFit const = 0
 field public static OmniEurope.Blazor.Components.OmniMediaFit.Cover : OmniEurope.Blazor.Components.OmniMediaFit const = 1
 field public static OmniEurope.Blazor.Components.OmniMindMapGroups.Blue : System.String const = "blue"
@@ -1305,6 +1316,9 @@ method protected override OmniEurope.Blazor.Components.OmniMailTemplateEditor.On
 method protected override OmniEurope.Blazor.Components.OmniMain.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMain.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
 method protected override OmniEurope.Blazor.Components.OmniMain.OnInitializedAsync() : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniMap.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniMap.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniMap.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniMarkers.OnParametersSet() : System.Void
@@ -1650,6 +1664,8 @@ method public OmniEurope.Blazor.Components.OmniFileDownloader.DownloadAsync(Syst
 method public OmniEurope.Blazor.Components.OmniFileDownloader.DownloadAsync(System.IO.Stream content, System.String fileName, System.String contentType = "application/octet-stream", System.Threading.CancellationToken cancellationToken = null) : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniGanttTask.<Clone>$() : OmniEurope.Blazor.Components.OmniGanttTask
 method public OmniEurope.Blazor.Components.OmniGanttTask.Equals(OmniEurope.Blazor.Components.OmniGanttTask? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniGeoPoint.Deconstruct(out System.Double Latitude, out System.Double Longitude) : System.Void
+method public OmniEurope.Blazor.Components.OmniGeoPoint.Equals(OmniEurope.Blazor.Components.OmniGeoPoint other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniGraphLayoutEdge.<Clone>$() : OmniEurope.Blazor.Components.OmniGraphLayoutEdge
 method public OmniEurope.Blazor.Components.OmniGraphLayoutEdge.Deconstruct(out System.String From, out System.String To) : System.Void
 method public OmniEurope.Blazor.Components.OmniGraphLayoutEdge.Equals(OmniEurope.Blazor.Components.OmniGraphLayoutEdge? other) : System.Boolean
@@ -1750,6 +1766,13 @@ method public OmniEurope.Blazor.Components.OmniMailVariable.<Clone>$() : OmniEur
 method public OmniEurope.Blazor.Components.OmniMailVariable.Deconstruct(out System.String Name, out System.String Label) : System.Void
 method public OmniEurope.Blazor.Components.OmniMailVariable.Equals(OmniEurope.Blazor.Components.OmniMailVariable? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniMain.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniMap.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniMap.ZoomInAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniMap.ZoomOutAsync() : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniMapLine.<Clone>$() : OmniEurope.Blazor.Components.OmniMapLine
+method public OmniEurope.Blazor.Components.OmniMapLine.Equals(OmniEurope.Blazor.Components.OmniMapLine? other) : System.Boolean
+method public OmniEurope.Blazor.Components.OmniMapMarker.<Clone>$() : OmniEurope.Blazor.Components.OmniMapMarker
+method public OmniEurope.Blazor.Components.OmniMapMarker.Equals(OmniEurope.Blazor.Components.OmniMapMarker? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniMarkers.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniMediaTile.DisposeAsync() : System.Threading.Tasks.ValueTask
@@ -2077,6 +2100,9 @@ method public override OmniEurope.Blazor.Components.OmniFieldValueChange.ToStrin
 method public override OmniEurope.Blazor.Components.OmniGanttTask.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniGanttTask.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniGanttTask.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniGeoPoint.Equals(System.Object obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniGeoPoint.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniGeoPoint.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniGraphLayoutEdge.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniGraphLayoutEdge.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniGraphLayoutEdge.ToString() : System.String
@@ -2150,6 +2176,12 @@ method public override OmniEurope.Blazor.Components.OmniMailTheme.ToString() : S
 method public override OmniEurope.Blazor.Components.OmniMailVariable.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniMailVariable.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniMailVariable.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMapLine.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMapLine.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMapLine.ToString() : System.String
+method public override OmniEurope.Blazor.Components.OmniMapMarker.Equals(System.Object? obj) : System.Boolean
+method public override OmniEurope.Blazor.Components.OmniMapMarker.GetHashCode() : System.Int32
+method public override OmniEurope.Blazor.Components.OmniMapMarker.ToString() : System.String
 method public override OmniEurope.Blazor.Components.OmniMindMapDocument.Equals(System.Object? obj) : System.Boolean
 method public override OmniEurope.Blazor.Components.OmniMindMapDocument.GetHashCode() : System.Int32
 method public override OmniEurope.Blazor.Components.OmniMindMapDocument.ToString() : System.String
@@ -2359,6 +2391,8 @@ method public static OmniEurope.Blazor.Components.OmniFieldValueChange.op_Equali
 method public static OmniEurope.Blazor.Components.OmniFieldValueChange.op_Inequality(OmniEurope.Blazor.Components.OmniFieldValueChange? left, OmniEurope.Blazor.Components.OmniFieldValueChange? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniGanttTask.op_Equality(OmniEurope.Blazor.Components.OmniGanttTask? left, OmniEurope.Blazor.Components.OmniGanttTask? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniGanttTask.op_Inequality(OmniEurope.Blazor.Components.OmniGanttTask? left, OmniEurope.Blazor.Components.OmniGanttTask? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniGeoPoint.op_Equality(OmniEurope.Blazor.Components.OmniGeoPoint left, OmniEurope.Blazor.Components.OmniGeoPoint right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniGeoPoint.op_Inequality(OmniEurope.Blazor.Components.OmniGeoPoint left, OmniEurope.Blazor.Components.OmniGeoPoint right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniGraphLayout.Layered(OmniEurope.Blazor.Components.OmniMindMapDocument document, OmniEurope.Blazor.Components.OmniGraphLayoutOptions? options = null) : OmniEurope.Blazor.Components.OmniMindMapDocument
 method public static OmniEurope.Blazor.Components.OmniGraphLayout.Layered(System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniGraphLayoutNode> nodes, System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniGraphLayoutEdge> edges, OmniEurope.Blazor.Components.OmniGraphLayoutOptions? options = null) : OmniEurope.Blazor.Components.OmniGraphLayoutResult
 method public static OmniEurope.Blazor.Components.OmniGraphLayoutEdge.op_Equality(OmniEurope.Blazor.Components.OmniGraphLayoutEdge? left, OmniEurope.Blazor.Components.OmniGraphLayoutEdge? right) : System.Boolean
@@ -2417,6 +2451,10 @@ method public static OmniEurope.Blazor.Components.OmniMailTheme.op_Equality(Omni
 method public static OmniEurope.Blazor.Components.OmniMailTheme.op_Inequality(OmniEurope.Blazor.Components.OmniMailTheme? left, OmniEurope.Blazor.Components.OmniMailTheme? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMailVariable.op_Equality(OmniEurope.Blazor.Components.OmniMailVariable? left, OmniEurope.Blazor.Components.OmniMailVariable? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMailVariable.op_Inequality(OmniEurope.Blazor.Components.OmniMailVariable? left, OmniEurope.Blazor.Components.OmniMailVariable? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMapLine.op_Equality(OmniEurope.Blazor.Components.OmniMapLine? left, OmniEurope.Blazor.Components.OmniMapLine? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMapLine.op_Inequality(OmniEurope.Blazor.Components.OmniMapLine? left, OmniEurope.Blazor.Components.OmniMapLine? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMapMarker.op_Equality(OmniEurope.Blazor.Components.OmniMapMarker? left, OmniEurope.Blazor.Components.OmniMapMarker? right) : System.Boolean
+method public static OmniEurope.Blazor.Components.OmniMapMarker.op_Inequality(OmniEurope.Blazor.Components.OmniMapMarker? left, OmniEurope.Blazor.Components.OmniMapMarker? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMindMapDocument.FromJson(System.String json) : OmniEurope.Blazor.Components.OmniMindMapDocument
 method public static OmniEurope.Blazor.Components.OmniMindMapDocument.op_Equality(OmniEurope.Blazor.Components.OmniMindMapDocument? left, OmniEurope.Blazor.Components.OmniMindMapDocument? right) : System.Boolean
 method public static OmniEurope.Blazor.Components.OmniMindMapDocument.op_Inequality(OmniEurope.Blazor.Components.OmniMindMapDocument? left, OmniEurope.Blazor.Components.OmniMindMapDocument? right) : System.Boolean
@@ -3387,6 +3425,8 @@ property public OmniEurope.Blazor.Components.OmniGanttTask.ColorIndex : System.I
 property public OmniEurope.Blazor.Components.OmniGanttTask.DependsOn : System.Collections.Generic.IReadOnlyList<System.String> {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniGanttTask.Group : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniGanttTask.Progress : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniGeoPoint.Latitude : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniGeoPoint.Longitude : System.Double {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniGitGraph<TItem>.EmptyText : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniGitGraph<TItem>.Items : System.Collections.Generic.IReadOnlyList<TItem> {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniGitGraph<TItem>.KeyOf : System.Func<TItem,System.String> {get(public);set(public)} [Parameter, EditorRequired]
@@ -3673,6 +3713,29 @@ property public OmniEurope.Blazor.Components.OmniMain.ChildContent : Microsoft.A
 property public OmniEurope.Blazor.Components.OmniMain.ContentWidth : OmniEurope.Blazor.Components.OmniLayoutWidth {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.FocusTarget : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMain.Scrollable : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.Attribution : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.Center : OmniEurope.Blazor.Components.OmniGeoPoint {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.CenterChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniGeoPoint> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.FitToContent : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.Lines : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMapLine> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.Markers : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniMapMarker> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.MaxZoom : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.MinZoom : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.OnMapClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniGeoPoint> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.OnMarkerClick : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniMapMarker> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.TileUrl : System.String {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.Zoom : System.Int32 {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMap.ZoomChanged : Microsoft.AspNetCore.Components.EventCallback<System.Int32> {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMapLine.Class : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapLine.Color : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapLine.Key : System.Object? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapLine.Tone : OmniEurope.Blazor.Components.OmniTone {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapLine.Tooltip : System.String? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapLine.Width : System.Double {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapMarker.Icon : OmniEurope.Blazor.Components.OmniIconName? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapMarker.Key : System.Object? {get(public);init(public)}
+property public OmniEurope.Blazor.Components.OmniMapMarker.Kind : OmniEurope.Blazor.Components.OmniMapMarkerKind {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.Export : System.Func<OmniEurope.Blazor.Components.OmniTableExport<TItem>>? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem>.FileName : System.String {get(public);set(public)} [Parameter]
@@ -4471,6 +4534,9 @@ property public required OmniEurope.Blazor.Components.OmniGanttTask.End : System
 property public required OmniEurope.Blazor.Components.OmniGanttTask.Id : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniGanttTask.Start : System.DateOnly {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniGanttTask.Title : System.String {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMapLine.Points : System.Collections.Generic.IReadOnlyList<OmniEurope.Blazor.Components.OmniGeoPoint> {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMapMarker.Label : System.String {get(public);init(public)}
+property public required OmniEurope.Blazor.Components.OmniMapMarker.Point : OmniEurope.Blazor.Components.OmniGeoPoint {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniMindMapEdge.From : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniMindMapEdge.To : System.String {get(public);init(public)}
 property public required OmniEurope.Blazor.Components.OmniMindMapNode.Id : System.String {get(public);init(public)}
@@ -4708,6 +4774,7 @@ type public OmniEurope.Blazor.Components.OmniFormActions [class] : OmniEurope.Bl
 type public OmniEurope.Blazor.Components.OmniFormField [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniGantt [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniGanttTask [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniGanttTask>
+type public OmniEurope.Blazor.Components.OmniGeoPoint [struct, sealed] : System.ValueType, System.IEquatable<OmniEurope.Blazor.Components.OmniGeoPoint>
 type public OmniEurope.Blazor.Components.OmniGitGraph<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniGraphDirection [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniGraphLayout [static-class, static]
@@ -4781,6 +4848,10 @@ type public OmniEurope.Blazor.Components.OmniMailTheme [class, sealed] : System.
 type public OmniEurope.Blazor.Components.OmniMailVariable [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMailVariable>
 type public OmniEurope.Blazor.Components.OmniMailVariableKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniMain [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniMap [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
+type public OmniEurope.Blazor.Components.OmniMapLine [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMapLine>
+type public OmniEurope.Blazor.Components.OmniMapMarker [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniMapMarker>
+type public OmniEurope.Blazor.Components.OmniMapMarkerKind [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniMarkdownExportButton<TItem> [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniMarkers [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniMediaFit [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

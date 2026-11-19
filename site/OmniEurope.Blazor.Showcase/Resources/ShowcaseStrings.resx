@@ -177,6 +177,7 @@
   <data name="GalleryFamilyEditor" xml:space="preserve"><value>Editors</value></data>
   <data name="GalleryFamilyDiagram" xml:space="preserve"><value>Diagrams</value></data>
   <data name="GalleryFamilyMedia" xml:space="preserve"><value>Media</value></data>
+  <data name="GalleryFamilyMaps" xml:space="preserve"><value>Maps</value></data>
   <data name="GalleryOverview" xml:space="preserve"><value>Overview</value></data>
   <data name="GalleryThemePicker" xml:space="preserve"><value>Theme</value></data>
   <data name="GalleryPalettePicker" xml:space="preserve"><value>Palette</value></data>

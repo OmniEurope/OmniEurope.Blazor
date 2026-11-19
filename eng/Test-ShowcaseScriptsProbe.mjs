@@ -23,6 +23,7 @@ import { focusSteps } from './scripts-probe/focus.mjs';
 import { inkSteps } from './scripts-probe/ink.mjs';
 import { keySteps } from './scripts-probe/keys.mjs';
 import { leakSteps } from './scripts-probe/leaks.mjs';
+import { mapSteps } from './scripts-probe/map.mjs';
 import { mediaStageSteps } from './scripts-probe/media-stage.mjs';
 import { mediaTileSteps } from './scripts-probe/media-tile.mjs';
 import { overlaySteps } from './scripts-probe/overlays.mjs';
@@ -32,7 +33,7 @@ import { structuredDocumentSteps } from './scripts-probe/structured-document.mjs
 import { treeVirtualSteps } from './scripts-probe/tree-virtual.mjs';
 import { veilSteps } from './scripts-probe/veil.mjs';
 
-const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, charts: chartSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, boot: bootSteps, columns: columnSteps, caret: caretSteps, combo: comboSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps, ink: inkSteps, structured: structuredDocumentSteps, viewer: documentViewerSteps, treevirtual: treeVirtualSteps, mediastage: mediaStageSteps, mediatile: mediaTileSteps };
+const parts = { overlays: overlaySteps, editor: editorSteps, boards: boardSteps, charts: chartSteps, keys: keySteps, requests: requestSteps, leaks: leakSteps, preferences: preferenceSteps, boot: bootSteps, columns: columnSteps, caret: caretSteps, combo: comboSteps, chevrons: chevronSteps, focus: focusSteps, veil: veilSteps, ink: inkSteps, structured: structuredDocumentSteps, viewer: documentViewerSteps, treevirtual: treeVirtualSteps, mediastage: mediaStageSteps, mediatile: mediaTileSteps, map: mapSteps };
 const only = process.env.OMNI_SCRIPTS_ONLY?.split(',').map(name => name.trim()).filter(Boolean);
 // A name that is no part, or a choice that keeps none, would validate a run that drove nothing.
 const unknown = only?.filter(name => !Object.hasOwn(parts, name)) ?? [];

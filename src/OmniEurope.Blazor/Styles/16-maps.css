@@ -1,0 +1,42 @@
+/* OmniMap: a box of --omni-map-height (24rem by default, set by a host class) that clips what it holds (overflow: clip,
+   so a focused marker outside the view never scrolls it). omni-map.js fills .omni-map__tiles with 256-pixel <img> tiles,
+   each placed by --omni-map-tile-x and --omni-map-tile-y, writes the paths of the lines in the SVG, and places each
+   marker by --omni-map-x and --omni-map-y (the point under the middle of the marker), all through the CSSOM: no style
+   attribute. A tile shows once loaded; a failed one stays hidden and leaves the surface colour, never a broken image.
+   The lines take the colour of their tone (or their own stroke attribute, which the tone rules leave alone) over a
+   casing of the surface colour: dark ink on a light casing in the light theme, light ink on a dark casing in the dark
+   theme, readable on the tiles either way. The tiles stay as served; the controls, the attribution and the markers
+   follow the theme's tokens. Frames, fills and shadows only: no one-sided border or bar. Nothing moves by itself, so
+   prefers-reduced-motion has nothing to calm. */
+.omni-map { background: var(--omni-color-surface-muted); block-size: var(--omni-map-height, 24rem); border-radius: var(--omni-radius); box-sizing: border-box; cursor: grab; display: block; inline-size: 100%; isolation: isolate; min-inline-size: 0; overflow: clip; position: relative; touch-action: none; user-select: none; -webkit-user-select: none; }
+.omni-map--dragging { cursor: grabbing; }
+.omni-map:focus { outline: none; }
+.omni-map:focus-visible { box-shadow: var(--omni-focus-ring); }
+.omni-map__tiles { inset: 0; overflow: hidden; pointer-events: none; position: absolute; z-index: 0; }
+.omni-map__tile { block-size: 256px; display: block; inline-size: 256px; inset-block-start: 0; inset-inline-start: 0; max-block-size: none; max-inline-size: none; pointer-events: none; position: absolute; transform: translate(var(--omni-map-tile-x, 0px), var(--omni-map-tile-y, 0px)); user-select: none; visibility: hidden; }
+.omni-map__tile--loaded { visibility: visible; }
+.omni-map__tile--failed { visibility: hidden; }
+.omni-map__lines { block-size: 100%; inline-size: 100%; inset: 0; overflow: visible; pointer-events: none; position: absolute; z-index: 1; }
+.omni-map__casing, .omni-map__stroke { fill: none; pointer-events: visibleStroke; stroke-linecap: round; stroke-linejoin: round; }
+.omni-map__casing { stroke: var(--omni-color-surface); stroke-opacity: 0.9; }
+.omni-map__line--neutral .omni-map__stroke:not([stroke]) { stroke: var(--omni-color-text); }
+.omni-map__line--accent .omni-map__stroke:not([stroke]) { stroke: var(--omni-color-accent); }
+.omni-map__line--info .omni-map__stroke:not([stroke]) { stroke: var(--omni-color-info); }
+.omni-map__line--success .omni-map__stroke:not([stroke]) { stroke: var(--omni-color-success); }
+.omni-map__line--warning .omni-map__stroke:not([stroke]) { stroke: var(--omni-color-warning); }
+.omni-map__line--danger .omni-map__stroke:not([stroke]) { stroke: var(--omni-color-danger); }
+.omni-map__markers { inset: 0; pointer-events: none; position: absolute; z-index: 2; }
+.omni-map__marker { --omni-icon-size: 1rem; align-items: center; appearance: none; background: var(--omni-color-accent-fill); block-size: 2rem; border: 2px solid var(--omni-color-surface); border-radius: 50%; box-shadow: var(--omni-layer-shadow); box-sizing: border-box; color: var(--omni-color-on-accent-fill); cursor: pointer; display: inline-flex; inline-size: 2rem; inset-block-start: 0; inset-inline-start: 0; justify-content: center; margin: 0; padding: 0; pointer-events: auto; position: absolute; transform: translate(calc(var(--omni-map-x, 0px) - 50%), calc(var(--omni-map-y, 0px) - 50%)); visibility: hidden; }
+.omni-map__marker[data-omni-map-placed] { visibility: visible; }
+/* The visible disc stays small; the press target is 44 px around its middle. */
+.omni-map__marker::before { block-size: 2.75rem; content: ""; inline-size: 2.75rem; inset-block-start: 50%; inset-inline-start: 50%; position: absolute; transform: translate(-50%, -50%); }
+.omni-map__marker:hover { z-index: 1; }
+.omni-map__marker:focus { outline: none; }
+.omni-map__marker:focus-visible { box-shadow: var(--omni-focus-ring); z-index: 1; }
+.omni-map__marker--start { background: var(--omni-color-success-bright); color: var(--omni-color-on-bright); }
+.omni-map__marker--end { background: var(--omni-color-danger-deep); color: var(--omni-color-on-deep); }
+.omni-map__marker--waypoint { --omni-icon-size: 0.75rem; background: var(--omni-color-surface); block-size: 1.5rem; border-color: var(--omni-color-text); color: var(--omni-color-text); inline-size: 1.5rem; }
+.omni-map__controls { cursor: auto; display: flex; flex-direction: column; gap: var(--omni-space-xs); inset-block-start: var(--omni-space-sm); inset-inline-end: var(--omni-space-sm); position: absolute; z-index: 3; }
+.omni-map__zoom { box-shadow: var(--omni-layer-shadow); }
+.omni-map__attribution { background: color-mix(in srgb, var(--omni-color-surface) 88%, transparent); border-start-start-radius: var(--omni-radius-sm); box-sizing: border-box; color: var(--omni-color-text); cursor: auto; font-size: var(--omni-font-size-xs); inset-block-end: 0; inset-inline-end: 0; line-height: 1.5; max-inline-size: 100%; overflow-wrap: anywhere; padding: 0.125rem var(--omni-space-xs); position: absolute; user-select: text; -webkit-user-select: text; z-index: 3; }
+.omni-map__attribution a { color: var(--omni-color-accent); }

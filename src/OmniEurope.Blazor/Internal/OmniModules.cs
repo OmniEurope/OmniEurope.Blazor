@@ -54,6 +54,9 @@ internal static class OmniModules
     /// <summary>The mind map canvas: gestures, label measurement and focus.</summary>
     internal const string MindMap = Root + "omni-mindmap.js";
 
+    /// <summary>The map: tile layer, line and marker placement, pan, wheel and keyboard zoom, framing of the content.</summary>
+    internal const string Map = Root + "omni-map.js";
+
     /// <summary>The media tile: the stream of a video, the rectangle its picture occupies, full screen, and the export of the frame with its strokes.</summary>
     internal const string MediaTile = Root + "omni-media-tile.js";
 

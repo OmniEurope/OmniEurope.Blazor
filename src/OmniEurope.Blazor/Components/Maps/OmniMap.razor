@@ -1,0 +1,88 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A map drawn by the package itself (no map library): omni-map.js fills .omni-map__tiles with the <img> tiles in view
+   and their neighbours, writes the "d" of every line path in pixels of the view, and places every marker button through
+   two custom properties (--omni-map-x, --omni-map-y), all through the DOM and the CSSOM, never a style attribute. The
+   lines and the markers are rendered here, so their texts, keys, tones and clicks stay .NET's; the script only knows
+   where they go. The root is the focusable region the keyboard pans and zooms. *@
+<div @ref="_root"
+     @attributes="AdditionalAttributes"
+     id="@Id"
+     role="region"
+     tabindex="0"
+     aria-label="@LocalizeOr(Label, "MapLabel")"
+     aria-describedby="@DescribedBy"
+     class="@Css("omni-map")">
+    <div class="omni-map__tiles" aria-hidden="true"></div>
+    <svg class="omni-map__lines" aria-hidden="true" focusable="false">
+        @for (var index = 0; index < Lines.Count; index++)
+        {
+            var line = Lines[index];
+            <g @key="line.Key ?? index"
+               class="@LineClass(line)"
+               data-omni-map-line
+               data-omni-tip="@(string.IsNullOrWhiteSpace(line.Tooltip) ? null : line.Tooltip)">
+                <path class="omni-map__casing" stroke-width="@Pixels(line.Width + CasingWidth)" />
+                <path class="omni-map__stroke" stroke="@ColorOf(line)" stroke-width="@Pixels(line.Width)" />
+            </g>
+        }
+    </svg>
+    <div class="omni-map__markers">
+        @for (var index = 0; index < Markers.Count; index++)
+        {
+            var marker = Markers[index];
+            <button @key="marker.Key ?? index"
+                    type="button"
+                    class="@MarkerClass(marker)"
+                    aria-label="@marker.Label"
+                    data-omni-tip="@marker.Label"
+                    data-omni-map-marker
+                    @onclick="() => OnMarkerClick.InvokeAsync(marker)">
+                <OmniIcon Name="@IconOf(marker)" />
+            </button>
+        }
+    </div>
+    <div class="omni-map__controls">
+        <OmniButton Class="omni-map__zoom"
+                    Variant="OmniButtonVariant.Secondary"
+                    Label="@Localize("MapZoomIn")"
+                    title="@Localize("MapZoomIn")"
+                    Disabled="@(_zoom >= EffectiveMaxZoom)"
+                    OnClick="ZoomInAsync">
+            <Icon><OmniIcon Name="OmniIconName.Add" /></Icon>
+        </OmniButton>
+        <OmniButton Class="omni-map__zoom"
+                    Variant="OmniButtonVariant.Secondary"
+                    Label="@Localize("MapZoomOut")"
+                    title="@Localize("MapZoomOut")"
+                    Disabled="@(_zoom <= EffectiveMinZoom)"
+                    OnClick="ZoomOutAsync">
+            <Icon><OmniIcon Name="OmniIconName.Remove" /></Icon>
+        </OmniButton>
+    </div>
+    <div class="omni-map__attribution">
+        @if (string.IsNullOrWhiteSpace(Attribution))
+        {
+            <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">@Localize("MapAttributionOsm")</a>
+        }
+        else
+        {
+            @Attribution
+        }
+    </div>
+    <p id="@HelpId" class="omni-visually-hidden">@Localize("MapKeyboardHelp")</p>
+    @if (HasLineTexts)
+    {
+        <ul id="@LinesId" class="omni-visually-hidden">
+            @foreach (var line in Lines)
+            {
+                if (!string.IsNullOrWhiteSpace(line.Tooltip))
+                {
+                    <li>@line.Tooltip</li>
+                }
+            }
+        </ul>
+    }
+</div>

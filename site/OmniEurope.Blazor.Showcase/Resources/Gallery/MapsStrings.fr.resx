@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="MapTitle" xml:space="preserve"><value>Carte</value></data>
+  <data name="MapDescription" xml:space="preserve"><value>Une carte dessinée par le paquet lui-même, à partir des tuiles d'un serveur que l'hôte choisit (OpenStreetMap par défaut) : des lignes en tronçons de leur propre couleur avec une infobulle, des repères qui sont de vrais boutons, un glisser pour déplacer, la molette, le double clic, des boutons et des touches pour zoomer, un clic qui donne son lieu, et un cadrage de tout le contenu.</value></data>
+  <data name="MapSettingsTitle" xml:space="preserve"><value>Réglages de la carte</value></data>
+  <data name="MapSettingsDescription" xml:space="preserve"><value>Comment la carte s'ouvre.</value></data>
+  <data name="MapFit" xml:space="preserve"><value>Cadrer le trajet</value></data>
+  <data name="MapFitDescription" xml:space="preserve"><value>Cadre toutes les lignes et tous les repères ; désactivé, la carte reste où elle est.</value></data>
+  <data name="MapPreviewTitle" xml:space="preserve"><value>Trajet sous la pluie</value></data>
+  <data name="MapPreviewDescription" xml:space="preserve"><value>Un trajet dans Bruxelles en tronçons de cinq minutes, chacun coloré selon la pluie prévue au moment du passage. Pointez un tronçon pour lire sa prévision, faites glisser la carte, zoomez à la molette ou aux boutons, cliquez la carte pour lire son lieu, pressez un repère. Carte focalisée, les flèches la déplacent, + et - zooment.</value></data>
+</root>

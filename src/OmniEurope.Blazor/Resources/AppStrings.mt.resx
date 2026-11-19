@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Oħroġ mill-iskrin sħiħ</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Disinn fuq il-vidjo</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Azzjonijiet tal-vidjo</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Mappa</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Kabbar</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Ċekken</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© il-kontributuri ta' OpenStreetMap</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Il-vleġeġ iċaqilqu l-mappa, + ikabbar u - jċekken.</value></data>
 </root>

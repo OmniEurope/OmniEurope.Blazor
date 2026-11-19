@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Afslut fuld skærm</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Tegning på videoen</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Handlinger for videoen</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Kort</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Zoom ind</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Zoom ud</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap-bidragydere</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Piletasterne flytter kortet, + og - zoomer.</value></data>
 </root>

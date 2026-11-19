@@ -53,7 +53,7 @@ public sealed partial class ShowcaseGalleryTests : OmniBunitContext
     public void TheCatalogue_HasPages_WithUniqueSlugsAndARouteEach()
     {
         Assert.NotEmpty(GalleryCatalog.Pages);
-        Assert.Equal(15, GalleryCatalog.Families.Count);
+        Assert.Equal(16, GalleryCatalog.Families.Count);
         foreach (var page in GalleryCatalog.Pages)
         {
             Assert.Matches(Slug(), page.Slug);

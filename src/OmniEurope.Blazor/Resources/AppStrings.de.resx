@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Vollbild beenden</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Zeichnung auf dem Video</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Aktionen für das Video</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Karte</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Vergrößern</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Verkleinern</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap-Mitwirkende</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Pfeiltasten verschieben die Karte, + und - zoomen.</value></data>
 </root>

@@ -1,0 +1,24 @@
+@page "/components/map"
+@using OmniEurope.Blazor.Showcase.Examples.Maps
+
+<GalleryPageFrame Slug="map">
+    <Settings>
+        <OmniSettingsSection Title="@Text["MapSettingsTitle"]" Description="@Text["MapSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["MapFit"]" Description="@Text["MapFitDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.FrameCorners" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="Fit" aria-label="@Text["MapFit"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["MapPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <OmniText Tone="OmniTextTone.Muted">@Text["MapPreviewDescription"]</OmniText>
+                <MapExample Fit="Fit" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

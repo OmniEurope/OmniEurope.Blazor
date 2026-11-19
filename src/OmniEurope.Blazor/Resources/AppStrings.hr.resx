@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Izlaz iz cijelog zaslona</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Crtež na videozapisu</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Radnje videozapisa</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Karta</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Uvećaj</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Umanji</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© suradnici OpenStreetMapa</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Strelice pomiču kartu, + i - mijenjaju uvećanje.</value></data>
 </root>

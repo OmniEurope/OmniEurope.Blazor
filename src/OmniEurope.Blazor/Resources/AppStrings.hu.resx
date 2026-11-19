@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Kilépés a teljes képernyőből</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Rajz a videón</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Videóműveletek</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Térkép</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Nagyítás</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Kicsinyítés</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap-közreműködők</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>A nyilak mozgatják a térképet, a + nagyít, a - kicsinyít.</value></data>
 </root>

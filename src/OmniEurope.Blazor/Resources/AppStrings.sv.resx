@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Avsluta helskärm</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Teckning på videon</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Videoåtgärder</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Karta</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Zooma in</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Zooma ut</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap-bidragsgivare</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Piltangenterna flyttar kartan, + och - zoomar.</value></data>
 </root>
