@@ -209,4 +209,37 @@ public sealed class SelectableCardGroupTests : OmniBunitContext
         Assert.Empty(picked);
         Assert.Equal("★", alone.Find(".omni-selectable-card__icon").TextContent);
     }
+
+    [Fact]
+    public void ARadioGroup_AsksTheFocusModuleToMirrorItsSidewaysArrows_AndLoadsItOnceAtTheFirstFocus()
+    {
+        var module = JSInterop.SetupModule("./_content/OmniEurope.Blazor/omni-focus.js");
+        module.SetupVoid("enablePageKeys");
+        var group = RenderRadio([]);
+
+        // The marker is read by focus/keys.js: in a right-to-left page it swaps ArrowLeft and ArrowRight
+        // before they reach the handler of the card, which counts in reading order.
+        Assert.True(group.Find("[role='radiogroup']").HasAttribute("data-omni-mirror-arrows"));
+        Assert.Empty(module.Invocations["enablePageKeys"]);
+
+        Cards(group)[0].FocusIn();
+        Cards(group)[2].FocusIn();
+
+        Assert.Single(module.Invocations["enablePageKeys"]);
+    }
+
+    [Fact]
+    public void AGroupOfCheckBoxes_HasNoSidewaysArrowsToMirror_AndLoadsNoScript()
+    {
+        IReadOnlyList<string> value = [];
+        var multiple = Render<OmniSelectableCardGroup<string, IReadOnlyList<string>>>(parameters => parameters
+            .Add(component => component.Options, Systems)
+            .Add(component => component.Multiple, true)
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value));
+
+        Assert.False(multiple.Find("[role='group']").HasAttribute("data-omni-mirror-arrows"));
+        Cards(multiple)[0].FocusIn();
+        Assert.Empty(JSInterop.Invocations);
+    }
 }

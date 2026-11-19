@@ -20,6 +20,7 @@ namespace OmniEurope.Blazor.Components;
 public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectableCardGroup
 {
     private readonly List<OmniSelectableCard> _cards = [];
+    private bool _pageKeys;
 
     /// <summary>Cards drawn from options: the text is the title, a disabled option a disabled card.</summary>
     [Parameter]
@@ -90,6 +91,19 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         EnsureSelectionType();
         base.OnParametersSet();
         RefreshCards();
+    }
+
+    // A radio group takes the horizontal arrows in reading order from .NET; the focus module swaps them in a
+    // right-to-left page. It is loaded at the first focus, so a group nobody reaches by keyboard loads no script.
+    private Task EnablePageKeysAsync()
+    {
+        if (_pageKeys || Multiple)
+        {
+            return Task.CompletedTask;
+        }
+
+        _pageKeys = true;
+        return Internal.OmniPageKeys.EnableAsync(JavaScript);
     }
 
     void IOmniSelectableCardGroup.Register(OmniSelectableCard card)
