@@ -138,6 +138,20 @@ test('moveMenuFocus acts on the submenu the focus is in, skipping its disabled i
     assert.ok(one.focused);
 });
 
+test('moveMenuFocus from the menu itself goes to the first item on ArrowDown and to the last on ArrowUp', async () => {
+    const { moveMenuFocus } = await load('omni-focus.js');
+    const { menu, first, entry, last } = fixture();
+    // A press on the padding of the menu, or on a disabled row, leaves the focus on the menu itself.
+    globalThis.document.activeElement = menu;
+
+    moveMenuFocus('menu', 'ArrowDown');
+    assert.ok(first.focused && !entry.focused, 'ArrowDown starts at the first item, it does not skip it');
+    first.focused = false;
+    globalThis.document.activeElement = menu;
+    moveMenuFocus('menu', 'ArrowUp');
+    assert.ok(last.focused && !entry.focused, 'ArrowUp starts at the last item');
+});
+
 test('openSubMenu places the submenu beside its entry and focuses its first item for the keyboard', async () => {
     const { openSubMenu } = await load('omni-focus.js');
     const { menu, entry, submenu, one } = fixture();

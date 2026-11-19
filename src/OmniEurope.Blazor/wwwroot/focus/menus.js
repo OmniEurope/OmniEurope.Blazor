@@ -351,10 +351,12 @@ export function moveMenuFocus(menuOrId, key) {
         return;
     }
 
-    const current = Math.max(0, items.indexOf(document.activeElement));
-    let next = current;
+    // The focus may be on no item of the level (a press on the padding of the menu or on a disabled row puts
+    // it on the menu itself): ArrowDown then goes to the first item and ArrowUp to the last, as from the trigger.
+    const current = items.indexOf(document.activeElement);
+    let next = Math.max(0, current);
     if (key === 'ArrowDown') next = (current + 1) % items.length;
-    if (key === 'ArrowUp') next = (current - 1 + items.length) % items.length;
+    if (key === 'ArrowUp') next = current < 0 ? items.length - 1 : (current - 1 + items.length) % items.length;
     if (key === 'Home') next = 0;
     if (key === 'End') next = items.length - 1;
     items[next].focus({ preventScroll: true });
