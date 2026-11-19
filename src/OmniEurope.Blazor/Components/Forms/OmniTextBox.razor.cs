@@ -41,6 +41,24 @@ public partial class OmniTextBox
     public string? AriaDescribedBy { get; set; }
 
     /// <summary>
+    /// Selects the whole content when the field is entered, by a click, a tap, Tab or Shift+Tab, or a programmatic focus, so that typing
+    /// replaces it. A click in a field that already has the focus places the caret as usual, so a part of the value can still be
+    /// edited. Off by default: the field then renders and behaves as it always did, and its script is never loaded.
+    /// </summary>
+    [Parameter]
+    public bool SelectOnFocus { get; set; }
+
+    private ElementReference _field;
+    private Internal.OmniSelectOnFocus? _selectOnFocus;
+
+    /// <summary>After each render, follows the input element with the <see cref="SelectOnFocus"/> script; nothing happens while it is off.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script follows the element drawn.</returns>
+    protected override Task OnAfterRenderAsync(bool firstRender) => SelectOnFocus || _selectOnFocus is not null
+        ? (_selectOnFocus ??= new Internal.OmniSelectOnFocus(JavaScript)).SyncAsync(SelectOnFocus, _field)
+        : Task.CompletedTask;
+
+    /// <summary>
     /// A decorative icon laid over the start of the field, muted and click-through, such as the
     /// magnifier of a search field: <c>&lt;Icon&gt;&lt;OmniIcon Name="OmniIconName.Search" /&gt;&lt;/Icon&gt;</c>.
     /// The field keeps its own accessible name. Null, the default, renders the input alone.
@@ -167,7 +185,7 @@ public partial class OmniTextBox
         await OnCopy.InvokeAsync(copied);
     }
 
-    /// <summary>Releases the clipboard module of <see cref="ShowCopy"/> and disposes the input.</summary>
+    /// <summary>Releases the clipboard module of <see cref="ShowCopy"/> and the <see cref="SelectOnFocus"/> script, and disposes the input.</summary>
     public async ValueTask DisposeAsync()
     {
         // Blazor calls only DisposeAsync on a component that has both: the debounce flush and the form
@@ -176,6 +194,11 @@ public partial class OmniTextBox
         if (_clipboard is not null)
         {
             await _clipboard.DisposeAsync();
+        }
+
+        if (_selectOnFocus is not null)
+        {
+            await _selectOnFocus.DisposeAsync();
         }
 
         GC.SuppressFinalize(this);

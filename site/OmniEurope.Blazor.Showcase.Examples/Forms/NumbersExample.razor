@@ -61,6 +61,25 @@
                 </OmniFormField>
                 <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@(NullableValue is { } nullable ? Echo(nullable) : "Bound value: none (null)")</OmniText>
             </OmniStack>
+
+            <OmniStack Gap="OmniSpacing.XSmall">
+                <OmniFormField For="numeric-select-on-focus" Description="Entering the field selects its whole value, so typing replaces it.">
+                    <LabelContent>Select on focus</LabelContent>
+                    <ChildContent>
+                        <OmniNumeric TValue="int"
+                                     Id="numeric-select-on-focus"
+                                     @bind-Value="SelectOnFocusValue"
+                                     DisplayName="Select on focus"
+                                     Minimum="@Minimum"
+                                     Maximum="@Maximum"
+                                     Step="@IntegerStep"
+                                     SelectOnFocus="true"
+                                     Disabled="Disabled"
+                                     ReadOnly="ReadOnly" />
+                    </ChildContent>
+                </OmniFormField>
+                <OmniText Id="numeric-select-on-focus-echo" Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">@Echo(SelectOnFocusValue)</OmniText>
+            </OmniStack>
         </OmniTileGrid>
 
         @foreach (var message in form.GetValidationMessages())

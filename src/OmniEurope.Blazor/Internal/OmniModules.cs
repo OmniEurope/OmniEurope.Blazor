@@ -66,6 +66,9 @@ internal static class OmniModules
     /// <summary>The browser cache of the user preferences, with the tab-visibility and other-tab notifications.</summary>
     internal const string Preferences = Root + "omni-preferences.js";
 
+    /// <summary>The text-entry fields' <c>SelectOnFocus</c>: the whole content selected when the field is entered, a mouse press included.</summary>
+    internal const string SelectOnFocus = Root + "omni-select-on-focus.js";
+
     /// <summary>The stat tile: its label kept on one line, smaller or cut when it does not fit.</summary>
     internal const string StatTile = Root + "omni-stat-tile.js";
 

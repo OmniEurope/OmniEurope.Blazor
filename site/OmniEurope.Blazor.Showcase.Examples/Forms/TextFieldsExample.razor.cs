@@ -64,6 +64,8 @@ public partial class TextFieldsExample
 
     private string BareValue { get; set; } = string.Empty;
 
+    private string SelectOnFocusValue { get; set; } = "Camille Durand";
+
     private static string PlaceholderFor(OmniTextBoxType type) => type switch
     {
         OmniTextBoxType.Email => "camille@example.com",

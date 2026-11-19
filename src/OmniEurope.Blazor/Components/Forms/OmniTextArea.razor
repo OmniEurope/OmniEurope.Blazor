@@ -1,5 +1,6 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<string>
+@implements IAsyncDisposable
 
 @* Class goes on the wrapper, the outermost element; Id and the additional attributes on the text area,
    the control. *@
@@ -16,6 +17,7 @@
               aria-invalid="@AriaInvalid"
               aria-describedby="@AriaDescribedBy"
               value="@CurrentValueAsString"
+              @ref="_field"
               @oninput="HandleInput"></textarea>
     @if (ShowCount && MaxLength is not null)
     {
