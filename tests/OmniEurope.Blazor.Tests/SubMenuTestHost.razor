@@ -1,0 +1,57 @@
+@* One menu of the package, the kind chosen by Kind, holding top-level items and submenus: "Insert"
+   (Before, After, Inside, and a deeper "More" submenu), "Change type" and a disabled "Locked". Every
+   chosen leaf is recorded in Chosen. *@
+@switch (Kind)
+{
+    case "context":
+        <OmniContextMenu Id="m" TriggerContent="@Target">@Items</OmniContextMenu>
+        break;
+    case "split":
+        <OmniSplitButton Id="m" Text="Save">@Items</OmniSplitButton>
+        break;
+    case "profile":
+        <OmniProfileMenu Id="m">@Items</OmniProfileMenu>
+        break;
+    default:
+        <OmniOverflowMenu Id="m">@Items</OmniOverflowMenu>
+        break;
+}
+
+@code {
+    [Parameter]
+    public string Kind { get; set; } = "overflow";
+
+    /// <summary>Called with each leaf as it is chosen, after the menu has closed.</summary>
+    [Parameter]
+    public Action<string>? OnChosen { get; set; }
+
+    public List<string> Chosen { get; } = [];
+
+    private static RenderFragment Target => builder => builder.AddContent(0, "Target");
+
+    private RenderFragment Items => @<text>
+        <OmniMenuItem Id="top" OnClick="@(() => Choose("Top"))">Top</OmniMenuItem>
+        <OmniSubMenu Id="insert" Label="Insert">
+            <Icon><OmniIcon Name="OmniIconName.Add" /></Icon>
+            <ChildContent>
+                <OmniMenuItem Id="before" OnClick="@(() => Choose("Before"))">Before</OmniMenuItem>
+                <OmniMenuItem Id="after" OnClick="@(() => Choose("After"))">After</OmniMenuItem>
+                <OmniSubMenu Id="more" Label="More">
+                    <OmniMenuItem Id="deep" OnClick="@(() => Choose("Deep"))">Deep</OmniMenuItem>
+                </OmniSubMenu>
+            </ChildContent>
+        </OmniSubMenu>
+        <OmniSubMenu Id="type" Label="Change type">
+            <OmniMenuItem Id="heading" OnClick="@(() => Choose("Heading"))">Heading</OmniMenuItem>
+        </OmniSubMenu>
+        <OmniSubMenu Id="locked" Label="Locked" Disabled="true">
+            <OmniMenuItem Id="never">Never</OmniMenuItem>
+        </OmniSubMenu>
+    </text>;
+
+    private void Choose(string leaf)
+    {
+        Chosen.Add(leaf);
+        OnChosen?.Invoke(leaf);
+    }
+}

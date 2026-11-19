@@ -79,6 +79,8 @@
   <data name="OverflowMenuDisableRenameDescription" xml:space="preserve"><value>The entry stays listed, dimmed; the arrows skip it.</value></data>
   <data name="OverflowMenuPreviewTitle" xml:space="preserve"><value>Row actions</value></data>
   <data name="OverflowMenuKeyboardHint" xml:space="preserve"><value>Arrow down or up opens the menu; the arrows, Home and End move between entries; Escape closes and gives the focus back to the trigger.</value></data>
+  <data name="OverflowMenuSubmenuTitle" xml:space="preserve"><value>Submenus</value></data>
+  <data name="OverflowMenuSubmenuHint" xml:space="preserve"><value>Insert and Change type unfold a list beside them: the arrow toward the end of the line, a click or Enter opens it, the arrow back or Escape closes that list alone, and choosing a leaf closes the whole menu.</value></data>
   <data name="PopoverTitle" xml:space="preserve"><value>Popover</value></data>
   <data name="PopoverDescription" xml:space="preserve"><value>A non-modal panel anchored to its button: a click elsewhere or Escape closes it, and Escape gives the focus back to the button.</value></data>
   <data name="PopoverSettingsTitle" xml:space="preserve"><value>Popover</value></data>

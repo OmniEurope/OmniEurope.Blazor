@@ -144,6 +144,7 @@ component OmniEurope.Blazor.Components.OmniStatusStrip
 component OmniEurope.Blazor.Components.OmniStepTimeline
 component OmniEurope.Blazor.Components.OmniSteps
 component OmniEurope.Blazor.Components.OmniStepsItem
+component OmniEurope.Blazor.Components.OmniSubMenu
 component OmniEurope.Blazor.Components.OmniSwitch<TValue>
 component OmniEurope.Blazor.Components.OmniTabs
 component OmniEurope.Blazor.Components.OmniTabsItem
@@ -412,6 +413,7 @@ ctor public OmniEurope.Blazor.Components.OmniStepTimelineColumn(System.String Ti
 ctor public OmniEurope.Blazor.Components.OmniStepTimelineStep(System.String Name, System.DateTimeOffset? StartedAt, System.DateTimeOffset? CompletedAt, OmniEurope.Blazor.Components.OmniStepTimelineStatus Status = OmniEurope.Blazor.Components.OmniStepTimelineStatus.Success, System.Boolean Secondary = false)
 ctor public OmniEurope.Blazor.Components.OmniSteps()
 ctor public OmniEurope.Blazor.Components.OmniStepsItem()
+ctor public OmniEurope.Blazor.Components.OmniSubMenu()
 ctor public OmniEurope.Blazor.Components.OmniSwitch<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniTableExport<TItem>()
 ctor public OmniEurope.Blazor.Components.OmniTableExportCell(System.String Text)
@@ -1439,6 +1441,9 @@ method protected override OmniEurope.Blazor.Components.OmniStepTimeline.OnParame
 method protected override OmniEurope.Blazor.Components.OmniSteps.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStepsItem.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniStepsItem.OnInitialized() : System.Void
+method protected override OmniEurope.Blazor.Components.OmniSubMenu.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniSubMenu.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniSubMenu.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSwitch<TValue>.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSwitch<TValue>.Dispose(System.Boolean disposing) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniSwitch<TValue>.OnParametersSet() : System.Void
@@ -1918,6 +1923,7 @@ method public OmniEurope.Blazor.Components.OmniStepTimelineStep.<Clone>$() : Omn
 method public OmniEurope.Blazor.Components.OmniStepTimelineStep.Deconstruct(out System.String Name, out System.DateTimeOffset? StartedAt, out System.DateTimeOffset? CompletedAt, out OmniEurope.Blazor.Components.OmniStepTimelineStatus Status, out System.Boolean Secondary) : System.Void
 method public OmniEurope.Blazor.Components.OmniStepTimelineStep.Equals(OmniEurope.Blazor.Components.OmniStepTimelineStep? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniStepsItem.Dispose() : System.Void
+method public OmniEurope.Blazor.Components.OmniSubMenu.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniTableExport<TItem>.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExport<TItem>
 method public OmniEurope.Blazor.Components.OmniTableExport<TItem>.Equals(OmniEurope.Blazor.Components.OmniTableExport<TItem>? other) : System.Boolean
 method public OmniEurope.Blazor.Components.OmniTableExportCell.<Clone>$() : OmniEurope.Blazor.Components.OmniTableExportCell
@@ -4287,6 +4293,10 @@ property public OmniEurope.Blazor.Components.OmniStepsItem.Disabled : System.Boo
 property public OmniEurope.Blazor.Components.OmniStepsItem.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStepsItem.Index : System.Int32? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniStepsItem.Title : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniSubMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniSubMenu.Disabled : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSubMenu.Icon : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniSubMenu.Label : System.String? {get(public);set(public)} [Parameter, EditorRequired]
 property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.AllowIndeterminate : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.AriaDescribedBy : System.String? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniSwitch<TValue>.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
@@ -4963,6 +4973,7 @@ type public OmniEurope.Blazor.Components.OmniStepTimelineStatus [enum, sealed] :
 type public OmniEurope.Blazor.Components.OmniStepTimelineStep [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniStepTimelineStep>
 type public OmniEurope.Blazor.Components.OmniSteps [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniStepsItem [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
+type public OmniEurope.Blazor.Components.OmniSubMenu [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniSwitch<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniTableExport<TItem> [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExport<TItem>>
 type public OmniEurope.Blazor.Components.OmniTableExportCell [class, sealed] : System.IEquatable<OmniEurope.Blazor.Components.OmniTableExportCell>

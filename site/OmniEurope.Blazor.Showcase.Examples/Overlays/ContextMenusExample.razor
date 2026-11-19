@@ -1,6 +1,6 @@
 @* A context menu: the wrapped content is its trigger. A right click opens the menu at the pointer; the Menu
    key or Shift+F10 opens it under the trigger. The arrows, Home and End move between entries, Escape or
-   a click elsewhere closes it and gives the focus back. The menu is drawn in the portal of an
+   a click elsewhere closes it and gives the focus back. The Move to entry unfolds a list of its own. The menu is drawn in the portal of an
    OmniComponentsHost when the application has one, and next to the trigger otherwise, so this example
    works with or without a host. *@
 <OmniStack Gap="OmniSpacing.Medium">
@@ -32,6 +32,14 @@
                 <Icon><OmniIcon Name="OmniIconName.Archive" /></Icon>
                 <ChildContent>Archive</ChildContent>
             </OmniMenuItem>
+            <OmniSubMenu Id="context-move" Label="Move to">
+                <Icon><OmniIcon Name="OmniIconName.Folder" /></Icon>
+                <ChildContent>
+                    <OmniMenuItem Id="context-move-projects" OnClick="@(() => Choose("Move to Projects"))">Projects</OmniMenuItem>
+                    <OmniMenuItem Id="context-move-reports" OnClick="@(() => Choose("Move to Reports"))">Reports</OmniMenuItem>
+                    <OmniMenuItem Id="context-move-shared" OnClick="@(() => Choose("Move to Shared"))">Shared</OmniMenuItem>
+                </ChildContent>
+            </OmniSubMenu>
             @if (ShowDelete)
             {
                 <OmniMenuItem Tone="OmniTone.Danger" OnClick="@(() => Choose("Delete"))">

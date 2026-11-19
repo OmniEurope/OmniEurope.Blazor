@@ -41,6 +41,7 @@ de la configuration locale du contrôle des règles). Un seul moteur, dans `omni
 - `openMenu` pose le menu dans le portail d'`OmniComponentsHost`, le garde dans la fenêtre (au-dessus du déclencheur faute de place en dessous) et donne le focus à sa première entrée, ou à la dernière quand la flèche haut l'a ouvert ;
 - les touches sont routées par .NET, et `moveMenuFocus` parcourt les entrées (flèches, Début, Fin) ;
 - `closeMenu` rend le focus au déclencheur sur Échap, sur le choix d'une entrée ou sur un nouvel appui du déclencheur ; Tab ferme le menu et reprend l'ordre de tabulation depuis le déclencheur ; un appui hors du menu le ferme sans reprendre le focus quand celui-ci est parti sur un autre contrôle.
+- un sous-menu (`OmniSubMenu`) est une entrée `role="menuitem"` à `aria-haspopup="menu"`, `aria-expanded` et `aria-controls` (pendant qu'il est ouvert), qui possède un `role="menu"` imbriqué nommé par elle (`aria-labelledby`) ; `moveMenuFocus` et les entrées du premier focus ne parcourent que le niveau où se trouve le focus ; la flèche vers la fin de ligne ouvre le sous-menu et met le focus sur son premier élément actif, la flèche inverse et Échap le ferment seul en rendant le focus à son entrée (les deux flèches s'échangent en lecture de droite à gauche) ; un clic, Entrée ou Espace sur l'entrée le bascule sans fermer le menu ni lever d'action ;
 
 Le focus d'ouverture d'`OmniDialog` dépend de sa forme (`omni-focus.js`, `activateDialog` et `activateWindow`, qui visent le premier élément focalisable du dialogue, sentinelles exclues) :
 

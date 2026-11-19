@@ -3,6 +3,8 @@
 // the appearance window and the form helpers of omniInterop.js, each driven on its showcase page as a
 // reader would, with the state the page shows after it asserted.
 
+import { subMenuSteps } from './submenus.mjs';
+
 export async function overlaySteps(session, results) {
   const { evaluate, waitFor, key, pause, check, send, clickOn, hover, mouse } = session;
   const step = label => {
@@ -48,6 +50,9 @@ export async function overlaySteps(session, results) {
   await clickOn('main h1, h1');
   await waitFor('le menu contextuel fermé par un appui dehors', `[...document.querySelectorAll('[role="menu"]')].every(menu => menu.getClientRects().length === 0)`);
   step('menu contextuel fermé par un appui dehors');
+
+  // Submenus of the overflow and context menus, by keyboard and mouse, at 1280 and 375 px.
+  await subMenuSteps(session, step);
 
   // 2. Modal dialogs: Tab kept inside, a press on the veil of a sticky dialog that keeps it open, a
   // focus sentinel that sends the focus back in, and a free width written through the CSSOM.
