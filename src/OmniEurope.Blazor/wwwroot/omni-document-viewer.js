@@ -13,6 +13,8 @@
 // Page in view: the page that fills most of the viewport, reported on scroll (once per frame).
 //
 // .NET is told only when the zoom or the page differs from what it already knows.
+import { circuitDown } from './shared/notify.js';
+
 const PX_PER_PT = 96 / 72;
 const FALLBACK_WIDTH = 794;
 const TOLERANCE = 0.0001;
@@ -57,6 +59,12 @@ function fitZoom(viewport, widest, current) {
 
 function report(viewport, state, pages) {
     const page = pageInView(viewport, pages);
+    // Not while Blazor Server shows its connection as lost (the call could not arrive, and its failed send
+    // would be an uncaught rejection): nothing is recorded as reported, so the next report carries it.
+    if (circuitDown()) {
+        return;
+    }
+
     if (Math.abs(state.zoom - state.reportedZoom) > TOLERANCE || page !== state.reportedPage) {
         state.reportedZoom = state.zoom;
         state.reportedPage = page;

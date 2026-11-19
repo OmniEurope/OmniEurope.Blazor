@@ -1,6 +1,7 @@
 // Part of omni-html-editor.js: the text an extension proposes after the caret, shown dimmed and
 // never part of the value.
 import { editors } from './model.js';
+import { circuitDown } from '../shared/notify.js';
 
 const suggestionDelay = 1200;
 
@@ -27,7 +28,9 @@ export function requestSuggestion(state) {
         }
 
         const before = node.data.slice(0, offset);
-        if (before.length < 5) {
+        // Nothing is asked while Blazor Server shows its connection as lost: no answer could come back,
+        // and the failed send would be an uncaught rejection.
+        if (before.length < 5 || circuitDown()) {
             return;
         }
 

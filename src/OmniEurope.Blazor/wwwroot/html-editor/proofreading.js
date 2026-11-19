@@ -3,6 +3,7 @@
 // block by block (a paragraph, a heading, a list item, a cell) with its language; a block whose text
 // has not changed keeps the answer it had, and only the others are asked again once typing pauses.
 import { editors, caretFromPoint } from './model.js';
+import { circuitDown } from '../shared/notify.js';
 
 const proofreadDelay = 700;
 const cacheLimit = 2000;
@@ -100,6 +101,12 @@ async function proofread(state) {
 
     const found = blocks(surface);
     const missing = found.filter(block => !state.proofreadCache.has(block.key));
+    // Nothing is asked while Blazor Server shows its connection as lost: the question would never be
+    // answered and its failed send would be an uncaught rejection. The next pause in typing asks again.
+    if (missing.length > 0 && circuitDown()) {
+        return;
+    }
+
     if (missing.length > 0) {
         const ticket = ++state.proofreadTicket;
         let answer = null;

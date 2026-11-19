@@ -15,6 +15,7 @@
 // video frame at its native resolution, capped at 8192 on the longest side, then the strokes with the renderer the
 // drawing pad uses (shared/ink-render.js).
 import { unpack, paint, THEME_COLOR } from './shared/ink-render.js';
+import { circuitDown } from './shared/notify.js';
 
 const MAX_SIDE = 8192;
 // A stroke in the theme colour is black in an export: there is no theme in an image.
@@ -74,6 +75,12 @@ function layout(tile) {
 }
 
 function tell(tile, method, ...values) {
+    // No call while Blazor Server shows its connection as lost: it could not arrive, and Blazor would report
+    // its failed send as an uncaught rejection, out of reach of the catch below.
+    if (circuitDown()) {
+        return;
+    }
+
     try {
         const pending = tile.dotnet.invokeMethodAsync(method, ...values);
         pending?.catch?.(() => { });

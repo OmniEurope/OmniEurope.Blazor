@@ -24,7 +24,7 @@ import { describe, apply, readClipboard } from './html-editor/commands.js';
 import { startDrag, endDrag, placeDrop } from './html-editor/dragging.js';
 import { moveBetweenCells } from './html-editor/tables.js';
 import { requestSuggestion, clearSuggestion, acceptSuggestion } from './html-editor/suggestions.js';
-import { notify } from './shared/notify.js';
+import { circuitDown, notify } from './shared/notify.js';
 import { requestProofreading, proofreadAgain, clearProofreading, issueAt, replaceIssue, ignoreIssue } from './html-editor/proofreading.js';
 // The toolbar held to a number of rows, and the package tooltips of its controls.
 export { fitToolbar, unfit as unfitToolbar } from './html-editor/toolbar.js';
@@ -163,7 +163,9 @@ export async function exec(surface, action, argument) {
     if (action === 'paste') {
         remember(state);
         const clipboard = await readClipboard();
-        if (!clipboard || !editors.has(surface)) {
+        // While Blazor Server shows its connection as lost the sanitiser cannot be reached (the call would
+        // never be answered, its failed send an uncaught rejection): nothing is pasted, as for a refusal.
+        if (!clipboard || !editors.has(surface) || circuitDown()) {
             return null;
         }
 
@@ -572,6 +574,11 @@ async function drop(state, event) {
 
 async function insertTransfer(state, html, text, source = null) {
     remember(state);
+    // Unsanitised content is never inserted: with the sanitiser out of reach (connection lost), nothing is.
+    if (circuitDown()) {
+        return;
+    }
+
     let clean = null;
     try {
         clean = await state.dotnet.invokeMethodAsync('SanitizePaste', html ?? '', text ?? '');

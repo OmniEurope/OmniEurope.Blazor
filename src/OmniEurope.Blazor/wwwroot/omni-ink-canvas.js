@@ -14,6 +14,7 @@
 // CSS pixels wide (REFERENCE_WIDTH, OmniInkStroke.ReferenceWidth) and scales with the canvas width, so a drawing
 // keeps its look at any size.
 import { REFERENCE_WIDTH, THEME_COLOR, MIN_LINE, unpack, pressureFactor, drawStroke, paint } from './shared/ink-render.js';
+import { circuitDown } from './shared/notify.js';
 
 const EXPORT_THEME_COLOR = '#000000';
 const MIN_WIDTH = 0.25;
@@ -130,6 +131,12 @@ const isLocked = canvas => canvas.dataset.omniInkLocked === 'true';
 const isEraser = canvas => canvas.dataset.omniInkTool === 'eraser';
 
 function tell(dotnet, method, ...values) {
+    // No call while Blazor Server shows its connection as lost: it could not arrive, and Blazor would report
+    // its failed send as an uncaught rejection, out of reach of the catch below.
+    if (circuitDown()) {
+        return;
+    }
+
     try {
         const pending = dotnet.invokeMethodAsync(method, ...values);
         pending?.catch?.(() => { });

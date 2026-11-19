@@ -4,6 +4,7 @@
 // before .NET hears of it, so a pin already on its way cannot drag the reader back down. Scrolling
 // back to the very end follows again.
 import { sync, applyLayout, scrollToOffset } from './omni-grid.js';
+import { circuitDown } from './shared/notify.js';
 
 export { sync, applyLayout, scrollToOffset };
 
@@ -32,7 +33,13 @@ export function attach(viewport, reference, following) {
 
     const notify = () => {
         state.frame = 0;
-        // A report that lands after the viewer detached (its reference is gone) or on a lost circuit is dropped, not thrown.
+        // No report while Blazor Server shows its connection as lost: it could not arrive, and Blazor would
+        // report its failed send as an uncaught rejection, out of reach of the catch below.
+        if (circuitDown()) {
+            return;
+        }
+
+        // A report that lands after the viewer detached (its reference is gone) is dropped, not thrown.
         try {
             reference.invokeMethodAsync('OnViewportChangedAsync', viewport.scrollTop, viewport.clientHeight, atBottom(viewport), state.following).catch(() => { });
         } catch {

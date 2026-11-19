@@ -2,6 +2,7 @@
 // that resizes a column and the fit of a column to its widest content.
 import { notifyDotNet } from './notify.js';
 import { release } from './release.js';
+import { circuitDown } from '../shared/notify.js';
 
 const resizeAttachments = new Map();
 
@@ -130,11 +131,13 @@ export function detachResize(viewport) {
  * Fits one column to its widest content: the rows on screen, the text .NET holds for every other
  * loaded row (the virtualized rows off screen included), and the header title. The result respects
  * the grid floor and the column's own minimum, lands on the <col> and is reported to .NET once.
- * A second request for the same column while the first is still measuring is ignored.
+ * A second request for the same column while the first is still measuring is ignored, and so is a
+ * request made while Blazor Server shows its connection as lost: its question to .NET would never be
+ * answered, and the column would stay "measuring", refusing every later request, for good.
  */
 export async function autoFitColumn(viewport, key) {
     const attachment = resizeAttachments.get(viewport);
-    if (!attachment || typeof key !== 'string' || key.length === 0 || attachment.fitting.has(key)) {
+    if (!attachment || typeof key !== 'string' || key.length === 0 || attachment.fitting.has(key) || circuitDown()) {
         return;
     }
 

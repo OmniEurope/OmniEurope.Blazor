@@ -5,6 +5,7 @@
 // .NET renders, so the canvas runs under `style-src 'self'`.
 
 import { onPressOutside } from './shared/outside-press.js';
+import { circuitDown } from './shared/notify.js';
 
 const MIN_ZOOM = 0.1;
 const MAX_ZOOM = 5;
@@ -59,6 +60,12 @@ const nodeBox = element => {
 };
 
 const notify = (state, method, ...args) => {
+    // No call while Blazor Server shows its connection as lost: it could not arrive, and Blazor would report
+    // its failed send as an uncaught rejection, out of reach of the catch below.
+    if (circuitDown()) {
+        return;
+    }
+
     try {
         const pending = state.bridge.invokeMethodAsync(method, ...args);
         if (pending && typeof pending.catch === 'function') {
