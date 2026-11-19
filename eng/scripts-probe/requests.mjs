@@ -859,10 +859,24 @@ export async function requestSteps(session, results) {
         const label = item.querySelector('.omni-description-list__label').getBoundingClientRect();
         const value = item.querySelector('.omni-description-list__value').getBoundingClientRect();
         const box = item.getBoundingClientRect();
-        return { left: Math.round(box.left), width: box.width, label: label.width, value: value.width, start: Math.round(value.left - label.right) };
+        return { left: Math.round(box.left), width: box.width, label: label.width, value: value.width, start: Math.round(value.left - label.right), centre: Math.abs((label.top + label.bottom) / 2 - (value.top + value.bottom) / 2), labelHeight: label.height };
       });
       return { items, overflow: list.scrollWidth - list.clientWidth, page: document.documentElement.scrollWidth - innerWidth, gap: parseFloat(getComputedStyle(list.querySelector('.omni-description-list__item')).columnGap) };
     })()`;
+    // A responsive list narrower than 30rem (request of a client application, 2026-11-17): each label
+    // above its value, both at the start of the item, whatever the screen width.
+    const stackedState = id => `(() => [...document.getElementById('${id}').querySelectorAll(':scope > .omni-description-list__item')].filter(item => item.getClientRects().length > 0).map(item => {
+      const box = item.getBoundingClientRect();
+      const label = item.querySelector('.omni-description-list__label').getBoundingClientRect();
+      const value = item.querySelector('.omni-description-list__value').getBoundingClientRect();
+      return { list: document.getElementById('${id}').getBoundingClientRect().width, below: value.top - label.bottom, labelStart: label.left - box.left, valueStart: value.left - box.left, width: box.width };
+    }))()`;
+    const stackedOf = (items, where) => {
+      check(items.length >= 3, `${where} : ${items.length} élément(s) visibles, au moins trois attendus.`);
+      for (const item of items) {
+        check(item.list < 480 && item.below >= -0.5 && Math.abs(item.labelStart) <= 1 && Math.abs(item.valueStart) <= 1 && Math.abs(item.width - item.list) <= 1, `${where} : un libellé n'est pas au-dessus de sa valeur, au début (liste ${item.list} px, écart ${item.below} px, débuts ${item.labelStart}/${item.valueStart} px, élément ${item.width} px).`);
+      }
+    };
     const layoutOf = state => {
       check(state.items.length >= 4, `La liste de description ne montre que ${state.items.length} élément(s), au moins quatre attendus.`);
       const columns = [...new Set(state.items.map(item => item.left))];
@@ -881,12 +895,23 @@ export async function requestSteps(session, results) {
     const wide = await evaluate(listState);
     const wideColumns = layoutOf(wide);
     check(wideColumns === 2, `La liste de description a ${wideColumns} colonne(s) à 1280 px au lieu de 2.`);
+    const offCentre = wide.items.filter(item => item.centre > 1);
+    check(offCentre.length === 0, `Un libellé et sa valeur ne sont pas centrés sur la même ligne : écarts ${offCentre.map(item => item.centre.toFixed(1)).join(', ')} px.`);
+    // The label line height is `normal`: a wrapped label is one at least twice as tall as the shortest.
+    const oneLine = Math.min(...wide.items.map(item => item.labelHeight));
+    const wrapped = wide.items.filter(item => item.labelHeight >= oneLine * 1.9);
+    check(wrapped.length >= 1, `Aucun libellé sur deux lignes dans la liste large, le centrage d'un libellé replié n'est pas mesuré (hauteurs : ${wide.items.map(item => Math.round(item.labelHeight)).join(', ')} px).`);
+    await waitFor('le panneau étroit empilé à 1280 px', `${stackedState('details-aside')}.length >= 3`);
+    const aside = await evaluate(stackedState('details-aside'));
+    stackedOf(aside, 'Panneau étroit à 1280 px');
     await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, deviceScaleFactor: 1, mobile: false });
-    await waitFor('la liste de description sur une colonne à 375 px', `new Set(${listState}.items.map(item => item.left)).size === 1`);
-    const phone = await evaluate(listState);
-    layoutOf(phone);
+    await waitFor('la liste de description empilée à 375 px', `${stackedState('details-essentials')}.every(item => item.below >= -0.5)`);
+    const phone = await evaluate(stackedState('details-essentials'));
+    stackedOf(phone, 'Liste de description à 375 px');
+    const phonePage = await evaluate(listState);
+    check(phonePage.overflow <= 0 && phonePage.page <= 0, `La liste de description déborde à 375 px : ${phonePage.overflow} px dans la liste, ${phonePage.page} px dans la page.`);
     await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
-    step(`liste de description : libellés à la largeur du plus long (${Math.round(wide.items[0].label)} px), valeurs sur toute la place restante (${Math.round(wide.items[0].value)} px), deux colonnes à 1280 px, une à 375 px sans débordement`);
+    step(`liste de description : libellés à la largeur du plus long (${Math.round(wide.items[0].label)} px), valeurs sur toute la place restante (${Math.round(wide.items[0].value)} px), deux colonnes à 1280 px, libellé et valeur centrés (${wrapped.length} libellé(s) sur deux lignes, écart max ${Math.max(...wide.items.map(item => item.centre)).toFixed(1)} px), panneau étroit empilé à 1280 px (${Math.round(aside[0].list)} px), liste empilée à 375 px sans débordement`);
   }
 
   // 8. FillAvailableHeight in a preview box that scrolls itself (request of 2026-10-12): with settings

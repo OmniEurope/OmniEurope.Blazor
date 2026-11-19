@@ -253,7 +253,7 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-description-list--columns-2 { --omni-description-columns: 2; }
 .omni-description-list--columns-3 { --omni-description-columns: 3; }
 .omni-description-list--columns-4 { --omni-description-columns: 4; }
-.omni-description-list__item { align-items: baseline; border-block-start: var(--omni-border-width) solid var(--omni-color-border); column-gap: var(--omni-space-sm); display: grid; grid-column: span 2; grid-template-columns: subgrid; padding-block: var(--omni-space-sm); }
+.omni-description-list__item { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); column-gap: var(--omni-space-sm); display: grid; grid-column: span 2; grid-template-columns: subgrid; padding-block: var(--omni-space-sm); }
 .omni-description-list--columns-1 > :first-child,
 .omni-description-list--columns-2 > :nth-child(-n + 2),
 .omni-description-list--columns-3 > :nth-child(-n + 3),
@@ -268,6 +268,15 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 @media (max-width: 39.99rem) {
     .omni-description-list { --omni-description-columns: 1; }
     .omni-description-list > :nth-child(n + 2) { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+}
+/* A responsive list (request of a client application, 2026-11-17): narrower than 30rem itself (a side
+   panel, a narrow card), whatever the screen, each label goes above its value, both at the start, and
+   every item takes a whole row. The container is named so the items of a non-responsive list nested in
+   a responsive one are never restyled; wider, the label and its value are centred on the same line. */
+.omni-description-list--responsive { container: omni-description-list / inline-size; }
+@container omni-description-list (width < 30rem) {
+    .omni-description-list--responsive > .omni-description-list__item { align-items: start; grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr); row-gap: var(--omni-space-xs); }
+    .omni-description-list--responsive > :nth-child(n + 2) { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 }
 
 .omni-relative-time { font-variant-numeric: tabular-nums; white-space: nowrap; }

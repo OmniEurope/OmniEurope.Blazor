@@ -4,6 +4,14 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Ajouté
+
+- `OmniDescriptionList.Responsive` (`bool`, `true` par défaut, demande d'une application cliente du 2026-11-17) : quand la liste elle-même mesure moins de 30rem (requête de conteneur nommée `omni-description-list`, pas de requête d'écran), chaque libellé passe au-dessus de sa valeur, tous deux au début, et chaque élément prend une ligne entière quel que soit `Columns`. `Responsive="false"` garde la disposition côte à côte et laisse la liste se dimensionner sur son contenu. Vitrine : panneau latéral étroit sur la page Détails ; sonde des scripts : empilé dans le panneau à 1280 px et à 375 px, centré à 1280 px.
+
+### Modifié
+
+- `OmniDescriptionList` : côte à côte, le libellé et sa valeur sont centrés verticalement sur la même ligne (alignés jusqu'ici sur la ligne de base de leur premier texte), si bien qu'un libellé sur deux lignes reste en face de sa valeur. Une liste réactive (défaut) étroite s'empile désormais à 375 px au lieu de garder libellé et valeur côte à côte.
+
 ## [1.14.3] - 2026-11-18
 
 ### Ajouté

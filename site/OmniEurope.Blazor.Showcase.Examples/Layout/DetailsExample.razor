@@ -63,7 +63,17 @@
                 <OmniDescriptionItem Term="Certificate">
                     <OmniRelativeTime Value="CertificateExpiry" Format="d MMMM yyyy" />
                 </OmniDescriptionItem>
+                <OmniDescriptionItem Term="Application · Production environment">europe-west-1</OmniDescriptionItem>
             </OmniDescriptionList>
+            @* The same list in a side panel narrower than 30rem: each label goes above its value, whatever
+               the screen width. *@
+            <aside class="gallery-details-aside" aria-label="Side panel">
+                <OmniDescriptionList Id="details-aside">
+                    <OmniDescriptionItem Term="Application · Production">Running</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="API · Production">Degraded</OmniDescriptionItem>
+                    <OmniDescriptionItem Term="Note">Rolled back on Monday after the certificate renewal.</OmniDescriptionItem>
+                </OmniDescriptionList>
+            </aside>
             <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true" Gap="OmniSpacing.Small">
                 <OmniIcon Name="OmniIconName.Check" />
                 <OmniText>Last action:</OmniText>

@@ -303,8 +303,17 @@ l'icône est décorative et le numéro reste lu par les technologies d'assistanc
 
 Un `dl` dont chaque `OmniDescriptionItem` (`Term`, la valeur en `ChildContent`, `ActionsContent` après elle)
 est un groupe `dt`/`dd`. `Icon` (en général un `OmniIcon`, décoratif) précède le libellé, à la couleur
-d'accent et à la taille fixée par le paquet, sur la même ligne que le texte. `Columns` range les éléments sur 1 à 4 colonnes (borné) ; sous 40rem, une
-seule colonne.
+d'accent et à la taille fixée par le paquet, sur la même ligne que le texte. `Columns` range les éléments sur 1 à 4 colonnes (borné) ; sous 40rem d'écran, une
+seule colonne. Côte à côte, le libellé et sa valeur sont centrés verticalement sur la même ligne, même
+quand le libellé passe sur deux lignes.
+
+`Responsive` (`true` par défaut) empile chaque libellé au-dessus de sa valeur, tous deux au début, quand
+la liste elle-même mesure moins de 30rem (panneau latéral, carte étroite), quelle que soit la largeur de
+l'écran : c'est une requête de conteneur sur la liste (conteneur nommé `omni-description-list`), chaque
+élément prend alors une ligne entière, quel que soit `Columns`. La liste se dimensionne alors sur son
+conteneur et non sur son contenu : `Responsive="false"` pour une liste qui doit prendre la largeur de son
+contenu (parent ajusté au contenu). Le seuil est fixe, une requête de conteneur n'acceptant pas de
+variable CSS.
 
 ## Infobulle : largeur et texte long
 

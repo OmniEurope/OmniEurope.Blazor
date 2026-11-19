@@ -267,6 +267,33 @@ public sealed class PageLayoutTests : OmniBunitContext
         Assert.Empty(list.FindAll(".omni-description-list__actions"));
     }
 
+    [Fact]
+    public void DescriptionList_IsResponsiveByDefault_AndCanStayBesideItsLabelsWhenAsked()
+    {
+        var responsive = Render<OmniDescriptionList>(parameters => parameters
+            .AddChildContent<OmniDescriptionItem>(item => item.Add(component => component.Term, "Statut")));
+        var fixedList = Render<OmniDescriptionList>(parameters => parameters
+            .Add(component => component.Responsive, false)
+            .Add(component => component.Columns, 2)
+            .AddChildContent<OmniDescriptionItem>(item => item.Add(component => component.Term, "Statut")));
+
+        Assert.Contains("omni-description-list--responsive", responsive.Find("dl").ClassName, StringComparison.Ordinal);
+        Assert.DoesNotContain("omni-description-list--responsive", fixedList.Find("dl").ClassName, StringComparison.Ordinal);
+        Assert.Contains("omni-description-list--columns-2", fixedList.Find("dl").ClassName, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void DescriptionList_StacksBelowThirtyRemOfItsOwnWidth_AndCentresEachLabelOnItsValueAbove()
+    {
+        var styles = StylesheetSource.Read();
+
+        // A container query on the list itself, named so a nested non-responsive list is never restyled; the
+        // stacking and the centring are measured in a real browser by the scripts probe.
+        Assert.Contains(".omni-description-list--responsive { container: omni-description-list / inline-size; }", styles, StringComparison.Ordinal);
+        Assert.Matches(@"@container omni-description-list \(width < 30rem\) \{\s*\.omni-description-list--responsive > \.omni-description-list__item \{ align-items: start; grid-column: 1 / -1; grid-template-columns: minmax\(0, 1fr\);", styles);
+        Assert.Matches(@"\.omni-description-list__item \{ align-items: center;", styles);
+    }
+
     private IRenderedComponent<OmniDetailShell> RenderShell(
         OmniDetailState state,
         Action<ComponentParameterCollectionBuilder<OmniDetailShell>>? configure = null) =>

@@ -941,6 +941,11 @@
     --omni-spreadsheet-column-width: 10rem;
 }
 
+/* Details page: a side panel narrower than the responsive threshold of a description list (30rem). */
+.gallery-details-aside {
+    max-inline-size: 20rem;
+}
+
 /* Spreadsheet page: the echo of the active cell, the total and the size is a compact two-column list. */
 .gallery-sheet-stage .omni-description-list {
     font-size: var(--omni-font-size-sm);

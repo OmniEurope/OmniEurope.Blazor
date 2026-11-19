@@ -2,5 +2,6 @@
 @inherits OmniComponentBase
 
 @* A definition list, so each value is announced with its label. Items flow into the columns asked
-   for and fall back to one column on a narrow screen. *@
-<dl @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-description-list", ColumnsClass)">@ChildContent</dl>
+   for and fall back to one column on a narrow screen; a responsive list stacks each label above its
+   value when the list itself is narrow. *@
+<dl @attributes="AdditionalAttributes" id="@Id" class="@Css("omni-description-list", ColumnsClass, ResponsiveClass)">@ChildContent</dl>
