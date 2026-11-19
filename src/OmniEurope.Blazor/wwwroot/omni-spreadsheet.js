@@ -1,3 +1,5 @@
+import { mirrorSideKeys } from './shared/reading-direction.js';
+
 const attachments = new Map();
 
 const navigationKeys = new Set([
@@ -25,6 +27,8 @@ export function attach(root) {
             return;
         }
 
+        // .NET moves the active cell by column order: in a right-to-left sheet the next column is on the left.
+        mirrorSideKeys(event, root);
         if (target.matches('[data-omni-sheet-editor]')) {
             const replacing = target.getAttribute('data-omni-sheet-mode') === 'replace';
             if (['Enter', 'Tab', 'Escape'].includes(event.key) || (replacing && arrowKeys.has(event.key))) {
