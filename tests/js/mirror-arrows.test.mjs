@@ -71,23 +71,22 @@ test('right to left, ArrowLeft reaches the handler as ArrowRight and ArrowRight 
     const { press, received } = await fixture('rtl');
 
     const left = press('ArrowLeft');
-    press('ArrowRight');
+    const right = press('ArrowRight');
 
     assert.deepEqual(received.map(event => event.key), ['ArrowRight', 'ArrowLeft'], 'the next day is drawn on the left: its key is the one .NET calls ArrowRight');
-    assert.ok(left.defaultPrevented && left.stopped, 'the original event goes no further');
-    assert.ok(received.every(event => event.bubbles && event.type === 'keydown'));
+    assert.deepEqual(received, [left, right], 'the handler gets the very events the browser sent');
+    assert.ok(!left.defaultPrevented && !left.stopped, 'the event keeps its default action and its other listeners');
 });
 
-test('right to left, the copy keeps the modifiers and the code of the key it stands for', async () => {
+test('right to left, the swapped event keeps its modifiers', async () => {
     const { press, received } = await fixture('rtl');
 
     press('ArrowLeft', { shiftKey: true, repeat: true });
 
     assert.equal(received.length, 1);
-    assert.equal(received[0].code, 'ArrowRight');
+    assert.equal(received[0].key, 'ArrowRight');
     assert.equal(received[0].shiftKey, true);
     assert.equal(received[0].repeat, true);
-    assert.equal(received[0].ctrlKey, undefined);
 });
 
 test('right to left, the vertical keys, the page keys, Home and End are left alone', async () => {

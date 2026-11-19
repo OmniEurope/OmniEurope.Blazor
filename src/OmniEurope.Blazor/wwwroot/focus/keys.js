@@ -18,9 +18,11 @@
 //   0 on the row that last took the focus) from the focus the move leaves on the row.
 // - An element marked data-omni-mirror-arrows (the day grid of the date pickers, the radio cards of an
 //   OmniSelectableCardGroup), whose arrows .NET handles in reading order: in a right-to-left page the two
-//   horizontal keys are swapped before anything else sees them (see mirrorArrows).
+//   horizontal keys are swapped on the event before .NET reads them (see mirrorArrows).
 // - An element marked data-omni-key-button that is not a native button (an entry of a chart legend drawn
 //   in the SVG): Enter and Space activate it as a click would, Space without scrolling the page.
+
+import { mirrorSideKeys } from '../shared/reading-direction.js';
 
 const steps = new Map([['ArrowLeft', -1], ['ArrowUp', -1], ['ArrowRight', 1], ['ArrowDown', 1]]);
 let enabled = false;
@@ -38,42 +40,15 @@ export function enablePageKeys() {
 
 enablePageKeys();
 
-// The copies made by mirrorArrows, so that they are not swapped a second time.
-const copies = new WeakSet();
-
 // .NET counts the horizontal arrows in reading order (ArrowLeft is the previous day or card) and does not
-// know the direction of the page. In a right-to-left page the previous one is drawn on the right, so the
-// original event stops here and a copy with the other horizontal key goes to the same target: that copy is
-// what the handler of Blazor and the other listeners receive.
+// know the direction of the page. In a right-to-left page the previous one is drawn on the right, so the key
+// is swapped on the event itself before the handler of Blazor reads it: the event stays the one the browser
+// sent, with its default action and every listener after this one.
 function mirrorArrows(event) {
-    if (copies.has(event) || event.defaultPrevented || !(event.target instanceof Element)
-        || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) {
-        return;
+    const marked = event.target instanceof Element ? event.target.closest('[data-omni-mirror-arrows]') : null;
+    if (marked) {
+        mirrorSideKeys(event, marked);
     }
-
-    const marked = event.target.closest('[data-omni-mirror-arrows]');
-    if (!marked || getComputedStyle(marked).direction !== 'rtl') {
-        return;
-    }
-
-    const key = event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft';
-    const copy = new KeyboardEvent('keydown', {
-        key,
-        code: key,
-        location: event.location,
-        repeat: event.repeat,
-        shiftKey: event.shiftKey,
-        ctrlKey: event.ctrlKey,
-        altKey: event.altKey,
-        metaKey: event.metaKey,
-        bubbles: true,
-        cancelable: true,
-        composed: true
-    });
-    copies.add(copy);
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    event.target.dispatchEvent(copy);
 }
 
 function onKeyDown(event) {
