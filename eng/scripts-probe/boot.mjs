@@ -95,6 +95,9 @@ export async function bootSteps(session, results) {
 
   // 3. The look stored through the real appearance window: dark mode, Halo, text 7, controls 6, compact.
   await session.visit(themesPage, windowButton);
+  // The keys already there (an earlier step left the snapshot of the shell example, its SnapshotKey) are not
+  // this step's: only what the appearance window writes is checked against the preference cache.
+  const keysBefore = await evaluate('Object.keys(localStorage)');
   await clickOn(windowButton);
   await waitFor('la fenêtre d\'apparence', `document.querySelector(${JSON.stringify(modeButton('Sombre'))}) !== null`);
   await clickOn(modeButton('Sombre'));
@@ -122,7 +125,7 @@ export async function bootSteps(session, results) {
   const stored = await evaluate(storedEntry);
   check(stored.boot.appearance === 'dark' && stored.boot.density === 'compact' && stored.boot.textSize === 7 && stored.boot.controlSize === 6 && stored.boot.dark > 0,
     `Copie d'amorçage inattendue : ${JSON.stringify(stored.boot)}.`);
-  const keys = await evaluate("Object.keys(localStorage).filter(key => !key.startsWith('omni:pref') && key !== 'omnieurope.showcase.theme')");
+  const keys = await evaluate(`Object.keys(localStorage).filter(key => !key.startsWith('omni:pref') && key !== 'omnieurope.showcase.theme' && !${JSON.stringify(keysBefore)}.includes(key))`);
   check(keys.length === 0, `Clés écrites hors du cache des préférences : ${keys.join(', ')}.`);
   step(`apparence enregistrée par la fenêtre (sombre, Halo, texte 7, contrôles 6, compacte) sous ${stored.key}, copie d'amorçage de ${stored.boot.dark} jetons dans la même entrée, aucune autre clé`);
 
