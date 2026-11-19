@@ -87,6 +87,99 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task Tabs_RemovedWhileTheirScriptLoads_ConfigureNothing()
+    {
+        var runtime = HoldImports();
+        var tabs = Render<OmniTabs>(parameters => parameters
+            .Add(component => component.Label, "Sections")
+            .AddChildContent<OmniTabsItem>(item => item
+                .Add(component => component.Key, "rapports")
+                .Add(component => component.Title, "Rapports")
+                .AddChildContent("Contenu")));
+
+        await tabs.Instance.DisposeAsync();
+
+        // No strip configured, so no .NET reference made for a listener nothing would release.
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
+    public async Task SelectBar_RemovedWhileItsScriptLoads_ConfiguresNothing()
+    {
+        var runtime = HoldImports();
+        var choice = "a";
+        var bar = Render<OmniSelectBar<string>>(parameters => parameters
+            .Add(component => component.Options, [new OmniOption<string>("a", "A"), new OmniOption<string>("b", "B")])
+            .Add(component => component.Value, choice)
+            .Add(component => component.ValueExpression, () => choice));
+
+        await bar.Instance.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
+    public async Task Stack_RemovedWhileTheScriptOfItsChevronsLoads_ConfiguresNothing()
+    {
+        var runtime = HoldImports();
+        var stack = Render<OmniStack>(parameters => parameters
+            .Add(component => component.Overflow, OmniStackOverflow.Scroll)
+            .AddChildContent("contenu"));
+
+        await stack.Instance.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
+    public async Task Fieldset_RemovedWhileItsScriptLoads_ObservesNothing()
+    {
+        var runtime = HoldImports();
+        var fieldset = Render<OmniFieldset>(parameters => parameters
+            .Add(component => component.Legend, (RenderFragment)(builder => builder.AddContent(0, "Avancé")))
+            .Add(component => component.Collapsible, true)
+            .Add(component => component.ExpandedChanged, EventCallback.Factory.Create<bool>(this, _ => { }))
+            .AddChildContent("Champs"));
+
+        await fieldset.Instance.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
+    public void Fieldset_WhoseCircuitIsGoneWhileItObserves_StaysRendered()
+    {
+        var runtime = Install(new ManualJSRuntime());
+        runtime.Module.CallFailures["observeFieldsetToggle"] = new JSDisconnectedException("The circuit is gone.");
+
+        var fieldset = Render<OmniFieldset>(parameters => parameters
+            .Add(component => component.Legend, (RenderFragment)(builder => builder.AddContent(0, "Avancé")))
+            .Add(component => component.Collapsible, true)
+            .Add(component => component.ExpandedChanged, EventCallback.Factory.Create<bool>(this, _ => { }))
+            .AddChildContent("Champs"));
+
+        // The call fails at once, inside the render: a disconnection that escaped would already be reported.
+        Assert.Contains("observeFieldsetToggle", runtime.Module.Calls);
+        Assert.False(Renderer.UnhandledException.IsCompleted, "The lost circuit escaped OnAfterRenderAsync.");
+        Assert.Contains("Champs", fieldset.Markup, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public async Task Autocomplete_RemovedWhileItsScriptLoads_AttachesNothing()
+    {
+        var runtime = HoldImports();
+        var value = string.Empty;
+        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
+            .Add(component => component.Value, value)
+            .Add(component => component.ValueExpression, () => value)
+            .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([])));
+
+        await autocomplete.Instance.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
     public async Task MenuController_RemovedWhileItsScriptLoads_ReleasesItOnArrival()
     {
         var runtime = HoldImports();

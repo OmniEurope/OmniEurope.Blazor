@@ -5,6 +5,7 @@
 // The lists (block, size, case) always stay in the bar. The bar is fitted again when its width changes,
 // and after a render that changed what decides its rows (the commands, their texts, the font, the
 // control height); a render that changed none of them (a keystroke) measures nothing.
+import { circuitDown } from '../shared/notify.js';
 
 const fits = new Map();
 
@@ -59,7 +60,9 @@ function fit(state) {
 
 function report(state, hidden) {
     const key = hidden.join('\n');
-    if (key !== state.reported) {
+    // Not while Blazor Server shows its connection as lost (the call could not arrive, and its failed send
+    // would be an uncaught rejection): nothing is recorded as reported, so the next fit reports it.
+    if (key !== state.reported && !circuitDown()) {
         state.reported = key;
         state.dotnet.invokeMethodAsync('OnToolbarOverflow', hidden).catch(() => { });
     }

@@ -8,8 +8,9 @@
     @if (ReadOnly)
     {
         @* Read-only: the files held are listed and the group takes the focus; nothing offers to choose, drop
-           or remove a file, so the native file control is not drawn. *@
-        <div id="@Id" class="omni-upload__readonly" role="group" tabindex="0" aria-label="@Localize("UploadAttachedFiles")">
+           or remove a file, so the native file control is not drawn. The group stands for that control and
+           takes its name: Label, else the host's aria-label (taken off the root), else "Attached files". *@
+        <div id="@Id" class="omni-upload__readonly" role="group" tabindex="0" aria-label="@ReadOnlyLabel">
             @if ((ReadOnlyShowsFiles ? Files.Count : _files.Count) == 0)
             {
                 <span class="omni-input omni-upload__field-value omni-upload__field-value--empty">@Localize("UploadNoFile")</span>

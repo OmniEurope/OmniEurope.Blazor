@@ -96,6 +96,23 @@ public sealed class DurationPickerTests : OmniBunitContext
     }
 
     [Fact]
+    public void The_fields_carry_only_the_native_bounds_that_guide_their_arrows()
+    {
+        // What the guide and the remarks of the component say: min 0 on both, the whole hours of Max on the
+        // hours field, and no native max on the minutes, so 60 or more can be typed and carried.
+        var bounded = RenderPicker(null, parameters => parameters.Add(component => component.Max, TimeSpan.FromMinutes(90)));
+        var hours = bounded.FindAll("input")[0];
+        var minutes = bounded.FindAll("input")[1];
+        Assert.Equal("0", hours.GetAttribute("min"));
+        Assert.Equal("1", hours.GetAttribute("max"));
+        Assert.Equal("0", minutes.GetAttribute("min"));
+        Assert.False(minutes.HasAttribute("max"));
+
+        var free = RenderPicker(null);
+        Assert.False(free.FindAll("input")[0].HasAttribute("max"));
+    }
+
+    [Fact]
     public void Group_is_named_and_each_field_has_a_localized_name()
     {
         var previous = CultureInfo.CurrentUICulture;

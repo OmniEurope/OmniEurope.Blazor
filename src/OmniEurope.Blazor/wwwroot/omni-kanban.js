@@ -6,6 +6,8 @@
 // the scroll and the activation those keys would otherwise cause, forwards the card's own keys to .NET,
 // moves the focus between cards while none is carried, and gives each drag the data some browsers
 // require before they start one. It never writes a style.
+import { circuitDown } from './shared/notify.js';
+
 const boards = new WeakMap();
 
 const cardsOf = container => Array.from(container.querySelectorAll('[data-omni-kanban-card]'));
@@ -49,7 +51,11 @@ export function attach(root, dotnet) {
             return;
         }
 
-        const key = event.key;
+        // The columns follow the direction of the page: in a right-to-left one the next column is on the left,
+        // so the two horizontal arrows are swapped before anything reads them. The focus move below and the
+        // move of a carried card in .NET both count columns in drawing order, ArrowRight meaning the next one.
+        const mirrored = (event.key === 'ArrowLeft' || event.key === 'ArrowRight') && getComputedStyle(root).direction === 'rtl';
+        const key = mirrored ? (event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft') : event.key;
         const grabbed = root.hasAttribute('data-omni-kanban-grabbed');
         const arrow = key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight';
         if (arrow && !grabbed) {
@@ -65,6 +71,12 @@ export function attach(root, dotnet) {
         }
 
         event.preventDefault();
+        // No call while Blazor Server shows its connection as lost: it could not arrive, and Blazor would
+        // report its failed send as an uncaught rejection.
+        if (circuitDown()) {
+            return;
+        }
+
         try {
             const pending = dotnet.invokeMethodAsync('OnCardKey', card.getAttribute('data-omni-kanban-card') ?? '', key);
             pending?.catch?.(() => { });

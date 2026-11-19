@@ -101,9 +101,12 @@ export function activateWindow(dialog, key, initialFocus) {
     focusInitial(dialog, initialFocus);
 }
 
+// The sentinel at an edge of a modal dialog took the focus (it came in from the browser's own controls): it
+// goes to the last or the first element of the dialog, and to the dialog itself when it holds none, never
+// staying on the sentinel, which is no stop of the dialog.
 export function focusBoundary(dialog, last) {
     const items = focusableElements(dialog);
-    (last ? items.at(-1) : items[0] ?? dialog)?.focus();
+    ((last ? items.at(-1) : items[0]) ?? dialog)?.focus();
 }
 
 export function restoreFocus(key) {
