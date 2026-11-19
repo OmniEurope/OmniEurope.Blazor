@@ -10,6 +10,8 @@ Le code livré par `OmniEurope.Blazor` ne doit pas :
 - utiliser `eval`, `new Function` ou une API équivalente ;
 - charger automatiquement une ressource depuis une origine distante.
 
+Seule exception, nommée : `OmniMap` charge les images de ses tuiles depuis `OmniMap.TileUrl`, par défaut `https://tile.openstreetmap.org` (une carte n'existe pas sans elles ; décision du propriétaire du 2026-11-19). Ce sont des images `img` créées par `omni-map.js`, jamais un script, une feuille ou une police : l'hôte qui affiche une carte ajoute l'origine de ses tuiles à `img-src`, et rien d'autre (la vitrine : `img-src 'self' data: https://tile.openstreetmap.org`). Une page sans `OmniMap` ne charge rien de distant.
+
 Les variations visuelles dynamiques passent par un ensemble fini de classes CSS, d'attributs `data-*`, d'états ARIA et, pour le SVG, d'attributs géométriques ou de présentation autorisés ; aucun style inline n'est généré. Les valeurs que seul le navigateur peut connaître passent par le CSSOM (`element.style`), jamais par un attribut écrit dans le balisage : propriétés personnalisées (`setProperty('--omni-…')`), propriétés standard (`style.left`, `style.top`, `style.inlineSize`, `style.insetInlineStart`…) et, pour une sonde de mesure, `style.cssText`. Les modules concernés :
 
 - `omni-grid.js` : hauteur du tableau virtualisé (une ligne d'espacement de grille prend la sienne de l'attribut `height` de sa cellule, sans style), espaceurs du journal (`--omni-grid-spacer`), marge basse posée le temps d'une mesure du remplissage (`margin-bottom`, en `!important`, rendue avant le dessin), largeur et décalage des colonnes gelées, largeurs de colonne et sonde de mesure de l'ajustement au contenu (`cssText`), position des panneaux de filtre et de la liste de suggestions du filtre `Combo` (`--omni-popover-x`, `--omni-popover-y`, `--omni-popover-min`, `--omni-anchor-x`, `--omni-anchor-y`, `--omni-anchor-w`), espaceurs d'`OmniDataList` (`--omni-data-list-spacer`) ;
@@ -17,6 +19,7 @@ Les variations visuelles dynamiques passent par un ensemble fini de classes CSS,
 - `omni-tooltip.js` : position d'une bulle suivie ou recadrée (`--omni-tooltip-x`, `--omni-tooltip-y`…) ;
 - `omni-theme.js` : jetons d'un préréglage appliqués à une portée (propriétés personnalisées, posées et retirées), attribut `data-omni-theme-resolved` en mode système ;
 - `omni-boot.js` : avant Blazor, jetons de l'instantané de la portée (`OmniThemeScope.SnapshotKey`) posés sur la racine et sur la portée, puis retirés à la passation ;
+- `omni-map.js` : position de chaque tuile (`--omni-map-tile-x`, `--omni-map-tile-y`) et de chaque repère (`--omni-map-x`, `--omni-map-y`) d'`OmniMap` ; les tracés sont des attributs SVG `d` ;
 - `omni-code-editor.js` : hauteur de l'éditeur (`--omni-code-editor-height`) ;
 - `omni-html-editor.js` : nombre de lignes de la surface (`--omni-html-editor-rows`) ;
 - `omni-document-viewer.js` : zoom de la visionneuse de document (`--omni-document-zoom` sur la zone des pages) et taille de chaque page (`--omni-document-page-width`, `--omni-document-page-height`), écrits par `setProperty` ;

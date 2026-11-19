@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Έξοδος από πλήρη οθόνη</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Σχέδιο πάνω στο βίντεο</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Ενέργειες βίντεο</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Χάρτης</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Μεγέθυνση</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Σμίκρυνση</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© συντελεστές του OpenStreetMap</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Τα βέλη μετακινούν τον χάρτη, τα + και - αλλάζουν το ζουμ.</value></data>
 </root>

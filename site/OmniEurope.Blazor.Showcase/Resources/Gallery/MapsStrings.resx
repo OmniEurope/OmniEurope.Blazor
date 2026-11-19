@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype"><value>text/microsoft-resx</value></resheader>
+  <resheader name="version"><value>2.0</value></resheader>
+  <resheader name="reader"><value>System.Resources.ResXResourceReader, System.Windows.Forms</value></resheader>
+  <resheader name="writer"><value>System.Resources.ResXResourceWriter, System.Windows.Forms</value></resheader>
+  <data name="MapTitle" xml:space="preserve"><value>Map</value></data>
+  <data name="MapDescription" xml:space="preserve"><value>A map drawn by the package itself, from the tiles of a server the host chooses (OpenStreetMap by default): lines in stretches of their own colour with a tooltip, markers that are real buttons, drag to pan, wheel, double click, buttons and keys to zoom, a click that gives its place, and a framing of the whole content.</value></data>
+  <data name="MapSettingsTitle" xml:space="preserve"><value>Map settings</value></data>
+  <data name="MapSettingsDescription" xml:space="preserve"><value>How the map opens.</value></data>
+  <data name="MapFit" xml:space="preserve"><value>Fit to the route</value></data>
+  <data name="MapFitDescription" xml:space="preserve"><value>Frames every line and marker; turned off, the map stays where it is.</value></data>
+  <data name="MapPreviewTitle" xml:space="preserve"><value>Commute in the rain</value></data>
+  <data name="MapPreviewDescription" xml:space="preserve"><value>A route through Brussels in five-minute stretches, each coloured by the rain forecast at the time of passage. Point at a stretch to read its forecast, drag the map, zoom with the wheel or the buttons, click the map to read its place, press a marker. With the map focused, the arrows pan and + and - zoom.</value></data>
+</root>

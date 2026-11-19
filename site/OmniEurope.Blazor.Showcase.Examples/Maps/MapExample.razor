@@ -1,0 +1,22 @@
+@* A commute through Brussels in three stretches, each coloured by the rain forecast at the time of passage (a tone per
+   stretch, its forecast in the tooltip), with its start, a stop, its end and a bike rental as markers. FitToContent frames
+   the whole route; Center and Zoom are bound, so the page reads where the reader moved the map. A click on the map (not a
+   drag) gives its place, a marker pressed (click, Enter or Space) gives itself. The gallery-map class sets the height
+   through --omni-map-height. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniMap Id="map-demo"
+             Class="gallery-map"
+             Label="Commute through Brussels"
+             Lines="Route"
+             Markers="Stops"
+             FitToContent="Fit"
+             @bind-Center="Center"
+             @bind-Zoom="Zoom"
+             OnMapClick="ShowClick"
+             OnMarkerClick="ShowMarker" />
+    <OmniRow Gap="OmniSpacing.Small" Wrap="true" Align="OmniAlignment.Center">
+        <OmniBadge Id="map-view" Tone="OmniTone.Info">View: @Describe(Center), zoom @Zoom</OmniBadge>
+        <OmniBadge Id="map-click" Tone="OmniTone.Neutral">Clicked: @(Clicked is { } point ? Describe(point) : "nothing yet")</OmniBadge>
+        <OmniBadge Id="map-marker" Tone="OmniTone.Accent">Marker: @(Pressed?.Label ?? "none")</OmniBadge>
+    </OmniRow>
+</OmniStack>

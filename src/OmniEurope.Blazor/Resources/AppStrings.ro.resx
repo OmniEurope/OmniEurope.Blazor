@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Ieșire din ecran complet</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Desen peste video</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Acțiuni video</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Hartă</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Mărește</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Micșorează</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© contribuitorii OpenStreetMap</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Săgețile mută harta, + și - modifică zoomul.</value></data>
 </root>

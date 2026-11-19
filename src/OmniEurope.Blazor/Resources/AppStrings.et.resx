@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Välju täisekraanist</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Joonistus videol</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Video toimingud</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Kaart</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Suurenda</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Vähenda</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMapi kaastöölised</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Nooleklahvid liigutavad kaarti, + suurendab ja - vähendab.</value></data>
 </root>

@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Iziet no pilnekrāna režīma</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Zīmējums uz video</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Video darbības</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Karte</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Tuvināt</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Tālināt</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap līdzautori</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Bultiņas pārvieto karti, + tuvina un - tālina.</value></data>
 </root>

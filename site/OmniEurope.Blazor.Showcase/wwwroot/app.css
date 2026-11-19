@@ -1157,3 +1157,14 @@
 .gallery-structured-emphasis {
     font-weight: 700;
 }
+
+/* The map of the Map page: its height through the variable OmniMap reads, lower on a phone. */
+.gallery-map {
+    --omni-map-height: 28rem;
+}
+
+@media (max-width: 40rem) {
+    .gallery-map {
+        --omni-map-height: 20rem;
+    }
+}

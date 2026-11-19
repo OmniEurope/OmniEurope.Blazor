@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Scoir den lánscáileán</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Líníocht ar an bhfíseán</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Gníomhartha físeáin</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Léarscáil</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Zúmáil isteach</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Zúmáil amach</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© rannpháirtithe OpenStreetMap</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Bogann na saigheada an léarscáil, zúmálann + isteach agus - amach.</value></data>
 </root>

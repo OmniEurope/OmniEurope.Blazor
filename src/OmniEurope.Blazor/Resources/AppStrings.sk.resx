@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Ukončiť celú obrazovku</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Kresba na videu</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Akcie videa</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Mapa</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Priblížiť</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Oddialiť</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© prispievatelia OpenStreetMap</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Šípky posúvajú mapu, + a - menia priblíženie.</value></data>
 </root>

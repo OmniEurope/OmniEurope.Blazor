@@ -858,4 +858,9 @@
   <data name="MediaTileExitFullscreen" xml:space="preserve"><value>Poistu koko näytön tilasta</value></data>
   <data name="MediaTileDrawingLabel" xml:space="preserve"><value>Piirros videon päällä</value></data>
   <data name="MediaTileActions" xml:space="preserve"><value>Videon toiminnot</value></data>
+  <data name="MapLabel" xml:space="preserve"><value>Kartta</value></data>
+  <data name="MapZoomIn" xml:space="preserve"><value>Lähennä</value></data>
+  <data name="MapZoomOut" xml:space="preserve"><value>Loitonna</value></data>
+  <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMapin tekijät</value></data>
+  <data name="MapKeyboardHelp" xml:space="preserve"><value>Nuolinäppäimet siirtävät karttaa, + lähentää ja - loitontaa.</value></data>
 </root>
