@@ -7,7 +7,9 @@
    and an optional detail line (a reset time, a trend). With OnClick the whole tile is one real
    button, with Href one real link, both named by the label and the value, so they answer Enter (and
    Space for the button) and show the focus ring; without either, a plain block that nothing can
-   activate. Every part is a span, valid inside a button as well as inside a link. *@
+   activate. Every part is a span, valid inside a button as well as inside a link. With Help, a "?" mark
+   (focusable, so never inside the button or the link) sits in a corner of the tile; a clickable tile
+   then becomes a block that holds the button or the link, stretched over the whole tile, and the mark. *@
 @{
     // The content is the same whatever the element: a button, a link or a plain block.
     RenderFragment body = @<text>
@@ -24,8 +26,31 @@
         }
     </span>
 </text>;
+
+    // The help mark, drawn as the one of OmniHeading and OmniFormField.
+    RenderFragment help = @<OmniTooltip Id="@HelpId" Class="omni-stat-tile__help" Text="@Help" Focusable="true">
+        <span class="omni-stat-tile__help-mark" role="img" aria-label="@Localize("FormFieldHelp")"><OmniIcon Name="OmniIconName.Question" /></span>
+    </OmniTooltip>;
 }
-@if (OnClick.HasDelegate)
+@if (HasHelp && (OnClick.HasDelegate || _safeHref is not null))
+{
+    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile", "omni-stat-tile--action", "omni-stat-tile--help", DoubleWidth ? "omni-tile--double" : null, WrapTitle ? "omni-stat-tile--wrap" : null, SizeClass)">
+        @if (OnClick.HasDelegate)
+        {
+            <button type="button" class="omni-stat-tile__action" aria-label="@AccessibleName" @onclick="OnClick">
+                @body
+            </button>
+        }
+        else
+        {
+            <a class="omni-stat-tile__action" href="@_safeHref" aria-label="@AccessibleName">
+                @body
+            </a>
+        }
+        @help
+    </div>
+}
+else if (OnClick.HasDelegate)
 {
     <button @attributes="AdditionalAttributes" @ref="_tile" id="@Id" type="button" class="@Css("omni-stat-tile", "omni-stat-tile--action", DoubleWidth ? "omni-tile--double" : null, WrapTitle ? "omni-stat-tile--wrap" : null, SizeClass)"
             aria-label="@AccessibleName" @onclick="OnClick">
@@ -41,7 +66,11 @@ else if (_safeHref is not null)
 }
 else
 {
-    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile", DoubleWidth ? "omni-tile--double" : null, WrapTitle ? "omni-stat-tile--wrap" : null, SizeClass)">
+    <div @attributes="AdditionalAttributes" @ref="_tile" id="@Id" class="@Css("omni-stat-tile", HasHelp ? "omni-stat-tile--help" : null, DoubleWidth ? "omni-tile--double" : null, WrapTitle ? "omni-stat-tile--wrap" : null, SizeClass)">
         @body
+        @if (HasHelp)
+        {
+            @help
+        }
     </div>
 }

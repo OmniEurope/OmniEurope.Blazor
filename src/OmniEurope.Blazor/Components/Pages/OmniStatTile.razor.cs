@@ -5,7 +5,11 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="OnClick"/>, the whole tile becomes one button that opens the figure's detail; given
 /// <see cref="Href"/>, one link to it. Either keeps the tile's place in an <see cref="OmniTileGrid"/> (same
 /// size as its neighbours, <see cref="DoubleWidth"/> honoured). The tile is built of spans, valid in a
-/// button and in a link; it must never hold an interactive element of its own.
+/// button and in a link; it never holds an interactive element of its own, with one supported exception:
+/// <see cref="Help"/>. A help mark is focusable, so it cannot sit inside the button or the link; with
+/// <see cref="Help"/> together with <see cref="OnClick"/> or <see cref="Href"/>, the root of the tile is a
+/// <c>div</c> (same classes, <c>id</c> and attributes) holding the real <c>button</c> or <c>a</c>, stretched
+/// over the whole tile, and the mark in the corner, outside it.
 /// </summary>
 public partial class OmniStatTile
 {
@@ -39,6 +43,9 @@ public partial class OmniStatTile
     /// Makes the tile a button, named by <see cref="Title"/> followed by <see cref="Value"/>, as the
     /// tile reads them. Cannot be combined with <see cref="Href"/>. Never put an interactive element in
     /// <see cref="Icon"/>: nesting it in a button is invalid and is not detected.
+    /// The one supported interactive part is the <see cref="Help"/> mark: with it the button is no longer the
+    /// root but sits inside a <c>div.omni-stat-tile</c>, stretched over the whole tile, and a click on the mark
+    /// does not raise this event.
     /// </summary>
     [Parameter]
     public EventCallback<MouseEventArgs> OnClick { get; set; }
@@ -46,10 +53,25 @@ public partial class OmniStatTile
     /// <summary>
     /// Makes the tile a link to this path or address (relative, http, https, mailto or tel; any other
     /// scheme is refused), named like the button of <see cref="OnClick"/> and drawn the same way. Null, the
-    /// default, leaves a plain block. Cannot be combined with <see cref="OnClick"/>.
+    /// default, leaves a plain block. Cannot be combined with <see cref="OnClick"/>. With <see cref="Help"/>, the
+    /// link sits inside a <c>div.omni-stat-tile</c>, stretched over the whole tile, and a click on the help mark
+    /// does not follow it.
     /// </summary>
     [Parameter]
     public string? Href { get; set; }
+
+    /// <summary>
+    /// A help text for the tile, behind a "?" in its top inline-end corner, drawn and behaving as
+    /// <see cref="OmniHeading.Help"/> and <see cref="OmniFormField.Help"/>: it shows on hover and on keyboard
+    /// focus (the mark is in the Tab order) and is the mark's accessible description, never a part of the name
+    /// of the tile. The value keeps clear of the mark. Given an <see cref="OmniComponentBase.Id"/>, the mark has
+    /// the id <c>{Id}-help</c> and the text <c>{Id}-help-content</c>. With <see cref="OnClick"/> or
+    /// <see cref="Href"/>, the tile is a <c>div</c> holding the button or the link (see the class remarks), and a
+    /// click or Enter on the mark never raises <see cref="OnClick"/> nor follows <see cref="Href"/>. Null or
+    /// blank, the default, renders no mark and leaves the markup unchanged.
+    /// </summary>
+    [Parameter]
+    public string? Help { get; set; }
 
     /// <summary>
     /// In an <see cref="OmniTileGrid"/>, the tile spans two columns instead of one where the grid has two or
@@ -94,7 +116,7 @@ public partial class OmniStatTile
     /// Attaches the script that keeps the label on one line (smaller when it does not fit, then cut with
     /// an ellipsis and its whole text in the hover tooltip) and fits the value to the tile (smaller in up to
     /// three steps, then wrapped, never cut). The tile is a button with <see cref="OnClick"/>,
-    /// a link with <see cref="Href"/> and a plain block without either, three different elements: when one of them comes or goes, the
+    /// a link with <see cref="Href"/> and a plain block without either (a block holding the button or the link, with <see cref="Help"/>), different elements: when one of them comes or goes, the
     /// script leaves the former element and follows the new one. A lost circuit is ignored.
     /// </summary>
     /// <param name="firstRender">True on the first render of the component.</param>
@@ -167,6 +189,10 @@ public partial class OmniStatTile
         OmniControlSize.Large => "omni-stat-tile--large",
         _ => null,
     };
+
+    private bool HasHelp => !string.IsNullOrWhiteSpace(Help);
+
+    private string? HelpId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-help";
 
     private string AccessibleName => string.IsNullOrWhiteSpace(Value) ? Title : Localize("LabelValuePair", Title, Value);
 }

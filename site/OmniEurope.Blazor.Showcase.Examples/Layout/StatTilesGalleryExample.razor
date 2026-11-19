@@ -1,5 +1,6 @@
-@* Three tiles side by side: one with an icon and a detail, one clickable, one bare. The figures are formatted
-   by the example, as the tile expects. *@
+@* Five tiles side by side: one with an icon and a detail, one clickable, one bare, then two with a Help mark: a
+   plain one and a clickable one (the button is stretched over the whole tile, the mark above it never clicks).
+   The figures are formatted by the example, as the tile expects. *@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniStack Orientation="OmniOrientation.Horizontal" Wrap="true" Gap="OmniSpacing.Medium">
         <OmniStatTile Value="@FillRate" Title="Fill rate" Detail="Average of the week">
@@ -9,9 +10,16 @@
             <Icon><OmniIcon Name="OmniIconName.Timer" /></Icon>
         </OmniStatTile>
         <OmniStatTile Value="@Passengers" Title="Passengers" />
+        <OmniStatTile Id="demo-stat-tile-help" Value="@Cancelled" Title="Cancelled flights" Help="Flights cancelled by the airline since midnight, weather included.">
+            <Icon><OmniIcon Name="OmniIconName.Info" /></Icon>
+        </OmniStatTile>
+        <OmniStatTile Id="demo-stat-tile-help-click" Value="@Diverted" Title="Diverted flights" Help="Flights that landed at another airport. Click the tile to open the list." OnClick="CountHelpClick">
+            <Icon><OmniIcon Name="OmniIconName.MapPin" /></Icon>
+        </OmniStatTile>
     </OmniStack>
     <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true" Gap="OmniSpacing.Small">
         <OmniIcon Name="OmniIconName.Info" />
         <OmniText>Clicks: @Clicks</OmniText>
+        <OmniText Id="demo-stat-tile-help-clicks">Help tile clicks: @HelpClicks</OmniText>
     </OmniStack>
 </OmniStack>

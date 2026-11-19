@@ -251,6 +251,21 @@
 .omni-card--action:hover { background: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-card-background, var(--omni-color-surface))); }
 .omni-stat-tile--action:focus-visible,
 .omni-card--action:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
+/* Help (a "?" mark, focusable, so never inside the button or the link): it sits in the top inline-end corner,
+   above everything. The value keeps clear of it (padding that the fitting script counts in its measure). A
+   clickable tile is then a block that holds the real button or link: it is laid out as the body of the tile,
+   and its pseudo-element is stretched over the whole tile (the block is the positioned ancestor, the button is
+   not), so a click anywhere but on the mark activates it. The tile shows the focus ring when the button or the
+   link has the keyboard focus; the mark keeps the ring of its own. */
+.omni-stat-tile > .omni-stat-tile__help { inset-block-start: var(--omni-space-xs); inset-inline-end: var(--omni-space-xs); position: absolute; z-index: 1; }
+.omni-stat-tile > .omni-stat-tile__help:is(:hover, :focus-within) { z-index: var(--omni-z-tooltip); }
+.omni-stat-tile__help-mark { color: var(--omni-color-text-muted); cursor: help; display: inline-flex; }
+.omni-stat-tile__help .omni-tooltip__trigger { border-radius: 50%; display: inline-flex; }
+.omni-stat-tile--help .omni-stat-tile__value { padding-inline-end: 1.25rem; }
+.omni-stat-tile__action { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: flex; flex: 1 1 auto; font: inherit; gap: var(--omni-space-sm); margin: 0; min-inline-size: 0; padding: 0; text-align: start; text-decoration: none; }
+.omni-stat-tile__action::after { content: ""; inset: 0; position: absolute; }
+.omni-stat-tile__action:focus-visible { outline: none; }
+.omni-stat-tile--action:has(> .omni-stat-tile__action:focus-visible) { box-shadow: var(--omni-focus-ring); }
 /* A fact tile (OmniFactTile): a title, then rows of icon, label and value. In a wide tile (18rem of content or
    more) the three columns are shared tracks, the same for every row, so the icons, the labels and the values
    line up from one row to the next: the icon, then the label as wide as the widest label of the tile but never
