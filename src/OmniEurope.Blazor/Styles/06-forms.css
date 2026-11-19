@@ -504,8 +504,11 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-upload__zone:hover { border-color: color-mix(in srgb, var(--omni-color-accent) 55%, transparent); }
 .omni-upload--dragging .omni-upload__zone { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent-fill); border-style: solid; }
 .omni-upload__zone:has(> .omni-upload__input:focus-visible) { border-color: var(--omni-color-accent); box-shadow: var(--omni-focus-ring); }
-.omni-upload--disabled :is(.omni-upload__zone, .omni-upload__field) { opacity: 0.55; }
+/* Disabled: the text keeps its contrast (muted text on the muted surface, 4.5:1 in every theme), only the decorative disc fades;
+   the hint, readable while the control is disabled, keeps its own colour. */
+.omni-upload--disabled .omni-upload__disc { opacity: 0.55; }
 .omni-upload--disabled .omni-upload__zone { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); }
+.omni-upload--disabled :is(.omni-upload__prompt, .omni-upload__browse) { color: var(--omni-color-text-muted); text-decoration: none; }
 .omni-upload--disabled .omni-upload__input { cursor: not-allowed; }
 /* A single file as a field and a button welded into one control: inner corners square, no gap, the
    field without its end rule so the button closes the pair, and the Browse button blue, the main
@@ -523,6 +526,7 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-upload__field:hover > .omni-upload__field-button { background: var(--omni-button-fill-hover); }
 .omni-upload__field:has(> .omni-upload__input:focus-visible) > .omni-upload__field-value { border-color: var(--omni-color-accent-fill); box-shadow: var(--omni-focus-ring); }
 .omni-upload--dragging .omni-upload__field-value { background: var(--omni-color-accent-subtle); border-color: var(--omni-color-accent-fill); }
+.omni-upload--disabled .omni-upload__field > :is(.omni-upload__field-value, .omni-upload__field-button) { background: var(--omni-color-surface-muted); border-color: var(--omni-color-border); box-shadow: none; color: var(--omni-color-text-muted); }
 .omni-upload__list { display: grid; gap: 6px; list-style: none; margin: 0; padding: 0; }
 .omni-upload__readonly:focus-visible { border-radius: var(--omni-radius); box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-upload__file { align-items: center; background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-radius); display: grid; gap: 0.25rem 0.625rem; grid-template-columns: auto minmax(0, 1fr) auto; min-inline-size: 0; padding: var(--omni-item-pad-y) 0.625rem; }
