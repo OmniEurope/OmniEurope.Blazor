@@ -721,12 +721,14 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Fact]
-    public void AppBar_IsOneWrappingRow_ClosedByTheCardRule_WithAGhostBurger()
+    public void AppBar_IsOneWrappingRow_SetApartByItsShadowNotALine_WithAGhostBurger()
     {
         var header = ShippedLookTests.Body(".omni-header");
         Assert.Equal("flex", ShippedLookTests.Value(header, "display"));
         Assert.Equal("center", ShippedLookTests.Value(header, "align-items"));
-        Assert.Equal("var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border))", ShippedLookTests.Value(header, "border-block-end"));
+        // No line along its bottom edge only (a liseré is forbidden): the soft shadow sets it apart.
+        Assert.DoesNotContain("border-block-end", header, StringComparison.Ordinal);
+        Assert.Equal("0 1px 3px var(--omni-elevation-shadow-soft, transparent)", ShippedLookTests.Value(header, "box-shadow"));
 
         var burger = ShippedLookTests.Body(".omni-sidebar-toggle");
         Assert.Equal("transparent", ShippedLookTests.Value(burger, "background"));

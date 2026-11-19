@@ -175,7 +175,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
    height follows the density. Headings in it lose their bottom margin, which a row does not need. A
    theme may let its colour field through the shell, the app bar and the sidebar
    (--omni-shell-background, Givre); the frost that keeps it readable is the one of the cards. */
-.omni-header { align-items: center; background: var(--omni-shell-background, var(--omni-color-surface)); border-block-end: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); box-shadow: 0 1px 3px var(--omni-elevation-shadow-soft, transparent); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-wrap: wrap; gap: 0.625rem 1rem; padding: calc(var(--omni-item-pad-y) + 1px) var(--omni-header-pad-x); position: relative; }
+.omni-header { align-items: center; background: var(--omni-shell-background, var(--omni-color-surface)); box-shadow: 0 1px 3px var(--omni-elevation-shadow-soft, transparent); box-sizing: border-box; color: var(--omni-color-text); display: flex; flex-wrap: wrap; gap: 0.625rem 1rem; padding: calc(var(--omni-item-pad-y) + 1px) var(--omni-header-pad-x); position: relative; }
 /* The side padding of the bar, which the window controls and the sidebar toggle reach through to the edges. */
 .omni-header { --omni-header-pad-x: 0.75rem; }
 .omni-header .omni-heading { margin: 0; }
@@ -715,7 +715,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-sidebar[hidden] { display: none; }
 .omni-sidebar__panel {
     background: var(--omni-shell-background, var(--omni-color-surface));
-    border-inline-end: var(--omni-border-width) solid var(--omni-color-border);
+    box-shadow: 1px 0 3px var(--omni-elevation-shadow-soft, transparent);
     box-sizing: border-box;
     display: flex;
     flex: 1 1 auto;
@@ -738,7 +738,7 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 .omni-sidebar__scroll[hidden] { display: none; }
 .omni-sidebar__chevron { block-size: calc(var(--omni-control-height) * 0.625); inline-size: calc(var(--omni-control-height) * 0.625); }
 .omni-sidebar--end { order: 2; }
-.omni-sidebar--end > .omni-sidebar__panel { border-inline-end: 0; border-inline-start: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-sidebar--end > .omni-sidebar__panel { box-shadow: -1px 0 3px var(--omni-elevation-shadow-soft, transparent); }
 
 .omni-sidebar--push { flex: 0 0 var(--omni-sidebar-width); max-inline-size: min(var(--omni-sidebar-width), 90vw); }
 .omni-sidebar--push.omni-sidebar--closed.omni-sidebar--collapse-icons { flex-basis: var(--omni-sidebar-rail); max-inline-size: var(--omni-sidebar-rail); }
