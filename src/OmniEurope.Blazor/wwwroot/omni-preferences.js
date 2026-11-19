@@ -9,6 +9,8 @@
 // attaches to the appearance entry (attach) for omni-boot.js to replay before Blazor starts. It is local to
 // this browser: never handed to .NET (get and entries leave it out), never sent to the store, and kept
 // through every later write of the entry, so a synchronization or a confirmation does not drop it.
+import { circuitDown, notify, whenCircuitBack } from './shared/notify.js';
+
 const memory = new Map();
 const bootMember = 'Boot';
 // The boot copies attached by this page, laid again on every write of their entry.
@@ -191,27 +193,47 @@ export function entries(prefix) {
     return Array.from(found);
 }
 
-function notify(dotnet, method, ...args) {
-    // Rejected only when the circuit is gone, which leaves nobody to tell.
-    dotnet.invokeMethodAsync(method, ...args).catch(() => { });
-}
-
-// Reports the tab coming back into view, and another tab writing an entry of the prefix.
+// Reports the tab coming back into view, and another tab writing an entry of the prefix. While Blazor
+// Server shows its connection as lost, nothing is sent (it could not arrive, and its failed send would
+// surface as an uncaught rejection): the reports wait, merged (the view once, each key once), and go out
+// when the connection is back or on the next report made with it up.
 export function watch(dotnet, prefix) {
     const id = nextWatcher++;
-    const onVisible = () => {
-        if (document.visibilityState === 'visible') {
+    const watcher = { visible: false, keys: new Set(), stopWaiting: null };
+    const deliver = () => {
+        watcher.stopWaiting = null;
+        const keys = [...watcher.keys];
+        const visible = watcher.visible;
+        watcher.keys.clear();
+        watcher.visible = false;
+        keys.forEach(key => notify(dotnet, 'OnStored', key));
+        if (visible) {
             notify(dotnet, 'OnVisible');
         }
     };
-    const onStorage = event => {
-        if (event.key && event.key.startsWith(prefix) && event.storageArea === local()) {
-            notify(dotnet, 'OnStored', event.key);
+    const report = () => {
+        if (!circuitDown()) {
+            watcher.stopWaiting?.();
+            deliver();
+        } else {
+            watcher.stopWaiting ??= whenCircuitBack(deliver);
         }
     };
-    document.addEventListener('visibilitychange', onVisible);
-    window.addEventListener('storage', onStorage);
-    watchers.set(id, { onVisible, onStorage });
+    watcher.onVisible = () => {
+        if (document.visibilityState === 'visible') {
+            watcher.visible = true;
+            report();
+        }
+    };
+    watcher.onStorage = event => {
+        if (event.key && event.key.startsWith(prefix) && event.storageArea === local()) {
+            watcher.keys.add(event.key);
+            report();
+        }
+    };
+    document.addEventListener('visibilitychange', watcher.onVisible);
+    window.addEventListener('storage', watcher.onStorage);
+    watchers.set(id, watcher);
     return id;
 }
 
@@ -223,5 +245,6 @@ export function unwatch(id) {
 
     document.removeEventListener('visibilitychange', watcher.onVisible);
     window.removeEventListener('storage', watcher.onStorage);
+    watcher.stopWaiting?.();
     watchers.delete(id);
 }

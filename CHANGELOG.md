@@ -16,6 +16,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - `OmniDescriptionList` : côte à côte, le libellé et sa valeur sont centrés verticalement sur la même ligne (alignés jusqu'ici sur la ligne de base de leur premier texte), si bien qu'un libellé sur deux lignes reste en face de sa valeur. Une liste réactive (défaut) étroite s'empile désormais à 375 px au lieu de garder libellé et valeur côte à côte.
 
+### Corrigé
+
+- Préférences, Blazor Server : un onglet qui redevient visible (ou une autre fenêtre qui écrit une préférence) pendant une coupure du circuit ne laisse plus d'erreur « Uncaught (in promise) Error: Cannot send data if the connection is not in the 'Connected' State » dans la console (demande d'une application cliente du 2026-11-19). L'envoi raté naissait dans le script de Blazor, hors de portée du `catch` de la bibliothèque : tant que l'affichage de reconnexion de Blazor (`components-reconnect-modal`, celui de l'hôte ou celui par défaut) montre la connexion perdue, aucun appel n'est fait. Les signalements attendent, fusionnés (le retour sur l'onglet une fois, chaque clé une fois), et partent quand la connexion revient ou au signalement suivant fait connexion rétablie. Les autres scripts qui préviennent .NET d'un événement de la page par le même chemin (focus, éditeurs, carte, document structuré) ne tentent plus non plus d'appel pendant la coupure. WebAssembly et Hybrid ne sont pas concernés.
+
 ## [1.14.3] - 2026-11-18
 
 ### Ajouté

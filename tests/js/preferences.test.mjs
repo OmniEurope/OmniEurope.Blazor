@@ -2,6 +2,7 @@ import assert from 'node:assert/strict';
 import path from 'node:path';
 import { test } from 'node:test';
 import { pathToFileURL } from 'node:url';
+import { dotnetRecorder, installDom } from './dom-stub.mjs';
 
 // Storage doubles prove the precedence rules, not browser quota enforcement, which is verified
 // separately in a native browser against the module extracted from the package.
@@ -177,4 +178,106 @@ test('a boot copy the quota refuses leaves the entry written without it, and a m
     assert.equal(stored.Value, '{"appearance":"Light"}');
     assert.equal(Object.hasOwn(stored, 'Boot'), false);
     assert.equal(module.get(key), entry('{"appearance":"Light"}'), 'persisted, not kept in memory');
+});
+
+// The reconnection display of Blazor Server, as the host's own element (classes documented by ASP.NET
+// Core) or the default display (an open shadow root holding the overlay), and a MutationObserver double
+// that a test fires by hand. The send failure itself happens inside blazor.web.js and cannot be caught
+// here; what is proved is that no call is made while the display shows the connection as lost.
+async function watchFixture({ defaultDisplay = false } = {}) {
+    const dom = installDom();
+    const observers = [];
+    globalThis.MutationObserver = class {
+        constructor(callback) { this.callback = callback; this.target = null; observers.push(this); }
+        observe(target) { this.target = target; }
+        disconnect() { this.target = null; }
+    };
+    const host = dom.el('div', { id: 'components-reconnect-modal' });
+    let indicator = host;
+    if (defaultDisplay) {
+        indicator = dom.el('div', { class: 'components-reconnect-overlay' });
+        host.shadowRoot = dom.el('div', {}, indicator);
+    }
+    dom.body.append(host);
+    document.visibilityState = 'visible';
+    const { storage, module } = await fixture();
+    const dotnet = dotnetRecorder();
+    const id = module.watch(dotnet, 'pref:');
+    const fireObservers = () => observers.filter(observer => observer.target).forEach(observer => observer.callback([]));
+    return { dom, storage, module, dotnet, id, indicator, observers, fireObservers };
+}
+
+test('a tab shown while the connection is lost sends nothing, then reports once the connection is back', async () => {
+    const { dom, dotnet, indicator, fireObservers } = await watchFixture();
+    indicator.classList.add('components-reconnect-show');
+    dom.dispatch('visibilitychange');
+    dom.dispatch('visibilitychange');
+    assert.deepEqual(dotnet.calls, []);
+
+    indicator.classList.remove('components-reconnect-show');
+    indicator.classList.add('components-reconnect-retrying');
+    fireObservers();
+    assert.deepEqual(dotnet.calls, []);
+
+    indicator.classList.remove('components-reconnect-retrying');
+    indicator.classList.add('components-reconnect-hide');
+    fireObservers();
+    assert.deepEqual(dotnet.calls, [['OnVisible']]);
+});
+
+test('entries written by another tab during the outage are reported once each after reconnection', async () => {
+    const { dom, storage, dotnet, indicator, fireObservers } = await watchFixture();
+    indicator.classList.add('components-reconnect-failed');
+    for (const key of ['pref:a', 'pref:b', 'pref:a', 'other:c']) {
+        dom.dispatch('storage', { key, storageArea: storage });
+    }
+    assert.deepEqual(dotnet.calls, []);
+
+    indicator.classList.remove('components-reconnect-failed');
+    indicator.classList.add('components-reconnect-hide');
+    fireObservers();
+    assert.deepEqual(dotnet.calls, [['OnStored', 'pref:a'], ['OnStored', 'pref:b']]);
+});
+
+test('the default reconnection display is read through its shadow overlay', async () => {
+    const { dom, dotnet, indicator, fireObservers } = await watchFixture({ defaultDisplay: true });
+    indicator.classList.add('components-reconnect-visible');
+    dom.dispatch('visibilitychange');
+    assert.deepEqual(dotnet.calls, []);
+
+    indicator.classList.remove('components-reconnect-visible');
+    fireObservers();
+    assert.deepEqual(dotnet.calls, [['OnVisible']]);
+});
+
+test('a report made once the connection is up also flushes what waited, and stops the waiting', async () => {
+    const { dom, dotnet, indicator, observers, fireObservers } = await watchFixture();
+    indicator.classList.add('components-reconnect-show');
+    dom.dispatch('visibilitychange');
+    indicator.classList.remove('components-reconnect-show');
+    dom.dispatch('visibilitychange');
+    assert.deepEqual(dotnet.calls, [['OnVisible']]);
+    assert.ok(observers.every(observer => observer.target === null));
+    fireObservers();
+    assert.deepEqual(dotnet.calls, [['OnVisible']]);
+});
+
+test('unwatch during the outage drops the waiting reports', async () => {
+    const { dom, module, dotnet, id, indicator, fireObservers } = await watchFixture();
+    indicator.classList.add('components-reconnect-show');
+    dom.dispatch('visibilitychange');
+    module.unwatch(id);
+    indicator.classList.remove('components-reconnect-show');
+    fireObservers();
+    assert.deepEqual(dotnet.calls, []);
+});
+
+test('without a reconnection display (WebAssembly, Hybrid) every report goes out at once', async () => {
+    const dom = installDom();
+    document.visibilityState = 'visible';
+    const { module } = await fixture();
+    const dotnet = dotnetRecorder();
+    module.watch(dotnet, 'pref:');
+    dom.dispatch('visibilitychange');
+    assert.deepEqual(dotnet.calls, [['OnVisible']]);
 });

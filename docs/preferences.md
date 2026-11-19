@@ -94,7 +94,9 @@ la page, sans erreur.
   n'est pas sauté parce que les deux horloges diffèrent. L'arbitrage entre deux valeurs reste sur `UpdatedAt`.
 - **Synchronisation automatique**, avec une base seulement : toutes les `SyncInterval`, chaque fois que
   l'onglet redevient visible (`visibilitychange`) et à la première lecture d'une clé que le cache tient déjà
-  (relecture de cette clé seule). Une synchronisation déjà en cours n'est pas doublée : les déclencheurs
+  (relecture de cette clé seule). Sur Blazor Server, un retour sur l'onglet pendant une coupure du circuit
+  (affichage de reconnexion de Blazor visible) n'est signalé qu'au retour de la connexion, une seule fois,
+  comme les écritures d'une autre fenêtre survenues entre-temps. Une synchronisation déjà en cours n'est pas doublée : les déclencheurs
   simultanés se partagent celle qui court.
 - **Écart minimal (`MinSyncGap`).** Seule la synchronisation du retour sur l'onglet est limitée : elle ne
   s'exécute pas quand la dernière synchronisation s'est terminée il y a moins de `MinSyncGap` (30 secondes
