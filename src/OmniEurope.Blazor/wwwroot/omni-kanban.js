@@ -51,7 +51,11 @@ export function attach(root, dotnet) {
             return;
         }
 
-        const key = event.key;
+        // The columns follow the direction of the page: in a right-to-left one the next column is on the left,
+        // so the two horizontal arrows are swapped before anything reads them. The focus move below and the
+        // move of a carried card in .NET both count columns in drawing order, ArrowRight meaning the next one.
+        const mirrored = (event.key === 'ArrowLeft' || event.key === 'ArrowRight') && getComputedStyle(root).direction === 'rtl';
+        const key = mirrored ? (event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft') : event.key;
         const grabbed = root.hasAttribute('data-omni-kanban-grabbed');
         const arrow = key === 'ArrowUp' || key === 'ArrowDown' || key === 'ArrowLeft' || key === 'ArrowRight';
         if (arrow && !grabbed) {

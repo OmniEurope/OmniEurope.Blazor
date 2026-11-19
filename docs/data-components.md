@@ -1153,7 +1153,8 @@ ne se déplacent pas du tout (tableau en lecture).
 - **Clavier.** Chaque carte prend le focus. Espace ou Entrée la saisit ; les flèches la portent le long
   de sa colonne et d'une colonne à l'autre, la carte étant dessinée là où elle tomberait ; Espace ou
   Entrée la dépose et Échap la remet en place. Sans carte saisie, les flèches déplacent le focus d'une
-  carte à l'autre (une colonne vide est sautée). Une touche frappée sur un contrôle placé dans une carte
+  carte à l'autre (une colonne vide est sautée). Dans une page écrite de droite à gauche, où la colonne
+  suivante est à gauche, Flèche gauche va vers elle et Flèche droite vers la précédente. Une touche frappée sur un contrôle placé dans une carte
   reste à ce contrôle. Une touche sur une autre carte abandonne le déplacement en cours.
 - **Annonces.** Une région live polie annonce la saisie, chaque position (« A : colonne En cours,
   position 2 sur 3. »), le dépôt et l'annulation ; une annonce répétée est rendue différente pour être
