@@ -38,6 +38,11 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         ? "omni-data-grid__export-button omni-data-grid__bar-button--compact"
         : "omni-data-grid__export-button";
 
+    // The copy button of a short export: the look of the export buttons, its own class (it is no format).
+    internal string ExportCopyClass => grid.BarButtonSize is null
+        ? "omni-data-grid__export-copy omni-data-grid__bar-button--compact"
+        : "omni-data-grid__export-copy";
+
     internal string ChooserToggleClass => grid.BarButtonSize is null
         ? "omni-data-grid__chooser-toggle omni-data-grid__bar-button--compact"
         : "omni-data-grid__chooser-toggle";

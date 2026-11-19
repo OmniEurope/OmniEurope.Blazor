@@ -702,6 +702,7 @@
   <data name="DateHintYear" xml:space="preserve"><value>aaaa</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>Esportazione della tabella</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Esporta come {0}</value></data>
+  <data name="GridExportCopy" xml:space="preserve"><value>Copia come Markdown</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
   <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
   <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>

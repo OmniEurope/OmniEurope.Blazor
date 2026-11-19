@@ -15,6 +15,7 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
 
     private CancellationTokenSource? _cancellation;
     private IJSObjectReference? _module;
+    private OmniClipboardCopy? _clipboard;
 
     /// <summary>The format being written, or null.</summary>
     internal OmniTableExportFormat? Running { get; private set; }
@@ -190,6 +191,71 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
 
     internal void Cancel() => _cancellation?.Cancel();
 
+    /// <summary>How long the copy button says "Copied" or "Copy failed".</summary>
+    internal static readonly TimeSpan CopiedFeedbackDuration = TimeSpan.FromSeconds(2);
+
+    /// <summary>The Markdown document is being built for the clipboard.</summary>
+    internal bool Copying { get; private set; }
+
+    /// <summary>Whether the last copy reached the clipboard, while its feedback lasts; null when idle.</summary>
+    internal bool? CopyResult => _clipboard?.Result;
+
+    /// <summary>The rows an export would read now: the local filtered set, or the total a remote grid announces.</summary>
+    private int RowCount => grid.Load is null ? grid.View.VirtualLocalItems.Count : grid.View.TotalCount;
+
+    /// <summary>
+    /// The copy button is offered: beside a Markdown export button, when the rows are known and at most
+    /// <c>CopyMaxRows</c>. A remote grid that announces no total offers none.
+    /// </summary>
+    internal bool CopyOffered => grid.CopyMaxRows > 0 && Formats.Contains(OmniTableExportFormat.Markdown)
+        && RowCount is > 0 and var count && count <= grid.CopyMaxRows;
+
+    /// <summary>"Copy as Markdown", then "Copied" or "Copy failed" while the feedback lasts.</summary>
+    internal string CopyLabel => CopyResult switch
+    {
+        true => grid.Text("CopyButtonCopied"),
+        false => grid.Text("CodeBlockCopyFailed"),
+        null => grid.Text("GridExportCopy")
+    };
+
+    /// <summary>
+    /// Puts the Markdown document of the rows on the clipboard, the one the <c>.md</c> file holds, without a
+    /// download. Never while an export or another copy runs.
+    /// </summary>
+    internal async Task CopyAsync()
+    {
+        if (Running is not null || Copying || !CopyOffered || Exporter is not { } exporter)
+        {
+            return;
+        }
+
+        Copying = true;
+        Failed = false;
+        Notice = null;
+        string markdown;
+        try
+        {
+            markdown = exporter.ToMarkdown(await BuildDocumentAsync(CancellationToken.None));
+        }
+        catch (Exception exception)
+        {
+            Copying = false;
+            Failed = true;
+            await grid.OnExportError.InvokeAsync(exception);
+            return;
+        }
+
+        try
+        {
+            _clipboard ??= new OmniClipboardCopy(grid.JavaScript, grid.RenderLaterAsync);
+            await _clipboard.CopyAsync(markdown, CopiedFeedbackDuration, grid.TimeSource);
+        }
+        finally
+        {
+            Copying = false;
+        }
+    }
+
     /// <summary>Every row the current filters and sorts select, up to the row limit, as a neutral document.</summary>
     internal async Task<OmniTableExportDocument> BuildDocumentAsync(CancellationToken cancellationToken)
     {
@@ -328,6 +394,11 @@ internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDispos
     public async ValueTask DisposeAsync()
     {
         _cancellation?.Cancel();
+        if (_clipboard is not null)
+        {
+            await _clipboard.DisposeAsync();
+        }
+
         if (_module is not null)
         {
             try

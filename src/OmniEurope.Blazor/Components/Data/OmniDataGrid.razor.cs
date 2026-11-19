@@ -892,6 +892,18 @@ public partial class OmniDataGrid<TItem>
     public int ExportRowLimit { get; set; } = 5000;
 
     /// <summary>
+    /// Most rows for which the export bar also offers a copy button, 10 by default; 0 or less never offers it.
+    /// Beside the Markdown export (<see cref="ExportMarkdown"/>), the button puts on the clipboard the same
+    /// Markdown document the <c>.md</c> file holds, without downloading anything, when the rows the current
+    /// filters select are known and at most this many (a <see cref="Load"/> grid counts its total, so one that
+    /// announces none offers no copy). It says "Copied" for two seconds, or "Copy failed" when the browser
+    /// refuses the clipboard. <see cref="OnExport"/> is not raised by a copy; a document that cannot be
+    /// built raises <see cref="OnExportError"/> like an export.
+    /// </summary>
+    [Parameter]
+    public int CopyMaxRows { get; set; } = 10;
+
+    /// <summary>
     /// Reads the rows of an export, in place of <see cref="Load"/>: asked page after page, 200 rows at a
     /// time, with the sorts and filters in force. Set it when <see cref="Load"/> does more than answer
     /// its request (it keeps the page it served, say), which an export must not disturb. Null, the
@@ -947,6 +959,8 @@ public partial class OmniDataGrid<TItem>
     internal string Text(string name, params object[] arguments) => Localize(name, arguments);
 
     internal DateTimeOffset Now() => Clock.GetUtcNow();
+
+    internal TimeProvider TimeSource => Clock;
 
     /// <summary>Narrowest the table may become, as a CSS length (see <see cref="GridColumnLayout{TItem}.TableMinimumWidth"/>).</summary>
     internal string TableMinimumWidth() => ColumnLayout.TableMinimumWidth();

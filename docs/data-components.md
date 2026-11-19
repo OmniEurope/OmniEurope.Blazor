@@ -1047,6 +1047,15 @@ par défaut des boutons).
   `ExportRowLimit` (5 000 par défaut). `ExportLoad` remplace `Load` pour cette lecture quand `Load` fait
   plus que répondre à sa requête (il retient la page servie, par exemple). L'export ne change rien à ce
   que la grille affiche ; un bouton « Annuler » l'interrompt, et quitter la page aussi.
+- **Copie d'un export court.** `CopyMaxRows` (10 par défaut, 0 ou moins : jamais ; demande d'une application
+  cliente, recette R-10) : à côté du bouton Markdown (`ExportMarkdown`), un bouton « Copier en Markdown »
+  (icône de copie, après les boutons de formats, classe `omni-data-grid__export-copy`) met dans le
+  presse-papiers le document Markdown même que contient le fichier `.md`, sans téléchargement. Il n'est
+  proposé que lorsque les lignes retenues par les filtres sont connues et au plus `CopyMaxRows` : le
+  nombre de l'ensemble filtré d'une grille à `Items`, le total annoncé d'une grille à `Load` (sans total
+  annoncé, pas de copie). Le bouton dit « Copié » deux secondes, ou « La copie a échoué » quand le
+  navigateur refuse le presse-papiers (même repli qu'`OmniCopyButton`, annonce polie). Une copie ne lève
+  pas `OnExport` ; un document qu'on ne peut pas lire lève `OnExportError` comme un export.
 - **Colonnes.** Les colonnes visibles qui lisent une valeur (`Property` ou `Value`). Une colonne faite
   d'un seul `Template` (actions) n'est pas écrite, sauf si elle donne `ExportValue`, qui remplace aussi la
   valeur d'une colonne dont le gabarit montre autre chose (un statut traduit). `Exportable="false"` retire

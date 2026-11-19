@@ -6,7 +6,8 @@
    at its end (FooterBarExport), each with its format written beside the icon (ShowExportButtonText): each
    writes every row the filters select and not the page on screen. Every format is on by default; Markdown,
    CSV and Excel come from the package, while PDF only gets a button in a host that registers an
-   IOmniTableExportRenderer, which this static site does not. *@
+   IOmniTableExportRenderer, which this static site does not. Seven rows are under CopyMaxRows (10 by default):
+   the bar also offers "Copy as Markdown", the document of the .md file put on the clipboard without a download. *@
 <OmniDataGrid TItem="CaseRow"
               Items="CaseData.Rows"
               ShowFooterBar="true"

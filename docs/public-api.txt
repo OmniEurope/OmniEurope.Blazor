@@ -2906,6 +2906,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CaseSensitiveFi
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ChildrenOf : System.Func<TItem,System.Collections.Generic.IReadOnlyList<TItem>?>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ColumnSizing : OmniEurope.Blazor.Components.OmniDataGridColumnSizing {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Columns : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CopyMaxRows : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Count : System.Int32? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Density : OmniEurope.Blazor.Components.OmniDensity? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DetailTemplate : Microsoft.AspNetCore.Components.RenderFragment<TItem>? {get(public);set(public)} [Parameter]

@@ -104,6 +104,16 @@
                 <Icon><OmniIcon Name="@(GridExport<TItem>.IconOf(format))" /></Icon>
             </OmniButton>
         }
+        @* A short export (CopyMaxRows) is also offered to the clipboard: the Markdown document of the .md file,
+           without a download. Its words become "Copied" or "Copy failed" for a moment, announced politely. *@
+        @if (Export.CopyOffered)
+        {
+            <OmniButton Variant="OmniButtonVariant.Secondary" Size="@Classes.BarButtonSize" Class="@Classes.ExportCopyClass"
+                        Label="@Export.CopyLabel" title="@Export.CopyLabel" Busy="@Export.Copying" Disabled="@(Export.Running is not null)"
+                        ChildContent="@Export.VisibleText(Export.CopyLabel)" OnClick="Export.CopyAsync">
+                <Icon><OmniIcon Name="@(Export.CopyResult == true ? OmniIconName.Check : OmniIconName.Copy)" /></Icon>
+            </OmniButton>
+        }
         @if (Export.Running is not null && ShowExportCancel)
         {
             <OmniButton Variant="OmniButtonVariant.Ghost" Size="@Classes.BarButtonSize" Class="@($"{Classes.ExportButtonClass} omni-data-grid__export-cancel")"
@@ -120,6 +130,7 @@
         {
             <span class="omni-data-grid__export-message" role="status">@Export.Notice</span>
         }
+        <span class="omni-visually-hidden" role="status">@(Export.CopyResult is null ? null : Export.CopyLabel)</span>
     </div>;
 
     @* A bar of the table's frame, above or under the rows: the export buttons at its start or its end,

@@ -702,6 +702,7 @@
   <data name="DateHintYear" xml:space="preserve"><value>éééé</value></data>
   <data name="GridExportBar" xml:space="preserve"><value>A táblázat exportálása</value></data>
   <data name="GridExportAs" xml:space="preserve"><value>Exportálás {0} formátumban</value></data>
+  <data name="GridExportCopy" xml:space="preserve"><value>Másolás Markdownként</value></data>
   <data name="GridExportFormatMarkdown" xml:space="preserve"><value>Markdown</value></data>
   <data name="GridExportFormatCsv" xml:space="preserve"><value>CSV</value></data>
   <data name="GridExportFormatExcel" xml:space="preserve"><value>Excel</value></data>

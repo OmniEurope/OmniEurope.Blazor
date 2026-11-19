@@ -556,7 +556,8 @@
 .omni-data-grid__export { align-items: center; color: var(--omni-color-text-muted); display: flex; flex: none; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
 /* Icon-only export buttons: a small button (24 px at least, the floor of every button) with a smaller icon, unless the grid
    sets BarButtonSize: the compact modifier is then absent and the button keeps its own size. */
-.omni-data-grid__export-button.omni-data-grid__bar-button--compact.omni-button { --omni-icon-size: 0.875rem; }
+.omni-data-grid__export-button.omni-data-grid__bar-button--compact.omni-button,
+.omni-data-grid__export-copy.omni-data-grid__bar-button--compact.omni-button { --omni-icon-size: 0.875rem; }
 .omni-data-grid__export-message--error { color: var(--omni-color-danger); }
 /* The column chooser at the end of the header bar: its trigger is an export-sized icon button, its panel
    a list of one row per column, the box and the name first, the two arrows at the end. While it is open the
