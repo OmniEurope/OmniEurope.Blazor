@@ -345,6 +345,6 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
         await tree.Instance.DisposeAsync();
 
         Assert.Equal([["a"], []], selections.Select(values => values.ToArray()));
-        Assert.Equal(["attachTreeDrag", "detachTreeDrag"], runtime.Module.Calls);
+        Assert.Equal(["attachTreeKeys", "attachTreeDrag", "detachTreeKeys", "detachTreeDrag"], runtime.Module.Calls);
     }
 }

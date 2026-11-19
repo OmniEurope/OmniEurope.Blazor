@@ -14,6 +14,7 @@ public partial class OmniTree<TValue>
     private ElementReference _root;
     private IJSObjectReference? _module;
     private Task? _attachment;
+    private bool _dragAttached;
     private bool _disposed;
 
     /// <summary>
@@ -100,40 +101,26 @@ public partial class OmniTree<TValue>
     internal void Redraw() => _ = InvokeAsync(StateHasChanged);
 
     /// <summary>
-    /// Gives each drag the data some browsers need before they start one: the script only fills the drag in,
-    /// .NET keeps the state. The script is imported once however many renders overlap the import, and a tree
-    /// disposed meanwhile attaches nothing.
+    /// Mirrors the horizontal arrows of a right-to-left page before .NET reads them (the script is imported
+    /// once however many renders overlap the import), and, when the drag and drop is on, gives each drag the
+    /// data some browsers need before they start one (the script only fills the drag in, .NET keeps the
+    /// state). A tree disposed meanwhile attaches nothing.
     /// </summary>
-    protected override Task OnAfterRenderAsync(bool firstRender) =>
-        AllowDragDrop && !_disposed ? _attachment ??= AttachDragAsync() : Task.CompletedTask;
-
-    private async Task AttachDragAsync()
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
+        if (_disposed)
+        {
+            return;
+        }
+
         try
         {
-            IJSObjectReference module;
-            try
+            await (_attachment ??= AttachKeysAsync());
+            if (AllowDragDrop && !_dragAttached && !_disposed && _module is { } module)
             {
-                module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Tree);
+                _dragAttached = true;
+                await module.InvokeVoidAsync("attachTreeDrag", _root);
             }
-            catch (JSDisconnectedException)
-            {
-                throw;
-            }
-            catch
-            {
-                _attachment = null;
-                throw;
-            }
-
-            if (_disposed)
-            {
-                await module.DisposeAsync();
-                return;
-            }
-
-            _module = module;
-            await module.InvokeVoidAsync("attachTreeDrag", _root);
         }
         catch (JSDisconnectedException)
         {
@@ -145,7 +132,34 @@ public partial class OmniTree<TValue>
         }
     }
 
-    /// <summary>Detaches the drag script.</summary>
+    private async Task AttachKeysAsync()
+    {
+        IJSObjectReference module;
+        try
+        {
+            module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Tree);
+        }
+        catch (JSDisconnectedException)
+        {
+            throw;
+        }
+        catch
+        {
+            _attachment = null;
+            throw;
+        }
+
+        if (_disposed)
+        {
+            await module.DisposeAsync();
+            return;
+        }
+
+        _module = module;
+        await module.InvokeVoidAsync("attachTreeKeys", _root);
+    }
+
+    /// <summary>Detaches the script.</summary>
     /// <returns>A task that completes when the script is released.</returns>
     public async ValueTask DisposeAsync()
     {
@@ -157,6 +171,7 @@ public partial class OmniTree<TValue>
 
         try
         {
+            await _module.InvokeVoidAsync("detachTreeKeys", _root);
             await _module.InvokeVoidAsync("detachTreeDrag", _root);
             await _module.DisposeAsync();
         }
