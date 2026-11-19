@@ -791,7 +791,8 @@ Chromium : glisser, Échap, limite figée, clavier et focus, masquage, rechargem
 Chaque entrée (`role="treeitem"`) déclare ses enfants dans son contenu ou les charge à la demande à sa
 première ouverture (état de chargement annoncé, échec signalé et rapporté par `OnLoadError`), y compris
 quand elle est ouverte d'emblée. Au clavier, Droite développe, Gauche
-réduit, Entrée et Espace sélectionnent sans remonter à l'ancêtre ([accessibility-contract.md](contracts/accessibility-contract.md)).
+réduit (l'inverse dans une page écrite de droite à gauche : Gauche développe et Droite réduit, le script
+lisant la direction réelle de l'arbre avant que .NET reçoive la touche), Entrée et Espace sélectionnent sans remonter à l'ancêtre ([accessibility-contract.md](contracts/accessibility-contract.md)).
 
 `OmniTreeItem.LoadChildren` (`Func<CancellationToken, Task>?`) charge les enfants à la première ouverture de l'entrée, que l'hôte rend ensuite dans `ChildContent` ; une ouverture plus récente annule un chargement encore en cours.
 
@@ -829,7 +830,8 @@ nouveau parent dans ses données, puis rend l'arbre de nouveau (un `@key` par en
   racine porte `omni-tree--dragging` pendant le glisser. Aucun attribut `style`.
 - **Script et CSP.** `omni-tree.js` (`attachTreeDrag`, `detachTreeDrag`) ne fait que donner au glisser la
   donnée que certains navigateurs exigent pour le commencer ; l'état reste en .NET, sans gestionnaire en
-  ligne.
+  ligne. Il échange aussi les deux flèches horizontales d'une page écrite de droite à gauche avant que .NET les
+  reçoive (`attachTreeKeys`, `detachTreeKeys`), et se charge donc pour tout arbre, glisser-déposer ou non.
 - **Limites.** Pas d'équivalent clavier : un hôte qui en a besoin propose sa propre action « Déplacer vers ».
   Pas de dépôt entre deux entrées ni à la racine : le dépôt se fait sur une entrée, qui devient le parent.
   Vérifié dans Chromium ; un glisser qui commence sur le bouton de la ligne n'est pas garanti dans tous les
@@ -879,10 +881,12 @@ des formules calculées sur la feuille.
   cellules qui la lisent. Chaque cellule est calculée une fois par version de la feuille.
 - **Clavier.** Flèches (Ctrl pour aller au bord), Tab et Maj+Tab le long de la ligne, la feuille
   étant quittée au bord de la ligne ; Entrée ou F2 ouvre la cellule, taper la remplace, Entrée
-  valide et descend, Tab valide et passe à droite, Échap annule, Suppr vide ; Début, Fin, Ctrl+Début,
+  valide et descend, Tab valide et passe à la colonne suivante, Échap annule, Suppr vide ; Début, Fin, Ctrl+Début,
   Ctrl+Fin, Page haut et Page bas. En saisie par remplacement, une flèche valide et déplace ; en
   modification (Entrée, F2, double clic), elle déplace le curseur. La barre de formule modifie la
-  cellule active de la même façon.
+  cellule active de la même façon. Dans une page écrite de droite à gauche, où la colonne suivante est à gauche,
+  Flèche gauche va vers elle et Flèche droite vers la précédente (le script échange les deux touches avant que
+  .NET les reçoive) ; Tab suit toujours l'ordre des colonnes.
 - **Accessibilité.** Un seul arrêt de focus, `role="grid"`, la cellule active annoncée par
   `aria-activedescendant`, en-têtes de ligne et de colonne, `aria-readonly` en lecture seule.
 - **Paramètres.** `ReadOnly`, `ShowFormulaBar`, `ShowGridLines`, `AllowAddRows`, `AllowAddColumns`,

@@ -25,7 +25,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
     {
         // Lets the released continuations run, then surfaces any exception the renderer caught.
         await Task.Delay(150, Xunit.TestContext.Current.CancellationToken);
-        var probe = Render<OmniTree<int>>();
+        var probe = Render<OmniText>();
         await probe.InvokeAsync(() => { });
     }
 
@@ -132,6 +132,19 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
         Assert.Equal(1, runtime.Imports);
         Assert.Single(runtime.Module.Calls, "attachTreeDrag");
+    }
+
+    [Fact]
+    public async Task Tree_WithoutDragAndDrop_StillAttachesTheKeyScriptSoARightToLeftPageMirrorsTheSideArrows()
+    {
+        var runtime = UseRuntime();
+        var tree = Render<OmniTree<int>>();
+
+        await runtime.WaitForCallAsync("attachTreeKeys");
+        Assert.Single(runtime.Module.Calls, "attachTreeKeys");
+
+        await tree.Instance.DisposeAsync();
+        Assert.Contains("detachTreeKeys", runtime.Module.Calls);
     }
 
     [Fact]

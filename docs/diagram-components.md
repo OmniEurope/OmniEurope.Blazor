@@ -71,7 +71,9 @@ sur le fond pour y créer un nœud, menu contextuel au clic droit ou à l'appui 
 
 Le canevas est un `role="application"` nommé, décrit par une aide clavier, avec `aria-activedescendant`
 sur le nœud sélectionné et une région live polie qui annonce sélection, ajout, suppression, lien, zoom,
-annulation et rétablissement.
+annulation et rétablissement. Les flèches suivent la position dessinée des nœuds : le canevas est un SVG en
+coordonnées absolues que la direction de la page ne reflète pas, donc Flèche gauche va vers le nœud dessiné à
+gauche dans une page écrite de droite à gauche comme dans les autres.
 
 | Touche | Action |
 | --- | --- |
