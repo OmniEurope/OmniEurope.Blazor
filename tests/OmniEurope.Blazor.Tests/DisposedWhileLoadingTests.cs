@@ -213,6 +213,96 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         Assert.Equal(1, runtime.Module.Disposals);
     }
 
+    private sealed class RequiredModel
+    {
+        [System.ComponentModel.DataAnnotations.Required]
+        public string? Name { get; set; }
+    }
+
+    private sealed record ExportRow(int Id);
+
+    [Fact]
+    public async Task TemplateForm_RemovedWhileTheFocusScriptLoads_FocusesNothing()
+    {
+        var runtime = HoldImports();
+        SetRendererInfo(new RendererInfo("Server", isInteractive: true));
+        var form = Render<OmniTemplateForm<RequiredModel>>(parameters => parameters
+            .Add(component => component.Model, new RequiredModel())
+            .Add(component => component.ChildContent, (RenderFragment<Microsoft.AspNetCore.Components.Forms.EditContext>)(_ => builder =>
+            {
+                builder.OpenComponent<Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator>(0);
+                builder.CloseComponent();
+            })));
+
+        // The invalid submit starts loading the focus script, then the form leaves the page.
+        form.Find("form").Submit();
+        await form.Instance.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
+    public async Task ConnectionOverlay_RemovedWhileItsFocusScriptLoads_ActivatesNothing()
+    {
+        var runtime = HoldImports();
+        var overlay = Render<OmniConnectionOverlay>(parameters => parameters
+            .Add(component => component.State, OmniConnectionState.Reconnecting));
+
+        await overlay.Instance.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
+    public async Task MarkdownExportButton_RemovedWhileItsDownloadScriptLoads_DownloadsNothing()
+    {
+        var runtime = HoldImports();
+        var button = Render<OmniMarkdownExportButton<ExportRow>>(parameters => parameters
+            .Add(component => component.Export, () => new OmniTableExport<ExportRow>
+            {
+                Title = "Erreurs",
+                Columns = [new("Id", row => row.Id.ToString(System.Globalization.CultureInfo.InvariantCulture))],
+                LoadPage = _ => Task.FromResult(new OmniDataGridResult<ExportRow>([new ExportRow(1)], 1))
+            }));
+
+        button.Find("button").Click();
+        await button.Instance.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+    }
+
+    [Fact]
+    public async Task HtmlEditorToolbarFit_RemovedWhileItsScriptLoads_InstallsNothing()
+    {
+        var html = string.Empty;
+        var editor = Render<OmniHtmlEditor>(parameters => parameters
+            .Add(component => component.Value, html)
+            .Add(component => component.ValueExpression, () => html));
+        var runtime = new ManualJSRuntime { HoldImports = true };
+        var fit = new HtmlEditorToolbarFit(editor.Instance, runtime);
+
+        var syncing = fit.SyncAsync(default, 1);
+        await fit.DisposeAsync();
+
+        await ReleasedWithoutAttachingAsync(runtime);
+        await syncing.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+    }
+
+    [Fact]
+    public async Task AppearanceDocumentRoot_LeftByEveryScopeWhileItsScriptLoads_WritesNothing()
+    {
+        var runtime = new ManualJSRuntime { HoldImports = true };
+        var root = new AppearanceDocumentRoot(runtime, Microsoft.Extensions.Logging.Abstractions.NullLogger.Instance);
+        root.Attach();
+
+        var syncing = root.SyncAsync(7, 5);
+        await root.DetachAsync();
+
+        // No scope is left to clear the root: the levels must not be written once the script arrives.
+        await ReleasedWithoutAttachingAsync(runtime);
+        await syncing.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+    }
+
     private ManualJSRuntime Install(ManualJSRuntime runtime)
     {
         Services.AddSingleton<IJSRuntime>(runtime);

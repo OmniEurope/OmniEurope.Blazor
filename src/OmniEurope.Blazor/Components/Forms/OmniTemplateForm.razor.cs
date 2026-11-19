@@ -18,6 +18,7 @@ where TModel : class
     private TModel? _lastModel;
     private ElementReference _formRoot;
     private IJSObjectReference? _module;
+    private bool _disposed;
 
     /// <summary>The edited model; give it or <see cref="EditContext"/>, not both.</summary>
     [Parameter]
@@ -161,7 +162,13 @@ where TModel : class
         {
             try
             {
-                _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Interop);
+                // Removed while the script loaded: the loader released it on arrival, nothing is focused.
+                _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Interop, () => _disposed);
+                if (_module is null)
+                {
+                    return;
+                }
+
                 await _module.InvokeVoidAsync("focusFirstInvalid", _formRoot);
             }
             catch (Exception exception) when (exception is JSException or JSDisconnectedException or TaskCanceledException)
@@ -174,6 +181,7 @@ where TModel : class
     /// <summary>Stops tracking the edit context and releases the focus script.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         Track(null);
         if (_module is not null)
         {

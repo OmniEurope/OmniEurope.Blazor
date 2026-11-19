@@ -15,6 +15,7 @@ internal sealed class HtmlEditorToolbarFit(OmniHtmlEditor owner, IJSRuntime java
     private DotNetObjectReference<HtmlEditorToolbarFit>? _self;
     private bool _tooltips;
     private bool _fitting;
+    private bool _disposed;
     private ElementReference _toolbar;
 
     /// <summary>The commands the script moved to the menu, by name; empty without a row limit.</summary>
@@ -25,7 +26,13 @@ internal sealed class HtmlEditorToolbarFit(OmniHtmlEditor owner, IJSRuntime java
     {
         try
         {
-            _module ??= await OmniScriptModule.ImportAsync(javaScript, OmniModules.HtmlEditor);
+            // The editor was removed while the script loaded: the loader released it on arrival, nothing is installed.
+            _module ??= await OmniScriptModule.ImportAsync(javaScript, OmniModules.HtmlEditor, () => _disposed);
+            if (_module is null)
+            {
+                return;
+            }
+
             if (!_tooltips)
             {
                 await _module.InvokeVoidAsync("installPackageTooltips");
@@ -61,6 +68,7 @@ internal sealed class HtmlEditorToolbarFit(OmniHtmlEditor owner, IJSRuntime java
     /// <summary>Stops the fitting, turns this editor's share of the tooltips off and releases the module.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         try
         {
             if (_module is not null)

@@ -18,6 +18,7 @@ public partial class OmniConnectionOverlay
     private readonly string _generatedId = $"omni-connection-{Guid.NewGuid():N}";
     private ElementReference _card;
     private IJSObjectReference? _focusModule;
+    private bool _disposed;
     private bool _focusActivated;
 
     [Inject]
@@ -158,11 +159,16 @@ public partial class OmniConnectionOverlay
     {
         try
         {
-            _focusModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, FocusModulePath);
+            // Removed while the script loaded: the loader released it on arrival, nothing is activated.
+            _focusModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, FocusModulePath, () => _disposed);
         }
         catch (JSException)
         {
             // Unreachable for now; the next render tries again.
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the overlay with it.
         }
     }
 
@@ -177,11 +183,16 @@ public partial class OmniConnectionOverlay
         {
             return false;
         }
+        catch (JSDisconnectedException)
+        {
+            return false;
+        }
     }
 
     /// <summary>Gives the focus back and releases the focus script.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_focusModule is not null)
         {
             try
