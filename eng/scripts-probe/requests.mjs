@@ -354,14 +354,38 @@ export async function requestSteps(session, results) {
   step('tuile de statistique : libellé sur une ligne, réduit ou coupé avec son texte entier en titre');
 
   // 7b. The fact tile (OmniFactTile, request of 2026-10-23): three tiles of contents of different lengths in
-  // one tile grid have the same height, and their icons, labels and values sit on the same verticals, within a
-  // tile and from one tile to the next (the offset from the tile's left edge is the same: side by side the
-  // tiles are not at the same x, stacked on a phone they are). Nothing overflows: the tile, its rows block and
+  // one tile grid have the same height, and their icons and labels sit on the same verticals, within a tile and
+  // from one tile to the next (the offset from the tile's left edge is the same: side by side the tiles are not
+  // at the same x, stacked on a phone they are); the values within a tile only, its label column being as wide
+  // as its own longest label (2026-11-15). Nothing overflows: the tile, its rows block and
   // each row hold their content (scrollWidth <= clientWidth), and every cell, title and row lies inside the
   // tile. A value cell is the exception to scrollWidth: its text cut by the ellipsis is the cut itself, so the
   // check on the cells is their rectangles, and the cut is proved by a value that is cut and read whole in the
   // package tooltip. At 1280 and 375 px, at the default text size and at text size 10 (the level the appearance
-  // window writes on the root, data-oe-text-size).
+  // window writes on the root, data-oe-text-size). The level is changed as a visitor does, through the real
+  // appearance window of the theme page and its Apply button: the showcase owns the level on the root and
+  // writes its own back over any other write (showcase-theme.js), so a level laid on the root by hand is undone.
+  const setTextSize = async level => {
+    await session.visit('/components/theme', '#demo-appearance-window');
+    await clickOn('#demo-appearance-window');
+    await waitFor('la fenêtre d\'apparence', "document.querySelectorAll('.omni-appearance-window .omni-appearance-window__scale').length === 2");
+    const before = await evaluate(`(async () => {
+      const group = () => document.querySelectorAll('.omni-appearance-window .omni-appearance-window__scale')[0];
+      const read = () => Math.round(parseFloat(group().querySelector('input[type="range"]').value));
+      const before = read();
+      for (let guard = 0; guard < 12 && read() !== ${level}; guard++) {
+        group().querySelectorAll('button')[read() < ${level} ? 1 : 0].click();
+        await new Promise(resolve => setTimeout(resolve, 150));
+      }
+      return before;
+    })()`);
+    await clickOn('.omni-appearance-window .omni-appearance-window__apply');
+    await waitFor('la fenêtre d\'apparence fermée', "document.querySelector('.omni-appearance-window') === null");
+    await session.visit('/components/stat-tiles', '#demo-fact-tile-timeline');
+    // The default level leaves the attribute out.
+    await waitFor(`le texte au niveau ${level}`, `(document.documentElement.dataset.oeTextSize ?? '5') === '${level}'`);
+    return before;
+  };
   await session.visit('/components/stat-tiles', '#demo-fact-tile-timeline');
   const factTiles = `(() => {
     const grid = document.getElementById('demo-fact-tile-grid');
@@ -395,28 +419,31 @@ export async function requestSteps(session, results) {
         }
       }
     }
+    // The label column of a tile is as wide as its own longest label (owner decision of 2026-11-15): the values
+    // share a vertical within a tile, the icons and the labels from one tile to the next.
     for (const [name, cells] of Object.entries(columns)) {
-      if (cells.length < (name === 'value' ? 0 : 6) || !cells.every(cell => near(cell.offset, cells[0].offset))) problems.push('les cellules ' + name + ' ne sont pas sur une même verticale : ' + cells.map(cell => cell.offset.toFixed(1)).join(' / '));
+      const groups = name === 'value' ? Object.values(Object.groupBy(cells, cell => cell.tile)) : [cells];
+      if (cells.length < (name === 'value' ? 0 : 6) || !groups.every(group => group.every(cell => near(cell.offset, group[0].offset)))) problems.push('les cellules ' + name + ' ne sont pas sur une même verticale : ' + cells.map(cell => cell.offset.toFixed(1)).join(' / '));
     }
     const cut = [...grid.querySelectorAll('.omni-fact-tile__value')].filter(value => value.scrollWidth > value.clientWidth + 1).length;
     return JSON.stringify({ problems, cut, heights, columns: Object.fromEntries(Object.entries(columns).map(([name, cells]) => [name, cells.map(cell => Math.round(cell.offset * 10) / 10)])) });
   })()`;
-  const textSizeBefore = await evaluate("document.documentElement.dataset.oeTextSize ?? ''");
-  for (const width of [1280, 375]) {
-    await send('Emulation.setDeviceMetricsOverride', { width, height: width < 600 ? 812 : 900, deviceScaleFactor: 1, mobile: width < 600 });
-    await pause(300);
-    for (const level of [textSizeBefore || '5', '10']) {
-      await evaluate(`document.documentElement.dataset.oeTextSize = ${JSON.stringify(level)}`);
-      await waitFor(`le texte au niveau ${level}`, `document.documentElement.dataset.oeTextSize === ${JSON.stringify(level)}`);
-      await pause(200);
+  let textSizeBefore = null;
+  for (const level of [5, 10]) {
+    const previous = await setTextSize(level);
+    textSizeBefore ??= previous;
+    for (const width of [1280, 375]) {
+      await send('Emulation.setDeviceMetricsOverride', { width, height: width < 600 ? 812 : 900, deviceScaleFactor: 1, mobile: width < 600 });
+      await pause(300);
+      check((await evaluate("document.documentElement.dataset.oeTextSize ?? '5'")) === String(level), `Le texte n'est plus au niveau ${level} à ${width} px.`);
       const measured = JSON.parse(await evaluate(factTiles));
       check(measured.problems.length === 0, `Tuiles de faits à ${width} px, texte ${level} : ${measured.problems.join(' | ')}`);
       check(measured.cut >= 1, `Aucune valeur coupée à ${width} px, texte ${level} : la coupe par points de suspension n'est pas exercée (${JSON.stringify(measured)}).`);
     }
+    await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
   }
-  if (textSizeBefore === '') await evaluate('delete document.documentElement.dataset.oeTextSize');
-  else await evaluate(`document.documentElement.dataset.oeTextSize = ${JSON.stringify(textSizeBefore)}`);
-  await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
+  // The visitor's level comes back, through the same window.
+  await setTextSize(textSizeBefore);
   await pause(300);
   // A cut value is read whole in the package tooltip. The tile turns the tooltips on after its first render, a
   // script round trip: the pointer leaves and comes back until the box shows.
@@ -434,7 +461,7 @@ export async function requestSteps(session, results) {
   }
   check(tipText === longValue, `La valeur coupée n'est pas lue en entier dans l'infobulle : « ${tipText} ».`);
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
-  step('tuiles de faits : même hauteur, icônes, libellés et valeurs sur les mêmes verticales, rien ne déborde à 1280 et 375 px, texte par défaut et 10, valeur coupée lue en bulle');
+  step('tuiles de faits : même hauteur, icônes et libellés sur les mêmes verticales, valeurs alignées dans chaque tuile, rien ne déborde à 1280 et 375 px, texte 5 et 10 posés par la fenêtre d\'apparence, valeur coupée lue en bulle');
 
   // 7c. The fact tile in a narrow tile (PLAN-004 lot L, request of 2026-10-23): four tiles on one row of a tile
   // grid (Columns 4) hold a label of 16 characters and a value of 20, and a tile of a quarter of 900 px is too
