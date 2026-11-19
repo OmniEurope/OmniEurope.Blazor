@@ -9,6 +9,7 @@ public partial class OmniSelectBar<TValue>
 {
     private ElementReference _strip;
     private IJSObjectReference? _module;
+    private bool _disposed;
 
     /// <summary>The options, in order; a disabled option is shown but cannot be picked.</summary>
     [Parameter, EditorRequired]
@@ -76,7 +77,15 @@ public partial class OmniSelectBar<TValue>
         {
             try
             {
-                _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus);
+                // Removed while the script loaded: DisposeAsync had no module to release yet, so the loader
+                // released it on arrival, and no strip is configured once the bar has left the page.
+                var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus, () => _disposed);
+                if (module is null)
+                {
+                    return;
+                }
+
+                _module = module;
                 await _module.InvokeVoidAsync("configureSelectBarOverflow", _strip);
             }
             catch (JSDisconnectedException)
@@ -92,6 +101,7 @@ public partial class OmniSelectBar<TValue>
         // Blazor calls only DisposeAsync on a component that has both: the form subscription of
         // InputBase is released through its own Dispose.
         ((IDisposable)this).Dispose();
+        _disposed = true;
         if (_module is not null)
         {
             try

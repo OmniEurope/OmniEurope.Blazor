@@ -12,6 +12,7 @@ public partial class OmniFieldset
     private IJSObjectReference? _module;
     private DotNetObjectReference<ToggleInterop>? _selfReference;
     private bool _observing;
+    private bool _disposed;
     private bool _expanded;
     private bool? _expandedParameter;
 
@@ -74,7 +75,8 @@ public partial class OmniFieldset
 
     /// <summary>
     /// Starts observing the native toggles of the disclosure while the fieldset is <see cref="Collapsible"/>
-    /// and <see cref="ExpandedChanged"/> has a handler, and stops once either no longer holds.
+    /// and <see cref="ExpandedChanged"/> has a handler, and stops once either no longer holds. A lost
+    /// circuit is ignored.
     /// </summary>
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -84,19 +86,39 @@ public partial class OmniFieldset
             return;
         }
 
-        if (wanted)
+        try
         {
-            _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
-            _selfReference ??= DotNetObjectReference.Create(_toggleInterop);
-            await _module.InvokeVoidAsync("observeFieldsetToggle", _details, _selfReference);
-            _observing = true;
+            if (wanted)
+            {
+                if (_module is null)
+                {
+                    // Removed while the script loaded: DisposeAsync had no module to release yet, so the
+                    // loader released it on arrival, and no .NET reference is made for a fieldset that has
+                    // left the page (nothing would release it).
+                    var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);
+                    if (module is null)
+                    {
+                        return;
+                    }
+
+                    _module = module;
+                }
+
+                _selfReference ??= DotNetObjectReference.Create(_toggleInterop);
+                await _module.InvokeVoidAsync("observeFieldsetToggle", _details, _selfReference);
+                _observing = true;
+            }
+            else if (_module is not null)
+            {
+                // Either the callback went away or the disclosure did; a removed element resolves to
+                // null in the script, which then has nothing to release.
+                await _module.InvokeVoidAsync("disposeFieldsetToggle", _details);
+                _observing = false;
+            }
         }
-        else if (_module is not null)
+        catch (JSDisconnectedException)
         {
-            // Either the callback went away or the disclosure did; a removed element resolves to
-            // null in the script, which then has nothing to release.
-            await _module.InvokeVoidAsync("disposeFieldsetToggle", _details);
-            _observing = false;
+            // The page is gone, and its disclosure with it: nothing left to observe.
         }
     }
 
@@ -114,6 +136,7 @@ public partial class OmniFieldset
     /// <summary>Stops observing the disclosure and releases the interop module and the .NET reference.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is not null)
         {
             try

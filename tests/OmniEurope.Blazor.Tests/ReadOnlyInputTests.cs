@@ -350,6 +350,38 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     }
 
     [Fact]
+    public void Upload_ReadOnly_NamesItsGroupAsTheFileControlWouldBeNamed()
+    {
+        IReadOnlyList<OmniUploadFile> files = [new("a.txt", 2_000, "text/plain")];
+        IRenderedComponent<OmniUpload> Upload(Action<ComponentParameterCollectionBuilder<OmniUpload>> more) =>
+            Render<OmniUpload>(parameters =>
+            {
+                parameters.Add(component => component.ReadOnly, true).Add(component => component.Files, files);
+                more(parameters);
+            });
+
+        // Two read-only fields of one page ("Contrat", "Pièce d'identité") must not both be "Fichiers joints".
+        var named = Upload(parameters => parameters.Add(component => component.Label, "Contrat signé"));
+        Assert.Equal("Contrat signé", named.Find(".omni-upload__readonly").GetAttribute("aria-label"));
+
+        var hostNamed = Upload(parameters => parameters.AddUnmatched("aria-label", "Pièce d'identité"));
+        Assert.Equal("Pièce d'identité", hostNamed.Find(".omni-upload__readonly").GetAttribute("aria-label"));
+        Assert.False(hostNamed.Find(".omni-upload").HasAttribute("aria-label"));
+
+        var previous = System.Globalization.CultureInfo.CurrentUICulture;
+        try
+        {
+            System.Globalization.CultureInfo.CurrentUICulture = System.Globalization.CultureInfo.GetCultureInfo("fr-FR");
+            var unnamed = Upload(_ => { });
+            Assert.Equal("Fichiers joints", unnamed.Find(".omni-upload__readonly").GetAttribute("aria-label"));
+        }
+        finally
+        {
+            System.Globalization.CultureInfo.CurrentUICulture = previous;
+        }
+    }
+
+    [Fact]
     public void CheckBox_WithText_ReadOnly_DoesNotChangeTheValue()
     {
         var changes = new List<bool>();

@@ -28,12 +28,34 @@ internal static partial class PickerFormat
 
     internal static string DateTimePattern(CultureInfo culture, bool seconds) => $"{DatePattern(culture)} {TimePattern(seconds)}";
 
-    /// <summary>The pattern spelled with the letters of the interface language, "jj/mm/aaaa" in French.</summary>
+    /// <summary>
+    /// The pattern spelled with the letters of the interface language, "jj/mm/aaaa" in French. A literal of the
+    /// pattern (between quotes, or after a backslash) is shown as a date shows it: as it is, without its quotes.
+    /// </summary>
     internal static string Placeholder(string pattern, PickerLetters letters)
     {
         var text = new StringBuilder(pattern.Length);
-        foreach (var character in pattern)
+        var quoted = false;
+        for (var index = 0; index < pattern.Length; index++)
         {
+            var character = pattern[index];
+            if (character == '\'')
+            {
+                quoted = !quoted;
+                continue;
+            }
+
+            if (quoted || character == '\\')
+            {
+                // An escaped character is the one after the backslash; a backslash that ends the pattern is dropped.
+                if (quoted || ++index < pattern.Length)
+                {
+                    text.Append(pattern[index]);
+                }
+
+                continue;
+            }
+
             text.Append(character switch
             {
                 'd' => letters.Day,

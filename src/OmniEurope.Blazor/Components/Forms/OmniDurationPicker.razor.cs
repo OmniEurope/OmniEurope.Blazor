@@ -6,9 +6,10 @@ namespace OmniEurope.Blazor.Components;
 /// fields. Both fields empty is <see langword="null"/>; minutes of an hour or more carry into the hours.
 /// </summary>
 /// <remarks>
-/// Hours are unbounded unless <see cref="Max"/> is set. The bounds are applied in code, on the committed
-/// entry, never as native <c>min</c>/<c>max</c> on the field (a native maximum refuses an intermediate entry,
-/// which would stop a reader from emptying a field to type another number). The group is named by
+/// Hours are unbounded unless <see cref="Max"/> is set. <see cref="Min"/> and <see cref="Max"/> are applied
+/// in code, on the committed entry. The fields only carry what guides their arrows: both a native <c>min</c>
+/// of 0, and the hours field the whole hours of <see cref="Max"/> as its native <c>max</c>. The minutes
+/// field has no native <c>max</c>, so 60 or more can be typed and carried into the hours. The group is named by
 /// <see cref="Label"/>, the label of an enclosing form field or the localized "Duration"; each field is
 /// named "Hours" or "Minutes" and shows its short unit after it.
 /// </remarks>

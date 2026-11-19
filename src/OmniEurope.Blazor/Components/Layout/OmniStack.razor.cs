@@ -11,6 +11,7 @@ public partial class OmniStack
     private ElementReference _strip;
     private IJSObjectReference? _module;
     private bool _scrollConfigured;
+    private bool _disposed;
 
     /// <summary>The items of the stack. Required.</summary>
     [Parameter, EditorRequired]
@@ -77,7 +78,19 @@ public partial class OmniStack
 
         try
         {
-            _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus);
+            if (_module is null)
+            {
+                // Removed while the script loaded: DisposeAsync had no module to release yet, so the loader
+                // released it on arrival, and no chevron is configured once the stack has left the page.
+                var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus, () => _disposed);
+                if (module is null)
+                {
+                    return;
+                }
+
+                _module = module;
+            }
+
             await _module.InvokeVoidAsync(scrolling ? "configureScrollOverflow" : "disposeScrollOverflow", _strip);
             _scrollConfigured = scrolling;
         }
@@ -89,6 +102,7 @@ public partial class OmniStack
     /// <summary>Releases the scroll chevrons, if they were configured, and the interop module.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is null)
         {
             return;

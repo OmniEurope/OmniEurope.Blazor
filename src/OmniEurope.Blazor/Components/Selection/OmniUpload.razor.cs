@@ -435,7 +435,10 @@ public partial class OmniUpload
     /// <c>aria-label</c> names it; with neither, a control given an <see cref="OmniComponentBase.Id"/> is named
     /// by the label that points at that id (an <see cref="OmniFormField"/> whose <c>For</c> is the id, or an
     /// <see cref="OmniLabel"/> <c>For</c>), and a control without an id, which no label can point at, by the
-    /// text it shows ("Browse" for the field, the drop prompt for the zone).
+    /// text it shows ("Browse" for the field, the drop prompt for the zone). With <see cref="ReadOnly"/>, which
+    /// draws no file control, the same name goes to the group that lists the files: this value, else the
+    /// host's <c>aria-label</c>, else the localized "Attached files" (a label cannot name a group through
+    /// <c>for</c>).
     /// </summary>
     [Parameter]
     public string? Label { get; set; }
@@ -447,6 +450,10 @@ public partial class OmniUpload
             : IsField
                 ? Localize("UploadBrowseButton")
                 : $"{Localize(Multiple ? "UploadDropMany" : "UploadDropOne")} {Localize("UploadBrowse")}");
+
+    // The name of the read-only group, which stands for the file control: two read-only fields of a page
+    // are told apart by the name the host gave each, as they are while they can be changed.
+    private string ReadOnlyLabel => Internal.OmniAriaLabel.Of(Label, AdditionalAttributes) ?? Localize("UploadAttachedFiles");
 
     // The host's attributes for the root, without the aria-label, which names the file control instead:
     // on the root, a div without a role, it named nothing.

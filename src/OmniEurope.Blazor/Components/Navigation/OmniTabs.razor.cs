@@ -16,6 +16,7 @@ public partial class OmniTabs
     private ElementReference _container;
     private string? _wheelScopeAttached;
     private IJSObjectReference? _module;
+    private bool _disposed;
     private KeyboardInterop? _keyboardInterop;
     private DotNetObjectReference<KeyboardInterop>? _selfReference;
     private string? _selectedValue;
@@ -101,7 +102,15 @@ public partial class OmniTabs
         {
             if (firstRender)
             {
-                _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus);
+                // Removed while the script loaded: DisposeAsync had no module to release yet, so the loader
+                // released it on arrival, and nothing is configured for a strip that has left the page.
+                var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus, () => _disposed);
+                if (module is null)
+                {
+                    return;
+                }
+
+                _module = module;
                 _keyboardInterop = new KeyboardInterop(SelectAsync);
                 _selfReference = DotNetObjectReference.Create(_keyboardInterop);
                 await _module.InvokeVoidAsync("configureTabs", _root, _selfReference);
@@ -131,6 +140,7 @@ public partial class OmniTabs
     /// <returns>A task that completes once the script resources are released.</returns>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is not null)
         {
             try

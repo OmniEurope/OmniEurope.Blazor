@@ -32,6 +32,7 @@ public partial class OmniAutocomplete<TValue>
     private ElementReference _root;
     private ElementReference _resultsList;
     private IJSObjectReference? _module;
+    private bool _disposed;
     private bool _listPlaced;
     // The field the script is attached to, and the ReplaceTextOnType it was attached with.
     private bool _fieldAttached;
@@ -594,6 +595,7 @@ public partial class OmniAutocomplete<TValue>
         // Blazor calls only DisposeAsync on a component that has both: the form subscription of
         // InputBase is released through its own Dispose.
         ((IDisposable)this).Dispose();
+        _disposed = true;
         _searchGeneration++;
         _searchCancellation?.Cancel();
         _searchCancellation?.Dispose();
@@ -636,7 +638,19 @@ public partial class OmniAutocomplete<TValue>
 
         try
         {
-            _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus);
+            if (_module is null)
+            {
+                // Removed while the script loaded: DisposeAsync had no module to release yet, so the loader
+                // released it on arrival, and no listener is set on a field that has left the page.
+                var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus, () => _disposed);
+                if (module is null)
+                {
+                    return;
+                }
+
+                _module = module;
+            }
+
             if (fieldChanged)
             {
                 _fieldAttached = true;
