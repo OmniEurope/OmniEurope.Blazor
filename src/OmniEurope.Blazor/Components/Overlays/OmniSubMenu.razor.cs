@@ -160,9 +160,16 @@ public partial class OmniSubMenu
         var focusFirst = _focusFirst;
         _focusFirst = false;
         _import ??= OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus, () => _disposed);
-        if (await _import is { } module)
+        try
         {
-            await module.InvokeVoidAsync("openSubMenu", EntryId, MenuId, focusFirst);
+            if (await _import is { } module)
+            {
+                await module.InvokeVoidAsync("openSubMenu", EntryId, MenuId, focusFirst);
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the menu with it.
         }
     }
 
