@@ -1,0 +1,38 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+@inject IJSRuntime JavaScript
+
+@* An entry of a menu that opens a list of entries beside it. The entry is a menuitem that announces its
+   menu (aria-haspopup, aria-expanded); the list is a nested role="menu" named by the entry and drawn
+   in its place, fixed to the window and placed by omni-focus.js. Choosing an entry of the list closes
+   the whole menu, as in the top level. The host's attributes come first so the menu's own role,
+   tabindex and class win. *@
+<div class="@Css("omni-menu__sub")">
+    <button @attributes="AdditionalAttributes"
+            id="@EntryId"
+            type="button"
+            class="omni-menu__item"
+            role="menuitem"
+            tabindex="-1"
+            disabled="@Disabled"
+            aria-haspopup="menu"
+            aria-expanded="@(_open ? "true" : "false")"
+            aria-controls="@(_open ? MenuId : null)"
+            @onclick="ToggleAsync"
+            @onpointerenter="HoverAsync">
+        <span class="omni-menu__icon" aria-hidden="true">@Icon</span>
+        <span class="omni-menu__label">@Label</span>
+        <span class="omni-menu__chevron" aria-hidden="true"><OmniIcon Name="OmniIconName.ChevronRight" /></span>
+    </button>
+    @if (_open)
+    {
+        <div id="@MenuId"
+             class="omni-menu omni-menu__submenu"
+             role="menu"
+             tabindex="-1"
+             aria-labelledby="@EntryId">
+            <CascadingValue Value="_entries" IsFixed="true">@ChildContent</CascadingValue>
+        </div>
+    }
+</div>

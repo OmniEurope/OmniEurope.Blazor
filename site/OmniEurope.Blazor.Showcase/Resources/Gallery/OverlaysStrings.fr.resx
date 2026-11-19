@@ -79,6 +79,8 @@
   <data name="OverflowMenuDisableRenameDescription" xml:space="preserve"><value>L'entrée reste listée, atténuée ; les flèches la sautent.</value></data>
   <data name="OverflowMenuPreviewTitle" xml:space="preserve"><value>Actions d'une ligne</value></data>
   <data name="OverflowMenuKeyboardHint" xml:space="preserve"><value>Flèche bas ou haut ouvre le menu ; les flèches, Début et Fin passent d'une entrée à l'autre ; Échap ferme et rend le focus au déclencheur.</value></data>
+  <data name="OverflowMenuSubmenuTitle" xml:space="preserve"><value>Sous-menus</value></data>
+  <data name="OverflowMenuSubmenuHint" xml:space="preserve"><value>Insérer et Changer le type déplient une liste à côté d'eux : la flèche vers la fin de la ligne, un clic ou Entrée l'ouvre, la flèche inverse ou Échap ferme cette liste seule, et choisir une feuille ferme tout le menu.</value></data>
   <data name="PopoverTitle" xml:space="preserve"><value>Panneau ancré</value></data>
   <data name="PopoverDescription" xml:space="preserve"><value>Un panneau non modal ancré à son bouton : un clic ailleurs ou Échap le ferme, Échap rend le focus au bouton.</value></data>
   <data name="PopoverSettingsTitle" xml:space="preserve"><value>Panneau ancré</value></data>

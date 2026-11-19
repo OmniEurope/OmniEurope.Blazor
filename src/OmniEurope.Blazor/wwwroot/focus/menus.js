@@ -1,7 +1,7 @@
-// Part of omni-focus.js, which re-exports openMenu, closeMenu and moveMenuFocus.
+// Part of omni-focus.js, which re-exports openMenu, closeMenu, moveMenuFocus, openSubMenu and leaveSubMenu.
 import { returnTargets, rememberTarget } from './shared.js';
 import { notify } from '../shared/notify.js';
-import { placeFloating } from '../shared/placement.js';
+import { placeBeside, placeFloating } from '../shared/placement.js';
 import { onPressOutside } from '../shared/outside-press.js';
 
 // ---- menus ------------------------------------------------------------------------------------
@@ -19,11 +19,36 @@ import { onPressOutside } from '../shared/outside-press.js';
 // right-to-left page, and above the anchor when there is no room below; 'pointer' opens at (x, y),
 // towards the other side of the pointer past an edge, and under the anchor when the keyboard opened
 // it. The menu is moved back inside the window either way. A second call while open only moves it.
+//
+// A menu may hold submenus (OmniSubMenu): a nested role="menu" inside the menu, owned by an entry that
+// carries aria-haspopup and aria-expanded. The keys then act on one level, the one the focus is in. The
+// open state of an entry belongs to .NET, so the keys that change it (the arrow toward the inline end,
+// the arrow back, Escape in a submenu) press the entry, which toggles it, and the script moves the focus.
 const menus = new Map();
 const menuNavigationKeys = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Escape']);
 
+// The enabled items of one level: those of a submenu inside the menu belong to that submenu.
 function menuItems(menu) {
-    return Array.from(menu?.querySelectorAll('[role="menuitem"]:not([disabled]):not([aria-disabled="true"])') ?? []);
+    return Array.from(menu?.querySelectorAll('[role="menuitem"]:not([disabled]):not([aria-disabled="true"])') ?? [])
+        .filter(item => {
+            const level = item.closest('[role="menu"]');
+            return level === menu || !menu.contains(level);
+        });
+}
+
+// A submenu is its own floating surface, never the panel around the menu it sits in.
+function isSubMenu(level) {
+    return level?.classList.contains('omni-menu__submenu') ?? false;
+}
+
+// The level of the menu the focus is in: a submenu inside the menu, else the menu itself.
+function focusedLevel(menu) {
+    const level = document.activeElement instanceof HTMLElement ? document.activeElement.closest('[role="menu"]') : null;
+    return level && menu?.contains(level) ? level : menu;
+}
+
+function levelSurface(level) {
+    return isSubMenu(level) ? level : menuSurface(level);
 }
 
 // The floating surface: the menu itself, or the panel around it when a header sits above the list.
@@ -77,6 +102,105 @@ function placeMenu(surface, anchor, placement, x, y) {
     surface.style.setProperty('--omni-menu-y', `${Math.round(top)}px`);
 }
 
+// Places a submenu beside its entry: at the inline end of the menu that holds the entry (the other side
+// when there is no room), its first row level with the entry, kept inside the window. The submenu is
+// first set at the origin so that its size is measured without the room it would otherwise lack; it may
+// sit in a box that is the containing block of its fixed position (a menu with a backdrop filter), so
+// the corner is measured once set and corrected by what is left.
+function placeSubMenu(parent, submenu) {
+    submenu.setAttribute('data-omni-placed', '');
+    submenu.style.setProperty('--omni-menu-x', '0px');
+    submenu.style.setProperty('--omni-menu-y', '0px');
+    const level = parent.closest('[role="menu"]');
+    const holder = (level ? levelSurface(level) : parent).getBoundingClientRect();
+    const row = parent.getBoundingClientRect();
+    const size = submenu.getBoundingClientRect();
+    const computed = getComputedStyle(submenu);
+    const inset = (parseFloat(computed.paddingTop) || 0) + (parseFloat(computed.borderTopWidth) || 0);
+    const { left, top } = placeBeside({
+        anchor: { left: holder.left, right: holder.right, top: row.top, bottom: row.bottom },
+        size,
+        rtl: getComputedStyle(parent).direction === 'rtl',
+        offset: -inset
+    });
+    const set = (x, y) => {
+        submenu.style.setProperty('--omni-menu-x', `${Math.round(x)}px`);
+        submenu.style.setProperty('--omni-menu-y', `${Math.round(y)}px`);
+    };
+    set(left, top);
+    const placed = submenu.getBoundingClientRect();
+    const dx = Math.round(left - placed.left);
+    const dy = Math.round(top - placed.top);
+    if (dx !== 0 || dy !== 0) {
+        set(left + dx, top + dy);
+    }
+}
+
+// Places again every submenu open in the menu, the outer ones first.
+function placeOpenSubMenus(menu) {
+    for (const submenu of menu.querySelectorAll('.omni-menu__submenu[data-omni-placed]')) {
+        const parent = document.getElementById(submenu.getAttribute('aria-labelledby') ?? '');
+        if (parent) {
+            placeSubMenu(parent, submenu);
+        }
+    }
+}
+
+function focusFirstItem(level) {
+    const first = menuItems(level)[0];
+    (first ?? level).focus({ preventScroll: true });
+    revealItem(levelSurface(level), first);
+}
+
+// The keys that open and close a level. Returns whether the key was handled (the page is then kept
+// from scrolling and the key from reaching .NET, whose own handler would close the whole menu on
+// Escape): the arrow toward the inline end on an entry that opens a submenu opens it and focuses its
+// first item, the arrow back or Escape inside a submenu closes that submenu and focuses its entry.
+export function handleSubMenuKey(event, menu) {
+    const target = event.target;
+    if (!(target instanceof HTMLElement) || !menu) {
+        return false;
+    }
+
+    const level = target.closest('[role="menu"]');
+    if (!level || !menu.contains(level)) {
+        return false;
+    }
+
+    const rtl = getComputedStyle(level).direction === 'rtl';
+    const opens = event.key === (rtl ? 'ArrowLeft' : 'ArrowRight');
+    const closes = event.key === (rtl ? 'ArrowRight' : 'ArrowLeft') || event.key === 'Escape';
+    if (opens && target.matches('[role="menuitem"][aria-haspopup]')) {
+        event.preventDefault();
+        event.stopPropagation();
+        const submenu = document.getElementById(target.getAttribute('aria-controls') ?? '');
+        if (target.getAttribute('aria-expanded') === 'true') {
+            if (submenu) {
+                focusFirstItem(submenu);
+            }
+        } else {
+            // A click with no pointer behind it (detail 0): .NET opens the submenu and focuses its first item.
+            target.click();
+        }
+
+        return true;
+    }
+
+    if (closes && level !== menu) {
+        event.preventDefault();
+        event.stopPropagation();
+        const parent = document.getElementById(level.getAttribute('aria-labelledby') ?? '');
+        parent?.focus({ preventScroll: true });
+        if (parent?.getAttribute('aria-expanded') === 'true') {
+            parent.click();
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
 function showMenu(key, options) {
     let state = menus.get(key);
     if (!state) {
@@ -99,8 +223,16 @@ function showMenu(key, options) {
             if (state.menu?.isConnected && !(placement === 'pointer' && typeof x === 'number')) {
                 placeMenu(menuSurface(state.menu), anchor, placement, x, y);
             }
+
+            if (state.menu?.isConnected) {
+                placeOpenSubMenus(state.menu);
+            }
         };
         state.onKeyDown = event => {
+            if (handleSubMenuKey(event, state.menu)) {
+                return;
+            }
+
             if (menuNavigationKeys.has(event.key)) {
                 event.preventDefault();
             } else if (event.key === 'Tab') {
@@ -186,8 +318,33 @@ export function closeMenu(key, restore) {
     }
 }
 
+// Opens a submenu the render just drew: placed beside its entry, its first item focused when the
+// keyboard (or a click with no pointer) asked for it, never when the pointer did.
+export function openSubMenu(parentId, menuId, focusFirst) {
+    const parent = document.getElementById(parentId);
+    const submenu = document.getElementById(menuId);
+    if (!parent || !submenu) {
+        return;
+    }
+
+    placeSubMenu(parent, submenu);
+    if (focusFirst) {
+        focusFirstItem(submenu);
+    }
+}
+
+// A submenu is about to close: the focus it holds goes back to its entry, not to the page.
+export function leaveSubMenu(menuId, parentId) {
+    const active = document.activeElement;
+    if (active instanceof HTMLElement && document.getElementById(menuId)?.contains(active)) {
+        document.getElementById(parentId)?.focus({ preventScroll: true });
+    }
+}
+
+// The keys move through the level the focus is in, a submenu or the menu itself, wrapping at its ends.
 export function moveMenuFocus(menuOrId, key) {
-    const menu = typeof menuOrId === 'string' ? document.getElementById(menuOrId) : menuOrId;
+    const root = typeof menuOrId === 'string' ? document.getElementById(menuOrId) : menuOrId;
+    const menu = focusedLevel(root);
     const items = menuItems(menu);
     if (items.length === 0) {
         menu?.focus();
@@ -201,5 +358,5 @@ export function moveMenuFocus(menuOrId, key) {
     if (key === 'Home') next = 0;
     if (key === 'End') next = items.length - 1;
     items[next].focus({ preventScroll: true });
-    revealItem(menuSurface(menu), items[next]);
+    revealItem(levelSurface(menu), items[next]);
 }

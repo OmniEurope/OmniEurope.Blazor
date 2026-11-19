@@ -1,0 +1,45 @@
+@* A menu whose entries unfold other entries: Insert (Before, After, Inside) and Change type. The arrow
+   toward the inline end, a click or Enter on such an entry opens its list; the arrow back or Escape
+   closes that list alone; choosing a leaf closes the whole menu. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.Between">
+        <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center">
+            <OmniIcon Name="OmniIconName.Document" />
+            <OmniText>Paragraph block</OmniText>
+        </OmniStack>
+        <OmniOverflowMenu Id="submenu-menu" Label="More actions on the block" MenuLabel="Actions on the block">
+            <OmniMenuItem Id="submenu-edit" OnClick="@(() => Choose("Edit"))">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>Edit</ChildContent>
+            </OmniMenuItem>
+            <OmniSubMenu Id="submenu-insert" Label="Insert">
+                <Icon><OmniIcon Name="OmniIconName.Add" /></Icon>
+                <ChildContent>
+                    <OmniMenuItem Id="submenu-insert-before" OnClick="@(() => Choose("Insert before"))">Before</OmniMenuItem>
+                    <OmniMenuItem Id="submenu-insert-after" OnClick="@(() => Choose("Insert after"))">After</OmniMenuItem>
+                    <OmniMenuItem Id="submenu-insert-inside" OnClick="@(() => Choose("Insert inside"))">Inside</OmniMenuItem>
+                </ChildContent>
+            </OmniSubMenu>
+            <OmniSubMenu Id="submenu-type" Label="Change type">
+                <Icon><OmniIcon Name="OmniIconName.Copy" /></Icon>
+                <ChildContent>
+                    <OmniMenuItem Id="submenu-type-paragraph" OnClick="@(() => Choose("Type paragraph"))">Paragraph</OmniMenuItem>
+                    <OmniMenuItem Id="submenu-type-heading" OnClick="@(() => Choose("Type heading"))">Heading</OmniMenuItem>
+                    <OmniMenuItem Id="submenu-type-list" OnClick="@(() => Choose("Type list"))">List</OmniMenuItem>
+                    <OmniMenuItem Id="submenu-type-quote" OnClick="@(() => Choose("Type quote"))">Quote</OmniMenuItem>
+                    <OmniMenuItem Id="submenu-type-code" OnClick="@(() => Choose("Type code"))">Code</OmniMenuItem>
+                </ChildContent>
+            </OmniSubMenu>
+            <OmniMenuItem Id="submenu-delete" Tone="OmniTone.Danger" OnClick="@(() => Choose("Delete"))">
+                <Icon><OmniIcon Name="OmniIconName.Delete" /></Icon>
+                <ChildContent>Delete</ChildContent>
+            </OmniMenuItem>
+        </OmniOverflowMenu>
+    </OmniStack>
+
+    <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
+        <OmniIcon Name="OmniIconName.Check" />
+        <OmniText>Last action:</OmniText>
+        <OmniBadge Id="submenu-last" Tone="@(LastAction is null ? OmniTone.Neutral : OmniTone.Accent)">@(LastAction ?? "none")</OmniBadge>
+    </OmniStack>
+</OmniStack>

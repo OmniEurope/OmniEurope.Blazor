@@ -13,7 +13,7 @@ export { attachFloatingList, detachFloatingList } from './focus/floating-list.js
 export { attachComboInput, detachComboInput } from './focus/combo-input.js';
 export { attachPicker, detachPicker, focusPickerItem } from './focus/picker.js';
 export { configureDisclosure, disposeDisclosure, observeFieldsetToggle, disposeFieldsetToggle } from './focus/disclosure.js';
-export { openMenu, closeMenu, moveMenuFocus } from './focus/menus.js';
+export { openMenu, closeMenu, moveMenuFocus, openSubMenu, leaveSubMenu } from './focus/menus.js';
 export { enablePageKeys } from './focus/keys.js';
 export { enableLabelPicker } from './focus/labels.js';
 export {
