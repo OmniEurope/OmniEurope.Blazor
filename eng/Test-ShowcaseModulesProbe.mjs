@@ -264,9 +264,10 @@ await waitFor('l\'état enfoncé du bouton Gras', `${boldButton}.getAttribute('a
 results.push('commande Gras appliquée à la sélection, bouton enfoncé');
 
 // 4. Frozen scale of the appearance window (omni-dialog.js): the window freezes its measures when it
-// opens, and a setting that arrives afterwards (the moving field switch, offered under Givre only and
-// drawn under the theme in its row) must grow its row and move what follows instead of being drawn over
-// it, then leave no hole when it goes.
+// opens, and a theme change afterwards must neither draw a row over the next nor leave a hole. The
+// Animation switch is always in its own row (owner decision of 2026-11-12: shown, disabled and off when the
+// backdrop does not move), so it is held by its row under every theme; no setting arrives or leaves with
+// the theme any more.
 const appearanceWindow = '.omni-appearance-window';
 const windowRows = () => evaluate(`(() => {
   const dialog = document.querySelector(${JSON.stringify(appearanceWindow)});
@@ -297,19 +298,14 @@ await pause(500);
 await click(await centerOf('#demo-appearance-window'));
 await waitFor('le gel de la fenêtre d\'apparence', `document.querySelector(${JSON.stringify(appearanceWindow)})?.style.height.endsWith('px') === true`);
 const frozen = await windowRows();
-check(frozen.switches === 0 && frozen.overlap <= 0, `Fenêtre d'apparence inattendue à l'ouverture : ${JSON.stringify(frozen)}.`);
-await pickTheme('Givre');
-await waitFor('l\'interrupteur du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) !== null`);
-await pause(300);
-const grown = await windowRows();
-check(grown.rows === frozen.rows && grown.switches === 1 && grown.held, `L'interrupteur du fond animé n'est pas arrivé dans la ligne du thème : ${JSON.stringify(grown)}.`);
-check(grown.overlap <= 0 && grown.room === frozen.room, `L'interrupteur arrivé après le gel recouvre ce qui le suit : ${JSON.stringify(grown)}.`);
-await pickTheme('Essentiel');
-await waitFor('le départ de l\'interrupteur du fond animé', `document.querySelector(${JSON.stringify(`${appearanceWindow} [role="switch"]`)}) === null`);
-await pause(300);
-const shrunk = await windowRows();
-check(shrunk.rows === frozen.rows && shrunk.overlap <= 0 && shrunk.room === frozen.room, `L'interrupteur parti laisse un trou : ${JSON.stringify(shrunk)}.`);
-results.push('fenêtre d\'apparence gelée : un réglage arrive et repart sans recouvrement ni trou');
+check(frozen.switches === 1 && frozen.held && frozen.overlap <= 0, `Fenêtre d'apparence inattendue à l'ouverture : ${JSON.stringify(frozen)}.`);
+for (const theme of ['Givre', 'Essentiel']) {
+  await pickTheme(theme);
+  await pause(500);
+  const after = await windowRows();
+  check(after.rows === frozen.rows && after.switches === 1 && after.held && after.overlap <= 0 && after.room === frozen.room, `Fenêtre d'apparence gelée dérangée sous ${theme} : ${JSON.stringify(after)} (ouverture ${JSON.stringify(frozen)}).`);
+}
+results.push('fenêtre d\'apparence gelée : un changement de thème ne recouvre ni ne creuse aucune ligne');
 
 // A new look retakes the measures: under Octet the labels are spaced capitals in a heavier face, and a
 // width frozen for the previous theme would let them run over their button. The scale stays frozen.

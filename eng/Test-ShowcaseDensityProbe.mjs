@@ -96,6 +96,12 @@ const EXEMPT = [
   // that row height so each name faces its bar. The density is an inherited CSS value the render does
   // not know, so the drawing cannot follow it without breaking the name-to-bar alignment.
   ['.omni-gantt__body', 'géométrie du Gantt calculée en pixels en C# (GanttLayout), la colonne des noms la reflète'],
+  // The drawing of OmniMap is cartography: tiles of 256 px in Web Mercator, the SVG of the lines as large as
+  // the map, and the markers, symbols placed on the map (their touch target is the 2.75rem ::before), which a
+  // page density would make lie about the scale. The attribution is one line of xs text, as the label line of
+  // a form field is. The frame itself and its zoom buttons are not exempted here (see EXEMPT_SELF).
+  ['.omni-map__tile, .omni-map__lines, .omni-map__marker', 'dessin de la carte : tuiles de 256 px, tracés à la taille de la carte, repères posés sur la carte, que la densité ne redimensionne pas'],
+  ['.omni-map__attribution', 'attribution de la carte : une ligne de texte xs, que la densité ne redimensionne pas'],
   // A section with a Density of its own keeps it by contract (T21): the page density does not reach it.
   ['[data-omni-density]:not(#showcase-theme)', 'densité propre au composant (T21), qui l\'emporte sur celle de la page']
 ];
@@ -123,6 +129,9 @@ const EXEMPT_SELF = [
   // buttons) stays measured.
   ['.omni-media-stage__items, .omni-media-stage__content', 'cadres d\x27image de la scène média : 16:9 depuis la largeur de la scène, comme une vidéo, la densité ne les redimensionne pas'],
   ['.omni-ink-canvas__frame, .omni-ink-canvas__surface', 'feuille de dessin : sa forme (Height ou AspectRatio) ne dépend pas de la densité, une signature garde ses proportions'],
+  // The height of OmniMap is the host's --omni-map-height (24rem by default), the frame of a map; its zoom
+  // buttons stay measured.
+  ['.omni-map', 'cadre de la carte : hauteur --omni-map-height de l\x27hôte (24rem par défaut), que la densité ne remplace pas'],
   // A grid Height (applied as --omni-grid-viewport on the viewport) is the consumer's explicit length, as
   // MaxHeight is; the rows inside are measured.
   ['.omni-data-grid__viewport[style*="--omni-grid-viewport:"]', 'hauteur explicite du consommateur (paramètre Height), que la densité ne remplace pas'],

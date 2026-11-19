@@ -55,14 +55,14 @@ export async function boardSteps(session, results) {
   await mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
   step('cellule coupée enveloppée : une seule infobulle');
 
-  // A date column: in the header menu the text input and both dates, in the inline row the text input alone, its
-  // range behind the calendar button of AdvancedFilter.
+  // A date column: in the header menu the From and To range alone (HeaderMenuDateFilter, Range by default, since
+  // 1f3ffdd4), in the inline row the text input alone, its range behind the calendar button of AdvancedFilter.
   const dateMenu = 'th[data-omni-col="Filed"] details';
   await session.visit('/components/data-grid-advanced', `${dateMenu} summary`);
   await clickOn(`${dateMenu} summary`);
   await waitFor('le menu de date ouvert', `document.querySelector(${JSON.stringify(`${dateMenu}[open] .omni-data-grid__date-range`)}) !== null`);
   const dates = await evaluate(`JSON.stringify({ labels: [...document.querySelectorAll(${JSON.stringify(`${dateMenu}[open] .omni-data-grid__date-range-label`)})].map(label => label.textContent.trim()), inputs: document.querySelectorAll(${JSON.stringify(`${dateMenu}[open] .omni-data-grid__date-range input[type="date"]`)}).length, text: document.querySelectorAll(${JSON.stringify(`${dateMenu}[open] input.omni-data-grid__date-text`)}).length })`).then(JSON.parse);
-  check(dates.labels.length === 2 && dates.inputs === 2 && dates.text === 1, `Menu de date sans ses deux dates : ${JSON.stringify(dates)}.`);
+  check(dates.labels.length === 2 && dates.inputs === 2 && dates.text === 0, `Menu de date sans ses deux dates seules : ${JSON.stringify(dates)}.`);
   await key('Escape');
   await session.visit('/components/data-grid-variants', '#demo-grid-sizing-declared tr.omni-data-grid__filters');
   const inline = await evaluate(`JSON.stringify({ text: document.querySelectorAll('#demo-grid-sizing-declared tr.omni-data-grid__filters td[data-omni-col="Since"] input.omni-data-grid__date-text').length, range: document.querySelectorAll('#demo-grid-sizing-declared tr.omni-data-grid__filters td[data-omni-col="Since"] .omni-data-grid__date-range').length })`).then(JSON.parse);
