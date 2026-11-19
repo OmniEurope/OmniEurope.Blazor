@@ -54,6 +54,41 @@ public partial class OmniPassword
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
+    /// <summary>
+    /// Selects the whole content when the field is entered, by a click, a tap, Tab or Shift+Tab, or a programmatic focus, so that typing
+    /// replaces it. A click in a field that already has the focus places the caret as usual, so a part of the value can still be
+    /// edited. Off by default: the field then renders and behaves as it always did, and its script is never loaded.
+    /// </summary>
+    [Parameter]
+    public bool SelectOnFocus { get; set; }
+
+    [Inject]
+    private IJSRuntime JavaScript { get; set; } = default!;
+
+    private ElementReference _field;
+    private Internal.OmniSelectOnFocus? _selectOnFocus;
+
+    /// <summary>After each render, follows the input element with the <see cref="SelectOnFocus"/> script; nothing happens while it is off.</summary>
+    /// <param name="firstRender">True on the first render of the component.</param>
+    /// <returns>A task that completes once the script follows the element drawn.</returns>
+    protected override Task OnAfterRenderAsync(bool firstRender) => SelectOnFocus || _selectOnFocus is not null
+        ? (_selectOnFocus ??= new Internal.OmniSelectOnFocus(JavaScript)).SyncAsync(SelectOnFocus, _field)
+        : Task.CompletedTask;
+
+    /// <summary>Detaches the <see cref="SelectOnFocus"/> script and disposes the input.</summary>
+    /// <returns>A task that completes once the script is detached; a lost circuit is ignored.</returns>
+    public async ValueTask DisposeAsync()
+    {
+        // Blazor calls only DisposeAsync on a component that has both: the input's own disposal goes through Dispose.
+        ((IDisposable)this).Dispose();
+        if (_selectOnFocus is not null)
+        {
+            await _selectOnFocus.DisposeAsync();
+        }
+
+        GC.SuppressFinalize(this);
+    }
+
     private string EffectiveRevealLabel => LocalizeOr(RevealLabel, "PasswordRevealLabel");
     private string EffectiveHideLabel => LocalizeOr(HideLabel, "PasswordHideLabel");
 

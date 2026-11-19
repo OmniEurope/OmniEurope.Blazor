@@ -70,6 +70,19 @@
         <OmniText Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Password: @PasswordValue.Length characters, never displayed here.</OmniText>
     </OmniStack>
 
+    @* SelectOnFocus: entering the field selects its whole text, so typing replaces it; a click in the focused field places the caret. *@
+    <OmniStack Gap="OmniSpacing.XSmall">
+        <OmniLabel For="text-box-select-on-focus" Required="Required">Select on focus</OmniLabel>
+        <OmniTextBox Id="text-box-select-on-focus"
+                     @bind-Value="SelectOnFocusValue"
+                     SelectOnFocus="true"
+                     Placeholder="@(ShowPlaceholder ? "Camille Durand" : null)"
+                     Disabled="Disabled"
+                     ReadOnly="ReadOnly"
+                     maxlength="@MaxLength" />
+        <OmniText Id="text-box-select-on-focus-echo" Element="OmniTextElement.Small" Tone="OmniTextTone.Muted">Value: "@SelectOnFocusValue" (@SelectOnFocusValue.Length characters)</OmniText>
+    </OmniStack>
+
     @* Label and box laid by hand, without a form field: what the form field assembles. *@
     <OmniStack Gap="OmniSpacing.XSmall">
         <OmniLabel For="bare-text-box" Required="Required">Label and box side by side</OmniLabel>

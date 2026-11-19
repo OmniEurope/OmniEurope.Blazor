@@ -50,6 +50,8 @@ public partial class NumbersExample : IDisposable
 
     private int? NullableValue { get; set; }
 
+    private int SelectOnFocusValue { get; set; } = 42;
+
     /// <inheritdoc />
     protected override void OnInitialized()
     {

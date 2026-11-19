@@ -1,6 +1,7 @@
 @namespace OmniEurope.Blazor.Components
 @typeparam TValue
 @inherits OmniInputBase<TValue>
+@implements IAsyncDisposable
 
 <input name="@FieldName"
        @attributes="AdditionalAttributes"
@@ -16,6 +17,7 @@
        readonly="@ReadOnly"
        aria-invalid="@AriaInvalid"
        aria-describedby="@AriaDescribedBy"
+       @ref="_field"
        @oninput="_onInput"
        @onkeydown="_onKeyDown"
        @onchange="HandleChange" />
