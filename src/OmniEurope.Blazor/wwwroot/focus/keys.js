@@ -16,6 +16,9 @@
 //   body, Home and End to the first or the last, without wrapping and without scrolling the page. A key
 //   pressed in a control inside the row is left to that control. The grid keeps the single tab stop (tabindex
 //   0 on the row that last took the focus) from the focus the move leaves on the row.
+// - An element marked data-omni-mirror-arrows (the day grid of the date pickers, the radio cards of an
+//   OmniSelectableCardGroup), whose arrows .NET handles in reading order: in a right-to-left page the two
+//   horizontal keys are swapped before anything else sees them (see mirrorArrows).
 // - An element marked data-omni-key-button that is not a native button (an entry of a chart legend drawn
 //   in the SVG): Enter and Space activate it as a click would, Space without scrolling the page.
 
@@ -28,10 +31,50 @@ export function enablePageKeys() {
     }
 
     enabled = true;
+    // Capture phase: the swap has to come before the listener of Blazor and the ones of the picker.
+    document.addEventListener('keydown', mirrorArrows, true);
     document.addEventListener('keydown', onKeyDown);
 }
 
 enablePageKeys();
+
+// The copies made by mirrorArrows, so that they are not swapped a second time.
+const copies = new WeakSet();
+
+// .NET counts the horizontal arrows in reading order (ArrowLeft is the previous day or card) and does not
+// know the direction of the page. In a right-to-left page the previous one is drawn on the right, so the
+// original event stops here and a copy with the other horizontal key goes to the same target: that copy is
+// what the handler of Blazor and the other listeners receive.
+function mirrorArrows(event) {
+    if (copies.has(event) || event.defaultPrevented || !(event.target instanceof Element)
+        || (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight')) {
+        return;
+    }
+
+    const marked = event.target.closest('[data-omni-mirror-arrows]');
+    if (!marked || getComputedStyle(marked).direction !== 'rtl') {
+        return;
+    }
+
+    const key = event.key === 'ArrowLeft' ? 'ArrowRight' : 'ArrowLeft';
+    const copy = new KeyboardEvent('keydown', {
+        key,
+        code: key,
+        location: event.location,
+        repeat: event.repeat,
+        shiftKey: event.shiftKey,
+        ctrlKey: event.ctrlKey,
+        altKey: event.altKey,
+        metaKey: event.metaKey,
+        bubbles: true,
+        cancelable: true,
+        composed: true
+    });
+    copies.add(copy);
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    event.target.dispatchEvent(copy);
+}
 
 function onKeyDown(event) {
     if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey || !(event.target instanceof Element)) {

@@ -158,6 +158,17 @@ public sealed class PickerTests : OmniBunitContext
     }
 
     [Fact]
+    public void DatePicker_GridCarriesTheMarkerThatMakesItsSidewaysArrowsFollowARightToLeftPage()
+    {
+        var host = RenderHost(model => model.Date = new DateOnly(2026, 9, 21));
+        Toggle(host, "date").Click();
+
+        // focus/keys.js swaps ArrowLeft and ArrowRight on a marked element when the page is right to left:
+        // HandleKeyDownAsync then gets them in reading order (ArrowRight is the next day).
+        Assert.True(host.Find("[role='grid']").HasAttribute("data-omni-mirror-arrows"));
+    }
+
+    [Fact]
     public void DatePicker_HomeFromSunday_GoesBackToMonday()
     {
         var host = RenderHost(model => model.Date = new DateOnly(2026, 9, 27));

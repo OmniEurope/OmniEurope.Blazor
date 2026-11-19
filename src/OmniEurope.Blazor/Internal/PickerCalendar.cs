@@ -128,7 +128,9 @@ internal sealed class PickerCalendar : ComponentBase
         builder.CloseElement();
         builder.CloseElement();
 
-        builder.OpenElement(20, "div");
+        builder.OpenElement(19, "div");
+        // The arrows of HandleKeyDownAsync count in reading order: omni-focus.js swaps them in a right-to-left page.
+        builder.AddAttribute(20, "data-omni-mirror-arrows", true);
         builder.AddAttribute(21, "class", "omni-calendar__grid");
         builder.AddAttribute(22, "role", "grid");
         builder.AddAttribute(23, "aria-labelledby", titleId);
