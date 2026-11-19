@@ -15,9 +15,29 @@ jobs:
     environment: release
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # The whole history, so the tag check below can tell whether the release commit is on main.
+          fetch-depth: 0
       - uses: actions/setup-dotnet@a98b56852c35b8e3190ac28c8c2271da59106c68 # v6.0.0
         with:
           global-json-file: global.json
+      - name: Require the version tag on a commit of main
+        shell: pwsh
+        env:
+          RELEASE_TAG: ${{ github.event.release.tag_name }}
+        run: |
+          # Every published version keeps a tag named after it on the published commit of main: no package
+          # leaves for NuGet.org from a tag that is missing, moved, or set on a commit main does not contain.
+          $tag = $env:RELEASE_TAG
+          if ($tag -notmatch '^\d+\.\d+\.\d+(-[0-9A-Za-z.-]+)?$') { throw "The release tag '$tag' is not a version number." }
+          git fetch --no-tags --quiet origin "+refs/tags/${tag}:refs/tags/${tag}" "+refs/heads/main:refs/remotes/origin/main"
+          if ($LASTEXITCODE -ne 0) { throw "The tag '$tag' or the main branch cannot be fetched from origin." }
+          $tagSha = (git rev-parse "refs/tags/$tag^{commit}").Trim()
+          $releaseSha = (git rev-parse HEAD).Trim()
+          if ($tagSha -cne $releaseSha) { throw "The tag '$tag' points at $tagSha, not at the checked-out release commit $releaseSha." }
+          git merge-base --is-ancestor $releaseSha refs/remotes/origin/main
+          if ($LASTEXITCODE -ne 0) { throw "The tag '$tag' is on $releaseSha, which is not a commit of main." }
+          "Tag $tag is on $releaseSha, a commit of main."
       - name: Resolve the successful CI run for the release commit
         id: ci
         shell: pwsh

@@ -36,7 +36,7 @@ Conséquence : un paquet ne peut être publié que s'il provient d'un run CI ré
 
    https://github.com/OmniEurope/OmniEurope.Blazor/releases/new
 
-   Tag : la version exacte du `.csproj`, sans préfixe (`1.14.3`). Cible : `main`. Le workflow compare le tag à la version du paquet et échoue en cas d'écart.
+   Tag : la version exacte du `.csproj`, sans préfixe (`1.14.3`). Cible : `main`. Le workflow refuse de publier si ce tag n'est pas un numéro de version, s'il ne pointe pas sur le commit publié, ou si ce commit n'est pas sur `main` ; il compare ensuite le tag à la version du paquet et échoue en cas d'écart. Chaque version publiée garde ainsi son tag sur `main` (exception : `0.1.0-alpha.1` et `1.0.0`, publiées avant la réécriture de l'historique du 2026-09-07, dont les commits ne sont pas sur `main`).
 
 4. **Suivre la publication.**
 
