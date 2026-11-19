@@ -12,6 +12,7 @@ public partial class OmniMarkdownExportButton<TItem>
     private const string DownloadModulePath = Internal.OmniModules.DocumentEditor;
 
     private IJSObjectReference? _module;
+    private bool _disposed;
     private bool _busy;
 
     [Inject]
@@ -80,7 +81,13 @@ public partial class OmniMarkdownExportButton<TItem>
         {
             var document = await Exporter.ReadAsync(Export());
             var file = await Exporter.RenderAsync(document, OmniTableExportFormat.Markdown);
-            _module ??= await Internal.OmniScriptModule.ImportAsync(JSRuntime, DownloadModulePath);
+            // Removed while the script loaded: the loader released it on arrival, nothing is downloaded.
+            _module ??= await Internal.OmniScriptModule.ImportAsync(JSRuntime, DownloadModulePath, () => _disposed);
+            if (_module is null)
+            {
+                return;
+            }
+
             await _module.InvokeVoidAsync("download", StampedFileName(FileName, document.GeneratedAt, file.Extension),
                 file.ContentType, file.Content.ToArray());
             delivered = document;
@@ -105,6 +112,7 @@ public partial class OmniMarkdownExportButton<TItem>
     /// <summary>Releases the download script module.</summary>
     public async ValueTask DisposeAsync()
     {
+        _disposed = true;
         if (_module is not null)
         {
             try

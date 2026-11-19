@@ -34,7 +34,14 @@ internal sealed class AppearanceDocumentRoot(IJSRuntime javaScript, ILogger logg
             return;
         }
 
-        _module ??= await OmniScriptModule.ImportAsync(javaScript, OmniModules.Appearance);
+        // Every scope left while the script loaded: the loader released it on arrival, and nothing is written
+        // to a root no scope is left to clear.
+        _module ??= await OmniScriptModule.ImportAsync(javaScript, OmniModules.Appearance, () => _scopes == 0);
+        if (_module is null)
+        {
+            return;
+        }
+
         if (!_written || textSizeLevel != _text)
         {
             await WriteAsync("TextSizeLevel", textSizeLevel);
