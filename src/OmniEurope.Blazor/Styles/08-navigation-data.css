@@ -325,7 +325,7 @@
 /* Rows keep a thin rule even when striped: the alternating tint alone was too faint to follow a row. */
 :where(.omni-data-grid:not(.omni-data-grid--lines-none):not(.omni-data-grid--lines-vertical), .omni-data-grid--lines-both) tbody :is(td, th) { border-block-end: var(--omni-border-width) solid color-mix(in srgb, var(--omni-color-border) 55%, transparent); }
 :where(.omni-data-grid) tbody > tr:last-child > :is(td, th) { border-block-end: 0; }
-:where(.omni-data-grid) tfoot td { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+:where(.omni-data-grid) tfoot td { background: var(--omni-header-fill); }
 /* Numbers align at the end in figures of one width, to be compared at a glance. A column whose
    property is numeric gets the class unless its alignment was set. */
 .omni-data-grid .omni-data-grid__cell--numeric { font-variant-numeric: tabular-nums; text-align: end; }
@@ -340,7 +340,7 @@
 /* The header row has a tint of its own, so it reads apart from the rows under it (luminosity only,
    which holds for colour-blind readers too). */
 .omni-data-grid { --omni-header-fill: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-grid-frame)); --omni-header-fill-hover: color-mix(in srgb, var(--omni-color-text) 10%, var(--omni-grid-frame)); }
-.omni-data-grid thead > tr > * { background: var(--omni-header-fill); border: 0; border-block-end: var(--omni-border-width) solid var(--omni-color-border); color: var(--omni-color-text-muted); font-size: var(--omni-grid-header-font-size, 1em); letter-spacing: 0.02em; position: relative; vertical-align: middle; }
+.omni-data-grid thead > tr > * { background: var(--omni-header-fill); border: 0; color: var(--omni-color-text-muted); font-size: var(--omni-grid-header-font-size, 1em); letter-spacing: 0.02em; position: relative; vertical-align: middle; }
 /* The loading bar row: no height, no fill and no rule of its own; its bar is laid over the foot of the
    headers (the loading bar track sits above its own top edge), in front of the first row. */
 .omni-data-grid thead > .omni-data-grid__progress > td { background: none; block-size: 0; border: 0; line-height: 0; padding: 0; position: relative; }
@@ -461,6 +461,7 @@
 .omni-data-grid tfoot td.omni-data-grid__column--hover { background-image: linear-gradient(var(--omni-column-hover-fill), var(--omni-column-hover-fill)); }
 .omni-data-grid__table .omni-data-grid__column--frozen { inset-inline-start: var(--omni-col-offset, 0px); position: sticky; z-index: 2; }
 .omni-data-grid :is(tbody, tfoot) td.omni-data-grid__column--frozen { background-color: var(--omni-grid-frame); }
+.omni-data-grid tfoot td.omni-data-grid__column--frozen { background-color: var(--omni-header-fill); }
 /* The last frozen column casts a shadow on its trailing edge only while rows scroll under it, so it
    reads as lying above them; at rest the grid stays flat. */
 .omni-data-grid__viewport--scrolled-x .omni-data-grid__column--frozen-last { box-shadow: 0.375rem 0 0.375rem -0.25rem var(--omni-elevation-shadow); }
@@ -524,8 +525,8 @@
 .omni-data-grid__group th { background: var(--omni-color-surface-muted); color: var(--omni-color-text); padding-block: 0; }
 .omni-data-grid__group[data-omni-group-level="1"] th { padding-inline-start: var(--omni-space-lg); }
 .omni-data-grid__group[data-omni-group-level="2"] th { padding-inline-start: var(--omni-space-xl); }
-/* The footer row closing a group: its subtotals under a rule, in 600 like the selected rows' text. */
-.omni-data-grid tbody > .omni-data-grid__group-footer > td { border-block-start: var(--omni-border-width) solid var(--omni-color-border); font-weight: 600; }
+/* The footer row closing a group: its subtotals on a tinted band, in 600 like the selected rows' text. */
+.omni-data-grid tbody > .omni-data-grid__group-footer > td { background: var(--omni-header-fill); font-weight: 600; }
 /* The column alignment (TextAlign) names the table so it outranks the cell default above
    (.omni-data-grid__table :is(th, td), 0,1,1): a bare class (0,1,0) lost to it on every header and cell. */
 .omni-data-grid__table .omni-data-grid__column--align-start { text-align: start; }
@@ -736,10 +737,10 @@
 .omni-spreadsheet__formula-bar .omni-input { border: 0; box-shadow: none; }
 .omni-spreadsheet__viewport { max-block-size: var(--omni-spreadsheet-height); outline: none; overflow: auto; }
 .omni-spreadsheet :is(.omni-spreadsheet__formula-bar:focus-within, .omni-spreadsheet__viewport:focus-visible) { box-shadow: var(--omni-focus-ring); }
-.omni-spreadsheet__table { border-spacing: 0; table-layout: fixed; width: max-content; }
+.omni-spreadsheet__table { border-collapse: collapse; border-spacing: 0; table-layout: fixed; width: max-content; }
 .omni-spreadsheet__col { inline-size: var(--omni-spreadsheet-column-width); }
 .omni-spreadsheet__col--header { inline-size: 3rem; }
-.omni-spreadsheet__table :is(th, td) { block-size: calc(var(--omni-control-height) - 0.25rem); border: solid var(--omni-spreadsheet-line); border-width: 0 var(--omni-border-width) var(--omni-border-width) 0; overflow: hidden; padding: 0 var(--omni-space-sm); text-overflow: ellipsis; white-space: nowrap; }
+.omni-spreadsheet__table :is(th, td) { block-size: calc(var(--omni-control-height) - 0.25rem); border: var(--omni-border-width) solid var(--omni-spreadsheet-line); overflow: hidden; padding: 0 var(--omni-space-sm); text-overflow: ellipsis; white-space: nowrap; }
 .omni-spreadsheet__table :is(th, .omni-spreadsheet__corner) { background: color-mix(in srgb, var(--omni-color-text) 7%, var(--omni-color-surface)); color: var(--omni-color-text-muted); font-weight: 600; position: sticky; text-align: center; z-index: 1; }
 .omni-spreadsheet__table thead :is(th, td) { inset-block-start: 0; z-index: 2; }
 .omni-spreadsheet__table :is(tbody th, .omni-spreadsheet__corner) { inset-inline-start: 0; }

@@ -475,6 +475,7 @@ colonne visible porte un `Aggregate` ou un `GroupFooterTemplate`. Elle suit la d
 les groupes intérieurs avant les extérieurs ; un groupe replié garde la sienne sous son en-tête, un groupe
 caché par un ancêtre replié n'en a pas. Comme les compteurs des en-têtes, elle porte sur les lignes de la
 vue : la page affichée d'une grille paginée. L'export n'écrit ni pieds de groupe ni agrégats.
+La ligne de pied de groupe, le pied de tableau et l'en-tête se distinguent par un fond teinté (`--omni-header-fill`), jamais par un trait d'un seul côté (liseré interdit). Seuls les traits entre lignes et entre colonnes que choisit `GridLines` subsistent, ainsi que les traits de cellule de `OmniSpreadsheet` : c'est une vraie grille (décision du propriétaire du 2026-11-20).
 
 ## Sélection, lignes et édition
 

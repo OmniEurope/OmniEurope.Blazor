@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Tests;
 /// <summary>
 /// Liserés (a border or a line on one side only of an element) are forbidden by the owner's rule. These tests
 /// read the shipped stylesheet: the shell surfaces (header, sidebar panel) draw none, and no rule beyond the
-/// recorded ones may start drawing one, so the list below can only shrink.
+/// allowed table-grid body lines (SingleSideBorderAllowance) may draw one; the header, footer and group-footer lines stay gone.
 /// </summary>
 public sealed partial class SingleSideBorderGuardTests
 {
@@ -63,20 +63,39 @@ public sealed partial class SingleSideBorderGuardTests
         Assert.DoesNotMatch(SideBorder(), body);
     }
 
+    [Theory]
+    [InlineData(".omni-data-grid thead > tr > *")]
+    [InlineData(":where(.omni-data-grid) tfoot td")]
+    [InlineData(".omni-data-grid tbody > .omni-data-grid__group-footer > td")]
+    public void TheGridHeaderAndFooters_DrawNoLineOnOneSide(string selector)
+    {
+        var body = ShippedLookTests.Body(selector);
+        Assert.DoesNotMatch(SideBorder(), body);
+    }
+
+    [Fact]
+    public void TheSpreadsheetCells_AreFramedOnAllFourSides()
+    {
+        var cell = ShippedLookTests.Body(".omni-spreadsheet__table :is(th, td)");
+        Assert.DoesNotMatch(@"border-width\s*:", cell);
+        Assert.Matches(@"border:\s*var\(--omni-border-width\) solid", cell);
+        Assert.Equal("collapse", ShippedLookTests.Value(ShippedLookTests.Body(".omni-spreadsheet__table"), "border-collapse"));
+    }
+
     [Fact]
     public void NoRule_StartsDrawingALineOnOneSide()
     {
         var found = SingleSideSelectors();
-        var added = found.Except(SingleSideBorderBacklog.Selectors, StringComparer.Ordinal).ToArray();
+        var added = found.Except(SingleSideBorderAllowance.Selectors, StringComparer.Ordinal).ToArray();
         Assert.True(added.Length == 0, "New single-side borders (liserés are forbidden): " + string.Join(" | ", added));
     }
 
     [Fact]
-    public void TheBacklog_ListsOnlyRulesThatStillDrawOne()
+    public void TheAllowance_ListsOnlyRulesThatStillDrawOne()
     {
         var found = SingleSideSelectors();
-        var gone = SingleSideBorderBacklog.Selectors.Except(found, StringComparer.Ordinal).ToArray();
-        Assert.True(gone.Length == 0, "Remove from SingleSideBorderBacklog, they no longer draw a line: " + string.Join(" | ", gone));
+        var gone = SingleSideBorderAllowance.Selectors.Except(found, StringComparer.Ordinal).ToArray();
+        Assert.True(gone.Length == 0, "Remove from SingleSideBorderAllowance, they no longer draw a line (allowance reason: " + SingleSideBorderAllowance.Reason + "): " + string.Join(" | ", gone));
     }
 
     // An inset shadow layer: the keyword `inset` with the two offsets that follow the colour-less lengths.

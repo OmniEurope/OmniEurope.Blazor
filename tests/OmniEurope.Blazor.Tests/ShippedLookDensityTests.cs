@@ -270,13 +270,14 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Fact]
-    public void GridHeader_IsThinStickyAndMuted_WithARuleAndATintOfItsOwn()
+    public void GridHeader_IsThinStickyAndMuted_WithATintAndNoRule()
     {
         Assert.Equal("sticky", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid__table thead"), "position"));
         var head = ShippedLookTests.Body(".omni-data-grid thead > tr > *");
         Assert.Equal("var(--omni-header-fill)", ShippedLookTests.Value(head, "background"));
         Assert.Equal("var(--omni-color-text-muted)", ShippedLookTests.Value(head, "color"));
-        Assert.Equal("var(--omni-border-width) solid var(--omni-color-border)", ShippedLookTests.Value(head, "border-block-end"));
+        Assert.Equal("0", ShippedLookTests.Value(head, "border"));
+        Assert.DoesNotContain("border-block-end", head, StringComparison.Ordinal);
         Assert.Equal("600", ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid__table th"), "font-weight"));
         Assert.Contains("--omni-header-fill: color-mix(in srgb, var(--omni-color-text) 6%, var(--omni-grid-frame))", ShippedLookTests.Rules().Single(rule => rule.Selector == ".omni-data-grid" && rule.Body.Contains("--omni-header-fill:", StringComparison.Ordinal)).Body, StringComparison.Ordinal);
         // The shadow gradient drawn under the header by a pseudo-element is gone: the rule replaces it.
