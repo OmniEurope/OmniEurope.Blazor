@@ -490,6 +490,6 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
 
         // The default reaches applyLayout (minHeight, the fifth argument), which writes --omni-grid-viewport-min.
         var layout = Assert.Single(module.Invocations["applyLayout"]);
-        Assert.Equal("75dvh", layout.Arguments[4]);
+        Assert.Equal("60dvh", layout.Arguments[4]);
     }
 }

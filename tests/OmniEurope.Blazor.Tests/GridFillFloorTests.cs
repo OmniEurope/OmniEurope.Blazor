@@ -61,7 +61,7 @@ public sealed class GridFillFloorTests : OmniBunitContext
         // ...which counts for MinHeight alone in that minimum: a flex basis of 0, never its 30rem
         // virtual height nor its whole page of rows. MinHeight is a true floor, never capped by the room
         // left under the blocks above the grid (owner rule of 2026-11-08): the page scrolls past it.
-        Assert.Contains(".omni-data-grid--fill .omni-data-grid__viewport--fill { box-sizing: border-box; flex: 1 1 0; min-block-size: var(--omni-grid-viewport-min, 75dvh); }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-data-grid--fill .omni-data-grid__viewport--fill { box-sizing: border-box; flex: 1 1 0; min-block-size: var(--omni-grid-viewport-min, 60dvh); }", styles, StringComparison.Ordinal);
         Assert.DoesNotContain("--omni-grid-viewport-room", styles, StringComparison.Ordinal);
     }
 }

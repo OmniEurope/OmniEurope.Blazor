@@ -235,9 +235,9 @@ appel de script supplémentaire.
 
 `FillAvailableHeight` donne à la grille la hauteur qui reste sous elle dans la zone qui la fait
 défiler (mesurée par `attachFill` dans `omni-grid.js`), jamais moins que son plancher : `MinHeight`
-(`75dvh` par défaut, soit les trois quarts de la hauteur de la fenêtre) pour le viewport des lignes, plus la barre d'en-tête, la barre de pied, le résumé et le
+(`60dvh` par défaut, soit 60 % de la hauteur de la fenêtre) pour le viewport des lignes, plus la barre d'en-tête, la barre de pied, le résumé et le
 paginateur. Le plancher ne s'applique qu'au viewport des lignes (les barres s'ajoutent
-au-dessus et au-dessous) : le défilement des lignes n'est donc jamais plus court que `75dvh`, même si
+au-dessus et au-dessous) : le défilement des lignes n'est donc jamais plus court que `MinHeight`, même si
 la page défile alors pour atteindre le bas de la grille. Quand le reste libre est plus grand, la grille
 prend ce reste, sans le dépasser (aucune barre de défilement inutile de la page quand tout tient).
 Quand le contenu placé au-dessus remplit déjà la partie visible de cette zone (des

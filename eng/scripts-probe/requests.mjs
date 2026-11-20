@@ -1011,7 +1011,7 @@ export async function requestSteps(session, results) {
   }
   await evaluate(`(() => { const box = ${fillBox}; box.firstElementChild.style.removeProperty('min-block-size'); box.scrollTop = 0; })()`);
 
-  // A floor larger than the room (the default 75dvh under a grid that starts low): MinHeight is a true
+  // A floor larger than the room (an explicit 75dvh, above the 60dvh default, under a grid that starts low): MinHeight is a true
   // floor (owner rule of 2026-11-08, OEAPP-08), the rows keep 75dvh and the box scrolls to the bottom of
   // the grid. Until 2026-11-17 the floor was capped by the room left (478 px of rows for 905 px wanted).
   // The rows area with a border of its own (a theme's frame) keeps the floor too, border box.

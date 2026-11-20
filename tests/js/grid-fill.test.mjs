@@ -51,7 +51,7 @@ const gridWith = (...children) => {
 };
 
 test('the grid is given the height left under its top, and nothing caps the MinHeight floor', () => {
-    // The floor (75dvh = 705 px) holds the viewport above the 678 px left: it stays a true floor (owner rule
+    // A floor of 705 px (an explicit 75dvh) holds the viewport above the 678 px left: it stays a true floor (owner rule
     // of 2026-11-08), the page scrolls past the grid, so no room that would cap it is written.
     const toolbar = new FakeElement({ top: 262, height: 40 });
     const viewport = new FakeElement({ top: 302, height: 705 });

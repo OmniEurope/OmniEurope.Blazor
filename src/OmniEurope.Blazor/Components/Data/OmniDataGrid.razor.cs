@@ -678,13 +678,13 @@ public partial class OmniDataGrid<TItem>
 
     /// <summary>
     /// Floor of the scrolling area (the rows viewport, not counting the header and footer bars) as a CSS
-    /// length while <see cref="FillAvailableHeight"/> is on. The default, <c>75dvh</c>, keeps the rows at
-    /// least three quarters of the window tall when there is room for it: when the free remainder is larger
+    /// length while <see cref="FillAvailableHeight"/> is on. The default, <c>60dvh</c>, keeps the rows at
+    /// least 60 % of the window tall when there is room for it: when the free remainder is larger
     /// the grid still takes the remainder. It is a true floor: a grid that starts low in the page, under
     /// other blocks, keeps it and the page scrolls to the bottom of the grid.
     /// </summary>
     [Parameter]
-    public string MinHeight { get; set; } = "75dvh";
+    public string MinHeight { get; set; } = "60dvh";
 
     /// <summary>
     /// Opt-in: a CSS selector naming an ancestor of the grid, for example <c>.page-content</c>. A vertical
