@@ -69,7 +69,7 @@
 .omni-character-palette__character:focus-visible, .omni-character-palette__case:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
 .omni-character-palette__case[aria-pressed="true"] { background: var(--omni-color-accent-fill); border-color: var(--omni-color-accent-fill); color: var(--omni-color-on-accent-fill); }
 .omni-character-palette__case[aria-pressed="true"]:hover { background: var(--omni-color-accent-fill-hover); }
-.omni-character-palette__separator { align-self: stretch; border-inline-start: var(--omni-border-width) solid var(--omni-color-border); margin-inline: var(--omni-space-xs); }
+.omni-character-palette__separator { align-self: stretch; margin-inline: var(--omni-space-sm); }
 .omni-html-editor__palette { background: var(--omni-color-surface-muted); }
 .omni-html-editor__table-preview { background: var(--omni-color-surface); border: var(--omni-border-width) solid var(--omni-color-border); border-radius: var(--omni-radius-sm); max-height: 14rem; overflow: auto; padding: var(--omni-space-xs); }
 .omni-html-editor__check { align-items: center; display: inline-flex; flex: 1 1 auto; gap: var(--omni-space-xs); }

@@ -156,7 +156,6 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-password__toggle {
     background: var(--omni-color-surface-muted);
     border: 0;
-    border-inline-start: var(--omni-border-width) solid var(--omni-color-border);
     border-radius: 0;
     border-end-end-radius: var(--omni-radius);
     border-start-end-radius: var(--omni-radius);
@@ -608,12 +607,12 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-calendar__day[aria-selected="true"] { background: var(--omni-color-accent-fill); box-shadow: none; color: var(--omni-color-on-accent-fill); font-weight: 600; }
 .omni-calendar__day:disabled { cursor: not-allowed; opacity: 0.35; }
 .omni-calendar__day:focus-visible { box-shadow: var(--omni-focus-ring); outline: none; }
-.omni-calendar__foot { border-block-start: var(--omni-border-width, 1px) solid var(--omni-card-border-color, var(--omni-color-border)); display: flex; justify-content: space-between; margin-block-start: 8px; padding-block-start: 8px; }
+.omni-calendar__foot { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius); display: flex; justify-content: space-between; margin-block-start: 8px; padding: var(--omni-space-xs); }
 .omni-calendar__foot .omni-button { --omni-button-padding-inline: 0.625rem; }
 .omni-picker__body { display: flex; gap: 10px; }
 /* Heure : deux colonnes qui défilent, heures et minutes (trois avec les secondes). */
 .omni-time { display: flex; gap: 4px; }
-.omni-picker__body .omni-time { border-inline-start: var(--omni-border-width, 1px) solid var(--omni-card-border-color, var(--omni-color-border)); padding-inline-start: 10px; }
+.omni-picker__body .omni-time { background: var(--omni-color-surface-muted); border-radius: var(--omni-radius); padding: var(--omni-space-xs) var(--omni-space-sm); }
 .omni-time__col { display: flex; flex-direction: column; gap: 2px; inline-size: calc(var(--omni-cal-cell) * 1.45); }
 .omni-time__label { color: var(--omni-color-text-muted); font-size: var(--omni-font-size-xs); font-weight: 600; padding: 4px 0; text-align: center; text-transform: uppercase; }
 .omni-time__list { display: flex; flex-direction: column; gap: 2px; max-block-size: calc(var(--omni-cal-cell) * 6.2); overflow-y: auto; scrollbar-color: color-mix(in srgb, var(--omni-color-text) 25%, transparent) transparent; scrollbar-width: thin; }
@@ -648,7 +647,7 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-split-button__main { border-end-start-radius: var(--omni-button-radius, var(--omni-radius)); border-start-start-radius: var(--omni-button-radius, var(--omni-radius)); }
 /* The icon of the main part follows the split button: small in a small one, medium otherwise. */
 .omni-split-button--small > .omni-split-button__main { --omni-icon-size: 1rem; }
-.omni-split-button__toggle { border-inline-start: 0; border-end-end-radius: var(--omni-button-radius, var(--omni-radius)); border-start-end-radius: var(--omni-button-radius, var(--omni-radius)); min-inline-size: max(1.5rem, var(--omni-button-size, var(--omni-control-height))); padding: 0; }
+.omni-split-button__toggle { border-end-end-radius: var(--omni-button-radius, var(--omni-radius)); border-start-end-radius: var(--omni-button-radius, var(--omni-radius)); min-inline-size: max(1.5rem, var(--omni-button-size, var(--omni-control-height))); padding: 0; }
 /* Variants: the four colours of OmniButton, read by both parts together. Secondary is the default
    and renders without a class, so the component root holds its neutral fill. */
 .omni-split-button { --omni-button-fill: var(--omni-color-neutral-fill); --omni-button-fill-hover: var(--omni-color-neutral-fill-hover); --omni-button-fill-active: var(--omni-color-neutral-fill-active); --omni-button-ink: var(--omni-color-text); }
@@ -660,8 +659,8 @@ select.omni-input.omni-input--large:not([multiple]):not([size]) { block-size: ca
 .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle) { background: var(--omni-button-fill); border-color: var(--omni-button-border-color); color: var(--omni-button-ink); transition: background-color var(--omni-duration-fast) ease, color var(--omni-duration-fast) ease, box-shadow var(--omni-duration-fast) ease, transform var(--omni-duration-press) ease; }
 .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):hover:not(:disabled) { background: var(--omni-button-fill-hover); }
 .omni-split-button > :is(.omni-split-button__main, .omni-split-button__toggle):active:not(:disabled) { background: var(--omni-button-fill-active); box-shadow: var(--omni-button-press-shadow, var(--omni-button-shadow)); transform: var(--omni-button-press-transform, translateY(1px)); }
-/* A rule in the ink separates the two parts of one fill. */
-.omni-split-button:not(.omni-split-button--ghost):not(.omni-split-button--ghostdanger) > .omni-split-button__toggle { border-inline-start: var(--omni-border-width) solid color-mix(in srgb, var(--omni-button-ink) 40%, transparent); }
+/* A gap of the page colour separates the two parts of one fill; each part keeps its full frame. */
+.omni-split-button:not(.omni-split-button--ghost):not(.omni-split-button--ghostdanger) > .omni-split-button__toggle { margin-inline-start: 0.125rem; }
 /* Ghost stays flat, at rest and pressed, for the reason given on .omni-button--ghost. */
 .omni-split-button--ghost { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-surface-hover); --omni-button-fill-active: var(--omni-color-surface-highlight); --omni-button-ink: var(--omni-color-accent-strong); }
 .omni-split-button--ghostdanger { --omni-button-fill: transparent; --omni-button-fill-hover: var(--omni-color-danger-subtle); --omni-button-fill-active: var(--omni-color-danger-subtle); --omni-button-ink: var(--omni-color-danger); }

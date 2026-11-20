@@ -77,4 +77,54 @@ public sealed partial class SingleSideBorderGuardTests
         var gone = SingleSideBorderBacklog.Selectors.Except(found, StringComparer.Ordinal).ToArray();
         Assert.True(gone.Length == 0, "Remove from SingleSideBorderBacklog, they no longer draw a line: " + string.Join(" | ", gone));
     }
+
+    // An inset shadow layer: the keyword `inset` with the two offsets that follow the colour-less lengths.
+    [GeneratedRegex(@"(?<![\w-])inset(?![\w-])", RegexOptions.CultureInvariant)]
+    private static partial Regex InsetKeyword();
+
+    [GeneratedRegex(@"(?<![\w.#-])[+-]?(?:\d+\.?\d*|\.\d+)(?:[a-z]+|%)?(?![\w.-])", RegexOptions.CultureInvariant)]
+    private static partial Regex Length();
+
+    // The layers of a shadow list: split on the commas outside parentheses (a colour such as rgb(0 0 0 / 5%) stays whole).
+    private static IEnumerable<string> ShadowLayers(string value) => SplitSelectorList(value);
+
+    private static bool IsZeroLength(string length) =>
+        double.TryParse(new string(length.TakeWhile(ch => char.IsDigit(ch) || ch is '.' or '-' or '+').ToArray()),
+            System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var number) && number == 0;
+
+    // A highlight line drawn inside one edge (inset 0 1px 0 ...) is a liseré too: any inset layer with a non-zero offset.
+    private static string[] InsetLines() => ShippedLookTests.Rules()
+        .SelectMany(rule => rule.Body.Split(';').Select(declaration => (rule.Selector, Declaration: declaration)))
+        .Where(item => InsetKeyword().IsMatch(item.Declaration))
+        .SelectMany(item => ShadowLayers(item.Declaration[(item.Declaration.IndexOf(':', StringComparison.Ordinal) + 1)..])
+            .Where(layer => InsetKeyword().IsMatch(layer))
+            .Select(layer => (item.Selector, Layer: layer.Trim(), Offsets: Length().Matches(InsetKeyword().Replace(StripColors(layer), " ")).Take(2).Select(m => m.Value).ToArray()))
+            .Where(layer => layer.Offsets.Length == 2 && layer.Offsets.Any(offset => !IsZeroLength(offset)))
+            .Select(layer => $"{layer.Selector.Replace("\n", " ", StringComparison.Ordinal)} => {layer.Layer}"))
+        .Distinct(StringComparer.Ordinal)
+        .Order(StringComparer.Ordinal)
+        .ToArray();
+
+    // Removes functional colours (rgb(...), color-mix(...), var(...)) so their numbers are not read as offsets.
+    private static string StripColors(string layer)
+    {
+        var text = layer;
+        while (true)
+        {
+            var next = Regex.Replace(text, @"[\w-]+\([^()]*\)", " ", RegexOptions.CultureInvariant);
+            if (next == text)
+            {
+                return text;
+            }
+
+            text = next;
+        }
+    }
+
+    [Fact]
+    public void NoRule_DrawsAnInsetLineOnOneSide()
+    {
+        var found = InsetLines();
+        Assert.True(found.Length == 0, "Inset box-shadows with a non-zero offset draw a line on one side (liserés are forbidden; use an inset 0 0 0 Npx ring): " + string.Join(" | ", found));
+    }
 }

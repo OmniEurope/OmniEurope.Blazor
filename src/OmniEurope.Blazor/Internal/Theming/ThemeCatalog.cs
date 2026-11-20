@@ -37,9 +37,9 @@ internal static class ThemeCatalog
             Shape(
                 ("--omni-radius", DefaultRadius), ("--omni-radius-sm", DefaultRadius), ("--omni-radius-lg", DefaultRadius),
                 ("--omni-button-radius", DefaultRadius),
-                // Button elevation reads two mode tokens: a denser black shadow in dark mode, where
-                // 22 % no longer shows, and a light top-edge highlight that only exists there.
-                ("--omni-button-shadow", "inset 0 1px 0 var(--omni-elevation-highlight), 0 0.0625rem 0.125rem var(--omni-elevation-shadow)"),
+                // Button elevation reads a mode token: a denser black shadow in dark mode, where 22 % no
+                // longer shows. No top-edge highlight line: a line on one side is forbidden.
+                ("--omni-button-shadow", "0 0.0625rem 0.125rem var(--omni-elevation-shadow)"),
                 // Trial (PLAN-004 T14), removable as a block: the layer of cards, tiles, alerts,
                 // notifications, dialogs and menus.
                 ("--omni-card-radius", DefaultRadius), ("--omni-alert-radius", DefaultRadius),

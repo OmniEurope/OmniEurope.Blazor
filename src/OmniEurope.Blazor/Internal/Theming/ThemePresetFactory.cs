@@ -207,10 +207,10 @@ internal static class ThemePresetFactory
         tokens["--omni-layer-fill"] = dark ? ThemeColor.Lighten(surface, 0.05) : surface;
         tokens["--omni-layer-stroke"] = dark ? "rgb(255 255 255 / 9%)" : "rgb(0 0 0 / 7%)";
         tokens["--omni-layer-shadow"] = dark
-            ? "inset 0 1px 0 rgb(255 255 255 / 5%), 0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%)"
+            ? "0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%)"
             : "0 0 2px rgb(0 0 0 / 10%), 0 4px 10px rgb(0 0 0 / 8%)";
         tokens["--omni-layer-shadow-deep"] = dark
-            ? "inset 0 1px 0 rgb(255 255 255 / 6%), 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%)"
+            ? "0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%)"
             : "0 0 4px rgb(0 0 0 / 10%), 0 16px 40px rgb(0 0 0 / 16%)";
         tokens["--omni-layer-acrylic"] = WithAlpha(dark ? ThemeColor.Lighten(surface, 0.07) : ThemeColor.Darken(surface, 0.015), dark ? 0.86 : 0.84);
     }
