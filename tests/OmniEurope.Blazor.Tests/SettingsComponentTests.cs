@@ -40,7 +40,7 @@ public sealed class SettingsComponentTests : OmniBunitContext
     }
 
     [Fact]
-    public void SettingsSection_Flat_StylesTilesWithNoFillNoFrameAndAHairlineBetweenThem_KeepingTheHover()
+    public void SettingsSection_Flat_StylesTilesWithNoFillNoFrameAndNoLineBetweenThem_KeepingTheHover()
     {
         // The framed tile is the baseline the flat rules take away from.
         var framed = ShippedLookTests.Body(".omni-settings-tile");
@@ -52,16 +52,16 @@ public sealed class SettingsComponentTests : OmniBunitContext
 
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-settings-section--flat .omni-settings-tile::before"), "content"));
 
-        var divider = ShippedLookTests.Body(".omni-settings-section--flat .omni-settings-tile + .omni-settings-tile");
-        Assert.Equal("var(--omni-border-width) solid var(--omni-color-border)", ShippedLookTests.Value(divider, "border-block-start"));
+        // No hairline between two tiles (a rule along one edge is a liseré): the body's gap sets them apart.
+        Assert.DoesNotContain(ShippedLookTests.Rules(), rule => rule.Selector == ".omni-settings-section--flat .omni-settings-tile + .omni-settings-tile");
+        Assert.Equal("var(--omni-space-xs)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-settings-section--flat > .omni-card__body"), "gap"));
 
         // Hover and keyboard focus inside the tile still tint it, so the affordance of the tile survives.
         var hover = ShippedLookTests.Body(".omni-settings-section--flat .omni-settings-tile:hover,\n.omni-settings-section--flat .omni-settings-tile:focus-within");
         Assert.Contains("color-mix(in srgb, var(--omni-color-text)", ShippedLookTests.Value(hover, "background"), StringComparison.Ordinal);
 
         // Paired and flat: spacing alone separates the tiles.
-        var paired = ShippedLookTests.Body(".omni-settings-section--flat.omni-settings-section--paired .omni-settings-tile + .omni-settings-tile");
-        Assert.Equal("0", ShippedLookTests.Value(paired, "border-block-start"));
+        Assert.Contains("var(--omni-form-gap)", ShippedLookTests.Value(ShippedLookTests.Body(".omni-settings-section--flat.omni-settings-section--paired > .omni-card__body"), "gap"), StringComparison.Ordinal);
     }
 
     [Fact]

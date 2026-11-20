@@ -237,7 +237,7 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
    bottom edge. Only while it is stuck does the band take a fill (--omni-wizard-actions-background, the
    card surface by default), so a short step leaves no bar painted over the page. */
 .omni-wizard__foot { container-type: scroll-state; inset-block-end: 0; margin-block-start: auto; position: sticky; z-index: 2; }
-.omni-wizard__actions { border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; padding-block-start: var(--omni-space-md); }
+.omni-wizard__actions { display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; padding-block-start: var(--omni-space-md); }
 @container scroll-state(stuck: bottom) {
     .omni-wizard__actions { background: var(--omni-wizard-actions-background, var(--omni-card-background, var(--omni-color-surface))); padding-block-end: var(--omni-space-sm); }
 }
