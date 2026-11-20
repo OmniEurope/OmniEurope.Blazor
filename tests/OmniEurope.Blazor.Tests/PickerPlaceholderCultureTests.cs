@@ -48,4 +48,11 @@ public sealed class PickerPlaceholderCultureTests
         Assert.Equal("jj d mm", PickerFormat.Placeholder(@"dd \d MM", Letters));
         Assert.Equal("jj de mm", PickerFormat.Placeholder("dd 'de' MM", Letters));
     }
+
+    [Fact]
+    public void Placeholder_DropsABackslashThatEndsThePattern()
+    {
+        Assert.Equal("jj ", PickerFormat.Placeholder(@"dd \", Letters));
+        Assert.Equal("jj/mm/", PickerFormat.Placeholder(@"dd/MM/\", Letters));
+    }
 }

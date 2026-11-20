@@ -1,0 +1,34 @@
+@using OmniEurope.Blazor.Internal
+@* Three entries "x", "a" and "b" with no menu around them: alone each one keeps its own level, with Shared they
+   sit side by side in one level, as the entries of one menu do. A removed X is not drawn (ShowX false), a
+   disabled X is dimmed (XDisabled). *@
+@if (Shared)
+{
+    <CascadingValue Value="Level" IsFixed="true">@Entries</CascadingValue>
+}
+else
+{
+    @Entries
+}
+
+@code {
+    [Parameter]
+    public bool Shared { get; set; }
+
+    [Parameter]
+    public bool ShowX { get; set; } = true;
+
+    [Parameter]
+    public bool XDisabled { get; set; }
+
+    internal OmniMenuLevel Level { get; } = new();
+
+    private RenderFragment Entries => @<text>
+        @if (ShowX)
+        {
+            <OmniSubMenu Id="x" Label="X" Disabled="XDisabled">list of X</OmniSubMenu>
+        }
+        <OmniSubMenu Id="a" Label="A">list of A</OmniSubMenu>
+        <OmniSubMenu Id="b" Label="B">list of B</OmniSubMenu>
+    </text>;
+}
