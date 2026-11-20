@@ -263,7 +263,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
     inline-size: 100%;
     min-inline-size: 0;
 }
-.omni-accordion__item + .omni-accordion__item { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+/* Items are told apart by a tint on every other one, not by a line along one edge; the last item follows the corners of the frame. */
+.omni-accordion__item:nth-child(even) { background: var(--omni-color-surface-muted); }
+.omni-accordion__item:last-child { border-end-end-radius: var(--omni-card-radius, var(--omni-radius)); border-end-start-radius: var(--omni-card-radius, var(--omni-radius)); }
 .omni-accordion__header {
     align-items: center;
     box-sizing: border-box;

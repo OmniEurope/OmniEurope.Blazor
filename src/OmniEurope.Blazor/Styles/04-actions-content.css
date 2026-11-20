@@ -188,7 +188,8 @@
 
 .omni-card__header,
 .omni-card__footer { padding: var(--omni-card-pad); }
-.omni-card__header { border-bottom: var(--omni-border-width) solid var(--omni-color-border); }
+/* The header and the footer are tinted bands, not lines along one edge (a liseré is forbidden): they follow the corners of the card they close. */
+.omni-card__header { background: color-mix(in srgb, var(--omni-color-text) 5%, transparent); border-start-end-radius: inherit; border-start-start-radius: inherit; }
 .omni-card__body { padding: var(--omni-card-pad); }
 /* Règle générale du débordement : un cadre peut devenir plus étroit que son contenu le plus large, et
    c'est ce contenu qui défile (barre de choix, rangée, tableau) au lieu de pousser le cadre hors de sa
@@ -198,7 +199,7 @@
 .omni-settings-tile { min-inline-size: 0; }
 /* The actions of a card, a tile or a form sit at the end of its footer by default, as
    the dialog and wizard ones do, without each page asking for it. */
-.omni-card__footer { align-items: center; border-top: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; }
+.omni-card__footer { align-items: center; background: color-mix(in srgb, var(--omni-color-text) 5%, transparent); border-end-end-radius: inherit; border-end-start-radius: inherit; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: flex-end; }
 
 /* Icon disc of a tile or a menu item: a grey disc of the palette, rounded by a highlight and a soft
    shadow. */

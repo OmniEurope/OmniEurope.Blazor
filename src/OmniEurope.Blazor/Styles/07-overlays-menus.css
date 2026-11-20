@@ -47,11 +47,11 @@ body:has(.omni-overlay) { overflow: hidden; }
 .omni-dialog--draggable[data-omni-dialog-drag-ready] .omni-dialog__header { cursor: move; touch-action: none; user-select: none; }
 .omni-dialog__content { padding: calc(var(--omni-card-pad) + 2px); }
 /* Boutons de dialogue : au bout du pied, l'action puis Annuler (Secondary, neutre), chacun avec son icône. */
-.omni-dialog__footer { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }
+.omni-dialog__footer { align-items: center; background: var(--omni-color-surface-muted); border-end-end-radius: inherit; border-end-start-radius: inherit; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); justify-content: end; padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }
 /* Header and footer are two bands of one height, the footer's: the close button is as tall as a
    footer button (the control height) instead of the 2.75rem square that made the header taller, and
    it is discreet, no fill and no frame at rest, a light wash on hover, in light and dark alike. */
-.omni-dialog__header { align-items: center; border-block-end: var(--omni-border-width) solid var(--omni-color-border); box-sizing: border-box; display: flex; gap: var(--omni-space-sm); justify-content: space-between; min-block-size: calc(var(--omni-control-height) + 2 * (var(--omni-card-pad) - 2px)); padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }
+.omni-dialog__header { align-items: center; background: var(--omni-color-surface-muted); border-start-end-radius: inherit; border-start-start-radius: inherit; box-sizing: border-box; display: flex; gap: var(--omni-space-sm); justify-content: space-between; min-block-size: calc(var(--omni-control-height) + 2 * (var(--omni-card-pad) - 2px)); padding: calc(var(--omni-card-pad) - 2px) calc(var(--omni-card-pad) + 2px); }
 .omni-dialog__title { flex: 1 1 auto; font-size: var(--omni-font-size-h4); margin: 0; min-inline-size: 0; }
 .omni-dialog .omni-dialog__close { align-items: center; background: transparent; block-size: var(--omni-control-height); border: 0; border-radius: var(--omni-radius); color: var(--omni-color-text-muted); cursor: pointer; display: inline-flex; font: inherit; flex: none; inline-size: var(--omni-control-height); justify-content: center; line-height: 1; min-height: 0; min-width: 0; padding: 0; position: relative; transition: background-color var(--omni-duration-fast) ease, color var(--omni-duration-fast) ease; }
 /* The drawn button follows the control height; its target keeps the 44 px of the audited targets,
@@ -357,7 +357,7 @@ body:has(.omni-overlay) { overflow: hidden; }
 }
 .omni-panel-menu__chevron { height: 1.25em; transition: transform var(--omni-duration-medium) ease; width: 1.25em; }
 .omni-panel-menu__group--open > .omni-panel-menu__summary .omni-panel-menu__chevron { transform: rotate(180deg); }
-.omni-panel-menu__children { border-inline-start: var(--omni-border-width) solid var(--omni-color-border); display: grid; margin-inline-start: var(--omni-space-md); padding-inline-start: var(--omni-space-sm); }
+.omni-panel-menu__children { background: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); border-radius: var(--omni-radius); display: grid; margin-inline-start: var(--omni-space-md); padding-inline-start: var(--omni-space-sm); }
 /* display:grid l'emporterait sur le display:none implicite de [hidden] : le groupe replié doit
    rester monté, ses enfants étant seuls à savoir qu'ils sont la page courante. */
 .omni-panel-menu__children[hidden] { display: none; }
@@ -386,7 +386,6 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* Rail: no chevron, the icon unfolds its group; children stay reachable and unindented. */
 .omni-panel-menu--icons .omni-panel-menu__toggle { display: none; }
 .omni-panel-menu--icons .omni-panel-menu__children {
-    border-inline-start: 0;
     margin-inline-start: 0;
     padding-inline-start: 0;
 }
