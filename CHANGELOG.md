@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Modifié
+
+- Plus aucun liseré (trait sur un seul côté d'un élément, demande d'une application cliente et règle du propriétaire) hors des lignes de la grille de données : 45 règles de la feuille de style perdent leur bordure d'un côté. Les en-têtes et pieds de `OmniCard`, `OmniDialog`, des barres de `OmniDataGrid`, des éditeurs, visionneuses de code et de différences, de `OmniDocumentViewer`, du calendrier, des sélecteurs et de `OmniMultiSelect` compact deviennent des bandes teintées ; `OmniAccordion` et `OmniDataList` teintent un élément sur deux ; `OmniDescriptionList`, l'arbre, l'assistant et les tuiles de réglages plats se séparent par l'espacement ; l'onglet choisi de `OmniTabs` est désormais marqué par un fond et une couleur d'accent au lieu d'un soulignement ; le bouton choisi de `OmniSteps` passe en gras ; les deux parties de `OmniSplitButton` sont séparées par un espace ; les séparateurs de menus et de barres d'outils deviennent des espaces. Les reflets internes d'un seul côté (`inset 0 1px 0`) quittent les ombres des boutons, des calques, des alertes pleines et des préréglages de thème Galet, Givre, Octet, Trou noir et Velours ; une ombre interne floue (relief pressé) reste. Deux gardes interdisent désormais toute ombre interne décalée dans la feuille de style et toute ombre interne nette décalée dans les préréglages de thème. Les lignes de la grille (`GridLines`, en-tête, pied, pied de groupe) restent en attente d'une décision.
+
 ## [1.14.4] - 2026-11-20
 
 ### Ajouté

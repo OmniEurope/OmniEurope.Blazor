@@ -1,4 +1,5 @@
 using System.Text.RegularExpressions;
+using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -93,14 +94,28 @@ public sealed partial class SingleSideBorderGuardTests
             System.Globalization.NumberStyles.Float, System.Globalization.CultureInfo.InvariantCulture, out var number) && number == 0;
 
     // A highlight line drawn inside one edge (inset 0 1px 0 ...) is a liseré too: any inset layer with a non-zero offset.
-    private static string[] InsetLines() => ShippedLookTests.Rules()
-        .SelectMany(rule => rule.Body.Split(';').Select(declaration => (rule.Selector, Declaration: declaration)))
-        .Where(item => InsetKeyword().IsMatch(item.Declaration))
-        .SelectMany(item => ShadowLayers(item.Declaration[(item.Declaration.IndexOf(':', StringComparison.Ordinal) + 1)..])
+    private static string[] InsetLines() => OffsetInsetLayers(ShippedLookTests.Rules()
+            .SelectMany(rule => rule.Body.Split(';').Select(declaration => (Source: rule.Selector, Value: declaration[(declaration.IndexOf(':', StringComparison.Ordinal) + 1)..]))))
+        .Select(layer => $"{layer.Source} => {layer.Layer}")
+        .Distinct(StringComparer.Ordinal)
+        .Order(StringComparer.Ordinal)
+        .ToArray();
+
+    // The inset layers of the given shadow values that are moved off centre, with their lengths (x, y, then blur when given).
+    private static IEnumerable<(string Source, string Layer, string[] Lengths)> OffsetInsetLayers(IEnumerable<(string Source, string Value)> values) => values
+        .Where(item => InsetKeyword().IsMatch(item.Value))
+        .SelectMany(item => ShadowLayers(item.Value)
             .Where(layer => InsetKeyword().IsMatch(layer))
-            .Select(layer => (item.Selector, Layer: layer.Trim(), Offsets: Length().Matches(InsetKeyword().Replace(StripColors(layer), " ")).Take(2).Select(m => m.Value).ToArray()))
-            .Where(layer => layer.Offsets.Length == 2 && layer.Offsets.Any(offset => !IsZeroLength(offset)))
-            .Select(layer => $"{layer.Selector.Replace("\n", " ", StringComparison.Ordinal)} => {layer.Layer}"))
+            .Select(layer => (Source: item.Source.Replace("\n", " ", StringComparison.Ordinal), Layer: layer.Trim(), Lengths: Length().Matches(InsetKeyword().Replace(StripColors(layer), " ")).Take(3).Select(m => m.Value).ToArray()))
+            .Where(layer => layer.Lengths.Length >= 2 && layer.Lengths.Take(2).Any(offset => !IsZeroLength(offset))));
+
+    // The theme presets are written into the page at run time, outside the stylesheet: a sharp inset layer moved off
+    // centre (no blur) draws a line along one edge there too. A blurred one (a pressed or carved relief) shades a
+    // whole side and is not a line.
+    private static string[] PresetInsetLines() => OffsetInsetLayers(OmniThemePresets.All
+            .SelectMany(preset => preset.Shape.Concat(preset.DarkShape).Select(token => (Source: $"{preset.Name} {token.Key}", token.Value))))
+        .Where(layer => layer.Lengths.Length == 2 || IsZeroLength(layer.Lengths[2]))
+        .Select(layer => $"{layer.Source} => {layer.Layer}")
         .Distinct(StringComparer.Ordinal)
         .Order(StringComparer.Ordinal)
         .ToArray();
@@ -126,5 +141,12 @@ public sealed partial class SingleSideBorderGuardTests
     {
         var found = InsetLines();
         Assert.True(found.Length == 0, "Inset box-shadows with a non-zero offset draw a line on one side (liserés are forbidden; use an inset 0 0 0 Npx ring): " + string.Join(" | ", found));
+    }
+
+    [Fact]
+    public void NoThemePreset_DrawsASharpInsetLineOnOneSide()
+    {
+        var found = PresetInsetLines();
+        Assert.True(found.Length == 0, "Theme tokens with a sharp inset shadow moved off centre draw a line on one side (liserés are forbidden): " + string.Join(" | ", found));
     }
 }

@@ -76,7 +76,7 @@ internal static class ThemeCatalog
                 ("--omni-card-border-width", "0"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 7%, transparent), 0 0.75rem 2rem rgb(0 0 0 / 12%)"),
                 // A pebble: shaded underneath, resting on a soft diffuse shadow.
-                ("--omni-button-shadow", "inset 0 -0.125rem 0 rgb(0 0 0 / 10%), 0 0.125rem 0.5rem rgb(0 0 0 / 14%)"),
+                ("--omni-button-shadow", "0 0.125rem 0.5rem rgb(0 0 0 / 14%)"),
                 ("--omni-button-font-weight", "600"),
                 ("--omni-font-family", Rounded), ("--omni-heading-font-weight", "700")),
             Shape(
@@ -159,8 +159,8 @@ internal static class ThemeCatalog
 
         new("Octet", "ThemeDescriptionOctet", "Mono",
             Shape(
-                // Press: the console key drops one step and takes a pixel shadow on top.
-                ("--omni-button-press-transform", "translateY(0.125rem)"), ("--omni-button-press-shadow", Staircase("0.1875rem") + ", inset 0 0.1875rem 0 rgb(0 0 0 / 35%)"),
+                // Press: the console key drops one step.
+                ("--omni-button-press-transform", "translateY(0.125rem)"), ("--omni-button-press-shadow", Staircase("0.1875rem")),
                 ("--omni-radius", "0"), ("--omni-radius-sm", "0"), ("--omni-radius-lg", "0"),
                 ("--omni-button-radius", "0"), ("--omni-card-radius", "0"), ("--omni-alert-radius", "0"),
                 ("--omni-alert-shadow", Staircase("0.1875rem")),
@@ -209,14 +209,14 @@ internal static class ThemeCatalog
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-accent) 4%, var(--omni-color-surface))"),
                 // The rule stays legible over the tint of the backdrop (the contrast checks measure it on every stop).
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 70%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 10%, transparent), 0 0.25rem 0.5rem rgb(0 0 0 / 8%), 0 1.25rem 2.5rem rgb(0 0 0 / 20%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 30%), inset 0 -0.125rem 0 rgb(0 0 0 / 16%), 0 0.25rem 0.625rem rgb(0 0 0 / 24%)"),
+                ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 10%, transparent), 0 0.25rem 0.5rem rgb(0 0 0 / 8%), 0 1.25rem 2.5rem rgb(0 0 0 / 20%)"),
+                ("--omni-button-shadow", "0 0.25rem 0.625rem rgb(0 0 0 / 24%)"),
                 ("--omni-button-font-weight", "600"),
                 ("--omni-font-family", Sans), ("--omni-heading-font-family", Transitional), ("--omni-heading-font-weight", "600")),
             Shape(
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
                 // The bright top edge of the light card would be a white line at night.
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 10%), 0 0 0 1px color-mix(in srgb, var(--omni-color-text) 9%, transparent), 0 1.25rem 2.5rem rgb(0 0 0 / 45%)")),
+                ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 9%, transparent), 0 1.25rem 2.5rem rgb(0 0 0 / 45%)")),
             DefaultBackdrop: "Velours"),
 
         // Neumorphism: the surfaces are the colour of the page and stand out by a pair of soft shadows,
@@ -284,7 +284,7 @@ internal static class ThemeCatalog
                 ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 26%, transparent)"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-surface) 52%, transparent)"),
                 ("--omni-card-border-color", "rgb(255 255 255 / 90%)"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 95%), 0 0.25rem 0.75rem rgb(0 0 0 / 4%), 0 1.5rem 3rem rgb(0 0 0 / 7%)"),
+                ("--omni-card-shadow", "0 0.25rem 0.75rem rgb(0 0 0 / 4%), 0 1.5rem 3rem rgb(0 0 0 / 7%)"),
                 // A grid, an editor or a log is read line by line, and its scrolling frame cannot carry
                 // the frost: a pane dense enough to read as the frosted cards do.
                 ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 86%, transparent)"),
@@ -292,16 +292,16 @@ internal static class ThemeCatalog
                 ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 92%, transparent)"),
                 // A filled alert is tinted glass: the field shows through its fill, under a light rim.
                 ("--omni-alert-fill-opacity", "82%"),
-                ("--omni-alert-shadow", "inset 0 1px 0 rgb(255 255 255 / 45%), 0 0.5rem 1.5rem rgb(0 0 0 / 8%)"),
+                ("--omni-alert-shadow", "0 0.5rem 1.5rem rgb(0 0 0 / 8%)"),
                 // Fields and the secondary button are glass as well.
                 ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 66%, transparent)"),
                 ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-surface) 64%, transparent)"),
                 ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-surface) 84%, transparent)"),
                 ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-surface) 94%, transparent)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 35%), 0 0.25rem 0.875rem rgb(0 0 0 / 9%)"),
+                ("--omni-button-shadow", "0 0.25rem 0.875rem rgb(0 0 0 / 9%)"),
                 ("--omni-overlay-background", "color-mix(in srgb, var(--omni-color-surface) 72%, transparent)"),
                 ("--omni-overlay-filter", "blur(24px) saturate(1.6)"),
-                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 85%), 0 1.25rem 3rem rgb(0 0 0 / 14%)"),
+                ("--omni-overlay-shadow", "0 1.25rem 3rem rgb(0 0 0 / 14%)"),
                 // A light frosted veil: the page keeps its colours behind the dialog.
                 ("--omni-color-overlay", "rgb(0 0 0 / 22%)"), ("--omni-scrim-filter", "blur(12px) saturate(1.4)"),
                 ("--omni-focus-ring", FocusRing), ("--omni-focus-ring-danger", FocusRingDanger), ("--omni-focus-ring-inset", FocusRingInset),
@@ -314,18 +314,18 @@ internal static class ThemeCatalog
                 // Night glass is a light veil, not a darker pane: the aurora shows through it.
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 7%, transparent)"),
                 ("--omni-card-border-color", "rgb(255 255 255 / 14%)"),
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 14%), 0 0.25rem 0.75rem rgb(0 0 0 / 16%), 0 1.5rem 3rem rgb(0 0 0 / 30%)"),
+                ("--omni-card-shadow", "0 0.25rem 0.75rem rgb(0 0 0 / 16%), 0 1.5rem 3rem rgb(0 0 0 / 30%)"),
                 ("--omni-grid-background", "color-mix(in srgb, var(--omni-color-surface) 84%, transparent)"),
                 ("--omni-dialog-background", "color-mix(in srgb, var(--omni-color-surface) 90%, transparent)"),
-                ("--omni-alert-shadow", "inset 0 1px 0 rgb(255 255 255 / 16%), 0 0.5rem 1.5rem rgb(0 0 0 / 30%)"),
+                ("--omni-alert-shadow", "0 0.5rem 1.5rem rgb(0 0 0 / 30%)"),
                 ("--omni-input-background", "color-mix(in srgb, var(--omni-color-surface) 52%, transparent)"),
                 ("--omni-color-neutral-fill", "color-mix(in srgb, var(--omni-color-text) 9%, transparent)"),
                 ("--omni-color-neutral-fill-hover", "color-mix(in srgb, var(--omni-color-text) 15%, transparent)"),
                 ("--omni-color-neutral-fill-active", "color-mix(in srgb, var(--omni-color-text) 21%, transparent)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 18%), 0 0.25rem 1rem rgb(0 0 0 / 28%)"),
+                ("--omni-button-shadow", "0 0.25rem 1rem rgb(0 0 0 / 28%)"),
                 ("--omni-overlay-background", "color-mix(in srgb, var(--omni-color-surface) 76%, transparent)"),
                 ("--omni-color-overlay", "rgb(0 0 0 / 45%)"),
-                ("--omni-overlay-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 1.25rem 3rem rgb(0 0 0 / 48%)")),
+                ("--omni-overlay-shadow", "0 1.25rem 3rem rgb(0 0 0 / 48%)")),
             ContrastWaiver: "Panneaux translucides sur un fond coloré : la lisibilité dépend du fond, les seuils WCAG ne sont pas garantis.",
             DefaultBackdrop: "Givre"),
 
@@ -451,10 +451,10 @@ internal static class ThemeCatalog
                 ("--omni-scope-page", "color-mix(in srgb, var(--omni-color-surface) 25%, rgb(0 0 0 / 100%))"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 4%, transparent)"),
                 ("--omni-card-border-color", "color-mix(in srgb, var(--omni-color-text) 13%, transparent)"),
-                // On black a dark shadow shows nothing: the card takes a top highlight and the buttons glow with
+                // On black a dark shadow shows nothing: the card keeps its frame and the buttons glow with
                 // the accent, as does the floating layer.
-                ("--omni-card-shadow", "inset 0 1px 0 rgb(255 255 255 / 5%)"),
-                ("--omni-button-shadow", "inset 0 1px 0 rgb(255 255 255 / 12%), 0 0 1.125rem color-mix(in srgb, var(--omni-color-accent) 26%, transparent)"),
+                ("--omni-card-shadow", "none"),
+                ("--omni-button-shadow", "0 0 1.125rem color-mix(in srgb, var(--omni-color-accent) 26%, transparent)"),
                 ("--omni-overlay-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 14%, transparent), 0 1.5rem 4rem rgb(0 0 0 / 85%), 0 0 3.5rem color-mix(in srgb, var(--omni-color-accent) 10%, transparent)"),
                 // The grid stays at 3 %: its header darkens the frame by 6 % more, and muted titles must still
                 // read there.
