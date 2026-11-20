@@ -6,9 +6,9 @@ namespace OmniEurope.Blazor.Components;
 /// fields. Both fields empty is <see langword="null"/>; minutes of an hour or more carry into the hours.
 /// </summary>
 /// <remarks>
-/// Hours are unbounded unless <see cref="Max"/> is set. <see cref="Min"/> and <see cref="Max"/> are applied
+/// Hours are unbounded unless <see cref="Maximum"/> is set. <see cref="Minimum"/> and <see cref="Maximum"/> are applied
 /// in code, on the committed entry. The fields only carry what guides their arrows: both a native <c>min</c>
-/// of 0, and the hours field the whole hours of <see cref="Max"/> as its native <c>max</c>. The minutes
+/// of 0, and the hours field the whole hours of <see cref="Maximum"/> as its native <c>max</c>. The minutes
 /// field has no native <c>max</c>, so 60 or more can be typed and carried into the hours. The group is named by
 /// <see cref="Label"/>, the label of an enclosing form field or the localized "Duration"; each field is
 /// named "Hours" or "Minutes" and shows its short unit after it.
@@ -38,11 +38,11 @@ public partial class OmniDurationPicker
 
     /// <summary>The shortest duration; a shorter committed entry is brought back to it. Null for none.</summary>
     [Parameter]
-    public TimeSpan? Min { get; set; }
+    public TimeSpan? Minimum { get; set; }
 
     /// <summary>The longest duration; a longer committed entry is brought back to it. Null for none.</summary>
     [Parameter]
-    public TimeSpan? Max { get; set; }
+    public TimeSpan? Maximum { get; set; }
 
     /// <summary>The step of the minutes field's arrows (<c>step</c>); 1 by default, at least 1.</summary>
     [Parameter]
@@ -52,7 +52,7 @@ public partial class OmniDurationPicker
 
     private string EffectiveLabel => string.IsNullOrWhiteSpace(Label) ? Localize("DurationLabel") : Label;
 
-    private double? MaximumHours => Max is { } max ? Math.Floor(max.TotalHours) : null;
+    private double? MaximumHours => Maximum is { } max ? Math.Floor(max.TotalHours) : null;
 
     /// <summary>Checks the parameters and shows a value that changed from outside.</summary>
     /// <exception cref="ArgumentOutOfRangeException"><see cref="MinuteStep"/> is less than 1.</exception>
@@ -130,7 +130,7 @@ public partial class OmniDurationPicker
         CurrentValue = result;
     }
 
-    /// <summary>The duration the two fields hold, held between <see cref="Min"/> and <see cref="Max"/>; null when both are empty.</summary>
+    /// <summary>The duration the two fields hold, held between <see cref="Minimum"/> and <see cref="Maximum"/>; null when both are empty.</summary>
     private TimeSpan? Bounded(int? hours, int? minutes)
     {
         if (hours is null && minutes is null)
@@ -140,12 +140,12 @@ public partial class OmniDurationPicker
 
         var total = (long)Math.Max(hours ?? 0, 0) * 60 + Math.Max(minutes ?? 0, 0);
         var span = TimeSpan.FromMinutes(Math.Min(total, (long)TimeSpan.MaxValue.TotalMinutes));
-        if (Min is { } min && span < min)
+        if (Minimum is { } min && span < min)
         {
             span = min;
         }
 
-        if (Max is { } max && span > max)
+        if (Maximum is { } max && span > max)
         {
             span = max;
         }

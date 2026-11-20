@@ -3358,8 +3358,8 @@ property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.Placeholder : 
 property public OmniEurope.Blazor.Components.OmniDropDown<TValue>.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDurationPicker.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDurationPicker.Label : System.String? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDurationPicker.Max : System.TimeSpan? {get(public);set(public)} [Parameter]
-property public OmniEurope.Blazor.Components.OmniDurationPicker.Min : System.TimeSpan? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.Maximum : System.TimeSpan? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDurationPicker.Minimum : System.TimeSpan? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDurationPicker.MinuteStep : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDurationPicker.ReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDynamicField.DefaultValue : System.String? {get(public);init(public)}

@@ -85,8 +85,8 @@ public sealed class DurationPickerTests : OmniBunitContext
     public void Max_and_min_bring_the_entry_back()
     {
         var picker = RenderPicker(null, parameters => parameters
-            .Add(component => component.Max, TimeSpan.FromHours(8))
-            .Add(component => component.Min, TimeSpan.FromMinutes(15)));
+            .Add(component => component.Maximum, TimeSpan.FromHours(8))
+            .Add(component => component.Minimum, TimeSpan.FromMinutes(15)));
 
         picker.FindAll("input")[0].Change("20");
         Assert.Equal(TimeSpan.FromHours(8), _value);
@@ -98,9 +98,9 @@ public sealed class DurationPickerTests : OmniBunitContext
     [Fact]
     public void The_fields_carry_only_the_native_bounds_that_guide_their_arrows()
     {
-        // What the guide and the remarks of the component say: min 0 on both, the whole hours of Max on the
+        // What the guide and the remarks of the component say: min 0 on both, the whole hours of Maximum on the
         // hours field, and no native max on the minutes, so 60 or more can be typed and carried.
-        var bounded = RenderPicker(null, parameters => parameters.Add(component => component.Max, TimeSpan.FromMinutes(90)));
+        var bounded = RenderPicker(null, parameters => parameters.Add(component => component.Maximum, TimeSpan.FromMinutes(90)));
         var hours = bounded.FindAll("input")[0];
         var minutes = bounded.FindAll("input")[1];
         Assert.Equal("0", hours.GetAttribute("min"));
