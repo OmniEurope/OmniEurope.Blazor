@@ -44,7 +44,7 @@
 .omni-mindmap__menu-item { align-items: center; background: none; border: 0; color: inherit; cursor: pointer; display: flex; font: inherit; min-height: 2.75rem; padding: 0 var(--omni-space-lg); text-align: start; }
 .omni-mindmap__menu-item:hover, .omni-mindmap__menu-item:focus-visible { background: var(--omni-color-surface-muted); outline: none; }
 .omni-mindmap__menu-item--danger { color: var(--omni-color-danger); }
-.omni-mindmap__menu-separator { border-top: var(--omni-border-width) solid var(--omni-color-border); margin: 0.25rem 0; }
+.omni-mindmap__menu-separator { margin: 0.375rem 0; }
 .omni-mindmap__menu-colors { display: flex; flex-wrap: wrap; gap: 0.25rem; padding: 0.25rem 0.75rem; }
 .omni-mindmap__swatch { align-items: center; background: none; border: 0; border-radius: var(--omni-radius); cursor: pointer; display: inline-flex; justify-content: center; min-height: 2.75rem; min-width: 2.75rem; padding: 0; }
 .omni-mindmap__swatch::before { background: var(--omni-mindmap-fill); block-size: 1.5rem; border: 2px solid var(--omni-mindmap-stroke); border-radius: var(--omni-radius-circle); content: ""; inline-size: 1.5rem; }
@@ -253,11 +253,7 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-description-list--columns-2 { --omni-description-columns: 2; }
 .omni-description-list--columns-3 { --omni-description-columns: 3; }
 .omni-description-list--columns-4 { --omni-description-columns: 4; }
-.omni-description-list__item { align-items: center; border-block-start: var(--omni-border-width) solid var(--omni-color-border); column-gap: var(--omni-space-sm); display: grid; grid-column: span 2; grid-template-columns: subgrid; padding-block: var(--omni-space-sm); }
-.omni-description-list--columns-1 > :first-child,
-.omni-description-list--columns-2 > :nth-child(-n + 2),
-.omni-description-list--columns-3 > :nth-child(-n + 3),
-.omni-description-list--columns-4 > :nth-child(-n + 4) { border-block-start: 0; }
+.omni-description-list__item { align-items: center; column-gap: var(--omni-space-sm); display: grid; grid-column: span 2; grid-template-columns: subgrid; padding-block: var(--omni-space-sm); }
 .omni-description-list__label { color: var(--omni-color-text-muted); font-weight: 500; min-inline-size: 0; }
 /* A label with its icon: the icon in the accent ink, sized by the package, one line with the text. */
 .omni-description-list__label:has(> .omni-description-list__icon) { align-items: center; display: flex; gap: var(--omni-space-sm); }
@@ -267,7 +263,6 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-description-list__actions { display: inline-flex; flex: 0 0 auto; gap: var(--omni-space-xs); }
 @media (max-width: 39.99rem) {
     .omni-description-list { --omni-description-columns: 1; }
-    .omni-description-list > :nth-child(n + 2) { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 }
 /* A responsive list (request of a client application, 2026-11-17): narrower than 30rem itself (a side
    panel, a narrow card), whatever the screen, each label goes above its value, both at the start, and
@@ -276,7 +271,6 @@ body:has(.omni-connection-overlay) { overflow: hidden; }
 .omni-description-list--responsive { container: omni-description-list / inline-size; }
 @container omni-description-list (width < 30rem) {
     .omni-description-list--responsive > .omni-description-list__item { align-items: start; grid-column: 1 / -1; grid-template-columns: minmax(0, 1fr); row-gap: var(--omni-space-xs); }
-    .omni-description-list--responsive > :nth-child(n + 2) { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
 }
 
 .omni-relative-time { font-variant-numeric: tabular-nums; white-space: nowrap; }

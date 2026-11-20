@@ -6,7 +6,7 @@
    --omni-document-viewer-height (40rem) caps the scroll area; --omni-document-background and
    --omni-document-page-background replace the desk and the paper. */
 .omni-document-viewer { background: var(--omni-card-background, var(--omni-color-surface)); border: var(--omni-border-width) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); display: grid; min-inline-size: 0; overflow: hidden; }
-.omni-document-viewer__toolbar { align-items: center; background: var(--omni-color-surface-muted); border-block-end: var(--omni-border-width) solid var(--omni-color-border); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }
+.omni-document-viewer__toolbar { align-items: center; background: var(--omni-color-surface-muted); display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); padding: var(--omni-space-xs) var(--omni-space-sm); }
 .omni-document-viewer__zoom { font-variant-numeric: tabular-nums; min-inline-size: 3.5rem; text-align: center; }
 .omni-document-viewer__indicator { color: var(--omni-color-text-muted); font-variant-numeric: tabular-nums; margin-inline-start: auto; }
 .omni-document-viewer__viewport { background: var(--omni-document-background, var(--omni-color-surface-muted)); max-block-size: var(--omni-document-viewer-height, 40rem); min-inline-size: 0; outline: none; overflow: auto; padding: var(--omni-space-md); scrollbar-gutter: stable; }

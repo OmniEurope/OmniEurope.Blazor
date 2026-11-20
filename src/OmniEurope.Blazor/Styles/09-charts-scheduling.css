@@ -188,10 +188,10 @@ polyline.omni-chart__line { fill: none; }
 .omni-gantt__toolbar { display: flex; justify-content: flex-end; }
 .omni-gantt__empty { color: var(--omni-color-text-muted); margin: 0; text-align: center; }
 .omni-gantt__body { background: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; grid-template-columns: minmax(8rem, 14rem) minmax(0, 1fr); overflow: hidden; }
-.omni-gantt__names { border-inline-end: var(--omni-border-width) solid var(--omni-color-border); font-size: var(--omni-font-size-sm); }
+.omni-gantt__names { background: var(--omni-color-surface-muted); font-size: var(--omni-font-size-sm); }
 .omni-gantt__names > div { align-items: center; display: flex; height: 36px; overflow: hidden; padding-inline: var(--omni-space-sm); white-space: nowrap; }
-/* The head and its rule are together the 44 px of GanttLayout.HeaderHeight, whatever the theme's rule. */
-.omni-gantt__names > .omni-gantt__names-head { border-block-end: var(--omni-border-width) solid var(--omni-color-border); height: calc(44px - var(--omni-border-width)); }
+/* The head is the 44 px of GanttLayout.HeaderHeight, set apart from the rows by its weight and a tinted band. */
+.omni-gantt__names > .omni-gantt__names-head { background: var(--omni-color-surface-hover); height: 44px; }
 .omni-gantt__names-head, .omni-gantt__name--group { font-weight: 650; }
 .omni-gantt__chart { overflow-x: auto; }
 .omni-gantt__svg { display: block; }

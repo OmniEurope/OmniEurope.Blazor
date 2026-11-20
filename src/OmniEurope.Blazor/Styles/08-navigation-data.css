@@ -240,7 +240,8 @@
 .omni-profile-menu__popup .omni-menu__icon:not(:empty) { --omni-icon-size: 1.125rem; background: var(--omni-color-neutral-fill); block-size: var(--omni-icon-box); border-radius: var(--omni-radius-circle); color: var(--omni-color-text-muted); inline-size: var(--omni-icon-box); }
 
 .omni-data-list { display: grid; gap: var(--omni-space-sm); }
-.omni-data-list__item { border-block-end: var(--omni-border-width) solid var(--omni-color-border); padding: var(--omni-space-md); }
+.omni-data-list__item { padding: var(--omni-space-md); }
+.omni-data-list__item:nth-child(even) { background: var(--omni-color-surface-muted); }
 .omni-data-list__state { color: var(--omni-color-text-muted); padding: var(--omni-space-lg); text-align: center; }
 .omni-data-list__state--error { color: var(--omni-color-danger); display: grid; gap: var(--omni-space-sm); justify-items: center; }
 /* Virtualised list: the spacers stand in for the items outside the window. Their height comes from
@@ -550,8 +551,8 @@
 .omni-data-grid__frame { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; min-inline-size: 0; overflow: clip; }
 .omni-data-grid__frame > .omni-data-grid__viewport { border: 0; border-radius: 0; box-shadow: none; }
 .omni-data-grid__bar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); min-block-size: calc(var(--omni-control-height) - 0.25rem); padding: var(--omni-space-xs) var(--omni-space-sm); }
-.omni-data-grid__bar--header { border-block-end: var(--omni-border-width) solid var(--omni-color-border); }
-.omni-data-grid__bar--footer { border-block-start: var(--omni-border-width) solid var(--omni-color-border); }
+.omni-data-grid__bar--header { background: var(--omni-color-surface-muted); }
+.omni-data-grid__bar--footer { background: var(--omni-color-surface-muted); }
 .omni-data-grid__bar-content { flex: 1 1 auto; min-inline-size: 0; }
 .omni-data-grid__export { align-items: center; color: var(--omni-color-text-muted); display: flex; flex: none; flex-wrap: wrap; font-size: var(--omni-font-size-sm); gap: var(--omni-space-xs); }
 /* Icon-only export buttons: a small button (24 px at least, the floor of every button) with a smaller icon, unless the grid
