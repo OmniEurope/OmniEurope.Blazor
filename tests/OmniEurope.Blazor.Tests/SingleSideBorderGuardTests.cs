@@ -77,8 +77,8 @@ public sealed partial class SingleSideBorderGuardTests
     public void TheSpreadsheetCells_AreFramedOnAllFourSides()
     {
         var cell = ShippedLookTests.Body(".omni-spreadsheet__table :is(th, td)");
-        Assert.DoesNotMatch(@"border-widths*:", cell);
-        Assert.Matches(@"border:s*var(--omni-border-width) solid", cell);
+        Assert.DoesNotMatch(@"border-width\s*:", cell);
+        Assert.Matches(@"border:\s*var\(--omni-border-width\) solid", cell);
         Assert.Equal("collapse", ShippedLookTests.Value(ShippedLookTests.Body(".omni-spreadsheet__table"), "border-collapse"));
     }
 
