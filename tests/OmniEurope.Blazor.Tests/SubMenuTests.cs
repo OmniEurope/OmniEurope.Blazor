@@ -1,6 +1,8 @@
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -154,7 +156,7 @@ public sealed class SubMenuTests : OmniBunitContext
 
         Assert.Equal("true", host.Find("#insert").GetAttribute("aria-expanded"));
         var placed = module.Invocations["openSubMenu"].Single();
-        Assert.Equal(["insert", "insert-menu", false], placed.Arguments.ToArray());
+        Assert.Equal(["insert", "insert-menu", false], placed.Arguments.Take(3).ToArray());
 
         host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
         Assert.Equal("true", host.Find("#insert").GetAttribute("aria-expanded"));
@@ -197,8 +199,8 @@ public sealed class SubMenuTests : OmniBunitContext
         host.Find("#type").Click(new MouseEventArgs { Detail = 1 });
 
         var calls = module.Invocations["openSubMenu"].Select(call => call.Arguments.ToArray()).ToList();
-        Assert.Equal(["insert", "insert-menu", true], calls[0]);
-        Assert.Equal(["type", "type-menu", false], calls[1]);
+        Assert.Equal(["insert", "insert-menu", true], calls[0].Take(3));
+        Assert.Equal(["type", "type-menu", false], calls[1].Take(3));
     }
 
     [Fact]
@@ -229,6 +231,84 @@ public sealed class SubMenuTests : OmniBunitContext
     }
 
     [Fact]
+    public void AMenuHoldingSubMenus_ScrollsLikeAPlainMenu_ItsSubMenuLeavingTheClippingBoxByTheTopLayer()
+    {
+        // Owner decision 2026-11-20: the rule that made such a menu unclipped and unscrollable is gone.
+        var rules = ShippedLookTests.Rules();
+        Assert.DoesNotContain(rules, rule => rule.Selector.Contains(":has(", StringComparison.Ordinal) && rule.Selector.Contains("omni-menu__sub", StringComparison.Ordinal));
+        var menu = rules.Last(rule => rule.Selector == ".omni-menu" && rule.Body.Contains("max-block-size", StringComparison.Ordinal)).Body;
+        Assert.Equal("auto", ShippedLookTests.Value(menu, "overflow-y"));
+        // The list is drawn as a manual popover, so the browser lifts it out of the scrolling parent.
+        var (host, _) = Open("overflow");
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        Assert.Equal("manual", host.Find("#insert-menu").GetAttribute("popover"));
+        Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-menu__submenu"), "margin"));
+    }
+
+    [Fact]
+    public async Task AScrollOfTheParentList_ClosesTheOpenSubMenu_AndItsDescendants_FocusGoingBackToTheEntry()
+    {
+        var (host, module) = Open("overflow");
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        host.Find("#more").Click(new MouseEventArgs { Detail = 1 });
+        var insert = Scrolled(module, "insert");
+
+        await host.InvokeAsync(() => insert.ScrolledAsync());
+
+        Assert.Empty(host.FindAll("#insert-menu"));
+        Assert.Empty(host.FindAll("#more-menu"));
+        Assert.Equal("false", host.Find("#insert").GetAttribute("aria-expanded"));
+        Assert.NotNull(host.Find("#m-menu"));
+        Assert.Contains(module.Invocations["leaveSubMenu"], call => (string?)call.Arguments[0] == "insert-menu" && (string?)call.Arguments[1] == "insert");
+        Assert.DoesNotContain(module.Invocations, call => call.Identifier == "closeMenu");
+        Assert.Empty(Chosen(host));
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        Assert.Single(host.FindAll("#insert-menu"));
+    }
+
+    [Fact]
+    public async Task AScrollOfASubMenuList_ClosesOnlyTheSubMenuOpenInIt()
+    {
+        var (host, module) = Open("overflow");
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        host.Find("#more").Click(new MouseEventArgs { Detail = 1 });
+        var more = Scrolled(module, "more");
+
+        await host.InvokeAsync(() => more.ScrolledAsync());
+
+        Assert.Empty(host.FindAll("#more-menu"));
+        Assert.Single(host.FindAll("#insert-menu"));
+        Assert.Equal("true", host.Find("#insert").GetAttribute("aria-expanded"));
+    }
+
+    [Fact]
+    public async Task AScrollReportedAfterTheSubMenuClosed_ChangesNothing()
+    {
+        var (host, module) = Open("overflow");
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        var insert = Scrolled(module, "insert");
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        var leaves = module.Invocations["leaveSubMenu"].Count;
+
+        await host.InvokeAsync(() => insert.ScrolledAsync());
+
+        Assert.Equal(leaves, module.Invocations["leaveSubMenu"].Count);
+        Assert.Empty(host.FindAll("#insert-menu"));
+    }
+
+    [Fact]
+    public void TheScriptIsToldHowToReachTheSubMenu_AndLetsGoOfItWhenItCloses()
+    {
+        var (host, module) = Open("overflow");
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        Assert.IsType<DotNetObjectReference<SubMenuInteropBridge>>(Assert.Single(module.Invocations["openSubMenu"]).Arguments[3]);
+
+        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+
+        Assert.Equal(["insert-menu", "insert"], Assert.Single(module.Invocations["leaveSubMenu"]).Arguments.Select(argument => (string?)argument));
+    }
+
+    [Fact]
     public void AMenuWithoutASubMenu_DrawsNoSubMenuMarkup()
     {
         JSInterop.SetupModule(Internal.OmniModules.Focus);
@@ -238,6 +318,9 @@ public sealed class SubMenuTests : OmniBunitContext
 
         Assert.Empty(menu.FindAll(".omni-menu__sub, .omni-menu__submenu, [aria-haspopup=menu][role=menuitem]"));
     }
+
+    private static SubMenuInteropBridge Scrolled(BunitJSModuleInterop module, string entryId) =>
+        ((DotNetObjectReference<SubMenuInteropBridge>)module.Invocations["openSubMenu"].Single(call => (string?)call.Arguments[0] == entryId).Arguments[3]!).Value;
 
     private static List<string> Chosen(IRenderedComponent<SubMenuTestHost> host) => host.Instance.Chosen;
 

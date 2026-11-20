@@ -24,7 +24,11 @@ import { onPressOutside } from '../shared/outside-press.js';
 // carries aria-haspopup and aria-expanded. The keys then act on one level, the one the focus is in. The
 // open state of an entry belongs to .NET, so the keys that change it (the arrow toward the inline end,
 // the arrow back, Escape in a submenu) press the entry, which toggles it, and the script moves the focus.
+// A menu that holds submenus scrolls like any other (a long one scrolls inside itself): a submenu is a
+// manual popover, drawn in the top layer so the scrolling list never clips it, and a scroll of the list
+// that holds its entry closes it (.NET does, told by the scroll watch below).
 const menus = new Map();
+const scrollWatches = new Map();
 const menuNavigationKeys = new Set(['ArrowDown', 'ArrowUp', 'Home', 'End', 'Escape']);
 
 // The enabled items of one level: those of a submenu inside the menu belong to that submenu.
@@ -318,16 +322,72 @@ export function closeMenu(key, restore) {
     }
 }
 
-// Opens a submenu the render just drew: placed beside its entry, its first item focused when the
-// keyboard (or a click with no pointer) asked for it, never when the pointer did.
-export function openSubMenu(parentId, menuId, focusFirst) {
+// Puts the submenu in the top layer, out of reach of the clipping of any scrolling ancestor. A browser
+// without popovers keeps it fixed in place, as before.
+function liftSubMenu(submenu) {
+    if (typeof submenu.showPopover !== 'function') {
+        return;
+    }
+
+    try {
+        submenu.showPopover();
+    } catch {
+        // Not connected or already shown: it stays where it is.
+    }
+}
+
+// Stops listening to the scroll of the list that holds a submenu's entry, and forgets stale watches
+// (the lists of menus that left the page without telling).
+function unwatchScroll(menuId) {
+    const watch = scrollWatches.get(menuId);
+    if (watch) {
+        watch.targets.forEach(target => target.removeEventListener('scroll', watch.onScroll));
+        scrollWatches.delete(menuId);
+    }
+}
+
+// Tells .NET when the list that holds the entry of a submenu scrolls: the submenu, drawn beside its
+// entry, no longer faces it and closes. A scroll event does not bubble, so each scrolling box of the list
+// (the list, and the panel around it when a header sits above) is listened to itself, passively; the
+// scroll of a submenu nested inside it is another event and does not count. Told once: the close that
+// follows removes the watch.
+function watchScroll(parent, menuId, dotnet) {
+    unwatchScroll(menuId);
+    for (const [id, watch] of scrollWatches) {
+        if (!watch.targets.every(target => target.isConnected)) {
+            unwatchScroll(id);
+        }
+    }
+
+    const level = parent.closest('[role="menu"]');
+    if (!level || !dotnet) {
+        return;
+    }
+
+    const targets = [...new Set([levelSurface(level), level])];
+    const onScroll = event => {
+        if (targets.includes(event.target)) {
+            unwatchScroll(menuId);
+            notify(dotnet, 'OmniSubMenu.Scrolled');
+        }
+    };
+    targets.forEach(target => target.addEventListener('scroll', onScroll, { passive: true }));
+    scrollWatches.set(menuId, { targets, onScroll });
+}
+
+// Opens a submenu the render just drew: lifted into the top layer, placed beside its entry, its first item
+// focused when the keyboard (or a click with no pointer) asked for it, never when the pointer did. The
+// scroll of the list that holds the entry is reported to dotnet, which closes the submenu.
+export function openSubMenu(parentId, menuId, focusFirst, dotnet) {
     const parent = document.getElementById(parentId);
     const submenu = document.getElementById(menuId);
     if (!parent || !submenu) {
         return;
     }
 
+    liftSubMenu(submenu);
     placeSubMenu(parent, submenu);
+    watchScroll(parent, menuId, dotnet);
     if (focusFirst) {
         focusFirstItem(submenu);
     }
@@ -335,6 +395,7 @@ export function openSubMenu(parentId, menuId, focusFirst) {
 
 // A submenu is about to close: the focus it holds goes back to its entry, not to the page.
 export function leaveSubMenu(menuId, parentId) {
+    unwatchScroll(menuId);
     const active = document.activeElement;
     if (active instanceof HTMLElement && document.getElementById(menuId)?.contains(active)) {
         document.getElementById(parentId)?.focus({ preventScroll: true });

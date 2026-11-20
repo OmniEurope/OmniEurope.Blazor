@@ -5,7 +5,9 @@
 
 @* An entry of a menu that opens a list of entries beside it. The entry is a menuitem that announces its
    menu (aria-haspopup, aria-expanded); the list is a nested role="menu" named by the entry and drawn
-   in its place, fixed to the window and placed by omni-focus.js. Choosing an entry of the list closes
+   in its place, fixed to the window and placed by omni-focus.js. It is a manual popover (no light
+   dismiss, no focus move of its own): the browser draws it in the top layer, so the scrolling list that
+   holds the entry never clips it. Choosing an entry of the list closes
    the whole menu, as in the top level. The host's attributes come first so the menu's own role,
    tabindex and class win. *@
 <div class="@Css("omni-menu__sub")">
@@ -29,6 +31,7 @@
     {
         <div id="@MenuId"
              class="omni-menu omni-menu__submenu"
+             popover="manual"
              role="menu"
              tabindex="-1"
              aria-labelledby="@EntryId">

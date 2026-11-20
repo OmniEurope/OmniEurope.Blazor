@@ -13,7 +13,8 @@ namespace OmniEurope.Blazor.Components;
 /// owns a nested <c>role="menu"</c> named by it. A click, Enter or Space on the entry opens or closes the
 /// list and never closes the menu nor raises an action; the arrow toward the inline end opens it with
 /// the focus on its first item, the arrow back or Escape closes that list alone, the pointer opens it by
-/// hovering the entry; opening one list closes the one that was open at the same level. Choosing an
+/// hovering the entry; opening one list closes the one that was open at the same level, and so does a scroll
+/// of the list that holds the entry (the list is drawn beside its entry, which the scroll moves away). Choosing an
 /// <see cref="OmniMenuItem"/> in a list closes the whole menu, as in the top level.
 /// </summary>
 public partial class OmniSubMenu
@@ -23,6 +24,7 @@ public partial class OmniSubMenu
     private OmniMenuLevel? _standalone;
     private Task<IJSObjectReference?>? _import;
     private IJSObjectReference? _module;
+    private DotNetObjectReference<SubMenuInteropBridge>? _reference;
     private bool _open;
     private bool _openedByPointer;
     private bool _focusFirst;
@@ -117,7 +119,10 @@ public partial class OmniSubMenu
         _placePending = true;
     }
 
-    /// <summary>Closes the list, the focus it holds going back to the entry; called by the entry's own click and by a sibling that opens.</summary>
+    /// <summary>The list that holds the entry scrolled: the list opened beside the entry closes, with the lists opened inside it.</summary>
+    private Task ScrolledAsync() => InvokeAsync(CloseAsync);
+
+    /// <summary>Closes the list, the focus it holds going back to the entry; called by the entry's own click, by a sibling that opens and by a scroll of the parent list.</summary>
     private async Task CloseAsync()
     {
         if (!_open)
@@ -173,7 +178,8 @@ public partial class OmniSubMenu
             if (await _import is { } module)
             {
                 _module = module;
-                await module.InvokeVoidAsync("openSubMenu", EntryId, MenuId, focusFirst);
+                _reference ??= DotNetObjectReference.Create(new SubMenuInteropBridge(ScrolledAsync));
+                await module.InvokeVoidAsync("openSubMenu", EntryId, MenuId, focusFirst, _reference);
             }
         }
         catch (JSDisconnectedException)
@@ -187,6 +193,7 @@ public partial class OmniSubMenu
     {
         _disposed = true;
         Siblings.Closed(this);
+        _reference?.Dispose();
         if (_import is { IsCompletedSuccessfully: true } loaded && loaded.Result is { } module)
         {
             try

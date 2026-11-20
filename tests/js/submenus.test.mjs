@@ -195,6 +195,55 @@ test('openSubMenu corrects the corner by what a containing block takes off, so t
     assert.equal(submenu.style.getPropertyValue('--omni-menu-y'), '40px');
 });
 
+test('openSubMenu reports a scroll of the list that holds the entry, once, and ignores the scroll of a list inside it', async () => {
+    const { openSubMenu } = await load('omni-focus.js');
+    const { menu, entry, submenu } = fixture();
+    follow(submenu, 176, 120);
+    const calls = [];
+    const dotnet = { invokeMethodAsync: (method, ...args) => { calls.push([method, ...args]); return Promise.resolve(); } };
+
+    openSubMenu('entry', 'entry-menu', false, dotnet);
+
+    assert.equal(menu.listeners.length, 1);
+    assert.equal(menu.listeners[0].type, 'scroll');
+    assert.equal(menu.listeners[0].options.passive, true);
+    submenu.fire('scroll', {});
+    menu.fire('scroll', { target: submenu });
+    assert.deepEqual(calls, []);
+    menu.fire('scroll', {});
+    assert.deepEqual(calls, [['OmniSubMenu.Scrolled']]);
+    assert.equal(menu.listeners.length, 0);
+    assert.ok(entry);
+});
+
+test('leaveSubMenu stops listening to the scroll of the list that holds the entry', async () => {
+    const { openSubMenu, leaveSubMenu } = await load('omni-focus.js');
+    const { menu, submenu } = fixture();
+    follow(submenu, 176, 120);
+    const calls = [];
+    const dotnet = { invokeMethodAsync: (method) => { calls.push(method); return Promise.resolve(); } };
+    openSubMenu('entry', 'entry-menu', false, dotnet);
+    assert.equal(menu.listeners.length, 1);
+
+    leaveSubMenu('entry-menu', 'entry');
+    menu.fire('scroll', {});
+
+    assert.equal(menu.listeners.length, 0);
+    assert.deepEqual(calls, []);
+});
+
+test('openSubMenu lifts the submenu into the top layer when the browser has popovers', async () => {
+    const { openSubMenu } = await load('omni-focus.js');
+    const { submenu } = fixture();
+    follow(submenu, 176, 120);
+    let shown = 0;
+    submenu.showPopover = () => { shown++; };
+
+    openSubMenu('entry', 'entry-menu', false);
+
+    assert.equal(shown, 1);
+});
+
 test('leaveSubMenu gives the entry the focus the submenu holds, and leaves any other focus alone', async () => {
     const { leaveSubMenu } = await load('omni-focus.js');
     const { entry, one, last } = fixture();
