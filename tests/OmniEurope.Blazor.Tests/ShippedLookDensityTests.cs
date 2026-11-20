@@ -515,6 +515,16 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     }
 
     [Fact]
+    public void FixedRowGrid_CapsEveryBoxInACellBelowTheRow()
+    {
+        // Client application request (2026-11-20): a small OmniButton (26px) in a read cell grew a 44px row to
+        // 50px (52px under Papier), the block padding leaving the line alone to the content. The cell centres its
+        // line without padding (ClientReviewGridChartTests), and any box in it is capped below the row.
+        Assert.Equal("calc(var(--omni-row-height) - 0.25rem)",
+            ShippedLookTests.Value(ShippedLookTests.Body(".omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td > *"), "max-block-size"));
+    }
+
+    [Fact]
     public void UploadField_KeepsTheZone_ForASelectionOfSeveralFiles()
     {
         var upload = Render<OmniUpload>(parameters => parameters

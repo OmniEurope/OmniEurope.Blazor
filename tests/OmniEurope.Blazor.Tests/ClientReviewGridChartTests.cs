@@ -102,14 +102,14 @@ public sealed class ClientReviewGridChartTests : OmniBunitContext
     }
 
     [Fact]
-    public void A_fixed_row_gives_its_cells_a_line_of_their_own_and_a_padding_that_fits_the_row()
+    public void A_fixed_row_gives_its_cells_a_line_of_their_own_and_no_block_padding()
     {
-        // Under a serif face line-height: normal made a 40px row 41.2px, its 2px rule 38px out of 36.
+        // Under a serif face line-height: normal made a 40px row 41.2px, its 2px rule 38px out of 36. A padding
+        // sized for that line then left a control taller than it (a small button, a badge) only the line, and the
+        // row grew: 44px to 50px, 52px under Papier (2026-11-20). The cell centres its line instead.
         var body = ShippedLookTests.BodyWith(".omni-data-grid--fixed-row-height tbody tr:not(.omni-data-grid__spacer) td", "line-height");
         Assert.Equal("1.25rem", ShippedLookTests.Value(body, "line-height"));
-        Assert.Equal(
-            "max(0px, min(var(--omni-cell-pad-y), (var(--omni-row-height) - 1.25rem - var(--omni-border-width)) / 2))",
-            ShippedLookTests.Value(body, "padding-block"));
+        Assert.Equal("0", ShippedLookTests.Value(body, "padding-block"));
     }
 
     [Fact]
