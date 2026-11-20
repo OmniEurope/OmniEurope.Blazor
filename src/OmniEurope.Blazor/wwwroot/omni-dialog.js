@@ -94,6 +94,13 @@ export function freezeScale(dialog) {
     // theme scope: labels change face, case and tracking, and a width frozen for the old look would
     // clip them. The measures are then taken again under the new look, and once more when a web font
     // the look asked for has arrived.
+    // The look is the set of declarations, not their text: a scope may write the same tokens again in
+    // another order (a text size change renders it again), which is no new look and must not retake the
+    // measures at the new scale.
+    const lookOf = scope => [...scope.style]
+        .map(name => `${name}:${scope.style.getPropertyValue(name)}${scope.style.getPropertyPriority(name)}`)
+        .sort()
+        .join(';');
     const looks = new Map();
     const retake = () => {
         if (!dialog.isConnected) return;
@@ -104,7 +111,7 @@ export function freezeScale(dialog) {
     const look = new MutationObserver(() => {
         let changed = false;
         for (const [scope, seen] of looks) {
-            const now = scope.style.cssText;
+            const now = lookOf(scope);
             changed ||= now !== seen;
             looks.set(scope, now);
         }
@@ -113,7 +120,7 @@ export function freezeScale(dialog) {
         if (document.fonts?.status === 'loading') document.fonts.ready.then(retake);
     });
     for (let scope = dialog.parentElement?.closest('[data-omni-theme]'); scope; scope = scope.parentElement?.closest('[data-omni-theme]')) {
-        looks.set(scope, scope.style.cssText);
+        looks.set(scope, lookOf(scope));
         look.observe(scope, { attributes: true, attributeFilter: ['style'] });
     }
     // The ceilings are frozen from the screen they were read on (calc(100vw - 2rem), 100vh - 2rem): a

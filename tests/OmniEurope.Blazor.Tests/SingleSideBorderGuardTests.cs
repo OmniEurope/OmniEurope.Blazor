@@ -83,6 +83,16 @@ public sealed partial class SingleSideBorderGuardTests
     }
 
     [Fact]
+    public void TheSpreadsheetStickyHeaders_KeepTheirFrameWhileScrolling()
+    {
+        // A collapsed border belongs to the table and scrolls away from a sticky cell; the outline moves with it.
+        var header = ShippedLookTests.Body(".omni-spreadsheet__table :is(th, .omni-spreadsheet__corner)");
+        Assert.Equal("sticky", ShippedLookTests.Value(header, "position"));
+        Assert.Equal("var(--omni-border-width) solid var(--omni-spreadsheet-line)", ShippedLookTests.Value(header, "outline"));
+        Assert.Equal("calc(-1 * var(--omni-border-width))", ShippedLookTests.Value(header, "outline-offset"));
+    }
+
+    [Fact]
     public void NoRule_StartsDrawingALineOnOneSide()
     {
         var found = SingleSideSelectors();

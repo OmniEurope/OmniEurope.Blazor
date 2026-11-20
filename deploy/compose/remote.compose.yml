@@ -1,0 +1,94 @@
+# SPDX-License-Identifier: EUPL-1.2
+#
+# OmniEurope.Blazor showcase, production and QA stack (Docker Compose): the WebAssembly front, its API and
+# PostgreSQL. Driven by the Aetheus pipelines of the project (prefix `oe`), which hand Compose every variable
+# below (libraries oe.share / oe.prod / oe.qa, vault entry DB_PASSWORD). Every published port listens on
+# the loopback only: Apache is the public entry (virtual hosts versioned in the configuration repository).
+# Strategy: `replace` (one published port per service, PORT_FRONT and PORT_BACK).
+#
+# Never used for local development: that is deploy/compose/dev-db.compose.yml, started by ylaunch.ps1.
+# Runtime configuration, by container:
+#   front: API_BASE_URL (the API's public address) -> wwwroot/appsettings.json and the CSP connect-src.
+#   back : ConnectionStrings__DefaultConnection, Cors__Origins__0 (the front's public origin), and
+#          ForwardedHeaders__Enabled (the port is published on 127.0.0.1 only, so the proxy is the only client).
+
+services:
+
+  front:
+    container_name: ${APPNAME:?}-${ENV:?}-front
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.front
+      args:
+        DOTNET_SDK_VERSION: ${DOTNET_SDK_VERSION:?DOTNET_SDK_VERSION comes from global.json}
+    ports:
+      - "127.0.0.1:${PORT_FRONT:?}:8080"
+    environment:
+      - API_BASE_URL=${API_BASE_URL:?}
+      - APP_VERSION=${APP_VERSION:?}
+    # The runtime image has no curl: bash opens the TCP connection itself.
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080 && printf 'GET / HTTP/1.0\r\n\r\n' >&3 && head -n1 <&3 | grep -q 200"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+    depends_on:
+      back:
+        condition: service_healthy
+    restart: unless-stopped
+
+  back:
+    container_name: ${APPNAME:?}-${ENV:?}-back
+    build:
+      context: ../..
+      dockerfile: deploy/docker/Dockerfile.back
+      args:
+        DOTNET_SDK_VERSION: ${DOTNET_SDK_VERSION:?DOTNET_SDK_VERSION comes from global.json}
+    ports:
+      - "127.0.0.1:${PORT_BACK:?}:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Production
+      # No fallback: a silent default would diverge from the database password below.
+      - ConnectionStrings__DefaultConnection=Host=db;Port=5432;Database=${APPNAME:?};Username=${DB_USER:?};Password=${DB_PASSWORD:?DB_PASSWORD is required}
+      - Cors__Origins__0=${FRONT_URL:?}
+      - ForwardedHeaders__Enabled=true
+    # The runtime image has no curl: bash opens the TCP connection itself. Readiness includes PostgreSQL.
+    healthcheck:
+      test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080 && printf 'GET /health/ready HTTP/1.0\r\n\r\n' >&3 && head -n1 <&3 | grep -q 200"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 120s
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - default
+      - backend
+    restart: unless-stopped
+
+  db:
+    container_name: ${APPNAME:?}-${ENV:?}-db
+    image: postgres:18-alpine@sha256:10a5c69a83035ab5239f5620d708520e8b28f5aa1f2b20143e6024532edadfb5
+    environment:
+      - POSTGRES_DB=${APPNAME:?}
+      - POSTGRES_USER=${DB_USER:?}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:?}
+    volumes:
+      - db-data:/var/lib/postgresql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${APPNAME}"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - backend
+    restart: unless-stopped
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  db-data:

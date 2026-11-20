@@ -1,0 +1,47 @@
+# =============================================================================
+# Dockerfile.back - OmniEurope.Blazor showcase API (ASP.NET Core, EF Core, PostgreSQL)
+# =============================================================================
+# Multi-stage build: SDK for the locked restore and the publish, ASP.NET runtime to run.
+# Build context: the repository root (deploy/compose/remote.compose.yml sets it).
+#
+# Migration strategy: one mechanism only. The API applies its pending EF migrations itself at start-up
+# (Data/DbInitializer.cs), in every environment; no bundle, no SDK and no dotnet-ef in the image.
+# Configuration comes from the environment (the same names as deploy/compose/remote.compose.yml):
+# ConnectionStrings__DefaultConnection, Cors__Origins__0, ForwardedHeaders__Enabled.
+# =============================================================================
+
+# STD-SDKPIN: the SDK version is derived from global.json by the deployment pipeline (build arg),
+# never written here. The default only serves a bare `docker build` and must match the floor.
+ARG DOTNET_SDK_VERSION=11.0.100
+
+# --- Stage 1: restore (locked) and publish ---
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK_VERSION} AS build
+WORKDIR /src
+
+# Repository build settings: central package versions, the pinned implicit SDK packs, the analyzers every
+# project references (Directory.Build.props), warnings as errors.
+COPY global.json Directory.Build.props Directory.Build.targets Directory.Packages.props NuGet.Config .editorconfig ./
+COPY eng/OmniEurope.Analyzers/ eng/OmniEurope.Analyzers/
+COPY src/OmniEurope.Blazor.Analyzers/ src/OmniEurope.Blazor.Analyzers/
+
+# Project files and lock files first, for the restore layer cache.
+COPY site/OmniEurope.Blazor.Showcase.Shared/OmniEurope.Blazor.Showcase.Shared.csproj site/OmniEurope.Blazor.Showcase.Shared/packages.lock.json site/OmniEurope.Blazor.Showcase.Shared/
+COPY site/OmniEurope.Blazor.Showcase.Back/OmniEurope.Blazor.Showcase.Back.csproj site/OmniEurope.Blazor.Showcase.Back/packages.lock.json site/OmniEurope.Blazor.Showcase.Back/
+RUN dotnet restore site/OmniEurope.Blazor.Showcase.Back/OmniEurope.Blazor.Showcase.Back.csproj --locked-mode -p:Configuration=Release
+
+COPY site/OmniEurope.Blazor.Showcase.Shared/ site/OmniEurope.Blazor.Showcase.Shared/
+COPY site/OmniEurope.Blazor.Showcase.Back/ site/OmniEurope.Blazor.Showcase.Back/
+RUN dotnet publish site/OmniEurope.Blazor.Showcase.Back/OmniEurope.Blazor.Showcase.Back.csproj \
+    --configuration Release --no-restore --output /app/publish
+
+# --- Stage 2: runtime ---
+FROM mcr.microsoft.com/dotnet/aspnet:11.0.0@sha256:bc0d6653979efba491ab3d6f589d691f96c309c3c3ef81325efa6978e7b7f242 AS runtime
+WORKDIR /app
+COPY --from=build /app/publish .
+
+ENV ASPNETCORE_URLS=http://+:8080
+EXPOSE 8080
+
+# Run as the non-root user built into the aspnet images. The API writes nothing on disk.
+USER app
+ENTRYPOINT ["dotnet", "OmniEurope.Blazor.Showcase.Back.dll"]

@@ -741,7 +741,9 @@
 .omni-spreadsheet__col { inline-size: var(--omni-spreadsheet-column-width); }
 .omni-spreadsheet__col--header { inline-size: 3rem; }
 .omni-spreadsheet__table :is(th, td) { block-size: calc(var(--omni-control-height) - 0.25rem); border: var(--omni-border-width) solid var(--omni-spreadsheet-line); overflow: hidden; padding: 0 var(--omni-space-sm); text-overflow: ellipsis; white-space: nowrap; }
-.omni-spreadsheet__table :is(th, .omni-spreadsheet__corner) { background: color-mix(in srgb, var(--omni-color-text) 7%, var(--omni-color-surface)); color: var(--omni-color-text-muted); font-weight: 600; position: sticky; text-align: center; z-index: 1; }
+/* A collapsed border belongs to the table and scrolls away from a sticky header: the frame of a sticky
+   header is drawn again on its four sides by an outline, which moves with the cell. */
+.omni-spreadsheet__table :is(th, .omni-spreadsheet__corner) { background: color-mix(in srgb, var(--omni-color-text) 7%, var(--omni-color-surface)); color: var(--omni-color-text-muted); font-weight: 600; outline: var(--omni-border-width) solid var(--omni-spreadsheet-line); outline-offset: calc(-1 * var(--omni-border-width)); position: sticky; text-align: center; z-index: 1; }
 .omni-spreadsheet__table thead :is(th, td) { inset-block-start: 0; z-index: 2; }
 .omni-spreadsheet__table :is(tbody th, .omni-spreadsheet__corner) { inset-inline-start: 0; }
 .omni-spreadsheet__table .omni-spreadsheet__corner { z-index: 3; }

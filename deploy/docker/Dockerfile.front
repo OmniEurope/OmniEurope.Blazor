@@ -1,0 +1,78 @@
+# =============================================================================
+# Dockerfile.front - OmniEurope.Blazor showcase front (Blazor WebAssembly) and its static host
+# =============================================================================
+# Multi-stage build:
+#   1. publish the WebAssembly showcase (locked restore, fingerprinted assets)
+#   2. build the static host (deploy/docker/StaticServer.Program.cs)
+#   3. runtime: ASP.NET serving the published wwwroot
+# Build context: the repository root (deploy/compose/remote.compose.yml sets it).
+#
+# The host sends every rule of the published wwwroot/_headers (strict CSP included), adds the API origin
+# (API_BASE_URL, read at start) to the CSP connect-src, writes wwwroot/appsettings.json from API_BASE_URL and
+# gives each response its cache policy: immutable for hash-named files only, no-store for the HTML shell, the
+# runtime settings and errors, no-cache for the rest.
+# =============================================================================
+
+# STD-SDKPIN: the SDK version is derived from global.json by the deployment pipeline (build arg),
+# never written here. The default only serves a bare `docker build` and must match the floor.
+ARG DOTNET_SDK_VERSION=11.0.100
+
+# --- Stage 1: publish the showcase ---
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK_VERSION} AS build
+WORKDIR /src
+
+# STD-WASMOPT: the SDK image does NOT ship the wasm-tools workload, and its absence is silent (the publish
+# prints "Publishing without optimizations", succeeds, and emits an unoptimized dotnet.native.wasm). Installed
+# before the restore so it stays in a cached layer. The relink runs Emscripten, whose emcc is a Python script:
+# python3 stays in this Linux build stage only. Directory.Build.targets re-pins the Mono runtime pack the
+# workload would otherwise rewrite to its own version.
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends python3 \
+    && rm -rf /var/lib/apt/lists/*
+RUN dotnet workload install wasm-tools
+
+# Repository build settings: central package versions, the pinned implicit SDK packs (Mono runtime pack
+# included, Directory.Build.targets), the analyzers every project references, warnings as errors.
+COPY global.json Directory.Build.props Directory.Build.targets Directory.Packages.props NuGet.Config .editorconfig ./
+COPY eng/OmniEurope.Analyzers/ eng/OmniEurope.Analyzers/
+COPY eng/OmniEurope.Stylesheet.targets eng/
+COPY src/OmniEurope.Blazor.Analyzers/ src/OmniEurope.Blazor.Analyzers/
+
+# The sources first, then the restore: a Razor project restored from its project file alone resolves
+# one implicit package fewer (Microsoft.AspNetCore.App.Internal.Assets) than the lock file records, so the
+# locked restore only matches once the sources are present.
+
+COPY src/OmniEurope.Blazor/ src/OmniEurope.Blazor/
+COPY site/OmniEurope.Blazor.Showcase.Shared/ site/OmniEurope.Blazor.Showcase.Shared/
+COPY site/OmniEurope.Blazor.Showcase.Examples/ site/OmniEurope.Blazor.Showcase.Examples/
+COPY site/OmniEurope.Blazor.Showcase/ site/OmniEurope.Blazor.Showcase/
+RUN dotnet restore site/OmniEurope.Blazor.Showcase/OmniEurope.Blazor.Showcase.csproj --locked-mode -p:Configuration=Release
+
+# Fingerprinted publish: the hash in a file name is what lets the host serve it as immutable.
+RUN dotnet publish site/OmniEurope.Blazor.Showcase/OmniEurope.Blazor.Showcase.csproj \
+    --configuration Release --no-restore --output /app/publish
+
+# --- Stage 2: build the static host ---
+FROM mcr.microsoft.com/dotnet/sdk:${DOTNET_SDK_VERSION} AS server-build
+WORKDIR /server
+RUN dotnet new web --no-https --name StaticServer
+WORKDIR /server/StaticServer
+COPY deploy/docker/StaticServer.Program.cs Program.cs
+RUN dotnet publish -c Release -o /server/publish --nologo
+
+# --- Stage 3: runtime ---
+FROM mcr.microsoft.com/dotnet/aspnet:11.0.0@sha256:bc0d6653979efba491ab3d6f589d691f96c309c3c3ef81325efa6978e7b7f242 AS runtime
+WORKDIR /app
+COPY --from=server-build /server/publish .
+
+# The published site, owned by the runtime user: the host rewrites appsettings.json at start.
+COPY --chown=app:app --from=build /app/publish/wwwroot ./wwwroot
+# The static assets manifest (fingerprint mapping), named after the host's assembly.
+COPY --from=build /app/publish/OmniEurope.Blazor.Showcase.staticwebassets.endpoints.json ./StaticServer.staticwebassets.endpoints.json
+
+EXPOSE 8080
+
+# Run as the non-root user built into the aspnet images. No ASPNETCORE_ENVIRONMENT: the default is Production,
+# and Development makes the framework strip the cache headers.
+USER app
+ENTRYPOINT ["dotnet", "StaticServer.dll"]

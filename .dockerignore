@@ -1,0 +1,23 @@
+# Keeps local artefacts out of the Docker build context (deploy/docker/Dockerfile.*). The obj/ trees
+# restored under Windows would overwrite the restore done in the image (Windows package paths in
+# project.assets.json), and the folders below have no business in an image layer.
+.git/
+.github/
+.claude/
+.codex/
+.worktrees/
+.vs/
+.vscode/
+.playwright-mcp/
+**/bin/
+**/obj/
+**/node_modules/
+**/TestResults/
+artifacts/
+tests/
+samples/
+docs/
+# Written by the local launcher with the developer's API address; never part of an image.
+**/appsettings.Local.json
+**/*.user
+**/*.log
