@@ -105,6 +105,7 @@ class Element extends Node {
         this.attributes = new Map();
         this.rect = { left: 0, top: 0, right: 0, bottom: 0, width: 0, height: 0 };
         this.focused = false;
+        this.listeners = [];
         this.ownText = '';
         const classes = new Set();
         this.classList = {
@@ -154,8 +155,10 @@ class Element extends Node {
     append(child) { child.parentElement = this; this.children.push(child); }
     appendChild(child) { this.append(child); return child; }
     prepend(child) { child.parentElement = this; this.children.unshift(child); }
-    addEventListener() { }
-    removeEventListener() { }
+    // Listeners are kept per type so a test can fire the event by hand with fire(type, event).
+    addEventListener(type, handler, options) { this.listeners.push({ type, handler, options }); }
+    removeEventListener(type, handler) { this.listeners = this.listeners.filter(item => item.type !== type || item.handler !== handler); }
+    fire(type, event) { this.listeners.filter(item => item.type === type).forEach(item => item.handler({ target: this, ...event })); }
     getBoundingClientRect() { return this.rect; }
     getClientRects() { return [this.rect]; }
     focus() { this.focused = true; }

@@ -48,7 +48,7 @@ public sealed class SubMenuEdgeTests : OmniBunitContext
         Assert.Equal($"{id}-menu", entry.Find("button").GetAttribute("aria-controls"));
         Assert.Equal("the list", list.TextContent.Trim());
         var placed = Assert.Single(module.Invocations["openSubMenu"]);
-        Assert.Equal([id, $"{id}-menu", false], placed.Arguments.ToArray());
+        Assert.Equal([id, $"{id}-menu", false], placed.Arguments.Take(3).ToArray());
     }
 
     [Fact]
@@ -84,7 +84,7 @@ public sealed class SubMenuEdgeTests : OmniBunitContext
         Assert.Equal("true", entry.Find("#pen").GetAttribute("aria-expanded"));
         Assert.Single(entry.FindAll("#pen-menu"));
         var placed = Assert.Single(module.Invocations["openSubMenu"]);
-        Assert.Equal(["pen", "pen-menu", false], placed.Arguments.ToArray());
+        Assert.Equal(["pen", "pen-menu", false], placed.Arguments.Take(3).ToArray());
     }
 
     [Fact]

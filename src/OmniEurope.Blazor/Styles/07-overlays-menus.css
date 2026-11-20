@@ -286,14 +286,16 @@ body:has(.omni-overlay) { overflow: hidden; }
 /* A submenu (OmniSubMenu): the entry is a menu row with a chevron toward the inline end, mirrored in a
    right-to-left page and shown filled while its list is open; the list is an .omni-menu nested in the
    entry's wrapper, fixed to the window like any menu and placed beside the entry by omni-focus.js.
-   A menu that holds submenus lets them fly out past its edge, so it is not clipped and does not
-   scroll: it is not meant to be taller than the window. */
+   A menu that holds submenus scrolls like any other: its submenu is a manual popover, drawn by the
+   browser in the top layer, so the scrolling list never clips it (a menu with a backdrop filter is the
+   containing block of its fixed descendants, which its overflow would otherwise cut). A scroll of the
+   list closes the submenus opened from it. The popover's own box rules (auto margin, border, colour,
+   inset) are reset to those of a menu. */
 .omni-menu__sub { display: block; }
 .omni-menu__chevron { --omni-icon-size: 1rem; align-items: center; color: var(--omni-color-text-muted); display: inline-flex; flex: none; }
 .omni-menu__chevron:dir(rtl) { transform: scaleX(-1); }
 .omni-menu__item[aria-expanded="true"] { background: var(--omni-color-surface-hover); }
-.omni-menu__submenu { max-inline-size: calc(100vw - 16px); }
-.omni-menu:has(> .omni-menu__sub) { max-block-size: none; overflow: visible; }
+.omni-menu__submenu { color: var(--omni-color-text); margin: 0; max-inline-size: calc(100vw - 16px); }
 
 .omni-breadcrumb__list { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-xs); list-style: none; margin: 0; padding: 0; }
 .omni-breadcrumb__item + .omni-breadcrumb__item::before { color: var(--omni-color-text-muted); content: "/"; margin-inline-end: var(--omni-space-xs); }
