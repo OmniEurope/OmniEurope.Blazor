@@ -1168,3 +1168,9 @@
         --omni-map-height: 20rem;
     }
 }
+
+/* The header row of the demo tables is a tinted band; only the body rows keep their separating lines. */
+:is(.gallery-toggles-matrix, .gallery-upload, .gallery-buttons-matrix, .gallery-charts-chart .omni-chart__data, .gallery-charts-pie .omni-chart__data) thead :is(th, td) {
+    background: var(--omni-color-surface-muted);
+    border-block-end: 0;
+}
