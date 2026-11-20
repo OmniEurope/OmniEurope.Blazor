@@ -230,7 +230,7 @@ public sealed partial class ShippedLookTests : OmniBunitContext
         Assert.Equal("color-mix(in srgb, var(--omni-alert-fill) var(--omni-alert-fill-opacity, 100%), transparent)", Value(filled, "background"));
         Assert.Equal("var(--omni-alert-on)", Value(filled, "color"));
         // A theme may flatten it (--omni-alert-shadow, Aplat); the package draws it otherwise.
-        Assert.StartsWith("var(--omni-alert-shadow, inset 0 1px 0 rgb(255 255 255 / 14%), 0 1px 2px var(--omni-elevation-shadow", Value(filled, "box-shadow"), StringComparison.Ordinal);
+        Assert.StartsWith("var(--omni-alert-shadow, 0 1px 2px var(--omni-elevation-shadow", Value(filled, "box-shadow"), StringComparison.Ordinal);
         Assert.Contains("color-mix(in srgb, var(--omni-alert-fill) 60%, transparent)", Value(filled, "box-shadow"), StringComparison.Ordinal);
         Assert.Equal("var(--omni-alert-radius, var(--omni-radius))", Value(Body(".omni-alert"), "border-radius"));
 

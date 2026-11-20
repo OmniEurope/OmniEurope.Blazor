@@ -121,7 +121,7 @@
     --omni-alert-radius: 0.15625rem;
     --omni-button-font-weight: 500;
     --omni-button-radius: 0.15625rem;
-    --omni-button-shadow: inset 0 1px 0 var(--omni-elevation-highlight), 0 0.0625rem 0.125rem var(--omni-elevation-shadow);
+    --omni-button-shadow: 0 0.0625rem 0.125rem var(--omni-elevation-shadow);
     --omni-card-background: var(--omni-layer-fill);
     --omni-card-border-color: var(--omni-layer-stroke);
     --omni-card-radius: 0.15625rem;
@@ -245,8 +245,8 @@
     --omni-elevation-shadow-soft: rgb(0 0 0 / 40%);
     --omni-layer-acrylic: rgb(46 46 46 / 86%);
     --omni-layer-fill: #292929;
-    --omni-layer-shadow: inset 0 1px 0 rgb(255 255 255 / 5%), 0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%);
-    --omni-layer-shadow-deep: inset 0 1px 0 rgb(255 255 255 / 6%), 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%);
+    --omni-layer-shadow: 0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%);
+    --omni-layer-shadow-deep: 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%);
     --omni-layer-stroke: rgb(255 255 255 / 9%);
     color-scheme: dark;
 }
@@ -361,8 +361,8 @@
         --omni-elevation-shadow-soft: rgb(0 0 0 / 40%);
         --omni-layer-acrylic: rgb(46 46 46 / 86%);
         --omni-layer-fill: #292929;
-        --omni-layer-shadow: inset 0 1px 0 rgb(255 255 255 / 5%), 0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%);
-        --omni-layer-shadow-deep: inset 0 1px 0 rgb(255 255 255 / 6%), 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%);
+        --omni-layer-shadow: 0 0 2px rgb(0 0 0 / 30%), 0 4px 10px rgb(0 0 0 / 34%);
+        --omni-layer-shadow-deep: 0 0 4px rgb(0 0 0 / 34%), 0 16px 40px rgb(0 0 0 / 46%);
         --omni-layer-stroke: rgb(255 255 255 / 9%);
         color-scheme: dark;
     }
