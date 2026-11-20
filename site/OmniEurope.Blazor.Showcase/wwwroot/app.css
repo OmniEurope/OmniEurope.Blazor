@@ -403,7 +403,7 @@
 
 .gallery-shell-canvas .omni-header {
     align-items: center;
-    border-block-end: var(--omni-border-width) solid var(--omni-color-border);
+    background: var(--omni-color-surface-muted);
     display: flex;
     gap: var(--omni-space-sm);
     padding: var(--omni-space-sm) var(--omni-space-md);
