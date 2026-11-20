@@ -4,6 +4,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+## [1.14.4] - 2026-11-20
+
 ### Ajouté
 
 - `SelectOnFocus` (`bool`, `false` par défaut, demande d'une application cliente) sur `OmniTextBox`, `OmniNumeric`, `OmniTextArea` et `OmniPassword` : entrer dans le champ (clic de souris, toucher, Tab ou Maj+Tab, focus donné par le code) en sélectionne tout le contenu, si bien que la frappe suivante le remplace, y compris pour `OmniNumeric` (`type="number"`) ; un clic dans un champ qui a déjà le focus place le curseur comme avant, et le `mouseup` du clic qui donne le focus est annulé une fois pour que le navigateur ne défasse pas la sélection. Le script (`omni-select-on-focus.js`) n'est chargé que lorsque le paramètre est à `true` ; à `false`, le balisage et le comportement ne changent pas.
