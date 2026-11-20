@@ -26,6 +26,12 @@ internal sealed class OmniMenuLevel
         return previous is null || same ? Task.CompletedTask : previous();
     }
 
+    /// <summary>
+    /// Whether <paramref name="owner"/> is still the entry recorded as open: false once a sibling opened
+    /// while it waited for the previous list to close.
+    /// </summary>
+    internal bool Holds(object owner) => ReferenceEquals(_owner, owner);
+
     /// <summary>Forgets <paramref name="owner"/> once its list is closed or gone.</summary>
     internal void Closed(object owner)
     {

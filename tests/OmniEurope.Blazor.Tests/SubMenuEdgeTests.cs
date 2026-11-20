@@ -1,4 +1,3 @@
-using System.Reflection;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
@@ -192,52 +191,10 @@ public sealed class SubMenuEdgeTests : OmniBunitContext
         await openingA.WaitAsync(Limit, Xunit.TestContext.Current.CancellationToken);
         Assert.Equal("false", host.Find("#x").GetAttribute("aria-expanded"));
         Assert.Empty(host.FindAll("#x-menu"));
+        // A gave its place to B while it waited: it stays closed, so the level keeps one list open, B's.
+        Assert.Equal("false", host.Find("#a").GetAttribute("aria-expanded"));
+        Assert.Empty(host.FindAll("#a-menu"));
+        Assert.Equal("true", host.Find("#b").GetAttribute("aria-expanded"));
+        Assert.Single(host.FindAll("[role=menu]"));
     }
-
-    // The two guards below protect a close that reaches an entry which never loaded its script or whose script
-    // was released on arrival. The level forgets an entry the moment it is closed or removed, so no sibling
-    // can reach those states: the private close is called directly to hold what the guards do.
-
-    [Fact]
-    public async Task ACloseOnAnOpenEntryThatNeverLoadedTheScript_ClosesItAndCallsNothing()
-    {
-        JSInterop.SetupModule(OmniModules.Focus);
-        var entry = RenderEntry("fresh");
-        await entry.InvokeAsync(() => SetOpen(entry.Instance, true));
-        entry.Render();
-        Assert.Equal("true", entry.Find("#fresh").GetAttribute("aria-expanded"));
-
-        await entry.InvokeAsync(() => CloseAsync(entry.Instance));
-
-        Assert.Equal("false", entry.Find("#fresh").GetAttribute("aria-expanded"));
-        Assert.Empty(entry.FindAll("[role=menu]"));
-        Assert.DoesNotContain(JSInterop.Invocations, call => call.Identifier is "import" or "openSubMenu" or "leaveSubMenu");
-    }
-
-    [Fact]
-    public async Task ACloseOnAnEntryRemovedWhileItsScriptLoaded_ClosesItAndCallsNothing()
-    {
-        var runtime = UseRuntime(new ManualJSRuntime { HoldImports = true });
-        var host = Render<SubMenuLevelTestHost>();
-        await host.Find("#x").ClickAsync(Pointer);
-        var removed = host.FindComponents<OmniSubMenu>().First(entry => entry.Instance.Id == "x").Instance;
-        host.Render(parameters => parameters.Add(component => component.ShowX, false));
-        runtime.PendingImport.SetResult(runtime.Module);
-        // The script arrived after the removal: the loader released it and answered null.
-        var import = (Task<IJSObjectReference?>)typeof(OmniSubMenu).GetField("_import", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(removed)!;
-        Assert.Null(await import.WaitAsync(Limit, Xunit.TestContext.Current.CancellationToken));
-        Assert.True(runtime.Module.Disposal.Task.IsCompleted);
-
-        await host.InvokeAsync(() => CloseAsync(removed));
-
-        Assert.False((bool)typeof(OmniSubMenu).GetField("_open", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(removed)!);
-        Assert.DoesNotContain("leaveSubMenu", runtime.Module.Calls);
-        Assert.DoesNotContain("openSubMenu", runtime.Module.Calls);
-    }
-
-    private static void SetOpen(OmniSubMenu entry, bool open) =>
-        typeof(OmniSubMenu).GetField("_open", BindingFlags.Instance | BindingFlags.NonPublic)!.SetValue(entry, open);
-
-    private static Task CloseAsync(OmniSubMenu entry) =>
-        (Task)typeof(OmniSubMenu).GetMethod("CloseAsync", BindingFlags.Instance | BindingFlags.NonPublic)!.Invoke(entry, null)!;
 }

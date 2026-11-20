@@ -22,6 +22,7 @@ public partial class OmniSubMenu
     private readonly OmniMenuLevel _entries = new();
     private OmniMenuLevel? _standalone;
     private Task<IJSObjectReference?>? _import;
+    private IJSObjectReference? _module;
     private bool _open;
     private bool _openedByPointer;
     private bool _focusFirst;
@@ -104,6 +105,12 @@ public partial class OmniSubMenu
     private async Task OpenAsync(bool focusFirst, bool byPointer)
     {
         await Siblings.OpenAsync(this, CloseAsync);
+        if (!Siblings.Holds(this))
+        {
+            // A sibling opened while the previous list was closing: its list is the open one, this one stays shut.
+            return;
+        }
+
         _open = true;
         _openedByPointer = byPointer;
         _focusFirst = focusFirst;
@@ -134,7 +141,8 @@ public partial class OmniSubMenu
 
     private async Task LeaveAsync()
     {
-        if (_import is not { IsCompletedSuccessfully: true } loaded || loaded.Result is not { } module)
+        // Only a list the script placed has anything to leave: until the script arrives there is none.
+        if (_module is not { } module)
         {
             return;
         }
@@ -164,6 +172,7 @@ public partial class OmniSubMenu
         {
             if (await _import is { } module)
             {
+                _module = module;
                 await module.InvokeVoidAsync("openSubMenu", EntryId, MenuId, focusFirst);
             }
         }
