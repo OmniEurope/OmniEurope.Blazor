@@ -65,6 +65,9 @@
 .omni-media-tile__picture { block-size: var(--omni-media-picture-height, 0px); inline-size: var(--omni-media-picture-width, 0px); inset-block-start: var(--omni-media-picture-top, 0px); inset-inline-start: var(--omni-media-picture-left, 0px); overflow: hidden; position: absolute; }
 .omni-media-tile__ink { --omni-ink-background: transparent; --omni-ink-border-color: transparent; block-size: 100%; inline-size: 100%; }
 .omni-media-tile__ink .omni-ink-canvas__frame { block-size: 100%; border: 0; border-radius: 0; }
+/* DrawingReadOnly: the layer shows the strokes and takes no pointer, so a press reaches the tile below it. The surface
+   selector outweighs the OmniMediaStage rule that gives a focusable element of a thumbnail its pointer back. */
+.omni-media-tile__picture--readonly, .omni-media-tile .omni-media-tile__stage .omni-media-tile__picture--readonly .omni-ink-canvas__surface { pointer-events: none; }
 .omni-media-tile__status, .omni-media-tile__actions, .omni-media-tile__name { pointer-events: none; position: absolute; }
 .omni-media-tile__status { align-items: center; display: flex; gap: var(--omni-space-xs); inset-block-start: var(--omni-space-sm); inset-inline-start: var(--omni-space-sm); }
 .omni-media-tile__badge { align-items: center; background: rgb(0 0 0 / 0.6); border-radius: 999px; color: #fff; display: inline-flex; justify-content: center; min-block-size: var(--omni-control-height); min-inline-size: var(--omni-control-height); }

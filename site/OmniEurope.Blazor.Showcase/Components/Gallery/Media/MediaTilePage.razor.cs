@@ -26,6 +26,8 @@ public partial class MediaTilePage
 
     private bool ShowDrawingToolbar { get; set; } = true;
 
+    private bool DrawingReadOnly { get; set; }
+
     private OmniInkTool Tool { get; set; }
 
     private bool EraserChosen

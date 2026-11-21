@@ -34,6 +34,8 @@
   <data name="MediaTileDrawingDescription" xml:space="preserve"><value>Un canevas posé exactement sur l’image que montre la vidéo, bandes exclues en Contain ; ses traits sont de 0 à 1 de l’image, les mêmes à toutes les tailles de tuile.</value></data>
   <data name="MediaTileDrawingToolbar" xml:space="preserve"><value>Barre d’outils du dessin</value></data>
   <data name="MediaTileDrawingToolbarDescription" xml:space="preserve"><value>Crayon et gomme, couleur, épaisseur, Annuler et Effacer dans une barre au-dessus de la vidéo, jamais sur l’image.</value></data>
+  <data name="MediaTileDrawingReadOnly" xml:space="preserve"><value>Dessin en lecture seule</value></data>
+  <data name="MediaTileDrawingReadOnlyDescription" xml:space="preserve"><value>Les traits restent visibles mais le pointeur ne dessine ni n’efface et atteint la tuile (DrawingReadOnly) ; la barre d’outils est masquée.</value></data>
   <data name="MediaTileEraser" xml:space="preserve"><value>Gomme</value></data>
   <data name="MediaTileEraserDescription" xml:space="preserve"><value>Le pointeur efface des traits entiers au lieu de dessiner (DrawingTool) ; un trait effacé sur une tuile disparaît de l’autre.</value></data>
   <data name="MediaTilePreviewTitle" xml:space="preserve"><value>Deux tuiles, un flux</value></data>

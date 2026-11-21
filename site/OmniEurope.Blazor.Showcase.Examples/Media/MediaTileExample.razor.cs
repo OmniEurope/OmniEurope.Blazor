@@ -57,6 +57,10 @@ public sealed partial class MediaTileExample : IAsyncDisposable
     [Parameter]
     public bool ShowDrawingToolbar { get; set; } = true;
 
+    /// <summary>Shows the strokes of each tile without letting the pointer draw or erase.</summary>
+    [Parameter]
+    public bool DrawingReadOnly { get; set; }
+
     /// <summary>What the pointer does on the drawing layers: draw or erase whole strokes.</summary>
     [Parameter]
     public OmniInkTool Tool { get; set; }

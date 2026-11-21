@@ -67,6 +67,13 @@
                 </ChildContent>
             </OmniSettingsTile>
 
+            <OmniSettingsTile Title="@Text["MediaTileDrawingReadOnly"]" Description="@Text["MediaTileDrawingReadOnlyDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Eye" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="DrawingReadOnly" aria-label="@Text["MediaTileDrawingReadOnly"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
             <OmniSettingsTile Title="@Text["MediaTileEraser"]" Description="@Text["MediaTileEraserDescription"]">
                 <Icon><OmniIcon Name="OmniIconName.Eraser" /></Icon>
                 <ChildContent>
@@ -89,6 +96,7 @@
                                   CameraActive="CameraActive"
                                   Drawing="Drawing"
                                   ShowDrawingToolbar="ShowDrawingToolbar"
+                                  DrawingReadOnly="DrawingReadOnly"
                                   @bind-Tool="Tool" />
             </ChildContent>
         </OmniCard>

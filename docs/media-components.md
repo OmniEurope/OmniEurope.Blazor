@@ -184,6 +184,13 @@ chaque `StrokeAdded` aux autres tuiles (avec le même `Id`) et retire par `Id` c
 textes de la zone de dessin ; le canevas, lui, n'a pas de barre propre. Sans elle, l'hôte pilote le dessin par
 `DrawingTool` et ses propres boutons.
 
+`DrawingReadOnly` (faux par défaut) garde les traits visibles sans en accepter : ils sont dessinés exactement comme en
+édition (même place sur l'image, présents dans l'export), mais ni le pointeur ni le clavier ne dessinent, n'effacent,
+n'annulent ou ne vident, donc ni `StrokeAdded`, ni `StrokesChanged`, ni `StrokesRemoved` ne sont levés. La barre de dessin
+est absente et le calque laisse passer le pointeur jusqu'à la tuile : dans un `OmniMediaStage`, un clic sur une vignette
+la choisit toujours comme principale. C'est le mode d'une salle où l'écriture s'active par un bouton de l'hôte tout en
+montrant les traits des autres quand elle est coupée.
+
 Le cadre du canevas est transparent sur la vidéo (`--omni-ink-background: transparent`) et sans bordure : un cadre qui
 aurait une bordure rognerait le canevas et décalerait tous les traits.
 

@@ -363,6 +363,98 @@ public sealed class MediaTileTests : OmniBunitContext
     }
 
     [Fact]
+    public void DrawingReadOnly_IsOffByDefault() => Assert.False(new OmniMediaTile().DrawingReadOnly);
+
+    [Fact]
+    public void DrawingReadOnly_ShowsTheStrokesOnALockedCanvas_WithoutAToolbar_AndLetsThePointerThrough()
+    {
+        var strokes = new[] { Stroke() };
+        var tile = RenderTile(parameters => parameters
+            .Add(t => t.Drawing, true)
+            .Add(t => t.DrawingReadOnly, true)
+            .Add(t => t.Strokes, strokes));
+
+        Assert.Empty(tile.FindAll(".omni-media-tile__toolbar"));
+        var ink = Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance;
+        Assert.True(ink.ReadOnly);
+        Assert.Same(strokes, ink.Value);
+        Assert.Contains("omni-media-tile__picture--readonly", tile.Find("[data-omni-media-picture]").ClassList);
+        Assert.Equal("true", tile.Find("canvas").GetAttribute("data-omni-ink-locked"));
+    }
+
+    [Fact]
+    public void DrawingReadOnly_WithoutDrawing_ShowsNothing()
+    {
+        var tile = RenderTile(parameters => parameters.Add(t => t.DrawingReadOnly, true).Add(t => t.Strokes, [Stroke()]));
+
+        Assert.Empty(tile.FindAll("[data-omni-media-picture]"));
+        Assert.Empty(tile.FindAll(".omni-media-tile__toolbar"));
+    }
+
+    [Fact]
+    public void Editing_KeepsTheLayerWithoutTheReadOnlyClass()
+    {
+        var tile = RenderTile(parameters => parameters.Add(t => t.Drawing, true));
+
+        Assert.DoesNotContain("omni-media-tile__picture--readonly", tile.Find("[data-omni-media-picture]").ClassList);
+        Assert.False(Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance.ReadOnly);
+        Assert.Null(tile.Find("canvas").GetAttribute("data-omni-ink-locked"));
+    }
+
+    [Fact]
+    public async Task DrawingReadOnly_RaisesNoStrokeEvent_FromAStrokeAnEraseOrAKey()
+    {
+        var events = 0;
+        var tile = RenderTile(parameters => parameters
+            .Add(t => t.Drawing, true)
+            .Add(t => t.DrawingReadOnly, true)
+            .Add(t => t.Strokes, [Stroke("a"), Stroke("b")])
+            .Add(t => t.StrokesChanged, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, _ => events++))
+            .Add(t => t.StrokeAdded, EventCallback.Factory.Create<OmniInkStroke>(this, _ => events++))
+            .Add(t => t.StrokesRemoved, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, _ => events++)));
+        var ink = Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance;
+
+        await tile.InvokeAsync(() => ink.HandleStrokeAsync("#123456", 4, [0.1, 0.2, -1, 0.3, 0.4, -1]));
+        await tile.InvokeAsync(() => ink.HandleEraseAsync([0], 2));
+        await tile.InvokeAsync(ink.HandleUndoKeyAsync);
+        await tile.InvokeAsync(ink.HandleClearKeyAsync);
+
+        Assert.Equal(0, events);
+        Assert.Equal(2, ink.Value.Count);
+    }
+
+    [Fact]
+    public async Task DrawingReadOnly_SwitchedOff_LetsTheUserDrawAgain()
+    {
+        var added = 0;
+        var tile = RenderTile(parameters => parameters
+            .Add(t => t.Drawing, true)
+            .Add(t => t.DrawingReadOnly, true)
+            .Add(t => t.StrokeAdded, EventCallback.Factory.Create<OmniInkStroke>(this, _ => added++)));
+
+        tile.Render(parameters => parameters.Add(t => t.DrawingReadOnly, false));
+        var ink = Assert.Single(tile.FindComponents<OmniInkCanvas>()).Instance;
+        await tile.InvokeAsync(() => ink.HandleStrokeAsync("#123456", 4, [0.1, 0.2, -1, 0.3, 0.4, -1]));
+
+        Assert.Equal(1, added);
+        Assert.NotEmpty(tile.FindAll(".omni-media-tile__toolbar"));
+    }
+
+    [Fact]
+    public async Task Export_InReadOnly_HoldsTheStrokesAsInEditing()
+    {
+        _module.Setup<byte[]?>("exportPng", _ => true).SetResult([1]);
+        var tile = RenderTile(parameters => parameters
+            .Add(t => t.Stream, new FakeStream()).Add(t => t.Drawing, true).Add(t => t.DrawingReadOnly, true).Add(t => t.Strokes, [Stroke()]));
+
+        await tile.Instance.ExportPngAsync(Xunit.TestContext.Current.CancellationToken);
+
+        var arguments = Assert.Single(_module.Invocations["exportPng"]).Arguments;
+        Assert.Equal(["#abcdef"], (string[])arguments[1]!);
+        Assert.Equal(new[] { new[] { 0.25, 0.5, -1d, 0.75, 0.5, 0.75 } }, (double[][])arguments[3]!);
+    }
+
+    [Fact]
     public void TheParametersAreGivenToTheCanvas()
     {
         var strokes = new[] { Stroke() };

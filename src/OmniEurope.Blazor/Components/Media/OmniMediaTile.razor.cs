@@ -29,7 +29,8 @@ namespace OmniEurope.Blazor.Components;
 /// coordinate is 0 to 1 of that picture, so a stroke means the same on every tile size and a host can send it to a tile
 /// of another size. The canvas events are passed on (<see cref="StrokesChanged"/>, <see cref="StrokeAdded"/>,
 /// <see cref="StrokesRemoved"/>) and the strokes a host gives (<see cref="Strokes"/>) are drawn without raising them, as for
-/// the canvas. The drawing toolbar is above the picture, not over it.
+/// the canvas. The drawing toolbar is above the picture, not over it. <see cref="DrawingReadOnly"/> shows the strokes
+/// without accepting any: no toolbar, no stroke, and the pointer passes through the layer to the tile.
 /// </para>
 /// </remarks>
 public partial class OmniMediaTile
@@ -180,6 +181,16 @@ public partial class OmniMediaTile
     /// </summary>
     [Parameter]
     public bool ShowDrawingToolbar { get; set; } = true;
+
+    /// <summary>
+    /// Whether the drawing layer only shows the strokes while <see cref="Drawing"/> is on: they are drawn exactly as in
+    /// editing (same place on the picture, same export), but the pointer and the keyboard neither draw, erase, undo nor
+    /// clear, so <see cref="StrokeAdded"/>, <see cref="StrokesChanged"/> and <see cref="StrokesRemoved"/> are never raised;
+    /// the drawing toolbar is not shown, and the pointer passes through the layer to the tile (a click still selects it in
+    /// an <see cref="OmniMediaStage{TItem}"/>). Off by default.
+    /// </summary>
+    [Parameter]
+    public bool DrawingReadOnly { get; set; }
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;

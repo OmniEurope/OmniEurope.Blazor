@@ -34,6 +34,8 @@
   <data name="MediaTileDrawingDescription" xml:space="preserve"><value>A canvas laid exactly over the picture the video shows, bands excluded in Contain; its strokes are 0 to 1 of the picture, the same on every tile size.</value></data>
   <data name="MediaTileDrawingToolbar" xml:space="preserve"><value>Drawing toolbar</value></data>
   <data name="MediaTileDrawingToolbarDescription" xml:space="preserve"><value>Pen and eraser, colour, width, Undo and Clear in a bar above the video, never over the picture.</value></data>
+  <data name="MediaTileDrawingReadOnly" xml:space="preserve"><value>Read-only drawing</value></data>
+  <data name="MediaTileDrawingReadOnlyDescription" xml:space="preserve"><value>The strokes stay visible but the pointer neither draws nor erases and reaches the tile (DrawingReadOnly); the toolbar is hidden.</value></data>
   <data name="MediaTileEraser" xml:space="preserve"><value>Eraser</value></data>
   <data name="MediaTileEraserDescription" xml:space="preserve"><value>The pointer erases whole strokes instead of drawing (DrawingTool); a stroke erased on one tile disappears from the other.</value></data>
   <data name="MediaTilePreviewTitle" xml:space="preserve"><value>Two tiles, one stream</value></data>

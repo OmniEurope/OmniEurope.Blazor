@@ -14,7 +14,7 @@
      aria-label="@EffectiveLabel"
      data-omni-media-fit="@(Fit == OmniMediaFit.Cover ? "cover" : "contain")"
      class="@Css("omni-media-tile", Fit == OmniMediaFit.Cover ? "omni-media-tile--cover" : "omni-media-tile--contain", Stream is null ? "omni-media-tile--empty" : null, _fullscreen ? "omni-media-tile--fullscreen" : null)">
-    @if (Drawing && ShowDrawingToolbar)
+    @if (Drawing && ShowDrawingToolbar && !DrawingReadOnly)
     {
         <div class="omni-media-tile__toolbar" role="toolbar" aria-label="@Localize("InkToolbar")">
             <OmniToggleButton Class="omni-media-tile__tool"
@@ -81,10 +81,11 @@
         }
         @if (Drawing)
         {
-            <div class="omni-media-tile__picture" data-omni-media-picture>
+            <div class="@(DrawingReadOnly ? "omni-media-tile__picture omni-media-tile__picture--readonly" : "omni-media-tile__picture")" data-omni-media-picture>
                 <OmniInkCanvas @ref="_ink"
                                Class="omni-media-tile__ink"
                                ShowToolbar="false"
+                               ReadOnly="DrawingReadOnly"
                                Label="@Localize("MediaTileDrawingLabel")"
                                Value="Strokes"
                                ValueChanged="HandleStrokesChanged"

@@ -3773,6 +3773,7 @@ property public OmniEurope.Blazor.Components.OmniMediaStage<TItem>.MainItemChang
 property public OmniEurope.Blazor.Components.OmniMediaTile.ActionsContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMediaTile.CameraActive : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMediaTile.Drawing : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniMediaTile.DrawingReadOnly : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMediaTile.DrawingTool : OmniEurope.Blazor.Components.OmniInkTool {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMediaTile.DrawingToolChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniInkTool> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniMediaTile.Fit : OmniEurope.Blazor.Components.OmniMediaFit {get(public);set(public)} [Parameter]
