@@ -112,3 +112,57 @@ test('a horizontal scheduler drags like a vertical one: the appointment id, then
     dom.dispatch('drop', {});
     assert.equal(root.hasAttribute(carrying), false);
 });
+
+// The drop line is drawn by .NET at the slot last entered, which stays the drop target until the drag ends. The script
+// marks the root while the drag is outside it, so the stylesheet hides the line there.
+const outside = 'data-omni-scheduler-outside';
+
+test('a dragleave toward an element outside the root, or toward nothing, marks the root; a dragover removes the mark', async () => {
+    for (const destination of [undefined, null, 'outside']) {
+        const { dom, root, handlers, dragStart } = await load();
+        const away = destination === 'outside' ? dom.el('aside') : destination;
+        dom.body.append(away ?? dom.el('i'));
+
+        dragStart();
+        dom.runTimers();
+        handlers.get('dragleave')({ relatedTarget: away });
+        assert.equal(root.hasAttribute(outside), true, String(destination));
+
+        handlers.get('dragover')({});
+        assert.equal(root.hasAttribute(outside), false, String(destination));
+    }
+});
+
+test('a dragleave toward an element inside the root, or before the drag runs, leaves the root unmarked', async () => {
+    const { dom, root, block, handlers, dragStart } = await load();
+
+    dragStart();
+    handlers.get('dragleave')({ relatedTarget: dom.el('aside') });
+    assert.equal(root.hasAttribute(outside), false, 'before the carrying mark');
+
+    dom.runTimers();
+    handlers.get('dragleave')({ relatedTarget: block });
+    assert.equal(root.hasAttribute(outside), false, 'toward the root');
+});
+
+test('the outside mark leaves with the drag, on the drop or the dragend', async () => {
+    for (const end of ['dragend', 'drop']) {
+        const { dom, root, handlers, dragStart } = await load();
+
+        dragStart();
+        dom.runTimers();
+        handlers.get('dragleave')({ relatedTarget: null });
+        assert.equal(root.hasAttribute(outside), true, end);
+        dom.dispatch(end, {});
+        assert.equal(root.hasAttribute(outside), false, end);
+        assert.equal(root.hasAttribute(carrying), false, end);
+    }
+});
+
+test('detach stops listening to the dragleave and the dragover', async () => {
+    const { script, root, handlers } = await load();
+
+    script.detach(root);
+    assert.equal(handlers.has('dragleave'), false);
+    assert.equal(handlers.has('dragover'), false);
+});

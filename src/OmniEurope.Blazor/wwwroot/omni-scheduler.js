@@ -5,9 +5,12 @@
 // root with data-omni-scheduler-carrying once the drag runs, never during its dragstart: the stylesheet
 // lets the pointer through the blocks only under that mark. Chromium abandons a drag whose source stops
 // being hit-testable while the drag starts, and .NET renders its dragging class during that dragstart.
-// It never writes a style.
+// It also marks the root with data-omni-scheduler-outside while the drag is outside it, so the stylesheet hides the line
+// that .NET draws at the slot under the pointer (the last slot entered stays the drop target until the drag ends). It never
+// writes a style.
 const schedulers = new WeakMap();
 const carrying = 'data-omni-scheduler-carrying';
+const outside = 'data-omni-scheduler-outside';
 
 export function attach(root) {
     if (!root || schedulers.has(root)) {
@@ -20,6 +23,7 @@ export function attach(root) {
         // A later tick of a drag already over must not mark the root.
         state.drag++;
         root.removeAttribute(carrying);
+        root.removeAttribute(outside);
         document.removeEventListener('dragend', stopCarrying, true);
         document.removeEventListener('drop', stopCarrying, true);
     };
@@ -49,9 +53,27 @@ export function attach(root) {
         }, 0);
     };
 
+    // A dragleave whose destination is not inside the root leaves the grid. Some browsers give no destination at all: the
+    // mark then also covers a move between two cells, until the next dragover (a few tens of milliseconds) removes it.
+    const onDragLeave = event => {
+        if (root.hasAttribute(carrying) && !(event.relatedTarget instanceof Node && root.contains(event.relatedTarget))) {
+            root.setAttribute(outside, '');
+        }
+    };
+
+    const onDragOver = () => {
+        if (root.hasAttribute(outside)) {
+            root.removeAttribute(outside);
+        }
+    };
+
     state.onDragStart = onDragStart;
+    state.onDragLeave = onDragLeave;
+    state.onDragOver = onDragOver;
     state.stopCarrying = stopCarrying;
     root.addEventListener('dragstart', onDragStart);
+    root.addEventListener('dragleave', onDragLeave);
+    root.addEventListener('dragover', onDragOver);
     schedulers.set(root, state);
 }
 
@@ -63,5 +85,7 @@ export function detach(root) {
 
     state.stopCarrying();
     root.removeEventListener('dragstart', state.onDragStart);
+    root.removeEventListener('dragleave', state.onDragLeave);
+    root.removeEventListener('dragover', state.onDragOver);
     schedulers.delete(root);
 }

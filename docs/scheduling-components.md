@@ -119,6 +119,24 @@ cette marque : un bloc devenu transparent au pointeur pendant son `dragstart` vo
 abandonné par certains Chromium (celui de Playwright 1.63), et un bloc d'une heure ne pourrait alors
 pas être posé sur sa propre demi-heure.
 
+Dans la grille horaire (vues jour et semaine, les deux orientations), la cellule visée par un glissé porte le
+tireté habituel (`omni-scheduler__drop`) et, quand le dépôt y déplacerait vraiment le rendez-vous, une ligne
+d'atterrissage : un élément à part (`omni-scheduler__drop-line`, posé en absolu dans la cellule, sans bordure d'un
+seul côté ni attribut `style`), à l'heure de début du créneau, sur toute la largeur de la colonne du jour (sur toute
+la hauteur de la ligne du jour en `Horizontal`), avec l'heure à côté (`omni-scheduler__drop-time`, formatée comme
+les en-têtes de créneaux, avec `Culture`). Elle suit le pointeur créneau par créneau, avec le même arrondi que le
+dépôt, et disparaît au dépôt et quand le glissé s'arrête sans dépôt (Échap, dépôt hors des cellules). Un créneau où le
+dépôt ne changerait rien (celui où le rendez-vous commence déjà) ne montre pas de ligne, comme il n'offre pas de
+bouton « Placer ici » ; la région live dit alors que le rendez-vous reste à sa place. La couleur lit les jetons
+`--omni-color-accent-fill` et `--omni-color-on-accent-fill`, claire comme sombre. Quand le glissé sort du planificateur,
+`omni-scheduler.js` pose `data-omni-scheduler-outside` sur la racine (retirée au prochain `dragover` dedans ou à la fin
+du glissé) et la feuille de style masque la ligne : la dernière cellule entrée reste la cible tant que le glissé dure.
+Un navigateur qui ne donne pas la destination d'un `dragleave` fait aussi clignoter la ligne entre deux cellules,
+jusqu'au `dragover` qui suit. À chaque nouveau créneau, la région live annonce « Relâchez pour déplacer Revue au mardi 9
+juin 2026 11:00 » (texte `SchedulerDropAt`, dans les 24 langues), ou que le rendez-vous reste à sa place ; un glissé
+interrompu l'annonce aussi. Aucun paramètre public : la ligne est toujours là. Les vues sans grille horaire (liste, mois)
+gardent le seul tireté.
+
 ## Frise : `OmniTimeline`
 
 | Paramètre | Rôle |

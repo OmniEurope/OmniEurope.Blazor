@@ -584,15 +584,38 @@ public partial class OmniScheduler
         }
     }
 
+    // In the time grid, entering a slot also says where a drop would put the appointment (the line of that slot
+    // shows it); a slot where it would stay says so, and no line is drawn there, as no place button is.
     private void DragEnter(MoveTarget target)
     {
-        if (_dragged is not null)
+        if (_dragged is not { } dragged)
         {
-            _dropTarget = target;
+            return;
         }
+
+        if (_dropTarget != target && target.Slot is not null)
+        {
+            _announcement = CanPlace(dragged, target)
+                ? Text("SchedulerDropAt", dragged.Local.Title, TargetLabel(dragged, target))
+                : Text("SchedulerMoveCancelled", dragged.Local.Title);
+        }
+
+        _dropTarget = target;
     }
 
+    // The drag ended without a drop (Escape, a drop outside every cell): the line goes, and a time grid that
+    // had announced a landing slot announces that the appointment stays.
     private void EndDrag()
+    {
+        if (_dragged is { } dragged && _dropTarget?.Slot is not null)
+        {
+            _announcement = Text("SchedulerMoveCancelled", dragged.Local.Title);
+        }
+
+        ClearDrag();
+    }
+
+    private void ClearDrag()
     {
         _dragged = null;
         _dropTarget = null;
@@ -601,7 +624,7 @@ public partial class OmniScheduler
     private async Task DropAsync(MoveTarget target)
     {
         var dragged = _dragged;
-        EndDrag();
+        ClearDrag();
         if (dragged is not null)
         {
             await MoveAsync(dragged, target);
