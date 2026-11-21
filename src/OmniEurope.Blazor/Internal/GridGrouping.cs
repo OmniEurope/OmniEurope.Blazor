@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Web;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Internal;
@@ -11,7 +14,12 @@ internal sealed class GridGrouping<TItem>(OmniDataGrid<TItem> grid)
     // The segment of a null value. An escaped value only has a backslash before another backslash or a
     // slash, so a backslash before a zero cannot come from one.
     private const string NullGroupSegment = @"\0";
+    // The groups whose state differs from the default: the closed ones while groups start open, the open
+    // ones while they start closed. The default is AllGroupsExpanded until the reader or the host opens or
+    // closes every group at once, which replaces it and forgets the exceptions.
     private readonly HashSet<string> _collapsedGroups = new(StringComparer.Ordinal);
+    private bool? _allExpanded;
+    private bool _observedDefault = true;
 
     // A tree grid is not grouped: its rows are already nested under their parents.
     internal IReadOnlyList<OmniDataGridGroup> ActiveGroups => grid.AllowGrouping && !grid.Tree.Active ? grid.Groups : Array.Empty<OmniDataGridGroup>();
@@ -43,9 +51,75 @@ internal sealed class GridGrouping<TItem>(OmniDataGrid<TItem> grid)
     internal string GroupTitle(OmniDataGridGroup group) =>
         grid.ColumnSet.Find(group.Key)?.Title ?? group.Key;
 
-    private bool IsGroupExpanded(string path) => grid.AllGroupsExpanded
+    /// <summary>A host that changes AllGroupsExpanded takes back the default that opening or closing every group had replaced.</summary>
+    internal void ObserveParameters()
+    {
+        if (grid.AllGroupsExpanded != _observedDefault)
+        {
+            _observedDefault = grid.AllGroupsExpanded;
+            _allExpanded = null;
+        }
+    }
+
+    private bool DefaultExpanded => _allExpanded ?? grid.AllGroupsExpanded;
+
+    private bool IsGroupExpanded(string path) => DefaultExpanded
         ? !_collapsedGroups.Contains(path)
         : _collapsedGroups.Contains(path);
+
+    /// <summary>Whether the grid offers the button that opens or closes every group at once.</summary>
+    internal bool ShowsExpandAllGroups => grid.ShowExpandAllGroups && ActiveGroups.Count > 0;
+
+    /// <summary>Whether every group is open: the default is open and no group was closed on its own.</summary>
+    internal bool AllGroupsOpen => DefaultExpanded && _collapsedGroups.Count == 0;
+
+    /// <summary>Opens every group of every level, or closes them all, then draws the rows again.</summary>
+    internal Task SetAllAsync(bool expanded)
+    {
+        _allExpanded = expanded;
+        _collapsedGroups.Clear();
+        grid.Virtual.RefreshSlots();
+        grid.Render();
+        return Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// The button that opens or closes every group, drawn inside the group panel; its name says what the
+    /// next click does, so no aria-expanded repeats it. Null while it is not offered.
+    /// </summary>
+    internal RenderFragment? ExpandAllButton => ShowsExpandAllGroups ? ToggleAllButton : null;
+
+    /// <summary>The same button in a band of its own, for a grid that shows no group panel.</summary>
+    internal RenderFragment? ExpandAllBand => ShowsExpandAllGroups && !(grid.ShowGroupPanel && grid.AllowGrouping)
+        ? builder =>
+        {
+            builder.OpenElement(0, "div");
+            builder.AddAttribute(1, "class", "omni-data-grid__group-panel");
+            builder.AddContent(2, ToggleAllButton);
+            builder.CloseElement();
+        }
+        : null;
+
+    private RenderFragment ToggleAllButton => builder =>
+    {
+        var open = AllGroupsOpen;
+        builder.OpenComponent<OmniButton>(0);
+        builder.AddComponentParameter(1, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
+        builder.AddComponentParameter(2, nameof(OmniButton.Size), OmniControlSize.Small);
+        builder.AddComponentParameter(3, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(grid, ToggleAllAsync));
+        builder.AddComponentParameter(4, nameof(OmniButton.Icon), (RenderFragment)(icon =>
+        {
+            icon.OpenComponent<OmniIcon>(0);
+            icon.AddComponentParameter(1, nameof(OmniIcon.Name), open ? OmniIconName.ChevronUp : OmniIconName.ChevronDown);
+            icon.AddComponentParameter(2, nameof(OmniIcon.Size), OmniControlSize.Small);
+            icon.CloseComponent();
+        }));
+        builder.AddComponentParameter(5, nameof(OmniButton.ChildContent), (RenderFragment)(content => content.AddContent(0, grid.Text(open ? "GridCollapseAllGroups" : "GridExpandAllGroups"))));
+        builder.CloseComponent();
+    };
+
+    /// <summary>The click of that button: closes every group when all are open, opens them all otherwise.</summary>
+    internal Task ToggleAllAsync() => SetAllAsync(!AllGroupsOpen);
 
     internal void ToggleGroup(string path)
     {

@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Uredi: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Odstrani združevanje {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Razširi ali strni vse vrstice</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Razširi vse skupine</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Strni vse skupine</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Odpni zamrznjene stolpce</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Znova zamrzni stolpce</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Prva stran</value></data>

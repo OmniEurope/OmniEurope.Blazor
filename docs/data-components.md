@@ -440,6 +440,16 @@ comme n'importe quel autre filtre.
 - `Groups` liste les regroupements actifs par clé de colonne, `GroupsChanged` les publie, et le
   panneau `ShowGroupPanel` les affiche avec un retrait par regroupement. `AllGroupsExpanded` fixe
   l'état initial ; chaque en-tête de groupe se replie individuellement.
+- `ShowExpandAllGroups` (`bool`, `false` par défaut) ajoute, à la suite du panneau des regroupements (ou seul, sans
+  `ShowGroupPanel`), un bouton qui ouvre ou ferme d'un coup tous les groupes de tous les niveaux : il n'apparaît que
+  tant qu'un regroupement est actif. Son texte dit l'action du prochain clic (« Réduire tous les groupes » quand tout
+  est ouvert, « Développer tous les groupes » sinon) et il n'a pas d'`aria-expanded`, qui doublerait ce nom.
+  `ExpandAllGroupsAsync()` et `CollapseAllGroupsAsync()` font la même chose depuis le code, comme
+  `ExpandAllTreeRowsAsync()` pour les lignes d'arbre. Refermés, il ne reste que les en-têtes de groupe, chacun avec
+  son pied d'agrégats ; l'ordre d'application l'emporte sur `AllGroupsExpanded` et sur les groupes repliés un à un, et
+  un changement de `AllGroupsExpanded` par l'hôte reprend la main. Une grille paginée compte ses pages en lignes de
+  données : refermer les groupes ne change pas le nombre de pages. Une grille virtualisée recalcule ses cases (un groupe
+  fermé n'est plus qu'une case d'en-tête).
 - `GroupLabel` (`Func<object?, int, string>?`) écrit le texte d'un en-tête de groupe à partir de la valeur du groupe et de son nombre de lignes ; nul, l'en-tête montre `Titre : valeur (nombre)`.
 
 ### Agrégats et pieds de groupe

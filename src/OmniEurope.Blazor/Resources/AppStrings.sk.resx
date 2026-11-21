@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Upraviť: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Zrušiť zoskupenie: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Rozbaliť alebo zbaliť všetky riadky</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Rozbaliť všetky skupiny</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Zbaliť všetky skupiny</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Uvoľniť ukotvené stĺpce</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Znova ukotviť stĺpce</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Prvá strana</value></data>

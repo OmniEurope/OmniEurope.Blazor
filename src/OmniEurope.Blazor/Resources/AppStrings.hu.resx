@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>{0} szerkesztése</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Csoportosítás megszüntetése: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Összes sor kibontása vagy összecsukása</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Összes csoport kibontása</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Összes csoport összecsukása</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Rögzített oszlopok feloldása</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Oszlopok újbóli rögzítése</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Első oldal</value></data>

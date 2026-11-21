@@ -82,6 +82,8 @@ public partial class DataGridPage
 
     private bool AllGroupsExpanded { get; set; } = true;
 
+    private bool ShowExpandAllGroups { get; set; } = true;
+
     // ---- columns and look ---------------------------------------------------------------------
 
     private bool AllowColumnResize { get; set; } = true;

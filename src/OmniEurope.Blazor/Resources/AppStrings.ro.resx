@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Editează {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Elimină gruparea {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Extinde sau restrânge toate rândurile</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Extinde toate grupurile</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Restrânge toate grupurile</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Detașează coloanele fixate</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Fixează din nou coloanele</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Prima pagină</value></data>

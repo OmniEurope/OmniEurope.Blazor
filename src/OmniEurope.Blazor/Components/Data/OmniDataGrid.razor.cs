@@ -419,6 +419,15 @@ public partial class OmniDataGrid<TItem>
     public bool AllGroupsExpanded { get; set; } = true;
 
     /// <summary>
+    /// Puts a button beside the group panel that opens every group of every level, or closes them all
+    /// (only the group header rows and their footers remain). Offered while a grouping is active, with
+    /// or without <see cref="ShowGroupPanel"/>; <see cref="ExpandAllGroupsAsync"/> and
+    /// <see cref="CollapseAllGroupsAsync"/> do the same from code.
+    /// </summary>
+    [Parameter]
+    public bool ShowExpandAllGroups { get; set; }
+
+    /// <summary>
     /// Text of a group header from the group's value and its row count; null shows
     /// <c>Title : value (count)</c>.
     /// </summary>
@@ -997,6 +1006,7 @@ public partial class OmniDataGrid<TItem>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
+        Grouping.ObserveParameters();
         if (View.Virtualized && Load is not null && (DetailTemplate is not null || Grouping.ActiveGroups.Count > 0))
         {
             throw new InvalidOperationException(
@@ -1188,6 +1198,14 @@ public partial class OmniDataGrid<TItem>
     /// <summary>Closes every tree row that can be toggled, then reports the keys through <see cref="TreeExpandedKeysChanged"/>.</summary>
     /// <returns>A task that completes when the change is reported.</returns>
     public Task CollapseAllTreeRowsAsync() => Tree.SetAllAsync(false);
+
+    /// <summary>Opens every group of every level, replacing <see cref="AllGroupsExpanded"/> and the groups the reader closed one by one.</summary>
+    /// <returns>A task that completes when the rows are drawn again.</returns>
+    public Task ExpandAllGroupsAsync() => Grouping.SetAllAsync(true);
+
+    /// <summary>Closes every group of every level, so only the group header rows and their footers remain.</summary>
+    /// <returns>A task that completes when the rows are drawn again.</returns>
+    public Task CollapseAllGroupsAsync() => Grouping.SetAllAsync(false);
 
     /// <summary>Closes the edit state of a row and reports the update through <see cref="OnRowUpdate"/>.</summary>
     /// <param name="item">The edited row, found by its key.</param>

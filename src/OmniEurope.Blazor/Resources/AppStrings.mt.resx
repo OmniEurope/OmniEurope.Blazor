@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Editja {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Neħħi r-raggruppament {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Espandi jew ikkollassa r-ringieli kollha</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Espandi l-gruppi kollha</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Ikkollassa l-gruppi kollha</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Aqla' l-kolonni ffriżati</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Erġa' ffriża l-kolonni</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>L-ewwel paġna</value></data>
