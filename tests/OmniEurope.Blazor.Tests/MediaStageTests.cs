@@ -237,6 +237,67 @@ public sealed class MediaStageTests : OmniBunitContext
         Assert.Equal(["Grace"], _raised);
         Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "Blazor._internal.domWrapper.focus");
     }
+
+    // ----- Element references when the list changes --------------------------------------------------
+
+    private string LastFocusTarget()
+    {
+        var focus = JSInterop.Invocations.Where(call => call.Identifier == "Blazor._internal.domWrapper.focus").ToList();
+        Assert.NotEmpty(focus);
+        return ((ElementReference)focus[^1].Arguments[0]!).Id;
+    }
+
+    // bUnit writes the id of a captured reference on the element when it inserts it; read it right after that render.
+    private static string ReferenceOf(IRenderedComponent<OmniMediaStage<string>> stage, string name)
+    {
+        var id = ItemOf(stage, name).GetAttribute("blazor:elementReference");
+        Assert.False(string.IsNullOrEmpty(id));
+        return id;
+    }
+
+    [Fact]
+    public async Task AfterATileArrives_ChoosingTheFirstAgain_FocusesItWithoutFailing()
+    {
+        var stage = RenderStage(["Ada"]);
+        var ada = ReferenceOf(stage, "Ada");
+        stage.Render(parameters => parameters.Add(component => component.Items, ["Ada", "Grace"]));
+        var grace = ReferenceOf(stage, "Grace");
+
+        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        Assert.Equal(grace, LastFocusTarget());
+        await stage.InvokeAsync(() => SelectOf(stage, "Ada").Click());
+
+        Assert.Equal("Ada", MainName(stage));
+        Assert.Equal(ada, LastFocusTarget());
+    }
+
+    [Fact]
+    public async Task AfterATileLeaves_ChoosingAnother_FocusesIt()
+    {
+        var stage = RenderStage(["Ada", "Grace", "Linus"]);
+        var linus = ReferenceOf(stage, "Linus");
+        stage.Render(parameters => parameters.Add(component => component.Items, ["Ada", "Linus"]));
+
+        await stage.InvokeAsync(() => SelectOf(stage, "Linus").Click());
+
+        Assert.Equal("Linus", MainName(stage));
+        Assert.Equal(linus, LastFocusTarget());
+    }
+
+    [Fact]
+    public async Task AfterTheTilesAreReordered_TheFocusGoesToTheChosenTile_NotToTheOneThatWasAtItsPlace()
+    {
+        var stage = RenderStage(["Ada", "Grace"]);
+        var ada = ReferenceOf(stage, "Ada");
+        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        stage.Render(parameters => parameters.Add(component => component.Items, ["Grace", "Ada"]));
+
+        await stage.InvokeAsync(() => SelectOf(stage, "Ada").Click());
+
+        Assert.Equal("Ada", MainName(stage));
+        Assert.Equal(ada, LastFocusTarget());
+    }
+
     [Fact]
     public void WithoutAnItemLabel_TheButtonNamesTheItemByItsPosition()
     {

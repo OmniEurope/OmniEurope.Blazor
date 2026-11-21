@@ -12,6 +12,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Corrigé
 
+- `OmniMediaStage` ne perd plus la référence d'une tuile quand le nombre de tuiles change : les références étaient tenues par position et le tableau était recréé sans que Blazor recapture les éléments déjà dessinés, si bien qu'après l'arrivée ou le départ d'une tuile, rendre une tuile principale levait `InvalidOperationException` (« ElementReference has not been configured correctly ») au moment du focus, et qu'après un réordonnancement le focus pouvait aller à une autre tuile. Les références sont désormais tenues par clé, et une référence pas encore capturée ne reçoit simplement pas le focus.
 - Une fenêtre à l'échelle gelée (`OmniAppearanceWindow`, boîte de dialogue gelée) ne suit plus la taille du texte sous un thème prédéfini : la portée de thème réécrit ses jetons dans un autre ordre quand elle se redessine, et la fenêtre y voyait un nouveau thème et reprenait ses mesures à la nouvelle échelle. Le thème est désormais comparé comme un ensemble de déclarations.
 - Les en-têtes figés d'`OmniSpreadsheet` (ligne des colonnes, colonne des lignes, coin) gardent leur cadre pendant le défilement : la bordure fusionnée appartient au tableau et défilait avec lui ; un contour sur les quatre côtés suit désormais la cellule figée.
 

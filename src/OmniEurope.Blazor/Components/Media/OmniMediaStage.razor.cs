@@ -33,7 +33,11 @@ public partial class OmniMediaStage<TItem>
     private readonly record struct Entry(TItem Item, object Key);
 
     private Entry[] _entries = [];
-    private ElementReference[] _itemElements = [];
+    // By key, never by position: Blazor captures a reference when it inserts the element and keeps it while the same
+    // key keeps the element, so a reference held by position would go stale (or empty) when the list grows, shrinks
+    // or is reordered.
+    private readonly Dictionary<object, ElementReference> _itemElements = [];
+    private static readonly object NullKey = new();
     private bool _focusMain;
     private int _mainIndex = -1;
     private TItem? _selected;
@@ -97,15 +101,20 @@ public partial class OmniMediaStage<TItem>
 
         var items = Items ?? [];
         _entries = new Entry[items.Count];
-        if (_itemElements.Length != _entries.Length)
-        {
-            _itemElements = new ElementReference[_entries.Length];
-        }
-
         for (var index = 0; index < _entries.Length; index++)
         {
             var item = items[index];
             _entries[index] = new Entry(item, KeyOf is null ? item! : KeyOf(item));
+        }
+
+        // An element whose key left the list is gone with it; its reference is dropped.
+        if (_itemElements.Count > 0)
+        {
+            var keys = _entries.Select(entry => ReferenceKey(entry.Key)).ToHashSet();
+            foreach (var key in _itemElements.Keys.Where(key => !keys.Contains(key)).ToList())
+            {
+                _itemElements.Remove(key);
+            }
         }
 
         // The host's value is taken when it changes; a choice the stage made stays until the host says otherwise.
@@ -139,6 +148,9 @@ public partial class OmniMediaStage<TItem>
 
         return -1;
     }
+
+    // A null item (or a null key from KeyOf) cannot index a dictionary; it gets a key of its own.
+    private static object ReferenceKey(object? key) => key ?? NullKey;
 
     private string NameOf(int index)
     {
@@ -181,11 +193,14 @@ public partial class OmniMediaStage<TItem>
         }
 
         _focusMain = false;
-        if (_mainIndex >= 0 && _mainIndex < _itemElements.Length)
+        // A reference not captured yet (the element is not drawn) has no context: there is nothing to focus.
+        if (_mainIndex >= 0 && _mainIndex < _entries.Length
+            && _itemElements.TryGetValue(ReferenceKey(_entries[_mainIndex].Key), out var element)
+            && element.Context is not null)
         {
             try
             {
-                await _itemElements[_mainIndex].FocusAsync();
+                await element.FocusAsync();
             }
             catch (Exception exception) when (exception is JSDisconnectedException or TaskCanceledException)
             {

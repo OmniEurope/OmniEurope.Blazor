@@ -21,7 +21,7 @@
                 var entry = _entries[position];
                 var isMain = position == _mainIndex;
                 <div @key="entry.Key"
-                     @ref="_itemElements[position]"
+                     @ref="_itemElements[ReferenceKey(entry.Key)]"
                      tabindex="@(isMain ? "-1" : null)"
                      class="@(isMain ? "omni-media-stage__item omni-media-stage__item--main" : "omni-media-stage__item")"
                      data-omni-media-stage-item="@position.ToString(CultureInfo.InvariantCulture)">
