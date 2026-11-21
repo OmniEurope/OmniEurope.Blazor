@@ -1,14 +1,10 @@
 # Keeps local artefacts out of the Docker build context (deploy/docker/Dockerfile.*). The obj/ trees
 # restored under Windows would overwrite the restore done in the image (Windows package paths in
 # project.assets.json), and the folders below have no business in an image layer.
-.git/
-.github/
-.claude/
-.codex/
-.worktrees/
-.vs/
-.vscode/
-.playwright-mcp/
+# Every root dot-entry (repository metadata, editor and assistant folders, worktrees) except the one the
+# Dockerfiles copy.
+.*
+!.editorconfig
 **/bin/
 **/obj/
 **/node_modules/

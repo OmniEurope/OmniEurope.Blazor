@@ -4,15 +4,15 @@ Deployment files of the showcase application (`site/`), never of the NuGet packa
 
 | File | Role |
 | --- | --- |
-| `compose/dev-db.compose.yml` | Local development PostgreSQL, started by `ylaunch.ps1`. Not a deployment file. |
-| `compose/remote.compose.yml` | Production and QA stack: front, API, PostgreSQL. The file the Aetheus pipeline setup wizard selects (its name says `remote`, no development word). |
+| `compose/dev-db.compose.yml` | Local development PostgreSQL, started by the local launcher. Not a deployment file. |
+| `compose/remote.compose.yml` | Production and QA stack: front, API, PostgreSQL. The file the pipeline setup wizard selects (its name says `remote`, no development word). |
 | `docker/Dockerfile.front` | Publishes the WebAssembly showcase (locked restore, fingerprinted assets) and serves it with `StaticServer.Program.cs`. |
 | `docker/StaticServer.Program.cs` | Static host of the front: every rule of the published `wwwroot/_headers` (CSP included), the API origin added to `connect-src`, `appsettings.json` written from `API_BASE_URL`, and the cache policy of every response. |
 | `docker/Dockerfile.back` | Publishes the showcase API (locked restore); it applies its EF migrations itself at start-up. |
 
-## Aetheus pipelines (project prefix `oe`)
+## Deployment pipelines (project prefix `oe`)
 
-`remote.compose.yml` follows the contract of the Aetheus production deployment (ADR-057): no value and no
+`remote.compose.yml` follows the contract of the production deployment pipelines: no value and no
 secret in the file, every variable comes from the libraries `oe.share`, `oe.prod`, `oe.qa` and the vault.
 The strategy is `replace` (`PORT_FRONT`, `PORT_BACK`); pick it in the setup wizard, the file declares no
 blue and green ports.

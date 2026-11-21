@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: EUPL-1.2
 #
 # OmniEurope.Blazor showcase, production and QA stack (Docker Compose): the WebAssembly front, its API and
-# PostgreSQL. Driven by the Aetheus pipelines of the project (prefix `oe`), which hand Compose every variable
+# PostgreSQL. Driven by the deployment pipelines of the project (prefix `oe`), which hand Compose every variable
 # below (libraries oe.share / oe.prod / oe.qa, vault entry DB_PASSWORD). Every published port listens on
 # the loopback only: Apache is the public entry (virtual hosts versioned in the configuration repository).
 # Strategy: `replace` (one published port per service, PORT_FRONT and PORT_BACK).
 #
-# Never used for local development: that is deploy/compose/dev-db.compose.yml, started by ylaunch.ps1.
+# Never used for local development: that is deploy/compose/dev-db.compose.yml, started by the local launcher.
 # Runtime configuration, by container:
 #   front: API_BASE_URL (the API's public address) -> wwwroot/appsettings.json and the CSP connect-src.
 #   back : ConnectionStrings__DefaultConnection, Cors__Origins__0 (the front's public origin), and
