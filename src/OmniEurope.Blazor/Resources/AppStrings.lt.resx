@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Redaguoti: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Pašalinti grupavimą: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Išskleisti arba suskleisti visas eilutes</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Išskleisti visas grupes</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Suskleisti visas grupes</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Atkabinti užfiksuotus stulpelius</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Vėl užfiksuoti stulpelius</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Pirmasis puslapis</value></data>

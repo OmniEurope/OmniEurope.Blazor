@@ -138,6 +138,8 @@
   <data name="DataGridGroupPanelDescription" xml:space="preserve"><value>Lists the active groupings above the table, each one removable.</value></data>
   <data name="DataGridGroupsExpanded" xml:space="preserve"><value>Groups open</value></data>
   <data name="DataGridGroupsExpandedDescription" xml:space="preserve"><value>Initial state of the group headers.</value></data>
+  <data name="DataGridExpandAllGroups" xml:space="preserve"><value>Expand all groups button</value></data>
+  <data name="DataGridExpandAllGroupsDescription" xml:space="preserve"><value>Adds a button beside the group panel that opens or closes every group at once, every level.</value></data>
   <data name="DataGridHeaderFilterMenu" xml:space="preserve"><value>Filter menu in the header</value></data>
   <data name="DataGridHeaderMenuDescription" xml:space="preserve"><value>Moves each filter into a menu opened from a funnel in its title.</value></data>
   <data name="DataGridHeaderWrap" xml:space="preserve"><value>Long headers</value></data>

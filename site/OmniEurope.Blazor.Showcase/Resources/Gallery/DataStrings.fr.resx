@@ -138,6 +138,8 @@
   <data name="DataGridGroupPanelDescription" xml:space="preserve"><value>Liste les regroupements actifs au-dessus du tableau, chacun amovible.</value></data>
   <data name="DataGridGroupsExpanded" xml:space="preserve"><value>Groupes ouverts</value></data>
   <data name="DataGridGroupsExpandedDescription" xml:space="preserve"><value>État initial des en-têtes de groupe.</value></data>
+  <data name="DataGridExpandAllGroups" xml:space="preserve"><value>Bouton tout ouvrir ou fermer les groupes</value></data>
+  <data name="DataGridExpandAllGroupsDescription" xml:space="preserve"><value>Ajoute un bouton près du panneau des regroupements qui ouvre ou ferme d&apos;un coup tous les groupes, à tous les niveaux.</value></data>
   <data name="DataGridHeaderFilterMenu" xml:space="preserve"><value>Menu de filtre dans l&apos;en-tête</value></data>
   <data name="DataGridHeaderMenuDescription" xml:space="preserve"><value>Range chaque filtre dans un menu ouvert par l&apos;entonnoir de son titre.</value></data>
   <data name="DataGridHeaderWrap" xml:space="preserve"><value>En-têtes longs</value></data>

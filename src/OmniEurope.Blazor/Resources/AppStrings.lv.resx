@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Rediģēt: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Noņemt grupēšanu: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Izvērst vai sakļaut visas rindas</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Izvērst visas grupas</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Sakļaut visas grupas</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Atdalīt fiksētās kolonnas</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Vēlreiz fiksēt kolonnas</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Pirmā lapa</value></data>

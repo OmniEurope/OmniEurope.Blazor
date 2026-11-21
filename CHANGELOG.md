@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Ajouté
+
+- `OmniDataGrid.ShowExpandAllGroups` (`bool`, `false` par défaut) : un bouton, à la suite du panneau des regroupements (ou seul), ouvre ou ferme d'un coup tous les groupes de tous les niveaux tant qu'un regroupement est actif ; refermés, il ne reste que les en-têtes de groupe avec leurs agrégats. `ExpandAllGroupsAsync()` et `CollapseAllGroupsAsync()` font de même depuis le code, comme `ExpandAllTreeRowsAsync()`. Textes localisés dans les 24 langues (`GridExpandAllGroups`, `GridCollapseAllGroups`), démonstration dans la vitrine.
+
 ### Corrigé
 
 - Une fenêtre à l'échelle gelée (`OmniAppearanceWindow`, boîte de dialogue gelée) ne suit plus la taille du texte sous un thème prédéfini : la portée de thème réécrit ses jetons dans un autre ordre quand elle se redessine, et la fenêtre y voyait un nouveau thème et reprenait ses mesures à la nouvelle échelle. Le thème est désormais comparé comme un ensemble de déclarations.

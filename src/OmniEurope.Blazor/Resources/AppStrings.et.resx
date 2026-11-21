@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Muuda: {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Eemalda rühmitus: {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Laienda või ahenda kõik read</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Laienda kõik rühmad</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Ahenda kõik rühmad</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Vabasta külmutatud veerud</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Külmuta veerud uuesti</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Esimene leht</value></data>

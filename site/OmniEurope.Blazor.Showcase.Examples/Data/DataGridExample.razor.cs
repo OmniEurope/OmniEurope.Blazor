@@ -156,6 +156,10 @@ public partial class DataGridExample
     [Parameter]
     public bool AllGroupsExpanded { get; set; } = true;
 
+    /// <summary>Shows the button that opens or closes every group at once.</summary>
+    [Parameter]
+    public bool ShowExpandAllGroups { get; set; }
+
     // ---- columns ----------------------------------------------------------------------------------
 
     /// <summary>Lets the visitor drag the edge of a title to resize its column.</summary>

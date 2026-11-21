@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>{0} bewerken</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Groepering op {0} verwijderen</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Alle rijen uit- of samenvouwen</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Alle groepen uitvouwen</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Alle groepen samenvouwen</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Vastgezette kolommen losmaken</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Kolommen opnieuw vastzetten</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Eerste pagina</value></data>

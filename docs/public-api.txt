@@ -1578,9 +1578,11 @@ method public OmniEurope.Blazor.Components.OmniContextMenu.DisposeAsync() : Syst
 method public OmniEurope.Blazor.Components.OmniCopyButton.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CancelEditAsync(TItem item) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CollapseAllGroupsAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.CollapseAllTreeRowsAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.EditRowAsync(TItem item) : System.Threading.Tasks.Task
+method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandAllGroupsAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ExpandAllTreeRowsAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RefreshAsync() : System.Threading.Tasks.Task
 method public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ReloadAsync() : System.Threading.Tasks.Task
@@ -3040,6 +3042,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ScrollMode : Om
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.SelectionMode : OmniEurope.Blazor.Components.OmniDataGridSelectionMode {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowEditColumn : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExpandAll : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExpandAllGroups : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExpandColumn : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExportButtonText : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ShowExportCancel : System.Boolean {get(public);set(public)} [Parameter]

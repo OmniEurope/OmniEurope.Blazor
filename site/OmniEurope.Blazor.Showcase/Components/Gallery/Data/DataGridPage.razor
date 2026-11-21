@@ -226,6 +226,13 @@
                     <OmniSwitch @bind-Value="AllGroupsExpanded" Disabled="@GroupingDisabled" aria-label="@Text["DataGridGroupsExpanded"]" />
                 </ChildContent>
             </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["DataGridExpandAllGroups"]" Description="@Text["DataGridExpandAllGroupsDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ChevronUp" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="ShowExpandAllGroups" Disabled="@GroupingDisabled" aria-label="@Text["DataGridExpandAllGroups"]" />
+                </ChildContent>
+            </OmniSettingsTile>
         </OmniSettingsSection>
 
         <OmniSettingsSection Title="@Text["DataGridColumnsTitle"]" Description="@Text["DataGridColumnsDescription"]">
@@ -357,6 +364,7 @@
                                      AllowGrouping="AllowGrouping"
                                      ShowGroupPanel="ShowGroupPanel"
                                      AllGroupsExpanded="AllGroupsExpanded"
+                                     ShowExpandAllGroups="ShowExpandAllGroups"
                                      AllowColumnResize="AllowColumnResize"
                                      AllowColumnReorder="AllowColumnReorder"
                                      AllowColumnHide="AllowColumnHide"

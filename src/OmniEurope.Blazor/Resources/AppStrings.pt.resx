@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Editar {0}</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Remover o agrupamento {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Expandir ou reduzir todas as linhas</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Expandir todos os grupos</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Reduzir todos os grupos</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Desafixar as colunas fixas</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Fixar novamente as colunas</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>Primeira página</value></data>

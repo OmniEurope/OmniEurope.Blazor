@@ -112,6 +112,8 @@
   <data name="GridEditCell" xml:space="preserve"><value>Cuir {0} in eagar</value></data>
   <data name="GridUngroupColumn" xml:space="preserve"><value>Bain an ghrúpáil {0}</value></data>
   <data name="GridExpandAll" xml:space="preserve"><value>Leathnaigh nó laghdaigh gach ró</value></data>
+  <data name="GridExpandAllGroups" xml:space="preserve"><value>Leathnaigh gach grúpa</value></data>
+  <data name="GridCollapseAllGroups" xml:space="preserve"><value>Laghdaigh gach grúpa</value></data>
   <data name="GridDetachFrozen" xml:space="preserve"><value>Scoir na colúin reoite</value></data>
   <data name="GridRefreezeFrozen" xml:space="preserve"><value>Reoigh na colúin arís</value></data>
   <data name="PagerFirst" xml:space="preserve"><value>An chéad leathanach</value></data>
