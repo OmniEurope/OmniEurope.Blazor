@@ -80,7 +80,18 @@
                 GridAppointment(block);
             }
             @{ PlaceButton(target); }
+            @{ DropLine(target); }
         </td>
+    }
+
+    // While an appointment is dragged over a slot where it can land, the line at the start of that slot, with its time. It is
+    // its own element, laid over the cell and letting the pointer through; the live region, not the line, is what is announced.
+    void DropLine(MoveTarget target)
+    {
+        if (_dragged is { } dragged && _dropTarget == target && target.Slot is { } slot && CanPlace(dragged, target))
+        {
+            <span class="omni-scheduler__drop-line" aria-hidden="true"><span class="omni-scheduler__drop-time">@SlotStart(slot).ToString("t", Formats)</span></span>
+        }
     }
 
     // While an appointment is picked up, the button that puts it in this cell.
