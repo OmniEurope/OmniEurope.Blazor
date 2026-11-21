@@ -21,11 +21,11 @@
       },
       "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore": {
         "type": "Direct",
-        "requested": "[10.0.15, )",
-        "resolved": "10.0.15",
-        "contentHash": "ZiGT+DTukAmwp46oHH0deKpKcYWXAqB8NMyBCO6LuNYRHzaPHDIMhN/TSN0UqQslea6v9OA5aSQWJP0+GDDK2A==",
+        "requested": "[11.0.0, )",
+        "resolved": "11.0.0",
+        "contentHash": "xzoZ6rFipQjbw3d0mdN2LImU8wyAHlCo9sdC1ha5+Cm5ATaW5+r8eQSrZQqZYbomffzY3c1mmuLIcRf/CiUtrA==",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore.Relational": "10.0.15"
+          "Microsoft.EntityFrameworkCore.Relational": "11.0.0"
         }
       },
       "Npgsql.EntityFrameworkCore.PostgreSQL": {
@@ -100,31 +100,12 @@
           "System.Composition": "9.0.0"
         }
       },
-      "Microsoft.EntityFrameworkCore": {
-        "type": "Transitive",
-        "resolved": "10.0.15",
-        "contentHash": "cp0ocqFrk6SXPy5xAI4gf2RlTk7jO4LcybDGWKp5F5zjPKyn2fEulElXIrCWreQFe8/4u01xoVhscrabhOOnhw==",
-        "dependencies": {
-          "Microsoft.EntityFrameworkCore.Abstractions": "10.0.15",
-          "Microsoft.EntityFrameworkCore.Analyzers": "10.0.15"
-        }
-      },
-      "Microsoft.EntityFrameworkCore.Abstractions": {
-        "type": "Transitive",
-        "resolved": "10.0.15",
-        "contentHash": "aLHlTnngp1CcWF5gWbqNwcfROjINCaQVKoySCFpl8O/EQaCdvtW+miv9KoSpKDtWIN+W7lZ8yr4KnbK3hp9oYQ=="
-      },
-      "Microsoft.EntityFrameworkCore.Analyzers": {
-        "type": "Transitive",
-        "resolved": "10.0.15",
-        "contentHash": "13C007jEmO1JVsoJ+Vvn0AzOaR5bpGsDsaOB9nQt6denQR8hmv1eWmQ0qGarvz+1Zu5b511uF74A90BQigdYHA=="
-      },
       "Microsoft.EntityFrameworkCore.Relational": {
         "type": "Transitive",
-        "resolved": "10.0.15",
-        "contentHash": "8rEj7IN4+cW1fXkENqCsHeqDrty3izIvWIw6YlXA3sYLPpie1S1MMAWrF3/QjPSI9AWL3sXT6tQqBeNeX6QWEw==",
+        "resolved": "11.0.0",
+        "contentHash": "yGS+J269mYUl8V17rHWaeFDySoUnGdiugIzszlNZr0F2+JirFatQyw2s2He92wyYIuy/Y3Yv3QLdq/HdTSj7cA==",
         "dependencies": {
-          "Microsoft.EntityFrameworkCore": "10.0.15"
+          "Microsoft.EntityFrameworkCore": "[11.0.0, 12.0.0-a)"
         }
       },
       "Microsoft.Extensions.DependencyModel": {
