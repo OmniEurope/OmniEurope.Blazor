@@ -165,22 +165,13 @@ public partial class OmniCodeBlock : IAsyncDisposable
     private void ToggleReveal() => _revealed = !_revealed;
 
     /// <summary>Copies <see cref="Code"/> to the clipboard, without its ANSI sequences unless <see cref="AnsiMode"/> is <see cref="OmniAnsiMode.Raw"/>; true when the clipboard accepted it.</summary>
-    public async Task<bool> CopyAsync()
-    {
-        var copied = await Clipboard.CopyAsync(CopiedText, CopiedFeedbackDuration, Clock);
-        StateHasChanged();
-        await OnCopy.InvokeAsync(copied);
-        return copied;
-    }
+    public Task<bool> CopyAsync() => Clipboard.CopyAndNotifyAsync(CopiedText, CopiedFeedbackDuration, Clock, StateHasChanged, OnCopy);
 
     /// <summary>Releases the clipboard helper and its pending feedback, when a copy created one.</summary>
     /// <returns>A task that completes once the helper is released.</returns>
     public async ValueTask DisposeAsync()
     {
-        if (_clipboard is not null)
-        {
-            await _clipboard.DisposeAsync();
-        }
+        await OmniClipboardCopy.DisposeIfCreatedAsync(_clipboard);
 
         GC.SuppressFinalize(this);
     }

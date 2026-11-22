@@ -186,12 +186,7 @@ public partial class OmniAppearanceWindow : IDisposable
         if (!_decided)
         {
             _decided = true;
-            var hostControls = AppearanceFollower.Sets(parameters, AppearanceParameters);
-            _shared = AppearanceFollower.Start(SharedAppearance, hostControls, () => InvokeAsync(() =>
-            {
-                FollowState();
-                StateHasChanged();
-            }));
+            _shared = AppearanceFollower.Start(SharedAppearance, parameters, AppearanceParameters, InvokeAsync, FollowState, StateHasChanged);
         }
 
         return base.SetParametersAsync(parameters);

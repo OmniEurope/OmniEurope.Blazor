@@ -68,4 +68,31 @@ internal static class OmniScriptModule
 
         return null;
     }
+
+    /// <summary>
+    /// A component's disposal of its module: when <paramref name="moduleTask"/> was started and gave a module, calls
+    /// its <c>detach</c> on <paramref name="element"/> then releases it. A lost circuit is ignored: nothing is left to
+    /// release in the page.
+    /// </summary>
+    internal static async Task DetachAndReleaseAsync(Task<IJSObjectReference?>? moduleTask, ElementReference element)
+    {
+        if (moduleTask is null)
+        {
+            return;
+        }
+
+        try
+        {
+            var module = await moduleTask;
+            if (module is not null)
+            {
+                await module.InvokeVoidAsync("detach", element);
+                await module.DisposeAsync();
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone: nothing left to release in the page.
+        }
+    }
 }

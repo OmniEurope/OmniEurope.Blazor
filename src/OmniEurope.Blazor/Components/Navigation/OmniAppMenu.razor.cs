@@ -250,12 +250,7 @@ public partial class OmniAppMenu : IDisposable
         if (!_decided)
         {
             _decided = true;
-            _shared = AppearanceFollower.Start(SharedAppearance, AppearanceFollower.Sets(parameters, nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged), nameof(Font), nameof(FontChanged), nameof(Backdrop), nameof(BackdropChanged)),
-                () => InvokeAsync(() =>
-                {
-                    FollowState();
-                    StateHasChanged();
-                }));
+            _shared = AppearanceFollower.Start(SharedAppearance, parameters, [nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged), nameof(Font), nameof(FontChanged), nameof(Backdrop), nameof(BackdropChanged)], InvokeAsync, FollowState, StateHasChanged);
         }
 
         return base.SetParametersAsync(parameters);

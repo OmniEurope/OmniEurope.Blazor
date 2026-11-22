@@ -30,6 +30,27 @@ internal sealed class OmniClipboardCopy(IJSRuntime javaScript, Func<Task> redraw
     /// <summary>The resource key the live region announces after a copy; null while idle, so it stays silent.</summary>
     internal static string? AnnouncementKey(bool? result) => result is null ? null : LabelKey(result);
 
+    /// <summary>
+    /// A component's copy action: copies <paramref name="text"/>, lets the owner re-render with the
+    /// feedback, then raises <paramref name="onCopy"/> with the outcome, which it returns.
+    /// </summary>
+    internal async Task<bool> CopyAndNotifyAsync(string text, TimeSpan feedbackDuration, TimeProvider timeProvider, Action render, EventCallback<bool> onCopy)
+    {
+        var copied = await CopyAsync(text, feedbackDuration, timeProvider);
+        render();
+        await onCopy.InvokeAsync(copied);
+        return copied;
+    }
+
+    /// <summary>Releases <paramref name="clipboard"/> when a copy created it; nothing otherwise.</summary>
+    internal static async ValueTask DisposeIfCreatedAsync(OmniClipboardCopy? clipboard)
+    {
+        if (clipboard is not null)
+        {
+            await clipboard.DisposeAsync();
+        }
+    }
+
     /// <summary>Copies <paramref name="text"/>; true when the clipboard accepted it.</summary>
     internal async Task<bool> CopyAsync(string text, TimeSpan feedbackDuration, TimeProvider timeProvider)
     {

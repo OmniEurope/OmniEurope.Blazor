@@ -308,21 +308,7 @@ public partial class OmniMediaTile
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        if (_moduleTask is not null)
-        {
-            try
-            {
-                var module = await _moduleTask;
-                if (module is not null)
-                {
-                    await module.InvokeVoidAsync("detach", _root);
-                    await module.DisposeAsync();
-                }
-            }
-            catch (JSDisconnectedException)
-            {
-            }
-        }
+        await Internal.OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);

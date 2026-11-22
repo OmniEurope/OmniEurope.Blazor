@@ -7,7 +7,12 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal sealed class OmniConfirmDetails : OmniComponentBase, IDisposable
 {
-    private OmniConfirmRequest? _subscribed;
+    private readonly ConfirmRequestRedraw _redraw;
+
+    public OmniConfirmDetails()
+    {
+        _redraw = new ConfirmRequestRedraw(Redraw);
+    }
 
     [Parameter, EditorRequired]
     public OmniConfirmRequest Request { get; set; } = default!;
@@ -15,17 +20,10 @@ internal sealed class OmniConfirmDetails : OmniComponentBase, IDisposable
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (ReferenceEquals(_subscribed, Request))
-        {
-            return;
-        }
-
-        Unsubscribe();
-        _subscribed = Request;
-        _subscribed.Refreshed += Redraw;
+        _redraw.Follow(Request);
     }
 
-    public void Dispose() => Unsubscribe();
+    public void Dispose() => _redraw.Dispose();
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
@@ -33,15 +31,6 @@ internal sealed class OmniConfirmDetails : OmniComponentBase, IDisposable
         builder.AddAttribute(1, "class", "omni-confirm__details");
         builder.AddContent(2, Request.Details);
         builder.CloseElement();
-    }
-
-    private void Unsubscribe()
-    {
-        if (_subscribed is not null)
-        {
-            _subscribed.Refreshed -= Redraw;
-            _subscribed = null;
-        }
     }
 
     private void Redraw() => _ = InvokeAsync(StateHasChanged);

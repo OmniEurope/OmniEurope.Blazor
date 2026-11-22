@@ -254,22 +254,9 @@ public partial class OmniCodeEditor
         (line, column) => DispatchAsync(() => HandleCursorChanged(line, column)),
         (name, target, line) => DispatchAsync(() => HandleLinkActivationAsync(new OmniCodeEditorLinkEventArgs(name, target, line))));
 
-    internal Task DispatchAsync(Func<Task> work) => InvokeAsync(async () =>
-    {
-        if (_disposed)
-        {
-            return;
-        }
+    internal Task DispatchAsync(Func<Task> work) => OmniGuardedDispatch.RunAsync(InvokeAsync, () => _disposed, StateHasChanged, work);
 
-        await work();
-        StateHasChanged();
-    });
-
-    internal Task DispatchAsync(Action work) => DispatchAsync(() =>
-    {
-        work();
-        return Task.CompletedTask;
-    });
+    internal Task DispatchAsync(Action work) => DispatchAsync(OmniGuardedDispatch.Synchronous(work));
 
     internal Task HandleCodeChangedAsync(string value)
     {
