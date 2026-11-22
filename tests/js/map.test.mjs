@@ -1,8 +1,6 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { dotnetRecorder, installDom } from './dom-stub.mjs';
+import { dotnetRecorder, installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // The map script (omni-map.js): the Web Mercator arithmetic (a point to its world pixel and back at every zoom, the tiles a
 // view needs with their ring, the column of a tile across the date line, the framing of a set of points, a zoom that keeps
@@ -10,8 +8,7 @@ import { dotnetRecorder, installDom } from './dom-stub.mjs';
 // and its ring, hidden when they fail; lines and markers placed; drag, click, wheel, double click, keys, zoom buttons and
 // focus told to .NET). Where the browser really draws the tiles and what real input does stay with the showcase probe
 // (eng/scripts-probe/map.mjs).
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
-const map = await import(pathToFileURL(path.join(wwwroot, 'omni-map.js')).href);
+const map = await import(packageScriptUrl('omni-map.js'));
 const { project, unproject, worldSize, clampLatitude, normalizeLongitude, tileRange, tileColumn, tileUrl, fitView, zoomAround, panBy, originOf, pathOf } = map;
 
 const close = (actual, expected, tolerance = 1e-6) => assert.ok(Math.abs(actual - expected) <= tolerance, `${actual} is not ${expected} (within ${tolerance})`);

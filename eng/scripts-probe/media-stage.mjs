@@ -10,10 +10,7 @@
 
 export async function mediaStageSteps(session, results) {
   const { evaluate, waitFor, check, clickOn, hover, key, pause, send } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   const stage = '#media-stage-demo';
   const itemAt = index => `${stage} [data-omni-media-stage-item="${index}"]`;

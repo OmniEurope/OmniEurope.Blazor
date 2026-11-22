@@ -7,10 +7,7 @@
 
 export async function chevronSteps(session, results) {
   const { evaluate, waitFor, check, send, clickOn, pause } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   // Drives one scrolling box. `selectors` names the strip (that holds the chevrons), the viewport that
   // scrolls and the two chevrons; `upright` is a vertical box. Returns what it measured.

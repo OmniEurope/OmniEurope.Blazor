@@ -8,10 +8,7 @@
 
 export async function veilSteps(session, results) {
   const { evaluate, waitFor, check, clickOn, key, pause } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   // Samples every frame while the veil exists: when it is inserted (MutationObserver), its visibility,
   // opacity and colour at each frame, and its geometry and logo whenever it is visible. The showcase main area
@@ -159,13 +156,7 @@ export async function veilSteps(session, results) {
   step(`voile de page : une attente de 50 ms (${short.frames.length} images, ${(short.removedAt - short.insertedAt).toFixed(0)} ms d'existence) ne montre rien`);
 
   // 6. Dark mode: another colour, still one constant. The mode is picked in the application menu.
-  const pickMode = async position => {
-    await clickOn('.omni-header .omni-app-menu__trigger');
-    await waitFor('le menu d\'application', 'document.querySelector(\'.omni-app-menu__mode\') !== null');
-    await clickOn(`.omni-app-menu__mode .omni-appearance-window__mode:nth-child(${position})`);
-    await key('Escape', 'Escape', 27);
-    await waitFor('le menu d\'application refermé', 'document.querySelector(\'.omni-app-menu__mode\') === null');
-  };
+  const { pickMode } = session;
   await pickMode(2);
   try {
     await waitFor('le mode sombre', 'document.documentElement.getAttribute(\'data-omni-theme\') === \'dark\'');

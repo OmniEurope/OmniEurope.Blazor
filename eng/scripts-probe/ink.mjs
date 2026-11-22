@@ -10,10 +10,7 @@
 
 export async function inkSteps(session, results) {
   const { evaluate, waitFor, check, clickOn, key, pause, mouse, send } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   const surface = '#ink-demo canvas.omni-ink-canvas__surface';
   const box = () => evaluate(`(() => { const b = document.querySelector(${JSON.stringify(surface)}).getBoundingClientRect(); return JSON.stringify({ left: b.left, top: b.top, width: b.width, height: b.height }); })()`).then(JSON.parse);
@@ -28,13 +25,7 @@ export async function inkSteps(session, results) {
   })()`).then(JSON.parse);
   const opaqueCount = `(() => { const canvas = document.querySelector(${JSON.stringify(surface)}); const data = canvas.getContext('2d').getImageData(0, 0, canvas.width, canvas.height).data; let count = 0; for (let index = 3; index < data.length; index += 4) if (data[index] > 0) count++; return count; })()`;
   const strokes = () => evaluate("Number.parseInt(document.getElementById('ink-count').textContent, 10)");
-  const pickMode = async position => {
-    await clickOn('.omni-header .omni-app-menu__trigger');
-    await waitFor("le menu d'application", "document.querySelector('.omni-app-menu__mode') !== null");
-    await clickOn(`.omni-app-menu__mode .omni-appearance-window__mode:nth-child(${position})`);
-    await key('Escape', 'Escape', 27);
-    await waitFor("le menu d'application refermé", "document.querySelector('.omni-app-menu__mode') === null");
-  };
+  const { pickMode } = session;
   const drag = async (points, extra = {}) => {
     await mouse('mouseMoved', points[0], { button: 'none', ...extra });
     await mouse('mousePressed', points[0], extra);

@@ -1,13 +1,10 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { installDom } from './dom-stub.mjs';
+import { installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // The horizontal arrows of the elements marked data-omni-mirror-arrows (the day grid of the date pickers, the
 // radio cards of OmniSelectableCardGroup), which .NET counts in reading order. In a right-to-left page the
 // script swaps them before the handler of Blazor sees them.
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 let loads = 0;
 
 // A page with a marked element holding a button, the focus module loaded, and a listener standing for the
@@ -46,7 +43,7 @@ const fixture = async (direction, marked = true) => {
 
         return !event.defaultPrevented;
     };
-    await import(`${pathToFileURL(path.join(wwwroot, 'focus/keys.js')).href}?mirror${loads++}`);
+    await import(`${packageScriptUrl('focus/keys.js')}?mirror${loads++}`);
     const received = [];
     listeners.push({ handler: event => received.push(event), capture: false });
     const press = (key, extra = {}) => {

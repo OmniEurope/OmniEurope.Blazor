@@ -3,10 +3,7 @@
 
 export async function chartSteps(session, results) {
   const { evaluate, waitFor, pause, check, hover, mouse, clickOn, key } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
   const away = () => mouse('mouseMoved', { x: 5, y: 5 }, { button: 'none' });
   // A scroll closes a tip, and its event lands a frame after scrollIntoView: a pointer moved right after it had its
   // tip closed by that event. The chart is brought into view, then ten frames go by with it still.

@@ -1,17 +1,14 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { installDom } from './dom-stub.mjs';
+import { installDom, packageScriptUrl } from './dom-stub.mjs';
 
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 let loads = 0;
 
 // A fresh page and a fresh module (it keeps the tracked tooltip in its own state), with the
 // markup of an OmniTooltip around a control that carries a native title.
 const fixture = async (control = { title: 'Delete the row' }) => {
     const dom = installDom();
-    const tooltip = await import(`${pathToFileURL(path.join(wwwroot, 'omni-tooltip.js')).href}?tooltip${loads++}`);
+    const tooltip = await import(`${packageScriptUrl('omni-tooltip.js')}?tooltip${loads++}`);
     tooltip.install();
     const button = dom.el('button', control);
     const content = dom.el('span', { class: 'omni-tooltip__content', role: 'tooltip', text: 'Removes it for good' });
@@ -152,7 +149,7 @@ test('a tooltip the focus holds open is placed again on its trigger after a scro
 
 const titleFixture = async () => {
     const dom = installDom();
-    const tooltip = await import(`${pathToFileURL(path.join(wwwroot, 'omni-tooltip.js')).href}?tooltip${loads++}`);
+    const tooltip = await import(`${packageScriptUrl('omni-tooltip.js')}?tooltip${loads++}`);
     tooltip.installTitleTooltips();
     return { dom, tooltip };
 };
@@ -192,7 +189,7 @@ test('a title tooltip is placed on its element when the last pointer seen is not
 // The stub reads no descendant selector: one element stands for the chart and its part.
 const chartTipFixture = async () => {
     const dom = installDom();
-    const tooltip = await import(`${pathToFileURL(path.join(wwwroot, 'omni-tooltip.js')).href}?tooltip${loads++}`);
+    const tooltip = await import(`${packageScriptUrl('omni-tooltip.js')}?tooltip${loads++}`);
     tooltip.installPackageTooltips();
     const part = dom.el('rect', { class: 'omni-chart', 'data-omni-tip': 'Janvier : 12' });
     const empty = dom.el('p');

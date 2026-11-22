@@ -46,20 +46,12 @@ const blockStorage = "Object.defineProperty(window, 'localStorage', { configurab
 export async function preferenceSteps(session, results) {
   const { evaluate, waitFor, check, send, clickOn, pause } = session;
   const { endpoint, siteUrl } = probeOptions('Test-ShowcaseScriptsProbe.mjs');
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
-  const cspClean = async when => {
-    const csp = await evaluate('window.__omniCsp');
-    check(csp.length === 0, `Violations CSP ${when} : ${csp.join(' | ')}`);
-  };
+  const step = session.stepRecorder(results);
+  const { cspClean } = session;
   const previewMode = () => evaluate(`document.querySelector(${JSON.stringify(preview)})?.getAttribute('data-omni-theme') ?? null`);
   // Reloads the application at its root (the static host has no fallback for deep links), then opens the page.
   const reload = async (query = '') => {
-    await cspClean('avant le rechargement');
-    await send('Page.navigate', { url: siteUrl + query });
-    await waitFor('le runtime Blazor rechargé', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
+    await session.reloadShowcase(siteUrl + query);
     await session.visit(themesPage, preview);
   };
   const openWindow = async () => {

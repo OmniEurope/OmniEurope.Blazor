@@ -1,15 +1,12 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { dotnetRecorder, installDom } from './dom-stub.mjs';
+import { dotnetRecorder, installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // The document viewer script (omni-document-viewer.js): the size it gives each page, the zoom that fits the width of
 // the viewport, the page it reports as in view, and what it releases. The boxes come from the rects these tests set by
 // hand: what the browser makes of them is the business of the showcase.
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 const dom = installDom();
-const { attach, update, detach } = await import(pathToFileURL(path.join(wwwroot, 'omni-document-viewer.js')).href);
+const { attach, update, detach } = await import(packageScriptUrl('omni-document-viewer.js'));
 
 const PAGE = 'omni-document-viewer__page';
 const observers = [];

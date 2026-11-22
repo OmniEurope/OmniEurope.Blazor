@@ -8,13 +8,10 @@
 
 export async function keySteps(session, results) {
   const { evaluate, waitFor, key, type, check, clickOn } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
   const enter = () => key('Enter', 'Enter', 13, 0, '\r');
   const space = () => key(' ', 'Space', 32, 0, ' ');
-  const tab = () => key('Tab', 'Tab', 9);
+  const { tab } = session;
   const focused = () => evaluate("document.activeElement?.textContent.trim() ?? ''");
 
   // 1. Tree: Enter, then Space, on the button of Antwerp each toggle its selection once.

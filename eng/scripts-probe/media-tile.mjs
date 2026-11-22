@@ -16,10 +16,7 @@
 
 export async function mediaTileSteps(session, results) {
   const { evaluate, waitFor, check, clickOn, pause, mouse, send } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   const tiles = ['media-tile-a', 'media-tile-b'];
   const surface = tile => `#${tile} canvas.omni-ink-canvas__surface`;

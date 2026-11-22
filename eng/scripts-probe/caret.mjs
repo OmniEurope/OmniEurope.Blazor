@@ -6,10 +6,7 @@
 
 export async function caretSteps(session, results) {
   const { evaluate, waitFor, key, check, clickOn, pause } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
   // A real key press that inserts its character (keydown with text: beforeinput, input, keyup).
   const press = character => key(character, `Key${character.toUpperCase()}`, character.toUpperCase().charCodeAt(0), 0, character);
   const field = id => `document.getElementById(${JSON.stringify(id)})`;

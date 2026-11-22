@@ -6,10 +6,7 @@
 
 export async function boardSteps(session, results) {
   const { evaluate, waitFor, key, pause, check, send, clickOn, hover, mouse, pointOf, html5Drag } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   // 1. The data grid page: a hovered body cell tints its column, a cut cell shows its text, a sort of
   // the virtual grid scrolls it back to its start.

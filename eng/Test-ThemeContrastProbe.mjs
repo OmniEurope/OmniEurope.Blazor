@@ -47,6 +47,7 @@
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 import { createJsCoverage } from './JsCoverage.mjs';
+import { connectCdp, createEvaluate, cspRecorderSource, pause, pollUntil } from './ShowcaseCdp.mjs';
 import { parseShard, reportContrast, shardSlice, writeShardResult } from './ProbeShards.mjs';
 
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -591,72 +592,13 @@ const pageLibrary = String.raw`
 // ---------------------------------------------------------------------------------------------------
 // CDP plumbing (as in the other showcase probes).
 // ---------------------------------------------------------------------------------------------------
-const deadline = Date.now() + 20_000;
-let target;
-while (Date.now() < deadline) {
-  try {
-    const targets = await fetch(`${endpoint}/json/list`).then(response => response.json());
-    target = targets.find(candidate => candidate.type === 'page' && candidate.webSocketDebuggerUrl);
-    if (target) break;
-  } catch {
-    // The browser may still be starting.
-  }
-  await new Promise(done => setTimeout(done, 100));
-}
-if (!target) throw new Error(`Aucune cible CDP disponible sur ${endpoint}.`);
+const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
 
-const socket = new WebSocket(target.webSocketDebuggerUrl);
-await new Promise((done, reject) => {
-  socket.addEventListener('open', done, { once: true });
-  socket.addEventListener('error', () => reject(new Error('Connexion CDP impossible.')), { once: true });
-});
-
-let commandId = 0;
-const pending = new Map();
-const consoleErrors = [];
-socket.addEventListener('message', event => {
-  const message = JSON.parse(event.data);
-  if (message.id && pending.has(message.id)) {
-    const { done, reject } = pending.get(message.id);
-    pending.delete(message.id);
-    if (message.error) reject(new Error(message.error.message));
-    else done(message.result);
-    return;
-  }
-  if (message.method === 'Runtime.exceptionThrown') {
-    consoleErrors.push(message.params.exceptionDetails.exception?.description ?? message.params.exceptionDetails.text);
-  } else if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
-    const source = message.params.entry.url ? ` (${message.params.entry.url})` : '';
-    consoleErrors.push(`${message.params.entry.text}${source}`);
-  } else if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-    consoleErrors.push(message.params.args.map(argument => argument.value ?? argument.description ?? '').join(' '));
-  }
-});
-
-const sendCdp = (method, params = {}) => {
-  const id = ++commandId;
-  socket.send(JSON.stringify({ id, method, params }));
-  return new Promise((done, reject) => pending.set(id, { done, reject }));
-};
-
-const evaluate = async expression => {
-  const response = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-  if (response.exceptionDetails) throw new Error(response.exceptionDetails.exception?.description ?? response.exceptionDetails.text);
-  return response.result.value;
-};
-
-const pause = milliseconds => new Promise(done => setTimeout(done, milliseconds));
+// `send` is the coverage-wrapped sender declared below, read at call time.
+const evaluate = createEvaluate((method, params) => send(method, params));
 
 const waitFor = async (description, expression, timeout = 15_000) => {
-  const until = Date.now() + timeout;
-  while (Date.now() < until) {
-    try {
-      if (await evaluate(`Boolean(${expression})`)) return;
-    } catch (error) {
-      if (!String(error.message).includes('context was destroyed')) throw error;
-    }
-    await pause(50);
-  }
+  if (await pollUntil(evaluate, `Boolean(${expression})`, timeout, 50)) return;
   throw new Error(`Attente dépassée : ${description}.`);
 };
 
@@ -715,7 +657,7 @@ await send('CSS.enable');
 const DESKTOP = { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false };
 await send('Emulation.setDeviceMetricsOverride', DESKTOP);
 await send('Page.addScriptToEvaluateOnNewDocument', {
-  source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
+  source: cspRecorderSource
 });
 // Starts from a clean customizer: an earlier probe or visit may have left a theme, a mode or a density
 // in this browser's storage, and the combination must come from the pickers alone.

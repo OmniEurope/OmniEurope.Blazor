@@ -60,10 +60,7 @@ const recorder = `(() => {
 export async function bootSteps(session, results) {
   const { evaluate, waitFor, check, send, clickOn, pause } = session;
   const { siteUrl } = probeOptions('Test-ShowcaseScriptsProbe.mjs');
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
   const ready = "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null";
   // Reloads the application at its root with the recorder, and returns every frame painted until it settled.
   const recordedBoot = async () => {

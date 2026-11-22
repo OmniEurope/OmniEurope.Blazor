@@ -11,11 +11,8 @@
 
 export async function selectOnFocusSteps(session, results) {
   const { evaluate, waitFor, key, check, clickOn, pause, send } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
-  const tab = (shift = false) => key('Tab', 'Tab', 9, shift ? 8 : 0);
+  const step = session.stepRecorder(results);
+  const { tab } = session;
   const digit = character => key(character, `Digit${character}`, 48 + Number(character), 0, character);
   const press = character => key(character, `Key${character.toUpperCase()}`, character.toUpperCase().charCodeAt(0), 0, character);
   const field = id => `document.getElementById(${JSON.stringify(id)})`;

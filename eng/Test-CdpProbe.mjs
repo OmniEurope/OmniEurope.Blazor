@@ -1,7 +1,6 @@
-const options = new Map();
-for (let index = 2; index < process.argv.length; index += 2) {
-  options.set(process.argv[index], process.argv[index + 1]);
-}
+import { connectCdp, createEvaluate, readOptions } from './ShowcaseCdp.mjs';
+
+const options = readOptions();
 
 const endpoint = options.get('--endpoint');
 const selector = options.get('--selector');
@@ -19,60 +18,11 @@ if (!endpoint || !selector || !expected) {
   throw new Error('Usage: node Test-CdpProbe.mjs --endpoint <url> --selector <css> --output <css> --expected <text>');
 }
 
+// The same deadline bounds the wait for a target and, below, for the hydrated probe element.
 const deadline = Date.now() + 20_000;
-let target;
-while (Date.now() < deadline) {
-  try {
-    const targets = await fetch(`${endpoint}/json/list`).then(response => response.json());
-    target = targets.find(candidate => candidate.type === 'page' && candidate.webSocketDebuggerUrl);
-    if (target) break;
-  } catch {
-    // The browser or WebView2 host may still be starting.
-  }
-  await new Promise(resolve => setTimeout(resolve, 100));
-}
-if (!target) throw new Error(`Aucune cible CDP disponible sur ${endpoint}.`);
+const { socket, sendCdp: send, consoleErrors } = await connectCdp(endpoint, { timeout: deadline - Date.now(), describeExceptions: false });
 
-const socket = new WebSocket(target.webSocketDebuggerUrl);
-await new Promise((resolve, reject) => {
-  socket.addEventListener('open', resolve, { once: true });
-  socket.addEventListener('error', () => reject(new Error('Connexion CDP impossible.')), { once: true });
-});
-
-let commandId = 0;
-const pending = new Map();
-const consoleErrors = [];
-socket.addEventListener('message', event => {
-  const message = JSON.parse(event.data);
-  if (message.id && pending.has(message.id)) {
-    const { resolve, reject } = pending.get(message.id);
-    pending.delete(message.id);
-    if (message.error) reject(new Error(message.error.message));
-    else resolve(message.result);
-    return;
-  }
-
-  if (message.method === 'Runtime.exceptionThrown') {
-    consoleErrors.push(message.params.exceptionDetails.text);
-  } else if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
-    const source = message.params.entry.url ? ` (${message.params.entry.url})` : '';
-    consoleErrors.push(`${message.params.entry.text}${source}`);
-  } else if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-    consoleErrors.push(message.params.args.map(argument => argument.value ?? argument.description ?? '').join(' '));
-  }
-});
-
-function send(method, params = {}) {
-  const id = ++commandId;
-  socket.send(JSON.stringify({ id, method, params }));
-  return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
-}
-
-async function evaluate(expression) {
-  const response = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-  if (response.exceptionDetails) throw new Error(response.exceptionDetails.text);
-  return response.result.value;
-}
+const evaluate = createEvaluate(send, false);
 
 await send('Runtime.enable');
 await send('Log.enable');

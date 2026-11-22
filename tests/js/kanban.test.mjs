@@ -1,12 +1,9 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { dotnetRecorder, installDom } from './dom-stub.mjs';
+import { dotnetRecorder, installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // The keys of OmniKanban that the script handles: the focus moved from card to card, and the keys of a
 // carried card sent to .NET. The columns follow the direction of the page, so the horizontal arrows too.
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 
 // A board of three columns in drawing order, one card in each of the outer two and two in the middle one.
 const fixture = async direction => {
@@ -19,7 +16,7 @@ const fixture = async direction => {
     dom.body.append(root);
     const handlers = new Map();
     root.addEventListener = (type, handler) => handlers.set(type, handler);
-    const { attach } = await import(pathToFileURL(path.join(wwwroot, 'omni-kanban.js')).href);
+    const { attach } = await import(packageScriptUrl('omni-kanban.js'));
     const dotnet = dotnetRecorder();
     attach(root, dotnet);
     const press = (target, key) => {

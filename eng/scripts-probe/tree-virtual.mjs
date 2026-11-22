@@ -18,10 +18,7 @@ const lastRowText = `(() => { const all = document.querySelectorAll(${JSON.strin
 
 export async function treeVirtualSteps(session, results) {
   const { evaluate, waitFor, check, clickOn, pause } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
   const scrollTo = offset => evaluate(`(() => { document.querySelector(${JSON.stringify(viewport)}).scrollTop = ${offset}; })()`);
   const buttonByText = text => evaluate(`(() => {
     const button = [...document.querySelectorAll(${JSON.stringify(`${grid} .omni-data-grid__bar--header button`)})].find(candidate => candidate.textContent.trim() === ${JSON.stringify(text)});

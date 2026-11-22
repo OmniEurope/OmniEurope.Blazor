@@ -9,11 +9,8 @@
 
 export async function comboSteps(session, results) {
   const { evaluate, waitFor, key, check, clickOn, pause } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
-  const tab = () => key('Tab', 'Tab', 9);
+  const step = session.stepRecorder(results);
+  const { tab } = session;
   const escape = () => key('Escape', 'Escape', 27);
   // A real key press that inserts its character (keydown with text: beforeinput, input, keyup).
   const press = character => key(character, `Key${character.toUpperCase()}`, character.toUpperCase().charCodeAt(0), 0, character);

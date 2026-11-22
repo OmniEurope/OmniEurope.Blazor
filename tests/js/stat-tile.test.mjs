@@ -1,18 +1,15 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { installDom } from './dom-stub.mjs';
+import { installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // The fit of the value of OmniStatTile (recette R-25): the value takes up to three smaller sizes
 // (data-fit="shrink-1" to "shrink-3"), then wraps (data-fit="wrap"), and is never given a tooltip or an
 // ellipsis. Widths are decided by hand here (a value's scrollWidth against its clientWidth, by the data-fit it
 // carries): what the browser makes of the sizes is measured by the showcase probe, not by these tests.
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 const dom = installDom();
 globalThis.MutationObserver = class { observe() { } disconnect() { } };
 globalThis.ResizeObserver = class { observe() { } disconnect() { } };
-const { attach, detach } = await import(pathToFileURL(path.join(wwwroot, 'omni-stat-tile.js')).href);
+const { attach, detach } = await import(packageScriptUrl('omni-stat-tile.js'));
 
 // A tile whose value needs `needed[step]` pixels at each data-fit step (key '' is no mark), in a box of `box`.
 const tileNeeding = (box, needed, classes = 'omni-stat-tile') => {

@@ -2,11 +2,9 @@ import { createReadStream } from 'node:fs';
 import { readFile, stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
 import { extname, resolve, sep } from 'node:path';
+import { readOptions } from './ShowcaseCdp.mjs';
 
-const options = new Map();
-for (let index = 2; index < process.argv.length; index += 2) {
-  options.set(process.argv[index], process.argv[index + 1]);
-}
+const options = readOptions();
 
 const root = resolve(options.get('--root') ?? '');
 const port = Number(options.get('--port') ?? '5190');
