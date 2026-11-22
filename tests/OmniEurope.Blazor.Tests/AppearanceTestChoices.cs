@@ -9,9 +9,9 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 internal static class AppearanceTestChoices
 {
-    internal static OmniThemePreset Theme(string name) => OmniThemePresets.All.Single(item => item.Name == name);
+    internal static OmniThemePreset Theme(string name) => ShippedThemes.Preset(name);
 
-    internal static OmniThemePalette Palette(string name) => OmniThemePalettes.All.Single(item => item.Name == name);
+    internal static OmniThemePalette Palette(string name) => ShippedThemes.Palette(name);
 
     internal static OmniThemeFont Font(string name) => OmniThemeFonts.All.Single(item => item.Name == name);
 
