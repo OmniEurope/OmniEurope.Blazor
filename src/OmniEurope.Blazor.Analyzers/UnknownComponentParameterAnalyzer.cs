@@ -111,28 +111,32 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
                 // One frame stack per builder variable: a child content lambda writes to __builder2.
                 var receiver = access.Expression.ToString();
                 if (!frames.TryGetValue(receiver, out var stack)) frames[receiver] = stack = new Stack<INamedTypeSymbol?>();
-                switch (method)
-                {
-                    case "OpenComponent":
-                        stack.Push(symbol.IsGenericMethod ? symbol.TypeArguments[0] as INamedTypeSymbol : null);
-                        break;
-                    case "OpenElement":
-                    case "OpenRegion":
-                        stack.Push(null);
-                        break;
-                    case "CloseComponent":
-                    case "CloseElement":
-                    case "CloseRegion":
-                        if (stack.Count > 0) stack.Pop();
-                        break;
-                    default:
-                        if (stack.Count > 0 && stack.Peek() is { } component && Inspect(invocation, component) is { } finding)
-                            findings.Add(finding);
-                        break;
-                }
+                if (Step(method, symbol, invocation, stack) is { } finding) findings.Add(finding);
             }
 
             if (findings.Count > 0) Report(root, findings);
+        }
+
+        /// <summary>Applies one tracked builder call to its frame stack; returns the finding of an attribute call.</summary>
+        private Finding? Step(string method, IMethodSymbol symbol, InvocationExpressionSyntax invocation, Stack<INamedTypeSymbol?> stack)
+        {
+            switch (method)
+            {
+                case "OpenComponent":
+                    stack.Push(symbol.IsGenericMethod ? symbol.TypeArguments[0] as INamedTypeSymbol : null);
+                    return null;
+                case "OpenElement":
+                case "OpenRegion":
+                    stack.Push(null);
+                    return null;
+                case "CloseComponent":
+                case "CloseElement":
+                case "CloseRegion":
+                    if (stack.Count > 0) stack.Pop();
+                    return null;
+                default:
+                    return stack.Count > 0 && stack.Peek() is { } component ? Inspect(invocation, component) : null;
+            }
         }
 
         private static bool IsTracked(string method) => method switch

@@ -189,32 +189,51 @@ public sealed class OmniEuropeConventionAnalyzer : DiagnosticAnalyzer
         if (invocation.Expression is not MemberAccessExpressionSyntax access) return;
         var method = access.Name.Identifier.Text;
         var invokedMethod = GetInvokedMethod(context, invocation);
-        if (method is "Include" or "ThenInclude" && IsEfMethod(invokedMethod))
+        if (method is "Include" or "ThenInclude" && IsEfMethod(invokedMethod) && ReportIncludeAfterPaging(context, access)) return;
+        if (IsUnboundedRepositoryMaterialization(context, invocation, method, invokedMethod) && !HasBoundingCall(context, access))
         {
-            for (var current = access.Expression; current is InvocationExpressionSyntax parent && parent.Expression is MemberAccessExpressionSyntax member; current = member.Expression)
+            context.ReportDiagnostic(Diagnostic.Create(Gen006, access.Name.GetLocation(), method));
+        }
+    }
+
+    // GEN005: reports an Include chained after an ordering or paging call; true when reported.
+    private static bool ReportIncludeAfterPaging(SyntaxNodeAnalysisContext context, MemberAccessExpressionSyntax access)
+    {
+        for (var current = access.Expression; current is InvocationExpressionSyntax parent && parent.Expression is MemberAccessExpressionSyntax member; current = member.Expression)
+        {
+            if (IsOrderingOrPaging(member.Name.Identifier.Text) && IsLinqMethod(GetInvokedMethod(context, parent)))
             {
-                var parentMethod = GetInvokedMethod(context, parent);
-                if (member.Name.Identifier.Text is "OrderBy" or "OrderByDescending" or "ThenBy" or "ThenByDescending" or "Skip" or "Take"
-                    && IsLinqMethod(parentMethod))
-                {
-                    context.ReportDiagnostic(Diagnostic.Create(Gen005, access.Name.GetLocation(), member.Name.Identifier.Text));
-                    return;
-                }
+                context.ReportDiagnostic(Diagnostic.Create(Gen005, access.Name.GetLocation(), member.Name.Identifier.Text));
+                return true;
             }
         }
 
+        return false;
+    }
+
+    private static bool IsOrderingOrPaging(string name) =>
+        name is "OrderBy" or "OrderByDescending" or "ThenBy" or "ThenByDescending" or "Skip" or "Take";
+
+    // GEN006 candidate: a ToList/ToArray materialization inside a repository type.
+    private static bool IsUnboundedRepositoryMaterialization(SyntaxNodeAnalysisContext context, InvocationExpressionSyntax invocation, string method, IMethodSymbol? invokedMethod)
+    {
+        if (method is not ("ToList" or "ToListAsync" or "ToArray" or "ToArrayAsync")) return false;
         var containingType = invocation.FirstAncestorOrSelf<TypeDeclarationSyntax>();
         var containingSymbol = containingType is null ? null : context.SemanticModel.GetDeclaredSymbol(containingType, context.CancellationToken);
-        if (method is not ("ToList" or "ToListAsync" or "ToArray" or "ToArrayAsync")
-            || containingSymbol?.Name.EndsWith("Repository", StringComparison.Ordinal) != true
-            || !IsMaterializationMethod(invokedMethod)) return;
+        return containingSymbol?.Name.EndsWith("Repository", StringComparison.Ordinal) == true && IsMaterializationMethod(invokedMethod);
+    }
+
+    // True when the chain before the materialization filters, limits or reads a single row.
+    private static bool HasBoundingCall(SyntaxNodeAnalysisContext context, MemberAccessExpressionSyntax access)
+    {
         for (var current = access.Expression; current is InvocationExpressionSyntax parent && parent.Expression is MemberAccessExpressionSyntax member; current = member.Expression)
         {
             var parentMethod = GetInvokedMethod(context, parent);
             if (member.Name.Identifier.Text is "Where" or "Take" && IsLinqMethod(parentMethod)
-                || member.Name.Identifier.Text is "FirstOrDefaultAsync" or "SingleOrDefaultAsync" && IsEfMethod(parentMethod)) return;
+                || member.Name.Identifier.Text is "FirstOrDefaultAsync" or "SingleOrDefaultAsync" && IsEfMethod(parentMethod)) return true;
         }
-        context.ReportDiagnostic(Diagnostic.Create(Gen006, access.Name.GetLocation(), method));
+
+        return false;
     }
 
     private static IMethodSymbol? GetInvokedMethod(SyntaxNodeAnalysisContext context, InvocationExpressionSyntax invocation) =>

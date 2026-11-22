@@ -89,25 +89,9 @@ internal static class ApiSurfaceExtractor
     private static void AddType(ISet<string> signatures, Type type)
     {
         var typeName = TypeName(type);
-        var kind = type.IsInterface ? "interface"
-            : type.IsEnum ? "enum"
-            : typeof(MulticastDelegate).IsAssignableFrom(type.BaseType) ? "delegate"
-            : type.IsValueType ? "struct"
-            : type.IsAbstract && type.IsSealed ? "static-class"
-            : type.IsClass ? "class"
-            : "type";
-        var modifiers = TypeModifiers(type);
-        var inheritance = new List<string>();
-        if (type.BaseType is not null && type.BaseType != typeof(object) && !type.IsEnum && kind != "delegate")
-        {
-            inheritance.Add(TypeName(type.BaseType));
-        }
-        inheritance.AddRange(type.GetInterfaces().Select(candidate => TypeName(candidate)).Order(StringComparer.Ordinal));
-        if (type.IsEnum)
-        {
-            inheritance.Add(TypeName(Enum.GetUnderlyingType(type)));
-        }
-        signatures.Add($"type {Access(type)} {typeName} [{kind}{modifiers}]{Constraints(type.GetGenericArguments())}{(inheritance.Count == 0 ? string.Empty : " : " + string.Join(", ", inheritance))}");
+        var kind = TypeKind(type);
+        var inheritance = Inheritance(type, kind);
+        signatures.Add($"type {Access(type)} {typeName} [{kind}{TypeModifiers(type)}]{Constraints(type.GetGenericArguments())}{(inheritance.Count == 0 ? string.Empty : " : " + string.Join(", ", inheritance))}");
 
         if (typeof(IComponent).IsAssignableFrom(type))
         {
@@ -121,25 +105,12 @@ internal static class ApiSurfaceExtractor
 
         foreach (var property in type.GetProperties(ApiDeclared).Where(IsApiProperty).OrderBy(property => property.Name, StringComparer.Ordinal))
         {
-            var accessors = new[]
-                {
-                    IsApiMember(property.GetMethod) ? $"get({Access(property.GetMethod!)})" : null,
-                    IsApiMember(property.SetMethod) ? $"{(IsInitOnly(property.SetMethod!) ? "init" : "set")}({Access(property.SetMethod!)})" : null
-                }
-                .Where(value => value is not null);
-            var index = property.GetIndexParameters();
-            var parameterAttribute = property.GetCustomAttribute<ParameterAttribute>() is null
-                ? string.Empty
-                : $" [Parameter{(property.GetCustomAttribute<EditorRequiredAttribute>() is null ? string.Empty : ", EditorRequired")}]";
-            var required = property.GetCustomAttributesData().Any(attribute => attribute.AttributeType.FullName == "System.Runtime.CompilerServices.RequiredMemberAttribute") ? " required" : string.Empty;
-            var propertyType = TypeName(property.PropertyType, Nullability.Create(property), NullableFlags.For(property, property));
-            signatures.Add($"property {Access(property)}{MemberModifiers(property.GetMethod ?? property.SetMethod!)}{required} {typeName}.{property.Name}{(index.Length == 0 ? string.Empty : "[" + Parameters(index) + "]")} : {propertyType} {{{string.Join(';', accessors)}}}{parameterAttribute}");
+            signatures.Add(PropertySignature(typeName, property));
         }
 
         foreach (var field in type.GetFields(ApiDeclared).Where(field => !field.IsSpecialName && IsApiMember(field)).OrderBy(field => field.Name, StringComparer.Ordinal))
         {
-            var modifier = field.IsLiteral ? $" const = {DefaultValue(field.GetRawConstantValue())}" : field.IsInitOnly ? " readonly" : string.Empty;
-            signatures.Add($"field {Access(field)}{(field.IsStatic ? " static" : string.Empty)} {typeName}.{field.Name} : {TypeName(field.FieldType, Nullability.Create(field), NullableFlags.For(field, field))}{modifier}");
+            signatures.Add(FieldSignature(typeName, field));
         }
 
         foreach (var @event in type.GetEvents(ApiDeclared).Where(IsApiEvent).OrderBy(value => value.Name, StringComparer.Ordinal))
@@ -148,13 +119,72 @@ internal static class ApiSurfaceExtractor
             signatures.Add($"event {Access(accessor)}{MemberModifiers(accessor)} {typeName}.{@event.Name} : {TypeName(@event.EventHandlerType!, Nullability.Create(@event), NullableFlags.For(@event, @event))}");
         }
 
-        foreach (var method in type.GetMethods(ApiDeclared)
-                     .Where(method => IsApiMember(method) && (!method.IsSpecialName || method.Name.StartsWith("op_", StringComparison.Ordinal)))
-                     .OrderBy(MemberKey, StringComparer.Ordinal))
+        foreach (var method in type.GetMethods(ApiDeclared).Where(IsApiMethod).OrderBy(MemberKey, StringComparer.Ordinal))
         {
-            var genericArguments = method.IsGenericMethodDefinition ? method.GetGenericArguments() : [];
-            signatures.Add($"method {Access(method)}{MemberModifiers(method)} {typeName}.{method.Name}{GenericList(genericArguments)}({Parameters(method.GetParameters())}) : {TypeName(method.ReturnType, Nullability.Create(method.ReturnParameter), NullableFlags.For(method.ReturnParameter))}{Constraints(genericArguments)}");
+            signatures.Add(MethodSignature(typeName, method));
         }
+    }
+
+    private static string TypeKind(Type type)
+    {
+        if (type.IsInterface) return "interface";
+        if (type.IsEnum) return "enum";
+        if (typeof(MulticastDelegate).IsAssignableFrom(type.BaseType)) return "delegate";
+        if (type.IsValueType) return "struct";
+        if (type.IsAbstract && type.IsSealed) return "static-class";
+        return type.IsClass ? "class" : "type";
+    }
+
+    private static List<string> Inheritance(Type type, string kind)
+    {
+        var inheritance = new List<string>();
+        if (type.BaseType is not null && type.BaseType != typeof(object) && !type.IsEnum && kind != "delegate")
+        {
+            inheritance.Add(TypeName(type.BaseType));
+        }
+        inheritance.AddRange(type.GetInterfaces().Select(candidate => TypeName(candidate)).Order(StringComparer.Ordinal));
+        if (type.IsEnum)
+        {
+            inheritance.Add(TypeName(Enum.GetUnderlyingType(type)));
+        }
+
+        return inheritance;
+    }
+
+    private static string PropertySignature(string typeName, PropertyInfo property)
+    {
+        var accessors = new[]
+            {
+                IsApiMember(property.GetMethod) ? $"get({Access(property.GetMethod!)})" : null,
+                IsApiMember(property.SetMethod) ? $"{(IsInitOnly(property.SetMethod!) ? "init" : "set")}({Access(property.SetMethod!)})" : null
+            }
+            .Where(value => value is not null);
+        var index = property.GetIndexParameters();
+        var required = property.GetCustomAttributesData().Any(attribute => attribute.AttributeType.FullName == "System.Runtime.CompilerServices.RequiredMemberAttribute") ? " required" : string.Empty;
+        var propertyType = TypeName(property.PropertyType, Nullability.Create(property), NullableFlags.For(property, property));
+        return $"property {Access(property)}{MemberModifiers(property.GetMethod ?? property.SetMethod!)}{required} {typeName}.{property.Name}{(index.Length == 0 ? string.Empty : "[" + Parameters(index) + "]")} : {propertyType} {{{string.Join(';', accessors)}}}{ParameterAttribute(property)}";
+    }
+
+    private static string ParameterAttribute(PropertyInfo property)
+    {
+        if (property.GetCustomAttribute<ParameterAttribute>() is null) return string.Empty;
+        return $" [Parameter{(property.GetCustomAttribute<EditorRequiredAttribute>() is null ? string.Empty : ", EditorRequired")}]";
+    }
+
+    private static string FieldSignature(string typeName, FieldInfo field)
+    {
+        var modifier = field.IsLiteral ? $" const = {DefaultValue(field.GetRawConstantValue())}" : field.IsInitOnly ? " readonly" : string.Empty;
+        return $"field {Access(field)}{(field.IsStatic ? " static" : string.Empty)} {typeName}.{field.Name} : {TypeName(field.FieldType, Nullability.Create(field), NullableFlags.For(field, field))}{modifier}";
+    }
+
+    // Accessors and event methods are listed through their member; operators are kept.
+    private static bool IsApiMethod(MethodInfo method) =>
+        IsApiMember(method) && (!method.IsSpecialName || method.Name.StartsWith("op_", StringComparison.Ordinal));
+
+    private static string MethodSignature(string typeName, MethodInfo method)
+    {
+        var genericArguments = method.IsGenericMethodDefinition ? method.GetGenericArguments() : [];
+        return $"method {Access(method)}{MemberModifiers(method)} {typeName}.{method.Name}{GenericList(genericArguments)}({Parameters(method.GetParameters())}) : {TypeName(method.ReturnType, Nullability.Create(method.ReturnParameter), NullableFlags.For(method.ReturnParameter))}{Constraints(genericArguments)}";
     }
 
     private static string Parameters(IEnumerable<ParameterInfo> parameters) => string.Join(", ", parameters.Select(parameter =>
