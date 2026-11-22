@@ -186,6 +186,24 @@ test('a button that holds the focus stays shown below the threshold', () => {
     detach(frame);
 });
 
+test('the focus coming back to the button while it fades out shows it again, without waiting for a scroll', () => {
+    const main = scrollable(dom.el('main', { class: 'omni-main omni-main--scrollable' }), 0);
+    const { frame, button } = page({ main });
+    attach(frame, null, 400);
+    assert.equal(frame.hasAttribute('data-shown'), false);
+
+    document.activeElement = button;
+    frame.fire('focusin', {});
+    assert.equal(frame.hasAttribute('data-shown'), true);
+
+    document.activeElement = dom.body;
+    frame.fire('focusout', {});
+    assert.equal(frame.hasAttribute('data-shown'), false);
+
+    detach(frame);
+    assert.equal(frame.listeners.length, 0, 'detach removes the focus listeners');
+});
+
 test('a second attach takes the new options without a second listener, and detach releases everything', () => {
     const main = scrollable(dom.el('main', { class: 'omni-main omni-main--scrollable' }), 250);
     const { frame } = page({ main });

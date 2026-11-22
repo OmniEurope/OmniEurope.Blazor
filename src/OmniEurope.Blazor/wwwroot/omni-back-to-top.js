@@ -84,6 +84,11 @@ export function attach(frame, targetId, threshold) {
     };
     document.addEventListener('scroll', state.queue, { capture: true, passive: true });
     window.addEventListener('resize', state.queue, { passive: true });
+    // The focus is checked as it enters or leaves the button, not only on a scroll: a Tab that comes back to the
+    // button while it fades out keeps it shown, instead of losing the focus to the document once it hides.
+    state.focus = () => update(frame);
+    frame.addEventListener('focusin', state.focus);
+    frame.addEventListener('focusout', state.focus);
     attached.set(frame, state);
     update(frame);
 }
@@ -120,6 +125,8 @@ export function detach(frame) {
 
     document.removeEventListener('scroll', state.queue, { capture: true });
     window.removeEventListener('resize', state.queue);
+    frame.removeEventListener('focusin', state.focus);
+    frame.removeEventListener('focusout', state.focus);
     if (state.frameId) {
         window.cancelAnimationFrame(state.frameId);
     }
