@@ -736,14 +736,5 @@ public sealed partial class ShippedLookTests : OmniBunitContext
     internal static string Uncommented(string css) =>
         Regex.Replace(css, @"/\*.*?\*/", string.Empty, RegexOptions.Singleline).ReplaceLineEndings("\n");
 
-    internal static string RepositoryRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        return directory?.FullName ?? throw new InvalidOperationException("Repository root not found.");
-    }
+    internal static string RepositoryRoot() => RepositoryRootLocator.Find();
 }

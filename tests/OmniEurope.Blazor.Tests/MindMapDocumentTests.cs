@@ -124,14 +124,7 @@ public sealed class MindMapDocumentTests
 
     private static string SeedPath(string file)
     {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        Assert.NotNull(directory);
-        return Path.Combine(directory.FullName, "tests", "OmniEurope.Blazor.Tests", "TestData", "mindmap", file);
+        return Path.Combine(RepositoryRootLocator.Find(), "tests", "OmniEurope.Blazor.Tests", "TestData", "mindmap", file);
     }
 
     /// <summary>

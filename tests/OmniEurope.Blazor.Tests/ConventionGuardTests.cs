@@ -569,19 +569,7 @@ public sealed partial class ConventionGuardTests
             StringComparison.Ordinal));
     }
 
-    private static string Root
-    {
-        get
-        {
-            var directory = new DirectoryInfo(AppContext.BaseDirectory);
-            while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-            {
-                directory = directory.Parent;
-            }
-
-            return directory?.FullName ?? throw new DirectoryNotFoundException("Racine du dépôt introuvable.");
-        }
-    }
+    private static string Root => RepositoryRootLocator.Find();
 
     private static string Read(params string[] segments) => File.ReadAllText(Path.Combine([Root, .. segments]));
 

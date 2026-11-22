@@ -60,14 +60,5 @@ public sealed class LibraryTranslationTests
     private static string Placeholders(string value) =>
         string.Join(",", Regex.Matches(value, @"\{\s*(\d+)\s*(?:[:,][^}]*)?\}").Select(match => match.Groups[1].Value).Distinct().Order());
 
-    private static string RepositoryRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        return directory?.FullName ?? throw new InvalidOperationException("Repository root not found.");
-    }
+    private static string RepositoryRoot() => RepositoryRootLocator.Find();
 }
