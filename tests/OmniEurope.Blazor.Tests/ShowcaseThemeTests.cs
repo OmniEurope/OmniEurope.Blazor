@@ -61,6 +61,47 @@ public sealed class ShowcaseThemeTests
     }
 
     /// <summary>
+    /// Pins the order in which the reader tries the families: the first family a name matches wins, an exact
+    /// name of the elevation is not a colour although it starts like one, and a name no family claims is a colour.
+    /// </summary>
+    [Theory]
+    [InlineData("--omni-chart-series-shadow", ThemeTokenGroup.Chart)]
+    [InlineData("--omni-grid-header-radius", ThemeTokenGroup.Grid)]
+    [InlineData("--omni-mindmap-link-color", ThemeTokenGroup.Diagram)]
+    [InlineData("--omni-space-font-gap", ThemeTokenGroup.Spacing)]
+    [InlineData("--omni-shadow-lg", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-color-text-shadow", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-focus-ring", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-focus-ring-danger", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-focus-ring-inset", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-focus-ring-width", ThemeTokenGroup.Color)]
+    [InlineData("--omni-color-overlay", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-color-overlay-strong", ThemeTokenGroup.Color)]
+    [InlineData("--omni-scope-canvas", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-scope-page", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-z-dialog", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-z-font-layer", ThemeTokenGroup.Elevation)]
+    [InlineData("--omni-duration-fast", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-duration-font-swap", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-color-font-muted", ThemeTokenGroup.Color)]
+    [InlineData("--omni-color-border-strong", ThemeTokenGroup.Color)]
+    [InlineData("--omni-font-radius", ThemeTokenGroup.Typography)]
+    [InlineData("--omni-radius-lg", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-chip-transform", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-border-width", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-input-background", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-alert-fill-opacity", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-scope-isolation", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-scope-motion", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-shell-background", ThemeTokenGroup.Shape)]
+    [InlineData("--omni-surface", ThemeTokenGroup.Color)]
+    public void TokenReader_TriesTheFamiliesInOrder(string name, ThemeTokenGroup expected)
+    {
+        var token = Assert.Single(ThemeTokenReader.Parse($":root {{ {name}: x; }}"));
+        Assert.Equal(expected, token.Group);
+    }
+
+    /// <summary>
     /// The theme hooks only some themes set are declared on the bare theme scope, not on
     /// <c>:root</c>: the reader takes that block too and files them with the shape of a theme, while a
     /// scope with a value (a mode block) is not a declaration of the catalogue.
