@@ -511,25 +511,14 @@ public partial class OmniLogViewer : IAsyncDisposable
             return false;
         }
 
-        var moved = false;
-        if (Math.Abs(snapshot.ViewportHeight - _viewportHeight) > 0.5d)
+        var moved = GridVirtualWindow.TakeMeasured(snapshot.ViewportHeight, ref _viewportHeight);
+
+        if (!_following && _pendingReveal is null)
         {
-            _viewportHeight = snapshot.ViewportHeight;
-            moved = true;
+            moved |= GridVirtualWindow.TakeMeasured(snapshot.ScrollTop, ref _scrollTop);
         }
 
-        if (!_following && _pendingReveal is null && Math.Abs(snapshot.ScrollTop - _scrollTop) > 0.5d)
-        {
-            _scrollTop = snapshot.ScrollTop;
-            moved = true;
-        }
-
-        foreach (var row in snapshot.Rows ?? [])
-        {
-            moved |= _window.Measure(row.Index, row.Height);
-        }
-
-        return moved;
+        return _window.MeasureAll(snapshot.Rows) | moved;
     }
 
     /// <summary>

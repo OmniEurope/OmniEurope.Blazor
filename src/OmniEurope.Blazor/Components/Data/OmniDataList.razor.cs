@@ -290,25 +290,10 @@ public partial class OmniDataList<TItem>
             return false;
         }
 
-        var moved = false;
-        if (Math.Abs(snapshot.ViewportHeight - _viewportHeight) > 0.5d)
-        {
-            _viewportHeight = snapshot.ViewportHeight;
-            moved = true;
-        }
+        var moved = GridVirtualWindow.TakeMeasured(snapshot.ViewportHeight, ref _viewportHeight);
+        moved |= GridVirtualWindow.TakeMeasured(snapshot.ScrollTop, ref _scrollTop);
 
-        if (Math.Abs(snapshot.ScrollTop - _scrollTop) > 0.5d)
-        {
-            _scrollTop = snapshot.ScrollTop;
-            moved = true;
-        }
-
-        foreach (var row in snapshot.Rows ?? [])
-        {
-            moved |= _window.Measure(row.Index, row.Height);
-        }
-
-        return moved;
+        return _window.MeasureAll(snapshot.Rows) | moved;
     }
 
     /// <summary>

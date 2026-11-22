@@ -312,7 +312,7 @@ internal static class XlsxWriter
         for (var index = 0; index < text.Length; index++)
         {
             var character = text[index];
-            if (char.IsHighSurrogate(character) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]))
+            if (StartsSurrogatePair(text, index))
             {
                 builder.Append(character).Append(text[++index]);
             }
@@ -330,7 +330,7 @@ internal static class XlsxWriter
         for (var index = 0; index < text.Length; index++)
         {
             var character = text[index];
-            if (char.IsHighSurrogate(character) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]))
+            if (StartsSurrogatePair(text, index))
             {
                 index++;
             }
@@ -342,6 +342,10 @@ internal static class XlsxWriter
 
         return true;
     }
+
+    // Whether a whole surrogate pair (high half then low half) starts at this index.
+    private static bool StartsSurrogatePair(string text, int index) =>
+        char.IsHighSurrogate(text[index]) && index + 1 < text.Length && char.IsLowSurrogate(text[index + 1]);
 
     private static bool Allowed(char character) =>
         character is '\t' or '\n' or '\r' || (character >= ' ' && character != '￾' && character != '￿');

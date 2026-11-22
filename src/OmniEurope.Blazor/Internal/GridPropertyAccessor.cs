@@ -131,22 +131,7 @@ internal static class GridPropertyAccessor
         }
 
         return EnumCache.GetOrAdd((typeof(TItem), path), static key =>
-        {
-            var current = key.Type;
-            foreach (var segment in key.Path.Split('.', StringSplitOptions.RemoveEmptyEntries))
-            {
-                var member = FindMember(current, segment);
-                if (member is null)
-                {
-                    return null;
-                }
-
-                current = member is PropertyInfo property ? property.PropertyType : ((FieldInfo)member).FieldType;
-            }
-
-            var type = Nullable.GetUnderlyingType(current) ?? current;
-            return type.IsEnum ? type : null;
-        });
+            ResolveValueType(key.Type, key.Path) is { IsEnum: true } type ? type : null);
     }
 
     private static bool CanBeNull(Type type) => !type.IsValueType || Nullable.GetUnderlyingType(type) is not null;

@@ -75,9 +75,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         int blockSize,
         Func<int, int, CancellationToken, Task<OmniDataGridResult<TItem>>> loader)
     {
-        var size = Math.Max(1, blockSize);
-        var firstBlock = Math.Max(0, start) / size;
-        var lastBlock = Math.Max(0, start + Math.Max(1, count) - 1) / size;
+        var (size, firstBlock, lastBlock) = BlockRange(start, count, blockSize);
         _wantedFirst = firstBlock;
         _wantedLast = lastBlock;
         CancelOutside(firstBlock, lastBlock);
@@ -89,8 +87,7 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
             return false;
         }
 
-        _cancellation ??= new CancellationTokenSource();
-        var token = _cancellation.Token;
+        var token = GenerationToken();
         var generation = _generation;
         _activeCalls++;
         Loading = true;
@@ -184,6 +181,20 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         return generation != _generation || token.IsCancellationRequested || entry.Token.IsCancellationRequested ? null : result;
     }
 
+    // The block size (at least one row) and the first and last blocks covering start..start + count.
+    private static (int Size, int First, int Last) BlockRange(int start, int count, int blockSize)
+    {
+        var size = Math.Max(1, blockSize);
+        return (size, Math.Max(0, start) / size, Math.Max(0, start + Math.Max(1, count) - 1) / size);
+    }
+
+    // The token of the current generation, created on first use; a reset cancels it.
+    private CancellationToken GenerationToken()
+    {
+        _cancellation ??= new CancellationTokenSource();
+        return _cancellation.Token;
+    }
+
     private void Store(int block, int size, OmniDataGridResult<TItem> result)
     {
         TotalCount = result.TotalCount;
@@ -270,11 +281,8 @@ internal sealed class GridVirtualDataSource<TItem> : IAsyncDisposable
         int blockSize,
         Func<int, int, CancellationToken, Task<OmniDataGridResult<TItem>>> loader)
     {
-        var size = Math.Max(1, blockSize);
-        var firstBlock = Math.Max(0, start) / size;
-        var lastBlock = Math.Max(0, start + Math.Max(1, count) - 1) / size;
-        _cancellation ??= new CancellationTokenSource();
-        var token = _cancellation.Token;
+        var (size, firstBlock, lastBlock) = BlockRange(start, count, blockSize);
+        var token = GenerationToken();
         var generation = _generation;
         var refresh = ++_refreshGeneration;
         var fresh = new Dictionary<int, TItem>();
