@@ -42,29 +42,9 @@ namespace OmniEurope.Blazor.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
 {
-    public const string DiagnosticId = "OE0001";
+    public const string DiagnosticId = UnknownComponentParameterRules.DiagnosticId;
 
-    private const string LibraryAssemblyName = "OmniEurope.Blazor";
-
-    private static readonly DiagnosticDescriptor Rule = new(
-        DiagnosticId,
-        "Unknown OmniEurope.Blazor component parameter",
-        "{0} has no parameter '{1}'",
-        "OmniEurope.Usage",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: "The component captures unmatched attributes, so a parameter it does not have would become an HTML attribute. Remove the attribute or use the parameter that replaced it.");
-
-    private static readonly DiagnosticDescriptor LowercaseRule = new(
-        DiagnosticId,
-        "Lowercase class or id on an OmniEurope.Blazor component",
-        "{0} takes '{2}', not '{1}': write {2}=\"...\"",
-        "OmniEurope.Usage",
-        DiagnosticSeverity.Error,
-        isEnabledByDefault: true,
-        description: "Class and Id are parameters the component places itself (Class on its outermost element, Id on its focusable control); the runtime guard refuses a lowercase class or id.");
-
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(Rule, LowercaseRule);
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => ImmutableArray.Create(UnknownComponentParameterRules.Rule, UnknownComponentParameterRules.LowercaseRule);
 
     public override void Initialize(AnalysisContext context)
     {
@@ -150,7 +130,7 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
         {
             var arguments = invocation.ArgumentList.Arguments;
             if (arguments.Count < 2
-                || !string.Equals(component.ContainingAssembly?.Name, LibraryAssemblyName, StringComparison.Ordinal)) return null;
+                || !string.Equals(component.ContainingAssembly?.Name, UnknownComponentParameterRules.LibraryAssemblyName, StringComparison.Ordinal)) return null;
 
             switch (arguments[1].Expression)
             {
@@ -251,7 +231,7 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
                 if (finding.Mapping is { } mapping)
                 {
                     if (LowercaseInRazor(mapping, finding.Name, texts) is { } written)
-                        context.ReportDiagnostic(Diagnostic.Create(LowercaseRule, written, finding.Component, finding.Name, finding.Replacement));
+                        context.ReportDiagnostic(Diagnostic.Create(UnknownComponentParameterRules.LowercaseRule, written, finding.Component, finding.Name, finding.Replacement));
                     continue;
                 }
 
@@ -267,8 +247,8 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
                 }
 
                 context.ReportDiagnostic(finding.Replacement is null
-                    ? Diagnostic.Create(Rule, location, finding.Component, finding.Name)
-                    : Diagnostic.Create(LowercaseRule, location, finding.Component, finding.Name, finding.Replacement));
+                    ? Diagnostic.Create(UnknownComponentParameterRules.Rule, location, finding.Component, finding.Name)
+                    : Diagnostic.Create(UnknownComponentParameterRules.LowercaseRule, location, finding.Component, finding.Name, finding.Replacement));
             }
         }
 
@@ -393,4 +373,33 @@ public sealed class UnknownComponentParameterAnalyzer : DiagnosticAnalyzer
         internal int Line { get; } = line;
         internal int Character { get; } = character;
     }
+}
+
+/// <summary>
+/// The descriptors and constants of OE0001, kept apart from the analyzer so that its nested tree walk
+/// reads them without depending on the analyzer type.
+/// </summary>
+internal static class UnknownComponentParameterRules
+{
+    internal const string DiagnosticId = "OE0001";
+
+    internal const string LibraryAssemblyName = "OmniEurope.Blazor";
+
+    internal static readonly DiagnosticDescriptor Rule = new(
+        DiagnosticId,
+        "Unknown OmniEurope.Blazor component parameter",
+        "{0} has no parameter '{1}'",
+        "OmniEurope.Usage",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "The component captures unmatched attributes, so a parameter it does not have would become an HTML attribute. Remove the attribute or use the parameter that replaced it.");
+
+    internal static readonly DiagnosticDescriptor LowercaseRule = new(
+        DiagnosticId,
+        "Lowercase class or id on an OmniEurope.Blazor component",
+        "{0} takes '{2}', not '{1}': write {2}=\"...\"",
+        "OmniEurope.Usage",
+        DiagnosticSeverity.Error,
+        isEnabledByDefault: true,
+        description: "Class and Id are parameters the component places itself (Class on its outermost element, Id on its focusable control); the runtime guard refuses a lowercase class or id.");
 }

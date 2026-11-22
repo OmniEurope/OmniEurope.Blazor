@@ -179,7 +179,7 @@ public sealed class OmniOverlayService : IDisposable
             {
                 footer.OpenComponent<OmniConfirmFooter>(0);
                 footer.AddComponentParameter(1, nameof(OmniConfirmFooter.Request), request);
-                footer.AddComponentParameter(2, nameof(OmniConfirmFooter.Service), this);
+                footer.AddComponentParameter(2, nameof(OmniConfirmFooter.Close), (Action<bool>)(confirmed => CloseDialog(confirmed)));
                 footer.CloseComponent();
             }
         };

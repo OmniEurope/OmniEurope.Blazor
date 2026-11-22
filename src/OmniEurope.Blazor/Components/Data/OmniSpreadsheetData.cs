@@ -171,7 +171,7 @@ public sealed record OmniSpreadsheetData
     /// <param name="row">Zero-based row.</param>
     /// <param name="column">Zero-based column.</param>
     /// <returns>The cell value; <see cref="OmniSpreadsheetValue.Empty"/> outside the sheet.</returns>
-    public OmniSpreadsheetValue Evaluate(int row, int column) => new SpreadsheetEvaluator(this).Evaluate(row, column);
+    public OmniSpreadsheetValue Evaluate(int row, int column) => new SpreadsheetEvaluator(Rows, ColumnCount).Evaluate(row, column);
 
     /// <summary>What the cell at an A1 address shows; empty for an address outside the sheet.</summary>
     /// <param name="address">An A1 address such as <c>B3</c> or <c>$B$3</c>, in any case; an unreadable one gives an empty value.</param>

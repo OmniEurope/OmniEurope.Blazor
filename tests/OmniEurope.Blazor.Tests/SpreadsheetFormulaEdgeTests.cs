@@ -58,7 +58,7 @@ public sealed class SpreadsheetFormulaEdgeTests
         var sheet = OmniSpreadsheetData.FromRows([["1"]]);
 
         Assert.Equal(OmniSpreadsheetValue.Empty, sheet.Evaluate(5, 5));
-        Assert.Equal(OmniSpreadsheetValue.Empty, new SpreadsheetEvaluator(sheet).Evaluate(-1, 0));
+        Assert.Equal(OmniSpreadsheetValue.Empty, new SpreadsheetEvaluator(sheet.Rows, sheet.ColumnCount).Evaluate(-1, 0));
     }
 
     [Theory]
