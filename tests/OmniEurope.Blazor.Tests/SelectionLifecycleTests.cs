@@ -20,16 +20,10 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
         JSInterop.SetupModule(Internal.OmniModules.Focus).Mode = JSRuntimeMode.Loose;
         var model = new Model();
         var context = new EditContext(model);
-        Render<OmniSelectBar<string>>(parameters => parameters
+        this.RenderBound<OmniSelectBar<string>, string>(model.Text, () => model.Text, parameters => parameters
             .AddCascadingValue(context)
-            .Add(component => component.Options, Options)
-            .Add(component => component.Value, model.Text)
-            .Add(component => component.ValueExpression, () => model.Text));
-        Assert.Equal(1, ValidationStateSubscribers(context));
-
-        await DisposeComponentsAsync();
-
-        Assert.Equal(0, ValidationStateSubscribers(context));
+            .Add(component => component.Options, Options));
+        await AssertSubscribedUntilThePageIsLeftAsync(context);
     }
 
     [Fact]
@@ -37,16 +31,10 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     {
         var model = new Model();
         var context = new EditContext(model);
-        Render<OmniAutocomplete<string>>(parameters => parameters
+        this.RenderBound<OmniAutocomplete<string>, string>(model.Text, () => model.Text, parameters => parameters
             .AddCascadingValue(context)
-            .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(Options))
-            .Add(component => component.Value, model.Text)
-            .Add(component => component.ValueExpression, () => model.Text));
-        Assert.Equal(1, ValidationStateSubscribers(context));
-
-        await DisposeComponentsAsync();
-
-        Assert.Equal(0, ValidationStateSubscribers(context));
+            .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(Options)));
+        await AssertSubscribedUntilThePageIsLeftAsync(context);
     }
 
     [Fact]
@@ -54,27 +42,19 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     {
         var model = new Model();
         var context = new EditContext(model);
-        Render<OmniMultiSelect<string>>(parameters => parameters
+        this.RenderBound<OmniMultiSelect<string>, IReadOnlyList<string>>(model.Many, () => model.Many, parameters => parameters
             .AddCascadingValue(context)
-            .Add(component => component.Options, Options)
-            .Add(component => component.Value, model.Many)
-            .Add(component => component.ValueExpression, () => model.Many));
-        Assert.Equal(1, ValidationStateSubscribers(context));
-
-        await DisposeComponentsAsync();
-
-        Assert.Equal(0, ValidationStateSubscribers(context));
+            .Add(component => component.Options, Options));
+        await AssertSubscribedUntilThePageIsLeftAsync(context);
     }
 
     [Fact]
     public void Autocomplete_ValueReplacedByTheParent_ShowsTheNewValueOrNothing()
     {
         var value = "a";
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
+        var autocomplete = this.RenderBound<OmniAutocomplete<string>, string>(value, parameters => parameters
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(Options))
-            .Add(component => component.FormatValue, key => key == "a" ? "Alpha" : "Beta")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.FormatValue, key => key == "a" ? "Alpha" : "Beta"));
         Assert.Equal("Alpha", autocomplete.Find("input").GetAttribute("value"));
 
         autocomplete.Render(parameters => parameters.Add(component => component.Value, "b"));
@@ -107,11 +87,9 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     public async Task Autocomplete_Disabled_RefusesTheSuggestionsStillShown()
     {
         var value = "a";
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
+        var autocomplete = this.RenderBound<OmniAutocomplete<string>, string>(value, parameters => parameters
             .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(Options))
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, next => value = next));
         await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "be" });
 
@@ -127,6 +105,16 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     private static int ValidationStateSubscribers(EditContext context) =>
         (typeof(EditContext).GetField(nameof(EditContext.OnValidationStateChanged), BindingFlags.Instance | BindingFlags.NonPublic)!
             .GetValue(context) as Delegate)?.GetInvocationList().Length ?? 0;
+
+    /// <summary>The input rendered over <paramref name="context"/> listens to it once, and stops when the page is left.</summary>
+    private async Task AssertSubscribedUntilThePageIsLeftAsync(EditContext context)
+    {
+        Assert.Equal(1, ValidationStateSubscribers(context));
+
+        await DisposeComponentsAsync();
+
+        Assert.Equal(0, ValidationStateSubscribers(context));
+    }
 
     private sealed class Model
     {

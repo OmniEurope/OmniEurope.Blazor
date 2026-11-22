@@ -15,7 +15,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class TileGridUniformSizeTests : OmniBunitContext
 {
-    private const string Function = "applyTileGrid";
+    private const string Function = TileGridScript.Function;
     private const string AutoFill = "repeat(auto-fill, minmax(max(min(var(--omni-tile-min), 100%), calc((100% - (var(--omni-tile-columns) - 1) * var(--omni-tile-gap)) / var(--omni-tile-columns))), 1fr))";
 
     // ---- the parameter ---------------------------------------------------------------------------
@@ -60,9 +60,9 @@ public sealed class TileGridUniformSizeTests : OmniBunitContext
             .Add(component => component.MinColumnWidth, "14rem")
             .AddChildContent("<div>a</div>"));
 
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal("14rem", module.Invocations[Function][0].Arguments[1]);
-        Assert.Equal(false, module.Invocations[Function][0].Arguments[2]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal("14rem", firstCall[1]);
+        Assert.Equal(false, firstCall[2]);
         var element = grid.Find(".omni-tile-grid");
         Assert.Contains("omni-tile-grid--uniform", element.ClassList);
         Assert.Contains("omni-tile-grid--fluid", element.ClassList);
@@ -126,7 +126,7 @@ public sealed class TileGridUniformSizeTests : OmniBunitContext
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
             .AddChildContent<OmniNavTile>(tile => tile.Add(component => component.Href, "/a").Add(component => component.Title, "A").Add(component => component.DoubleWidth, true)));
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
+        grid.WaitForCalls(module, 1);
 
         // A redraw that changes nothing the script knows does not call it again.
         grid.Render(parameters => parameters.Add(component => component.Id, "tiles"));
@@ -134,9 +134,9 @@ public sealed class TileGridUniformSizeTests : OmniBunitContext
 
         // A new class string (the columns, then the host's own class) replaces the one the script marked.
         grid.Render(parameters => parameters.Add(component => component.Columns, 2));
-        grid.WaitForAssertion(() => Assert.Equal(2, module.Invocations[Function].Count));
+        grid.WaitForCalls(module, 2);
         grid.Render(parameters => parameters.Add(component => component.Class, "wide"));
-        grid.WaitForAssertion(() => Assert.Equal(3, module.Invocations[Function].Count));
+        grid.WaitForCalls(module, 3);
         Assert.All(module.Invocations[Function], call => Assert.Equal(true, call.Arguments[2]));
     }
 
@@ -144,14 +144,12 @@ public sealed class TileGridUniformSizeTests : OmniBunitContext
     public void AMinColumnWidthGrid_TellsTheScriptAgain_WhenTheHostClassChanges()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
-        var grid = Render<OmniTileGrid>(parameters => parameters
-            .Add(component => component.MinColumnWidth, "18rem")
-            .AddChildContent("<div>a</div>"));
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
+        var grid = this.RenderFluidGrid();
+        grid.WaitForCalls(module, 1);
 
         grid.Render(parameters => parameters.Add(component => component.Class, "wide"));
 
-        grid.WaitForAssertion(() => Assert.Equal(2, module.Invocations[Function].Count));
+        grid.WaitForCalls(module, 2);
     }
 
     // ---- the shipped rules -----------------------------------------------------------------------

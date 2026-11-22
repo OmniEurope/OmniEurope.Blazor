@@ -29,12 +29,34 @@ public sealed class PreferenceUserTests : OmniBunitContext
         return Services.GetRequiredService<OmniPreferences>().RecordChangesInto(_changes);
     }
 
+    private static readonly (string Account, string Theme) AnneOnGivre = ("anne", "\"givre\"");
+    private static readonly (string Account, string Theme) BrunoOnNeon = ("bruno", "\"neon\"");
+
+    /// <summary>Signs <paramref name="user"/> in (null: nobody) over accounts that already store a theme, then creates the service.</summary>
+    private OmniPreferences CreateWithStoredThemes(string? user, params (string Account, string Theme)[] themes)
+    {
+        _store.User = user;
+        foreach (var (account, theme) in themes)
+        {
+            _store.Of(account).Put("theme", theme, Start);
+        }
+
+        return Create();
+    }
+
+    /// <summary>Signs anne in with a store slow to name her: the first scope request waits for the returned source.</summary>
+    private (OmniPreferences Preferences, TaskCompletionSource Held) CreateForAnneWithTheScopeHeld()
+    {
+        var held = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        _store.User = "anne";
+        _store.HoldScope = held;
+        return (Create(), held);
+    }
+
     [Fact]
     public async Task WithNoUserSignedIn_PreferencesReadAsDefaults_WithoutCallingTheStoreOrLogging()
     {
-        _store.User = null;
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes(null, AnneOnGivre);
 
         Assert.Null(await preferences.GetAsync<string>("theme", Token));
         await preferences.SyncAsync(Token);
@@ -63,9 +85,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task SigningIn_ReadsEveryPreferenceAgain_ForTheNewUser_AndDropsTheSignedOutValues()
     {
-        _store.User = null;
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes(null, AnneOnGivre);
         await preferences.SetAsync("theme", "aplat", Token);
         Assert.Null(await preferences.GetAsync<string>("density", Token));
 
@@ -84,10 +104,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task ChangingAccount_ReadsTheOtherUsersPreferences_AndLeavesTheFormerCacheAlone()
     {
-        _store.User = "anne";
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        _store.Of("bruno").Put("theme", "\"neon\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes("anne", AnneOnGivre, BrunoOnNeon);
         Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
         await preferences.WhenIdleAsync();
         var watched = _browser.WatchedPrefixes.Count;
@@ -107,9 +124,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task SigningOut_RaisesTheDefaults_ForEveryPreferenceOfTheCircuit()
     {
-        _store.User = "anne";
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes("anne", AnneOnGivre);
         Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
 
         _store.User = null;
@@ -213,9 +228,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task AValueReadAfterAChangeOfUserWithoutResetUser_IsTheNewUsersNotTheFormerCachedOne()
     {
-        _store.User = "anne";
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes("anne", AnneOnGivre);
         Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
 
         _store.User = "bruno";
@@ -226,10 +239,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task ResetUser_WhileTheCacheIsStillOpening_ReleasesTheOpeningOfTheFormerUser()
     {
-        var held = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        _store.User = "anne";
-        _store.HoldScope = held;
-        var preferences = Create();
+        var (preferences, held) = CreateForAnneWithTheScopeHeld();
 
         var read = preferences.GetAsync<string>("theme", Token);
         _store.User = "bruno";
@@ -246,10 +256,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task AUserWhoSignsInWhileASynchronizationRuns_IsTakenAtOnce_ByAnExplicitSynchronization()
     {
-        _store.User = "anne";
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        _store.Of("bruno").Put("theme", "\"neon\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes("anne", AnneOnGivre, BrunoOnNeon);
         Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
         _store.WhenChangedRead = () => _store.User = "bruno";
 
@@ -263,10 +270,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task AUserWhoSignsInWhileTheBackgroundSynchronizationRuns_IsTakenAtOnce()
     {
-        _store.User = "anne";
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        _store.Of("bruno").Put("theme", "\"neon\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes("anne", AnneOnGivre, BrunoOnNeon);
         Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
         await preferences.WhenIdleAsync();
         _store.WhenChangedRead = () => _store.User = "bruno";
@@ -281,9 +285,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task AStoreThatCannotNameItsUserNow_IsUsedAlone_AndTheFailureIsLogged()
     {
-        _store.User = "anne";
-        _store.Of("anne").Put("theme", "\"givre\"", Start);
-        var preferences = Create();
+        var preferences = CreateWithStoredThemes("anne", AnneOnGivre);
         Assert.Equal("givre", await preferences.GetAsync<string>("theme", Token));
         _store.FailScope = true;
 
@@ -296,10 +298,7 @@ public sealed class PreferenceUserTests : OmniBunitContext
     [Fact]
     public async Task ResetUser_WhileTheFormerOpeningFails_CompletesAndLeavesNothingStarted()
     {
-        var held = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        _store.User = "anne";
-        _store.HoldScope = held;
-        var preferences = Create();
+        var (preferences, held) = CreateForAnneWithTheScopeHeld();
         _browser.FailuresOnce["watch"] = new InvalidOperationException("The script could not watch the cache.");
 
         var read = preferences.GetAsync<string>("theme", Token);

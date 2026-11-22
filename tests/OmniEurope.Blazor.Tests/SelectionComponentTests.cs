@@ -13,10 +13,8 @@ public sealed class SelectionComponentTests : OmniBunitContext
         // @attributes come first and the component's own attributes after (PLAN-007): the accessible
         // name is the Label parameter, a raw aria-label attribute does not override it.
         var value = string.Empty;
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
+        var dropDown = this.RenderBound<OmniDropDown<string>, string>(value, parameters => parameters
             .Add(component => component.Options, [new OmniOption<string>("alpha", "Alpha")])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.Label, "Project")
             .AddUnmatched("aria-label", "Raw"));
 
@@ -117,9 +115,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         Assert.Equal(7.5, form.Instance.Model.Amount);
         Assert.Equal("#12ABEF", form.Instance.Model.Color);
         var holder = new SliderHolder { Value = 2 };
-        Assert.Equal("vertical", Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)
+        Assert.Equal("vertical", RenderSlider(holder, parameters => parameters
             .Add(component => component.Orientation, OmniOrientation.Vertical)).Find("input").GetAttribute("aria-orientation"));
     }
 
@@ -129,9 +125,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         var holder = new SliderHolder { Value = 0 };
         var steps = new List<double>();
         double? committed = null;
-        var slider = Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)
+        var slider = RenderSlider(holder, parameters => parameters
             .Add(component => component.ValueChanged, value => steps.Add(value))
             .Add(component => component.OnValueCommit, value => committed = value));
 
@@ -149,9 +143,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
     public void Slider_WithoutValueCommitted_AttachesNoChangeHandler()
     {
         var holder = new SliderHolder { Value = 3 };
-        var slider = Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value));
+        var slider = RenderSlider(holder);
 
         Assert.Throws<Bunit.MissingEventHandlerException>(() => slider.Find("input").Change("4"));
     }
@@ -162,12 +154,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         var holder = new SliderHolder { Value = 5 };
         var steps = new List<double>();
         double? committed = null;
-        var slider = Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Minimum, 0)
-            .Add(component => component.SelectableMinimum, 1)
-            .Add(component => component.Maximum, 10)
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)
+        var slider = RenderSlider(holder, parameters => PickableFromOneOnZeroToTen(parameters)
             .Add(component => component.ValueChanged, value => steps.Add(value))
             .Add(component => component.OnValueCommit, value => committed = value));
 
@@ -188,12 +175,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
     {
         var holder = new SliderHolder { Value = 1 };
         var changes = 0;
-        var slider = Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Minimum, 0)
-            .Add(component => component.SelectableMinimum, 1)
-            .Add(component => component.Maximum, 10)
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)
+        var slider = RenderSlider(holder, parameters => PickableFromOneOnZeroToTen(parameters)
             .Add(component => component.ValueChanged, _ => changes++));
 
         slider.Find("input").Input("0");
@@ -208,12 +190,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         var holder = new SliderHolder { Value = 5 };
         var steps = new List<double>();
         var commits = new List<double>();
-        var slider = Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Minimum, 0)
-            .Add(component => component.SelectableMinimum, 1)
-            .Add(component => component.Maximum, 10)
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)
+        var slider = RenderSlider(holder, parameters => PickableFromOneOnZeroToTen(parameters)
             .Add(component => component.ValueChanged, value => steps.Add(value))
             .Add(component => component.OnValueCommit, value => commits.Add(value)));
 
@@ -230,12 +207,8 @@ public sealed class SelectionComponentTests : OmniBunitContext
     {
         var holder = new SliderHolder { Value = 5 };
         var steps = new List<double>();
-        var slider = Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Minimum, 0)
-            .Add(component => component.Maximum, 10)
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)
-            .Add(component => component.ValueChanged, value => steps.Add(value)));
+        var slider = RenderSlider(holder, 0, 10, parameters => parameters
+                        .Add(component => component.ValueChanged, value => steps.Add(value)));
 
         Assert.Equal("0", slider.Find("input").GetAttribute("aria-valuemin"));
         slider.Find("input").Input("0");
@@ -251,12 +224,8 @@ public sealed class SelectionComponentTests : OmniBunitContext
     {
         var holder = new SliderHolder { Value = value };
 
-        Assert.ThrowsAny<ArgumentOutOfRangeException>(() => Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Minimum, minimum)
-            .Add(component => component.Maximum, maximum)
-            .Add(component => component.SelectableMinimum, selectable)
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)));
+        Assert.ThrowsAny<ArgumentOutOfRangeException>(() => RenderSlider(holder, minimum, maximum, parameters => parameters
+                        .Add(component => component.SelectableMinimum, selectable)));
     }
 
     [Theory]
@@ -266,12 +235,8 @@ public sealed class SelectionComponentTests : OmniBunitContext
     {
         var holder = new SliderHolder { Value = value };
 
-        Assert.ThrowsAny<ArgumentOutOfRangeException>(() => Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Minimum, minimum)
-            .Add(component => component.Maximum, maximum)
-            .Add(component => component.Step, step)
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)));
+        Assert.ThrowsAny<ArgumentOutOfRangeException>(() => RenderSlider(holder, minimum, maximum, parameters => parameters
+                        .Add(component => component.Step, step)));
     }
 
     [Theory]
@@ -284,12 +249,8 @@ public sealed class SelectionComponentTests : OmniBunitContext
     {
         var holder = new SliderHolder { Value = value };
         var steps = new List<double>();
-        var slider = Render<OmniSlider>(parameters => parameters
-            .Add(component => component.Minimum, 0)
-            .Add(component => component.Maximum, 10)
-            .Add(component => component.SelectableMinimum, selectable)
-            .Add(component => component.Value, holder.Value)
-            .Add(component => component.ValueExpression, () => holder.Value)
+        var slider = RenderSlider(holder, 0, 10, parameters => parameters
+                        .Add(component => component.SelectableMinimum, selectable)
             .Add(component => component.ValueChanged, step => steps.Add(step)));
 
         var input = slider.Find("input");
@@ -308,11 +269,9 @@ public sealed class SelectionComponentTests : OmniBunitContext
     {
         DateOnly? value = null;
 
-        var exception = Assert.Throws<InvalidOperationException>(() => Render<OmniDatePicker>(parameters => parameters
+        var exception = Assert.Throws<InvalidOperationException>(() => this.RenderBound<OmniDatePicker, DateOnly?>(value, parameters => parameters
             .Add(component => component.Minimum, new DateOnly(2026, 8, 12))
-            .Add(component => component.Maximum, new DateOnly(2026, 8, 11))
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)));
+            .Add(component => component.Maximum, new DateOnly(2026, 8, 11))));
 
         Assert.Equal("Minimum cannot be greater than Maximum.", exception.Message);
     }
@@ -336,11 +295,9 @@ public sealed class SelectionComponentTests : OmniBunitContext
         Assert.Equal("true", form.Find("#date-time").GetAttribute("aria-invalid"));
 
         DateTime? value = null;
-        var exception = Assert.Throws<InvalidOperationException>(() => Render<OmniDateTimePicker>(parameters => parameters
+        var exception = Assert.Throws<InvalidOperationException>(() => this.RenderBound<OmniDateTimePicker, DateTime?>(value, parameters => parameters
             .Add(component => component.Minimum, new DateTime(2026, 8, 12, 0, 0, 0, DateTimeKind.Unspecified))
-            .Add(component => component.Maximum, new DateTime(2026, 8, 11, 0, 0, 0, DateTimeKind.Unspecified))
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)));
+            .Add(component => component.Maximum, new DateTime(2026, 8, 11, 0, 0, 0, DateTimeKind.Unspecified))));
         Assert.Equal("Minimum cannot be greater than Maximum.", exception.Message);
     }
 
@@ -386,9 +343,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
         var stale = new TaskCompletionSource<IReadOnlyList<OmniOption<string>>>(TaskCreationOptions.RunContinuationsAsynchronously);
         var latest = new TaskCompletionSource<IReadOnlyList<OmniOption<string>>>(TaskCreationOptions.RunContinuationsAsynchronously);
         var callCount = 0;
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var autocomplete = this.RenderBound<OmniAutocomplete<string>, string>(value, parameters => parameters
             .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => ++callCount == 1 ? stale.Task : latest.Task));
 
@@ -412,9 +367,7 @@ public sealed class SelectionComponentTests : OmniBunitContext
     {
         var value = string.Empty;
         Exception? observed = null;
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var autocomplete = this.RenderBound<OmniAutocomplete<string>, string>(value, parameters => parameters
             .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => throw new InvalidOperationException("C:\\secret\\query.txt"))
             .Add(component => component.OnSearchError, exception => observed = exception));
@@ -547,6 +500,28 @@ public sealed class SelectionComponentTests : OmniBunitContext
             System.Globalization.CultureInfo.CurrentCulture = previous;
         }
     }
+
+    /// <summary>The slider bound to <see cref="SliderHolder.Value"/>, with the scale and the callbacks the test adds.</summary>
+    private IRenderedComponent<OmniSlider> RenderSlider(SliderHolder holder, Action<ComponentParameterCollectionBuilder<OmniSlider>>? configure = null) =>
+        this.RenderBound<OmniSlider, double>(holder.Value, () => holder.Value, configure);
+
+    /// <summary>The slider bound to <see cref="SliderHolder.Value"/> on the scale <paramref name="minimum"/> to <paramref name="maximum"/>.</summary>
+    private IRenderedComponent<OmniSlider> RenderSlider(
+        SliderHolder holder, double minimum, double maximum, Action<ComponentParameterCollectionBuilder<OmniSlider>> configure) =>
+        RenderSlider(holder, parameters =>
+        {
+            parameters
+                .Add(component => component.Minimum, minimum)
+                .Add(component => component.Maximum, maximum);
+            configure(parameters);
+        });
+
+    /// <summary>The scale of 0 to 10 whose values can be picked from 1 only.</summary>
+    private static ComponentParameterCollectionBuilder<OmniSlider> PickableFromOneOnZeroToTen(ComponentParameterCollectionBuilder<OmniSlider> parameters) =>
+        parameters
+            .Add(component => component.Minimum, 0)
+            .Add(component => component.SelectableMinimum, 1)
+            .Add(component => component.Maximum, 10);
 
     private sealed class SliderHolder
     {

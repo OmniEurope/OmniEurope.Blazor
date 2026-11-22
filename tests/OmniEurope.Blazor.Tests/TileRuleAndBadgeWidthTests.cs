@@ -146,7 +146,7 @@ public sealed class TileRuleAndBadgeWidthTests : OmniBunitContext
         var selectable = Render<OmniSelectableCard>(parameters => parameters.Add(component => component.Title, "Linux").Add(component => component.DoubleWidth, true));
         var stat = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons").Add(component => component.DoubleWidth, true));
         var statButton = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons").Add(component => component.OnClick, () => { }).Add(component => component.DoubleWidth, true));
-        var nav = Render<OmniNavTile>(parameters => parameters.Add(component => component.Href, "/a").Add(component => component.Title, "A").Add(component => component.DoubleWidth, true));
+        var nav = this.RenderDoubleNavTile();
 
         Assert.Contains("omni-tile--double", card.Find(".omni-card").ClassList);
         Assert.Contains("omni-tile--double", selectable.Find(".omni-selectable-card").ClassList);

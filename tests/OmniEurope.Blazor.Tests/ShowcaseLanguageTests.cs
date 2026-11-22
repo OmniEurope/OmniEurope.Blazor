@@ -68,9 +68,8 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
     {
         WithUiCulture("en-IE", () =>
         {
-            JSInterop.Setup<bool>("omniShowcaseCulture.save", ShowcaseLanguages.StorageKey, "fr").SetResult(true);
-            var navigation = (BunitNavigationManager)Services.GetRequiredService<NavigationManager>();
-            var switcher = new ShowcaseLanguageSwitcher(JSInterop.JSRuntime, navigation);
+            BrowserStoresFrench(answers: true);
+            var (switcher, navigation) = CreateSwitcher();
 
             var reloaded = switcher.SwitchAsync("fr").GetAwaiter().GetResult();
 
@@ -87,9 +86,8 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
     {
         WithUiCulture("en-IE", () =>
         {
-            JSInterop.Setup<bool>("omniShowcaseCulture.save", ShowcaseLanguages.StorageKey, "fr").SetResult(false);
-            var navigation = (BunitNavigationManager)Services.GetRequiredService<NavigationManager>();
-            var switcher = new ShowcaseLanguageSwitcher(JSInterop.JSRuntime, navigation);
+            BrowserStoresFrench(answers: false);
+            var (switcher, navigation) = CreateSwitcher();
 
             var reloaded = switcher.SwitchAsync("fr").GetAwaiter().GetResult();
 
@@ -104,8 +102,7 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
     {
         WithUiCulture("fr-FR", () =>
         {
-            var navigation = (BunitNavigationManager)Services.GetRequiredService<NavigationManager>();
-            var switcher = new ShowcaseLanguageSwitcher(JSInterop.JSRuntime, navigation);
+            var (switcher, navigation) = CreateSwitcher();
 
             var reloaded = switcher.SwitchAsync("fr").GetAwaiter().GetResult();
 
@@ -148,6 +145,17 @@ public sealed class ShowcaseLanguageTests : OmniBunitContext
                 page.Markup,
                 StringComparison.Ordinal);
         });
+    }
+
+    /// <summary>The browser is asked to store French as the chosen language, and <paramref name="answers"/> whether it did.</summary>
+    private void BrowserStoresFrench(bool answers) =>
+        JSInterop.Setup<bool>("omniShowcaseCulture.save", ShowcaseLanguages.StorageKey, "fr").SetResult(answers);
+
+    /// <summary>The switcher over the test's browser and navigation, as the showcase builds it.</summary>
+    private (ShowcaseLanguageSwitcher Switcher, BunitNavigationManager Navigation) CreateSwitcher()
+    {
+        var navigation = (BunitNavigationManager)Services.GetRequiredService<NavigationManager>();
+        return (new ShowcaseLanguageSwitcher(JSInterop.JSRuntime, navigation), navigation);
     }
 
     /// <summary>Runs an assertion under a UI culture, whatever the culture of the machine running the tests.</summary>

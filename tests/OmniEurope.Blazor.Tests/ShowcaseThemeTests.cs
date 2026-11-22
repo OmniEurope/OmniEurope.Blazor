@@ -213,58 +213,46 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void EveryPalette_KeepsBodyTextReadableInBothModes()
     {
-        foreach (var preset in OmniThemePresets.All)
+        foreach (var (preset, mode, tokens) in EveryPresetInBothModes())
         {
-            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
-            {
-                var tokens = preset.For(mode);
-                var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-text"]), ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-surface"]));
-                Assert.True(
-                    contrast >= 4.5,
-                    $"{preset.Name} in {mode}: body text contrast is {contrast:F2}, below the 4.5 minimum.");
-            }
+            var contrast = ResolvedContrast(tokens, "--omni-color-text", "--omni-color-surface");
+            Assert.True(
+                contrast >= 4.5,
+                $"{preset.Name} in {mode}: body text contrast is {contrast:F2}, below the 4.5 minimum.");
         }
     }
 
     [Fact]
     public void EveryPalette_KeepsTheAccentVisibleAgainstItsSurface()
     {
-        foreach (var preset in OmniThemePresets.All)
+        foreach (var (preset, mode, tokens) in EveryPresetInBothModes())
         {
-            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
-            {
-                var tokens = preset.For(mode);
-                var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-accent"]), ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-surface"]));
-                Assert.True(
-                    contrast >= 3.0,
-                    $"{preset.Name} in {mode}: accent contrast is {contrast:F2}, below the 3.0 minimum.");
-            }
+            var contrast = ResolvedContrast(tokens, "--omni-color-accent", "--omni-color-surface");
+            Assert.True(
+                contrast >= 3.0,
+                $"{preset.Name} in {mode}: accent contrast is {contrast:F2}, below the 3.0 minimum.");
         }
     }
 
     [Fact]
     public void EveryPalette_KeepsTextReadableOnFilledSurfaces()
     {
-        foreach (var preset in OmniThemePresets.All)
+        foreach (var (preset, mode, tokens) in EveryPresetInBothModes())
         {
-            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
+            foreach (var (fill, over) in new[]
+                     {
+                         ("--omni-color-accent", "--omni-color-on-accent"),
+                         ("--omni-color-accent-strong", "--omni-color-on-accent"),
+                         ("--omni-color-danger", "--omni-color-on-danger"),
+                         ("--omni-color-success", "--omni-color-on-success"),
+                         ("--omni-color-warning", "--omni-color-on-warning"),
+                         ("--omni-color-inverse-surface", "--omni-color-on-inverse")
+                     })
             {
-                var tokens = preset.For(mode);
-                foreach (var (fill, over) in new[]
-                         {
-                             ("--omni-color-accent", "--omni-color-on-accent"),
-                             ("--omni-color-accent-strong", "--omni-color-on-accent"),
-                             ("--omni-color-danger", "--omni-color-on-danger"),
-                             ("--omni-color-success", "--omni-color-on-success"),
-                             ("--omni-color-warning", "--omni-color-on-warning"),
-                             ("--omni-color-inverse-surface", "--omni-color-on-inverse")
-                         })
-                {
-                    var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens[fill]), ThemeTokenResolution.Resolve(tokens, tokens[over]));
-                    Assert.True(
-                        contrast >= 4.5,
-                        $"{preset.Name} in {mode}: {over} over {fill} is {contrast:F2}, below the 4.5 minimum.");
-                }
+                var contrast = ResolvedContrast(tokens, fill, over);
+                Assert.True(
+                    contrast >= 4.5,
+                    $"{preset.Name} in {mode}: {over} over {fill} is {contrast:F2}, below the 4.5 minimum.");
             }
         }
     }
@@ -291,18 +279,14 @@ public sealed class ShowcaseThemeTests
             ("--omni-color-danger", "--omni-color-danger-subtle")
         ];
 
-        foreach (var preset in OmniThemePresets.All)
+        foreach (var (preset, mode, tokens) in EveryPresetInBothModes())
         {
-            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
+            foreach (var (text, background) in pairs)
             {
-                var tokens = preset.For(mode);
-                foreach (var (text, background) in pairs)
-                {
-                    var contrast = ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens[text]), ThemeTokenResolution.Resolve(tokens, tokens[background]));
-                    Assert.True(
-                        contrast >= 4.5,
-                        $"{preset.Name} in {mode}: {text} on {background} is {contrast:F2}, below the 4.5 minimum.");
-                }
+                var contrast = ResolvedContrast(tokens, text, background);
+                Assert.True(
+                    contrast >= 4.5,
+                    $"{preset.Name} in {mode}: {text} on {background} is {contrast:F2}, below the 4.5 minimum.");
             }
         }
     }
@@ -315,17 +299,13 @@ public sealed class ShowcaseThemeTests
     [Fact]
     public void EveryPalette_KeepsItsBordersVisible()
     {
-        foreach (var preset in OmniThemePresets.All)
+        foreach (var (preset, mode, tokens) in EveryPresetInBothModes())
         {
-            foreach (var mode in new[] { OmniAppearance.Light, OmniAppearance.Dark })
-            {
-                var tokens = preset.For(mode);
-                var border = ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-border"]);
-                var contrast = ThemeColor.Contrast(border, tokens["--omni-color-surface"]);
-                Assert.True(
-                    contrast >= 1.7,
-                    $"{preset.Name} in {mode}: the border resolves to {border}, {contrast:F2} against the surface, below the 1.7 minimum.");
-            }
+            var border = ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-border"]);
+            var contrast = ThemeColor.Contrast(border, tokens["--omni-color-surface"]);
+            Assert.True(
+                contrast >= 1.7,
+                $"{preset.Name} in {mode}: the border resolves to {border}, {contrast:F2} against the surface, below the 1.7 minimum.");
         }
     }
 
@@ -368,6 +348,14 @@ public sealed class ShowcaseThemeTests
     /// line by line from the unminified source: an independent reading of what the token reader
     /// parses from the same text.
     /// </summary>
+    /// <summary>Every shipped theme in light then in dark, with the tokens it draws in that mode.</summary>
+    private static IEnumerable<(OmniThemePreset Preset, OmniAppearance Mode, IReadOnlyDictionary<string, string> Tokens)> EveryPresetInBothModes() =>
+        OmniThemePresets.All.SelectMany(preset => new[] { OmniAppearance.Light, OmniAppearance.Dark }.Select(mode => (preset, mode, preset.For(mode))));
+
+    /// <summary>The contrast of two tokens once each is resolved through the references and mixes of <paramref name="tokens"/>.</summary>
+    private static double ResolvedContrast(IReadOnlyDictionary<string, string> tokens, string foreground, string background) =>
+        ThemeColor.Contrast(ThemeTokenResolution.Resolve(tokens, tokens[foreground]), ThemeTokenResolution.Resolve(tokens, tokens[background]));
+
     private static string[] DeclaredRootTokens(string css)
     {
         var names = new List<string>();

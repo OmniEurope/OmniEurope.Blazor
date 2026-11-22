@@ -1,6 +1,8 @@
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
@@ -35,39 +37,27 @@ public sealed class SelectOnFocusTests : OmniBunitContext
         public string ElementReference => Rendered.Find("input,textarea").GetAttribute("blazor:elementReference")!;
     }
 
-    private Field RenderField(string kind, bool? initial)
+    private Field RenderField(string kind, bool? initial) => kind switch
     {
-        switch (kind)
+        "text box" => RenderField<OmniTextBox, string>(_text, () => _text, component => component.SelectOnFocus, initial),
+        "numeric" => RenderField<OmniNumeric<int>, int>(_number, () => _number, component => component.SelectOnFocus, initial),
+        "text area" => RenderField<OmniTextArea, string>(_text, () => _text, component => component.SelectOnFocus, initial),
+        _ => RenderField<OmniPassword, string>(_text, () => _text, component => component.SelectOnFocus, initial),
+    };
+
+    /// <summary>One of the four fields bound to the test's value, <c>SelectOnFocus</c> given only when <paramref name="initial"/> is set.</summary>
+    private Field RenderField<TComponent, TValue>(
+        TValue value, Expression<Func<TValue>> valueExpression, Expression<Func<TComponent, bool>> selectOnFocus, bool? initial)
+        where TComponent : InputBase<TValue>, IAsyncDisposable
+    {
+        var field = this.RenderBound<TComponent, TValue>(value, valueExpression, parameters =>
         {
-            case "text box":
-                var box = Render<OmniTextBox>(p =>
-                {
-                    p.Add(c => c.Value, _text).Add(c => c.ValueExpression, () => _text);
-                    if (initial is { } value) { p.Add(c => c.SelectOnFocus, value); }
-                });
-                return new(box, on => box.Render(p => p.Add(c => c.SelectOnFocus, on)), box.Instance.DisposeAsync);
-            case "numeric":
-                var numeric = Render<OmniNumeric<int>>(p =>
-                {
-                    p.Add(c => c.Value, _number).Add(c => c.ValueExpression, () => _number);
-                    if (initial is { } value) { p.Add(c => c.SelectOnFocus, value); }
-                });
-                return new(numeric, on => numeric.Render(p => p.Add(c => c.SelectOnFocus, on)), numeric.Instance.DisposeAsync);
-            case "text area":
-                var area = Render<OmniTextArea>(p =>
-                {
-                    p.Add(c => c.Value, _text).Add(c => c.ValueExpression, () => _text);
-                    if (initial is { } value) { p.Add(c => c.SelectOnFocus, value); }
-                });
-                return new(area, on => area.Render(p => p.Add(c => c.SelectOnFocus, on)), area.Instance.DisposeAsync);
-            default:
-                var password = Render<OmniPassword>(p =>
-                {
-                    p.Add(c => c.Value, _text).Add(c => c.ValueExpression, () => _text);
-                    if (initial is { } value) { p.Add(c => c.SelectOnFocus, value); }
-                });
-                return new(password, on => password.Render(p => p.Add(c => c.SelectOnFocus, on)), password.Instance.DisposeAsync);
-        }
+            if (initial is { } on)
+            {
+                parameters.Add(selectOnFocus, on);
+            }
+        });
+        return new(field, on => field.Render(parameters => parameters.Add(selectOnFocus, on)), field.Instance.DisposeAsync);
     }
 
     private bool Imported => JSInterop.Invocations.Any(invocation =>

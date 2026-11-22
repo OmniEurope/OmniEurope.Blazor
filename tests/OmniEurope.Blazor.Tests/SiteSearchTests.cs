@@ -28,6 +28,14 @@ public sealed class SiteSearchTests : OmniBunitContext
     private static async Task TypeAsync(IRenderedComponent<OmniSiteSearch> search, string text) =>
         await search.Find("input").InputAsync(new ChangeEventArgs { Value = text });
 
+    /// <summary>The search navigated once, to the page ending with <paramref name="address"/>, and is left empty and closed.</summary>
+    private void AssertWentToAndEmptiedTheField(IRenderedComponent<OmniSiteSearch> search, string address)
+    {
+        Assert.EndsWith(address, Assert.Single(Navigation.History).Uri, StringComparison.Ordinal);
+        Assert.Equal(string.Empty, search.Find("input").GetAttribute("value") ?? string.Empty);
+        Assert.Empty(search.FindAll("[role=listbox]"));
+    }
+
     private static string[] Texts(IRenderedComponent<OmniSiteSearch> search) =>
         [.. search.FindAll("[role=option]").Select(option => option.TextContent.Trim())];
 
@@ -120,9 +128,7 @@ public sealed class SiteSearchTests : OmniBunitContext
 
         await search.Find("[role=option]").ClickAsync(new MouseEventArgs());
 
-        Assert.EndsWith("/components/buttons", Assert.Single(Navigation.History).Uri, StringComparison.Ordinal);
-        Assert.Equal(string.Empty, search.Find("input").GetAttribute("value") ?? string.Empty);
-        Assert.Empty(search.FindAll("[role=listbox]"));
+        AssertWentToAndEmptiedTheField(search, "/components/buttons");
     }
 
     [Fact]
@@ -133,9 +139,7 @@ public sealed class SiteSearchTests : OmniBunitContext
         await search.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "ArrowDown" });
         await search.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Enter" });
 
-        Assert.EndsWith("/components/breadcrumb", Assert.Single(Navigation.History).Uri, StringComparison.Ordinal);
-        Assert.Equal(string.Empty, search.Find("input").GetAttribute("value") ?? string.Empty);
-        Assert.Empty(search.FindAll("[role=listbox]"));
+        AssertWentToAndEmptiedTheField(search, "/components/breadcrumb");
     }
 
     [Fact]

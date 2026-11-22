@@ -47,28 +47,24 @@ public sealed class ValidationSummaryTests : OmniBunitContext
             _context.NotifyValidationStateChanged();
         });
 
+    private static readonly (string Field, string Message) NameRequired = (nameof(Model.Name), "The name is required.");
+
+    private static readonly (string Field, string Message) EmailInvalid = (nameof(Model.Email), "The address is invalid.");
+
     private static string TitleOf(IRenderedComponent<ValidationSummaryTestHost> host) => host.Find(".omni-alert__title").TextContent;
 
     private static T InCulture<T>(string language, Func<T> read) => CultureSwitch.InCulture(language, read);
 
-    [Fact]
-    public async Task One_error_gets_the_singular_title()
+    [Theory]
+    [InlineData(1, "1 error to correct")]
+    [InlineData(2, "2 errors to correct")]
+    public async Task One_error_gets_the_singular_title_and_several_errors_the_plural_one(int count, string title)
     {
         var host = InCulture("en", () => RenderHost());
 
-        await InCulture("en", () => Raise(host, (nameof(Model.Name), "The name is required.")));
+        await InCulture("en", () => Raise(host, [.. new[] { NameRequired, EmailInvalid }.Take(count)]));
 
-        Assert.Equal("1 error to correct", TitleOf(host));
-    }
-
-    [Fact]
-    public async Task Several_errors_get_the_plural_title()
-    {
-        var host = InCulture("en", () => RenderHost());
-
-        await InCulture("en", () => Raise(host, (nameof(Model.Name), "The name is required."), (nameof(Model.Email), "The address is invalid.")));
-
-        Assert.Equal("2 errors to correct", TitleOf(host));
+        Assert.Equal(title, TitleOf(host));
     }
 
     [Theory]
@@ -105,7 +101,7 @@ public sealed class ValidationSummaryTests : OmniBunitContext
     {
         var host = RenderHost(position);
 
-        await Raise(host, (nameof(Model.Name), "The name is required."));
+        await Raise(host, NameRequired);
 
         Assert.Equal(position == OmniValidationSummaryPosition.Hidden ? 0 : 1, host.FindAll(".omni-validation-summary").Count);
     }
@@ -115,7 +111,7 @@ public sealed class ValidationSummaryTests : OmniBunitContext
     {
         var host = RenderHost(OmniValidationSummaryPosition.Top);
 
-        await Raise(host, (nameof(Model.Name), "The name is required."));
+        await Raise(host, NameRequired);
 
         var form = host.Find("form");
         Assert.Contains("omni-validation-summary", form.FirstElementChild!.ClassName);
@@ -127,7 +123,7 @@ public sealed class ValidationSummaryTests : OmniBunitContext
     {
         var host = RenderHost(OmniValidationSummaryPosition.Bottom);
 
-        await Raise(host, (nameof(Model.Name), "The name is required."));
+        await Raise(host, NameRequired);
 
         var actions = host.Find(".omni-form-actions");
         var summary = actions.PreviousElementSibling!;
@@ -140,7 +136,7 @@ public sealed class ValidationSummaryTests : OmniBunitContext
     {
         var host = RenderHost();
 
-        await Raise(host, (nameof(Model.Name), "The name is required."), (nameof(Model.Email), "The address is invalid."));
+        await Raise(host, NameRequired, EmailInvalid);
 
         var alert = host.Find(".omni-validation-summary");
         Assert.Contains("omni-alert--danger", alert.ClassName);
@@ -151,10 +147,10 @@ public sealed class ValidationSummaryTests : OmniBunitContext
     public async Task Fixing_an_error_updates_the_title_and_the_last_fix_removes_the_alert()
     {
         var host = InCulture("en", () => RenderHost());
-        await InCulture("en", () => Raise(host, (nameof(Model.Name), "The name is required."), (nameof(Model.Email), "The address is invalid.")));
+        await InCulture("en", () => Raise(host, NameRequired, EmailInvalid));
         Assert.Equal("2 errors to correct", TitleOf(host));
 
-        await InCulture("en", () => Raise(host, (nameof(Model.Email), "The address is invalid.")));
+        await InCulture("en", () => Raise(host, EmailInvalid));
         Assert.Equal("1 error to correct", TitleOf(host));
         Assert.Equal(["The address is invalid."], host.FindAll(".omni-validation-summary li").Select(item => item.TextContent));
 
@@ -167,7 +163,7 @@ public sealed class ValidationSummaryTests : OmniBunitContext
     {
         var host = RenderHost(title: "Please correct the following");
 
-        await Raise(host, (nameof(Model.Name), "The name is required."));
+        await Raise(host, NameRequired);
 
         Assert.Equal("Please correct the following", TitleOf(host));
     }

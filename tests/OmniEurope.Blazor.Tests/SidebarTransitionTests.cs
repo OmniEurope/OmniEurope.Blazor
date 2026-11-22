@@ -9,6 +9,19 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class SidebarTransitionTests : OmniBunitContext
 {
+    /// <summary>A closed sidebar that hides when it collapses, drawn with <paramref name="transition"/> and what the test adds.</summary>
+    private IRenderedComponent<OmniSidebar> RenderClosedHiddenSidebar(
+        OmniSidebarTransition transition, Action<ComponentParameterCollectionBuilder<OmniSidebar>>? configure = null) =>
+        Render<OmniSidebar>(parameters =>
+        {
+            parameters
+                .Add(component => component.Open, false)
+                .Add(component => component.Collapse, OmniSidebarCollapse.Hidden)
+                .Add(component => component.Transition, transition)
+                .AddChildContent("Menu");
+            configure?.Invoke(parameters);
+        });
+
     [Fact]
     public void The_default_sidebar_keeps_an_icon_rail_and_animates_push()
     {
@@ -25,11 +38,7 @@ public sealed class SidebarTransitionTests : OmniBunitContext
     [Fact]
     public void A_closed_instant_sidebar_is_removed_from_the_page()
     {
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, false)
-            .Add(component => component.Collapse, OmniSidebarCollapse.Hidden)
-            .Add(component => component.Transition, OmniSidebarTransition.Instant)
-            .AddChildContent("Menu"));
+        var sidebar = RenderClosedHiddenSidebar(OmniSidebarTransition.Instant);
 
         var aside = sidebar.Find("aside");
         Assert.True(aside.HasAttribute("hidden"));
@@ -39,11 +48,7 @@ public sealed class SidebarTransitionTests : OmniBunitContext
     [Fact]
     public void A_closed_smooth_sidebar_stays_in_the_page_but_out_of_reach()
     {
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, false)
-            .Add(component => component.Collapse, OmniSidebarCollapse.Hidden)
-            .Add(component => component.Transition, OmniSidebarTransition.Smooth)
-            .AddChildContent("Menu"));
+        var sidebar = RenderClosedHiddenSidebar(OmniSidebarTransition.Smooth);
 
         var aside = sidebar.Find("aside");
         Assert.False(aside.HasAttribute("hidden"));
@@ -60,12 +65,8 @@ public sealed class SidebarTransitionTests : OmniBunitContext
     [Fact]
     public void The_smooth_transition_leaves_a_floating_sidebar_alone()
     {
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, false)
-            .Add(component => component.Collapse, OmniSidebarCollapse.Hidden)
-            .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
-            .Add(component => component.Transition, OmniSidebarTransition.Smooth)
-            .AddChildContent("Menu"));
+        var sidebar = RenderClosedHiddenSidebar(OmniSidebarTransition.Smooth, parameters => parameters
+            .Add(component => component.Reveal, OmniSidebarReveal.Overlay));
 
         var aside = sidebar.Find("aside");
         Assert.True(aside.HasAttribute("hidden"));

@@ -26,10 +26,7 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
 
     public ShowcaseAppearanceWindowTests()
     {
-        Services.AddScoped(_ => new HttpClient(new StylesheetResponder(Css)) { BaseAddress = new Uri("https://localhost/") });
-        Services.AddScoped<ThemeTokenReader>();
-        Services.AddScoped<ThemeState>();
-        Services.AddScoped<ShowcaseLanguageSwitcher>();
+        Services.AddShowcaseShell(Css);
     }
 
     [Fact]

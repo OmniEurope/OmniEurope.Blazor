@@ -77,24 +77,13 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     [Fact]
     public void Scheduler_LoadsTheVisibleRangeWithCancellation()
     {
-        DateTimeOffset receivedStart = default;
-        DateTimeOffset receivedEnd = default;
-        CancellationToken receivedToken = default;
+        var load = new RecordingLoad();
         var date = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
         var scheduler = Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, date)
-            .Add(component => component.View, OmniCalendarView.Day)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, (start, end, token) =>
-            {
-                receivedStart = start;
-                receivedEnd = end;
-                receivedToken = token;
-                return Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([]);
-            }));
+            .Loading(date, OmniCalendarView.Day, TimeZoneInfo.Utc, load.Load));
 
-        Assert.Equal(TimeSpan.FromDays(1), receivedEnd - receivedStart);
-        Assert.False(receivedToken.IsCancellationRequested);
+        Assert.Equal(TimeSpan.FromDays(1), load.End - load.Start);
+        Assert.False(load.Token.IsCancellationRequested);
         Assert.NotNull(scheduler.Find(".omni-day-view"));
     }
 
@@ -103,83 +92,46 @@ public sealed class SchedulerComponentTests : OmniBunitContext
     [InlineData("en-US", "2026-08-09", "2026-08-16")]
     public void Scheduler_WeekLoadRangeUsesTheCulturesFirstDay(string cultureName, string expectedStart, string expectedEnd)
     {
-        DateTimeOffset receivedStart = default;
-        DateTimeOffset receivedEnd = default;
+        var load = new RecordingLoad();
 
         Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, new DateTimeOffset(2026, 8, 12, 12, 0, 0, TimeSpan.Zero))
-            .Add(component => component.View, OmniCalendarView.Week)
             .Add(component => component.Culture, CultureInfo.GetCultureInfo(cultureName))
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, (start, end, _) =>
-            {
-                receivedStart = start;
-                receivedEnd = end;
-                return Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([]);
-            }));
+            .Loading(new DateTimeOffset(2026, 8, 12, 12, 0, 0, TimeSpan.Zero), OmniCalendarView.Week, TimeZoneInfo.Utc, load.Load));
 
-        Assert.Equal(expectedStart, receivedStart.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
-        Assert.Equal(expectedEnd, receivedEnd.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+        Assert.Equal(expectedStart, load.Start.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
+        Assert.Equal(expectedEnd, load.End.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture));
     }
 
     [Fact]
     public void Scheduler_KeysEmptyLoadsByRangeTimezoneViewAndDelegate()
     {
-        var firstCalls = 0;
-        var secondCalls = 0;
-        Func<DateTimeOffset, DateTimeOffset, CancellationToken, Task<IReadOnlyList<OmniSchedulerAppointment>>> first = (_, _, _) =>
-        {
-            firstCalls++;
-            return Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([]);
-        };
-        Func<DateTimeOffset, DateTimeOffset, CancellationToken, Task<IReadOnlyList<OmniSchedulerAppointment>>> second = (_, _, _) =>
-        {
-            secondCalls++;
-            return Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([]);
-        };
+        var first = new RecordingLoad();
+        var second = new RecordingLoad();
         var initial = new DateTimeOffset(2026, 8, 10, 0, 0, 0, TimeSpan.Zero);
         var scheduler = Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, initial)
-            .Add(component => component.View, OmniCalendarView.Day)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, first));
+            .Loading(initial, OmniCalendarView.Day, TimeZoneInfo.Utc, first.Load));
 
         scheduler.Render(parameters => parameters
-            .Add(component => component.Date, initial)
-            .Add(component => component.View, OmniCalendarView.Day)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, first));
-        Assert.Equal(1, firstCalls);
+            .Loading(initial, OmniCalendarView.Day, TimeZoneInfo.Utc, first.Load));
+        Assert.Equal(1, first.Calls);
 
         scheduler.Render(parameters => parameters
-            .Add(component => component.Date, initial.AddDays(1))
-            .Add(component => component.View, OmniCalendarView.Week)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, second));
-        Assert.Equal(1, secondCalls);
+            .Loading(initial.AddDays(1), OmniCalendarView.Week, TimeZoneInfo.Utc, second.Load));
+        Assert.Equal(1, second.Calls);
     }
 
     [Fact]
     public void Scheduler_UsesTheTargetTimezoneForDaylightSavingBoundaries()
     {
         var paris = TimeZoneInfo.FindSystemTimeZoneById("Europe/Paris");
-        DateTimeOffset receivedStart = default;
-        DateTimeOffset receivedEnd = default;
+        var load = new RecordingLoad();
 
         Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, new DateTimeOffset(2026, 3, 29, 12, 0, 0, TimeSpan.Zero))
-            .Add(component => component.View, OmniCalendarView.Day)
-            .Add(component => component.TimeZone, paris)
-            .Add(component => component.Load, (start, end, _) =>
-            {
-                receivedStart = start;
-                receivedEnd = end;
-                return Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([]);
-            }));
+            .Loading(new DateTimeOffset(2026, 3, 29, 12, 0, 0, TimeSpan.Zero), OmniCalendarView.Day, paris, load.Load));
 
-        Assert.Equal(new DateTimeOffset(2026, 3, 29, 0, 0, 0, TimeSpan.FromHours(1)), receivedStart);
-        Assert.Equal(new DateTimeOffset(2026, 3, 30, 0, 0, 0, TimeSpan.FromHours(2)), receivedEnd);
-        Assert.Equal(TimeSpan.FromHours(23), receivedEnd - receivedStart);
+        Assert.Equal(new DateTimeOffset(2026, 3, 29, 0, 0, 0, TimeSpan.FromHours(1)), load.Start);
+        Assert.Equal(new DateTimeOffset(2026, 3, 30, 0, 0, 0, TimeSpan.FromHours(2)), load.End);
+        Assert.Equal(TimeSpan.FromHours(23), load.End - load.Start);
     }
 
     [Fact]
@@ -231,16 +183,10 @@ public sealed class SchedulerComponentTests : OmniBunitContext
             };
         };
         void RenderOn(IRenderedComponent<OmniScheduler> scheduler, DateTimeOffset day) => scheduler.Render(parameters => parameters
-            .Add(component => component.Date, day)
-            .Add(component => component.View, OmniCalendarView.Day)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, load));
+            .Loading(day, OmniCalendarView.Day, TimeZoneInfo.Utc, load));
 
         var scheduler = Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, date)
-            .Add(component => component.View, OmniCalendarView.Day)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, load));
+            .Loading(date, OmniCalendarView.Day, TimeZoneInfo.Utc, load));
 
         RenderOn(scheduler, date.AddDays(1));
         Assert.Equal([date, date.AddDays(1)], starts);
@@ -261,10 +207,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         CancellationToken staleToken = default;
         CancellationToken latestToken = default;
         var scheduler = Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, date)
-            .Add(component => component.View, OmniCalendarView.Day)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Load, (_, _, token) =>
+            .Loading(date, OmniCalendarView.Day, TimeZoneInfo.Utc, (_, _, token) =>
             {
                 callCount++;
                 if (callCount == 1) return Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([]);
@@ -517,5 +460,29 @@ public sealed class SchedulerComponentTests : OmniBunitContext
 
         scheduler.Render(parameters => parameters.Add(component => component.View, OmniCalendarView.Week));
         Assert.NotEmpty(scheduler.FindAll(".omni-week-view"));
+    }
+
+    /// <summary>A load answering no appointment, which counts its calls and keeps the range and the token it was last given.</summary>
+    private sealed class RecordingLoad
+    {
+        public RecordingLoad() => Load = (start, end, token) =>
+        {
+            Calls++;
+            Start = start;
+            End = end;
+            Token = token;
+            return Task.FromResult<IReadOnlyList<OmniSchedulerAppointment>>([]);
+        };
+
+        /// <summary>One delegate for the life of the recorder: the scheduler keys its loads by it.</summary>
+        public Func<DateTimeOffset, DateTimeOffset, CancellationToken, Task<IReadOnlyList<OmniSchedulerAppointment>>> Load { get; }
+
+        public int Calls { get; private set; }
+
+        public DateTimeOffset Start { get; private set; }
+
+        public DateTimeOffset End { get; private set; }
+
+        public CancellationToken Token { get; private set; }
     }
 }

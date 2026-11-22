@@ -55,11 +55,8 @@ public sealed class SubMenuTests : OmniBunitContext
     {
         var (host, module) = Open(kind);
 
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        Assert.Equal("true", host.Find("#insert").GetAttribute("aria-expanded"));
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickTheEntryOpenThenClosed(host);
 
-        Assert.Equal("false", host.Find("#insert").GetAttribute("aria-expanded"));
         Assert.Empty(host.FindAll("#insert-menu"));
         Assert.NotNull(host.Find("#m-menu"));
         Assert.DoesNotContain(module.Invocations, call => call.Identifier == "closeMenu");
@@ -76,7 +73,7 @@ public sealed class SubMenuTests : OmniBunitContext
             .Add(component => component.Kind, kind)
             .Add(component => component.OnChosen, _ => closesWhenRun.Add(module.Invocations["closeMenu"].Count)));
         OpenMenu(host, kind);
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
 
         host.Find("#before").Click();
 
@@ -90,8 +87,8 @@ public sealed class SubMenuTests : OmniBunitContext
     public void ALeafOfADeeperLevel_ClosesEveryLevel_AndRaisesItsAction()
     {
         var (host, module) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        host.Find("#more").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
+        ClickEntry(host, "more");
         Assert.Equal(3, host.FindAll("[role=menu]").Count);
         Assert.Equal("more-menu", host.Find("#more").GetAttribute("aria-controls"));
         Assert.NotNull(host.Find("#insert-menu #more-menu"));
@@ -122,10 +119,10 @@ public sealed class SubMenuTests : OmniBunitContext
     public void OpeningAnEntry_ClosesTheSiblingThatWasOpen()
     {
         var (host, module) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
         Assert.Single(host.FindAll("#insert-menu"));
 
-        host.Find("#type").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "type");
 
         Assert.Empty(host.FindAll("#insert-menu"));
         Assert.Equal("false", host.Find("#insert").GetAttribute("aria-expanded"));
@@ -139,8 +136,8 @@ public sealed class SubMenuTests : OmniBunitContext
     public void OpeningAnEntryOfADeeperLevel_KeepsTheEntryOfTheLevelAboveOpen()
     {
         var (host, _) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        host.Find("#more").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
+        ClickEntry(host, "more");
 
         Assert.Equal("true", host.Find("#insert").GetAttribute("aria-expanded"));
         Assert.Equal("true", host.Find("#more").GetAttribute("aria-expanded"));
@@ -158,11 +155,7 @@ public sealed class SubMenuTests : OmniBunitContext
         var placed = module.Invocations["openSubMenu"].Single();
         Assert.Equal(["insert", "insert-menu", false], placed.Arguments.Take(3).ToArray());
 
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        Assert.Equal("true", host.Find("#insert").GetAttribute("aria-expanded"));
-
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        Assert.Equal("false", host.Find("#insert").GetAttribute("aria-expanded"));
+        ClickTheEntryOpenThenClosed(host);
     }
 
     [Theory]
@@ -196,7 +189,7 @@ public sealed class SubMenuTests : OmniBunitContext
         var (host, module) = Open("overflow");
 
         host.Find("#insert").Click(new MouseEventArgs { Detail = 0 });
-        host.Find("#type").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "type");
 
         var calls = module.Invocations["openSubMenu"].Select(call => call.Arguments.ToArray()).ToList();
         Assert.Equal(["insert", "insert-menu", true], calls[0].Take(3));
@@ -207,8 +200,8 @@ public sealed class SubMenuTests : OmniBunitContext
     public void ClosingTheWholeMenu_RemovesEveryLevel_AndItReopensClosed()
     {
         var (host, _) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        host.Find("#more").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
+        ClickEntry(host, "more");
 
         host.Find("#m-menu").KeyDown("Tab");
 
@@ -221,7 +214,7 @@ public sealed class SubMenuTests : OmniBunitContext
     public void ALeafAtTheTopLevel_StillClosesTheMenuAndRaisesItsAction()
     {
         var (host, module) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
 
         host.Find("#top").Click();
 
@@ -240,7 +233,7 @@ public sealed class SubMenuTests : OmniBunitContext
         Assert.Equal("auto", ShippedLookTests.Value(menu, "overflow-y"));
         // The list is drawn as a manual popover, so the browser lifts it out of the scrolling parent.
         var (host, _) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
         Assert.Equal("manual", host.Find("#insert-menu").GetAttribute("popover"));
         Assert.Equal("0", ShippedLookTests.Value(ShippedLookTests.Body(".omni-menu__submenu"), "margin"));
     }
@@ -249,8 +242,8 @@ public sealed class SubMenuTests : OmniBunitContext
     public async Task AScrollOfTheParentList_ClosesTheOpenSubMenu_AndItsDescendants_FocusGoingBackToTheEntry()
     {
         var (host, module) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        host.Find("#more").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
+        ClickEntry(host, "more");
         var insert = Scrolled(module, "insert");
 
         await host.InvokeAsync(() => insert.ScrolledAsync());
@@ -262,7 +255,7 @@ public sealed class SubMenuTests : OmniBunitContext
         Assert.Contains(module.Invocations["leaveSubMenu"], call => (string?)call.Arguments[0] == "insert-menu" && (string?)call.Arguments[1] == "insert");
         Assert.DoesNotContain(module.Invocations, call => call.Identifier == "closeMenu");
         Assert.Empty(Chosen(host));
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
         Assert.Single(host.FindAll("#insert-menu"));
     }
 
@@ -270,8 +263,8 @@ public sealed class SubMenuTests : OmniBunitContext
     public async Task AScrollOfASubMenuList_ClosesOnlyTheSubMenuOpenInIt()
     {
         var (host, module) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
-        host.Find("#more").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
+        ClickEntry(host, "more");
         var more = Scrolled(module, "more");
 
         await host.InvokeAsync(() => more.ScrolledAsync());
@@ -285,9 +278,9 @@ public sealed class SubMenuTests : OmniBunitContext
     public async Task AScrollReportedAfterTheSubMenuClosed_ChangesNothing()
     {
         var (host, module) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
         var insert = Scrolled(module, "insert");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
         var leaves = module.Invocations["leaveSubMenu"].Count;
 
         await host.InvokeAsync(() => insert.ScrolledAsync());
@@ -300,10 +293,10 @@ public sealed class SubMenuTests : OmniBunitContext
     public void TheScriptIsToldHowToReachTheSubMenu_AndLetsGoOfItWhenItCloses()
     {
         var (host, module) = Open("overflow");
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
         Assert.IsType<DotNetObjectReference<SubMenuInteropBridge>>(Assert.Single(module.Invocations["openSubMenu"]).Arguments[3]);
 
-        host.Find("#insert").Click(new MouseEventArgs { Detail = 1 });
+        ClickEntry(host, "insert");
 
         Assert.Equal(["insert-menu", "insert"], Assert.Single(module.Invocations["leaveSubMenu"]).Arguments.Select(argument => (string?)argument));
     }
@@ -323,6 +316,19 @@ public sealed class SubMenuTests : OmniBunitContext
         ((DotNetObjectReference<SubMenuInteropBridge>)module.Invocations["openSubMenu"].Single(call => (string?)call.Arguments[0] == entryId).Arguments[3]!).Value;
 
     private static List<string> Chosen(IRenderedComponent<SubMenuTestHost> host) => host.Instance.Chosen;
+
+    /// <summary>A pointer click on the menu item <paramref name="id"/>, as a mouse press sends it (one click, detail 1).</summary>
+    private static void ClickEntry(IRenderedComponent<SubMenuTestHost> host, string id) =>
+        host.Find($"#{id}").Click(new MouseEventArgs { Detail = 1 });
+
+    /// <summary>A first click on the insert entry leaves its menu open, a second one closes it.</summary>
+    private static void ClickTheEntryOpenThenClosed(IRenderedComponent<SubMenuTestHost> host)
+    {
+        ClickEntry(host, "insert");
+        Assert.Equal("true", host.Find("#insert").GetAttribute("aria-expanded"));
+        ClickEntry(host, "insert");
+        Assert.Equal("false", host.Find("#insert").GetAttribute("aria-expanded"));
+    }
 
     private (IRenderedComponent<SubMenuTestHost> Host, BunitJSModuleInterop Module) Open(string kind)
     {

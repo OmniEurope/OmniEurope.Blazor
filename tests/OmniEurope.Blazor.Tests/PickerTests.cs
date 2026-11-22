@@ -42,7 +42,7 @@ public sealed class PickerTests : OmniBunitContext
         Assert.Equal("text", input.GetAttribute("type"));
         Assert.Equal("21/09/2026", input.GetAttribute("value"));
         Assert.Equal("jj/mm/aaaa", input.GetAttribute("placeholder"));
-        var toggle = Toggle(host, "date");
+        var toggle = host.PickerToggle("date");
         Assert.Equal("Choisir une date", toggle.GetAttribute("aria-label"));
         Assert.Equal("dialog", toggle.GetAttribute("aria-haspopup"));
         Assert.Equal("false", toggle.GetAttribute("aria-expanded"));
@@ -79,9 +79,9 @@ public sealed class PickerTests : OmniBunitContext
     {
         var host = RenderHost(model => model.Date = new DateOnly(2026, 9, 21));
 
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
-        var toggle = Toggle(host, "date");
+        var toggle = host.PickerToggle("date");
         var panel = host.Find("[role='dialog']");
         Assert.Equal("true", toggle.GetAttribute("aria-expanded"));
         Assert.Equal(panel.Id, toggle.GetAttribute("aria-controls"));
@@ -125,7 +125,7 @@ public sealed class PickerTests : OmniBunitContext
     {
         var host = RenderHost();
 
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
         Assert.Equal("2026-09-18", host.Find(".omni-calendar__day[tabindex='0']").GetAttribute("data-date"));
         Assert.Empty(host.FindAll(".omni-calendar__day[aria-selected='true']"));
@@ -145,7 +145,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DatePicker_GridKeys_MoveTheFocusedDay(string key, bool shift, string expected)
     {
         var host = RenderHost(model => model.Date = new DateOnly(2026, 9, 21));
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
         host.Find("[role='grid']").KeyDown(new KeyboardEventArgs { Key = key, ShiftKey = shift });
 
@@ -161,7 +161,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DatePicker_GridCarriesTheMarkerThatMakesItsSidewaysArrowsFollowARightToLeftPage()
     {
         var host = RenderHost(model => model.Date = new DateOnly(2026, 9, 21));
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
         // focus/keys.js swaps ArrowLeft and ArrowRight on a marked element when the page is right to left:
         // HandleKeyDownAsync then gets them in reading order (ArrowRight is the next day).
@@ -172,7 +172,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DatePicker_HomeFromSunday_GoesBackToMonday()
     {
         var host = RenderHost(model => model.Date = new DateOnly(2026, 9, 27));
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
         host.Find("[role='grid']").KeyDown(new KeyboardEventArgs { Key = "Home" });
 
@@ -183,8 +183,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DatePicker_ChoosingADay_SetsTheValue_ClosesAndGivesTheFocusBack()
     {
         var host = RenderHost();
-        Toggle(host, "date").Click();
-        host.WaitForAssertion(() => Assert.Single(_module.Invocations["attachPicker"]));
+        OpenDatePanelAndWaitForTheScript(host);
 
         Day(host, "2026-09-24").Click();
 
@@ -199,12 +198,12 @@ public sealed class PickerTests : OmniBunitContext
     {
         var host = RenderHost(model => model.Date = new DateOnly(2026, 1, 5));
 
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
         host.FindAll(".omni-calendar__foot button")[0].Click();
         Assert.Equal(new DateOnly(2026, 9, 18), host.Instance.Model.Date);
         Assert.Empty(host.FindAll("[role='dialog']"));
 
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
         host.FindAll(".omni-calendar__foot button")[1].Click();
         Assert.Null(host.Instance.Model.Date);
         Assert.Equal(string.Empty, host.Find("#date").GetAttribute("value") ?? string.Empty);
@@ -218,7 +217,7 @@ public sealed class PickerTests : OmniBunitContext
             parameters => parameters
                 .Add(component => component.DateMinimum, new DateOnly(2026, 9, 8))
                 .Add(component => component.DateMaximum, new DateOnly(2026, 9, 25)));
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
         Assert.True(Day(host, "2026-09-07").HasAttribute("disabled"));
         Assert.False(Day(host, "2026-09-08").HasAttribute("disabled"));
@@ -239,7 +238,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DatePicker_MonthButtons_ChangeTheMonthOnShow()
     {
         var host = RenderHost(model => model.Date = new DateOnly(2026, 9, 21));
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
         host.Find("[data-omni-step='next']").Click();
         Assert.Equal("octobre 2026", host.Find(".omni-calendar__title").TextContent);
@@ -258,14 +257,13 @@ public sealed class PickerTests : OmniBunitContext
     public async Task DatePicker_EscapeOrAPressOutside_ClosesThePanel_OnlyEscapeGivesTheFocusBack(bool fromKeyboard)
     {
         var host = RenderHost();
-        Toggle(host, "date").Click();
-        host.WaitForAssertion(() => Assert.Single(_module.Invocations["attachPicker"]));
-        var bridge = (DotNetObjectReference<PickerPopupBridge>)_module.Invocations["attachPicker"][0].Arguments[3]!;
+        OpenDatePanelAndWaitForTheScript(host);
+        var bridge = AttachedBridge();
 
-        await host.InvokeAsync(() => bridge.Value.OnDismissRequestedAsync(fromKeyboard));
+        await host.InvokeAsync(() => bridge.OnDismissRequestedAsync(fromKeyboard));
 
         Assert.Empty(host.FindAll("[role='dialog']"));
-        Assert.Equal("false", Toggle(host, "date").GetAttribute("aria-expanded"));
+        Assert.Equal("false", host.PickerToggle("date").GetAttribute("aria-expanded"));
         host.WaitForAssertion(() => Assert.Single(_module.Invocations["detachPicker"]));
         var detach = _module.Invocations["detachPicker"][0].Arguments;
         Assert.Equal(_module.Invocations["attachPicker"][0].Arguments[4], detach[0]);
@@ -276,8 +274,8 @@ public sealed class PickerTests : OmniBunitContext
     public void DatePicker_TheToggleClosesItsOwnPanel_AndIsDisabledWhenTheFieldIsReadOnly()
     {
         var host = RenderHost();
-        Toggle(host, "date").Click();
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
+        host.PickerToggle("date").Click();
         Assert.Empty(host.FindAll("[role='dialog']"));
 
         DateOnly? value = null;
@@ -299,7 +297,7 @@ public sealed class PickerTests : OmniBunitContext
         var input = host.Find("#time");
         Assert.Equal("09:05", input.GetAttribute("value"));
         Assert.Equal("hh:mm", input.GetAttribute("placeholder"));
-        Assert.Equal("Choisir une heure", Toggle(host, "time").GetAttribute("aria-label"));
+        Assert.Equal("Choisir une heure", host.PickerToggle("time").GetAttribute("aria-label"));
 
         host.Find("#time").Change("7:45");
         Assert.Equal(new TimeOnly(7, 45), host.Instance.Model.Time);
@@ -314,7 +312,7 @@ public sealed class PickerTests : OmniBunitContext
     {
         var host = RenderHost(model => model.Time = new TimeOnly(14, 30));
 
-        Toggle(host, "time").Click();
+        host.PickerToggle("time").Click();
 
         var panel = host.Find("[role='dialog']");
         Assert.Contains("omni-calendar--time", panel.ClassList);
@@ -336,7 +334,7 @@ public sealed class PickerTests : OmniBunitContext
     public void TimePicker_Step_SetsTheMinuteColumn_AndIsBounded()
     {
         var host = RenderHost(parameters: parameters => parameters.Add(component => component.Step, TimeSpan.FromMinutes(15)));
-        Toggle(host, "time").Click();
+        host.PickerToggle("time").Click();
         Assert.Equal(["00", "15", "30", "45"], host.FindAll("[data-omni-part='minute'] [role='option']").Select(item => item.TextContent));
 
         TimeOnly? value = null;
@@ -359,7 +357,7 @@ public sealed class PickerTests : OmniBunitContext
     public void TimePicker_AClick_AppliesAtOnce_AndConfirmClosesAndGivesTheFocusBack()
     {
         var host = RenderHost(model => model.Time = new TimeOnly(14, 30));
-        Toggle(host, "time").Click();
+        host.PickerToggle("time").Click();
 
         host.FindAll("[data-omni-part='hour'] [role='option']")[9].Click();
         Assert.Equal(new TimeOnly(9, 30), host.Instance.Model.Time);
@@ -384,7 +382,7 @@ public sealed class PickerTests : OmniBunitContext
     public void TimePicker_ColumnKeys_MoveTheChoice(string part, string key, int hour, int minute)
     {
         var host = RenderHost(model => model.Time = new TimeOnly(14, 30));
-        Toggle(host, "time").Click();
+        host.PickerToggle("time").Click();
 
         host.Find($"[data-omni-part='{part}']").KeyDown(new KeyboardEventArgs { Key = key });
 
@@ -396,7 +394,7 @@ public sealed class PickerTests : OmniBunitContext
     public void TimePicker_Now_TakesTheClockRoundedDownToTheStep()
     {
         var host = RenderHost();
-        Toggle(host, "time").Click();
+        host.PickerToggle("time").Click();
 
         host.FindAll(".omni-calendar__foot button")[0].Click();
 
@@ -411,7 +409,7 @@ public sealed class PickerTests : OmniBunitContext
             parameters => parameters
                 .Add(component => component.TimeMinimum, new TimeOnly(8, 15))
                 .Add(component => component.TimeMaximum, new TimeOnly(18, 0)));
-        Toggle(host, "time").Click();
+        host.PickerToggle("time").Click();
 
         var hours = host.FindAll("[data-omni-part='hour'] [role='option']");
         Assert.True(hours[7].HasAttribute("disabled"));
@@ -439,7 +437,7 @@ public sealed class PickerTests : OmniBunitContext
 
         Assert.Equal("21/09/2026 14:30", host.Find("#moment").GetAttribute("value"));
         Assert.Equal("jj/mm/aaaa hh:mm", host.Find("#moment").GetAttribute("placeholder"));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         var panel = host.Find("[role='dialog']");
         Assert.Equal("Choisir une date et une heure", panel.GetAttribute("aria-label"));
@@ -454,7 +452,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DateTimePicker_ADay_KeepsTheTime_AnHour_KeepsTheDay_AndThePanelStaysOpen()
     {
         var host = RenderHost(model => model.Moment = new DateTime(2026, 9, 21, 14, 30, 0, DateTimeKind.Unspecified));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         Day(host, "2026-09-24").Click();
         Assert.Equal(new DateTime(2026, 9, 24, 14, 30, 0, DateTimeKind.Unspecified), host.Instance.Model.Moment);
@@ -473,7 +471,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DateTimePicker_ADayOfAnotherMonth_KeepsTheFocusInTheOpenPanel()
     {
         var host = RenderHost(model => model.Moment = new DateTime(2026, 9, 21, 14, 30, 0, DateTimeKind.Unspecified));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
         host.WaitForAssertion(() => Assert.Single(_module.Invocations["focusPickerItem"]));
 
         Day(host, "2026-10-01").Click();
@@ -490,7 +488,7 @@ public sealed class PickerTests : OmniBunitContext
     public void DateTimePicker_WithoutValue_AnHourTakesToday_ADayTakesMidnight()
     {
         var host = RenderHost();
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         host.FindAll("[data-omni-part='hour'] [role='option']")[8].Click();
         Assert.Equal(new DateTime(2026, 9, 18, 8, 0, 0, DateTimeKind.Unspecified), host.Instance.Model.Moment);
@@ -509,7 +507,7 @@ public sealed class PickerTests : OmniBunitContext
             parameters => parameters.Add(component => component.ShowSeconds, true));
 
         Assert.Equal("21/09/2026 14:30:12", host.Find("#moment").GetAttribute("value"));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
         var lists = host.FindAll("[role='listbox']");
         Assert.Equal(["Heures", "Minutes", "Secondes"], lists.Select(list => list.GetAttribute("aria-label")));
         Assert.Equal(60, lists[2].QuerySelectorAll("[role='option']").Length);
@@ -526,7 +524,7 @@ public sealed class PickerTests : OmniBunitContext
             parameters => parameters
                 .Add(component => component.MomentMinimum, new DateTime(2026, 9, 10, 9, 0, 0, DateTimeKind.Unspecified))
                 .Add(component => component.MomentMaximum, new DateTime(2026, 9, 25, 12, 0, 0, DateTimeKind.Unspecified)));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         Assert.True(Day(host, "2026-09-09").HasAttribute("disabled"));
         Day(host, "2026-09-25").Click();
@@ -557,21 +555,21 @@ public sealed class PickerTests : OmniBunitContext
             Assert.Equal("09/21/2026", host.Find("#date").GetAttribute("value"));
             Assert.Equal("mm/dd/yyyy", host.Find("#date").GetAttribute("placeholder"));
             Assert.Equal("09/21/2026 14:30", host.Find("#moment").GetAttribute("value"));
-            Assert.Equal("Choose a date", Toggle(host, "date").GetAttribute("aria-label"));
-            Assert.Equal("Choose a time", Toggle(host, "time").GetAttribute("aria-label"));
-            Assert.Equal("Choose a date and time", Toggle(host, "moment").GetAttribute("aria-label"));
+            Assert.Equal("Choose a date", host.PickerToggle("date").GetAttribute("aria-label"));
+            Assert.Equal("Choose a time", host.PickerToggle("time").GetAttribute("aria-label"));
+            Assert.Equal("Choose a date and time", host.PickerToggle("moment").GetAttribute("aria-label"));
 
             host.Find("#date").Change("10/02/2026");
             Assert.Equal(new DateOnly(2026, 10, 2), host.Instance.Model.Date);
 
-            Toggle(host, "date").Click();
+            host.PickerToggle("date").Click();
             Assert.Equal("October 2026", host.Find(".omni-calendar__title").TextContent);
             // en-US starts the week on Sunday.
             Assert.Equal(["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], host.FindAll("[role='columnheader']").Select(header => header.TextContent));
             Assert.Equal("Previous month", host.Find("[data-omni-step='previous']").GetAttribute("aria-label"));
             Assert.Equal(["Today", "Clear"], host.FindAll(".omni-calendar__foot button").Select(button => button.TextContent.Trim()));
 
-            Toggle(host, "time").Click();
+            host.PickerToggle("time").Click();
             var timePanel = host.Find(".omni-calendar--time");
             Assert.Equal(["Hours", "Minutes"], timePanel.QuerySelectorAll("[role='listbox']").Select(list => list.GetAttribute("aria-label")));
             Assert.Equal(["Now", "Confirm"], timePanel.QuerySelectorAll(".omni-calendar__foot button").Select(button => button.TextContent.Trim()));
@@ -604,8 +602,8 @@ public sealed class PickerTests : OmniBunitContext
 
         // The key as omni-focus.js handles it on the picker: it closes the panel through the bridge and
         // gives the focus back to the toggle.
-        var bridge = (DotNetObjectReference<PickerPopupBridge>)_module.Invocations["attachPicker"][0].Arguments[3]!;
-        await host.InvokeAsync(() => bridge.Value.OnDismissRequestedAsync(true));
+        var bridge = AttachedBridge();
+        await host.InvokeAsync(() => bridge.OnDismissRequestedAsync(true));
 
         Assert.Empty(host.FindAll(".omni-calendar"));
         Assert.Equal("false", host.Find($"#{id} ~ .omni-date__toggle").GetAttribute("aria-expanded"));
@@ -620,7 +618,16 @@ public sealed class PickerTests : OmniBunitContext
         Action<PickerTestHost.PickerTestModel>? arrange = null,
         Action<ComponentParameterCollectionBuilder<PickerTestHost>>? parameters = null) => this.RenderPickerHost(arrange, parameters);
 
-    private static IElement Toggle(IRenderedComponent<PickerTestHost> host, string id) => host.PickerToggle(id);
+    /// <summary>Opens the date panel with its toggle and waits for the script to attach it.</summary>
+    private void OpenDatePanelAndWaitForTheScript(IRenderedComponent<PickerTestHost> host)
+    {
+        host.PickerToggle("date").Click();
+        host.WaitForAssertion(() => Assert.Single(_module.Invocations["attachPicker"]));
+    }
+
+    /// <summary>The bridge the first attached panel handed to the script, through which the script reports a dismissal.</summary>
+    private PickerPopupBridge AttachedBridge() =>
+        ((DotNetObjectReference<PickerPopupBridge>)_module.Invocations["attachPicker"][0].Arguments[3]!).Value;
 
     /// <summary>The panel was detached once, asking the script to give the focus back to the toggle.</summary>
     private void AssertDetachedGivingFocusBack<THost>(IRenderedComponent<THost> host)

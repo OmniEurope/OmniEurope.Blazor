@@ -7,6 +7,8 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class SettingsDangerZoneTests : OmniBunitContext
 {
+    private const string ActionButton = ".omni-settings-danger-action button";
+
     private readonly OmniOverlayService _overlays = new();
 
     [Fact]
@@ -66,7 +68,7 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
             .Add(nameof(OmniSettingsDangerAction.ConfirmMessage), "Le projet « PRJ-042 » sera supprimé.")
             .Add(nameof(OmniSettingsDangerAction.OnConfirm), EventCallback.Factory.Create(this, () => calls++)));
 
-        host.Find(".omni-settings-danger-action button").Click();
+        host.Find(ActionButton).Click();
 
         host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__cancel")));
         Assert.Equal("Supprimer le projet", _overlays.Dialog!.Title);
@@ -80,19 +82,18 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
 
         host.WaitForAssertion(() => Assert.Null(_overlays.Dialog));
         Assert.Equal(0, calls);
-        Assert.Null(host.Find(".omni-settings-danger-action button").GetAttribute("aria-busy"));
+        Assert.Null(host.Find(ActionButton).GetAttribute("aria-busy"));
     }
 
     [Fact]
     public void DangerAction_SecondClickWhileAsking_AsksOnce_AndConfirmingRunsOnce()
     {
         var calls = 0;
-        var host = RenderAction(action => action
-            .Add(nameof(OmniSettingsDangerAction.OnConfirm), EventCallback.Factory.Create(this, () => calls++)));
+        var host = RenderConfirmingAction(() => calls++);
 
-        host.Find(".omni-settings-danger-action button").Click();
+        host.Find(ActionButton).Click();
         host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__action")));
-        host.Find(".omni-settings-danger-action button").Click();
+        host.Find(ActionButton).Click();
 
         Assert.Single(host.FindAll("[role=dialog]"));
         host.Find(".omni-confirm__action").Click();
@@ -105,10 +106,9 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
     public void DangerAction_EscapeOnTheDialog_DoesNothing()
     {
         var calls = 0;
-        var host = RenderAction(action => action
-            .Add(nameof(OmniSettingsDangerAction.OnConfirm), EventCallback.Factory.Create(this, () => calls++)));
+        var host = RenderConfirmingAction(() => calls++);
 
-        host.Find(".omni-settings-danger-action button").Click();
+        host.Find(ActionButton).Click();
         host.WaitForAssertion(() => Assert.NotNull(host.Find("[role=dialog]")));
         host.Find("[role=dialog]").KeyDown("Escape");
 
@@ -130,14 +130,14 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
                 return completion.Task;
             })));
 
-        host.Find(".omni-settings-danger-action button").Click();
+        host.Find(ActionButton).Click();
         host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__action")));
         Assert.Equal("Supprimer « PRJ-042 » ?", _overlays.Dialog!.Title);
         Assert.Equal("Supprimer définitivement", host.Find(".omni-confirm__action span.omni-button__content > span").TextContent);
         host.Find(".omni-confirm__action").Click();
 
-        host.WaitForAssertion(() => Assert.Equal("true", host.Find(".omni-settings-danger-action button").GetAttribute("aria-busy")));
-        var busy = host.Find(".omni-settings-danger-action button");
+        host.WaitForAssertion(() => Assert.Equal("true", host.Find(ActionButton).GetAttribute("aria-busy")));
+        var busy = host.Find(ActionButton);
         Assert.Contains("omni-busy", busy.ClassList);
         Assert.False(busy.HasAttribute("disabled"));
         Assert.Equal(1, calls);
@@ -147,7 +147,7 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
         Assert.Null(_overlays.Dialog);
 
         completion.SetResult();
-        host.WaitForAssertion(() => Assert.Null(host.Find(".omni-settings-danger-action button").GetAttribute("aria-busy")));
+        host.WaitForAssertion(() => Assert.Null(host.Find(ActionButton).GetAttribute("aria-busy")));
         Assert.Equal(1, calls);
     }
 
@@ -159,12 +159,12 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
             .Add(nameof(OmniSettingsDangerAction.OnConfirm), EventCallback.Factory.Create(this, () => Task.FromException(new InvalidOperationException("refusé"))))
             .Add(nameof(OmniSettingsDangerAction.OnConfirmError), EventCallback.Factory.Create<Exception>(this, exception => reported = exception)));
 
-        host.Find(".omni-settings-danger-action button").Click();
+        host.Find(ActionButton).Click();
         host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__action")));
         host.Find(".omni-confirm__action").Click();
 
         host.WaitForAssertion(() => Assert.Equal("refusé", Assert.IsType<InvalidOperationException>(reported).Message));
-        host.WaitForAssertion(() => Assert.Null(host.Find(".omni-settings-danger-action button").GetAttribute("aria-busy")));
+        host.WaitForAssertion(() => Assert.Null(host.Find(ActionButton).GetAttribute("aria-busy")));
     }
 
     [Fact]
@@ -175,7 +175,7 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
 
         // The failure surfaces after the question was answered, so the renderer reports it as an
         // unhandled exception of the click that asked, as for any other failing handler.
-        host.Find(".omni-settings-danger-action button").Click();
+        host.Find(ActionButton).Click();
         host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__action")));
         host.Find(".omni-confirm__action").Click();
 
@@ -188,7 +188,7 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
     {
         var host = RenderAction(action => action.Add(nameof(OmniSettingsDangerAction.Disabled), true));
 
-        var button = host.Find(".omni-settings-danger-action button");
+        var button = host.Find(ActionButton);
         Assert.True(button.HasAttribute("disabled"));
         button.Click();
 
@@ -224,7 +224,7 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
 
         var custom = RenderAction(action => action.Add(nameof(OmniSettingsDangerAction.Icon), IconFragment(OmniIconName.Refresh)));
         Assert.Equal(PathOf(OmniIconName.Refresh), custom.Find(".omni-settings-danger-action button svg path").GetAttribute("d"));
-        custom.Find(".omni-settings-danger-action button").Click();
+        custom.Find(ActionButton).Click();
         custom.WaitForAssertion(() => Assert.NotNull(custom.Find(".omni-confirm__action")));
         Assert.Equal(PathOf(OmniIconName.Refresh), custom.Find(".omni-confirm__action svg path").GetAttribute("d"));
         custom.Find(".omni-confirm__cancel").Click();
@@ -232,7 +232,7 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
 
         var plain = RenderAction(_ => { });
         Assert.Equal(PathOf(OmniIconName.Delete), plain.Find(".omni-settings-danger-action button svg path").GetAttribute("d"));
-        plain.Find(".omni-settings-danger-action button").Click();
+        plain.Find(ActionButton).Click();
         plain.WaitForAssertion(() => Assert.NotNull(plain.Find(".omni-confirm__action")));
         Assert.Equal(PathOf(OmniIconName.Delete), plain.Find(".omni-confirm__action svg path").GetAttribute("d"));
     }
@@ -243,6 +243,10 @@ public sealed class SettingsDangerZoneTests : OmniBunitContext
         builder.AddComponentParameter(1, nameof(OmniIcon.Name), name);
         builder.CloseComponent();
     };
+    /// <summary>The action titled as every test titles it, <paramref name="onConfirm"/> run once the user confirms.</summary>
+    private IRenderedComponent<OmniComponentsHost> RenderConfirmingAction(Action onConfirm) =>
+        RenderAction(action => action.Add(nameof(OmniSettingsDangerAction.OnConfirm), EventCallback.Factory.Create(this, onConfirm)));
+
     private IRenderedComponent<OmniComponentsHost> RenderAction(Action<ActionParameters> configure)
     {
         var parameters = new ActionParameters().Add(nameof(OmniSettingsDangerAction.Title), "Supprimer le projet");

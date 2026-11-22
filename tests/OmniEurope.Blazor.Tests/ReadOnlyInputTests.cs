@@ -13,18 +13,24 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     private static readonly IReadOnlyList<OmniOption<string>> Choices =
         [new OmniOption<string>("alpha", "Alpha"), new OmniOption<string>("beta", "Beta"), new OmniOption<string>("gamma", "Gamma")];
 
-    [Fact]
-    public void CheckBox_ReadOnly_DoesNotChangeTheValue_NorRaiseTheCallback()
+    /// <summary>The bare check box and the one with a text (its input then inside a label) refuse the change alike.</summary>
+    [Theory]
+    [InlineData(null, "input")]
+    [InlineData("Accepter", "label input")]
+    public void CheckBox_ReadOnly_WithOrWithoutText_DoesNotChangeTheValue_NorRaiseTheCallback(string? text, string inputSelector)
     {
         var changes = new List<bool>();
         var value = false;
-        var box = Render<OmniCheckBox<bool>>(parameters => parameters
-            .Add(component => component.ReadOnly, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+        var box = this.RenderBoundRecording<OmniCheckBox<bool>, bool>(value, changes, parameters =>
+        {
+            parameters.Add(component => component.ReadOnly, true);
+            if (text is not null)
+            {
+                parameters.AddChildContent(text);
+            }
+        });
 
-        var input = box.Find("input");
+        var input = box.Find(inputSelector);
         Assert.Equal("true", input.GetAttribute("aria-readonly"));
         input.Change(true);
 
@@ -36,11 +42,8 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<bool?>();
         bool? value = null;
-        var box = Render<OmniCheckBox<bool?>>(parameters => parameters
-            .Add(component => component.ReadOnly, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+        var box = this.RenderBoundRecording<OmniCheckBox<bool?>, bool?>(value, changes, parameters => parameters
+            .Add(component => component.ReadOnly, true));
 
         box.Find("button").Click();
 
@@ -53,11 +56,8 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<bool>();
         var value = false;
-        var toggle = Render<OmniSwitch<bool>>(parameters => parameters
-            .Add(component => component.ReadOnly, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+        var toggle = this.RenderBoundRecording<OmniSwitch<bool>, bool>(value, changes, parameters => parameters
+            .Add(component => component.ReadOnly, true));
 
         toggle.Find("button").Click();
 
@@ -71,12 +71,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<string>();
         var value = "beta";
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
+        var dropDown = this.RenderBoundRecording<OmniDropDown<string>, string>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         Assert.Empty(dropDown.FindAll("select"));
         var field = dropDown.Find("input");
@@ -92,13 +89,10 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<string>();
         var value = "alpha";
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
+        var dropDown = this.RenderBoundRecording<OmniDropDown<string>, string>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Filterable, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         var input = dropDown.Find("input");
         Assert.True(input.HasAttribute("readonly"));
@@ -114,10 +108,8 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var searches = 0;
         var value = string.Empty;
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
+        var autocomplete = this.RenderBound<OmniAutocomplete<string>, string>(value, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.Search, (_, _) =>
             {
                 searches++;
@@ -139,12 +131,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<string>();
         var value = "beta";
-        var list = Render<OmniListBox<string, string>>(parameters => parameters
+        var list = this.RenderBoundRecording<OmniListBox<string, string>, string>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         Assert.Empty(list.FindAll("select"));
         var box = list.Find("[role=listbox]");
@@ -162,12 +151,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<IReadOnlyList<string>>();
         IReadOnlyList<string> value = ["alpha"];
-        var select = Render<OmniMultiSelect<string>>(parameters => parameters
+        var select = this.RenderBoundRecording<OmniMultiSelect<string>, IReadOnlyList<string>>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         Assert.Empty(select.FindAll(".omni-multi-select-compact__clear"));
         var boxes = select.FindAll(".omni-multi-select-compact__option input[type=checkbox]");
@@ -182,12 +168,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<IReadOnlyList<string>>();
         IReadOnlyList<string> value = ["alpha"];
-        var list = Render<OmniCheckBoxList<string>>(parameters => parameters
+        var list = this.RenderBoundRecording<OmniCheckBoxList<string>, IReadOnlyList<string>>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         var boxes = list.FindAll("input[type=checkbox]");
         Assert.All(boxes, box => Assert.Equal("true", box.GetAttribute("aria-readonly")));
@@ -201,12 +184,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<string>();
         var value = "alpha";
-        var list = Render<OmniRadioButtonList<string>>(parameters => parameters
+        var list = this.RenderBoundRecording<OmniRadioButtonList<string>, string>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         var group = list.Find("fieldset");
         Assert.Equal("radiogroup", group.GetAttribute("role"));
@@ -221,12 +201,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<string>();
         var value = "alpha";
-        var bar = Render<OmniSelectBar<string>>(parameters => parameters
+        var bar = this.RenderBoundRecording<OmniSelectBar<string>, string>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         Assert.Equal("true", bar.Find("[role=radiogroup]").GetAttribute("aria-readonly"));
         bar.FindAll("button[role=radio]")[2].Click();
@@ -238,11 +215,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     public void SelectBar_IconTemplate_DrawsAnIconBeforeEachOptionText()
     {
         var value = "alpha";
-        var bar = Render<OmniSelectBar<string>>(parameters => parameters
+        var bar = this.RenderBound<OmniSelectBar<string>, string>(value, parameters => parameters
             .Add(component => component.Options, Choices)
-            .Add(component => component.IconTemplate, option => builder => builder.AddMarkupContent(0, $"<i class=\"probe-icon\">{option}</i>"))
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.IconTemplate, option => builder => builder.AddMarkupContent(0, $"<i class=\"probe-icon\">{option}</i>")));
 
         Assert.Equal(["alpha", "beta", "gamma"], bar.FindAll("button[role=radio] .probe-icon").Select(icon => icon.TextContent));
     }
@@ -272,12 +247,9 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<string>();
         var value = "alpha";
-        var group = Render<OmniSelectableCardGroup<string, string>>(parameters => parameters
+        var group = this.RenderBoundRecording<OmniSelectableCardGroup<string, string>, string>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+            .Add(component => component.Options, Choices));
 
         Assert.Equal("true", group.Find(".omni-selectable-card-group").GetAttribute("aria-readonly"));
         var cards = group.FindAll("button.omni-selectable-card");
@@ -294,11 +266,8 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
         var changes = new List<double>();
         var committed = new List<double>();
         double value = 40;
-        var slider = Render<OmniSlider>(parameters => parameters
+        var slider = this.RenderBoundRecording<OmniSlider, double>(value, changes, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next))
             .Add(component => component.OnValueCommit, next => committed.Add(next)));
 
         var input = slider.Find("input[type=range]");
@@ -315,11 +284,8 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     {
         var changes = new List<string>();
         var value = "#112233";
-        var picker = Render<OmniColorPicker>(parameters => parameters
-            .Add(component => component.ReadOnly, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next)));
+        var picker = this.RenderBoundRecording<OmniColorPicker, string>(value, changes, parameters => parameters
+            .Add(component => component.ReadOnly, true));
 
         Assert.Contains("omni-color-picker--readonly", picker.Find(".omni-color-picker").ClassList);
         picker.Find("input[type=color]").Input("#ff0000");
@@ -382,33 +348,12 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     }
 
     [Fact]
-    public void CheckBox_WithText_ReadOnly_DoesNotChangeTheValue()
-    {
-        var changes = new List<bool>();
-        var value = false;
-        var box = Render<OmniCheckBox<bool>>(parameters => parameters
-            .Add(component => component.ReadOnly, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, next => changes.Add(next))
-            .AddChildContent("Accepter"));
-
-        var input = box.Find("label input");
-        Assert.Equal("true", input.GetAttribute("aria-readonly"));
-        input.Change(true);
-
-        Assert.Empty(changes);
-    }
-
-    [Fact]
     public void DropDown_ReadOnly_WithAValueNoOptionHolds_ShowsAnEmptyField()
     {
         var value = "inconnu";
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
+        var dropDown = this.RenderBound<OmniDropDown<string>, string>(value, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Options, Choices)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Options, Choices));
 
         Assert.Equal(string.Empty, dropDown.Find("input").GetAttribute("value"));
     }
@@ -417,13 +362,11 @@ public sealed class ReadOnlyInputTests : OmniBunitContext
     public void ListBox_ReadOnly_Multiple_MarksTheListMultiSelectable_AndTheDisabledRows()
     {
         IReadOnlyList<string> value = ["alpha", "gamma"];
-        var list = Render<OmniListBox<string, IReadOnlyList<string>>>(parameters => parameters
+        var list = this.RenderBound<OmniListBox<string, IReadOnlyList<string>>, IReadOnlyList<string>>(value, parameters => parameters
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Multiple, true)
             .Add(component => component.Disabled, true)
-            .Add(component => component.Options, [new OmniOption<string>("alpha", "Alpha"), new OmniOption<string>("beta", "Beta", Disabled: true), new OmniOption<string>("gamma", "Gamma")])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Options, [new OmniOption<string>("alpha", "Alpha"), new OmniOption<string>("beta", "Beta", Disabled: true), new OmniOption<string>("gamma", "Gamma")]));
 
         var box = list.Find("[role=listbox]");
         Assert.Equal("true", box.GetAttribute("aria-multiselectable"));

@@ -229,15 +229,40 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     private IReadOnlyDictionary<string, string> LightPainted(BunitJSModuleInterop module) =>
         (IReadOnlyDictionary<string, string>)module.Invocations["apply"][^1].Arguments[1]!;
 
-    [Fact]
-    public void Choosing_the_plain_page_removes_the_field_from_the_scope()
+    /// <summary>A light Givre scope over a page, with what the test adds.</summary>
+    private IRenderedComponent<OmniThemeScope> RenderLightGivre(Action<ComponentParameterCollectionBuilder<OmniThemeScope>>? configure = null) =>
+        Render<OmniThemeScope>(parameters =>
+        {
+            parameters
+                .Add(component => component.Appearance, OmniAppearance.Light)
+                .Add(component => component.Preset, Theme("Givre"));
+            configure?.Invoke(parameters);
+            parameters.AddChildContent("page");
+        });
+
+    private BunitJSModuleInterop LooseThemeModule()
     {
         var module = JSInterop.SetupModule(OmniModules.Theme);
         module.Mode = JSRuntimeMode.Loose;
+        return module;
+    }
+
+    /// <summary>Ardoise over the black hole, once its script has started the canvas.</summary>
+    private IRenderedComponent<OmniThemeScope> RenderArdoiseOverTheStartedBlackHole(BunitJSModuleInterop blackHole)
+    {
         var scope = Render<OmniThemeScope>(parameters => parameters
-            .Add(component => component.Appearance, OmniAppearance.Light)
-            .Add(component => component.Preset, Theme("Givre"))
+            .Add(component => component.Preset, Theme("Ardoise"))
+            .Add(component => component.Backdrop, Named("Trou noir"))
             .AddChildContent("page"));
+        scope.WaitForAssertion(() => Assert.Single(blackHole.Invocations["start"]));
+        return scope;
+    }
+
+    [Fact]
+    public void Choosing_the_plain_page_removes_the_field_from_the_scope()
+    {
+        var module = LooseThemeModule();
+        var scope = RenderLightGivre();
         Assert.True(LightPainted(module).ContainsKey("--omni-backdrop"));
 
         scope.Render(parameters => parameters.Add(component => component.Backdrop, OmniThemeBackdrops.None));
@@ -280,11 +305,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
         var blackHole = StartingModule(OmniModules.BlackHole);
         var stars = StartingModule(OmniModules.PixelStars);
 
-        var scope = Render<OmniThemeScope>(parameters => parameters
-            .Add(component => component.Preset, Theme("Ardoise"))
-            .Add(component => component.Backdrop, Named("Trou noir"))
-            .AddChildContent("page"));
-        scope.WaitForAssertion(() => Assert.Single(blackHole.Invocations["start"]));
+        var scope = RenderArdoiseOverTheStartedBlackHole(blackHole);
 
         scope.Render(parameters => parameters.Add(component => component.Backdrop, Named("Étoiles")));
 
@@ -305,11 +326,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
         var blackHole = StartingModule(OmniModules.BlackHole);
         var sweep = blackHole.SetupVoid("sweep");
         var stars = StartingModule(OmniModules.PixelStars);
-        var scope = Render<OmniThemeScope>(parameters => parameters
-            .Add(component => component.Preset, Theme("Ardoise"))
-            .Add(component => component.Backdrop, Named("Trou noir"))
-            .AddChildContent("page"));
-        scope.WaitForAssertion(() => Assert.Single(blackHole.Invocations["start"]));
+        var scope = RenderArdoiseOverTheStartedBlackHole(blackHole);
 
         scope.Render(parameters => parameters.Add(component => component.Backdrop, Named("Étoiles")));
         scope.Render(parameters => parameters.Add(component => component.BackdropMotion, false));
@@ -325,8 +342,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public void A_backdrop_handed_to_a_scope_under_Essentiel_is_drawn()
     {
-        var module = JSInterop.SetupModule(OmniModules.Theme);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = LooseThemeModule();
 
         Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Light)
@@ -342,8 +358,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     {
         // A client application's request of 2026-11-17: under "Essentiel (default)" (Preset null), choosing
         // a backdrop in the window changed nothing on screen.
-        var module = JSInterop.SetupModule(OmniModules.Theme);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = LooseThemeModule();
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Light)
             .Add(component => component.Backdrop, Named("Givre"))
@@ -361,8 +376,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public void Without_a_preset_the_backdrop_chosen_is_laid_over_the_palette_chosen()
     {
-        var module = JSInterop.SetupModule(OmniModules.Theme);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = LooseThemeModule();
         var palette = OmniThemePalettes.All[1];
         Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Light)
@@ -382,8 +396,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public void Without_a_preset_no_backdrop_chosen_writes_no_token()
     {
-        var module = JSInterop.SetupModule(OmniModules.Theme);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = LooseThemeModule();
         Render<OmniThemeScope>(parameters => parameters.AddChildContent("page"));
         Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Backdrop, OmniThemePresets.All[0].Backdrop)
@@ -407,13 +420,8 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public void The_boot_snapshot_holds_the_backdrop_drawn()
     {
-        var module = JSInterop.SetupModule(OmniModules.Theme);
-        module.Mode = JSRuntimeMode.Loose;
-        var scope = Render<OmniThemeScope>(parameters => parameters
-            .Add(component => component.Appearance, OmniAppearance.Light)
-            .Add(component => component.Preset, Theme("Givre"))
-            .Add(component => component.SnapshotKey, "site:theme")
-            .AddChildContent("page"));
+        var module = LooseThemeModule();
+        var scope = RenderLightGivre(parameters => parameters.Add(component => component.SnapshotKey, "site:theme"));
         var first = (IReadOnlyDictionary<string, string>)Assert.Single(module.Invocations["snapshot"]).Arguments[6]!;
         Assert.True(first.ContainsKey("--omni-backdrop"));
 
@@ -559,8 +567,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public async Task A_scope_that_follows_the_state_draws_the_backdrop_chosen_in_it()
     {
-        var module = JSInterop.SetupModule(OmniModules.Theme);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = LooseThemeModule();
         var state = Services.GetRequiredService<OmniAppearanceState>();
         await state.SetAppearanceAsync(OmniAppearance.Light);
         await state.SetPresetAsync(Theme("Givre"));

@@ -17,12 +17,15 @@ public sealed class PanelMenuSiblingAndGroupLinkTests : OmniBunitContext
     private const string GroupLabel = "#group-servers > .omni-panel-menu__summary > a";
     private const string GroupToggle = "#group-servers > .omni-panel-menu__summary > .omni-panel-menu__toggle";
 
+    private IRenderedComponent<PanelMenuGroupLinkTestHost> RenderGroupLinkHost(bool hostAllowsNavigation) =>
+        Render<PanelMenuGroupLinkTestHost>(parameters => parameters
+            .Add(component => component.CanNavigate, _ => Task.FromResult(hostAllowsNavigation)));
+
     [Fact]
     public async Task ClickingTheLabelOfAGroupWithAnAddress_NavigatesAndUnfoldsIt()
     {
         var navigation = Services.GetRequiredService<NavigationManager>();
-        var host = Render<PanelMenuGroupLinkTestHost>(parameters => parameters
-            .Add(component => component.CanNavigate, _ => Task.FromResult(true)));
+        var host = RenderGroupLinkHost(hostAllowsNavigation: true);
         Assert.Contains(Closed, host.Find("#group-servers").ClassName);
 
         await host.Find(GroupLabel).ClickAsync(new MouseEventArgs());
@@ -37,8 +40,7 @@ public sealed class PanelMenuSiblingAndGroupLinkTests : OmniBunitContext
     {
         var navigation = Services.GetRequiredService<NavigationManager>();
         var start = navigation.Uri;
-        var host = Render<PanelMenuGroupLinkTestHost>(parameters => parameters
-            .Add(component => component.CanNavigate, _ => Task.FromResult(false)));
+        var host = RenderGroupLinkHost(hostAllowsNavigation: false);
 
         await host.Find(GroupLabel).ClickAsync(new MouseEventArgs());
 
@@ -49,8 +51,7 @@ public sealed class PanelMenuSiblingAndGroupLinkTests : OmniBunitContext
     [Fact]
     public async Task ClickingTheLabelOfAnUnfoldedGroup_KeepsItUnfolded()
     {
-        var host = Render<PanelMenuGroupLinkTestHost>(parameters => parameters
-            .Add(component => component.CanNavigate, _ => Task.FromResult(true)));
+        var host = RenderGroupLinkHost(hostAllowsNavigation: true);
         host.Find(GroupToggle).Click();
         Assert.Contains(Open, host.Find("#group-servers").ClassName);
 
@@ -64,8 +65,7 @@ public sealed class PanelMenuSiblingAndGroupLinkTests : OmniBunitContext
     {
         var navigation = Services.GetRequiredService<NavigationManager>();
         var start = navigation.Uri;
-        var host = Render<PanelMenuGroupLinkTestHost>(parameters => parameters
-            .Add(component => component.CanNavigate, _ => Task.FromResult(true)));
+        var host = RenderGroupLinkHost(hostAllowsNavigation: true);
 
         host.Find(GroupToggle).Click();
         Assert.Contains(Open, host.Find("#group-servers").ClassName);

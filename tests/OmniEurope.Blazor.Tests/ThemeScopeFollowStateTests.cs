@@ -37,6 +37,27 @@ public sealed class ThemeScopeFollowStateTests : OmniBunitContext
 
     private static RenderFragment Inside => builder => builder.AddMarkupContent(0, "<p id='inside'>Contenu</p>");
 
+    /// <summary>
+    /// A static prerender: the browser script cannot be reached, so the preferences read <paramref name="store"/>
+    /// directly, or answer the defaults when there is none.
+    /// </summary>
+    private void ServeAStaticPrerender(IOmniPreferenceStore? store)
+    {
+        var browser = new PreferenceBrowser { ImportFailure = new InvalidOperationException("statically rendered") };
+        Services.AddScoped(_ => new OmniPreferences(browser, store, new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan },
+            NullLogger<OmniPreferences>.Instance, TimeProvider.System));
+        Services.AddScoped(provider => new OmniAppearanceState(provider.GetRequiredService<OmniPreferences>(), browser,
+            NullLogger<OmniAppearanceState>.Instance));
+    }
+
+    /// <summary>The HTML of a bare scope around <see cref="Inside"/>, as the static renderer writes it.</summary>
+    private static Task<string> PrerenderBareScopeAsync(HtmlRenderer renderer) =>
+        renderer.Dispatcher.InvokeAsync(async () =>
+        {
+            var parameters = ParameterView.FromDictionary(new Dictionary<string, object?> { [nameof(OmniThemeScope.ChildContent)] = Inside });
+            return (await renderer.RenderComponentAsync<OmniThemeScope>(parameters)).ToHtmlString();
+        });
+
     [Fact]
     public void A_bare_scope_without_a_store_renders_at_once_when_the_browser_answers_at_once()
     {
@@ -76,21 +97,13 @@ public sealed class ThemeScopeFollowStateTests : OmniBunitContext
     public async Task A_prerender_of_a_bare_scope_waits_for_a_slow_store_then_draws_the_stored_look()
     {
         // A static prerender: the browser script cannot be reached, the preferences read the store directly.
-        var browser = new PreferenceBrowser { ImportFailure = new InvalidOperationException("statically rendered") };
         var store = new GatedStore();
         store.Inner.Put(OmniAppearanceState.PreferenceKey, """{"version":1,"appearance":"Dark"}""", Later);
-        Services.AddScoped(_ => new OmniPreferences(browser, store, new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan },
-            NullLogger<OmniPreferences>.Instance, TimeProvider.System));
-        Services.AddScoped(provider => new OmniAppearanceState(provider.GetRequiredService<OmniPreferences>(), browser,
-            NullLogger<OmniAppearanceState>.Instance));
+        ServeAStaticPrerender(store);
         await using var renderer = new HtmlRenderer(Services, Services.GetRequiredService<ILoggerFactory>());
         var token = Xunit.TestContext.Current.CancellationToken;
 
-        var rendering = renderer.Dispatcher.InvokeAsync(async () =>
-        {
-            var parameters = ParameterView.FromDictionary(new Dictionary<string, object?> { [nameof(OmniThemeScope.ChildContent)] = Inside });
-            return (await renderer.RenderComponentAsync<OmniThemeScope>(parameters)).ToHtmlString();
-        });
+        var rendering = PrerenderBareScopeAsync(renderer);
 
         // The prerender is held for as long as the store takes to answer: it has no deadline of its own.
         await store.ReadStarted.Task.WaitAsync(TimeSpan.FromSeconds(5), token);
@@ -106,18 +119,10 @@ public sealed class ThemeScopeFollowStateTests : OmniBunitContext
     [Fact]
     public async Task A_prerender_of_a_bare_scope_without_a_store_draws_the_defaults_at_once()
     {
-        var browser = new PreferenceBrowser { ImportFailure = new InvalidOperationException("statically rendered") };
-        Services.AddScoped(_ => new OmniPreferences(browser, null, new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan },
-            NullLogger<OmniPreferences>.Instance, TimeProvider.System));
-        Services.AddScoped(provider => new OmniAppearanceState(provider.GetRequiredService<OmniPreferences>(), browser,
-            NullLogger<OmniAppearanceState>.Instance));
+        ServeAStaticPrerender(store: null);
         await using var renderer = new HtmlRenderer(Services, Services.GetRequiredService<ILoggerFactory>());
 
-        var html = await renderer.Dispatcher.InvokeAsync(async () =>
-        {
-            var parameters = ParameterView.FromDictionary(new Dictionary<string, object?> { [nameof(OmniThemeScope.ChildContent)] = Inside });
-            return (await renderer.RenderComponentAsync<OmniThemeScope>(parameters)).ToHtmlString();
-        }).WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
+        var html = await PrerenderBareScopeAsync(renderer).WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Contains("data-omni-theme=\"system\"", html, StringComparison.Ordinal);
         Assert.Contains("<p id='inside'>Contenu</p>", html, StringComparison.Ordinal);

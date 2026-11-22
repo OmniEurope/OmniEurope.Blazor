@@ -61,11 +61,9 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void DropDown_Label_IsWrittenAsTheAriaLabel()
     {
         var value = string.Empty;
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
+        var dropDown = this.RenderBound<OmniDropDown<string>, string>(value, parameters => parameters
             .Add(component => component.Options, Choices)
-            .Add(component => component.Label, "Pays")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Label, "Pays"));
 
         Assert.Equal("Pays", dropDown.Find("select").GetAttribute("aria-label"));
     }
@@ -74,17 +72,13 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void CodeEditor_Fallback_WritesAnAriaLabel_OnlyWhenLabelIsSet()
     {
         var value = string.Empty;
-        var unnamed = Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Engine, OmniCodeEditorEngine.PlainText)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var unnamed = this.RenderBound<OmniCodeEditor, string>(value, parameters => parameters
+            .Add(component => component.Engine, OmniCodeEditorEngine.PlainText));
         Assert.Null(unnamed.Find("textarea").GetAttribute("aria-label"));
 
-        var named = Render<OmniCodeEditor>(parameters => parameters
+        var named = this.RenderBound<OmniCodeEditor, string>(value, parameters => parameters
             .Add(component => component.Engine, OmniCodeEditorEngine.PlainText)
-            .Add(component => component.Label, "Manifeste")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Label, "Manifeste"));
         Assert.Equal("Manifeste", named.Find("textarea").GetAttribute("aria-label"));
     }
 
@@ -92,11 +86,9 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void CodeEditor_Wrap_WrapsTheFallback()
     {
         var value = string.Empty;
-        var editor = Render<OmniCodeEditor>(parameters => parameters
+        var editor = this.RenderBound<OmniCodeEditor, string>(value, parameters => parameters
             .Add(component => component.Engine, OmniCodeEditorEngine.PlainText)
-            .Add(component => component.Wrap, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Wrap, true));
 
         Assert.Equal("soft", editor.Find("textarea").GetAttribute("wrap"));
     }
@@ -105,17 +97,13 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void HtmlEditor_SourceTextArea_WritesAnAriaLabel_OnlyWhenLabelIsSet()
     {
         var value = "<p>a</p>";
-        var unnamed = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Mode, OmniHtmlEditorMode.Source)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var unnamed = this.RenderBound<OmniHtmlEditor, string>(value, parameters => parameters
+            .Add(component => component.Mode, OmniHtmlEditorMode.Source));
         Assert.Null(unnamed.Find("textarea").GetAttribute("aria-label"));
 
-        var named = Render<OmniHtmlEditor>(parameters => parameters
+        var named = this.RenderBound<OmniHtmlEditor, string>(value, parameters => parameters
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
-            .Add(component => component.Label, "Contenu")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Label, "Contenu"));
         Assert.Equal("Contenu", named.Find("textarea").GetAttribute("aria-label"));
     }
 
@@ -125,11 +113,9 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void HtmlEditor_ReadOnly_LocksTheValue_WithoutDimming()
     {
         var value = "<p>a</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
+        var editor = this.RenderBound<OmniHtmlEditor, string>(value, parameters => parameters
             .Add(component => component.ReadOnly, true)
-            .Add(component => component.Commands, [OmniHtmlEditorCommands.Bold])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Commands, [OmniHtmlEditorCommands.Bold]));
 
         var surface = editor.Find("[role=textbox]");
         Assert.Equal("false", surface.GetAttribute("contenteditable"));
@@ -146,11 +132,9 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     {
         var value = "<p>a</p>";
         var changed = false;
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
+        var editor = this.RenderBound<OmniHtmlEditor, string>(value, parameters => parameters
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, (string _) => changed = true));
 
         var textarea = editor.Find("textarea");
@@ -164,10 +148,8 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void HtmlEditor_Disabled_IsDimmed()
     {
         var value = "<p>a</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Disabled, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var editor = this.RenderBound<OmniHtmlEditor, string>(value, parameters => parameters
+            .Add(component => component.Disabled, true));
 
         Assert.Contains("omni-html-editor--disabled", editor.Find(".omni-html-editor").ClassList);
         Assert.Equal("true", editor.Find("[role=textbox]").GetAttribute("aria-disabled"));
@@ -229,13 +211,11 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void CheckBoxList_Error_MarksTheGroupInvalid_DescribesIt_AndDimsDisabledItems()
     {
         IReadOnlyList<string> value = [];
-        var list = Render<OmniCheckBoxList<string>>(parameters => parameters
+        var list = this.RenderBound<OmniCheckBoxList<string>, IReadOnlyList<string>>(value, parameters => parameters
             .Add(component => component.Id, "tags")
             .Add(component => component.Options, Choices)
             .Add(component => component.AriaDescribedBy, "tags-help")
-            .Add(component => component.Error, "Choisissez au moins une option.")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Error, "Choisissez au moins une option."));
 
         var fieldset = list.Find("fieldset");
         Assert.Equal("true", fieldset.GetAttribute("aria-invalid"));
@@ -250,12 +230,10 @@ public sealed class SelectionEditorCoherenceTests : OmniBunitContext
     public void RadioButtonList_AriaDescribedBy_IsAParameter_LikeTheCheckBoxList()
     {
         var value = string.Empty;
-        var list = Render<OmniRadioButtonList<string>>(parameters => parameters
+        var list = this.RenderBound<OmniRadioButtonList<string>, string>(value, parameters => parameters
             .Add(component => component.Id, "plan")
             .Add(component => component.Options, Choices)
-            .Add(component => component.AriaDescribedBy, "plan-help")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.AriaDescribedBy, "plan-help"));
 
         Assert.Equal("plan-help", list.Find("fieldset").GetAttribute("aria-describedby"));
         Assert.Null(list.Find("fieldset").GetAttribute("aria-invalid"));

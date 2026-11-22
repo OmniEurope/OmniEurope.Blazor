@@ -13,7 +13,16 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class TileGridMinColumnWidthTests : OmniBunitContext
 {
-    private const string Function = "applyTileGrid";
+    private const string Function = TileGridScript.Function;
+
+    /// <summary>The fluid grid over <paramref name="runtime"/>, once it has called the script a first time.</summary>
+    private IRenderedComponent<OmniTileGrid> RenderFluidGridOnceCalledOver(ManualJSRuntime runtime)
+    {
+        Services.AddSingleton<IJSRuntime>(runtime);
+        var grid = this.RenderFluidGrid();
+        grid.WaitForAssertion(() => Assert.Equal([Function], runtime.Module.Calls));
+        return grid;
+    }
 
     [Fact]
     public void ATileGridWithoutMinColumnWidth_KeepsTheColumnsOfTheWindow_AndLoadsNoScript()
@@ -42,8 +51,8 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
             .Add(component => component.MinColumnWidth, width)
             .AddChildContent("<div>a</div>"));
 
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal(width, module.Invocations[Function][0].Arguments[1]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal(width, firstCall[1]);
         var element = grid.Find(".omni-tile-grid");
         Assert.Contains("omni-tile-grid--fluid", element.ClassList);
         Assert.Contains("omni-tile-grid--columns-3", element.ClassList);
@@ -55,10 +64,8 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
     public void ATileGrid_WritesItsMinColumnWidthAgainOnlyWhenItOrItsClassesChange_AndRemovesItWhenNull()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
-        var grid = Render<OmniTileGrid>(parameters => parameters
-            .Add(component => component.MinColumnWidth, "18rem")
-            .AddChildContent("<div>a</div>"));
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
+        var grid = this.RenderFluidGrid();
+        grid.WaitForCalls(module, 1);
 
         // A redraw that changes nothing the script knows does not call it again.
         grid.Render(parameters => parameters.Add(component => component.Id, "tiles"));
@@ -66,18 +73,18 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
 
         // A new length is written.
         grid.Render(parameters => parameters.Add(component => component.MinColumnWidth, "20rem"));
-        grid.WaitForAssertion(() => Assert.Equal(2, module.Invocations[Function].Count));
-        Assert.Equal("20rem", module.Invocations[Function][1].Arguments[1]);
+        var secondCall = grid.WaitForCalls(module, 2);
+        Assert.Equal("20rem", secondCall[1]);
 
         // A new class string replaces the one the script marked, so the script measures again.
         grid.Render(parameters => parameters.Add(component => component.Columns, 2));
-        grid.WaitForAssertion(() => Assert.Equal(3, module.Invocations[Function].Count));
-        Assert.Equal("20rem", module.Invocations[Function][2].Arguments[1]);
+        var thirdCall = grid.WaitForCalls(module, 3);
+        Assert.Equal("20rem", thirdCall[1]);
 
         // No length: the script removes the property and stops watching, and the class is gone.
         grid.Render(parameters => parameters.Add(component => component.MinColumnWidth, (string?)null));
-        grid.WaitForAssertion(() => Assert.Equal(4, module.Invocations[Function].Count));
-        Assert.Null(module.Invocations[Function][3].Arguments[1]);
+        var fourthCall = grid.WaitForCalls(module, 4);
+        Assert.Null(fourthCall[1]);
         Assert.DoesNotContain("omni-tile-grid--fluid", grid.Find(".omni-tile-grid").ClassName, StringComparison.Ordinal);
 
         // And nothing is asked of it again while it stays null.
@@ -111,11 +118,7 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
     {
         var runtime = new ManualJSRuntime { Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("gone") } };
         runtime.Module.CallFailures[Function] = new JSDisconnectedException("gone");
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var grid = Render<OmniTileGrid>(parameters => parameters
-            .Add(component => component.MinColumnWidth, "18rem")
-            .AddChildContent("<div>a</div>"));
-        grid.WaitForAssertion(() => Assert.Equal([Function], runtime.Module.Calls));
+        var grid = RenderFluidGridOnceCalledOver(runtime);
 
         await grid.Instance.DisposeAsync();
 
@@ -126,11 +129,7 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
     public async Task ATileGrid_StopsTheScriptWatchingItWhenDisposed_ThenReleasesTheScript()
     {
         var runtime = new ManualJSRuntime();
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var grid = Render<OmniTileGrid>(parameters => parameters
-            .Add(component => component.MinColumnWidth, "18rem")
-            .AddChildContent("<div>a</div>"));
-        grid.WaitForAssertion(() => Assert.Equal([Function], runtime.Module.Calls));
+        var grid = RenderFluidGridOnceCalledOver(runtime);
 
         await grid.Instance.DisposeAsync();
 
@@ -156,9 +155,7 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
     {
         var runtime = new ManualJSRuntime { HoldImports = true };
         Services.AddSingleton<IJSRuntime>(runtime);
-        var grid = Render<OmniTileGrid>(parameters => parameters
-            .Add(component => component.MinColumnWidth, "18rem")
-            .AddChildContent("<div>a</div>"));
+        var grid = this.RenderFluidGrid();
 
         await grid.Instance.DisposeAsync();
         runtime.PendingImport.SetResult(runtime.Module);

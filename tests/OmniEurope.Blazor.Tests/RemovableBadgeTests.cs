@@ -10,6 +10,13 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class RemovableBadgeTests : OmniBunitContext
 {
+    /// <summary>A removable badge reading Paris, <paramref name="onRemove"/> run when it is removed.</summary>
+    private IRenderedComponent<OmniBadge> RenderRemovableParis(Action onRemove) =>
+        Render<OmniBadge>(parameters => parameters
+            .Add(component => component.Removable, true)
+            .Add(component => component.OnRemove, onRemove)
+            .AddChildContent("Paris"));
+
     [Fact]
     public void ANonRemovableBadge_DrawsNoButton()
     {
@@ -23,10 +30,7 @@ public sealed class RemovableBadgeTests : OmniBunitContext
     public void ARemovableBadge_EndsWithARealButton_AndClickInvokesOnRemove()
     {
         var removed = 0;
-        var badge = Render<OmniBadge>(parameters => parameters
-            .Add(component => component.Removable, true)
-            .Add(component => component.OnRemove, () => removed++)
-            .AddChildContent("Paris"));
+        var badge = RenderRemovableParis(() => removed++);
 
         var root = badge.Find(".omni-badge");
         Assert.Equal("SPAN", root.TagName);
@@ -72,10 +76,7 @@ public sealed class RemovableBadgeTests : OmniBunitContext
     public void DeleteAndBackspace_OnTheButton_AlsoRemove(string key, int expected)
     {
         var removed = 0;
-        var badge = Render<OmniBadge>(parameters => parameters
-            .Add(component => component.Removable, true)
-            .Add(component => component.OnRemove, () => removed++)
-            .AddChildContent("Paris"));
+        var badge = RenderRemovableParis(() => removed++);
 
         badge.Find("button").KeyDown(new KeyboardEventArgs { Key = key });
 

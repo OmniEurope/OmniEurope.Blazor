@@ -39,9 +39,7 @@ public sealed class ShowcaseThemeStateTests
     public async Task Initialize_ReadsTheCatalogueAndPushesTheDefaultCombination()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
 
         Assert.Equal(3, state.Tokens.Count);
         Assert.Empty(state.Edits);
@@ -61,8 +59,7 @@ public sealed class ShowcaseThemeStateTests
     public async Task ADarkOnlyTheme_IsDrawnDark_AndKeepsTheVisitorsMode()
     {
         var js = new ShowcaseThemeJs();
-        var (state, appearance) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, appearance) = await InitializedStateOverAsync(js);
         await state.SetModeAsync(OmniAppearance.Light, TestContext.Current.CancellationToken);
 
         await state.SelectThemeAsync(OmniThemePresets.All[0] with { DarkOnly = true }, TestContext.Current.CancellationToken);
@@ -89,12 +86,12 @@ public sealed class ShowcaseThemeStateTests
         var browser = new PreferenceBrowser();
         var (state, appearance) = StateOver(js, browser);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var galet = Theme("Galet");
+        var galet = ShippedThemes.Preset("Galet");
         var font = OmniThemeFonts.All[^1];
         var backdrop = OmniThemeBackdrops.All.First(item => item.Name == "Bokeh");
 
         await state.SelectThemeAsync(galet, TestContext.Current.CancellationToken);
-        await state.SelectPaletteAsync(Palette("Braise"), TestContext.Current.CancellationToken);
+        await state.SelectPaletteAsync(ShippedThemes.Palette("Braise"), TestContext.Current.CancellationToken);
         await state.SelectBackdropAsync(backdrop, TestContext.Current.CancellationToken);
         await state.SetModeAsync(OmniAppearance.Dark, TestContext.Current.CancellationToken);
         await state.SetDensityAsync(OmniDensity.Compact, TestContext.Current.CancellationToken);
@@ -200,9 +197,7 @@ public sealed class ShowcaseThemeStateTests
         {
             Stored = JsonSerializer.Serialize(new Dictionary<string, string> { ["--omni-color-accent"] = "#ff0000" })
         };
-        var (state, _) = StateOver(js);
-
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
 
         Assert.Equal("#ff0000", state.Edits["--omni-color-accent"]);
         Assert.Same(OmniThemePresets.All[0], state.Theme);
@@ -227,9 +222,7 @@ public sealed class ShowcaseThemeStateTests
                 ["fullWidth"] = "maybe"
             })
         };
-        var (state, _) = StateOver(js);
-
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
 
         Assert.Same(OmniThemePresets.All[0], state.Theme);
         Assert.True(state.HasThemePalette);
@@ -257,9 +250,7 @@ public sealed class ShowcaseThemeStateTests
                 ["palette"] = storedPalette
             })
         };
-        var (state, _) = StateOver(js);
-
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
 
         Assert.Equal(theme, state.Theme.Name);
         Assert.Equal(palette, state.Palette.Name);
@@ -271,9 +262,7 @@ public sealed class ShowcaseThemeStateTests
     public async Task Initialize_SurvivesAHalfWrittenEntry(string stored)
     {
         var js = new ShowcaseThemeJs { Stored = stored };
-        var (state, _) = StateOver(js);
-
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
 
         Assert.Empty(state.Edits);
         Assert.Equal(3, state.Tokens.Count);
@@ -299,7 +288,7 @@ public sealed class ShowcaseThemeStateTests
         var announced = 0;
         second.Changed += () => announced++;
 
-        await first.SelectThemeAsync(Theme("Givre"), TestContext.Current.CancellationToken);
+        await first.SelectThemeAsync(ShippedThemes.Preset("Givre"), TestContext.Current.CancellationToken);
         foreach (var (key, value) in firstBrowser.Storage)
         {
             secondBrowser.Storage[key] = value;
@@ -309,7 +298,7 @@ public sealed class ShowcaseThemeStateTests
         Assert.Equal("Givre", second.Theme.Name);
         Assert.Empty(second.Edits);
         Assert.True(announced > 0);
-        Assert.Equal(Theme("Givre").Light["--omni-color-accent"], Half(secondJs.Calls[^1].Arguments[0])["--omni-color-accent"]);
+        Assert.Equal(ShippedThemes.Preset("Givre").Light["--omni-color-accent"], Half(secondJs.Calls[^1].Arguments[0])["--omni-color-accent"]);
     }
 
     /// <summary>A change of the package state from elsewhere drops the edits of a backdrop no longer drawn, and keeps the others.</summary>
@@ -317,12 +306,11 @@ public sealed class ShowcaseThemeStateTests
     public async Task ABackdropChangedElsewhere_DropsTheEditsOfTheBackdropItLeaves()
     {
         var js = new ShowcaseThemeJs();
-        var (state, appearance) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        await state.SelectThemeAsync(Theme("Givre"), TestContext.Current.CancellationToken);
+        var (state, appearance) = await InitializedStateOverAsync(js);
+        await state.SelectThemeAsync(ShippedThemes.Preset("Givre"), TestContext.Current.CancellationToken);
         var leaving = state.DrawnBackdrop;
         var backdropToken = leaving.Shape.Keys.First();
-        var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
+        var accent = Accent(state);
         await state.SetAsync(new ThemeToken(backdropToken, "shipped", ThemeTokenGroup.Color), "edited-by-hand", TestContext.Current.CancellationToken);
         await state.SetAsync(accent, "#123456", TestContext.Current.CancellationToken);
 
@@ -346,7 +334,7 @@ public sealed class ShowcaseThemeStateTests
         var announced = 0;
         state.Changed += () => announced++;
 
-        await appearance.SetPresetAsync(Theme("Halo"));
+        await appearance.SetPresetAsync(ShippedThemes.Preset("Halo"));
         await state.SetModeAsync(OmniAppearance.Dark, TestContext.Current.CancellationToken);
 
         Assert.Equal("Halo", state.Theme.Name);
@@ -355,7 +343,7 @@ public sealed class ShowcaseThemeStateTests
         Assert.Equal("Halo", state.Painted.Name);
 
         state.Dispose();
-        await appearance.SetPresetAsync(Theme("Galet"));
+        await appearance.SetPresetAsync(ShippedThemes.Preset("Galet"));
         Assert.Equal(2, announced);
     }
 
@@ -363,9 +351,8 @@ public sealed class ShowcaseThemeStateTests
     public async Task SelectTheme_PaintsItWithItsOwnPalette()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        await state.SelectPaletteAsync(Palette("Mono"), TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
+        await state.SelectPaletteAsync(ShippedThemes.Palette("Mono"), TestContext.Current.CancellationToken);
 
         foreach (var theme in OmniThemePresets.All)
         {
@@ -382,10 +369,9 @@ public sealed class ShowcaseThemeStateTests
     public async Task SelectPalette_RepaintsTheThemeWithoutReplacingIt()
     {
         var js = new ShowcaseThemeJs();
-        var (state, appearance) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var galet = Theme("Galet");
-        var ocean = Palette("Océan");
+        var (state, appearance) = await InitializedStateOverAsync(js);
+        var galet = ShippedThemes.Preset("Galet");
+        var ocean = ShippedThemes.Palette("Océan");
         await state.SelectThemeAsync(galet, TestContext.Current.CancellationToken);
 
         await state.SelectPaletteAsync(ocean, TestContext.Current.CancellationToken);
@@ -402,10 +388,9 @@ public sealed class ShowcaseThemeStateTests
     public async Task ResetPalette_ReturnsToThePaletteOfTheTheme()
     {
         var js = new ShowcaseThemeJs();
-        var (state, appearance) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        await state.SelectThemeAsync(Theme("Néon"), TestContext.Current.CancellationToken);
-        await state.SelectPaletteAsync(Palette("Forêt"), TestContext.Current.CancellationToken);
+        var (state, appearance) = await InitializedStateOverAsync(js);
+        await state.SelectThemeAsync(ShippedThemes.Preset("Néon"), TestContext.Current.CancellationToken);
+        await state.SelectPaletteAsync(ShippedThemes.Palette("Forêt"), TestContext.Current.CancellationToken);
 
         await state.ResetPaletteAsync(TestContext.Current.CancellationToken);
 
@@ -419,9 +404,8 @@ public sealed class ShowcaseThemeStateTests
     public async Task SelectBackdrop_OfTheThemesOwn_KeepsNoChoice()
     {
         var js = new ShowcaseThemeJs();
-        var (state, appearance) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        await state.SelectThemeAsync(Theme("Givre"), TestContext.Current.CancellationToken);
+        var (state, appearance) = await InitializedStateOverAsync(js);
+        await state.SelectThemeAsync(ShippedThemes.Preset("Givre"), TestContext.Current.CancellationToken);
 
         await state.SelectBackdropAsync(OmniThemeBackdrops.None, TestContext.Current.CancellationToken);
         Assert.Same(OmniThemeBackdrops.None, appearance.Backdrop);
@@ -440,9 +424,8 @@ public sealed class ShowcaseThemeStateTests
     public async Task Set_KeepsOnlyTheTokensMovedAwayFromTheValueInForce()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
+        var (state, _) = await InitializedStateOverAsync(js);
+        var accent = Accent(state);
         var inForce = state.ValueOf(accent);
 
         await state.SetAsync(accent, "#ff0000", TestContext.Current.CancellationToken);
@@ -460,16 +443,15 @@ public sealed class ShowcaseThemeStateTests
     public async Task ChoosingAnotherThemeOrPalette_DropsTheEdits()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
+        var (state, _) = await InitializedStateOverAsync(js);
+        var accent = Accent(state);
 
         await state.SetAsync(accent, "#123456", TestContext.Current.CancellationToken);
-        await state.SelectPaletteAsync(Palette("Prune"), TestContext.Current.CancellationToken);
+        await state.SelectPaletteAsync(ShippedThemes.Palette("Prune"), TestContext.Current.CancellationToken);
         Assert.Empty(state.Edits);
 
         await state.SetAsync(accent, "#123456", TestContext.Current.CancellationToken);
-        await state.SelectThemeAsync(Theme("Octet"), TestContext.Current.CancellationToken);
+        await state.SelectThemeAsync(ShippedThemes.Preset("Octet"), TestContext.Current.CancellationToken);
         Assert.Empty(state.Edits);
 
         // Reset all of the appearance window picks the first theme again even when it is in force: the edits go too.
@@ -483,9 +465,8 @@ public sealed class ShowcaseThemeStateTests
     public async Task SetMode_SendsBothHalvesAndTheModeAndKeepsTheEdits()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
+        var (state, _) = await InitializedStateOverAsync(js);
+        var accent = Accent(state);
         await state.SetAsync(accent, "#abcdef", TestContext.Current.CancellationToken);
 
         await state.SetModeAsync(OmniAppearance.Dark, TestContext.Current.CancellationToken);
@@ -503,8 +484,7 @@ public sealed class ShowcaseThemeStateTests
     public async Task TheFont_IsLaidOverBothHalves_AndTheLevelsAreClamped()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
         var font = OmniThemeFonts.All[^1];
 
         await state.SetFontAsync(font, TestContext.Current.CancellationToken);
@@ -521,11 +501,10 @@ public sealed class ShowcaseThemeStateTests
     public async Task Reset_DropsTheEditsAndKeepsTheCombination()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        await state.SelectThemeAsync(Theme("Halo"), TestContext.Current.CancellationToken);
-        await state.SelectPaletteAsync(Palette("Mono"), TestContext.Current.CancellationToken);
-        var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
+        var (state, _) = await InitializedStateOverAsync(js);
+        await state.SelectThemeAsync(ShippedThemes.Preset("Halo"), TestContext.Current.CancellationToken);
+        await state.SelectPaletteAsync(ShippedThemes.Palette("Mono"), TestContext.Current.CancellationToken);
+        var accent = Accent(state);
         await state.SetAsync(accent, "#123456", TestContext.Current.CancellationToken);
 
         await state.ResetAsync(TestContext.Current.CancellationToken);
@@ -543,10 +522,9 @@ public sealed class ShowcaseThemeStateTests
     public async Task Export_OfAThemeWithAForeignPalette_CarriesThePaletteColoursAndTheThemeShape()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var galet = Theme("Galet");
-        var ocean = Palette("Océan");
+        var (state, _) = await InitializedStateOverAsync(js);
+        var galet = ShippedThemes.Preset("Galet");
+        var ocean = ShippedThemes.Palette("Océan");
         Assert.NotEqual("Océan", OmniThemePresets.DefaultPaletteFor(galet).Name);
         await state.SelectThemeAsync(galet, TestContext.Current.CancellationToken);
         await state.SelectPaletteAsync(ocean, TestContext.Current.CancellationToken);
@@ -582,12 +560,11 @@ public sealed class ShowcaseThemeStateTests
     public async Task Export_CarriesTheDarkShapeInBothDarkVariantsOnly()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var galet = Theme("Galet");
+        var (state, _) = await InitializedStateOverAsync(js);
+        var galet = ShippedThemes.Preset("Galet");
         Assert.NotEmpty(galet.DarkShape);
         await state.SelectThemeAsync(galet, TestContext.Current.CancellationToken);
-        await state.SelectPaletteAsync(Palette("Lavande"), TestContext.Current.CancellationToken);
+        await state.SelectPaletteAsync(ShippedThemes.Palette("Lavande"), TestContext.Current.CancellationToken);
 
         var css = state.ExportCss();
         var light = Block(css, LightSelectors);
@@ -614,8 +591,7 @@ public sealed class ShowcaseThemeStateTests
     public async Task Export_TargetsTheThemeScopeInLightDarkAndSystem()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
 
         var css = state.ExportCss();
 
@@ -633,9 +609,8 @@ public sealed class ShowcaseThemeStateTests
     public async Task Export_WritesTheEditsInBothHalves()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
+        var (state, _) = await InitializedStateOverAsync(js);
+        var accent = Accent(state);
         await state.SetAsync(accent, "#ff0000", TestContext.Current.CancellationToken);
 
         var css = state.ExportCss();
@@ -653,9 +628,8 @@ public sealed class ShowcaseThemeStateTests
     public async Task Export_WritesTheCatalogueTokensFirstThenThoseBeyondIt()
     {
         var js = new ShowcaseThemeJs();
-        var (state, _) = StateOver(js);
-        await state.InitializeAsync(TestContext.Current.CancellationToken);
-        await state.SelectThemeAsync(Theme("Galet"), TestContext.Current.CancellationToken);
+        var (state, _) = await InitializedStateOverAsync(js);
+        await state.SelectThemeAsync(ShippedThemes.Preset("Galet"), TestContext.Current.CancellationToken);
 
         var light = Block(state.ExportCss(), LightSelectors);
 
@@ -675,8 +649,8 @@ public sealed class ShowcaseThemeStateTests
         state.Changed += () => announced++;
 
         await state.InitializeAsync(TestContext.Current.CancellationToken);
-        await state.SelectThemeAsync(Theme("Rétro"), TestContext.Current.CancellationToken);
-        await state.SelectPaletteAsync(Palette("Mono"), TestContext.Current.CancellationToken);
+        await state.SelectThemeAsync(ShippedThemes.Preset("Rétro"), TestContext.Current.CancellationToken);
+        await state.SelectPaletteAsync(ShippedThemes.Palette("Mono"), TestContext.Current.CancellationToken);
         await state.SetModeAsync(OmniAppearance.Dark, TestContext.Current.CancellationToken);
         await state.SetDensityAsync(OmniDensity.Compact, TestContext.Current.CancellationToken);
         await state.ResetAsync(TestContext.Current.CancellationToken);
@@ -686,10 +660,6 @@ public sealed class ShowcaseThemeStateTests
 
     /// <summary>The level the package draws as shipped, read from the package's single source.</summary>
     private const int AppearanceLookDefaultLevel = Internal.AppearanceLook.DefaultLevel;
-
-    private static OmniThemePreset Theme(string name) => OmniThemePresets.All.Single(theme => theme.Name == name);
-
-    private static OmniThemePalette Palette(string name) => OmniThemePalettes.All.Single(palette => palette.Name == name);
 
     private static IReadOnlyDictionary<string, string> Half(object? argument) =>
         Assert.IsAssignableFrom<IReadOnlyDictionary<string, string>>(argument);
@@ -705,4 +675,14 @@ public sealed class ShowcaseThemeStateTests
 
     private static (ThemeState State, OmniAppearanceState Appearance) StateOver(ShowcaseThemeJs js, PreferenceBrowser? browser = null) =>
         ShowcaseThemeStateSetup.Create(js, Css, browser);
+
+    /// <summary>The state over <paramref name="js"/>, initialized as the appearance window opens it.</summary>
+    private static async Task<(ThemeState State, OmniAppearanceState Appearance)> InitializedStateOverAsync(ShowcaseThemeJs js)
+    {
+        var created = StateOver(js);
+        await created.State.InitializeAsync(TestContext.Current.CancellationToken);
+        return created;
+    }
+
+    private static ThemeToken Accent(ThemeState state) => state.Tokens.Single(token => token.Name == "--omni-color-accent");
 }

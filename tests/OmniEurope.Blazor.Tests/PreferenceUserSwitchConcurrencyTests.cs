@@ -32,14 +32,10 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     public async Task TwoResets_TheSecondEndingWhileTheFirstStillReads_FailNeither()
     {
         await using var preferences = Open();
-        await preferences.SetAsync("theme", "aplat", Token);
 
         // The first reset reads the preference again for the account and is held inside that opening, while the
         // visitor's entries are merged into the account (a slow browser round trip).
-        _store.User = "anne";
-        var merging = _browser.Hold("entries", prefix => prefix == VisitorPrefix);
-        var first = preferences.ResetUserAsync(Token);
-        await merging.WhenReached.WaitAsync(Patience, Token);
+        var (first, merging) = await HoldTheAccountsFirstMergeAsync(preferences, () => preferences.ResetUserAsync(Token));
 
         // A second reset comes meanwhile and ends: it releases the opening the first one still reads.
         await preferences.ResetUserAsync(Token).WaitAsync(Patience, Token);
@@ -55,14 +51,10 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     public async Task AReaderThatNoticesTheNewUser_AndAnExplicitReset_FailNeither()
     {
         await using var preferences = Open();
-        await preferences.SetAsync("theme", "aplat", Token);
 
         // The store names the account already; a reader notices it, takes the account itself and is held inside
         // the opening of the account's cache.
-        _store.User = "anne";
-        var merging = _browser.Hold("entries", prefix => prefix == VisitorPrefix);
-        var reader = preferences.GetAsync<string>("theme", Token);
-        await merging.WhenReached.WaitAsync(Patience, Token);
+        var (reader, merging) = await HoldTheAccountsFirstMergeAsync(preferences);
 
         // The host's own reset of the sign-in comes meanwhile and ends.
         await preferences.ResetUserAsync(Token).WaitAsync(Patience, Token);
@@ -76,14 +68,39 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     /// A reader that notices the account is held while the visitor's entries are merged into the account's first opening:
     /// any call made now waits for that merge, then takes the opening it was given, which a reset may release meanwhile.
     /// </summary>
-    private async Task<(Task<string?> Reader, FrameworkBrowser.Held Merging)> HoldTheAccountsFirstMergeAsync(OmniPreferences preferences)
+    private Task<(Task<string?> Reader, FrameworkBrowser.Held Merging)> HoldTheAccountsFirstMergeAsync(OmniPreferences preferences) =>
+        HoldTheAccountsFirstMergeAsync(preferences, () => preferences.GetAsync<string>("theme", Token));
+
+    /// <summary>
+    /// The same hold, the call that meets the account's first opening being <paramref name="start"/> instead of a reader.
+    /// </summary>
+    private async Task<(TCall Call, FrameworkBrowser.Held Merging)> HoldTheAccountsFirstMergeAsync<TCall>(OmniPreferences preferences, Func<TCall> start)
+        where TCall : Task
     {
         await preferences.SetAsync("theme", "aplat", Token);
         _store.User = "anne";
         var merging = _browser.Hold("entries", prefix => prefix == VisitorPrefix);
-        var reader = preferences.GetAsync<string>("theme", Token);
+        var call = start();
         await merging.WhenReached.WaitAsync(Patience, Token);
-        return (reader, merging);
+        return (call, merging);
+    }
+
+    /// <summary>Signs anne in and reads the theme once, which opens her cache; answers the theme read.</summary>
+    private async Task<string?> SignInAnneAndReadTheThemeAsync(OmniPreferences preferences)
+    {
+        _store.User = "anne";
+        var theme = await preferences.GetAsync<string>("theme", Token);
+        await preferences.WhenIdleAsync();
+        return theme;
+    }
+
+    /// <summary>Starts a write of size the store holds in its save, and waits until the store is saving it.</summary>
+    private async Task<(Task Writing, Pause Saving)> StartAWriteTheStoreHoldsAsync(OmniPreferences preferences)
+    {
+        var saving = _store.PauseNextSave();
+        var writing = preferences.SetAsync("size", "grand", Token);
+        await saving.WhenReached.WaitAsync(Patience, Token);
+        return (writing, saving);
     }
 
     [Fact]
@@ -146,14 +163,10 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     public async Task AWrite_WhoseOpeningIsReleasedWhileTheStoreSavesIt_CompletesAndIsNotSavedAgain()
     {
         await using var preferences = Open();
-        _store.User = "anne";
-        Assert.Null(await preferences.GetAsync<string>("theme", Token));
-        await preferences.WhenIdleAsync();
+        Assert.Null(await SignInAnneAndReadTheThemeAsync(preferences));
 
         // The value is cached; the store is busy saving it when a reset releases the opening the write was made on.
-        var saving = _store.PauseNextSave();
-        var writing = preferences.SetAsync("size", "grand", Token);
-        await saving.WhenReached.WaitAsync(Patience, Token);
+        var (writing, saving) = await StartAWriteTheStoreHoldsAsync(preferences);
         var released = _browser.NextDisposal();
         var resetting = preferences.ResetUserAsync(Token);
         await released.WaitAsync(Patience, Token);
@@ -173,13 +186,9 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     public async Task AWrite_WhoseOpeningIsReleasedByTheDisposalWhileTheStoreSavesIt_FailsAsDisposed()
     {
         var preferences = Open();
-        _store.User = "anne";
-        Assert.Null(await preferences.GetAsync<string>("theme", Token));
-        await preferences.WhenIdleAsync();
+        Assert.Null(await SignInAnneAndReadTheThemeAsync(preferences));
 
-        var saving = _store.PauseNextSave();
-        var writing = preferences.SetAsync("size", "grand", Token);
-        await saving.WhenReached.WaitAsync(Patience, Token);
+        var (writing, saving) = await StartAWriteTheStoreHoldsAsync(preferences);
         await preferences.DisposeAsync();
 
         saving.Release();

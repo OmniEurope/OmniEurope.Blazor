@@ -85,7 +85,7 @@ public sealed class ThemeScopeBootSnapshotTests : OmniBunitContext
     public void A_scope_without_a_snapshot_key_writes_nothing_and_takes_over_nothing()
     {
         var module = JSInterop.SetupModule(ThemeModule);
-        var preset = OmniThemePresets.All.Single(entry => entry.Name == "Halo");
+        var preset = ShippedThemes.Preset("Halo");
 
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Dark)
@@ -101,8 +101,8 @@ public sealed class ThemeScopeBootSnapshotTests : OmniBunitContext
     public void The_snapshot_holds_the_attributes_and_both_halves_the_scope_paints()
     {
         var module = JSInterop.SetupModule(ThemeModule);
-        var halo = OmniThemePresets.All.Single(entry => entry.Name == "Halo");
-        var braise = OmniThemePalettes.All.Single(entry => entry.Name == "Braise");
+        var halo = ShippedThemes.Preset("Halo");
+        var braise = ShippedThemes.Palette("Braise");
         var font = OmniThemeFonts.All[^1];
 
         var scope = Render<OmniThemeScope>(parameters => parameters

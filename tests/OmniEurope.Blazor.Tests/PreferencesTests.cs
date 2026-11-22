@@ -45,6 +45,23 @@ public sealed class PreferencesTests : OmniBunitContext
         return Services.GetRequiredService<OmniPreferences>().RecordChangesInto(_changes);
     }
 
+    /// <summary>The value another device stored an hour after the start replaced the cached one and was raised as coming from the store.</summary>
+    private void AssertTheStoresLaterGivreWasTaken()
+    {
+        Assert.Equal(new PreferenceCacheEntry("\"givre\"", Start.AddHours(1), false), Cached("theme"));
+        Assert.Equal(new OmniPreferenceChangedEventArgs("theme", "\"givre\"", OmniPreferenceChangeOrigin.Store), _changes[^1]);
+    }
+
+    /// <summary>The write dated by a device clock a day ahead was saved once, and cached with the date the store keeps.</summary>
+    private void AssertOctetWasSavedAndCachedWithTheStoreDate()
+    {
+        Assert.Equal(new OmniPreference("theme", "\"octet\"", Start.AddDays(1)), Assert.Single(_store.Saved));
+        Assert.Equal(new PreferenceCacheEntry("\"octet\"", Start, false), Cached("theme"));
+    }
+
+    private void AssertAWarningNamesTheThemeKey() =>
+        Assert.Contains(_logger.Entries, entry => entry.Level == Microsoft.Extensions.Logging.LogLevel.Warning && entry.Message.Contains("theme", StringComparison.Ordinal));
+
     [Fact]
     public async Task Get_AnswersFromTheCacheFirst_ThenALaterStoreValueReplacesItAndRaisesChanged()
     {
@@ -267,8 +284,7 @@ public sealed class PreferencesTests : OmniBunitContext
 
         await preferences.SetAsync("theme", "octet", Token);
 
-        Assert.Equal(new OmniPreference("theme", "\"octet\"", Start.AddDays(1)), Assert.Single(_store.Saved));
-        Assert.Equal(new PreferenceCacheEntry("\"octet\"", Start, false), Cached("theme"));
+        AssertOctetWasSavedAndCachedWithTheStoreDate();
 
         // Another device writes later by the server's clock, still earlier than this device's clock.
         server = Start.AddHours(1);
@@ -311,8 +327,7 @@ public sealed class PreferencesTests : OmniBunitContext
 
         await preferences.SetAsync("theme", "octet", Token);
 
-        Assert.Equal(new PreferenceCacheEntry("\"givre\"", Start.AddHours(1), false), Cached("theme"));
-        Assert.Equal(new OmniPreferenceChangedEventArgs("theme", "\"givre\"", OmniPreferenceChangeOrigin.Store), _changes[^1]);
+        AssertTheStoresLaterGivreWasTaken();
     }
 
     [Fact]
@@ -339,8 +354,7 @@ public sealed class PreferencesTests : OmniBunitContext
 
         await preferences.SyncAsync(Token);
 
-        Assert.Equal(new OmniPreference("theme", "\"octet\"", Start.AddDays(1)), Assert.Single(_store.Saved));
-        Assert.Equal(new PreferenceCacheEntry("\"octet\"", Start, false), Cached("theme"));
+        AssertOctetWasSavedAndCachedWithTheStoreDate();
     }
 
     [Fact]
@@ -354,8 +368,7 @@ public sealed class PreferencesTests : OmniBunitContext
 
         await preferences.SyncAsync(Token);
 
-        Assert.Equal(new PreferenceCacheEntry("\"givre\"", Start.AddHours(1), false), Cached("theme"));
-        Assert.Equal(new OmniPreferenceChangedEventArgs("theme", "\"givre\"", OmniPreferenceChangeOrigin.Store), _changes[^1]);
+        AssertTheStoresLaterGivreWasTaken();
     }
 
     [Theory]
@@ -671,7 +684,7 @@ public sealed class PreferencesTests : OmniBunitContext
 
         await preferences.SetAsync("theme", "octet", Token);
 
-        Assert.Contains(_logger.Entries, entry => entry.Level == Microsoft.Extensions.Logging.LogLevel.Warning && entry.Message.Contains("theme", StringComparison.Ordinal));
+        AssertAWarningNamesTheThemeKey();
     }
 
     [Fact]
@@ -681,7 +694,7 @@ public sealed class PreferencesTests : OmniBunitContext
         _store.FailReads = true;
 
         Assert.Null(await preferences.GetAsync<string>("theme", Token));
-        Assert.Contains(_logger.Entries, entry => entry.Level == Microsoft.Extensions.Logging.LogLevel.Warning && entry.Message.Contains("theme", StringComparison.Ordinal));
+        AssertAWarningNamesTheThemeKey();
     }
 
     [Fact]
