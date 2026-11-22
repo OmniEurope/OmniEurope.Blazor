@@ -19,6 +19,20 @@ public sealed class DiagramEdgeTests : OmniBunitContext
     private static void Press(IRenderedComponent<OmniMindMap> map, string key) =>
         map.Find("svg.omni-mindmap__canvas").KeyDown(new KeyboardEventArgs { Key = key });
 
+    // The sample map with the node properties panel, given <paramref name="panelId"/> as its id when there is one.
+    private IRenderedComponent<OmniMindMap> RenderWithAPanel(
+        string? panelId,
+        Action<ComponentParameterCollectionBuilder<OmniMindMap>>? more = null) =>
+        Render<OmniMindMap>(parameters =>
+        {
+            parameters.Add(component => component.Document, MindMapComponentTests.Sample());
+            more?.Invoke(parameters);
+            parameters.Add(component => component.PanelContent, builder => ChartRenderTreeHelpers.Child<OmniMindMapNodeProperties>(
+                builder,
+                0,
+                panelId is null ? [] : [(nameof(OmniMindMapNodeProperties.Id), panelId)]));
+        });
+
     [Fact]
     public void Labels_OfTheHost_ReplaceTheDefaults_AndMissingOnesFallBack()
     {
@@ -116,14 +130,7 @@ public sealed class DiagramEdgeTests : OmniBunitContext
     [Fact]
     public void Panel_StaysInPlaceWithoutSelection_SoPressingANodeDoesNotNarrowTheCanvas()
     {
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, MindMapComponentTests.Sample())
-            .Add(component => component.PanelContent, builder =>
-            {
-                builder.OpenComponent<OmniMindMapNodeProperties>(0);
-                builder.AddComponentParameter(1, nameof(OmniMindMapNodeProperties.Id), "proprietes");
-                builder.CloseComponent();
-            }));
+        var map = RenderWithAPanel("proprietes");
 
         var empty = map.Find("section.omni-mindmap-properties");
         Assert.Contains("omni-mindmap-properties--empty", empty.ClassList);
@@ -143,15 +150,8 @@ public sealed class DiagramEdgeTests : OmniBunitContext
     public async Task Panel_WithoutSelection_ShowsTheRootGroup_EditsNothing_AndRefusesAnUnknownGroup()
     {
         var changes = new List<OmniMindMapDocument>();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, MindMapComponentTests.Sample())
-            .Add(component => component.DocumentChanged, document => changes.Add(document))
-            .Add(component => component.PanelContent, builder =>
-            {
-                builder.OpenComponent<OmniMindMapNodeProperties>(0);
-                builder.AddComponentParameter(1, nameof(OmniMindMapNodeProperties.Id), "proprietes");
-                builder.CloseComponent();
-            }));
+        var map = RenderWithAPanel("proprietes", parameters => parameters
+            .Add(component => component.DocumentChanged, document => changes.Add(document)));
         map.Render(parameters => parameters.Add(component => component.Label, "Carte"));
         Assert.Equal(OmniMindMapGroups.Root, OmniMindMapGroups.Resolve("inconnu"));
         Assert.Equal(OmniMindMapGroups.Root, OmniMindMapGroups.Resolve(null));
@@ -290,13 +290,7 @@ public sealed class DiagramEdgeTests : OmniBunitContext
         var runtime = new ManualJSRuntime();
         runtime.Module.Answers["measure"] = Array.Empty<MindMapMeasurement>();
         Services.AddSingleton<IJSRuntime>(runtime);
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, MindMapComponentTests.Sample())
-            .Add(component => component.PanelContent, builder =>
-            {
-                builder.OpenComponent<OmniMindMapNodeProperties>(0);
-                builder.CloseComponent();
-            }));
+        var map = RenderWithAPanel(null);
 
         Press(map, "Home");
         Press(map, "F2");
@@ -324,13 +318,7 @@ public sealed class DiagramEdgeTests : OmniBunitContext
         runtime.Module.CallFailures["focusById"] = new JSDisconnectedException("perdu");
         runtime.Module.CallFailures["detach"] = new JSDisconnectedException("perdu");
         Services.AddSingleton<IJSRuntime>(runtime);
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, MindMapComponentTests.Sample())
-            .Add(component => component.PanelContent, builder =>
-            {
-                builder.OpenComponent<OmniMindMapNodeProperties>(0);
-                builder.CloseComponent();
-            }));
+        var map = RenderWithAPanel(null);
         Press(map, "Home");
         Press(map, "F2");
         Assert.Contains("focusById", runtime.Module.Calls);

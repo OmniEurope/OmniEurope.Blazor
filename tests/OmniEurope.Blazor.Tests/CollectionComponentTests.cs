@@ -92,12 +92,7 @@ public sealed class CollectionComponentTests : OmniBunitContext
     public async Task DataList_NewLoaderWhileTheFirstIsStillLoading_ReplacesIt()
     {
         var pending = new TaskCompletionSource<IReadOnlyList<int>>();
-        var list = Render<OmniDataList<int>>(parameters => parameters
-            .Add(component => component.Load, _ => pending.Task)
-            .Add(component => component.ItemTemplate, ItemTemplate));
-
-        list.Render(parameters => parameters
-            .Add(component => component.Load, _ => Task.FromResult<IReadOnlyList<int>>([8])));
+        var list = RenderListThenLoadEight(_ => pending.Task);
         Assert.Contains("Élément 8", list.Markup, StringComparison.Ordinal);
 
         await list.InvokeAsync(() => pending.SetResult([1]));
@@ -108,12 +103,7 @@ public sealed class CollectionComponentTests : OmniBunitContext
     [Fact]
     public void DataList_NewLoaderAfterAFailedLoad_Loads()
     {
-        var list = Render<OmniDataList<int>>(parameters => parameters
-            .Add(component => component.Load, _ => Task.FromException<IReadOnlyList<int>>(new InvalidOperationException("offline")))
-            .Add(component => component.ItemTemplate, ItemTemplate));
-
-        list.Render(parameters => parameters
-            .Add(component => component.Load, _ => Task.FromResult<IReadOnlyList<int>>([8])));
+        var list = RenderListThenLoadEight(_ => Task.FromException<IReadOnlyList<int>>(new InvalidOperationException("offline")));
 
         Assert.Contains("Élément 8", list.Markup, StringComparison.Ordinal);
     }
@@ -178,6 +168,18 @@ public sealed class CollectionComponentTests : OmniBunitContext
         Assert.Equal(["child"], tree.Instance.Selected);
         Assert.Equal("true", tree.Find("[role=tree]").GetAttribute("aria-multiselectable"));
         Assert.DoesNotContain("style=", tree.Markup, StringComparison.OrdinalIgnoreCase);
+    }
+
+    /// <summary>A list drawn from <paramref name="first"/>, then handed a loader that answers 8 at once.</summary>
+    private IRenderedComponent<OmniDataList<int>> RenderListThenLoadEight(Func<CancellationToken, Task<IReadOnlyList<int>>> first)
+    {
+        var list = Render<OmniDataList<int>>(parameters => parameters
+            .Add(component => component.Load, first)
+            .Add(component => component.ItemTemplate, ItemTemplate));
+
+        list.Render(parameters => parameters
+            .Add(component => component.Load, _ => Task.FromResult<IReadOnlyList<int>>([8])));
+        return list;
     }
 
     private static RenderFragment<int> ItemTemplate => item => builder => builder.AddContent(0, $"Élément {item}");

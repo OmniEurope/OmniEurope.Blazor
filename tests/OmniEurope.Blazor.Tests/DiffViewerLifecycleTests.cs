@@ -16,9 +16,8 @@ public sealed class DiffViewerLifecycleTests : OmniBunitContext
 {
     private BunitJSModuleInterop Monaco(bool mounts = true)
     {
-        var module = JSInterop.SetupModule(OmniModules.CodeEditor);
+        var module = JSInterop.SetupMonacoLoad(loaded: true);
         module.Mode = JSRuntimeMode.Loose;
-        module.Setup<bool>("load", _ => true).SetResult(true);
         module.Setup<bool>("mountDiff", _ => true).SetResult(mounts);
         return module;
     }
@@ -82,15 +81,11 @@ public sealed class DiffViewerLifecycleTests : OmniBunitContext
     [Fact]
     public async Task LoadEndingAfterTheViewerLeftOrChangedEngine_ChangesNothing()
     {
-        var module = JSInterop.SetupModule(OmniModules.CodeEditor);
-        module.Mode = JSRuntimeMode.Loose;
-        var load = module.Setup<bool>("load", _ => true);
+        var (module, load) = JSInterop.SetupHeldMonacoLoad();
         var gone = RenderViewer();
         var switched = RenderViewer();
 
-        await gone.Instance.DisposeAsync();
-        switched.Render(parameters => parameters.Add(component => component.Engine, OmniCodeEditorEngine.PlainText));
-        load.SetResult(true);
+        await ScriptLoadTestSetup.RemoveOneSwitchTheOtherThenLoadAsync(gone, switched, parameters => parameters.Add(component => component.Engine, OmniCodeEditorEngine.PlainText), load);
 
         Assert.Empty(module.Invocations["mountDiff"]);
         Assert.Contains("omni-diff-viewer--plaintext", switched.Find(".omni-diff-viewer").ClassList);
@@ -102,15 +97,11 @@ public sealed class DiffViewerLifecycleTests : OmniBunitContext
     public async Task ViewerGoneWhileItsScriptLoads_ReleasesItOnArrival(string? height)
     {
         // With a height the script is first imported to set it; without, to load Monaco.
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = this.InstallHeldImports();
         var viewer = RenderViewer(parameters => parameters.Add(viewer => viewer.Height, height));
 
         await viewer.Instance.DisposeAsync();
-        runtime.PendingImport.SetResult(runtime.Module);
-
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
-        Assert.Empty(runtime.Module.Calls);
+        await runtime.ReleasedWithoutAttachingAsync(TimeSpan.FromSeconds(10));
     }
 
     [Fact]
@@ -128,10 +119,7 @@ public sealed class DiffViewerLifecycleTests : OmniBunitContext
     [Fact]
     public async Task Dispose_OnALostCircuit_IsQuiet_AndARenderAfterItDoesNothing()
     {
-        var runtime = new ManualJSRuntime { Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") } };
-        runtime.Module.Answers["load"] = true;
-        runtime.Module.Answers["mountDiff"] = true;
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = this.InstallMonacoWithALostRelease("mountDiff");
         var viewer = RenderViewer();
         viewer.WaitForAssertion(() => Assert.Contains("mountDiff", runtime.Module.Calls));
 

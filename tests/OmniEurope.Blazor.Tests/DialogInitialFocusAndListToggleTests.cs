@@ -84,7 +84,7 @@ public sealed class DialogInitialFocusAndListToggleTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(FocusModule);
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         service.OpenDialog(new OmniDialogRequest("Confirmation", builder => builder.AddContent(0, "Continuer ?"))
         {
@@ -103,11 +103,7 @@ public sealed class DialogInitialFocusAndListToggleTests : OmniBunitContext
         Assert.Single(dropDown.FindAll(".omni-autocomplete--toggle > .omni-autocomplete__toggle[aria-hidden=true]"));
         Assert.False(dropDown.Find(".omni-autocomplete__toggle").HasAttribute("tabindex"));
 
-        var value = string.Empty;
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Search, (_, _) => Task.FromResult(Cities)));
+        var autocomplete = this.RenderAutocomplete((_, _) => Task.FromResult(Cities));
         Assert.Empty(autocomplete.FindAll(".omni-autocomplete__toggle"));
     }
 
@@ -179,19 +175,10 @@ public sealed class DialogInitialFocusAndListToggleTests : OmniBunitContext
             if (initialFocus is { } focus) parameters.Add(component => component.InitialFocus, focus);
         });
 
-    private IRenderedComponent<OmniDropDown<string>> RenderDropDown(bool disabled = false, bool readOnly = false)
-    {
-        var value = string.Empty;
-        return Render<OmniDropDown<string>>(parameters =>
+    private IRenderedComponent<OmniDropDown<string>> RenderDropDown(bool disabled = false, bool readOnly = false) =>
+        this.RenderFilterableDropDown(Cities, _ => { }, parameters =>
         {
-            parameters
-                .Add(component => component.Filterable, true)
-                .Add(component => component.Options, Cities)
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value)
-                .Add(component => component.ValueChanged, (string next) => value = next)
-                .Add(component => component.Disabled, disabled);
+            parameters.Add(component => component.Disabled, disabled);
             if (readOnly) parameters.AddUnmatched("readonly", true);
         });
-    }
 }

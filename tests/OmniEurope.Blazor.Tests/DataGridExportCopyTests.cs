@@ -17,8 +17,8 @@ public sealed class DataGridExportCopyTests : OmniBunitContext
 
     private static readonly Row[] Rows =
     [
-        new(1, "Delta", 1234.5m, new DateOnly(2026, 9, 1), true),
-        new(2, "Alpha", 20m, new DateOnly(2026, 9, 2), false),
+        DataGridExportTestHost.Delta,
+        DataGridExportTestHost.Alpha,
         new(3, "Bravo | \"cité\"", 0.5m, new DateOnly(2026, 9, 3), true),
         new(4, "Charlie", 7m, new DateOnly(2026, 9, 4), true),
         new(5, "Echo", 3m, new DateOnly(2026, 9, 5), false)

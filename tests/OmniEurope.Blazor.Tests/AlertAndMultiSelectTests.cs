@@ -219,11 +219,7 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
     [Fact]
     public void CompactMultiSelect_DrawsItsOptionsAndItsFooterFromTheTemplatesItIsGiven()
     {
-        IReadOnlyList<string> bound = [];
-        var select = Render<OmniMultiSelect<string>>(parameters => parameters
-            .Add(component => component.Options, Regions)
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound)
+        var select = RenderBound([], parameters => parameters
             .Add(component => component.OptionTemplate,
                 option => builder => builder.AddMarkupContent(0, $"<i class=\"probe-swatch\">{option.Text}</i>"))
             .Add(component => component.FooterContent,
@@ -240,11 +236,7 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
     public async Task MultiSelect_TurnsThePackageTooltipsOnOnce_SoACutSummaryIsReadWhole_AndOffWhenDisposed()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
-        IReadOnlyList<string> bound = ["nord", "sud"];
-        var select = Render<OmniMultiSelect<string>>(parameters => parameters
-            .Add(component => component.Options, Regions)
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound));
+        var select = RenderBound(["nord", "sud"]);
 
         select.WaitForAssertion(() => Assert.Single(module.Invocations["installPackageTooltips"]));
         select.Render(parameters => parameters.Add(component => component.Placeholder, "Régions"));
@@ -254,6 +246,18 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
         await select.Instance.DisposeAsync();
         Assert.Single(module.Invocations["uninstallPackageTooltips"]);
     }
+
+    private IRenderedComponent<OmniMultiSelect<string>> RenderBound(
+        IReadOnlyList<string> bound,
+        Action<ComponentParameterCollectionBuilder<OmniMultiSelect<string>>>? extra = null) =>
+        Render<OmniMultiSelect<string>>(parameters =>
+        {
+            parameters
+                .Add(component => component.Options, Regions)
+                .Add(component => component.Value, bound)
+                .Add(component => component.ValueExpression, () => bound);
+            extra?.Invoke(parameters);
+        });
 
     private static string[] OptionTexts(IRenderedComponent<OmniMultiSelect<string>> select) =>
         [.. select.FindAll(".omni-multi-select-compact__option").Select(option => option.TextContent.Trim())];

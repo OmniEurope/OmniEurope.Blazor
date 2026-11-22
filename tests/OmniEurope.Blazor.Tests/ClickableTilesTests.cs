@@ -179,10 +179,7 @@ public sealed class ClickableTilesTests : OmniBunitContext
     [Fact]
     public void AStatTile_WithoutHrefOrOnClick_KeepsItsBlockMarkup()
     {
-        var tile = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Value, "83 %")
-            .Add(component => component.Title, "Hebdomadaire")
-            .Add(component => component.Detail, "Réinitialisation"));
+        var tile = RenderWeeklyStatTile(_ => { });
 
         Assert.Equal(
             "<div class=\"omni-stat-tile\"><span class=\"omni-stat-tile__text\"><span class=\"omni-stat-tile__value\">83 %</span><span class=\"omni-stat-tile__label\">Hebdomadaire</span><span class=\"omni-stat-tile__detail\">Réinitialisation</span></span></div>",
@@ -192,11 +189,7 @@ public sealed class ClickableTilesTests : OmniBunitContext
     [Fact]
     public void AStatTile_WithHref_IsOneNamedLink_DrawnLikeTheButton()
     {
-        var tile = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Value, "83 %")
-            .Add(component => component.Title, "Hebdomadaire")
-            .Add(component => component.Detail, "Réinitialisation")
-            .Add(component => component.Href, "#quotas"));
+        var tile = RenderWeeklyStatTile(parameters => parameters.Add(component => component.Href, "#quotas"));
 
         var link = tile.Find("a.omni-stat-tile.omni-stat-tile--action");
         Assert.Equal("#quotas", link.GetAttribute("href"));
@@ -216,14 +209,8 @@ public sealed class ClickableTilesTests : OmniBunitContext
     [Fact]
     public void AClickableStatTile_KeepsItsGridClassesOnItsRoot_InBothModes()
     {
-        var link = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Title, "Jetons")
-            .Add(component => component.Href, "/a")
-            .Add(component => component.DoubleWidth, true));
-        var button = Render<OmniStatTile>(parameters => parameters
-            .Add(component => component.Title, "Jetons")
-            .Add(component => component.OnClick, () => { })
-            .Add(component => component.DoubleWidth, true));
+        var link = RenderDoubleWidthTokens(parameters => parameters.Add(component => component.Href, "/a"));
+        var button = RenderDoubleWidthTokens(parameters => parameters.Add(component => component.OnClick, () => { }));
 
         Assert.Contains("omni-tile--double", link.Find(".omni-stat-tile").ClassList);
         Assert.Contains("omni-tile--double", button.Find(".omni-stat-tile").ClassList);
@@ -272,4 +259,24 @@ public sealed class ClickableTilesTests : OmniBunitContext
         Assert.Contains(".omni-stat-tile--action:focus-visible,\n.omni-card--action:focus-visible", css, StringComparison.Ordinal);
         Assert.Contains("var(--omni-focus-ring)", ShippedLookTests.Body(".omni-stat-tile--action:focus-visible,\n.omni-card--action:focus-visible"), StringComparison.Ordinal);
     }
+
+    /// <summary>The weekly quota stat tile: a value, a title and a detail; <paramref name="extra"/> adds the rest.</summary>
+    private IRenderedComponent<OmniStatTile> RenderWeeklyStatTile(Action<ComponentParameterCollectionBuilder<OmniStatTile>> extra) =>
+        Render<OmniStatTile>(parameters =>
+        {
+            parameters
+                .Add(component => component.Value, "83 %")
+                .Add(component => component.Title, "Hebdomadaire")
+                .Add(component => component.Detail, "Réinitialisation");
+            extra(parameters);
+        });
+
+    /// <summary>A double-width "Jetons" stat tile; <paramref name="action"/> makes it a link or a button.</summary>
+    private IRenderedComponent<OmniStatTile> RenderDoubleWidthTokens(Action<ComponentParameterCollectionBuilder<OmniStatTile>> action) =>
+        Render<OmniStatTile>(parameters =>
+        {
+            parameters.Add(component => component.Title, "Jetons");
+            action(parameters);
+            parameters.Add(component => component.DoubleWidth, true);
+        });
 }

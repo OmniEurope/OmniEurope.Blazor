@@ -21,6 +21,19 @@ public sealed class CopyButtonTests : OmniBunitContext
 
     public CopyButtonTests() => Services.AddSingleton<TimeProvider>(_clock);
 
+    /// <summary>A button copying "x" that reports each outcome, with the short feedback unless told otherwise.</summary>
+    private IRenderedComponent<OmniCopyButton> RenderReporting(Action<bool> onCopy, bool shortFeedback = true) =>
+        Render<OmniCopyButton>(parameters =>
+        {
+            parameters.Add(component => component.Text, "x");
+            if (shortFeedback)
+            {
+                parameters.Add(component => component.CopiedFeedbackDuration, ShortFeedback);
+            }
+
+            parameters.Add(component => component.OnCopy, onCopy);
+        });
+
     private BunitJSModuleInterop Clipboard(bool accepted)
     {
         var module = JSInterop.SetupModule(InteropModulePath);
@@ -111,10 +124,7 @@ public sealed class CopyButtonTests : OmniBunitContext
     {
         Clipboard(true);
         bool? reported = null;
-        var button = Render<OmniCopyButton>(parameters => parameters
-            .Add(component => component.Text, "x")
-            .Add(component => component.CopiedFeedbackDuration, ShortFeedback)
-            .Add(component => component.OnCopy, copied => reported = copied));
+        var button = RenderReporting(copied => reported = copied);
 
         button.Find("button").Click();
 
@@ -184,10 +194,7 @@ public sealed class CopyButtonTests : OmniBunitContext
     {
         Clipboard(false);
         bool? reported = null;
-        var button = Render<OmniCopyButton>(parameters => parameters
-            .Add(component => component.Text, "x")
-            .Add(component => component.CopiedFeedbackDuration, ShortFeedback)
-            .Add(component => component.OnCopy, copied => reported = copied));
+        var button = RenderReporting(copied => reported = copied);
 
         button.Find("button").Click();
 
@@ -204,9 +211,7 @@ public sealed class CopyButtonTests : OmniBunitContext
         var module = JSInterop.SetupModule(InteropModulePath);
         module.Setup<bool>("copyText", _ => true).SetException(new JSException("denied"));
         bool? reported = null;
-        var button = Render<OmniCopyButton>(parameters => parameters
-            .Add(component => component.Text, "x")
-            .Add(component => component.OnCopy, copied => reported = copied));
+        var button = RenderReporting(copied => reported = copied, shortFeedback: false);
 
         button.Find("button").Click();
 

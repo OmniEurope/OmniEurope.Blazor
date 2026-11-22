@@ -23,10 +23,7 @@ public sealed class ClientRequestTests : OmniBunitContext
             .Add(component => component.Items, [new Row(1, "Alpha"), new Row(2, "Beta")])
             .Add(component => component.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "name");
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Name));
-                builder.CloseComponent();
+                DataGridTestSetup.ValueColumn<Row>(builder, 0, "name", row => row.Name);
             })));
         grid.WaitForAssertion(() => Assert.NotNull(grid.Instance.Script.Module));
 

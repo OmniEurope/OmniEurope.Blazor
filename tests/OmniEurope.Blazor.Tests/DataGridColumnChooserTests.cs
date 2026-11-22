@@ -23,22 +23,24 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
 
     private static readonly ColumnSpec[] Declared = [new("Name"), new("Amount"), new("City")];
 
-    private static RenderFragment Columns(params ColumnSpec[] columns) => builder =>
-    {
-        for (var index = 0; index < columns.Length; index++)
-        {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(index * 10);
-            builder.AddComponentParameter(index * 10 + 1, nameof(OmniDataGridColumn<Row>.Property), columns[index].Property);
-            builder.AddComponentParameter(index * 10 + 2, nameof(OmniDataGridColumn<Row>.Frozen), columns[index].Frozen);
-            builder.AddComponentParameter(index * 10 + 3, nameof(OmniDataGridColumn<Row>.Hideable), columns[index].Hideable);
-            if (columns[index].Title is { } title)
-            {
-                builder.AddComponentParameter(index * 10 + 4, nameof(OmniDataGridColumn<Row>.Title), title);
-            }
+    private static RenderFragment Columns(params ColumnSpec[] columns) =>
+        DataGridTestSetup.PropertyColumns<Row>([.. columns.Select(column => (column.Property, ParametersOf(column)))]);
 
-            builder.CloseComponent();
+    /// <summary>What a column is given after its property: frozen, hideable, and its title when it has one.</summary>
+    private static (string Name, object? Value)[] ParametersOf(ColumnSpec column)
+    {
+        List<(string Name, object? Value)> parameters =
+        [
+            (nameof(OmniDataGridColumn<Row>.Frozen), column.Frozen),
+            (nameof(OmniDataGridColumn<Row>.Hideable), column.Hideable),
+        ];
+        if (column.Title is { } title)
+        {
+            parameters.Add((nameof(OmniDataGridColumn<Row>.Title), title));
         }
-    };
+
+        return [.. parameters];
+    }
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(
         bool hide = true,

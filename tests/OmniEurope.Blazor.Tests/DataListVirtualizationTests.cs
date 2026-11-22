@@ -9,15 +9,21 @@ public sealed class DataListVirtualizationTests : OmniBunitContext
 {
     private const string GridModulePath = Internal.OmniModules.Grid;
 
-    [Fact]
-    public void VirtualizedList_RendersOnlyAWindowAndNoStyleAttribute()
+    // Ten thousand items in a virtual window, the scripts answering anything.
+    private IRenderedComponent<OmniDataList<int>> RenderTenThousandVirtualized()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
 
-        var list = Render<OmniDataList<int>>(parameters => parameters
+        return Render<OmniDataList<int>>(parameters => parameters
             .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
             .Add(component => component.Virtualize, true)
             .Add(component => component.ItemTemplate, ItemTemplate));
+    }
+
+    [Fact]
+    public void VirtualizedList_RendersOnlyAWindowAndNoStyleAttribute()
+    {
+        var list = RenderTenThousandVirtualized();
 
         Assert.InRange(list.FindAll(".omni-data-list__item").Count, 1, 64);
         Assert.Equal(2, list.FindAll(".omni-data-list__spacer").Count);
@@ -28,11 +34,7 @@ public sealed class DataListVirtualizationTests : OmniBunitContext
     [Fact]
     public async Task VirtualizedList_MovesItsWindowWhenTheScrollAreaMoves()
     {
-        JSInterop.Mode = JSRuntimeMode.Loose;
-        var list = Render<OmniDataList<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
-            .Add(component => component.Virtualize, true)
-            .Add(component => component.ItemTemplate, ItemTemplate));
+        var list = RenderTenThousandVirtualized();
 
         Assert.Contains(">Élément 0<", list.Markup, StringComparison.Ordinal);
 

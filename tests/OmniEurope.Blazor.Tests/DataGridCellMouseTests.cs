@@ -19,24 +19,14 @@ public sealed class DataGridCellMouseTests : OmniBunitContext
     {
         RenderFragment columns = builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-            if (editable)
-            {
-                builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(row => inner => inner.AddContent(0, row.Name)));
-            }
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(4);
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Key), "montant");
-            builder.AddComponentParameter(6, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Amount));
-            builder.AddComponentParameter(7, nameof(OmniDataGridColumn<Row>.Title), "Montant");
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom",
+                editable ? [(nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(row => inner => inner.AddContent(0, row.Name)))] : []);
+            DataGridTestSetup.ValueColumn<Row>(builder, 4, "montant", row => row.Amount, (nameof(OmniDataGridColumn<Row>.Title), "Montant"));
         };
 
-        return Render<OmniDataGrid<Row>>(parameters =>
+        return this.RenderDataGrid(Rows, columns, parameters =>
         {
-            parameters.Add(grid => grid.Items, Rows).Add(grid => grid.Columns, columns).Add(grid => grid.KeyOf, row => row.Id);
+            parameters.Add(grid => grid.KeyOf, row => row.Id);
             configure(parameters);
         });
     }

@@ -248,7 +248,7 @@ public sealed class DataCompositionTests : OmniBunitContext
     [Fact]
     public void StatusBadge_OlderThanItsThreshold_ReadsStale()
     {
-        Services.AddSingleton<TimeProvider>(new ManualClock(Now));
+        Services.AddSingleton<TimeProvider>(new ManualTimeProvider(Now));
         var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
             .Add(component => component.Value, RunState.Succeeded)
             .Add(component => component.Map, RunStates)
@@ -265,22 +265,17 @@ public sealed class DataCompositionTests : OmniBunitContext
     [Fact]
     public async Task StatusBadge_TurnsStaleOnItsOwnWhenTheThresholdPasses()
     {
-        var clock = new ManualClock(Now);
-        Services.AddSingleton<TimeProvider>(clock);
-        var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
-            .Add(component => component.Value, RunState.Succeeded)
-            .Add(component => component.Map, RunStates)
-            .Add(component => component.Timestamp, Now.AddMinutes(-10))
+        var (clock, badge) = RenderTimedBadge(Now.AddMinutes(-10), parameters => parameters
             .Add(component => component.StaleAfter, TimeSpan.FromMinutes(15))
             .Add(component => component.StaleText, "ancien"));
 
         Assert.Empty(badge.FindAll(".omni-status-badge__stale"));
-        Assert.Single(clock.Pending);
+        Assert.Single(clock.PendingTimers);
 
         await badge.InvokeAsync(() => clock.Advance(TimeSpan.FromMinutes(6)));
 
         badge.WaitForAssertion(() => Assert.Equal("ancien", badge.Find(".omni-status-badge__stale").TextContent.Trim()));
-        Assert.Empty(clock.Pending);
+        Assert.Empty(clock.PendingTimers);
 
         badge.Instance.Dispose();
     }
@@ -288,36 +283,26 @@ public sealed class DataCompositionTests : OmniBunitContext
     [Fact]
     public void StatusBadge_RenderedAgainWhileFresh_KeepsItsTimer_AndANegativeThresholdNeverStales()
     {
-        var clock = new ManualClock(Now);
-        Services.AddSingleton<TimeProvider>(clock);
-        var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
-            .Add(component => component.Value, RunState.Succeeded)
-            .Add(component => component.Map, RunStates)
-            .Add(component => component.Timestamp, Now.AddMinutes(-10))
+        var (clock, badge) = RenderTimedBadge(Now.AddMinutes(-10), parameters => parameters
             .Add(component => component.StaleAfter, TimeSpan.FromMinutes(15)));
-        var timer = Assert.Single(clock.Pending);
+        var timer = Assert.Single(clock.PendingTimers);
 
         badge.Render();
-        Assert.Same(timer, Assert.Single(clock.Pending));
+        Assert.Same(timer, Assert.Single(clock.PendingTimers));
 
         badge.Render(parameters => parameters.Add(component => component.StaleAfter, TimeSpan.FromMinutes(-1)));
         Assert.False(badge.Instance.IsStale);
-        Assert.Empty(clock.Pending);
+        Assert.Empty(clock.PendingTimers);
         badge.Instance.Dispose();
     }
 
     [Fact]
     public void StatusBadge_WithATimestampButNoThreshold_NeverStales()
     {
-        var clock = new ManualClock(Now);
-        Services.AddSingleton<TimeProvider>(clock);
-        var badge = Render<OmniStatusBadge<RunState?>>(parameters => parameters
-            .Add(component => component.Value, RunState.Succeeded)
-            .Add(component => component.Map, RunStates)
-            .Add(component => component.Timestamp, Now.AddDays(-30)));
+        var (clock, badge) = RenderTimedBadge(Now.AddDays(-30));
 
         Assert.False(badge.Instance.IsStale);
-        Assert.Empty(clock.Pending);
+        Assert.Empty(clock.PendingTimers);
     }
 
     [Fact]
@@ -331,6 +316,24 @@ public sealed class DataCompositionTests : OmniBunitContext
         Assert.Equal("Aucun", map.Resolve(null).Text);
     }
 
+    /// <summary>A succeeded run badge stamped <paramref name="timestamp"/>, over a clock moved by hand; <paramref name="extra"/> adds the rest.</summary>
+    private (ManualTimeProvider Clock, IRenderedComponent<OmniStatusBadge<RunState?>> Badge) RenderTimedBadge(
+        DateTimeOffset timestamp,
+        Action<ComponentParameterCollectionBuilder<OmniStatusBadge<RunState?>>>? extra = null)
+    {
+        var clock = new ManualTimeProvider(Now);
+        Services.AddSingleton<TimeProvider>(clock);
+        var badge = Render<OmniStatusBadge<RunState?>>(parameters =>
+        {
+            parameters
+                .Add(component => component.Value, RunState.Succeeded)
+                .Add(component => component.Map, RunStates)
+                .Add(component => component.Timestamp, timestamp);
+            extra?.Invoke(parameters);
+        });
+        return (clock, badge);
+    }
+
     private sealed class KeyLocalizer : IStringLocalizer
     {
         public LocalizedString this[string name] => new(name, $"[{name}]");
@@ -338,60 +341,5 @@ public sealed class DataCompositionTests : OmniBunitContext
         public LocalizedString this[string name, params object[] arguments] => this[name];
 
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) => [];
-    }
-
-    /// <summary>A clock moved by hand that fires the timers falling due.</summary>
-    internal sealed class ManualClock(DateTimeOffset now) : TimeProvider
-    {
-        private readonly List<Timer> _timers = [];
-        private DateTimeOffset _now = now;
-
-        public IReadOnlyList<Timer> Pending => [.. _timers.Where(timer => !timer.Disposed)];
-
-        public override DateTimeOffset GetUtcNow() => _now;
-
-        public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
-        {
-            var timer = new Timer(this, callback, state, _now + dueTime);
-            _timers.Add(timer);
-            return timer;
-        }
-
-        public void Advance(TimeSpan by)
-        {
-            _now += by;
-            foreach (var timer in _timers.Where(timer => !timer.Disposed && timer.Due <= _now).ToList())
-            {
-                timer.Fire();
-            }
-        }
-
-        internal sealed class Timer(ManualClock owner, TimerCallback callback, object? state, DateTimeOffset due) : ITimer
-        {
-            public DateTimeOffset Due { get; private set; } = due;
-
-            public bool Disposed { get; private set; }
-
-            public void Fire()
-            {
-                Disposed = true;
-                callback(state);
-            }
-
-            public bool Change(TimeSpan dueTime, TimeSpan period)
-            {
-                Due = owner._now + dueTime;
-                Disposed = dueTime == Timeout.InfiniteTimeSpan;
-                return true;
-            }
-
-            public void Dispose() => Disposed = true;
-
-            public ValueTask DisposeAsync()
-            {
-                Dispose();
-                return ValueTask.CompletedTask;
-            }
-        }
     }
 }

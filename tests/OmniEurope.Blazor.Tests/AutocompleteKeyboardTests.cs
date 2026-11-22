@@ -21,14 +21,10 @@ public sealed class AutocompleteKeyboardTests : OmniBunitContext
 
     private IRenderedComponent<OmniAutocomplete<string>> RenderCities(Action<string>? changed = null, string value = "")
     {
-        return Render<OmniAutocomplete<string>>(parameters => parameters
+        return this.RenderAutocomplete(AutocompleteTestSetup.SearchIn(Cities), value, parameters => parameters
             .Add(component => component.Id, "city")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, (string next) => changed?.Invoke(next))
-            .Add(component => component.Debounce, TimeSpan.Zero)
-            .Add(component => component.Search, (text, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(
-                [.. Cities.Where(city => city.Text.Contains(text, StringComparison.OrdinalIgnoreCase))])));
+            .Add(component => component.Debounce, TimeSpan.Zero));
     }
 
     [Fact]
@@ -157,13 +153,9 @@ public sealed class AutocompleteKeyboardTests : OmniBunitContext
     public async Task ADisabledSuggestion_IsMarked_AndCannotBePicked()
     {
         string? picked = null;
-        var value = string.Empty;
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var autocomplete = this.RenderAutocomplete((_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([new("x", "Fermé", Disabled: true)]), extra: parameters => parameters
             .Add(component => component.ValueChanged, (string next) => picked = next)
-            .Add(component => component.Debounce, TimeSpan.Zero)
-            .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([new("x", "Fermé", Disabled: true)])));
+            .Add(component => component.Debounce, TimeSpan.Zero));
         await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "f" });
         await autocomplete.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "ArrowDown" });
         await autocomplete.Find("input").KeyDownAsync(new KeyboardEventArgs { Key = "Enter" });
@@ -178,11 +170,7 @@ public sealed class AutocompleteKeyboardTests : OmniBunitContext
         var unnamed = RenderCities();
         Assert.Null(unnamed.Find("input").GetAttribute("aria-label"));
 
-        var value = string.Empty;
-        var named = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([]))
+        var named = this.RenderAutocomplete((_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([]), extra: parameters => parameters
             .Add(component => component.Label, "Ville"));
         Assert.Equal("Ville", named.Find("input").GetAttribute("aria-label"));
     }
@@ -191,12 +179,7 @@ public sealed class AutocompleteKeyboardTests : OmniBunitContext
     public async Task FilterableDropDown_InheritsTheComboboxKeyboard()
     {
         var value = string.Empty;
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
-            .Add(component => component.Filterable, true)
-            .Add(component => component.Options, Cities)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, (string next) => value = next));
+        var dropDown = this.RenderFilterableDropDown(Cities, next => value = next);
 
         await dropDown.Find("input").InputAsync(new ChangeEventArgs { Value = "brn" });
         dropDown.WaitForAssertion(() => Assert.Single(dropDown.FindAll("[role=option]")));

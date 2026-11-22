@@ -28,10 +28,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
 
             parameters.Add(grid => grid.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Title), "Name");
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-                builder.CloseComponent();
+                DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Name");
                 builder.OpenComponent<OmniDataGridColumn<Row>>(10);
                 builder.AddComponentParameter(11, nameof(OmniDataGridColumn<Row>.Title), "City");
                 builder.AddComponentParameter(12, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.City));
@@ -116,11 +113,7 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
             .Add(grid => grid.FilterPlacement, OmniDataGridFilterPlacement.Row)
             .Add(grid => grid.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "label");
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Label");
-                builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => $"{row.Name} ({row.City})"));
-                builder.CloseComponent();
+                DataGridTestSetup.ValueColumn<Row>(builder, 0, "label", row => $"{row.Name} ({row.City})", (nameof(OmniDataGridColumn<Row>.Title), "Label"));
             })));
 
         Assert.Equal(["label"], FilteredColumns(grid));
@@ -140,15 +133,8 @@ public sealed class DataGridColumnFilterDefaultTests : OmniBunitContext
             .Add(grid => grid.FilterMode, OmniDataGridFilterMode.Advanced)
             .Add(grid => grid.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Title), "Name");
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-                builder.CloseComponent();
-                builder.OpenComponent<OmniDataGridColumn<Row>>(10);
-                builder.AddComponentParameter(11, nameof(OmniDataGridColumn<Row>.Title), "City");
-                builder.AddComponentParameter(12, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.City));
-                builder.AddComponentParameter(13, nameof(OmniDataGridColumn<Row>.Filterable), (bool?)true);
-                builder.CloseComponent();
+                DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Name");
+                DataGridTestSetup.PropertyColumn<Row>(builder, 10, nameof(Row.City), "City", (nameof(OmniDataGridColumn<Row>.Filterable), (bool?)true));
             })));
 
         Assert.Empty(grid.FindAll($"thead td[data-omni-col='{nameof(Row.Name)}'] .omni-data-grid__advanced"));

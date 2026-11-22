@@ -1,5 +1,4 @@
 using Bunit;
-using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using OmniEurope.Blazor.Components;
 
@@ -20,17 +19,8 @@ public sealed class DataGridRowMouseTests : OmniBunitContext
         Action<OmniDataGridRowMouseEventArgs<Row>>? onContextMenu = null,
         Action<OmniDataGridRowMouseEventArgs<Row>>? onDoubleClick = null)
     {
-        RenderFragment columns = builder =>
+        return this.RenderDataGrid(Rows, builder => DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom"), parameters =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-            builder.CloseComponent();
-        };
-
-        return Render<OmniDataGrid<Row>>(parameters =>
-        {
-            parameters.Add(grid => grid.Items, Rows).Add(grid => grid.Columns, columns);
             if (onClick is not null)
                 parameters.Add(grid => grid.OnRowClick, onClick);
             if (onContextMenu is not null)

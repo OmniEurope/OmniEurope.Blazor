@@ -8,15 +8,29 @@ public sealed class DropDownValueTests : OmniBunitContext
     private static readonly IReadOnlyList<OmniOption<int?>> Types =
         [new OmniOption<int?>(0, "Normal"), new OmniOption<int?>(1, "Build")];
 
+    // The types with an empty option, bound to Build, each value raised kept in <paramref name="raised"/> when given.
+    private IRenderedComponent<OmniDropDown<int?>> RenderEmptiableAtBuild(List<int?>? raised = null)
+    {
+        int? value = 1;
+        return Render<OmniDropDown<int?>>(parameters =>
+        {
+            parameters
+                .Add(component => component.Options, Types)
+                .Add(component => component.AllowEmpty, true)
+                .Add(component => component.Value, value);
+            if (raised is not null)
+            {
+                parameters.Add(component => component.ValueChanged, changed => raised.Add(changed));
+            }
+
+            parameters.Add(component => component.ValueExpression, () => value);
+        });
+    }
+
     [Fact]
     public void SelectValue_FollowsAValueResetFromCode()
     {
-        int? value = 1;
-        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
-            .Add(component => component.Options, Types)
-            .Add(component => component.AllowEmpty, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var dropDown = RenderEmptiableAtBuild();
 
         Assert.Equal("1", dropDown.Find("select").GetAttribute("value"));
 
@@ -30,14 +44,8 @@ public sealed class DropDownValueTests : OmniBunitContext
     [Fact]
     public void AllowEmpty_TheEmptyOptionClearsTheValue_ThroughValueChanged()
     {
-        int? value = 1;
         var raised = new List<int?>();
-        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
-            .Add(component => component.Options, Types)
-            .Add(component => component.AllowEmpty, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, changed => raised.Add(changed))
-            .Add(component => component.ValueExpression, () => value));
+        var dropDown = RenderEmptiableAtBuild(raised);
 
         dropDown.Find("select").Change(string.Empty);
 

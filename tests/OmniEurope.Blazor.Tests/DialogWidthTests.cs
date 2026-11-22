@@ -89,7 +89,7 @@ public sealed class DialogWidthTests : OmniBunitContext
     {
         var module = DialogModule();
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         service.OpenDialog(new OmniDialogRequest("Client", Content("Fiche")) { Width = "30rem", CloseOnBackdrop = true });
 
@@ -113,7 +113,7 @@ public sealed class DialogWidthTests : OmniBunitContext
     {
         var module = DialogModule();
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         var request = OmniDialogRequest.ForComponent<OmniText>(
             "Honoraire",
@@ -147,22 +147,7 @@ public sealed class DialogWidthTests : OmniBunitContext
         Assert.Contains("@keyframes omni-dialog-width-wait { from { opacity: 0; } }", css, StringComparison.Ordinal);
     }
 
-    private IRenderedComponent<OmniDialog> RenderDialog(string? width, OmniDialogSize? size) => Render<OmniDialog>(parameters =>
-    {
-        parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Title, "Dossier")
-            .AddChildContent("Contenu");
-        if (width is not null)
-        {
-            parameters.Add(component => component.Width, width);
-        }
+    private IRenderedComponent<OmniDialog> RenderDialog(string? width, OmniDialogSize? size) => this.RenderFolderDialog(width, size);
 
-        if (size is { } value)
-        {
-            parameters.Add(component => component.Size, value);
-        }
-    });
-
-    private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
+    private static RenderFragment Content(string value) => DialogTestSetup.Content(value);
 }

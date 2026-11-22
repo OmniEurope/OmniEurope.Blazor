@@ -6,7 +6,6 @@ namespace OmniEurope.Blazor.Tests;
 /// <summary>How <see cref="OmniCodeBlock"/> reads the ANSI sequences of a command output, on screen and in the copy.</summary>
 public sealed class CodeBlockAnsiTests : OmniBunitContext
 {
-    private const string InteropModulePath = Internal.OmniModules.Interop;
     private const string Output = "\u001b[32m●\u001b[0m nginx.service \u001b[1mactive\u001b[0m";
     private const string Plain = "● nginx.service active";
 
@@ -64,8 +63,7 @@ public sealed class CodeBlockAnsiTests : OmniBunitContext
     [InlineData(OmniAnsiMode.Raw, Output)]
     public void Copy_TakesTheCodeWithoutSequences_ExceptInRaw(OmniAnsiMode mode, string copied)
     {
-        var module = JSInterop.SetupModule(InteropModulePath);
-        module.Setup<bool>("copyText", _ => true).SetResult(true);
+        var module = JSInterop.SetupSucceedingCopy();
         var block = Render<OmniCodeBlock>(parameters => parameters
             .Add(component => component.Code, Output)
             .Add(component => component.AnsiMode, mode));
@@ -80,8 +78,7 @@ public sealed class CodeBlockAnsiTests : OmniBunitContext
     [InlineData(OmniAnsiMode.Hide)]
     public void Secret_StaysMasked_ShowsNoSequence_AndCopiesTheFullValueWithoutThem(OmniAnsiMode mode)
     {
-        var module = JSInterop.SetupModule(InteropModulePath);
-        module.Setup<bool>("copyText", _ => true).SetResult(true);
+        var module = JSInterop.SetupSucceedingCopy();
         var block = Render<OmniCodeBlock>(parameters => parameters
             .Add(component => component.Code, "\u001b[31msk-1234567890abcdef\u001b[0m")
             .Add(component => component.Secret, true)

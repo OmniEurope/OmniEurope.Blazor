@@ -18,20 +18,11 @@ public sealed class DataGridColumnHoverTests : OmniBunitContext
     {
         RenderFragment columns = builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-            builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.HighlightOnHover), false);
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(4);
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Amount));
-            builder.AddComponentParameter(6, nameof(OmniDataGridColumn<Row>.Title), "Montant");
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom", (nameof(OmniDataGridColumn<Row>.HighlightOnHover), false));
+            DataGridTestSetup.PropertyColumn<Row>(builder, 4, nameof(Row.Amount), "Montant");
         };
 
-        return Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(grid => grid.Items, Rows)
-            .Add(grid => grid.Columns, columns)
+        return this.RenderDataGrid(Rows, columns, parameters => parameters
             .Add(grid => grid.HighlightColumnOnHover, highlight));
     }
 

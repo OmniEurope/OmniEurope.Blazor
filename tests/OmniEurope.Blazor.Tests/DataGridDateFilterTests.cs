@@ -1,4 +1,3 @@
-using System.Globalization;
 using Bunit;
 using OmniEurope.Blazor.Components;
 using static OmniEurope.Blazor.Tests.DataGridFilterKindsTestHost;
@@ -16,17 +15,7 @@ public sealed class DataGridDateFilterTests : OmniBunitContext
     private const string TextInHeader = "th[data-omni-col=\"Opened\"] input.omni-data-grid__date-text";
     private const string RangeMenu = "th[data-omni-col=\"Opened\"] details.omni-data-grid__filter-menu .omni-data-grid__date-range";
 
-    private static IDisposable French()
-    {
-        var previous = (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture);
-        CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
-        return new Restore(previous.CurrentCulture, previous.CurrentUICulture);
-    }
-
-    private sealed class Restore(CultureInfo culture, CultureInfo uiCulture) : IDisposable
-    {
-        public void Dispose() => (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture) = (culture, uiCulture);
-    }
+    private static IDisposable French() => CultureScope.Use("fr-FR");
 
     // A date column left at its default, filtered from the inline row.
     private IRenderedComponent<DataGridFilterKindsTestHost> RenderInline(bool advanced = false) =>

@@ -125,9 +125,7 @@ public sealed class DataGridColumnReRegistrationTests : OmniBunitContext
     public async Task ColumnWhoseTemplateOrAggregateChanges_ShowsTheNewContent(string changed)
     {
         var change = Cases[changed];
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns(change.Before))
+        var grid = this.RenderDataGrid(Rows, Columns(change.Before), parameters => parameters
             .Add(component => component.KeyOf, row => row.Name)
             .Add(component => component.AllowGrouping, true)
             .Add(component => component.Groups, [new OmniDataGridGroup(nameof(Row.Group))]));

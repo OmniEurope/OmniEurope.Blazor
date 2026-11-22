@@ -28,13 +28,9 @@ public sealed class AppearanceStateTests : OmniBunitContext
     public AppearanceStateTests()
     {
         Services.Configure<OmniPreferencesOptions>(options => options.SyncInterval = Timeout.InfiniteTimeSpan);
-        PreferencesModule = JSInterop.SetupModule(OmniModules.Preferences);
-        PreferencesModule.Mode = JSRuntimeMode.Loose;
-        PreferencesModule.Setup<string[][]>("entries", _ => true).SetResult([]);
-        AppearanceModule = JSInterop.SetupModule(OmniModules.Appearance);
-        AppearanceModule.Mode = JSRuntimeMode.Loose;
-        ThemeModule = JSInterop.SetupModule(OmniModules.Theme);
-        ThemeModule.Mode = JSRuntimeMode.Loose;
+        PreferencesModule = JSInterop.SetupEmptyPreferencesModule();
+        AppearanceModule = JSInterop.SetupLooseModule(OmniModules.Appearance);
+        ThemeModule = JSInterop.SetupLooseModule(OmniModules.Theme);
     }
 
     private OmniAppearanceState State => Services.GetRequiredService<OmniAppearanceState>();
@@ -495,7 +491,7 @@ public sealed class AppearanceStateTests : OmniBunitContext
     [Fact]
     public async Task A_lost_circuit_does_not_fail_the_boot_copy_and_logs_nothing()
     {
-        var logger = new CapturingLogger();
+        var logger = new RecordingLogger<OmniAppearanceState>();
         var state = new OmniAppearanceState(Services.GetRequiredService<OmniPreferences>(), JSInterop.JSRuntime, logger);
         PreferencesModule.SetupVoid("attach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
 
@@ -509,7 +505,7 @@ public sealed class AppearanceStateTests : OmniBunitContext
     [MemberData(nameof(BootCopyRefusals))]
     public async Task A_boot_copy_the_browser_refuses_is_logged_and_never_fails_the_caller(Exception refusal)
     {
-        var logger = new CapturingLogger();
+        var logger = new RecordingLogger<OmniAppearanceState>();
         var state = new OmniAppearanceState(Services.GetRequiredService<OmniPreferences>(), JSInterop.JSRuntime, logger);
         PreferencesModule.SetupVoid("attach", _ => true).SetException(refusal);
 
@@ -528,20 +524,8 @@ public sealed class AppearanceStateTests : OmniBunitContext
         new InvalidOperationException("JavaScript interop calls cannot be issued at this time."),
     ];
 
-    /// <summary>A logger that keeps what the state logs.</summary>
-    private sealed class CapturingLogger : Microsoft.Extensions.Logging.ILogger<OmniAppearanceState>
-    {
-        public List<(Microsoft.Extensions.Logging.LogLevel Level, Exception? Exception)> Entries { get; } = [];
-
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
-
-        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
-
-        public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, Microsoft.Extensions.Logging.EventId eventId, TState state,
-            Exception? exception, Func<TState, Exception?, string> formatter) => Entries.Add((logLevel, exception));
-    }
     /// <summary>A store whose reads of one key wait until the test releases them.</summary>
-    private sealed class GatedPreferenceStore(MemoryPreferenceStore inner) : IOmniPreferenceStore
+    private sealed class GatedPreferenceStore(MemoryPreferenceStore inner) : DelegatingPreferenceStore(inner)
     {
         private readonly TaskCompletionSource _gate = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -549,20 +533,13 @@ public sealed class AppearanceStateTests : OmniBunitContext
 
         public void Release() => _gate.TrySetResult();
 
-        public async Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default)
+        public override async Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default)
         {
             Interlocked.Increment(ref Reads);
             // The value is the one held when the read starts: a write made while it waits does not change it.
-            var value = await inner.GetAsync(key, cancellationToken);
+            var value = await Inner.GetAsync(key, cancellationToken);
             await _gate.Task.WaitAsync(cancellationToken);
             return value;
         }
-
-        public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
-            inner.GetChangedSinceAsync(since, cancellationToken);
-
-        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => inner.SaveAsync(preference, cancellationToken);
-
-        public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => inner.GetScopeAsync(cancellationToken);
     }
 }

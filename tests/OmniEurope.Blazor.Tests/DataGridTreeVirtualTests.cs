@@ -31,10 +31,7 @@ public sealed class DataGridTreeVirtualTests : OmniBunitContext
 
     private static RenderFragment Columns() => builder =>
     {
-        builder.OpenComponent<OmniDataGridColumn<Node>>(0);
-        builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Node>.Property), nameof(Node.Name));
-        builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Node>.Title), "Nom");
-        builder.CloseComponent();
+        DataGridTestSetup.PropertyColumn<Node>(builder, 0, nameof(Node.Name), "Nom");
     };
 
     private IRenderedComponent<OmniDataGrid<Node>> RenderGrid(
@@ -278,9 +275,7 @@ public sealed class DataGridTreeVirtualTests : OmniBunitContext
     public void AnEmptyVirtualTree_RendersNoRow_AndAnEmptyRowCount()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
-        var grid = Render<OmniDataGrid<Node>>(parameters => parameters
-            .Add(g => g.Items, Array.Empty<Node>())
-            .Add(g => g.Columns, Columns())
+        var grid = this.RenderDataGrid(Array.Empty<Node>(), Columns(), parameters => parameters
             .Add(g => g.KeyOf, node => node.Id)
             .Add(g => g.ChildrenOf, node => node.Children)
             .Add(g => g.ScrollMode, OmniDataGridScrollMode.Virtual));

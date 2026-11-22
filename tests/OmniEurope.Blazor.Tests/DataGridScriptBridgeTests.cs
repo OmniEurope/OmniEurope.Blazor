@@ -40,9 +40,7 @@ public sealed class DataGridScriptBridgeTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(OmniModules.Grid);
         module.Mode = JSRuntimeMode.Loose;
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.WheelScrollScope, " .page "));
 
         Assert.Equal(".page", Assert.Single(module.Invocations["attachWheelScope"]).Arguments[1]);
@@ -62,9 +60,7 @@ public sealed class DataGridScriptBridgeTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(OmniModules.Grid);
         module.Mode = JSRuntimeMode.Loose;
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.FillAvailableHeight, true));
         Assert.Single(module.Invocations["attachFill"]);
 
@@ -84,9 +80,7 @@ public sealed class DataGridScriptBridgeTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(OmniModules.Grid);
         module.Mode = JSRuntimeMode.Loose;
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns(comboFilter: true))
+        var grid = this.RenderDataGrid(Rows, Columns(comboFilter: true), parameters => parameters
             .Add(component => component.FilterPlacement, OmniDataGridFilterPlacement.HeaderMenu)
             .Add(component => component.HideFilterMenuOnSelect, hide));
         Assert.Single(module.Invocations["attachFilterMenus"]);
@@ -103,9 +97,7 @@ public sealed class DataGridScriptBridgeTests : OmniBunitContext
         var runtime = new ManualJSRuntime();
         runtime.Module.CallFailures["detach"] = new JSDisconnectedException("perdu");
         Services.AddSingleton<IJSRuntime>(runtime);
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual));
         Assert.Contains("attach", runtime.Module.Calls);
 

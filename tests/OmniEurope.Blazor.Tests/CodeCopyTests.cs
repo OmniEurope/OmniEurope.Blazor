@@ -83,8 +83,7 @@ public sealed class CodeCopyTests : OmniBunitContext
     [InlineData(true)]
     public void CodeBlock_WithNoCode_ShowsNothing_AndCopiesAnEmptyText(bool secret)
     {
-        var module = JSInterop.SetupModule(InteropModulePath);
-        module.Setup<bool>("copyText", _ => true).SetResult(true);
+        var module = JSInterop.SetupSucceedingCopy();
         var block = Render<OmniCodeBlock>(parameters => parameters.Add(component => component.Secret, secret));
 
         Assert.Equal(string.Empty, block.Find("pre code").TextContent);

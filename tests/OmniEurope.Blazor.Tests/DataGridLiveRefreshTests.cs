@@ -14,6 +14,17 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
 
     public sealed record Row(int Id, string Name);
 
+    // A remote grid that reads <paramref name="rows"/> as they are at each load, keyed by the row id when <paramref name="keyed"/>.
+    private IRenderedComponent<OmniDataGrid<Row>> RenderLoadingFrom(List<Row> rows, TimeSpan highlight, bool keyed) =>
+        Render<OmniDataGrid<Row>>(parameters =>
+        {
+            if (keyed)
+                parameters.Add(component => component.KeyOf, row => row.Id);
+            parameters
+                .Add(component => component.NewRowHighlight, highlight)
+                .Add(component => component.Load, _ => Task.FromResult(new OmniDataGridResult<Row>([.. rows], rows.Count)));
+        });
+
     [Fact]
     public async Task RemoteRefresh_KeepsTheRowsWhileFetching_ThenMarksOnlyTheNewOne()
     {
@@ -49,10 +60,7 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
     public async Task NewRowMark_WearsOffAfterTheHighlightDuration()
     {
         var rows = new List<Row> { new(1, "alpha") };
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.KeyOf, row => row.Id)
-            .Add(component => component.NewRowHighlight, TimeSpan.FromMilliseconds(80))
-            .Add(component => component.Load, _ => Task.FromResult(new OmniDataGridResult<Row>([.. rows], rows.Count))));
+        var grid = RenderLoadingFrom(rows, TimeSpan.FromMilliseconds(80), keyed: true);
 
         rows.Add(new Row(2, "beta"));
         await grid.InvokeAsync(() => grid.Instance.RefreshAsync());
@@ -85,9 +93,7 @@ public sealed class DataGridLiveRefreshTests : OmniBunitContext
     public async Task WithoutARowKey_NothingIsMarked()
     {
         var rows = new List<Row> { new(1, "alpha") };
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.NewRowHighlight, TimeSpan.FromSeconds(30))
-            .Add(component => component.Load, _ => Task.FromResult(new OmniDataGridResult<Row>([.. rows], rows.Count))));
+        var grid = RenderLoadingFrom(rows, TimeSpan.FromSeconds(30), keyed: false);
 
         rows.Add(new Row(2, "beta"));
         await grid.InvokeAsync(() => grid.Instance.RefreshAsync());

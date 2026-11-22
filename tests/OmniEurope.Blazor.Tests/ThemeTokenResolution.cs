@@ -1,5 +1,6 @@
 using System.Text.RegularExpressions;
 using OmniEurope.Blazor.Internal;
+using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -10,6 +11,12 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 internal static class ThemeTokenResolution
 {
+    /// <summary>The token set a consumer obtains from a named theme, a named palette and an appearance.</summary>
+    internal static IReadOnlyDictionary<string, string> TokensOf(string themeName, string paletteName, OmniAppearance mode) =>
+        OmniThemePresets.All.Single(entry => entry.Name == themeName)
+            .With(OmniThemePalettes.All.Single(entry => entry.Name == paletteName))
+            .For(mode);
+
     /// <summary>
     /// Resolves the two forms a theme uses for a colour it derives: a token reference and a
     /// <c>color-mix</c> of two of them in sRGB. Anything else fails the test rather than being

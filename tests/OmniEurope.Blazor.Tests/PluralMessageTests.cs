@@ -92,12 +92,12 @@ public sealed class PluralMessageTests
     [Fact]
     public void Localize_LeavesATextWithoutBlockOrArgumentsToTheLocalizer()
     {
-        var localizer = new Texts(new Dictionary<string, string>
+        var localizer = new DictionaryStringLocalizer(new Dictionary<string, string>
         {
             ["Plain"] = "Bonjour {0}",
             ["Counted"] = Files,
             ["Fixed"] = "Fermer"
-        });
+        }, CultureInfo.InvariantCulture);
         var culture = CultureInfo.CurrentUICulture;
         CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
         try
@@ -111,16 +111,5 @@ public sealed class PluralMessageTests
         {
             CultureInfo.CurrentUICulture = culture;
         }
-    }
-
-    private sealed class Texts(IReadOnlyDictionary<string, string> values) : IStringLocalizer
-    {
-        public LocalizedString this[string name] =>
-            values.TryGetValue(name, out var value) ? new(name, value) : new(name, name, resourceNotFound: true);
-
-        public LocalizedString this[string name, params object[] arguments] =>
-            new(name, string.Format(CultureInfo.InvariantCulture, this[name].Value, arguments), this[name].ResourceNotFound);
-
-        public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) => [];
     }
 }

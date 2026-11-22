@@ -48,6 +48,17 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
         Assert.DoesNotContain(JSInterop.Invocations, invocation => invocation.Identifier == "import");
     }
 
+    // A chart capped at <paramref name="maxHeight"/>, once the interop script has been given the cap.
+    private (BunitJSModuleInterop Module, IRenderedComponent<OmniChart> Chart) RenderCappedOnce(string maxHeight)
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var chart = Render<OmniChart>(parameters => parameters
+            .Add(component => component.Label, "Soldes")
+            .Add(component => component.MaxHeight, maxHeight));
+        chart.WaitForAssertion(() => Assert.Single(module.Invocations["applyChartMaxHeight"]));
+        return (module, chart);
+    }
+
     [Theory]
     [InlineData("20rem")]
     [InlineData("480px")]
@@ -55,24 +66,14 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     [InlineData("none")]
     public void A_chart_MaxHeight_is_pushed_as_a_custom_property_by_the_interop_script(string maxHeight)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
-
-        var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Label, "Soldes")
-            .Add(component => component.MaxHeight, maxHeight));
-
-        chart.WaitForAssertion(() => Assert.Single(module.Invocations["applyChartMaxHeight"]));
+        var (module, _) = RenderCappedOnce(maxHeight);
         Assert.Equal(maxHeight, module.Invocations["applyChartMaxHeight"][0].Arguments[1]);
     }
 
     [Fact]
     public void A_chart_MaxHeight_removed_gives_the_default_cap_back_and_is_not_pushed_again_unchanged()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
-        var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Label, "Soldes")
-            .Add(component => component.MaxHeight, "20rem"));
-        chart.WaitForAssertion(() => Assert.Single(module.Invocations["applyChartMaxHeight"]));
+        var (module, chart) = RenderCappedOnce("20rem");
 
         chart.Render(parameters => parameters.Add(component => component.Description, "Par mois"));
         Assert.Single(module.Invocations["applyChartMaxHeight"]);

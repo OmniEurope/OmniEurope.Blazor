@@ -25,18 +25,16 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
 
     private sealed record ColumnSpec(string Property, bool Frozen = false, bool Visible = true, OmniDataGridSortOrder? SortOrder = null);
 
-    private static RenderFragment Columns(params ColumnSpec[] columns) => builder =>
-    {
-        for (var index = 0; index < columns.Length; index++)
-        {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(index * 10);
-            builder.AddComponentParameter(index * 10 + 1, nameof(OmniDataGridColumn<Row>.Property), columns[index].Property);
-            builder.AddComponentParameter(index * 10 + 2, nameof(OmniDataGridColumn<Row>.Frozen), columns[index].Frozen);
-            builder.AddComponentParameter(index * 10 + 3, nameof(OmniDataGridColumn<Row>.Visible), columns[index].Visible);
-            builder.AddComponentParameter(index * 10 + 4, nameof(OmniDataGridColumn<Row>.SortOrder), columns[index].SortOrder);
-            builder.CloseComponent();
-        }
-    };
+    private static RenderFragment Columns(params ColumnSpec[] columns) =>
+        DataGridTestSetup.PropertyColumns<Row>([.. columns.Select(column => (column.Property, ParametersOf(column)))]);
+
+    /// <summary>What a column is given after its property: frozen, visible and its sort order.</summary>
+    private static (string Name, object? Value)[] ParametersOf(ColumnSpec column) =>
+    [
+        (nameof(OmniDataGridColumn<Row>.Frozen), column.Frozen),
+        (nameof(OmniDataGridColumn<Row>.Visible), column.Visible),
+        (nameof(OmniDataGridColumn<Row>.SortOrder), column.SortOrder),
+    ];
 
     private static readonly ColumnSpec[] Declared = [new("Name"), new("Amount"), new("City")];
 
@@ -267,7 +265,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
     public async Task StateFromTheStore_ThatFailsWhileApplied_IsLoggedUnlessTheGridIsGone(bool gone)
     {
         var preferences = new GridPreferenceHarness(Services, withStore: true);
-        var logger = new GridLogger();
+        var logger = new RecordingLogger<OmniDataGrid<Row>>();
         Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>>(logger);
         var requests = 0;
         var grid = Render<OmniDataGrid<Row>>(parameters => parameters
@@ -451,7 +449,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
     public void PreferenceScriptRefused_ForReadAndWrite_TheGridRenders_KeepsItsStateInMemory_AndLogsOnceWithoutTheState()
     {
         var preferences = new GridPreferenceHarness(Services);
-        var logger = new GridLogger();
+        var logger = new RecordingLogger<OmniDataGrid<Row>>();
         Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>>(logger);
         preferences.Seed("orders", """{"version":2,"columnOrder":["City","Name","Amount"]}""");
         var seeded = preferences.Browser.Storage[preferences.StorageKey("orders")];
@@ -481,7 +479,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         // A host store that fails is the preferences' business (logged there, value kept in the browser),
         // never a browser-storage refusal of the grid.
         var preferences = new GridPreferenceHarness(Services, withStore: true);
-        var logger = new GridLogger();
+        var logger = new RecordingLogger<OmniDataGrid<Row>>();
         Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>>(logger);
         preferences.Store!.FailReads = true;
         preferences.Store.FailWrites = true;
@@ -506,18 +504,6 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         grid.Find("th[data-omni-col='Amount']").Click();
 
         Assert.Equal("ascending", grid.Find("th[data-omni-col='Amount']").GetAttribute("aria-sort"));
-    }
-
-    private sealed class GridLogger : Microsoft.Extensions.Logging.ILogger<OmniDataGrid<Row>>
-    {
-        public System.Collections.Concurrent.ConcurrentQueue<(Microsoft.Extensions.Logging.LogLevel Level, string Message)> Entries { get; } = new();
-
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
-
-        public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
-
-        public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, Microsoft.Extensions.Logging.EventId eventId, TState state,
-            Exception? exception, Func<TState, Exception?, string> formatter) => Entries.Enqueue((logLevel, formatter(state, exception)));
     }
 
     [Fact]

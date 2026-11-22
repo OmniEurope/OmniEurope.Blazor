@@ -173,13 +173,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
             .Add(component => component.FilterPlacement, OmniDataGridFilterPlacement.HeaderMenu)
             .Add(component => component.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "number");
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "N°");
-                builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Number));
-                builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Filterable), true);
-                builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.FilterType), OmniDataGridColumnFilterType.Number);
-                builder.CloseComponent();
+                DataGridTestSetup.ValueColumn<Row>(builder, 0, "number", row => row.Number, (nameof(OmniDataGridColumn<Row>.Title), "N°"), (nameof(OmniDataGridColumn<Row>.Filterable), true), (nameof(OmniDataGridColumn<Row>.FilterType), OmniDataGridColumnFilterType.Number));
             })));
 
         var panel = grid.Find(".omni-data-grid__filter-menu-panel");

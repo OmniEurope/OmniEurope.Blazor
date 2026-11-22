@@ -208,14 +208,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
 
             builder.AddComponentParameter(9, nameof(OmniDataGrid<Row>.Columns), (RenderFragment)(columns =>
             {
-                columns.OpenComponent<OmniDataGridColumn<Row>>(0);
-                columns.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "name");
-                columns.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-                columns.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Name));
-                columns.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.AutoFit), ColumnAutoFit);
-                columns.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.FormatString), FormatString);
-                columns.AddComponentParameter(6, nameof(OmniDataGridColumn<Row>.Template), Template);
-                columns.CloseComponent();
+                DataGridTestSetup.ValueColumn<Row>(columns, 0, "name", row => row.Name, (nameof(OmniDataGridColumn<Row>.Title), "Nom"), (nameof(OmniDataGridColumn<Row>.AutoFit), ColumnAutoFit), (nameof(OmniDataGridColumn<Row>.FormatString), FormatString), (nameof(OmniDataGridColumn<Row>.Template), Template));
             }));
             builder.AddComponentReferenceCapture(10, component => _grid = (OmniDataGrid<Row>)component);
             builder.CloseComponent();

@@ -19,16 +19,9 @@ public sealed class DataGridRestoredVisibilityTests : OmniBunitContext
     private static readonly string OldFormat =
         $$$"""{"Filters":{"Name":{"Operator":{{{(int)OmniDataGridFilterOperator.Contains}}},"Value":"b","LogicalOperator":0,"SecondOperator":0,"SecondValue":""}},"Sorts":[],"ColumnWidths":{}}""";
 
-    private static RenderFragment Columns(params (string Property, bool Hideable)[] columns) => builder =>
-    {
-        for (var index = 0; index < columns.Length; index++)
-        {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(index * 10);
-            builder.AddComponentParameter(index * 10 + 1, nameof(OmniDataGridColumn<Row>.Property), columns[index].Property);
-            builder.AddComponentParameter(index * 10 + 2, nameof(OmniDataGridColumn<Row>.Hideable), columns[index].Hideable);
-            builder.CloseComponent();
-        }
-    };
+    private static RenderFragment Columns(params (string Property, bool Hideable)[] columns) =>
+        DataGridTestSetup.PropertyColumns<Row>([.. columns.Select(column =>
+            (column.Property, new (string, object?)[] { (nameof(OmniDataGridColumn<Row>.Hideable), column.Hideable) }))]);
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(bool hide, bool amountHideable = true) =>
         Render<OmniDataGrid<Row>>(parameters => parameters

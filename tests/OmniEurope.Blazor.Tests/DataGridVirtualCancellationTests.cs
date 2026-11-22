@@ -13,24 +13,30 @@ public sealed class DataGridVirtualCancellationTests
     private static OmniDataGridResult<int> Block(int skip, int take) =>
         new(Enumerable.Range(skip, take).ToArray(), 100_000);
 
-    [Fact]
-    public async Task A_block_that_left_the_window_is_cancelled_when_the_window_moves()
+    // A loader whose every block waits for its answer, with the token and the answer of each block kept by its skip.
+    private static (Dictionary<int, CancellationToken> Tokens, Dictionary<int, TaskCompletionSource<OmniDataGridResult<int>>> Answers, Func<int, int, CancellationToken, Task<OmniDataGridResult<int>>> Loader) HeldBlocks()
     {
-        await using var source = new GridVirtualDataSource<int>();
         var tokens = new Dictionary<int, CancellationToken>();
         var answers = new Dictionary<int, TaskCompletionSource<OmniDataGridResult<int>>>();
-        Task<OmniDataGridResult<int>> Loader(int skip, int take, CancellationToken token)
+        return (tokens, answers, (skip, _, token) =>
         {
             tokens[skip] = token;
             var answer = new TaskCompletionSource<OmniDataGridResult<int>>();
             answers[skip] = answer;
             return answer.Task;
-        }
+        });
+    }
 
-        var first = source.EnsureRangeAsync(0, 10, 50, Loader);
+    [Fact]
+    public async Task A_block_that_left_the_window_is_cancelled_when_the_window_moves()
+    {
+        await using var source = new GridVirtualDataSource<int>();
+        var (tokens, answers, loader) = HeldBlocks();
+
+        var first = source.EnsureRangeAsync(0, 10, 50, loader);
         Assert.False(tokens[0].IsCancellationRequested);
 
-        var second = source.EnsureRangeAsync(5_000, 10, 50, Loader);
+        var second = source.EnsureRangeAsync(5_000, 10, 50, loader);
 
         Assert.True(tokens[0].IsCancellationRequested);
         Assert.False(tokens[5_000].IsCancellationRequested);
@@ -66,18 +72,10 @@ public sealed class DataGridVirtualCancellationTests
     public async Task A_window_wider_than_one_block_keeps_the_blocks_it_still_covers()
     {
         await using var source = new GridVirtualDataSource<int>();
-        var tokens = new Dictionary<int, CancellationToken>();
-        var answers = new Dictionary<int, TaskCompletionSource<OmniDataGridResult<int>>>();
-        Task<OmniDataGridResult<int>> Loader(int skip, int take, CancellationToken token)
-        {
-            tokens[skip] = token;
-            var answer = new TaskCompletionSource<OmniDataGridResult<int>>();
-            answers[skip] = answer;
-            return answer.Task;
-        }
+        var (tokens, answers, loader) = HeldBlocks();
 
-        var first = source.EnsureRangeAsync(0, 80, 50, Loader);
-        var second = source.EnsureRangeAsync(40, 80, 50, Loader);
+        var first = source.EnsureRangeAsync(0, 80, 50, loader);
+        var second = source.EnsureRangeAsync(40, 80, 50, loader);
 
         Assert.False(tokens[0].IsCancellationRequested);
         answers[0].SetResult(Block(0, 50));

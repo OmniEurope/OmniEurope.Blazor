@@ -271,14 +271,14 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     [Fact]
     public void Font_picker_marks_the_theme_font_as_default_and_theme_change_resets_palette_and_font()
     {
-        var theme = OmniThemePresets.All.Single(item => item.Name == "Papier");
+        var theme = AppearanceTestChoices.Theme("Papier");
         OmniThemePreset? chosenTheme = null;
         var paletteReset = false;
         var fontReset = false;
         var settings = Render<OmniAppearanceSettings>(parameters => parameters
             .Add(component => component.Preset, theme)
             .Add(component => component.Palette, OmniThemePalettes.All[0])
-            .Add(component => component.Font, OmniThemeFonts.All.Single(font => font.Name == "JetBrains Mono"))
+            .Add(component => component.Font, AppearanceTestChoices.Font("JetBrains Mono"))
             .Add(component => component.PresetChanged, value => chosenTheme = value)
             .Add(component => component.PaletteChanged, value => paletteReset = value is null)
             .Add(component => component.FontChanged, value => fontReset = value is null));
@@ -303,9 +303,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         var events = new List<string>();
         var window = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
-            .Add(component => component.Preset, OmniThemePresets.All.Single(item => item.Name == "Papier"))
-            .Add(component => component.Palette, OmniThemePalettes.All[0])
-            .Add(component => component.Font, OmniThemeFonts.All.Single(font => font.Name == "JetBrains Mono"))
+            .WithLook(AppearanceTestChoices.Theme("Papier"), OmniThemePalettes.All[0], AppearanceTestChoices.Font("JetBrains Mono"))
             .Add(component => component.PresetChanged, value => events.Add($"theme:{value?.Name}"))
             .Add(component => component.PaletteChanged, value => events.Add($"palette:{value?.Name ?? "null"}"))
             .Add(component => component.FontChanged, value => events.Add($"font:{value?.Name ?? "null"}")));
@@ -322,15 +320,13 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
         var events = new List<string>();
         var themeWritten = new TaskCompletionSource();
         var forest = OmniThemePalettes.All[1];
-        var inter = OmniThemeFonts.All.Single(font => font.Name == "Inter");
+        var inter = AppearanceTestChoices.Font("Inter");
         IRenderedComponent<OmniAppearanceWindow>? window = null;
         // The host writes the theme to an account: its callback completes later; it binds the palette and the
         // font back into the window as each one is picked.
         window = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
-            .Add(component => component.Preset, OmniThemePresets.All.Single(item => item.Name == "Papier"))
-            .Add(component => component.Palette, OmniThemePalettes.All[0])
-            .Add(component => component.Font, OmniThemeFonts.All.Single(font => font.Name == "JetBrains Mono"))
+            .WithLook(AppearanceTestChoices.Theme("Papier"), OmniThemePalettes.All[0], AppearanceTestChoices.Font("JetBrains Mono"))
             .Add(component => component.PresetChanged, async value => { events.Add($"theme:{value?.Name}"); await themeWritten.Task; })
             .Add(component => component.PaletteChanged, value => { events.Add($"palette:{value?.Name ?? "null"}"); window!.Render(more => more.Add(component => component.Palette, value)); })
             .Add(component => component.FontChanged, value => { events.Add($"font:{value?.Name ?? "null"}"); window!.Render(more => more.Add(component => component.Font, value)); }));
@@ -644,14 +640,12 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
     [Fact]
     public void Random_draws_another_theme_another_palette_and_another_font()
     {
-        var theme = OmniThemePresets.All.Single(item => item.Name == "Papier");
-        OmniThemePalette? palette = OmniThemePalettes.All.Single(item => item.Name == "Mono");
-        OmniThemeFont? font = OmniThemeFonts.All.Single(item => item.Name == "JetBrains Mono");
+        var theme = AppearanceTestChoices.Theme("Papier");
+        OmniThemePalette? palette = AppearanceTestChoices.Palette("Mono");
+        OmniThemeFont? font = AppearanceTestChoices.Font("JetBrains Mono");
         var window = Render<OmniAppearanceWindow>(parameters => parameters
             .Add(component => component.Open, true)
-            .Add(component => component.Preset, theme)
-            .Add(component => component.Palette, palette)
-            .Add(component => component.Font, font));
+            .WithLook(theme, palette, font));
 
         for (var draw = 0; draw < 60; draw++)
         {
@@ -662,9 +656,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             var paletteEvents = 0;
             var fontEvents = 0;
             window.Render(parameters => parameters
-                .Add(component => component.Preset, theme)
-                .Add(component => component.Palette, palette)
-                .Add(component => component.Font, font)
+                .WithLook(theme, palette, font)
                 .Add(component => component.PresetChanged, value => { themeEvents++; theme = value ?? OmniThemePresets.All[0]; })
                 .Add(component => component.PaletteChanged, value => { paletteEvents++; palette = value; })
                 .Add(component => component.FontChanged, value => { fontEvents++; font = value; }));
@@ -701,9 +693,7 @@ public sealed class AppearanceSettingsTests : OmniBunitContext
             var inForce = AppearanceChoices.EffectiveBackdrop(theme, backdrop);
             var backdropEvents = 0;
             window.Render(parameters => parameters
-                .Add(component => component.Preset, theme)
-                .Add(component => component.Palette, palette)
-                .Add(component => component.Font, font)
+                .WithLook(theme, palette, font)
                 .Add(component => component.Backdrop, backdrop)
                 .Add(component => component.PresetChanged, value => theme = value)
                 .Add(component => component.PaletteChanged, value => palette = value)

@@ -34,6 +34,19 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
         .Add(component => component.Virtualize, true)
         .Add(component => component.ItemTemplate, item => builder => builder.AddContent(0, item)));
 
+    private IRenderedComponent<OmniLogViewer> RenderOneLineViewer() => Render<OmniLogViewer>(parameters => parameters
+        .Add(component => component.Lines, [new OmniLogLine("ligne", OmniLogLevel.Information)])
+        .Add(component => component.TimeZone, TimeZoneInfo.Utc));
+
+    // A two by two sheet whose script is attached.
+    private async Task<(GatedRuntime Runtime, IRenderedComponent<OmniSpreadsheet> Sheet)> RenderAttachedSheetAsync()
+    {
+        var runtime = UseRuntime();
+        var sheet = Render<OmniSpreadsheet>(parameters => parameters.Add(component => component.Value, OmniSpreadsheetData.Create(2, 2)));
+        await runtime.WaitForCallAsync("attach");
+        return (runtime, sheet);
+    }
+
     [Fact]
     public async Task DataList_DisposedDuringTheImport_ReleasesTheModuleAndAttachesNothing()
     {
@@ -79,9 +92,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
     {
         var runtime = UseRuntime();
         runtime.Module.Gates["sync"] = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var viewer = Render<OmniLogViewer>(parameters => parameters
-            .Add(component => component.Lines, [new OmniLogLine("ligne", OmniLogLevel.Information)])
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc));
+        var viewer = RenderOneLineViewer();
 
         await viewer.Instance.DisposeAsync();
         runtime.Module.Gates["sync"].SetResult(null);
@@ -93,9 +104,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
     [Fact]
     public async Task Spreadsheet_DisposedWhileTheEditorTakesTheFocus_DoesNotCallTheReleasedScript()
     {
-        var runtime = UseRuntime();
-        var sheet = Render<OmniSpreadsheet>(parameters => parameters.Add(component => component.Value, OmniSpreadsheetData.Create(2, 2)));
-        await runtime.WaitForCallAsync("attach");
+        var (runtime, sheet) = await RenderAttachedSheetAsync();
         runtime.Module.Gates["focusEditor"] = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         sheet.Find("[data-omni-sheet-grid]").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "F2" });
@@ -183,10 +192,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
         var runtime = UseRuntime();
         runtime.ImportFailures.Enqueue(new InvalidOperationException("import failed"));
 
-        var list = Render<OmniDataList<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 200).ToArray())
-            .Add(component => component.Virtualize, true)
-            .Add(component => component.ItemTemplate, item => builder => builder.AddContent(0, item)));
+        var list = RenderList();
         runtime.ImportFailureGate.SetResult();
         await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
         Assert.DoesNotContain("attachList", runtime.Module.Calls);
@@ -203,9 +209,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
     {
         var runtime = UseRuntime();
         runtime.Module.Gates["applyLayout"] = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var viewer = Render<OmniLogViewer>(parameters => parameters
-            .Add(component => component.Lines, [new OmniLogLine("ligne", OmniLogLevel.Information)])
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc));
+        var viewer = RenderOneLineViewer();
         await runtime.WaitForCallAsync("applyLayout");
 
         await viewer.Instance.DisposeAsync();
@@ -218,9 +222,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
     [Fact]
     public async Task Spreadsheet_DisposedWhileTheGridTakesTheFocus_DoesNotCallTheReleasedScript()
     {
-        var runtime = UseRuntime();
-        var sheet = Render<OmniSpreadsheet>(parameters => parameters.Add(component => component.Value, OmniSpreadsheetData.Create(2, 2)));
-        await runtime.WaitForCallAsync("attach");
+        var (runtime, sheet) = await RenderAttachedSheetAsync();
         sheet.Find("[data-omni-sheet-grid]").KeyDown(new Microsoft.AspNetCore.Components.Web.KeyboardEventArgs { Key = "F2" });
         await runtime.WaitForCallAsync("focusEditor");
         var focus = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
@@ -314,7 +316,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
 
     /// <summary>A runtime whose import can be held, with a module that refuses calls once released.</summary>
-    private sealed class GatedRuntime : IJSRuntime
+    private sealed class GatedRuntime : ForwardingJSRuntime
     {
         private readonly TaskCompletionSource<IJSObjectReference> _import = new(TaskCreationOptions.RunContinuationsAsynchronously);
         private int _imports;
@@ -338,10 +340,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
         internal Task WaitForCallAsync(string name) => Module.Called(name).WaitAsync(Limit);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public override async ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
         {
             if (identifier != "import")
             {
@@ -367,7 +366,7 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
         }
     }
 
-    private sealed class GatedModule : IJSObjectReference
+    private sealed class GatedModule : ForwardingJSObjectReference
     {
         private bool _disposed;
 
@@ -387,17 +386,14 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
 
         private TaskCompletionSource Signal(string name) => _signals.GetOrAdd(name, _ => new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously));
 
-        public ValueTask DisposeAsync()
+        public override ValueTask DisposeAsync()
         {
             _disposed = true;
             Disposal.TrySetResult();
             return ValueTask.CompletedTask;
         }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public override async ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
         {
             if (_disposed)
             {

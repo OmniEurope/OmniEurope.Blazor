@@ -16,23 +16,12 @@ public sealed class DataGridGroupPathTests : OmniBunitContext
     {
         RenderFragment columns = builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(3);
-            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Outer));
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Title), "Externe");
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(6);
-            builder.AddComponentParameter(7, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Inner));
-            builder.AddComponentParameter(8, nameof(OmniDataGridColumn<Row>.Title), "Interne");
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom");
+            DataGridTestSetup.PropertyColumn<Row>(builder, 3, nameof(Row.Outer), "Externe");
+            DataGridTestSetup.PropertyColumn<Row>(builder, 6, nameof(Row.Inner), "Interne");
         };
 
-        return Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(grid => grid.Items, rows)
-            .Add(grid => grid.Columns, columns)
+        return this.RenderDataGrid(rows, columns, parameters => parameters
             .Add(grid => grid.AllowGrouping, true)
             .Add(grid => grid.Groups, [.. groups.Select(key => new OmniDataGridGroup(key))]));
     }
@@ -76,10 +65,7 @@ public sealed class DataGridGroupPathTests : OmniBunitContext
             .Add(component => component.Items, [new Row("first", "a", null), new Row("second", "b", null)])
             .Add(component => component.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Outer));
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Externe");
-                builder.CloseComponent();
+                DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Outer), "Externe");
             }))
             .Add(component => component.AllowGrouping, true)
             .Add(component => component.Groups, [new OmniDataGridGroup("missing"), new OmniDataGridGroup(nameof(Row.Outer), Descending: true)]));

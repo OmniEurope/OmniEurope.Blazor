@@ -11,7 +11,6 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class CharacterPaletteTests : OmniBunitContext
 {
-    private const string ModulePath = Internal.OmniModules.HtmlEditor;
 
     /// <summary>The combining acute accent (U+0301): after a letter, one grapheme of two characters.</summary>
     private const char Acute = (char)0x0301;
@@ -152,10 +151,7 @@ public sealed class CharacterPaletteTests : OmniBunitContext
         var module = SetupSurface();
         module.Setup<string?>("exec", _ => true).SetResult("<p>AÉ</p>");
         var changes = new List<string>();
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var editor = this.RenderHtmlEditor(parameters => parameters
             .Add(component => component.ValueChanged, (string changed) => changes.Add(changed))
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Undo])
             .Add(component => component.Characters, French));
@@ -175,26 +171,16 @@ public sealed class CharacterPaletteTests : OmniBunitContext
     private static AngleSharp.Dom.IElement Character(IRenderedComponent<OmniCharacterPalette> palette, int index) =>
         palette.FindAll(".omni-character-palette__character")[index];
 
-    private BunitJSModuleInterop SetupSurface()
-    {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<string?>("read", _ => true).SetResult(null);
-        return module;
-    }
+    private BunitJSModuleInterop SetupSurface() => JSInterop.SetupEditorSurface();
 
     private IRenderedComponent<OmniHtmlEditor> RenderEditor(
         IReadOnlyList<string>? characters,
         bool readOnly = false,
         bool disabled = false,
-        OmniHtmlEditorMode mode = OmniHtmlEditorMode.Visual)
-    {
-        var value = "<p>A</p>";
-        return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        OmniHtmlEditorMode mode = OmniHtmlEditorMode.Visual) =>
+        this.RenderHtmlEditor(parameters => parameters
             .Add(component => component.ReadOnly, readOnly)
             .Add(component => component.Disabled, disabled)
             .Add(component => component.Mode, mode)
             .Add(component => component.Characters, characters));
-    }
 }

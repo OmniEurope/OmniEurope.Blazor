@@ -16,43 +16,26 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
 {
     private static readonly TimeSpan Patience = TimeSpan.FromSeconds(10);
 
-    private ManualJSRuntime HoldImports()
-    {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
-        return runtime;
-    }
-
-    private static async Task ReleasedWithoutAttachingAsync(ManualJSRuntime runtime)
-    {
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
-        Assert.Empty(runtime.Module.Calls);
-    }
-
     [Fact]
     public async Task Popover_RemovedWhileItsScriptLoads_AttachesNothing()
     {
-        var runtime = HoldImports();
-        var popover = Render<OmniPopover>(parameters => parameters
-            .Add(component => component.Label, "Filtres")
-            .Add(component => component.Open, true)
-            .AddChildContent("panneau"));
+        var runtime = this.InstallHeldImports();
+        var popover = RenderOpenPopover();
 
         await popover.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task MediaTile_RemovedWhileItsScriptLoads_AttachesNothing_AndItsDisposalEndsOnceTheScriptIsReleased()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var tile = Render<OmniMediaTile>(parameters => parameters.Add(component => component.Stream, new RecordingModule()));
 
         // The disposal waits for the script that is still loading, so it ends once the script has arrived and been released.
         var disposing = tile.Instance.DisposeAsync().AsTask();
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
 
         await disposing.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
     }
@@ -60,22 +43,18 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task Sidebar_RemovedWhileItsScriptLoads_AttachesNothing()
     {
-        var runtime = HoldImports();
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
-            .Add(component => component.OpenChanged, EventCallback.Factory.Create<bool>(this, _ => { }))
-            .AddChildContent("Navigation"));
+        var runtime = this.InstallHeldImports();
+        var sidebar = RenderOpenOverlaySidebar();
 
         await sidebar.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task Dialog_RemovedWhileItsScriptLoads_ActivatesNothing()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var dialog = Render<OmniDialog>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.Title, "Titre")
@@ -83,13 +62,13 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
 
         await dialog.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task Tabs_RemovedWhileTheirScriptLoads_ConfigureNothing()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var tabs = Render<OmniTabs>(parameters => parameters
             .Add(component => component.Label, "Sections")
             .AddChildContent<OmniTabsItem>(item => item
@@ -100,13 +79,13 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         await tabs.Instance.DisposeAsync();
 
         // No strip configured, so no .NET reference made for a listener nothing would release.
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task SelectBar_RemovedWhileItsScriptLoads_ConfiguresNothing()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var choice = "a";
         var bar = Render<OmniSelectBar<string>>(parameters => parameters
             .Add(component => component.Options, [new OmniOption<string>("a", "A"), new OmniOption<string>("b", "B")])
@@ -115,35 +94,31 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
 
         await bar.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task Stack_RemovedWhileTheScriptOfItsChevronsLoads_ConfiguresNothing()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var stack = Render<OmniStack>(parameters => parameters
             .Add(component => component.Overflow, OmniStackOverflow.Scroll)
             .AddChildContent("contenu"));
 
         await stack.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task Fieldset_RemovedWhileItsScriptLoads_ObservesNothing()
     {
-        var runtime = HoldImports();
-        var fieldset = Render<OmniFieldset>(parameters => parameters
-            .Add(component => component.Legend, (RenderFragment)(builder => builder.AddContent(0, "Avancé")))
-            .Add(component => component.Collapsible, true)
-            .Add(component => component.ExpandedChanged, EventCallback.Factory.Create<bool>(this, _ => { }))
-            .AddChildContent("Champs"));
+        var runtime = this.InstallHeldImports();
+        var fieldset = RenderCollapsibleFieldset();
 
         await fieldset.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
@@ -152,11 +127,7 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         var runtime = Install(new ManualJSRuntime());
         runtime.Module.CallFailures["observeFieldsetToggle"] = new JSDisconnectedException("The circuit is gone.");
 
-        var fieldset = Render<OmniFieldset>(parameters => parameters
-            .Add(component => component.Legend, (RenderFragment)(builder => builder.AddContent(0, "Avancé")))
-            .Add(component => component.Collapsible, true)
-            .Add(component => component.ExpandedChanged, EventCallback.Factory.Create<bool>(this, _ => { }))
-            .AddChildContent("Champs"));
+        var fieldset = RenderCollapsibleFieldset();
 
         // The call fails at once, inside the render: a disconnection that escaped would already be reported.
         Assert.Contains("observeFieldsetToggle", runtime.Module.Calls);
@@ -167,22 +138,18 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task Autocomplete_RemovedWhileItsScriptLoads_AttachesNothing()
     {
-        var runtime = HoldImports();
-        var value = string.Empty;
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([])));
+        var runtime = this.InstallHeldImports();
+        var autocomplete = this.RenderAutocomplete((_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([]));
 
         await autocomplete.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task MenuController_RemovedWhileItsScriptLoads_ReleasesItOnArrival()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var controller = new OmniMenuController(runtime, _ => Task.CompletedTask);
         controller.RequestPlacement(focusLast: false);
 
@@ -198,15 +165,10 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task MenuController_SyncedTwiceWhileItsScriptLoads_ImportsItOnce()
     {
-        var runtime = new CountingImportRuntime();
-        var controller = new OmniMenuController(runtime, _ => Task.CompletedTask);
-        controller.RequestPlacement(focusLast: false);
-
-        var first = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
-        controller.RequestPlacement(focusLast: false);
-        var second = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
+        var runtime = new HeldImportRuntime<DisposalCountingModule>(new());
+        var (controller, syncs) = SyncTwice(runtime);
         runtime.Arrive();
-        await Task.WhenAll(first, second);
+        await syncs;
         await controller.DisposeAsync();
 
         Assert.Equal(1, runtime.Imports);
@@ -224,7 +186,7 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task TemplateForm_RemovedWhileTheFocusScriptLoads_FocusesNothing()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         SetRendererInfo(new RendererInfo("Server", isInteractive: true));
         var form = Render<OmniTemplateForm<RequiredModel>>(parameters => parameters
             .Add(component => component.Model, new RequiredModel())
@@ -238,25 +200,25 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         form.Find("form").Submit();
         await form.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task ConnectionOverlay_RemovedWhileItsFocusScriptLoads_ActivatesNothing()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var overlay = Render<OmniConnectionOverlay>(parameters => parameters
             .Add(component => component.State, OmniConnectionState.Reconnecting));
 
         await overlay.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
     public async Task MarkdownExportButton_RemovedWhileItsDownloadScriptLoads_DownloadsNothing()
     {
-        var runtime = HoldImports();
+        var runtime = this.InstallHeldImports();
         var button = Render<OmniMarkdownExportButton<ExportRow>>(parameters => parameters
             .Add(component => component.Export, () => new OmniTableExport<ExportRow>
             {
@@ -268,7 +230,7 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         button.Find("button").Click();
         await button.Instance.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
     }
 
     [Fact]
@@ -284,7 +246,7 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         var syncing = fit.SyncAsync(default, 1);
         await fit.DisposeAsync();
 
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
         await syncing.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
     }
 
@@ -299,7 +261,7 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         await root.DetachAsync();
 
         // No scope is left to clear the root: the levels must not be written once the script arrives.
-        await ReleasedWithoutAttachingAsync(runtime);
+        await runtime.ReleasedWithoutAttachingAsync(Patience);
         await syncing.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
     }
 
@@ -311,20 +273,62 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
 
     private static async Task SettledAsync() => await Task.Delay(200);
 
-    [Fact]
-    public async Task Sidebar_RemovedWhileItsChevronsAreConfigured_ListensToNothing()
+    /// <summary>Removes the component, then lets the gated script or call go on, and waits for what follows to settle.</summary>
+    private static async Task DisposeThenOpenTheGateAsync<TComponent>(IRenderedComponent<TComponent> component, TaskCompletionSource gate)
+        where TComponent : IComponent, IAsyncDisposable
+    {
+        await component.Instance.DisposeAsync();
+        gate.SetResult();
+        await SettledAsync();
+    }
+
+    /// <summary>A runtime installed for the test, whose dialog script is held until the gate opens.</summary>
+    private (ManualJSRuntime Runtime, TaskCompletionSource Gate) GateTheDialogScript()
     {
         var runtime = Install(new ManualJSRuntime());
-        var gate = runtime.Module.Gates["configureSidebarOverflow"] = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        var sidebar = Render<OmniSidebar>(parameters => parameters
+        var gate = runtime.ImportGates["omni-dialog.js"] = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        return (runtime, gate);
+    }
+
+    private IRenderedComponent<OmniPopover> RenderOpenPopover() =>
+        Render<OmniPopover>(parameters => parameters
+            .Add(component => component.Label, "Filtres")
+            .Add(component => component.Open, true)
+            .AddChildContent("panneau"));
+
+    private IRenderedComponent<OmniSidebar> RenderOpenOverlaySidebar() =>
+        Render<OmniSidebar>(parameters => parameters
             .Add(component => component.Open, true)
             .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
             .Add(component => component.OpenChanged, EventCallback.Factory.Create<bool>(this, _ => { }))
             .AddChildContent("Navigation"));
 
-        await sidebar.Instance.DisposeAsync();
-        gate.SetResult();
-        await SettledAsync();
+    private IRenderedComponent<OmniFieldset> RenderCollapsibleFieldset() =>
+        Render<OmniFieldset>(parameters => parameters
+            .Add(component => component.Legend, (RenderFragment)(builder => builder.AddContent(0, "Avancé")))
+            .Add(component => component.Collapsible, true)
+            .Add(component => component.ExpandedChanged, EventCallback.Factory.Create<bool>(this, _ => { }))
+            .AddChildContent("Champs"));
+
+    /// <summary>An open dialog with a title and a content; <paramref name="extra"/> adds the rest.</summary>
+    private IRenderedComponent<OmniDialog> RenderOpenDialog(Action<ComponentParameterCollectionBuilder<OmniDialog>> extra) =>
+        Render<OmniDialog>(parameters =>
+        {
+            parameters
+                .Add(component => component.Open, true)
+                .Add(component => component.Title, "Titre")
+                .AddChildContent("Contenu");
+            extra(parameters);
+        });
+
+    [Fact]
+    public async Task Sidebar_RemovedWhileItsChevronsAreConfigured_ListensToNothing()
+    {
+        var runtime = Install(new ManualJSRuntime());
+        var gate = runtime.Module.Gates["configureSidebarOverflow"] = new(TaskCreationOptions.RunContinuationsAsynchronously);
+        var sidebar = RenderOpenOverlaySidebar();
+
+        await DisposeThenOpenTheGateAsync(sidebar, gate);
 
         Assert.DoesNotContain("attachEscape", runtime.Module.Calls);
         Assert.DoesNotContain("watchNarrow", runtime.Module.Calls);
@@ -349,17 +353,10 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task Dialog_RemovedWhileTheScriptOfItsWidthLoads_WritesNoWidth()
     {
-        var runtime = Install(new ManualJSRuntime());
-        var gate = runtime.ImportGates["omni-dialog.js"] = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        var dialog = Render<OmniDialog>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Width, "30rem")
-            .Add(component => component.Title, "Titre")
-            .AddChildContent("Contenu"));
+        var (runtime, gate) = GateTheDialogScript();
+        var dialog = RenderOpenDialog(parameters => parameters.Add(component => component.Width, "30rem"));
 
-        await dialog.Instance.DisposeAsync();
-        gate.SetResult();
-        await SettledAsync();
+        await DisposeThenOpenTheGateAsync(dialog, gate);
 
         Assert.DoesNotContain("setWidth", runtime.Module.Calls);
     }
@@ -367,17 +364,10 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task Dialog_RemovedWhileTheScriptOfItsDraggingLoads_AttachesNothing()
     {
-        var runtime = Install(new ManualJSRuntime());
-        var gate = runtime.ImportGates["omni-dialog.js"] = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        var dialog = Render<OmniDialog>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Draggable, true)
-            .Add(component => component.Title, "Titre")
-            .AddChildContent("Contenu"));
+        var (runtime, gate) = GateTheDialogScript();
+        var dialog = RenderOpenDialog(parameters => parameters.Add(component => component.Draggable, true));
 
-        await dialog.Instance.DisposeAsync();
-        gate.SetResult();
-        await SettledAsync();
+        await DisposeThenOpenTheGateAsync(dialog, gate);
 
         Assert.DoesNotContain("attach", runtime.Module.Calls);
     }
@@ -385,13 +375,8 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task Dialog_RenderedTwiceWhileItsScriptLoads_WritesTheWidthOnce()
     {
-        var runtime = Install(new ManualJSRuntime());
-        var gate = runtime.ImportGates["omni-dialog.js"] = new(TaskCreationOptions.RunContinuationsAsynchronously);
-        var dialog = Render<OmniDialog>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Width, "30rem")
-            .Add(component => component.Title, "Titre")
-            .AddChildContent("Contenu"));
+        var (runtime, gate) = GateTheDialogScript();
+        var dialog = RenderOpenDialog(parameters => parameters.Add(component => component.Width, "30rem"));
         dialog.Render(parameters => parameters.Add(component => component.Width, "40rem"));
 
         gate.SetResult();
@@ -407,10 +392,7 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         var runtime = Install(new ManualJSRuntime());
         runtime.Module.CallFailures["attachPopover"] = new JSDisconnectedException("The circuit is gone.");
 
-        var popover = Render<OmniPopover>(parameters => parameters
-            .Add(component => component.Label, "Filtres")
-            .Add(component => component.Open, true)
-            .AddChildContent("panneau"));
+        var popover = RenderOpenPopover();
         await SettledAsync();
 
         Assert.Contains("attachPopover", runtime.Module.Calls);
@@ -435,16 +417,8 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     [Fact]
     public async Task MenuController_SyncedTwiceThenRemovedWhileItsScriptLoads_ReleasesTheModuleOnce()
     {
-        var runtime = new CountingImportRuntime();
-        var controller = new OmniMenuController(runtime, _ => Task.CompletedTask);
-        controller.RequestPlacement(focusLast: false);
-        var first = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
-        controller.RequestPlacement(focusLast: false);
-        var second = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
-
-        await controller.DisposeAsync();
-        runtime.Arrive();
-        await Task.WhenAll(first, second);
+        var runtime = new HeldImportRuntime<DisposalCountingModule>(new());
+        await RemoveWhileTwoSyncsWaitAsync(runtime);
 
         Assert.Equal(1, runtime.Imports);
         Assert.Equal(1, runtime.Module.Disposals);
@@ -458,29 +432,41 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         // Many rounds make that interleaving likely; the release must stay single in every one.
         for (var round = 0; round < 500; round++)
         {
-            var runtime = new CountingImportRuntime();
-            var controller = new OmniMenuController(runtime, _ => Task.CompletedTask);
-            controller.RequestPlacement(focusLast: false);
-            var first = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
-            controller.RequestPlacement(focusLast: false);
-            var second = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
-
-            await controller.DisposeAsync();
-            runtime.Arrive();
-            await Task.WhenAll(first, second);
+            var runtime = new HeldImportRuntime<DisposalCountingModule>(new());
+            await RemoveWhileTwoSyncsWaitAsync(runtime);
 
             Assert.Equal(1, runtime.Module.Disposals);
         }
     }
 
+    /// <summary>A menu controller over <paramref name="runtime"/>, asked twice for its placement and synced each time; the two syncs may still wait.</summary>
+    private static (OmniMenuController Controller, Task Syncs) SyncTwice(IJSRuntime runtime)
+    {
+        var controller = new OmniMenuController(runtime, _ => Task.CompletedTask);
+        controller.RequestPlacement(focusLast: false);
+        var first = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
+        controller.RequestPlacement(focusLast: false);
+        var second = controller.SyncAsync(true, "menu", default, OmniMenuPlacement.Start);
+        return (controller, Task.WhenAll(first, second));
+    }
+
+    /// <summary>Synced twice, the controller is removed before its held script arrives, then the script arrives.</summary>
+    private static async Task RemoveWhileTwoSyncsWaitAsync(HeldImportRuntime<DisposalCountingModule> runtime)
+    {
+        var (controller, syncs) = SyncTwice(runtime);
+        await controller.DisposeAsync();
+        runtime.Arrive();
+        await syncs;
+    }
+
     /// <summary>A runtime whose first import fails, as a lost network does, and whose later imports answer a recording module.</summary>
-    private sealed class FlakyImportRuntime : IJSRuntime
+    private sealed class FlakyImportRuntime : ForwardingJSRuntime
     {
         public RecordingModule Module { get; } = new();
 
         public int Imports { get; private set; }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
         {
             if (identifier != "import")
             {
@@ -491,52 +477,5 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
                 ? ValueTask.FromException<TValue>(new InvalidOperationException("The script could not be loaded."))
                 : ValueTask.FromResult((TValue)(object)Module);
         }
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, args);
-    }
-
-    /// <summary>A runtime whose one import is held until <see cref="Arrive"/>, and which counts the imports asked.</summary>
-    private sealed class CountingImportRuntime : IJSRuntime
-    {
-        private readonly TaskCompletionSource<IJSObjectReference> _arrival = new(TaskCreationOptions.RunContinuationsAsynchronously);
-
-        public CountedModule Module { get; } = new();
-
-        public int Imports { get; private set; }
-
-        public void Arrive() => _arrival.SetResult(Module);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
-        {
-            if (identifier == "import")
-            {
-                Imports++;
-                return new(_arrival.Task.ContinueWith(task => (TValue)task.Result, TaskScheduler.Default));
-            }
-
-            return ValueTask.FromResult(default(TValue)!);
-        }
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, args);
-    }
-
-    private sealed class CountedModule : IJSObjectReference
-    {
-        private int _disposals;
-
-        public int Disposals => Volatile.Read(ref _disposals);
-
-        public ValueTask DisposeAsync()
-        {
-            Interlocked.Increment(ref _disposals);
-            return ValueTask.CompletedTask;
-        }
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => ValueTask.FromResult(default(TValue)!);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, args);
     }
 }

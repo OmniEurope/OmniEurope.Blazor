@@ -209,15 +209,11 @@ public sealed class InkCanvasTests : OmniBunitContext
     [Fact]
     public async Task CanvasGoneWhileItsScriptLoads_ReleasesTheScriptOnArrival_AndAnExportRefuses()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = this.InstallHeldImports();
         var canvas = RenderCanvas();
         var export = canvas.Instance.ExportPngAsync(10, 10, Xunit.TestContext.Current.CancellationToken);
 
-        var disposing = canvas.Instance.DisposeAsync().AsTask();
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
-        await disposing;
+        await runtime.DisposeWhileTheImportWaitsAsync(canvas.Instance, TimeSpan.FromSeconds(10));
 
         await Assert.ThrowsAsync<ObjectDisposedException>(() => export);
         Assert.Empty(runtime.Module.Calls);

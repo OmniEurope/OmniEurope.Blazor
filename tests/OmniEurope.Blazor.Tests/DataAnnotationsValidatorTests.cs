@@ -145,7 +145,7 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
     {
         var model = new Rules();
         var context = new EditContext(model);
-        RenderValidator(context, new Texts(new Dictionary<string, string>()));
+        RenderValidator(context, new DictionaryStringLocalizer(new Dictionary<string, string>()));
 
         await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
@@ -174,7 +174,7 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
         // (PLAN-001, G-D30-01): it is looked up, and a key the host does not know stays as written.
         var model = new Whole();
         var context = new EditContext(model);
-        RenderValidator(context, new Texts(new Dictionary<string, string> { ["Sur deux champs"] = "Gauche et droite diffèrent" }));
+        RenderValidator(context, new DictionaryStringLocalizer(new Dictionary<string, string> { ["Sur deux champs"] = "Gauche et droite diffèrent" }));
 
         await context.ValidateAsync(Xunit.TestContext.Current.CancellationToken);
 
@@ -250,15 +250,5 @@ public sealed class DataAnnotationsValidatorTests : OmniBunitContext
         // Disposing twice, or a validator never subscribed, is harmless.
         validator.Dispose();
         new OmniDataAnnotationsValidator().Dispose();
-    }
-
-    private sealed class Texts(IReadOnlyDictionary<string, string> values) : IStringLocalizer
-    {
-        public LocalizedString this[string name] =>
-            values.TryGetValue(name, out var value) ? new(name, value) : new(name, name, resourceNotFound: true);
-
-        public LocalizedString this[string name, params object[] arguments] => this[name];
-
-        public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) => [];
     }
 }

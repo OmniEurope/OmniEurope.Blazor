@@ -2,6 +2,7 @@ using System.Globalization;
 using AngleSharp.Dom;
 using Bunit;
 using OmniEurope.Blazor.Components;
+using static OmniEurope.Blazor.Tests.ChartRenderTreeHelpers;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -197,16 +198,7 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
     [Fact]
     public void ANavigatorWrittenInTheDrawing_IsRefused()
     {
-        var error = Assert.Throws<InvalidOperationException>(() => Render<OmniChart>(parameters => parameters
-            .Add(component => component.Label, "Dépôts")
-            .AddChildContent(builder =>
-            {
-                builder.OpenComponent<OmniColumnSeries>(0);
-                builder.AddAttribute(1, nameof(OmniColumnSeries.Data), ChartRangeNavigatorTestHost.Deposits);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniRangeNavigator>(2);
-                builder.CloseComponent();
-            })));
+        var error = Assert.Throws<InvalidOperationException>(() => RenderDeposits(builder => Child<OmniRangeNavigator>(builder, 2)));
 
         Assert.Contains("FooterContent", error.Message, StringComparison.Ordinal);
     }
@@ -215,14 +207,7 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
     public void RemovingTheNavigator_ShowsEveryCategoryAgain()
     {
         var showNavigator = true;
-        var chart = Render<OmniChart>(parameters => parameters
-            .Add(component => component.Label, "Dépôts")
-            .AddChildContent(builder =>
-            {
-                builder.OpenComponent<OmniColumnSeries>(0);
-                builder.AddAttribute(1, nameof(OmniColumnSeries.Data), ChartRangeNavigatorTestHost.Deposits);
-                builder.CloseComponent();
-            })
+        var chart = RenderDeposits(_ => { }, parameters => parameters
             .Add(component => component.FooterContent, builder =>
             {
                 if (showNavigator)
@@ -310,15 +295,7 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
         // Thirty-six months: the first name, anchored to the left edge rather than centred on its
         // graduation, reaches further right than a centred one, so its neighbour has to move away.
         var labels = Enumerable.Range(0, 36).Select(month => new DateTime(2024, 1, 1).AddMonths(month).ToString("MMM yyyy", CultureInfo.InvariantCulture)).ToArray();
-        var chart = ChartWith(builder =>
-        {
-            builder.OpenComponent<OmniCategoryAxis>(10);
-            builder.AddComponentParameter(11, nameof(OmniCategoryAxis.Labels), labels);
-            builder.CloseComponent();
-            Series<OmniLineSeries>(builder, [.. Enumerable.Range(0, 36).Select(index => new OmniChartPoint(index, index))]);
-        }, start: 0);
-
-        chart.WaitForAssertion(() => Assert.NotEmpty(chart.FindAll(".omni-range-navigator__ticks text")));
+        var chart = GraduatedLineChart(labels);
         var width = Number(chart.Find(".omni-range-navigator__ticks").GetAttribute("viewBox")!.Split(' ')[2]);
         var boxes = chart.FindAll(".omni-range-navigator__ticks text").Select(text =>
         {
@@ -346,15 +323,7 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
         // exactly two after the previous. The last name, anchored to the edge, reaches further in than a
         // centred one, so the graduation before it, well spaced from its own predecessor, is dropped.
         var labels = Enumerable.Range(0, 29).Select(index => $"Cat {index:00}").ToArray();
-        var chart = ChartWith(builder =>
-        {
-            builder.OpenComponent<OmniCategoryAxis>(10);
-            builder.AddComponentParameter(11, nameof(OmniCategoryAxis.Labels), labels);
-            builder.CloseComponent();
-            Series<OmniLineSeries>(builder, [.. Enumerable.Range(0, 29).Select(index => new OmniChartPoint(index, index))]);
-        }, start: 0);
-
-        chart.WaitForAssertion(() => Assert.NotEmpty(chart.FindAll(".omni-range-navigator__ticks text")));
+        var chart = GraduatedLineChart(labels);
         var names = chart.FindAll(".omni-range-navigator__ticks text").Select(text => text.TextContent).ToArray();
 
         Assert.Equal("Cat 28", names[^1]);
@@ -397,6 +366,37 @@ public sealed class ChartRangeNavigatorTests : OmniBunitContext
             Assert.Equal(6, points.Length);
         });
         Assert.True(TopTick(chart) < 600);
+    }
+
+    /// <summary>The deposits as columns, followed in the drawing by <paramref name="more"/>; <paramref name="extra"/> adds the rest.</summary>
+    private IRenderedComponent<OmniChart> RenderDeposits(
+        Action<Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder> more,
+        Action<ComponentParameterCollectionBuilder<OmniChart>>? extra = null) =>
+        Render<OmniChart>(parameters =>
+        {
+            parameters
+                .Add(component => component.Label, "Dépôts")
+                .AddChildContent(builder =>
+                {
+                    Child<OmniColumnSeries>(builder, 0, (nameof(OmniColumnSeries.Data), ChartRangeNavigatorTestHost.Deposits));
+                    more(builder);
+                });
+            extra?.Invoke(parameters);
+        });
+
+    /// <summary>A line over one point per label, named by those labels on the category axis, its navigator graduated.</summary>
+    private IRenderedComponent<OmniChart> GraduatedLineChart(string[] labels)
+    {
+        var chart = ChartWith(builder =>
+        {
+            builder.OpenComponent<OmniCategoryAxis>(10);
+            builder.AddComponentParameter(11, nameof(OmniCategoryAxis.Labels), labels);
+            builder.CloseComponent();
+            Series<OmniLineSeries>(builder, [.. Enumerable.Range(0, labels.Length).Select(index => new OmniChartPoint(index, index))]);
+        }, start: 0);
+
+        chart.WaitForAssertion(() => Assert.NotEmpty(chart.FindAll(".omni-range-navigator__ticks text")));
+        return chart;
     }
 
     private IRenderedComponent<OmniChart> ChartWith(Microsoft.AspNetCore.Components.RenderFragment parts, int? start = null, int? end = null) =>

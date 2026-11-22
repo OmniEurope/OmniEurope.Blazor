@@ -121,12 +121,7 @@ public sealed class DataGridFilterKindsTests : OmniBunitContext
     public void RemoteGrid_ReceivesTheDateRangeAsTwoBounds_AndEnumsStillListEveryMember()
     {
         var requests = new List<OmniDataGridLoadRequest>();
-        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
-            .Add(component => component.Load, request =>
-            {
-                requests.Add(request);
-                return Task.FromResult(new OmniDataGridResult<Ticket>([], 0));
-            }));
+        var grid = this.RenderRemoteFilterKinds(requests);
 
         Assert.Equal(3, grid.FindAll(StatusOptions).Count);
 
