@@ -82,8 +82,12 @@ public sealed class SchedulerDropLineTests : OmniBunitContext
 
         scheduler.GridCell(OmniOrientation.Vertical, 1, 4).DragEnter();
 
+        // The space before AM depends on the globalization data: a plain space under NLS (Windows), a narrow no-break
+        // space (U+202F) under ICU (Linux). The expected text comes from the same culture rather than a literal.
         var line = Assert.Single(scheduler.FindAll(Line));
-        Assert.Equal("10:00 AM", line.TextContent);
+        Assert.Equal(new DateTime(2026, 6, 9, 10, 0, 0).ToString("t", CultureInfo.GetCultureInfo("en-US")), line.TextContent);
+        Assert.StartsWith("10:00", line.TextContent, StringComparison.Ordinal);
+        Assert.EndsWith("AM", line.TextContent, StringComparison.Ordinal);
         Assert.Equal(scheduler.FindAll(".omni-scheduler-grid__table tbody tr")[4].QuerySelector("th time")!.TextContent, line.TextContent);
     }
 
