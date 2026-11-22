@@ -1,8 +1,8 @@
 // Part of omni-focus.js, which re-exports attachPicker, detachPicker and focusPickerItem: the date
 // and time pickers.
-import { returnTargets } from './shared.js';
+import { giveFocusBack, returnTargets } from './shared.js';
 import { notify } from '../shared/notify.js';
-import { placeFloating } from '../shared/placement.js';
+import { placeFloating, setFixedCorner } from '../shared/placement.js';
 import { onPressOutside } from '../shared/outside-press.js';
 
 // ---- date and time pickers ------------------------------------------------------------------
@@ -35,17 +35,7 @@ function placePicker(root, panel) {
         rtl: getComputedStyle(root).direction === 'rtl',
         gap: 6
     });
-    const set = (x, y) => {
-        panel.style.setProperty('--omni-picker-x', `${Math.round(x)}px`);
-        panel.style.setProperty('--omni-picker-y', `${Math.round(y)}px`);
-    };
-    set(left, top);
-    // An ancestor with a transform, a filter or a containment is the origin of position: fixed instead
-    // of the window: the panel is then drawn off by that origin, measured here and taken back.
-    const drawn = panel.getBoundingClientRect();
-    if (Math.abs(drawn.left - left) > 1 || Math.abs(drawn.top - top) > 1) {
-        set(2 * left - drawn.left, 2 * top - drawn.top);
-    }
+    setFixedCorner(panel, '--omni-picker-x', '--omni-picker-y', left, top);
 }
 
 export function attachPicker(root, panel, toggle, dotnet, key) {
@@ -105,11 +95,7 @@ export function detachPicker(key, restore) {
         pickerHandlers.delete(key);
     }
 
-    const target = returnTargets.get(key);
-    returnTargets.delete(key);
-    if (restore && target?.isConnected && !target.closest('[inert]')) {
-        target.focus({ preventScroll: true });
-    }
+    giveFocusBack(key, restore);
 }
 
 export function focusPickerItem(panel, selector) {

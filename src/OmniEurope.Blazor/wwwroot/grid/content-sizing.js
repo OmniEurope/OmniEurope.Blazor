@@ -257,6 +257,20 @@ function measure(viewport, state, described) {
 }
 
 /**
+ * The header row and the <col> elements of a grid that is laid out with one <col> per header cell, or
+ * null: a grid that is not laid out (a hidden tab, display: none) measures every cell as empty.
+ */
+export function laidOutColumns(viewport) {
+    const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
+    const cols = [...viewport.querySelectorAll('colgroup > col')];
+    if (!header || cols.length !== header.children.length || viewport.getClientRects().length === 0) {
+        return null;
+    }
+
+    return { header, cols };
+}
+
+/**
  * Sizes the columns of the grid to their content and shares out the room left. With remeasure false, only
  * the sharing is redone (the window changed, the content did not). Returns whether a width changed;
  * onChanged is told too, for the offsets of frozen columns, and is the one a later resize of the window
@@ -264,11 +278,12 @@ function measure(viewport, state, described) {
  * when it is shown.
  */
 export function sizeContent(viewport, onChanged, remeasure = true) {
-    const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
-    const cols = [...viewport.querySelectorAll('colgroup > col')];
-    if (!header || cols.length !== header.children.length || viewport.getClientRects().length === 0) {
+    const laidOut = laidOutColumns(viewport);
+    if (!laidOut) {
         return false;
     }
+
+    const { header, cols } = laidOut;
 
     const state = stateOf(viewport);
     state.onChanged = onChanged ?? state.onChanged;

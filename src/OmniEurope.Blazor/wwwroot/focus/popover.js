@@ -1,5 +1,5 @@
 // Part of omni-focus.js, which re-exports attachPopover and detachPopover: the non-modal popover.
-import { returnTargets, rememberTarget } from './shared.js';
+import { giveFocusBack, rememberTarget } from './shared.js';
 import { notify } from '../shared/notify.js';
 import { focusableElements } from './dialog.js';
 import { placeFloating } from '../shared/placement.js';
@@ -79,9 +79,5 @@ export function detachPopover(key, restore) {
 
     // The trigger never leaves the page while its panel closes, so focus goes back at once, without
     // the animation frames restoreFocus waits for (a background tab would not deliver them).
-    const target = returnTargets.get(key);
-    returnTargets.delete(key);
-    if (restore && target?.isConnected && !target.closest('[inert]')) {
-        target.focus({ preventScroll: true });
-    }
+    giveFocusBack(key, restore);
 }

@@ -3,7 +3,7 @@
 // never narrower than their title, frozen columns and their detach control.
 import { notifyDotNet } from './notify.js';
 import { release } from './release.js';
-import { forgetContentSizing, isContentSizing, sizeContent } from './content-sizing.js';
+import { forgetContentSizing, isContentSizing, laidOutColumns, sizeContent } from './content-sizing.js';
 import { columnMinimum, lengthInPixels } from './resize.js';
 
 /**
@@ -110,14 +110,15 @@ function fitsContent(col) {
  * written, so a pass over a screenful of rows costs one layout.
  */
 function fitColumns(viewport, refresh = false) {
-    const header = viewport.querySelector('thead > tr.omni-data-grid__header-row');
-    const cols = [...viewport.querySelectorAll('colgroup > col')];
     // A grid that is not laid out (a hidden tab, display: none) measures every cell as empty and zero
     // wide: fitting then would shrink the columns to their padding. The title observer runs the fit
     // again when the grid is shown.
-    if (!header || cols.length !== header.children.length || viewport.getClientRects().length === 0) {
+    const laidOut = laidOutColumns(viewport);
+    if (!laidOut) {
         return false;
     }
+
+    const { header, cols } = laidOut;
 
     const state = fitStateOf(viewport);
     const eligible = cols.map(fitsContent);

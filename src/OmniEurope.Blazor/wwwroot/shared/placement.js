@@ -104,3 +104,18 @@ export function placeBeside({ anchor, size, rtl = false, offset = 0, gap = 0, ma
         side
     };
 }
+
+// Writes the corner { left, top } of a fixed floating element into its custom properties xName and
+// yName. An ancestor with a transform, a filter or a containment is the origin of position: fixed
+// instead of the window: the element is then drawn off by that origin, measured here and taken back.
+export function setFixedCorner(element, xName, yName, left, top) {
+    const set = (x, y) => {
+        element.style.setProperty(xName, `${Math.round(x)}px`);
+        element.style.setProperty(yName, `${Math.round(y)}px`);
+    };
+    set(left, top);
+    const drawn = element.getBoundingClientRect();
+    if (Math.abs(drawn.left - left) > 1 || Math.abs(drawn.top - top) > 1) {
+        set(2 * left - drawn.left, 2 * top - drawn.top);
+    }
+}
