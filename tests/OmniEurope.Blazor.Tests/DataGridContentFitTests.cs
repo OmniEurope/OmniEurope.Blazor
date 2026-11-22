@@ -144,18 +144,8 @@ public sealed class DataGridContentFitTests : OmniBunitContext
             builder.AddComponentParameter(2, nameof(OmniDataGrid<Row>.AllowColumnResize), AllowResize);
             builder.AddComponentParameter(3, nameof(OmniDataGrid<Row>.Columns), (RenderFragment)(columns =>
             {
-                columns.OpenComponent<OmniDataGridColumn<Row>>(0);
-                columns.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "name");
-                columns.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-                columns.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-                columns.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Width), Width);
-                columns.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Truncate), Truncate);
-                columns.CloseComponent();
-                columns.OpenComponent<OmniDataGridColumn<Row>>(10);
-                columns.AddComponentParameter(11, nameof(OmniDataGridColumn<Row>.Key), "description");
-                columns.AddComponentParameter(12, nameof(OmniDataGridColumn<Row>.Title), "Description");
-                columns.AddComponentParameter(13, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Description));
-                columns.CloseComponent();
+                DataGridTestSetup.PropertyColumn<Row>(columns, 0, nameof(Row.Name), "Nom", (nameof(OmniDataGridColumn<Row>.Key), "name"), (nameof(OmniDataGridColumn<Row>.Width), Width), (nameof(OmniDataGridColumn<Row>.Truncate), Truncate));
+                DataGridTestSetup.PropertyColumn<Row>(columns, 10, nameof(Row.Description), "Description", (nameof(OmniDataGridColumn<Row>.Key), "description"));
             }));
             builder.AddComponentReferenceCapture(10, component => _grid = (OmniDataGrid<Row>)component);
             builder.CloseComponent();

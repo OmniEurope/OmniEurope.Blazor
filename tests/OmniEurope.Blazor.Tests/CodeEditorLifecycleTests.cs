@@ -134,15 +134,11 @@ public sealed class CodeEditorLifecycleTests : OmniBunitContext
     [Fact]
     public async Task LoadEndingAfterTheEditorLeftOrChangedEngine_ChangesNothing()
     {
-        var module = JSInterop.SetupModule(OmniModules.CodeEditor);
-        module.Mode = JSRuntimeMode.Loose;
-        var load = module.Setup<bool>("load", _ => true);
+        var (module, load) = JSInterop.SetupHeldMonacoLoad();
         var gone = RenderEditor();
         var switched = RenderEditor();
 
-        await gone.Instance.DisposeAsync();
-        switched.Render(parameters => parameters.Add(component => component.Engine, OmniCodeEditorEngine.PlainText));
-        load.SetResult(true);
+        await ScriptLoadTestSetup.RemoveOneSwitchTheOtherThenLoadAsync(gone, switched, parameters => parameters.Add(component => component.Engine, OmniCodeEditorEngine.PlainText), load);
 
         Assert.Empty(module.Invocations["mount"]);
         Assert.NotEmpty(switched.FindAll("textarea"));
@@ -177,10 +173,7 @@ public sealed class CodeEditorLifecycleTests : OmniBunitContext
     [Fact]
     public async Task Dispose_OnALostCircuit_IsQuiet_AndARenderAfterItDoesNothing()
     {
-        var runtime = new ManualJSRuntime { Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") } };
-        runtime.Module.Answers["load"] = true;
-        runtime.Module.Answers["mount"] = true;
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = this.InstallMonacoWithALostRelease("mount");
         var editor = RenderEditor();
         editor.WaitForAssertion(() => Assert.Contains("mount", runtime.Module.Calls));
 

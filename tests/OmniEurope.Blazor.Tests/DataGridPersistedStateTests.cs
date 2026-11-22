@@ -10,6 +10,12 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridPersistedStateTests : OmniBunitContext
 {
+    // Two rows whose state is kept under the "orders" key.
+    private IRenderedComponent<OmniDataGrid<int>> RenderOrders() =>
+        Render<OmniDataGrid<int>>(parameters => parameters
+            .Add(component => component.Items, [1, 2])
+            .Add(component => component.StateKey, "orders"));
+
     [Fact]
     public void BrowserUnreachableWhilePrerendering_LeavesTheGridRendering()
     {
@@ -19,9 +25,7 @@ public sealed class DataGridPersistedStateTests : OmniBunitContext
         preferences.Browser.ImportFailure = new InvalidOperationException(prerendering);
         JSInterop.Setup<string?>("localStorage.getItem", "orders").SetException(new InvalidOperationException(prerendering));
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, [1, 2])
-            .Add(component => component.StateKey, "orders"));
+        var grid = RenderOrders();
 
         Assert.Equal(2, grid.FindAll("tbody tr").Count);
         Assert.Single(JSInterop.Invocations["localStorage.getItem"]);
@@ -38,9 +42,7 @@ public sealed class DataGridPersistedStateTests : OmniBunitContext
         var preferences = new GridPreferenceHarness(Services);
         preferences.Seed("orders", saved);
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, [1, 2])
-            .Add(component => component.StateKey, "orders"));
+        var grid = RenderOrders();
 
         Assert.Equal(2, grid.FindAll("tbody tr").Count);
     }

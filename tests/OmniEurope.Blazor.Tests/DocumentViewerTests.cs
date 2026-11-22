@@ -36,6 +36,19 @@ public sealed class DocumentViewerTests : OmniBunitContext
             extra?.Invoke(parameters);
         });
 
+    // One page left unfitted at <paramref name="zoom"/>, each zoom it reports kept in <paramref name="zooms"/> when given.
+    private IRenderedComponent<OmniDocumentViewer> RenderUnfittedAt(double zoom, List<double>? zooms = null) =>
+        RenderViewer([Html("<p>A</p>")], parameters =>
+        {
+            parameters
+                .Add(component => component.Fit, OmniDocumentFit.None)
+                .Add(component => component.Zoom, zoom);
+            if (zooms is not null)
+            {
+                parameters.Add(component => component.ZoomChanged, reported => zooms.Add(reported));
+            }
+        });
+
     private static IElement Field(IRenderedComponent<OmniDocumentViewer> viewer, string tag = "name") =>
         viewer.Find($"[data-oe-field='{tag}']");
 
@@ -343,10 +356,7 @@ public sealed class DocumentViewerTests : OmniBunitContext
     public void Zoom_StartsAtTheGivenValue_AndFollowsTheButtonsInSteps()
     {
         var zooms = new List<double>();
-        var viewer = RenderViewer([Html("<p>A</p>")], parameters => parameters
-            .Add(component => component.Fit, OmniDocumentFit.None)
-            .Add(component => component.Zoom, 1.0)
-            .Add(component => component.ZoomChanged, zoom => zooms.Add(zoom)));
+        var viewer = RenderUnfittedAt(1.0, zooms);
         Assert.StartsWith("100", viewer.Find(".omni-document-viewer__zoom").TextContent, StringComparison.Ordinal);
 
         viewer.Find(".omni-document-viewer__zoom-in").Click();
@@ -366,9 +376,7 @@ public sealed class DocumentViewerTests : OmniBunitContext
     [InlineData(double.PositiveInfinity, 4)]
     public void Zoom_IsClampedToTheSupportedRange(double given, double shown)
     {
-        var viewer = RenderViewer([Html("<p>A</p>")], parameters => parameters
-            .Add(component => component.Fit, OmniDocumentFit.None)
-            .Add(component => component.Zoom, given));
+        var viewer = RenderUnfittedAt(given);
 
         Assert.StartsWith(((int)(shown * 100)).ToString(System.Globalization.CultureInfo.InvariantCulture), viewer.Find(".omni-document-viewer__zoom").TextContent, StringComparison.Ordinal);
     }
@@ -376,11 +384,11 @@ public sealed class DocumentViewerTests : OmniBunitContext
     [Fact]
     public void ZoomButtons_AreDisabledAtTheLimits()
     {
-        var atMaximum = RenderViewer([Html("<p>A</p>")], parameters => parameters.Add(component => component.Fit, OmniDocumentFit.None).Add(component => component.Zoom, 4.0));
+        var atMaximum = RenderUnfittedAt(4.0);
         Assert.True(atMaximum.Find(".omni-document-viewer__zoom-in").HasAttribute("disabled"));
         Assert.False(atMaximum.Find(".omni-document-viewer__zoom-out").HasAttribute("disabled"));
 
-        var atMinimum = RenderViewer([Html("<p>A</p>")], parameters => parameters.Add(component => component.Fit, OmniDocumentFit.None).Add(component => component.Zoom, 0.25));
+        var atMinimum = RenderUnfittedAt(0.25);
         Assert.True(atMinimum.Find(".omni-document-viewer__zoom-out").HasAttribute("disabled"));
         Assert.False(atMinimum.Find(".omni-document-viewer__zoom-in").HasAttribute("disabled"));
     }
@@ -389,10 +397,7 @@ public sealed class DocumentViewerTests : OmniBunitContext
     public void Zoom_StepsLandOnQuarters_FromAnyStartAndStopAtTheLimits()
     {
         var zooms = new List<double>();
-        var viewer = RenderViewer([Html("<p>A</p>")], parameters => parameters
-            .Add(component => component.Fit, OmniDocumentFit.None)
-            .Add(component => component.Zoom, 0.87)
-            .Add(component => component.ZoomChanged, zoom => zooms.Add(zoom)));
+        var viewer = RenderUnfittedAt(0.87, zooms);
 
         viewer.Find(".omni-document-viewer__zoom-in").Click();
         viewer.Render(parameters => parameters.Add(component => component.Zoom, 3.9));
@@ -610,15 +615,21 @@ public sealed class DocumentViewerTests : OmniBunitContext
         Assert.Equal(3, _script.Invocations["update"].Count);
     }
 
-    [Fact]
-    public async Task Dispose_DetachesTheScript_AndReleasesTheModule()
+    // A viewer of one page over <paramref name="runtime"/>, disposed once its script is attached.
+    private async Task RenderAttachedThenDisposeAsync(ManualJSRuntime runtime)
     {
-        var runtime = new ManualJSRuntime();
         Services.AddSingleton<IJSRuntime>(runtime);
         var viewer = RenderViewer([Html("<p>A</p>")]);
         await viewer.WaitForAssertionAsync(() => Assert.Contains("attach", runtime.Module.Calls));
 
         await viewer.Instance.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task Dispose_DetachesTheScript_AndReleasesTheModule()
+    {
+        var runtime = new ManualJSRuntime();
+        await RenderAttachedThenDisposeAsync(runtime);
 
         Assert.Contains("detach", runtime.Module.Calls);
         Assert.True(runtime.Module.Disposal.Task.IsCompleted);
@@ -674,11 +685,7 @@ public sealed class DocumentViewerTests : OmniBunitContext
     {
         var runtime = new ManualJSRuntime();
         runtime.Module.CallFailures["detach"] = new JSDisconnectedException("perdu");
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var viewer = RenderViewer([Html("<p>A</p>")]);
-        await viewer.WaitForAssertionAsync(() => Assert.Contains("attach", runtime.Module.Calls));
-
-        await viewer.Instance.DisposeAsync();
+        await RenderAttachedThenDisposeAsync(runtime);
 
         Assert.Contains("detach", runtime.Module.Calls);
     }

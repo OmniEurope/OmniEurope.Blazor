@@ -2,6 +2,7 @@ using System.Globalization;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
+using static OmniEurope.Blazor.Tests.ChartRenderTreeHelpers;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -133,19 +134,8 @@ public sealed class ChartLayoutTests : OmniBunitContext
             .Add(component => component.Label, "Colonnes")
             .AddChildContent(builder =>
             {
-                builder.OpenComponent<OmniCategoryAxis>(0);
-                builder.AddAttribute(1, nameof(OmniCategoryAxis.Labels), Labels("T1", "T2"));
-                builder.CloseComponent();
-                builder.OpenComponent<OmniValueAxis>(2);
-                builder.AddAttribute(3, nameof(OmniValueAxis.Maximum), 100d);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniColumnSeries>(4);
-                builder.AddAttribute(5, nameof(OmniColumnSeries.Data), Points((1, 40), (2, 60)));
-                builder.CloseComponent();
-                builder.OpenComponent<OmniColumnSeries>(6);
-                builder.AddAttribute(7, nameof(OmniColumnSeries.Data), Points((1, 50), (2, 70)));
-                builder.AddAttribute(8, nameof(OmniColumnSeries.ColorIndex), 1);
-                builder.CloseComponent();
+                TwoQuartersWithAFirstColumnOutOf100(builder);
+                Child<OmniColumnSeries>(builder, 6, (nameof(OmniColumnSeries.Data), Points((1, 50), (2, 70))), (nameof(OmniColumnSeries.ColorIndex), 1));
             }));
 
         chart.WaitForAssertion(() =>
@@ -209,16 +199,7 @@ public sealed class ChartLayoutTests : OmniBunitContext
             .Add(component => component.Label, "Barres")
             .AddChildContent(builder =>
             {
-                builder.OpenComponent<OmniCategoryAxis>(0);
-                builder.AddAttribute(1, nameof(OmniCategoryAxis.Labels), Labels("T1", "T2"));
-                builder.CloseComponent();
-                builder.OpenComponent<OmniValueAxis>(2);
-                builder.AddAttribute(3, nameof(OmniValueAxis.Maximum), 100d);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniColumnSeries>(4);
-                builder.AddAttribute(5, nameof(OmniColumnSeries.Data), Points((1, 40), (2, 60)));
-                builder.AddAttribute(6, nameof(OmniColumnSeries.Horizontal), true);
-                builder.CloseComponent();
+                TwoQuartersWithAFirstColumnOutOf100(builder, (nameof(OmniColumnSeries.Horizontal), true));
             }));
 
         chart.WaitForAssertion(() =>
@@ -245,15 +226,9 @@ public sealed class ChartLayoutTests : OmniBunitContext
             .Add(component => component.Label, "Légende")
             .AddChildContent(builder =>
             {
-                builder.OpenComponent<OmniGridLines>(0);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniLineSeries>(1);
-                builder.AddAttribute(2, nameof(OmniLineSeries.Data), Points((0, 0), (1, 2)));
-                builder.AddAttribute(3, nameof(OmniLineSeries.ColorIndex), 3);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniLegend>(4);
-                builder.AddAttribute(5, nameof(OmniLegend.Items), Labels("Série", "Autre"));
-                builder.CloseComponent();
+                Child<OmniGridLines>(builder, 0);
+                Child<OmniLineSeries>(builder, 1, (nameof(OmniLineSeries.Data), Points((0, 0), (1, 2))), (nameof(OmniLineSeries.ColorIndex), 3));
+                Child<OmniLegend>(builder, 4, (nameof(OmniLegend.Items), Labels("Série", "Autre")));
             }));
 
         chart.WaitForAssertion(() =>
@@ -461,6 +436,17 @@ public sealed class ChartLayoutTests : OmniBunitContext
                 }
             });
         });
+    }
+
+    /// <summary>
+    /// Two quarters on the category axis, a value axis up to 100 and a first column series of 40 and 60
+    /// given <paramref name="more"/>, at sequences 0 to 5 and after.
+    /// </summary>
+    private static void TwoQuartersWithAFirstColumnOutOf100(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder, params (string Name, object? Value)[] more)
+    {
+        Child<OmniCategoryAxis>(builder, 0, (nameof(OmniCategoryAxis.Labels), Labels("T1", "T2")));
+        Child<OmniValueAxis>(builder, 2, (nameof(OmniValueAxis.Maximum), 100d));
+        Child<OmniColumnSeries>(builder, 4, [(nameof(OmniColumnSeries.Data), Points((1, 40), (2, 60))), .. more]);
     }
 
     private static IReadOnlyList<string> Labels(params string[] labels) => labels;

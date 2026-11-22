@@ -31,14 +31,8 @@ public sealed class DataGridTreeTests : OmniBunitContext
     {
         RenderFragment columns = builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Line>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Label));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Line>.Title), "Poste");
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Line>>(3);
-            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Amount));
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Line>.Title), "Montant");
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Line>(builder, 0, nameof(Line.Label), "Poste");
+            DataGridTestSetup.PropertyColumn<Line>(builder, 3, nameof(Line.Amount), "Montant");
         };
 
         return Render<OmniDataGrid<Line>>(parameters =>
@@ -190,11 +184,7 @@ public sealed class DataGridTreeTests : OmniBunitContext
     {
         RenderFragment columns = builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Line>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Amount));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Line>.Title), "Montant");
-            builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Line>.Aggregate), OmniDataGridAggregate.Count);
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Line>(builder, 0, nameof(Line.Amount), "Montant", (nameof(OmniDataGridColumn<Line>.Aggregate), OmniDataGridAggregate.Count));
         };
         var grid = Render<OmniDataGrid<Line>>(parameters => parameters
             .Add(g => g.Items, Statement).Add(g => g.Columns, columns).Add(g => g.KeyOf, line => line.Id)

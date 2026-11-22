@@ -28,10 +28,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
     [Fact]
     public void DataGrid_SortsByTheRequestedColumn()
     {
-        var grid = Render<DataGridTestHost>();
-        grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr").Count));
-
-        grid.FindAll(".omni-data-grid__sort")[1].Click();
+        var grid = RenderLoadedHostSortedBySecondColumn();
         Assert.Contains("Alice", grid.FindAll("tbody tr")[0].TextContent, StringComparison.Ordinal);
         Assert.Equal("ascending", grid.FindAll("thead th")[2].GetAttribute("aria-sort"));
 
@@ -40,10 +37,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
     [Fact]
     public void DataGrid_CyclesAColumnThroughAscendingDescendingAndUnsorted()
     {
-        var grid = Render<DataGridTestHost>();
-        grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr").Count));
-
-        grid.FindAll(".omni-data-grid__sort")[1].Click();
+        var grid = RenderLoadedHostSortedBySecondColumn();
         Assert.Equal("ascending", grid.FindAll("thead th")[2].GetAttribute("aria-sort"));
 
         grid.FindAll(".omni-data-grid__sort")[1].Click();
@@ -285,10 +279,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
     public async Task GridRemoteState_IgnoresAStaleFailureAfterANewerSuccess()
     {
         await using var state = new GridRemoteState<int>();
-        var stale = new TaskCompletionSource<OmniDataGridResult<int>>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var staleLoad = state.LoadAsync(_ => stale.Task);
-
-        await state.LoadAsync(_ => Task.FromResult(new OmniDataGridResult<int>([9], 1)));
+        var (stale, staleLoad) = await StartAStaleLoadThenSucceedAsync(state, 9);
         stale.SetException(new InvalidOperationException("obsolete"));
         await staleLoad;
 
@@ -339,9 +330,7 @@ public sealed class DataGridComponentTests : OmniBunitContext
     public async Task GridRemoteState_KeepsOnlyTheLatestGeneration()
     {
         await using var state = new GridRemoteState<int>();
-        var stale = new TaskCompletionSource<OmniDataGridResult<int>>(TaskCreationOptions.RunContinuationsAsynchronously);
-        var staleLoad = state.LoadAsync(_ => stale.Task);
-        await state.LoadAsync(_ => Task.FromResult(new OmniDataGridResult<int>([2], 1)));
+        var (stale, staleLoad) = await StartAStaleLoadThenSucceedAsync(state, 2);
         stale.SetResult(new OmniDataGridResult<int>([1, 1], 2));
         await staleLoad;
 
@@ -350,6 +339,25 @@ public sealed class DataGridComponentTests : OmniBunitContext
         Assert.False(state.Loading);
         Assert.Null(state.Error);
         Assert.True(state.HasLoaded);
+    }
+
+    private IRenderedComponent<DataGridTestHost> RenderLoadedHostSortedBySecondColumn()
+    {
+        var grid = Render<DataGridTestHost>();
+        grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr").Count));
+
+        grid.FindAll(".omni-data-grid__sort")[1].Click();
+        return grid;
+    }
+
+    private static async Task<(TaskCompletionSource<OmniDataGridResult<int>> Stale, Task StaleLoad)> StartAStaleLoadThenSucceedAsync(
+        GridRemoteState<int> state,
+        int newer)
+    {
+        var stale = new TaskCompletionSource<OmniDataGridResult<int>>(TaskCreationOptions.RunContinuationsAsynchronously);
+        var staleLoad = state.LoadAsync(_ => stale.Task);
+        await state.LoadAsync(_ => Task.FromResult(new OmniDataGridResult<int>([newer], 1)));
+        return (stale, staleLoad);
     }
 
     private sealed record GridRow(string Name, int Score);

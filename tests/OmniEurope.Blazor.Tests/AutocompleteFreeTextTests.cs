@@ -151,10 +151,7 @@ public sealed class AutocompleteFreeTextTests : OmniBunitContext
         var autocomplete = Render<OmniAutocomplete<int>>(parameters => parameters
             .Add(component => component.Value, 0)
             .Add(component => component.ValueExpression, () => _count.Count)
-            .Add(component => component.ValueChanged, (int next) => changes.Add(next))
-            .Add(component => component.AllowFreeText, true)
-            .Add(component => component.ParseFreeText, text => int.Parse(text, System.Globalization.CultureInfo.InvariantCulture))
-            .Add(component => component.Debounce, TimeSpan.Zero)
+            .ParsingIntegersInto(changes)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<int>>>([new(1, "Un")])));
 
         await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "42" });
@@ -183,10 +180,7 @@ public sealed class AutocompleteFreeTextTests : OmniBunitContext
             .AddCascadingValue(new Microsoft.AspNetCore.Components.Forms.EditContext(model))
             .Add(component => component.Value, 7)
             .Add(component => component.ValueExpression, () => model.Count)
-            .Add(component => component.ValueChanged, (int next) => changes.Add(next))
-            .Add(component => component.AllowFreeText, true)
-            .Add(component => component.ParseFreeText, text => int.Parse(text, System.Globalization.CultureInfo.InvariantCulture))
-            .Add(component => component.Debounce, TimeSpan.Zero)
+            .ParsingIntegersInto(changes)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<int>>>([])));
 
         await autocomplete.Find("input").InputAsync(new ChangeEventArgs { Value = "pas un nombre" });

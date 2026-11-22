@@ -1,4 +1,3 @@
-using System.Globalization;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Internal;
 
@@ -112,15 +111,5 @@ public sealed class ThemeDescriptionLocalizationTests
         Assert.Throws<InvalidOperationException>(() => CatalogDescriptions.Neutral("NoSuchDescription"));
     }
 
-    private static IDisposable Culture(string name)
-    {
-        var previous = (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture);
-        CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(name);
-        return new Restore(previous.CurrentCulture, previous.CurrentUICulture);
-    }
-
-    private sealed class Restore(CultureInfo culture, CultureInfo uiCulture) : IDisposable
-    {
-        public void Dispose() => (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture) = (culture, uiCulture);
-    }
+    private static IDisposable Culture(string name) => CultureScope.Use(name);
 }

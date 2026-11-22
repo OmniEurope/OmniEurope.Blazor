@@ -257,16 +257,19 @@ internal sealed class PreferenceClock(DateTimeOffset start) : TimeProvider
 }
 
 /// <summary>A logger that keeps what <see cref="OmniPreferences"/> logs.</summary>
-internal sealed class RecordingLogger : Microsoft.Extensions.Logging.ILogger<OmniPreferences>
+internal sealed class RecordingLogger : RecordingLogger<OmniPreferences>;
+
+/// <summary>A logger that keeps what <typeparamref name="TCategory"/> logs: the level, the message and the exception.</summary>
+internal class RecordingLogger<TCategory> : Microsoft.Extensions.Logging.ILogger<TCategory>
 {
-    public ConcurrentQueue<(Microsoft.Extensions.Logging.LogLevel Level, string Message)> Entries { get; } = new();
+    public ConcurrentQueue<(Microsoft.Extensions.Logging.LogLevel Level, string Message, Exception? Exception)> Entries { get; } = new();
 
     public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
 
     public bool IsEnabled(Microsoft.Extensions.Logging.LogLevel logLevel) => true;
 
     public void Log<TState>(Microsoft.Extensions.Logging.LogLevel logLevel, Microsoft.Extensions.Logging.EventId eventId, TState state,
-        Exception? exception, Func<TState, Exception?, string> formatter) => Entries.Enqueue((logLevel, formatter(state, exception)));
+        Exception? exception, Func<TState, Exception?, string> formatter) => Entries.Enqueue((logLevel, formatter(state, exception), exception));
 }
 
 /// <summary>

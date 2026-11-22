@@ -51,25 +51,12 @@ public sealed class DataGridExpandAllGroupsTests : OmniBunitContext
     {
         RenderFragment columns = builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Region));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Region");
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(3);
-            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.City));
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Title), "City");
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(6);
-            builder.AddComponentParameter(7, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Amount));
-            builder.AddComponentParameter(8, nameof(OmniDataGridColumn<Row>.Title), "Amount");
-            builder.AddComponentParameter(9, nameof(OmniDataGridColumn<Row>.Aggregate), OmniDataGridAggregate.Sum);
-            builder.AddComponentParameter(10, nameof(OmniDataGridColumn<Row>.GroupAggregateFormat), "Sous total : {0}");
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Region), "Region");
+            DataGridTestSetup.PropertyColumn<Row>(builder, 3, nameof(Row.City), "City");
+            DataGridTestSetup.PropertyColumn<Row>(builder, 6, nameof(Row.Amount), "Amount", (nameof(OmniDataGridColumn<Row>.Aggregate), OmniDataGridAggregate.Sum), (nameof(OmniDataGridColumn<Row>.GroupAggregateFormat), "Sous total : {0}"));
         };
 
-        return Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(grid => grid.Items, Rows)
-            .Add(grid => grid.Columns, columns)
+        return this.RenderDataGrid(Rows, columns, parameters => parameters
             .Add(grid => grid.AllowGrouping, true)
             .Add(grid => grid.Groups, (groups ?? [nameof(Row.Region), nameof(Row.City)]).Select(key => new OmniDataGridGroup(key)).ToArray())
             .Add(grid => grid.AllGroupsExpanded, allGroupsExpanded)
@@ -253,20 +240,8 @@ public sealed class DataGridExpandAllGroupsTests : OmniBunitContext
     public async Task Virtual_ClosesEveryGroup_AndBringsEveryHeaderIntoTheWindow()
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
-        RenderFragment columns = builder =>
-        {
-            builder.OpenComponent<OmniDataGridColumn<Line>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Line>.Key), "bucket");
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Bucket));
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Line>>(3);
-            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Line>.Key), "value");
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Value));
-            builder.CloseComponent();
-        };
-        var grid = Render<OmniDataGrid<Line>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 300).Select(value => new Line(value, value / 100)).ToArray())
-            .Add(component => component.Columns, columns)
+        var columns = DataGridTestSetup.KeyedPropertyColumns<Line>(("bucket", nameof(Line.Bucket)), ("value", nameof(Line.Value)));
+        var grid = this.RenderDataGrid(Enumerable.Range(0, 300).Select(value => new Line(value, value / 100)).ToArray(), columns, parameters => parameters
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d)
             .Add(component => component.AllowGrouping, true)

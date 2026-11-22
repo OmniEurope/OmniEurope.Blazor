@@ -18,8 +18,7 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
 
     private BunitJSModuleInterop SetupMonaco()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<bool>("load", _ => true).SetResult(true);
+        var module = JSInterop.SetupMonacoLoad(loaded: true);
         module.Setup<bool>("mountDiff", _ => true).SetResult(true);
         module.SetupVoid("goToDiff", _ => true).SetVoidResult();
         module.SetupVoid("disposeDiff", _ => true).SetVoidResult();
@@ -30,8 +29,7 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
     public async Task GoToNextAndPrevious_OnAMountedEditor_CallTheScriptWithTheHostAndTheDirection()
     {
         var module = SetupMonaco();
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
-        viewer.WaitForAssertion(() => Assert.Single(module.Invocations["mountDiff"]));
+        var viewer = this.RenderMountedDiff(module);
         var host = module.Invocations["mountDiff"][0].Arguments[0];
 
         await viewer.InvokeAsync(viewer.Instance.GoToNextChangeAsync);
@@ -45,9 +43,8 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
     [Fact]
     public async Task GoToNextAndPrevious_WhileMonacoLoads_DoNothing()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<bool>("load", _ => true);
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
+        var module = JSInterop.SetupMonacoLoad(loaded: null);
+        var viewer = this.RenderDiffOf("a");
 
         await viewer.InvokeAsync(viewer.Instance.GoToNextChangeAsync);
         await viewer.InvokeAsync(viewer.Instance.GoToPreviousChangeAsync);
@@ -70,9 +67,8 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
     [Fact]
     public async Task GoToNextAndPrevious_WhenMonacoFailedToLoad_DoNothing()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<bool>("load", _ => true).SetResult(false);
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
+        var module = JSInterop.SetupMonacoLoad(loaded: false);
+        var viewer = this.RenderDiffOf("a");
         viewer.WaitForAssertion(() => Assert.Contains("omni-diff-viewer--failed", viewer.Find(".omni-diff-viewer").ClassList));
 
         await viewer.InvokeAsync(viewer.Instance.GoToNextChangeAsync);
@@ -84,8 +80,7 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
     public async Task GoToNextAndPrevious_AfterTheViewerIsDisposed_DoNothing()
     {
         var module = SetupMonaco();
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
-        viewer.WaitForAssertion(() => Assert.Single(module.Invocations["mountDiff"]));
+        var viewer = this.RenderMountedDiff(module);
         await viewer.Instance.DisposeAsync();
 
         await viewer.Instance.GoToNextChangeAsync();
@@ -102,7 +97,7 @@ public sealed class DiffViewerNavigationTests : OmniBunitContext
         runtime.Module.Answers["mountDiff"] = true;
         runtime.Module.CallFailures["goToDiff"] = new JSDisconnectedException("perdu");
         Services.AddSingleton<IJSRuntime>(runtime);
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
+        var viewer = this.RenderDiffOf("a");
         viewer.WaitForAssertion(() => Assert.Contains("mountDiff", runtime.Module.Calls));
 
         await viewer.InvokeAsync(viewer.Instance.GoToNextChangeAsync);

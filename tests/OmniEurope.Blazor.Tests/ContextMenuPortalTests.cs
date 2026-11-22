@@ -1,8 +1,6 @@
-using System.Reflection;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -20,9 +18,7 @@ public sealed class ContextMenuPortalTests : OmniBunitContext
     [Fact]
     public void SwitchingDirectlyToAnotherMenu_OpensItByItsOwnPopup()
     {
-        var module = JSInterop.SetupModule(FocusModule);
-        module.Mode = JSRuntimeMode.Loose;
-        var host = Render<ContextMenuSwitchTestHost>();
+        var (module, host) = RenderSwitchHost();
 
         host.InvokeAsync(() => host.Instance.Open("a"));
         host.InvokeAsync(() => host.Instance.Open("b"));
@@ -41,9 +37,7 @@ public sealed class ContextMenuPortalTests : OmniBunitContext
     [Fact]
     public void RightClick_OpensAtThePointer_AndASecondRightClickMovesIt()
     {
-        var module = JSInterop.SetupModule(FocusModule);
-        module.Mode = JSRuntimeMode.Loose;
-        var host = Render<ContextMenuSwitchTestHost>();
+        var (module, host) = RenderSwitchHost();
 
         host.Find("#menu-a").ContextMenu(new MouseEventArgs { ClientX = 120, ClientY = 80 });
         host.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
@@ -67,9 +61,7 @@ public sealed class ContextMenuPortalTests : OmniBunitContext
     [InlineData("ContextMenu", false)]
     public void Keyboard_OpensUnderTheTrigger(string key, bool shift)
     {
-        var module = JSInterop.SetupModule(FocusModule);
-        module.Mode = JSRuntimeMode.Loose;
-        var host = Render<ContextMenuSwitchTestHost>();
+        var (module, host) = RenderSwitchHost();
 
         host.Find("#menu-b").KeyDown(new KeyboardEventArgs { Key = key, ShiftKey = shift });
 
@@ -85,17 +77,11 @@ public sealed class ContextMenuPortalTests : OmniBunitContext
     [Fact]
     public void APressOutside_ReportedByTheScript_ClosesTheMenu()
     {
-        var module = JSInterop.SetupModule(FocusModule);
-        module.Mode = JSRuntimeMode.Loose;
-        var host = Render<ContextMenuSwitchTestHost>();
+        var (module, host) = RenderSwitchHost();
         host.Find("#menu-a").ContextMenu(new MouseEventArgs { ClientX = 10, ClientY = 10 });
         host.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
 
-        var reference = module.Invocations["openMenu"][0].Arguments[8]!;
-        var interop = reference.GetType().GetProperty("Value")!.GetValue(reference)!;
-        var dismiss = interop.GetType().GetMethod("DismissAsync", BindingFlags.Public | BindingFlags.Instance)!;
-        Assert.Equal("OmniMenu.Dismiss", dismiss.GetCustomAttribute<JSInvokableAttribute>()!.Identifier);
-        host.InvokeAsync(() => (Task)dismiss.Invoke(interop, [false])!);
+        MenuScriptDismissal.DismissAsTheScriptDoes(host, module);
 
         host.WaitForAssertion(() =>
         {
@@ -108,9 +94,7 @@ public sealed class ContextMenuPortalTests : OmniBunitContext
     [Fact]
     public void ItemsThatChangeWhileOpen_AreShownInThePortal()
     {
-        var module = JSInterop.SetupModule(FocusModule);
-        module.Mode = JSRuntimeMode.Loose;
-        var host = Render<ContextMenuSwitchTestHost>();
+        var (module, host) = RenderSwitchHost();
         host.InvokeAsync(() => host.Instance.Open("a"));
         host.WaitForAssertion(() => Assert.Equal("a 0", host.Find("#menu-a-menu .omni-menu__label").TextContent));
 
@@ -158,5 +142,11 @@ public sealed class ContextMenuPortalTests : OmniBunitContext
 
         menu.WaitForAssertion(() => Assert.Single(module.Invocations["moveMenuFocus"]));
         Assert.Equal("inline-menu", module.Invocations["moveMenuFocus"][0].Arguments[0]);
+    }
+
+    private (BunitJSModuleInterop Module, IRenderedComponent<ContextMenuSwitchTestHost> Host) RenderSwitchHost()
+    {
+        var module = JSInterop.SetupLooseModule(FocusModule);
+        return (module, Render<ContextMenuSwitchTestHost>());
     }
 }

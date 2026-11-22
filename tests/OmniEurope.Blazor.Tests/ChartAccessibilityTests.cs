@@ -2,6 +2,7 @@ using System.Globalization;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
+using static OmniEurope.Blazor.Tests.ChartRenderTreeHelpers;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -199,22 +200,10 @@ public sealed class ChartAccessibilityTests : OmniBunitContext
             .Add(component => component.Label, "Légende")
             .AddChildContent(builder =>
             {
-                builder.OpenComponent<OmniLineSeries>(0);
-                builder.AddAttribute(1, nameof(OmniLineSeries.Title), "Dépôts");
-                builder.AddAttribute(2, nameof(OmniLineSeries.ColorIndex), 5);
-                builder.AddAttribute(3, nameof(OmniLineSeries.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1), new(1, 2)]);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniMarkers>(4);
-                builder.AddAttribute(5, nameof(OmniMarkers.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1)]);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniAreaSeries>(6);
-                builder.AddAttribute(7, nameof(OmniAreaSeries.Title), "Décisions");
-                builder.AddAttribute(8, nameof(OmniAreaSeries.ColorIndex), 10);
-                builder.AddAttribute(9, nameof(OmniAreaSeries.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1), new(1, 3)]);
-                builder.CloseComponent();
-                builder.OpenComponent<OmniLegend>(10);
-                builder.AddAttribute(11, nameof(OmniLegend.Placement), OmniLegendPlacement.Bottom);
-                builder.CloseComponent();
+                Child<OmniLineSeries>(builder, 0, (nameof(OmniLineSeries.Title), "Dépôts"), (nameof(OmniLineSeries.ColorIndex), 5), (nameof(OmniLineSeries.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1), new(1, 2)]));
+                Child<OmniMarkers>(builder, 4, (nameof(OmniMarkers.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1)]));
+                Child<OmniAreaSeries>(builder, 6, (nameof(OmniAreaSeries.Title), "Décisions"), (nameof(OmniAreaSeries.ColorIndex), 10), (nameof(OmniAreaSeries.Data), (IReadOnlyList<OmniChartPoint>)[new(0, 1), new(1, 3)]));
+                Child<OmniLegend>(builder, 10, (nameof(OmniLegend.Placement), OmniLegendPlacement.Bottom));
             }));
 
         chart.WaitForAssertion(() =>

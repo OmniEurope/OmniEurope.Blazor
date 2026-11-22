@@ -70,11 +70,7 @@ public sealed class DataGridCellClipTests : OmniBunitContext
             parameters.Add(grid => grid.Items, [new TitleRow("A-1")])
                 .Add(grid => grid.Columns, (Microsoft.AspNetCore.Components.RenderFragment)(builder =>
                 {
-                    builder.OpenComponent<OmniDataGridColumn<TitleRow>>(0);
-                    builder.AddComponentParameter(1, nameof(OmniDataGridColumn<TitleRow>.Property), nameof(TitleRow.Reference));
-                    builder.AddComponentParameter(2, nameof(OmniDataGridColumn<TitleRow>.Title), "Responsabilité");
-                    builder.AddComponentParameter(3, nameof(OmniDataGridColumn<TitleRow>.Width), "4rem");
-                    builder.CloseComponent();
+                    DataGridTestSetup.PropertyColumn<TitleRow>(builder, 0, nameof(TitleRow.Reference), "Responsabilité", (nameof(OmniDataGridColumn<TitleRow>.Width), "4rem"));
                 }));
             configure?.Invoke(parameters);
         });

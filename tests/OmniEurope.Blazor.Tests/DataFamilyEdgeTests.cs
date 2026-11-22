@@ -32,9 +32,15 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
     };
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(RenderFragment columns) =>
-        Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, [new Row("a")])
-            .Add(component => component.Columns, columns));
+        this.RenderDataGrid<Row>([new Row("a")], columns);
+
+    /// <summary>Renders the grid again with the column keyed "k" given <paramref name="parameters"/>, and reads <paramref name="cell"/> in it.</summary>
+    private static void AssertKeyedCellAfterRendering(IRenderedComponent<OmniDataGrid<Row>> grid, string cell, params (string Name, object? Value)[] parameters)
+    {
+        grid.Render(rendered => rendered.Add(component => component.Columns, Column([(nameof(OmniDataGridColumn<Row>.Key), "k"), .. parameters])));
+
+        Assert.Equal(cell, grid.Find("tbody td[data-omni-col='k']").TextContent.Trim());
+    }
 
     // ---- grid column ------------------------------------------------------------------------------
 
@@ -76,12 +82,9 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
         var grid = RenderGrid(Column((nameof(OmniDataGridColumn<Row>.Key), "k")));
         foreach (var (value, filters, cell) in steps)
         {
-            grid.Render(parameters => parameters.Add(component => component.Columns, Column(
-                (nameof(OmniDataGridColumn<Row>.Key), "k"),
+            AssertKeyedCellAfterRendering(grid, cell,
                 (nameof(OmniDataGridColumn<Row>.Value), value),
-                (nameof(OmniDataGridColumn<Row>.FilterValues), filters))));
-
-            Assert.Equal(cell, grid.Find("tbody td[data-omni-col='k']").TextContent.Trim());
+                (nameof(OmniDataGridColumn<Row>.FilterValues), filters));
         }
     }
 
@@ -103,13 +106,10 @@ public sealed class DataFamilyEdgeTests : OmniBunitContext
         var grid = RenderGrid(Column((nameof(OmniDataGridColumn<Row>.Key), "k")));
         foreach (var (value, filters, operators, cell) in steps)
         {
-            grid.Render(parameters => parameters.Add(component => component.Columns, Column(
-                (nameof(OmniDataGridColumn<Row>.Key), "k"),
+            AssertKeyedCellAfterRendering(grid, cell,
                 (nameof(OmniDataGridColumn<Row>.Value), value),
                 (nameof(OmniDataGridColumn<Row>.FilterValues), filters),
-                (nameof(OmniDataGridColumn<Row>.FilterOperators), operators))));
-
-            Assert.Equal(cell, grid.Find("tbody td[data-omni-col='k']").TextContent.Trim());
+                (nameof(OmniDataGridColumn<Row>.FilterOperators), operators));
         }
     }
 

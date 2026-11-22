@@ -18,8 +18,8 @@ public sealed class DataGridExportTests : OmniBunitContext
 
     private static readonly Row[] Rows =
     [
-        new(1, "Delta", 1234.5m, new DateOnly(2026, 9, 1), true),
-        new(2, "Alpha", 20m, new DateOnly(2026, 9, 2), false),
+        DataGridExportTestHost.Delta,
+        DataGridExportTestHost.Alpha,
         new(3, "=SUM(A1)", -3m, new DateOnly(2026, 9, 3), false),
         new(4, "Bravo; \"cité\"", 0.5m, new DateOnly(2026, 9, 4), true),
         new(5, "Charlie", 7m, new DateOnly(2026, 9, 5), true)
@@ -63,6 +63,45 @@ public sealed class DataGridExportTests : OmniBunitContext
 
     private static string CsvOf(JSRuntimeInvocation download) => Encoding.UTF8.GetString((byte[])download.Arguments[2]!);
 
+    /// <summary>The host over the five rows; <paramref name="extra"/> adds the rest.</summary>
+    private IRenderedComponent<DataGridExportTestHost> RenderOverRows(Action<ComponentParameterCollectionBuilder<DataGridExportTestHost>> extra) =>
+        Render<DataGridExportTestHost>(parameters =>
+        {
+            parameters.Add(component => component.Items, Rows);
+            extra(parameters);
+        });
+
+    /// <summary>The lines of the one CSV file downloaded, without its byte order mark.</summary>
+    private string[] DownloadedCsvLines() =>
+        CsvOf(Assert.Single(_download.Invocations["download"])).TrimStart('﻿').Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+
+    /// <summary>
+    /// The host over a loader whose first page (two rows) answers at once and whose next load, the export's, waits
+    /// for <paramref name="pending"/>; <paramref name="extra"/> adds the rest. Returns once the first page is drawn.
+    /// </summary>
+    private IRenderedComponent<DataGridExportTestHost> RenderWithAHeldExportLoad(
+        TaskCompletionSource<OmniDataGridResult<Row>> pending,
+        Action<ComponentParameterCollectionBuilder<DataGridExportTestHost>> extra)
+    {
+        var first = true;
+        var host = Render<DataGridExportTestHost>(parameters =>
+        {
+            parameters.Add(component => component.Load, _ =>
+            {
+                if (first)
+                {
+                    first = false;
+                    return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(2).ToArray(), Rows.Length));
+                }
+
+                return pending.Task;
+            });
+            extra(parameters);
+        });
+        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
+        return host;
+    }
+
     private static AngleSharp.Dom.IElement Button(IRenderedComponent<DataGridExportTestHost> host, string text) =>
         host.FindAll(".omni-data-grid__export-button").Single(button => button.GetAttribute("aria-label") == $"Exporter en {text}");
 
@@ -77,8 +116,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public void AFormatNobodyWrites_HasNoButton()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv, OmniTableExportFormat.Excel, OmniTableExportFormat.Pdf]));
 
         // Markdown, CSV and Excel are written by the package; PDF needs a host renderer.
@@ -90,8 +128,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [InlineData(OmniDataGridPlacement.Top, true)]
     public void TheBar_GoesUnderOrAboveTheTable(OmniDataGridPlacement position, bool above)
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.Position, position)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
@@ -127,8 +164,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public void AGridWhoseFiltersLeaveNoRow_DisablesItsButtons()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.NameFilter, "introuvable")
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
@@ -138,8 +174,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task AnExportOnlyColumn_IsNotDrawn_YetIsInTheCsv_AfterTheColumnDeclaredBeforeIt()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.WithExportOnly, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
@@ -148,7 +183,7 @@ public sealed class DataGridExportTests : OmniBunitContext
 
         await Button(host, "CSV").ClickAsync(new());
 
-        var lines = CsvOf(Assert.Single(_download.Invocations["download"])).TrimStart('﻿').Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+        var lines = DownloadedCsvLines();
         Assert.Equal("N°;Nom;Montant;Détail;Jour;Statut", lines[0]);
         Assert.StartsWith("1;Delta;1234,5;note-1;01/09/2026;payée", lines[1]);
     }
@@ -156,8 +191,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task AnExportOnlyColumn_IsInTheExcelFileToo()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.WithExportOnly, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Excel]));
 
@@ -178,8 +212,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task AnExportOnlyColumn_AfterColumnsTheExportSkips_FollowsTheLastWrittenOne_AndOneThatOptsOutIsLeftOut()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.WithTrailingExportOnly, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
@@ -197,21 +230,19 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task WithoutAnExportOnlyColumn_TheExportKeepsItsColumns()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
         await Button(host, "CSV").ClickAsync(new());
 
-        var lines = CsvOf(Assert.Single(_download.Invocations["download"])).TrimStart('﻿').Split("\r\n", StringSplitOptions.RemoveEmptyEntries);
+        var lines = DownloadedCsvLines();
         Assert.Equal("N°;Nom;Montant;Jour;Statut", lines[0]);
     }
 
     [Fact]
     public async Task Csv_OfALocalGrid_HoldsEveryFilteredRowInTheSortOrder_NotThePage()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.NameSort, OmniDataGridSortOrder.Ascending)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
         // The grid shows a page of two rows.
@@ -243,8 +274,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task TheDocument_KeepsTheValuesBehindTheTexts_AndSaysWhichRowsItAnswersTo()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.NameFilter, "l")
             .Add(component => component.Caption, "Commandes")
             .Add(component => component.Fields, [new OmniTableExportField("Application", "Boutique")])
@@ -343,8 +373,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task AnExportCutByTheRowLimit_SaysSoInTheBar()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.RowLimit, 3)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
@@ -381,8 +410,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task AGridWithNoColumnToExport_FailsWithoutAFile_AndReportsWhy()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.OnlyTemplates, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 
@@ -409,8 +437,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     {
         var renderer = new RecordingRenderer();
         Services.AddSingleton<IOmniTableExportRenderer>(renderer);
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.Title, "Commandes du mois")
             .Add(component => component.Formats, [OmniTableExportFormat.Excel, OmniTableExportFormat.Pdf]));
 
@@ -431,8 +458,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     {
         var renderer = new RecordingRenderer { Failure = new InvalidOperationException("rendu indisponible") };
         Services.AddSingleton<IOmniTableExportRenderer>(renderer);
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.Formats, [OmniTableExportFormat.Excel]));
 
         await Button(host, "Excel").ClickAsync(new());
@@ -454,20 +480,8 @@ public sealed class DataGridExportTests : OmniBunitContext
         // R1-23: a click on an export button made a cross appear, read as an error; by default only the
         // button being written changes (busy), and nothing else appears beside it.
         var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
-        var first = true;
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Load, _ =>
-            {
-                if (first)
-                {
-                    first = false;
-                    return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(2).ToArray(), Rows.Length));
-                }
-
-                return pending.Task;
-            })
+        var host = RenderWithAHeldExportLoad(pending, parameters => parameters
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv]));
-        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
 
         var running = Button(host, "Markdown").ClickAsync(new());
 
@@ -485,21 +499,9 @@ public sealed class DataGridExportTests : OmniBunitContext
     public async Task WhileAnExportRuns_ItsButtonIsBusy_TheOthersWait_AndCancelStopsIt()
     {
         var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
-        var first = true;
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Load, _ =>
-            {
-                if (first)
-                {
-                    first = false;
-                    return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(2).ToArray(), Rows.Length));
-                }
-
-                return pending.Task;
-            })
+        var host = RenderWithAHeldExportLoad(pending, parameters => parameters
             .Add(component => component.ShowExportCancel, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv]));
-        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
 
         var running = Button(host, "CSV").ClickAsync(new());
 
@@ -518,22 +520,10 @@ public sealed class DataGridExportTests : OmniBunitContext
     public async Task WithButtonText_TheCancelButton_ShowsItsName()
     {
         var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
-        var first = true;
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Load, _ =>
-            {
-                if (first)
-                {
-                    first = false;
-                    return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(2).ToArray(), Rows.Length));
-                }
-
-                return pending.Task;
-            })
+        var host = RenderWithAHeldExportLoad(pending, parameters => parameters
             .Add(component => component.ShowExportButtonText, true)
             .Add(component => component.ShowExportCancel, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
-        host.WaitForAssertion(() => Assert.Equal(2, host.FindAll("tbody tr").Count));
 
         var running = Button(host, "CSV").ClickAsync(new());
 
@@ -580,8 +570,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public void EachFormat_HasItsFileIcon_AndTheVariantTheHostChose()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.Formats, [OmniTableExportFormat.Markdown, OmniTableExportFormat.Csv])
             .Add(component => component.Variants, new Dictionary<OmniTableExportFormat, OmniButtonVariant> { [OmniTableExportFormat.Markdown] = OmniButtonVariant.Primary }));
 
@@ -597,8 +586,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task WithoutAFileName_TheFileIsNamedAfterTheExportTitle_ThenTheDate()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.FileName, null)
             .Add(component => component.Title, "Journaux de la boutique : étape 3")
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
@@ -611,8 +599,7 @@ public sealed class DataGridExportTests : OmniBunitContext
     [Fact]
     public async Task AHandlerOfOnExportThatThrows_LeavesTheExportDelivered_NotFailed()
     {
-        var host = Render<DataGridExportTestHost>(parameters => parameters
-            .Add(component => component.Items, Rows)
+        var host = RenderOverRows(parameters => parameters
             .Add(component => component.ThrowOnExport, true)
             .Add(component => component.Formats, [OmniTableExportFormat.Csv]));
 

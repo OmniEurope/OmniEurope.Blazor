@@ -45,9 +45,9 @@ public sealed class AppMenuTests : OmniBunitContext
     [Fact]
     public void The_random_button_is_named_draws_another_look_each_time_and_leaves_the_menu_open()
     {
-        var theme = OmniThemePresets.All.Single(item => item.Name == "Papier");
-        OmniThemePalette? palette = OmniThemePalettes.All.Single(item => item.Name == "Mono");
-        OmniThemeFont? font = OmniThemeFonts.All.Single(item => item.Name == "JetBrains Mono");
+        var theme = AppearanceTestChoices.Theme("Papier");
+        OmniThemePalette? palette = AppearanceTestChoices.Palette("Mono");
+        OmniThemeFont? font = AppearanceTestChoices.Font("JetBrains Mono");
         OmniThemeBackdrop? backdrop = null;
         var opened = 0;
         var menu = Render<OmniAppMenu>(parameters => parameters
@@ -218,9 +218,7 @@ public sealed class AppMenuTests : OmniBunitContext
         var menu = Render<OmniAppMenu>(parameters => parameters
             .Add(component => component.UserName, "admin")
             .Add(component => component.Role, "Admin")
-            .Add(component => component.Languages, [new OmniAppMenuLanguage("fr", "Français", "flags/fr.svg"), new OmniAppMenuLanguage("en", "English")])
-            .Add(component => component.Language, "fr")
-            .Add(component => component.ShowFlags, true)
+            .WithFlaggedFrenchAndEnglish()
             .Add(component => component.AppearanceChanged, _ => { })
             .Add(component => component.OnThemeOpen, () => { })
             .Add(component => component.OnSettingsOpen, () => { })
@@ -350,11 +348,7 @@ public sealed class AppMenuTests : OmniBunitContext
     public void A_click_on_the_mode_row_outside_the_buttons_steps_light_dark_system_light(string target)
     {
         var modes = new List<OmniAppearance>();
-        var menu = Render<OmniAppMenu>(parameters => parameters
-            .Add(component => component.Appearance, OmniAppearance.Light)
-            .Add(component => component.AppearanceChanged, value => modes.Add(value))
-            .Add(component => component.OnThemeOpen, () => { }));
-        menu.Find(".omni-app-menu__trigger").Click();
+        var menu = RenderOpenModeMenu(OmniAppearance.Light, modes);
 
         foreach (var shown in new[] { OmniAppearance.Light, OmniAppearance.Dark, OmniAppearance.System })
         {
@@ -369,11 +363,7 @@ public sealed class AppMenuTests : OmniBunitContext
     public void The_mode_row_is_one_tab_stop_a_page_key_turns_Enter_and_Space_into_its_click()
     {
         var modes = new List<OmniAppearance>();
-        var menu = Render<OmniAppMenu>(parameters => parameters
-            .Add(component => component.Appearance, OmniAppearance.Dark)
-            .Add(component => component.AppearanceChanged, value => modes.Add(value))
-            .Add(component => component.OnThemeOpen, () => { }));
-        menu.Find(".omni-app-menu__trigger").Click();
+        var menu = RenderOpenModeMenu(OmniAppearance.Dark, modes);
 
         // keys.js answers Enter and Space on the focused element marked data-omni-key-button (and only
         // there: the radios inside are native buttons) with a click, which is the cycle above.
@@ -395,11 +385,7 @@ public sealed class AppMenuTests : OmniBunitContext
     public void A_click_on_a_mode_button_selects_that_mode_once_and_does_not_step_the_row()
     {
         var modes = new List<OmniAppearance>();
-        var menu = Render<OmniAppMenu>(parameters => parameters
-            .Add(component => component.Appearance, OmniAppearance.Light)
-            .Add(component => component.AppearanceChanged, value => modes.Add(value))
-            .Add(component => component.OnThemeOpen, () => { }));
-        menu.Find(".omni-app-menu__trigger").Click();
+        var menu = RenderOpenModeMenu(OmniAppearance.Light, modes);
 
         menu.Find(".omni-app-menu__mode [role=radio][aria-label=Système]").Click();
 
@@ -410,12 +396,7 @@ public sealed class AppMenuTests : OmniBunitContext
     public void A_dark_only_theme_leaves_the_mode_row_out_of_the_tab_order_and_inert()
     {
         var modes = new List<OmniAppearance>();
-        var menu = Render<OmniAppMenu>(parameters => parameters
-            .Add(component => component.Appearance, OmniAppearance.Light)
-            .Add(component => component.Preset, (OmniThemePresets.All[0] with { DarkOnly = true }))
-            .Add(component => component.AppearanceChanged, value => modes.Add(value))
-            .Add(component => component.OnThemeOpen, () => { }));
-        menu.Find(".omni-app-menu__trigger").Click();
+        var menu = RenderOpenModeMenu(OmniAppearance.Light, modes, OmniThemePresets.All[0] with { DarkOnly = true });
 
         var row = menu.Find("div.omni-app-menu__mode");
         Assert.False(row.HasAttribute("tabindex"));
@@ -462,9 +443,7 @@ public sealed class AppMenuTests : OmniBunitContext
     public void The_language_row_is_one_native_list_stretched_over_the_whole_row()
     {
         var menu = Render<OmniAppMenu>(parameters => parameters
-            .Add(component => component.Languages, [new OmniAppMenuLanguage("fr", "Français", "flags/fr.svg"), new OmniAppMenuLanguage("en", "English")])
-            .Add(component => component.Language, "fr")
-            .Add(component => component.ShowFlags, true)
+            .WithFlaggedFrenchAndEnglish()
             .Add(component => component.AppearanceChanged, _ => { })
             .Add(component => component.OnThemeOpen, () => { }));
         menu.Find(".omni-app-menu__trigger").Click();
@@ -496,5 +475,23 @@ public sealed class AppMenuTests : OmniBunitContext
         Assert.Equal("var(--omni-focus-ring-inset)", ShippedLookTests.Value(
             ShippedLookTests.Body(".omni-app-menu__language-row:has(> select.omni-app-menu__language:focus-visible)::after"), "box-shadow"));
         Assert.Equal("none", ShippedLookTests.Value(ShippedLookTests.Body(".omni-app-menu__language-row > :is(.omni-icon, .omni-app-menu__label, .omni-app-menu__flag)"), "pointer-events"));
+    }
+
+    /// <summary>The menu, opened, showing <paramref name="appearance"/> (and <paramref name="preset"/> when given), recording every mode it raises.</summary>
+    private IRenderedComponent<OmniAppMenu> RenderOpenModeMenu(OmniAppearance appearance, List<OmniAppearance> modes, OmniThemePreset? preset = null)
+    {
+        var menu = Render<OmniAppMenu>(parameters =>
+        {
+            parameters
+                .Add(component => component.Appearance, appearance)
+                .Add(component => component.AppearanceChanged, value => modes.Add(value))
+                .Add(component => component.OnThemeOpen, () => { });
+            if (preset is not null)
+            {
+                parameters.Add(component => component.Preset, preset);
+            }
+        });
+        menu.Find(".omni-app-menu__trigger").Click();
+        return menu;
     }
 }

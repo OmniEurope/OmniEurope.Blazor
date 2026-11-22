@@ -861,14 +861,10 @@ public sealed class DocumentEditorTests : OmniBunitContext
     [Fact]
     public async Task EditorGoneWhileItsScriptLoads_ReleasesTheScriptOnArrival_AndAttachesNothing()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = this.InstallHeldImports();
         var editor = RenderEditor();
 
-        var disposing = editor.Instance.DisposeAsync().AsTask();
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
-        await disposing;
+        await runtime.DisposeWhileTheImportWaitsAsync(editor.Instance, TimeSpan.FromSeconds(10));
 
         Assert.Empty(runtime.Module.Calls);
     }

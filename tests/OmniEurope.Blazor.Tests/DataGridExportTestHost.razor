@@ -135,4 +135,10 @@
     public Exception? Failure { get; private set; }
 
     public sealed record Row(int Id, string Name, decimal Amount, DateOnly Day, bool Paid, string Secret = "interne");
+
+    /// <summary>The paid row the export suites start from.</summary>
+    public static readonly Row Delta = new(1, "Delta", 1234.5m, new DateOnly(2026, 9, 1), true);
+
+    /// <summary>The unpaid row the export suites put after <see cref="Delta"/>.</summary>
+    public static readonly Row Alpha = new(2, "Alpha", 20m, new DateOnly(2026, 9, 2), false);
 }

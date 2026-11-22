@@ -26,20 +26,8 @@ public sealed class DataGridTypedFilterTests : OmniBunitContext
         .Add(grid => grid.FilterMode, OmniDataGridFilterMode.SimpleWithMenu)
         .Add(grid => grid.Columns, (RenderFragment)(builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "number");
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "N°");
-            builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Number));
-            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Filterable), true);
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.FilterType), OmniDataGridColumnFilterType.Number);
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(10);
-            builder.AddComponentParameter(11, nameof(OmniDataGridColumn<Row>.Key), "name");
-            builder.AddComponentParameter(12, nameof(OmniDataGridColumn<Row>.Title), "Name");
-            builder.AddComponentParameter(13, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-            builder.AddComponentParameter(14, nameof(OmniDataGridColumn<Row>.Filterable), true);
-            builder.AddComponentParameter(15, nameof(OmniDataGridColumn<Row>.FilterOperators), TextOperators);
-            builder.CloseComponent();
+            DataGridTestSetup.ValueColumn<Row>(builder, 0, "number", row => row.Number, (nameof(OmniDataGridColumn<Row>.Title), "N°"), (nameof(OmniDataGridColumn<Row>.Filterable), true), (nameof(OmniDataGridColumn<Row>.FilterType), OmniDataGridColumnFilterType.Number));
+            DataGridTestSetup.PropertyColumn<Row>(builder, 10, nameof(Row.Name), "Name", (nameof(OmniDataGridColumn<Row>.Key), "name"), (nameof(OmniDataGridColumn<Row>.Filterable), true), (nameof(OmniDataGridColumn<Row>.FilterOperators), TextOperators));
         })));
 
     [Fact]

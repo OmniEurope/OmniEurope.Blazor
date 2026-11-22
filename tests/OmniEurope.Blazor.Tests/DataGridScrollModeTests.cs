@@ -13,14 +13,42 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
 {
     private const string GridModule = Internal.OmniModules.Grid;
 
-    [Fact]
-    public void Paged_IsTheDefault_AndRendersOnePageUnderAPager()
+    // <paramref name="count"/> numbers, ten to a page, the scripts answering anything.
+    private IRenderedComponent<OmniDataGrid<int>> RenderTenPerPage(int count, Action<ComponentParameterCollectionBuilder<OmniDataGrid<int>>>? more = null)
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 25).ToArray())
-            .Add(component => component.PageSize, 10));
+        return Render<OmniDataGrid<int>>(parameters =>
+        {
+            parameters
+                .Add(component => component.Items, Enumerable.Range(0, count).ToArray())
+                .Add(component => component.PageSize, 10);
+            more?.Invoke(parameters);
+        });
+    }
+
+    // Five thousand numbers in a virtual window of 36 px rows, the grid module recorded.
+    private (BunitJSModuleInterop Module, IRenderedComponent<OmniDataGrid<int>> Grid) RenderVirtualFiveThousand(bool fixedRowHeight)
+    {
+        var module = JSInterop.SetupModule(GridModule);
+        module.Mode = JSRuntimeMode.Loose;
+
+        var grid = Render<OmniDataGrid<int>>(parameters =>
+        {
+            parameters
+                .Add(component => component.Items, Enumerable.Range(0, 5_000).ToArray())
+                .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
+                .Add(component => component.EstimatedRowHeight, 36d);
+            if (fixedRowHeight)
+                parameters.Add(component => component.FixedRowHeight, true);
+        });
+        return (module, grid);
+    }
+
+    [Fact]
+    public void Paged_IsTheDefault_AndRendersOnePageUnderAPager()
+    {
+        var grid = RenderTenPerPage(25);
 
         Assert.Equal(OmniDataGridScrollMode.Paged, grid.Instance.ScrollMode);
         Assert.Equal(10, grid.FindAll("tbody tr[data-omni-row-index]").Count);
@@ -30,11 +58,7 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
     [Fact]
     public void Virtual_RendersAWindowOfTheWholeCount_WithoutAPager()
     {
-        JSInterop.Mode = JSRuntimeMode.Loose;
-
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
-            .Add(component => component.PageSize, 10)
+        var grid = RenderTenPerPage(10_000, parameters => parameters
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.EstimatedRowHeight, 40d));
 
@@ -46,11 +70,7 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
     [Fact]
     public void All_RendersEveryRow_WithoutPagerOrWindow()
     {
-        JSInterop.Mode = JSRuntimeMode.Loose;
-
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 25).ToArray())
-            .Add(component => component.PageSize, 10)
+        var grid = RenderTenPerPage(25, parameters => parameters
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.All));
 
         Assert.Equal(25, grid.FindAll("tbody tr[data-omni-row-index]").Count);
@@ -68,12 +88,7 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
             .Add(component => component.CaseSensitiveFilters, caseSensitive)
             .Add(component => component.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<City>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<City>.Key), "name");
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<City>.Title), "Ville");
-                builder.AddComponentParameter(3, nameof(OmniDataGridColumn<City>.Value), (Func<City, object?>)(city => city.Name));
-                builder.AddComponentParameter(4, nameof(OmniDataGridColumn<City>.Filterable), true);
-                builder.CloseComponent();
+                DataGridTestSetup.ValueColumn<City>(builder, 0, "name", city => city.Name, (nameof(OmniDataGridColumn<City>.Title), "Ville"), (nameof(OmniDataGridColumn<City>.Filterable), true));
             })));
 
         grid.Find(".omni-data-grid__filter").Input("Paris");
@@ -86,14 +101,7 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
     [Fact]
     public void FixedRowHeight_UsesTheEstimateAsTheRowHeight_AndStopsMeasuringRows()
     {
-        var module = JSInterop.SetupModule(GridModule);
-        module.Mode = JSRuntimeMode.Loose;
-
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 5_000).ToArray())
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 36d)
-            .Add(component => component.FixedRowHeight, true));
+        var (module, grid) = RenderVirtualFiveThousand(fixedRowHeight: true);
 
         grid.WaitForAssertion(() =>
         {
@@ -109,13 +117,7 @@ public sealed class DataGridScrollModeTests : OmniBunitContext
     [Fact]
     public void WithoutFixedRowHeight_RowsAreMeasured_AndNoRowHeightIsImposed()
     {
-        var module = JSInterop.SetupModule(GridModule);
-        module.Mode = JSRuntimeMode.Loose;
-
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 5_000).ToArray())
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 36d));
+        var (module, grid) = RenderVirtualFiveThousand(fixedRowHeight: false);
 
         grid.WaitForAssertion(() => Assert.Equal(true, module.Invocations["sync"][0].Arguments[1]));
         Assert.DoesNotContain("omni-data-grid--fixed-row-height", grid.Find(".omni-data-grid").ClassName, StringComparison.Ordinal);

@@ -26,11 +26,7 @@ public sealed class DataGridSortValueTests : OmniBunitContext
     {
         RenderFragment columns = builder =>
         {
-            builder.OpenComponent<OmniDataGridColumn<Card>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Card>.Key), "name");
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Card>.Title), "Nom");
-            builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Card>.Property), nameof(Card.Name));
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Card>(builder, 0, nameof(Card.Name), "Nom", (nameof(OmniDataGridColumn<Card>.Key), "name"));
 
             builder.OpenComponent<OmniDataGridColumn<Card>>(4);
             builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Card>.Key), "rank");
@@ -98,12 +94,7 @@ public sealed class DataGridSortValueTests : OmniBunitContext
     public async Task SortValue_LeavesTheExportReadingTheText()
     {
         OmniTableExportDocument? exported = null;
-        var grid = RenderGrid(withSortValue: true, parameters => parameters
-            .Add(component => component.ShowFooterBar, true)
-            .Add(component => component.ExportMarkdown, false)
-            .Add(component => component.ExportExcel, false)
-            .Add(component => component.ExportPdf, false)
-            .Add(component => component.OnExport, document => exported = document));
+        var grid = RenderGrid(withSortValue: true, parameters => parameters.ExportingCsvOnlyTo(document => exported = document));
 
         ClickRankSort(grid);
         await grid.Find(".omni-data-grid__export-button").ClickAsync(new());

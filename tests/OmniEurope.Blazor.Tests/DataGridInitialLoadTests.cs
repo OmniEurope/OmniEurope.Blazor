@@ -164,12 +164,7 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
     public void RemoteDateRange_WithOnlyAnEnd_SendsTheUpperBound_AndUnreadableSidesSendNothing()
     {
         var requests = new List<OmniDataGridLoadRequest>();
-        var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
-            .Add(component => component.Load, request =>
-            {
-                requests.Add(request);
-                return Task.FromResult(new OmniDataGridResult<DataGridFilterKindsTestHost.Ticket>([], 0));
-            }));
+        var grid = this.RenderRemoteFilterKinds(requests);
 
         grid.Find("th[data-omni-col=\"Opened\"] .omni-data-grid__date-range-end").Change("2026-08-30");
 

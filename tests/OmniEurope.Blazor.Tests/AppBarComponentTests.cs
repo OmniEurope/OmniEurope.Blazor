@@ -141,12 +141,7 @@ public sealed class AppBarComponentTests : OmniBunitContext
     public async Task TextBoxDebounce_RaisesOnlyTheLastValue_AfterThePause()
     {
         var raised = new List<string>();
-        var value = string.Empty;
-        var box = Render<OmniTextBox>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, (string next) => raised.Add(next))
-            .Add(component => component.Debounce, TimeSpan.FromMilliseconds(150)));
+        var box = RenderRaisingTextBox(raised, TimeSpan.FromMilliseconds(150));
 
         var input = box.Find("input");
         var first = input.InputAsync(new ChangeEventArgs { Value = "a" });
@@ -162,16 +157,29 @@ public sealed class AppBarComponentTests : OmniBunitContext
     public async Task TextBoxDebounce_IsOffByDefault_EveryKeystrokeRaises()
     {
         var raised = new List<string>();
-        var value = string.Empty;
-        var box = Render<OmniTextBox>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.ValueChanged, (string next) => raised.Add(next)));
+        var box = RenderRaisingTextBox(raised);
 
         await box.Find("input").InputAsync(new ChangeEventArgs { Value = "a" });
         await box.Find("input").InputAsync(new ChangeEventArgs { Value = "ab" });
 
         Assert.Equal(["a", "ab"], raised);
+    }
+
+    /// <summary>An empty text box that records every value it raises; a debounce is set only when one is given.</summary>
+    private IRenderedComponent<OmniTextBox> RenderRaisingTextBox(List<string> raised, TimeSpan? debounce = null)
+    {
+        var value = string.Empty;
+        return Render<OmniTextBox>(parameters =>
+        {
+            parameters
+                .Add(component => component.Value, value)
+                .Add(component => component.ValueExpression, () => value)
+                .Add(component => component.ValueChanged, (string next) => raised.Add(next));
+            if (debounce is { } pause)
+            {
+                parameters.Add(component => component.Debounce, pause);
+            }
+        });
     }
 
     // ---- OmniHeader.Brand, BrandLogo ----

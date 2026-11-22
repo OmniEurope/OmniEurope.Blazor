@@ -18,6 +18,16 @@ public sealed class ConnectionOverlayLostCircuitTests : OmniBunitContext
         return runtime;
     }
 
+    /// <summary>The overlay, reconnecting, over a runtime whose <paramref name="call"/> meets a lost circuit.</summary>
+    private (ManualJSRuntime Runtime, IRenderedComponent<OmniConnectionOverlay> Overlay) RenderReconnectingWhileLosing(string call)
+    {
+        var runtime = UseRuntime(new ManualJSRuntime());
+        runtime.Module.CallFailures[call] = new JSDisconnectedException("lost");
+        var overlay = Render<OmniConnectionOverlay>(parameters => parameters
+            .Add(component => component.State, OmniConnectionState.Reconnecting));
+        return (runtime, overlay);
+    }
+
     [Fact]
     public async Task ALostCircuit_WhileLoadingTheFocusScript_StillShowsTheOverlay_AndCallsNothing()
     {
@@ -35,11 +45,7 @@ public sealed class ConnectionOverlayLostCircuitTests : OmniBunitContext
     [Fact]
     public async Task ALostCircuit_WhileActivatingTheFocusTrap_StillShowsTheOverlay_AndTriesAgainOnTheNextRender()
     {
-        var runtime = UseRuntime(new ManualJSRuntime());
-        runtime.Module.CallFailures["activateDialog"] = new JSDisconnectedException("lost");
-
-        var overlay = Render<OmniConnectionOverlay>(parameters => parameters
-            .Add(component => component.State, OmniConnectionState.Reconnecting));
+        var (runtime, overlay) = RenderReconnectingWhileLosing("activateDialog");
 
         Assert.Equal(1, runtime.Module.Calls.Count(call => call == "activateDialog"));
         Assert.NotEmpty(overlay.FindAll(".omni-connection-overlay__card--reconnecting"));
@@ -57,10 +63,7 @@ public sealed class ConnectionOverlayLostCircuitTests : OmniBunitContext
     [Fact]
     public async Task ALostCircuit_WhileRestoringTheFocus_StillHidesTheOverlay()
     {
-        var runtime = UseRuntime(new ManualJSRuntime());
-        runtime.Module.CallFailures["restoreFocus"] = new JSDisconnectedException("lost");
-        var overlay = Render<OmniConnectionOverlay>(parameters => parameters
-            .Add(component => component.State, OmniConnectionState.Reconnecting));
+        var (runtime, overlay) = RenderReconnectingWhileLosing("restoreFocus");
         Assert.Equal(1, runtime.Module.Calls.Count(call => call == "activateDialog"));
 
         overlay.Render(parameters => parameters.Add(component => component.State, OmniConnectionState.Connected));

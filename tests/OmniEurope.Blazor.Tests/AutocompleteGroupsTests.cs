@@ -23,17 +23,11 @@ public sealed class AutocompleteGroupsTests : OmniBunitContext
 
     private IRenderedComponent<OmniAutocomplete<string>> RenderPlaces(Action<string>? changed = null, IReadOnlyList<OmniOption<string>>? options = null)
     {
-        var source = options ?? Places;
-        var value = string.Empty;
-        return Render<OmniAutocomplete<string>>(parameters => parameters
+        return this.RenderAutocomplete(AutocompleteTestSetup.SearchIn(options ?? Places), extra: parameters => parameters
             .Add(component => component.Id, "place")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, (string next) => changed?.Invoke(next))
             .Add(component => component.Debounce, TimeSpan.Zero)
-            .Add(component => component.MinimumLength, 0)
-            .Add(component => component.Search, (text, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(
-                [.. source.Where(place => place.Text.Contains(text, StringComparison.OrdinalIgnoreCase))])));
+            .Add(component => component.MinimumLength, 0));
     }
 
     private static async Task TypeAsync(IRenderedComponent<OmniAutocomplete<string>> autocomplete, string text) =>
@@ -180,12 +174,7 @@ public sealed class AutocompleteGroupsTests : OmniBunitContext
     [Fact]
     public void FilterableDropDown_ShowsTheGroupHeadings()
     {
-        var value = string.Empty;
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
-            .Add(component => component.Filterable, true)
-            .Add(component => component.Options, Places)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var dropDown = this.RenderFilterableDropDown(Places);
 
         dropDown.Find("input").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
         dropDown.WaitForAssertion(() => Assert.Equal(
@@ -197,13 +186,7 @@ public sealed class AutocompleteGroupsTests : OmniBunitContext
     [Fact]
     public void FilterableDropDown_WithAnEmptyChoice_ListsItWithoutHeading()
     {
-        var value = string.Empty;
-        var dropDown = Render<OmniDropDown<string>>(parameters => parameters
-            .Add(component => component.Filterable, true)
-            .Add(component => component.AllowEmpty, true)
-            .Add(component => component.Options, Places)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var dropDown = this.RenderFilterableDropDown(Places, extra: parameters => parameters.Add(component => component.AllowEmpty, true));
 
         dropDown.Find("input").KeyDown(new KeyboardEventArgs { Key = "ArrowDown" });
         dropDown.WaitForAssertion(() => Assert.Equal(Places.Count + 1, dropDown.FindAll("[role=option]").Count));

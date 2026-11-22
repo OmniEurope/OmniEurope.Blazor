@@ -50,18 +50,10 @@ public sealed class DataGridAggregateTests : OmniBunitContext
                 builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.GroupFooterTemplate), groupFooter);
             }
             builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Row>>(4);
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Property), property);
-            builder.AddComponentParameter(6, nameof(OmniDataGridColumn<Row>.Title), "Valeur");
-            builder.AddComponentParameter(7, nameof(OmniDataGridColumn<Row>.Aggregate), aggregate);
-            builder.AddComponentParameter(8, nameof(OmniDataGridColumn<Row>.AggregateFormat), "Total : {0}");
-            builder.AddComponentParameter(9, nameof(OmniDataGridColumn<Row>.GroupAggregateFormat), "Sous total : {0}");
-            builder.CloseComponent();
+            DataGridTestSetup.PropertyColumn<Row>(builder, 4, property, "Valeur", (nameof(OmniDataGridColumn<Row>.Aggregate), aggregate), (nameof(OmniDataGridColumn<Row>.AggregateFormat), "Total : {0}"), (nameof(OmniDataGridColumn<Row>.GroupAggregateFormat), "Sous total : {0}"));
         };
 
-        return Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(grid => grid.Items, Rows)
-            .Add(grid => grid.Columns, columns)
+        return this.RenderDataGrid(Rows, columns, parameters => parameters
             .Add(grid => grid.AllowGrouping, grouped)
             .Add(grid => grid.Groups, groups ?? (grouped ? [new OmniDataGridGroup(nameof(Row.Group))] : []))
             .Add(grid => grid.AllGroupsExpanded, allGroupsExpanded));

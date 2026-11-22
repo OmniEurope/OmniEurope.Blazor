@@ -55,9 +55,7 @@ public sealed class DataGridRenderEdgeTests : OmniBunitContext
     [Fact]
     public void GroupPanel_WithoutGrouping_IsNotDrawn()
     {
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns(Column(nameof(Row.Name))))
+        var grid = this.RenderDataGrid(Rows, Columns(Column(nameof(Row.Name))), parameters => parameters
             .Add(component => component.ShowGroupPanel, true));
 
         Assert.Empty(grid.FindAll(".omni-data-grid__group-panel"));
@@ -121,9 +119,7 @@ public sealed class DataGridRenderEdgeTests : OmniBunitContext
     public async Task TreeRowInEditMode_KeepsItsLead()
     {
         var root = new Row("racine", "g", 0m) { Children = [new Row("feuille", "g", 1m)] };
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, [root])
-            .Add(component => component.Columns, Columns(Column(nameof(Row.Name), (nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(_ => Editor)))))
+        var grid = this.RenderDataGrid<Row>([root], Columns(Column(nameof(Row.Name), (nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(_ => Editor)))), parameters => parameters
             .Add(component => component.ChildrenOf, row => row.Children)
             .Add(component => component.KeyOf, row => row.Name));
 
@@ -161,9 +157,7 @@ public sealed class DataGridRenderEdgeTests : OmniBunitContext
     {
         var cancelled = new List<Row>();
         var resized = new List<OmniDataGridColumnWidthChange>();
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns(Column(nameof(Row.Name), (nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(_ => Editor)))))
+        var grid = this.RenderDataGrid(Rows, Columns(Column(nameof(Row.Name), (nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(_ => Editor)))), parameters => parameters
             .Add(component => component.KeyOf, row => row.Name)
             .Add(component => component.OnRowEditCancel, row => cancelled.Add(row))
             .Add(component => component.OnColumnResize, change => resized.Add(change)));

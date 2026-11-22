@@ -70,11 +70,7 @@ public sealed class DataGridVirtualLoadDedupTests : OmniBunitContext
             .Add(component => component.FillAvailableHeight, true)
             .Add(component => component.Columns, (RenderFragment)(builder =>
             {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-                builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Sortable), true);
-                builder.CloseComponent();
+                DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom", (nameof(OmniDataGridColumn<Row>.Sortable), true));
             }))
             .Add(component => component.Load, request =>
             {

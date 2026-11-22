@@ -191,8 +191,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
     [Fact]
     public void Monaco_WhileLoading_ShowsThePanes()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<bool>("load", _ => true);
+        var module = JSInterop.SetupMonacoLoad(loaded: null);
         var viewer = Render<OmniDiffViewer>(parameters => parameters
             .Add(component => component.Original, "a")
             .Add(component => component.Modified, "b"));
@@ -205,8 +204,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
     [Fact]
     public void Monaco_ThatCannotBeLoaded_LeavesThePanesAndSaysSo()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<bool>("load", _ => true).SetResult(false);
+        var module = JSInterop.SetupMonacoLoad(loaded: false);
         var viewer = Render<OmniDiffViewer>(parameters => parameters
             .Add(component => component.Original, "a")
             .Add(component => component.ReadOnly, true)
@@ -224,10 +222,9 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
     [Fact]
     public void Monaco_ThatRefusesToMount_FallsBackToThePanes()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<bool>("load", _ => true).SetResult(true);
+        var module = JSInterop.SetupMonacoLoad(loaded: true);
         module.Setup<bool>("mountDiff", _ => true).SetResult(false);
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
+        var viewer = this.RenderDiffOf("a");
 
         viewer.WaitForAssertion(() => Assert.NotNull(viewer.Find(".omni-diff-viewer__notice")));
         Assert.Contains("omni-diff-viewer--failed", viewer.Find(".omni-diff-viewer").ClassList);
@@ -279,8 +276,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
     public void Monaco_SwitchedToPlainText_DisposesTheEditor_AndShowsThePanes()
     {
         var module = SetupMonaco();
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
-        viewer.WaitForAssertion(() => Assert.Single(module.Invocations["mountDiff"]));
+        var viewer = this.RenderMountedDiff(module);
 
         viewer.Render(parameters => parameters.Add(component => component.Engine, OmniCodeEditorEngine.PlainText));
 
@@ -293,8 +289,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
     public async Task Dispose_DisposesTheEditor_AndReleasesTheBridge()
     {
         var module = SetupMonaco();
-        var viewer = Render<OmniDiffViewer>(parameters => parameters.Add(component => component.Original, "a"));
-        viewer.WaitForAssertion(() => Assert.Single(module.Invocations["mountDiff"]));
+        var viewer = this.RenderMountedDiff(module);
         var bridge = (DotNetObjectReference<DiffViewerInteropBridge>)module.Invocations["mountDiff"][0].Arguments[1]!;
 
         await DisposeComponentsAsync();
@@ -305,8 +300,7 @@ public sealed class DiffViewerComponentTests : OmniBunitContext
 
     private BunitJSModuleInterop SetupMonaco()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<bool>("load", _ => true).SetResult(true);
+        var module = JSInterop.SetupMonacoLoad(loaded: true);
         module.Setup<bool>("mountDiff", _ => true).SetResult(true);
         module.SetupVoid("setDiff", _ => true).SetVoidResult();
         module.SetupVoid("configureDiff", _ => true).SetVoidResult();

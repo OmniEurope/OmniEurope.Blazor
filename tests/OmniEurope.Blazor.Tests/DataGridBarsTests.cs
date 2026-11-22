@@ -14,8 +14,8 @@ public sealed class DataGridBarsTests : OmniBunitContext
 {
     private static readonly Row[] Rows =
     [
-        new(1, "Delta", 1234.5m, new DateOnly(2026, 9, 1), true),
-        new(2, "Alpha", 20m, new DateOnly(2026, 9, 2), false)
+        DataGridExportTestHost.Delta,
+        DataGridExportTestHost.Alpha
     ];
 
     private IRenderedComponent<DataGridExportTestHost> Grid(Action<ComponentParameterCollectionBuilder<DataGridExportTestHost>> parameters) =>

@@ -214,10 +214,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         JSInterop.Mode = JSRuntimeMode.Loose;
         var items = Enumerable.Range(0, 100_000).ToArray();
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, items)
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 40d)
+        var grid = this.RenderVirtualNumbers(items, 40d, parameters => parameters
             .Add(component => component.VirtualizationOverscanCount, 2));
 
         var rows = grid.FindAll("tbody tr:not(.omni-data-grid__spacer)");
@@ -236,10 +233,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         try
         {
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
-            var grid = Render<OmniDataGrid<int>>(parameters => parameters
-                .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
-                .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-                .Add(component => component.EstimatedRowHeight, 40.5d));
+            var grid = this.RenderVirtualNumbers(Enumerable.Range(0, 10_000).ToArray(), 40.5d);
             Assert.Equal("0", grid.Find("[data-omni-spacer='top'] td").GetAttribute("height"));
 
             await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(40_500d, 405d));
@@ -263,10 +257,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         var items = Enumerable.Range(0, 10_000).ToArray();
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, items)
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 40d));
+        var grid = this.RenderVirtualNumbers(items, 40d);
 
         Assert.Contains(">0</td>", grid.Markup, StringComparison.Ordinal);
 
@@ -289,10 +280,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
             RowEstimate = 32d
         });
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 10_000).ToArray())
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 40d));
+        var grid = this.RenderVirtualNumbers(Enumerable.Range(0, 10_000).ToArray(), 40d);
 
         sync.SetResult(new GridViewportSnapshot { ScrollTop = 32_000d, ViewportHeight = 320d, RowEstimate = 32d });
         await grid.InvokeAsync(() => grid.Instance.OnViewportChangedAsync(32_000d, 320d));
@@ -308,17 +296,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         module.Setup<GridViewportSnapshot?>("sync", _ => true).SetResult(new GridViewportSnapshot { ViewportHeight = 400d });
         IReadOnlyList<Line> selected = [];
-        Microsoft.AspNetCore.Components.RenderFragment columns = builder =>
-        {
-            builder.OpenComponent<OmniDataGridColumn<Line>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Line>.Key), "bucket");
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Bucket));
-            builder.CloseComponent();
-            builder.OpenComponent<OmniDataGridColumn<Line>>(3);
-            builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Line>.Key), "value");
-            builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Line>.Property), nameof(Line.Value));
-            builder.CloseComponent();
-        };
+        var columns = DataGridTestSetup.KeyedPropertyColumns<Line>(("bucket", nameof(Line.Bucket)), ("value", nameof(Line.Value)));
         var grid = Render<OmniDataGrid<Line>>(parameters => parameters
             .Add(component => component.Items, Enumerable.Range(0, 300).Select(value => new Line(value, value / 100)).ToArray())
             .Add(component => component.KeyOf, line => line.Value)
@@ -344,17 +322,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         JSInterop.Mode = JSRuntimeMode.Loose;
         var requests = new List<OmniDataGridLoadRequest>();
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 40d)
-            .Add(component => component.VirtualBlockSize, 100)
-            .Add(component => component.Load, request =>
-            {
-                requests.Add(request);
-                return Task.FromResult(new OmniDataGridResult<int>(
-                    Enumerable.Range(request.Skip, request.Top).ToArray(),
-                    50_000));
-            }));
+        var grid = this.RenderVirtualRemoteNumbers(requests, blockSize: 100, total: 50_000);
 
         Assert.Single(requests);
         Assert.Equal(0, requests[0].Skip);
@@ -387,10 +355,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(OmniModules.Grid);
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, Enumerable.Range(0, 5_000).ToArray())
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 40d)
+        var grid = this.RenderVirtualNumbers(Enumerable.Range(0, 5_000).ToArray(), 40d, parameters => parameters
             .Add(component => component.Height, "50vh"));
 
         grid.WaitForAssertion(() =>
@@ -466,10 +431,7 @@ public sealed class DataGridVirtualizationTests : OmniBunitContext
         JSInterop.Mode = JSRuntimeMode.Loose;
         var items = Enumerable.Range(0, 10_000).ToArray();
 
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.Items, items)
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 40d)
+        var grid = this.RenderVirtualNumbers(items, 40d, parameters => parameters
             .Add(component => component.ExpandedKeys, new object[] { 1000 })
             .Add(component => component.DetailTemplate, item => builder => builder.AddContent(0, $"Détail {item}")));
 

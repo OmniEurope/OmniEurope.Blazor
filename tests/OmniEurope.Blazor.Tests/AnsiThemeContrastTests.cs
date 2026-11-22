@@ -14,11 +14,6 @@ public sealed class AnsiThemeContrastTests
 {
     private const double Text = 4.5;
 
-    private static IReadOnlyDictionary<string, string> TokensOf(string themeName, string paletteName, OmniAppearance mode) =>
-        OmniThemePresets.All.Single(entry => entry.Name == themeName)
-            .With(OmniThemePalettes.All.Single(entry => entry.Name == paletteName))
-            .For(mode);
-
     private static string[] AnsiColors(IReadOnlyDictionary<string, string> tokens) =>
         [.. Enumerable.Range(0, 16).Select(index => ThemeTokenResolution.Resolve(tokens, tokens[$"--omni-ansi-{index}"]))];
 
@@ -53,7 +48,7 @@ public sealed class AnsiThemeContrastTests
     [MemberData(nameof(ThemeContrastMatrixTests.Sets), MemberType = typeof(ThemeContrastMatrixTests))]
     public void Every_ansi_colour_reads_on_the_log_surface(string themeName, string paletteName, OmniAppearance mode)
     {
-        var tokens = TokensOf(themeName, paletteName, mode);
+        var tokens = ThemeTokenResolution.TokensOf(themeName, paletteName, mode);
         var colors = AnsiColors(tokens);
 
         var failures = new List<string>();
@@ -81,7 +76,7 @@ public sealed class AnsiThemeContrastTests
     [MemberData(nameof(ThemeContrastMatrixTests.Sets), MemberType = typeof(ThemeContrastMatrixTests))]
     public void A_background_colour_keeps_every_foreground_readable(string themeName, string paletteName, OmniAppearance mode)
     {
-        var tokens = TokensOf(themeName, paletteName, mode);
+        var tokens = ThemeTokenResolution.TokensOf(themeName, paletteName, mode);
         var colors = AnsiColors(tokens);
         var defaultText = ThemeTokenResolution.Resolve(tokens, tokens["--omni-color-text"]);
 
@@ -114,7 +109,7 @@ public sealed class AnsiThemeContrastTests
     [MemberData(nameof(ThemeContrastMatrixTests.Sets), MemberType = typeof(ThemeContrastMatrixTests))]
     public void Every_ansi_colour_reads_in_a_warning_or_error_row(string themeName, string paletteName, OmniAppearance mode)
     {
-        var tokens = TokensOf(themeName, paletteName, mode);
+        var tokens = ThemeTokenResolution.TokensOf(themeName, paletteName, mode);
         var colors = AnsiColors(tokens);
 
         var failures = new List<string>();
@@ -139,7 +134,7 @@ public sealed class AnsiThemeContrastTests
     [MemberData(nameof(ThemeContrastMatrixTests.Sets), MemberType = typeof(ThemeContrastMatrixTests))]
     public void The_sixteen_colours_are_distinct_and_each_bright_hue_is_lighter_than_its_normal_one(string themeName, string paletteName, OmniAppearance mode)
     {
-        var colors = AnsiColors(TokensOf(themeName, paletteName, mode));
+        var colors = AnsiColors(ThemeTokenResolution.TokensOf(themeName, paletteName, mode));
 
         Assert.Equal(16, colors.Distinct(StringComparer.OrdinalIgnoreCase).Count());
         for (var hue = 1; hue <= 6; hue++)
@@ -155,8 +150,8 @@ public sealed class AnsiThemeContrastTests
     [MemberData(nameof(ThemeCatalogPairs))]
     public void Light_and_dark_modes_have_their_own_value_for_each_colour(string themeName, string paletteName)
     {
-        var light = AnsiColors(TokensOf(themeName, paletteName, OmniAppearance.Light));
-        var dark = AnsiColors(TokensOf(themeName, paletteName, OmniAppearance.Dark));
+        var light = AnsiColors(ThemeTokenResolution.TokensOf(themeName, paletteName, OmniAppearance.Light));
+        var dark = AnsiColors(ThemeTokenResolution.TokensOf(themeName, paletteName, OmniAppearance.Dark));
 
         for (var index = 0; index < 16; index++)
         {

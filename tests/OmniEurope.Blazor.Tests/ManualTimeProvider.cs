@@ -1,10 +1,10 @@
 namespace OmniEurope.Blazor.Tests;
 
-/// <summary>A clock the test moves by hand, firing the timers it owes on each step.</summary>
-internal sealed class ManualTimeProvider : TimeProvider
+/// <summary>A clock the test moves by hand, from <paramref name="start"/> (the first of January 2026 by default), firing the timers it owes on each step.</summary>
+internal sealed class ManualTimeProvider(DateTimeOffset? start = null) : TimeProvider
 {
     private readonly List<ManualTimer> _timers = [];
-    private DateTimeOffset _now = new(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
+    private DateTimeOffset _now = start ?? new(2026, 1, 1, 0, 0, 0, TimeSpan.Zero);
 
     public override DateTimeOffset GetUtcNow() => _now;
     public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
@@ -26,6 +26,18 @@ internal sealed class ManualTimeProvider : TimeProvider
             lock (_timers)
             {
                 return _timers.Count(timer => !timer.Disposed);
+            }
+        }
+    }
+
+    /// <summary>The timers that still wait for the clock to reach them, in the order they were asked for.</summary>
+    public IReadOnlyList<ITimer> PendingTimers
+    {
+        get
+        {
+            lock (_timers)
+            {
+                return [.. _timers.Where(timer => !timer.Disposed)];
             }
         }
     }

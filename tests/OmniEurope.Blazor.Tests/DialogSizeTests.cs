@@ -88,7 +88,7 @@ public sealed class DialogSizeTests : OmniBunitContext
     public void RequestSize_ReachesTheDialogRenderedByTheHost()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         service.OpenDialog(new OmniDialogRequest("Comparer", Content("Deux versions")) { Size = OmniDialogSize.ExtraLarge });
 
@@ -101,7 +101,7 @@ public sealed class DialogSizeTests : OmniBunitContext
         // Requests are records: the same dialog opened twice (a button pressed twice) gives two equal
         // values, which must still be two dialogs, not a duplicate render key that breaks the host.
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
         var content = Content("Deux fois");
 
         service.OpenDialog(new OmniDialogRequest("Même dialogue", content));
@@ -116,20 +116,18 @@ public sealed class DialogSizeTests : OmniBunitContext
     public void RequestWithoutSize_RendersTheHostDialogAtTheBaseWidth()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         service.OpenDialog(new OmniDialogRequest("Confirmer", Content("Continuer ?")));
 
-        host.WaitForAssertion(() => Assert.NotNull(host.Find("section.omni-dialog")));
-        Assert.DoesNotContain(host.Find("section.omni-dialog").ClassList, SizeModifiers.Contains);
-        Assert.Equal(OmniDialogSize.Medium, service.Dialog!.Size);
+        AssertShownAtTheBaseWidth(host, service);
     }
 
     [Fact]
     public async Task OpenDialogAsyncOfComponentWithSize_PassesTheSizeAndTheParameters_AndAnswersItsResult()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         var pending = service.OpenDialogAsync<OmniText>(
             "Journal",
@@ -155,26 +153,21 @@ public sealed class DialogSizeTests : OmniBunitContext
     public void OpenDialogAsyncOfComponentWithoutSize_StaysAtTheBaseWidth()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         _ = service.OpenDialogAsync<OmniText>("Renommer");
 
+        AssertShownAtTheBaseWidth(host, service);
+    }
+
+    private static void AssertShownAtTheBaseWidth(IRenderedComponent<OmniComponentsHost> host, OmniOverlayService service)
+    {
         host.WaitForAssertion(() => Assert.NotNull(host.Find("section.omni-dialog")));
         Assert.DoesNotContain(host.Find("section.omni-dialog").ClassList, SizeModifiers.Contains);
         Assert.Equal(OmniDialogSize.Medium, service.Dialog!.Size);
     }
 
-    private IRenderedComponent<OmniDialog> RenderDialog(OmniDialogSize? size) => Render<OmniDialog>(parameters =>
-    {
-        parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Title, "Dossier")
-            .AddChildContent("Contenu");
-        if (size is { } value)
-        {
-            parameters.Add(component => component.Size, value);
-        }
-    });
+    private IRenderedComponent<OmniDialog> RenderDialog(OmniDialogSize? size) => this.RenderFolderDialog(width: null, size);
 
-    private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
+    private static RenderFragment Content(string value) => DialogTestSetup.Content(value);
 }

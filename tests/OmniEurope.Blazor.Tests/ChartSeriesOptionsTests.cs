@@ -214,12 +214,9 @@ public sealed class ChartSeriesOptionsTests : OmniBunitContext
             .Add(component => component.Label, "Légende")
             .AddChildContent(builder =>
             {
-                builder.OpenComponent<OmniGridLines>(0);
-                builder.CloseComponent();
+                ChartRenderTreeHelpers.Child<OmniGridLines>(builder, 0);
                 Line(builder, 1, "Taux", Points(1, 2), dashed: false);
-                builder.OpenComponent<OmniLegend>(20);
-                builder.AddAttribute(21, nameof(OmniLegend.Placement), OmniLegendPlacement.Top);
-                builder.CloseComponent();
+                ChartRenderTreeHelpers.Child<OmniLegend>(builder, 20, (nameof(OmniLegend.Placement), OmniLegendPlacement.Top));
             }));
 
         chart.WaitForAssertion(() =>

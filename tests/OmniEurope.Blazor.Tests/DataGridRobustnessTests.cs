@@ -21,15 +21,8 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
 
     private static RenderFragment Columns(string? formatString = null) => builder =>
     {
-        builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-        builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-        builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-        builder.CloseComponent();
-        builder.OpenComponent<OmniDataGridColumn<Row>>(3);
-        builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Amount));
-        builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Title), "Montant");
-        builder.AddComponentParameter(6, nameof(OmniDataGridColumn<Row>.FormatString), formatString);
-        builder.CloseComponent();
+        DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom");
+        DataGridTestSetup.PropertyColumn<Row>(builder, 3, nameof(Row.Amount), "Montant", (nameof(OmniDataGridColumn<Row>.FormatString), formatString));
     };
 
     // ---- widths reported by the script -------------------------------------------------------------
@@ -41,9 +34,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
     public async Task AWidthThatIsNotFinite_IsNeitherAppliedNorAnnouncedNorSaved(double width)
     {
         var resized = new List<OmniDataGridColumnWidthChange>();
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.AllowColumnAutoFit, true)
             .Add(component => component.OnColumnResize, change => resized.Add(change)));
 
@@ -57,9 +48,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
     public async Task AHugeWidth_IsBoundedAndAGoodOneKept()
     {
         var resized = new List<OmniDataGridColumnWidthChange>();
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.OnColumnResize, change => resized.Add(change)));
 
         await grid.InvokeAsync(() => grid.Instance.OnColumnResizedAsync("Name", 1e12));
@@ -112,9 +101,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         module.SetupVoid("attachWheelScope", _ => true).SetException(new JSException("'!!' is not a valid selector"));
 
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.WheelScrollScope, "!!"));
         await grid.InvokeAsync(() => { });
         grid.Render(parameters => parameters.Add(component => component.Caption, "Une légende"));
@@ -132,9 +119,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
         var runtime = new ManualJSRuntime();
         runtime.Module.CallFailures["detachResize"] = new JSException("detach failed");
         Services.AddSingleton<IJSRuntime>(runtime);
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.AllowColumnResize, true)
             .Add(component => component.AllowColumnReorder, true));
         await grid.InvokeAsync(() => { });
@@ -153,15 +138,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         var requests = new List<OmniDataGridLoadRequest>();
-        var grid = Render<OmniDataGrid<int>>(parameters => parameters
-            .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
-            .Add(component => component.EstimatedRowHeight, 40d)
-            .Add(component => component.VirtualBlockSize, 50)
-            .Add(component => component.Load, request =>
-            {
-                requests.Add(request);
-                return Task.FromResult(new OmniDataGridResult<int>(Enumerable.Range(request.Skip, request.Top).ToArray(), 5_000));
-            }));
+        var grid = this.RenderVirtualRemoteNumbers(requests, blockSize: 50, total: 5_000);
         Assert.Equal(50, Assert.Single(requests).Top);
 
         grid.Render(parameters => parameters.Add(component => component.VirtualBlockSize, 100));
@@ -238,14 +215,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
         {
             OmniTableExportDocument? exported = null;
             JSInterop.SetupModule(OmniModules.DocumentEditor).SetupVoid("download", _ => true).SetVoidResult();
-            var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-                .Add(component => component.Items, Rows)
-                .Add(component => component.Columns, Columns("{0:Q}"))
-                .Add(component => component.ShowFooterBar, true)
-                .Add(component => component.ExportMarkdown, false)
-                .Add(component => component.ExportExcel, false)
-                .Add(component => component.ExportPdf, false)
-                .Add(component => component.OnExport, document => exported = document));
+            var grid = this.RenderDataGrid(Rows, Columns("{0:Q}"), parameters => parameters.ExportingCsvOnlyTo(document => exported = document));
 
             Assert.Contains(">10</td>", grid.Markup, StringComparison.Ordinal);
             await grid.Find(".omni-data-grid__export-button").ClickAsync(new());
@@ -287,9 +257,7 @@ public sealed class DataGridRobustnessTests : OmniBunitContext
     public async Task TheBridge_ForwardsEachCallbackOfTheScriptsToTheGrid()
     {
         var resized = new List<OmniDataGridColumnWidthChange>();
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, Columns())
+        var grid = this.RenderDataGrid(Rows, Columns(), parameters => parameters
             .Add(component => component.AllowColumnResize, true)
             .Add(component => component.AllowColumnReorder, true)
             .Add(component => component.AllowColumnAutoFit, true)

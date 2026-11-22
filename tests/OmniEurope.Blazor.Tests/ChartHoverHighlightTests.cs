@@ -254,6 +254,32 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
         bars.WaitForAssertion(() => Assert.NotEmpty(module.Invocations));
     }
 
+    /// <summary>A long bar and a bar too short to hold its label.</summary>
+    private static readonly OmniChartPoint[] OpusAndOthers = [new(0, 90, "Opus · 90%"), new(1, 2, "Autres · 2%")];
+
+    /// <summary>A first series in colour 2 and a second over the same values, labelled inside its bars.</summary>
+    private IRenderedComponent<OmniChart> TwoSeriesOfTheSameValues(params (string Name, object? Value)[] second)
+    {
+        var data = Points(10, 20);
+        return Chart(builder =>
+        {
+            Child<OmniColumnSeries>(builder, 0, ("Data", data), ("ColorIndex", 2));
+            Child<OmniColumnSeries>(builder, 10, [("Data", data), .. second]);
+            Child<OmniSeriesDataLabels>(builder, 20, ("Data", data), ("Inside", true));
+        });
+    }
+
+    private static void AssertEveryLabelReadsOnABarOfColour2(IRenderedComponent<OmniChart> chart) =>
+        chart.WaitForAssertion(() => Assert.All(
+            chart.FindAll(".omni-chart__labels text"),
+            label => Assert.Equal("omni-chart__label-on-bar omni-chart-color-2", label.GetAttribute("class"))));
+
+    private static void AssertEveryLabelStartsInsideTheFirstBar(IRenderedComponent<OmniChart> chart, IEnumerable<AngleSharp.Dom.IElement> labels)
+    {
+        var start = double.Parse(chart.FindAll(".omni-chart__bars rect")[0].GetAttribute("x")!, CultureInfo.InvariantCulture);
+        Assert.All(labels, label => Assert.Equal(start + 1.5, double.Parse(label.GetAttribute("x")!, CultureInfo.InvariantCulture), 3));
+    }
+
     private IRenderedComponent<OmniChart> Bars(OmniChartPoint[] data, bool horizontal, bool contrast = true, int color = 2) =>
         Chart(builder =>
         {
@@ -266,13 +292,7 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     [InlineData(2, true)]
     public void TwoSeriesOfTheSameValues_InDifferentColours_LeaveALabelWithoutABarToReadOn(int color, bool colorByPoint)
     {
-        var data = Points(10, 20);
-        var chart = Chart(builder =>
-        {
-            Child<OmniColumnSeries>(builder, 0, ("Data", data), ("ColorIndex", 2));
-            Child<OmniColumnSeries>(builder, 10, ("Data", data), ("ColorIndex", color), ("ColorByPoint", colorByPoint));
-            Child<OmniSeriesDataLabels>(builder, 20, ("Data", data), ("Inside", true));
-        });
+        var chart = TwoSeriesOfTheSameValues(("ColorIndex", color), ("ColorByPoint", colorByPoint));
 
         chart.WaitForAssertion(() =>
         {
@@ -285,17 +305,9 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     [Fact]
     public void TwoSeriesOfTheSameValues_InTheSameColour_StillGiveALabelItsBar()
     {
-        var data = Points(10, 20);
-        var chart = Chart(builder =>
-        {
-            Child<OmniColumnSeries>(builder, 0, ("Data", data), ("ColorIndex", 2));
-            Child<OmniColumnSeries>(builder, 10, ("Data", data), ("ColorIndex", 2));
-            Child<OmniSeriesDataLabels>(builder, 20, ("Data", data), ("Inside", true));
-        });
+        var chart = TwoSeriesOfTheSameValues(("ColorIndex", 2));
 
-        chart.WaitForAssertion(() => Assert.All(
-            chart.FindAll(".omni-chart__labels text"),
-            label => Assert.Equal("omni-chart__label-on-bar omni-chart-color-2", label.GetAttribute("class"))));
+        AssertEveryLabelReadsOnABarOfColour2(chart);
     }
 
     [Theory]
@@ -310,9 +322,7 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
             Child<OmniSeriesDataLabels>(builder, 10, ("Data", data), ("Inside", true));
         });
 
-        chart.WaitForAssertion(() => Assert.All(
-            chart.FindAll(".omni-chart__labels text"),
-            label => Assert.Equal("omni-chart__label-on-bar omni-chart-color-2", label.GetAttribute("class"))));
+        AssertEveryLabelReadsOnABarOfColour2(chart);
     }
 
     [Fact]
@@ -337,16 +347,14 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
         {
             var labels = chart.FindAll(".omni-chart__labels text");
             Assert.Equal(["omni-chart__label-on-bar omni-chart-color-2", "omni-chart__label-on-bar omni-chart-color-3"], labels.Select(label => label.GetAttribute("class")));
-            var start = double.Parse(chart.FindAll(".omni-chart__bars rect")[0].GetAttribute("x")!, CultureInfo.InvariantCulture);
-            Assert.All(labels, label => Assert.Equal(start + 1.5, double.Parse(label.GetAttribute("x")!, CultureInfo.InvariantCulture), 3));
+            AssertEveryLabelStartsInsideTheFirstBar(chart, labels);
         });
     }
 
     [Fact]
     public void ALabelTooLongForItsBar_IsWrittenPastItsEnd_InTheTextColour()
     {
-        var data = new[] { new OmniChartPoint(0, 90, "Opus · 90%"), new OmniChartPoint(1, 2, "Autres · 2%") };
-        var chart = Bars(data, horizontal: true);
+        var chart = Bars(OpusAndOthers, horizontal: true);
 
         chart.WaitForAssertion(() =>
         {
@@ -382,16 +390,14 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     [Fact]
     public void WithoutContrast_EveryLabelStaysInside_WithTheOutline()
     {
-        var data = new[] { new OmniChartPoint(0, 90, "Opus · 90%"), new OmniChartPoint(1, 2, "Autres · 2%") };
-        var chart = Bars(data, horizontal: true, contrast: false);
+        var chart = Bars(OpusAndOthers, horizontal: true, contrast: false);
 
         chart.WaitForAssertion(() =>
         {
             var labels = chart.FindAll(".omni-chart__labels--inside text");
             Assert.Equal(2, labels.Count);
             Assert.All(labels, label => Assert.Null(label.GetAttribute("class")));
-            var start = double.Parse(chart.FindAll(".omni-chart__bars rect")[0].GetAttribute("x")!, CultureInfo.InvariantCulture);
-            Assert.All(labels, label => Assert.Equal(start + 1.5, double.Parse(label.GetAttribute("x")!, CultureInfo.InvariantCulture), 3));
+            AssertEveryLabelStartsInsideTheFirstBar(chart, labels);
         });
     }
 

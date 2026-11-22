@@ -268,15 +268,12 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     [Fact]
     public async Task StatTile_DisposedBeforeItsScriptLoads_ReleasesTheModuleWithoutAttaching()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = this.InstallHeldImports();
         var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons"));
 
         await tile.Instance.DisposeAsync();
-        runtime.PendingImport.SetResult(runtime.Module);
 
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(5), Xunit.TestContext.Current.CancellationToken);
-        Assert.Empty(runtime.Module.Calls);
+        await runtime.ReleasedWithoutAttachingAsync(TimeSpan.FromSeconds(5));
     }
 
     [Fact]

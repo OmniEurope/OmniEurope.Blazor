@@ -136,9 +136,7 @@ public sealed class ConfirmDetailsTests : OmniBunitContext
     {
         var page = RenderPage();
 
-        page.Find(".omni-settings-danger-action button").Click();
-        page.WaitForAssertion(() => Assert.NotNull(page.Find("input#current-password")));
-        page.Find("input#current-password").Input("correct horse");
+        TypeThePasswordOfTheAccountDeletion(page);
         page.WaitForAssertion(() => Assert.False(page.Find(".omni-confirm__action").HasAttribute("disabled")));
 
         page.Find("input#current-password").Input("");
@@ -152,9 +150,7 @@ public sealed class ConfirmDetailsTests : OmniBunitContext
     {
         var page = RenderPage();
 
-        page.Find(".omni-settings-danger-action button").Click();
-        page.WaitForAssertion(() => Assert.NotNull(page.Find("input#current-password")));
-        page.Find("input#current-password").Input("correct horse");
+        TypeThePasswordOfTheAccountDeletion(page);
         page.Find(".omni-confirm__cancel").Click();
 
         page.WaitForAssertion(() => Assert.Null(_overlays.Dialog));
@@ -229,6 +225,14 @@ public sealed class ConfirmDetailsTests : OmniBunitContext
         Render<PasswordPage>(parameters => parameters.Add(component => component.Overlays, _overlays));
 
     private static PasswordPage PageOf(IRenderedComponent<PasswordPage> page) => page.Instance;
+
+    /// <summary>Opens the account deletion and types the right password into it.</summary>
+    private static void TypeThePasswordOfTheAccountDeletion(IRenderedComponent<PasswordPage> page)
+    {
+        page.Find(".omni-settings-danger-action button").Click();
+        page.WaitForAssertion(() => Assert.NotNull(page.Find("input#current-password")));
+        page.Find("input#current-password").Input("correct horse");
+    }
 
     /// <summary>A settings page as a client application writes it: its own field in the details, its own validity.</summary>
     private sealed class PasswordPage : ComponentBase

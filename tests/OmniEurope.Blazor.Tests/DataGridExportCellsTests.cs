@@ -54,7 +54,6 @@ public sealed class DataGridExportCellsTests : OmniBunitContext
 
     private async Task<OmniTableExportDocument> ExportAsync()
     {
-        OmniTableExportDocument? exported = null;
         RenderFragment columns = builder =>
         {
             var sequence = 0;
@@ -73,14 +72,14 @@ public sealed class DataGridExportCellsTests : OmniBunitContext
             builder.CloseComponent();
         };
 
-        var grid = Render<OmniDataGrid<Typed>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, columns)
-            .Add(component => component.ShowFooterBar, true)
-            .Add(component => component.ExportMarkdown, false)
-            .Add(component => component.ExportExcel, false)
-            .Add(component => component.ExportPdf, false)
-            .Add(component => component.OnExport, document => exported = document));
+        return await ExportThroughTheButtonAsync(columns);
+    }
+
+    // The rows with <paramref name="columns"/>, exported to CSV through the footer button.
+    private async Task<OmniTableExportDocument> ExportThroughTheButtonAsync(RenderFragment columns)
+    {
+        OmniTableExportDocument? exported = null;
+        var grid = this.RenderDataGrid(Rows, columns, parameters => parameters.ExportingCsvOnlyTo(document => exported = document));
 
         await grid.Find(".omni-data-grid__export-button").ClickAsync(new());
         return exported!;
@@ -236,7 +235,6 @@ public sealed class DataGridExportCellsTests : OmniBunitContext
     [Fact]
     public async Task AValueWithoutText_IsAnEmptyCell()
     {
-        OmniTableExportDocument? exported = null;
         RenderFragment columns = builder =>
         {
             builder.OpenComponent<OmniDataGridColumn<Typed>>(0);
@@ -244,18 +242,9 @@ public sealed class DataGridExportCellsTests : OmniBunitContext
             builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Typed>.ExportValue), (Func<Typed, object?>)(_ => new Silent()));
             builder.CloseComponent();
         };
-        var grid = Render<OmniDataGrid<Typed>>(parameters => parameters
-            .Add(component => component.Items, Rows)
-            .Add(component => component.Columns, columns)
-            .Add(component => component.ShowFooterBar, true)
-            .Add(component => component.ExportMarkdown, false)
-            .Add(component => component.ExportExcel, false)
-            .Add(component => component.ExportPdf, false)
-            .Add(component => component.OnExport, document => exported = document));
+        var exported = await ExportThroughTheButtonAsync(columns);
 
-        await grid.Find(".omni-data-grid__export-button").ClickAsync(new());
-
-        Assert.Equal(string.Empty, exported!.Rows[0][0].Text);
+        Assert.Equal(string.Empty, exported.Rows[0][0].Text);
     }
 
     // An object whose text is null: Convert.ToString then answers null.

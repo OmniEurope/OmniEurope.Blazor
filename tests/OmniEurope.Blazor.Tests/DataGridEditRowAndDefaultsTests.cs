@@ -18,22 +18,8 @@ public sealed partial class DataGridEditRowAndDefaultsTests : OmniBunitContext
 
     private static readonly IReadOnlyList<Row> Rows = [new(1, "Un"), new(2, "Deux"), new(3, "Trois")];
 
-    private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? configure = null)
-    {
-        RenderFragment columns = builder =>
-        {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-            builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-            builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-            builder.CloseComponent();
-        };
-
-        return Render<OmniDataGrid<Row>>(parameters =>
-        {
-            parameters.Add(grid => grid.Items, Rows).Add(grid => grid.Columns, columns);
-            configure?.Invoke(parameters);
-        });
-    }
+    private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? configure = null) =>
+        this.RenderDataGrid(Rows, builder => DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom"), configure);
 
     // ---- G-D29-03: Enter saves, Escape cancels ----
 

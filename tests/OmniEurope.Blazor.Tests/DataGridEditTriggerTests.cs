@@ -36,10 +36,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
     // Note: an EditTemplate and no display template, so the cell shows its plain text.
     private static RenderFragment Columns() => builder =>
     {
-        builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-        builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Name));
-        builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-        builder.CloseComponent();
+        DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom");
         builder.OpenComponent<OmniDataGridColumn<Row>>(3);
         builder.AddComponentParameter(4, nameof(OmniDataGridColumn<Row>.Property), nameof(Row.Value));
         builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Title), "Valeur");
@@ -54,12 +51,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
         }));
         builder.AddComponentParameter(7, nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(row => inner => Editor(inner, "value", row.Value)));
         builder.CloseComponent();
-        builder.OpenComponent<OmniDataGridColumn<Row>>(8);
-        builder.AddComponentParameter(9, nameof(OmniDataGridColumn<Row>.Key), "note");
-        builder.AddComponentParameter(10, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Name.ToUpperInvariant()));
-        builder.AddComponentParameter(11, nameof(OmniDataGridColumn<Row>.Title), "Note");
-        builder.AddComponentParameter(12, nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(row => inner => Editor(inner, "note", row.Name)));
-        builder.CloseComponent();
+        DataGridTestSetup.ValueColumn<Row>(builder, 8, "note", row => row.Name.ToUpperInvariant(), (nameof(OmniDataGridColumn<Row>.Title), "Note"), (nameof(OmniDataGridColumn<Row>.EditTemplate), (RenderFragment<Row>)(row => inner => Editor(inner, "note", row.Name))));
     };
 
     private static void Editor(RenderTreeBuilder inner, string name, string value)
@@ -78,6 +70,24 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
                 .Add(grid => grid.KeyOf, row => row.Id);
             configure?.Invoke(parameters);
         });
+
+    // The cell trigger, with every row put in edit mode recorded in <paramref name="edited"/>.
+    private IRenderedComponent<OmniDataGrid<Row>> RenderEditingByCell(
+        List<int> edited,
+        Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? configure = null) =>
+        RenderGrid(parameters =>
+        {
+            parameters
+                .Add(component => component.EditTrigger, OmniDataGridEditTrigger.Cell)
+                .Add(component => component.OnRowEdit, row => edited.Add(row.Id));
+            configure?.Invoke(parameters);
+        });
+
+    private static void AssertTheThirdRowEditsWithTheNoteFieldFocused(IRenderedComponent<OmniDataGrid<Row>> grid, BunitJSModuleInterop module)
+    {
+        Assert.Equal("2", grid.Find("tr.omni-data-grid__row--editing").GetAttribute("data-omni-row-index"));
+        grid.WaitForAssertion(() => Assert.Equal("note", Assert.Single(module.Invocations["focusEditor"]).Arguments[1]));
+    }
 
     private static GridInteropBridge<Row> BridgeOf(IRenderedComponent<OmniDataGrid<Row>> grid) => new(grid.Instance);
 
@@ -186,9 +196,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
     {
         var module = SetupGrid();
         var edited = new List<int>();
-        var grid = RenderGrid(parameters => parameters
-            .Add(component => component.EditTrigger, OmniDataGridEditTrigger.Cell)
-            .Add(component => component.OnRowEdit, row => edited.Add(row.Id)));
+        var grid = RenderEditingByCell(edited);
 
         // Beta has an empty Value: its cell is still there to be pressed.
         Assert.Equal(string.Empty, grid.Find("tbody tr[data-omni-row-index='1'] td[data-omni-col='Value']").TextContent.Replace("x", string.Empty, StringComparison.Ordinal).Trim());
@@ -210,8 +218,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
 
         await grid.InvokeAsync(() => BridgeOf(grid).OnEditCellAsync(2, "note"));
 
-        Assert.Equal("2", grid.Find("tr.omni-data-grid__row--editing").GetAttribute("data-omni-row-index"));
-        grid.WaitForAssertion(() => Assert.Equal("note", Assert.Single(module.Invocations["focusEditor"]).Arguments[1]));
+        AssertTheThirdRowEditsWithTheNoteFieldFocused(grid, module);
     }
 
     [Fact]
@@ -219,9 +226,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
     {
         SetupGrid();
         var edited = new List<int>();
-        var grid = RenderGrid(parameters => parameters
-            .Add(component => component.EditTrigger, OmniDataGridEditTrigger.Cell)
-            .Add(component => component.OnRowEdit, row => edited.Add(row.Id)));
+        var grid = RenderEditingByCell(edited);
         var bridge = BridgeOf(grid);
 
         await grid.InvokeAsync(() => bridge.OnEditCellAsync(0, "Name"));
@@ -237,9 +242,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
     {
         SetupGrid();
         var edited = new List<int>();
-        var grid = RenderGrid(parameters => parameters
-            .Add(component => component.EditTrigger, OmniDataGridEditTrigger.Cell)
-            .Add(component => component.OnRowEdit, row => edited.Add(row.Id)));
+        var grid = RenderEditingByCell(edited);
         var bridge = BridgeOf(grid);
 
         await grid.InvokeAsync(() => bridge.OnEditCellAsync(0, "Value"));
@@ -273,9 +276,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
         var edited = new List<int>();
         var rowClicks = new List<int>();
         var cellClicks = new List<string>();
-        var grid = RenderGrid(parameters => parameters
-            .Add(component => component.EditTrigger, OmniDataGridEditTrigger.Cell)
-            .Add(component => component.OnRowEdit, row => edited.Add(row.Id))
+        var grid = RenderEditingByCell(edited, parameters => parameters
             .Add(component => component.OnRowClick, args => rowClicks.Add(args.Item.Id))
             .Add(component => component.OnCellClick, args => cellClicks.Add(args.ColumnKey)));
 
@@ -290,8 +291,7 @@ public sealed class DataGridEditTriggerTests : OmniBunitContext
         Assert.Equal([3], edited);
         Assert.Empty(rowClicks);
         Assert.Empty(cellClicks);
-        Assert.Equal("2", grid.Find("tr.omni-data-grid__row--editing").GetAttribute("data-omni-row-index"));
-        grid.WaitForAssertion(() => Assert.Equal("note", Assert.Single(module.Invocations["focusEditor"]).Arguments[1]));
+        AssertTheThirdRowEditsWithTheNoteFieldFocused(grid, module);
     }
 
     [Fact]
