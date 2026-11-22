@@ -170,6 +170,28 @@
     .omni-header > .omni-site-search { flex-basis: 100%; max-inline-size: none; order: 1; margin-inline-end: 0; }
     .omni-header > .omni-site-search ~ .omni-app-menu { margin-inline-start: auto; }
 }
+/* OmniBackToTop: fixed in the end corner of the window, above the content and below the drawers, popovers and
+   dialogs. Hidden (visibility, so out of the Tab order and of the accessibility tree) until its script marks it
+   data-shown past the threshold; it fades in and out, and simply appears under reduced motion. The button keeps
+   the look and the focus ring of a Primary OmniButton; a shadow lifts it off the content it floats over. */
+.omni-back-to-top {
+    inset-block-end: var(--omni-space-xl);
+    inset-inline-end: var(--omni-space-xl);
+    opacity: 0;
+    position: fixed;
+    transition: opacity var(--omni-duration-medium) ease, visibility 0s linear var(--omni-duration-medium);
+    visibility: hidden;
+    z-index: var(--omni-z-sticky);
+}
+.omni-back-to-top[data-shown] { opacity: 1; transition: opacity var(--omni-duration-medium) ease; visibility: visible; }
+/* Through the button's own shadow token, which its focus ring is drawn beside, never over it. */
+.omni-back-to-top .omni-button { --omni-button-shadow: var(--omni-shadow-md); }
+@media (prefers-reduced-motion: reduce) {
+    .omni-back-to-top, .omni-back-to-top[data-shown] { transition: none; }
+}
+@media print {
+    .omni-back-to-top { display: none; }
+}
 /* The rows are separate surfaces on the muted card, set apart by a gap, not by a line along one edge. */
 .omni-app-menu__card { --omni-app-menu-row: calc(var(--omni-control-height) + 1rem); background: var(--omni-color-surface-muted); display: flex; flex-direction: column; gap: 0.125rem; }
 .omni-app-menu__row, .omni-app-menu__card > .omni-button.omni-app-menu__item { align-items: center; background: var(--omni-color-surface); box-sizing: border-box; display: flex; gap: var(--omni-space-sm); min-block-size: var(--omni-app-menu-row); padding: 0 var(--omni-space-md); }

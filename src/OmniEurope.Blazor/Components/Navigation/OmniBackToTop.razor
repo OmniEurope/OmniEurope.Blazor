@@ -1,0 +1,18 @@
+@namespace OmniEurope.Blazor.Components
+@inherits OmniComponentBase
+@implements IAsyncDisposable
+
+@* A fixed frame in the end corner of the window, hidden until the script marks it data-shown (past the threshold),
+   so a prerendered or static page draws nothing to press. The button is a real OmniButton with its icon alone,
+   named by the label, which its tooltip repeats for the pointer. *@
+<div class="@Css("omni-back-to-top")" @ref="_frame">
+    <OmniTooltip Text="@EffectiveLabel">
+        <OmniButton @attributes="AdditionalAttributes"
+                    Id="@Id"
+                    Variant="OmniButtonVariant.Primary"
+                    Label="@EffectiveLabel"
+                    OnClick="ScrollToTopAsync">
+            <Icon><OmniIcon Name="OmniIconName.ChevronUp" /></Icon>
+        </OmniButton>
+    </OmniTooltip>
+</div>

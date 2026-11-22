@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Pomniejsz</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© współtwórcy OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Strzałki przesuwają mapę, + i - zmieniają powiększenie.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Powrót na górę</value></data>
 </root>

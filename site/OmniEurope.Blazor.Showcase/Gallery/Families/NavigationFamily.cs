@@ -45,6 +45,11 @@ internal static class NavigationFamily
             ["OmniSiteSearch"],
             [
                 "Navigation/SiteSearchExample.razor", "Navigation/SiteSearchExample.razor.cs"
+            ]),
+        new("back-to-top", "BackToTopTitle", "BackToTopDescription", OmniIconName.ArrowLineUp,
+            ["OmniBackToTop"],
+            [
+                "Navigation/BackToTopExample.razor", "Navigation/BackToTopExample.razor.cs"
             ])
     ]);
 }

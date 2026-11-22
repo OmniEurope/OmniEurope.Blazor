@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Намаляване</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© сътрудници на OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Стрелките местят картата, + и - променят мащаба.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Към началото</value></data>
 </root>

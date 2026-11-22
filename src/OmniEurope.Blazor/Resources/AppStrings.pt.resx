@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Afastar</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© contribuidores do OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>As setas movem o mapa, + e - aproximam ou afastam.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Voltar ao topo</value></data>
 </root>

@@ -99,4 +99,14 @@
   <data name="SiteSearchGroupedDescription" xml:space="preserve"><value>Group: the heading each page is listed under (a section, a family).</value></data>
   <data name="SiteSearchIcons" xml:space="preserve"><value>Icons</value></data>
   <data name="SiteSearchIconsDescription" xml:space="preserve"><value>Icon: a glyph drawn before the name of each page.</value></data>
+  <data name="BackToTopTitle" xml:space="preserve"><value>Back to top</value></data>
+  <data name="BackToTopDescription" xml:space="preserve"><value>A button fixed in the end corner of the window: it appears once the content has scrolled past a threshold and brings it back to its top, smoothly or at once under reduced motion, then moves the focus to the start of the content. By default it follows the scrolling main area of the OE layout, else the document.</value></data>
+  <data name="BackToTopPreviewTitle" xml:space="preserve"><value>A long article</value></data>
+  <data name="BackToTopSettingsTitle" xml:space="preserve"><value>Button</value></data>
+  <data name="BackToTopSettingsDescription" xml:space="preserve"><value>When the button appears and what it is called.</value></data>
+  <data name="BackToTopLowThreshold" xml:space="preserve"><value>Low threshold</value></data>
+  <data name="BackToTopLowThresholdDescription" xml:space="preserve"><value>Threshold: 100 px instead of the default 400 px of scrolling before the button appears.</value></data>
+  <data name="BackToTopCustomLabel" xml:space="preserve"><value>Own label</value></data>
+  <data name="BackToTopCustomLabelDescription" xml:space="preserve"><value>Label: the name of the button and of its tooltip, instead of the localized one.</value></data>
+  <data name="BackToTopCustomLabelValue" xml:space="preserve"><value>Back to the start of the article</value></data>
 </root>

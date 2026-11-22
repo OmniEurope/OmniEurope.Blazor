@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Kicsinyítés</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap-közreműködők</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>A nyilak mozgatják a térképet, a + nagyít, a - kicsinyít.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Vissza a tetejére</value></data>
 </root>

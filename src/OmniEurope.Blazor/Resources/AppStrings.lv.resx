@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Tālināt</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap līdzautori</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Bultiņas pārvieto karti, + tuvina un - tālina.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Atpakaļ uz augšu</value></data>
 </root>

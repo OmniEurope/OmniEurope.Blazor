@@ -1,0 +1,15 @@
+@* A long page in the showcase's own layout, whose main area scrolls (OmniMain Scrollable): the button follows that
+   area by default. Scroll this page past the threshold and the button appears in the end corner of the window; a
+   click, Enter or Space brings the page back to its top and moves the focus to the start of the content. *@
+<OmniStack Gap="OmniSpacing.Medium">
+    <OmniText Tone="OmniTextTone.Muted">Scroll down this page: the button appears once the content has moved @Threshold px.</OmniText>
+    @foreach (var chapter in Chapters)
+    {
+        <OmniStack Gap="OmniSpacing.Small">
+            <OmniHeading Level="OmniHeadingLevel.H3">@chapter</OmniHeading>
+            <OmniText>@Body</OmniText>
+            <OmniText>@Body</OmniText>
+        </OmniStack>
+    }
+</OmniStack>
+<OmniBackToTop Id="back-to-top-demo" Threshold="Threshold" Label="Label" />

@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Zoom out</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap contributors</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Arrow keys move the map, + and - zoom.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Back to top</value></data>
 </root>

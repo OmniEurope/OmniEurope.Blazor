@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Nutolinti</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap bendradarbiai</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Rodyklės perkelia žemėlapį, + priartina, - nutolina.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Grįžti į viršų</value></data>
 </root>

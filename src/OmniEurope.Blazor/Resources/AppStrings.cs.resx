@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Oddálit</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© přispěvatelé OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Šipky posouvají mapu, + a - mění přiblížení.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Zpět nahoru</value></data>
 </root>

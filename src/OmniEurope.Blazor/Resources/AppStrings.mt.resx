@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Ċekken</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© il-kontributuri ta' OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Il-vleġeġ iċaqilqu l-mappa, + ikabbar u - jċekken.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Lura fil-quċċata</value></data>
 </root>
