@@ -213,15 +213,20 @@ public sealed class EditorSecurityHardeningTests : OmniBunitContext
         Assert.DoesNotContain($"<{tag}", OmniHtmlSanitizer.Sanitize($"<{tag}>x</{tag}><p>B</p>"), StringComparison.OrdinalIgnoreCase);
     }
 
-    [Fact]
-    public async Task LinkAction_WithAScriptAddress_NeverReachesTheSurface()
+    /// <summary>Renders an editor on a loose surface double and waits for the surface to mount.</summary>
+    private (BunitJSModuleInterop Module, IRenderedComponent<OmniHtmlEditor> Editor) RenderMountedEditor()
     {
         var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
         module.Mode = JSRuntimeMode.Loose;
-        var value = "<p>Texte</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var editor = this.RenderHtmlEditor("<p>Texte</p>");
         editor.WaitForAssertion(() => Assert.Single(module.Invocations["mount"]));
+        return (module, editor);
+    }
+
+    [Fact]
+    public async Task LinkAction_WithAScriptAddress_NeverReachesTheSurface()
+    {
+        var (module, editor) = RenderMountedEditor();
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
             editor.InvokeAsync(() => editor.Instance.RunBuiltInAsync(OmniHtmlEditorAction.Link, "javascript:alert(1)")));
@@ -240,12 +245,7 @@ public sealed class EditorSecurityHardeningTests : OmniBunitContext
     [InlineData("/relative/page")]
     public async Task LinkAction_WithASafeAddress_ReachesTheSurface(string address)
     {
-        var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
-        module.Mode = JSRuntimeMode.Loose;
-        var value = "<p>Texte</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
-        editor.WaitForAssertion(() => Assert.Single(module.Invocations["mount"]));
+        var (module, editor) = RenderMountedEditor();
 
         await editor.InvokeAsync(() => editor.Instance.RunBuiltInAsync(OmniHtmlEditorAction.Link, address));
 

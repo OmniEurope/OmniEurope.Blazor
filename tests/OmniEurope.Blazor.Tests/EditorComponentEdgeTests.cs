@@ -67,9 +67,7 @@ public sealed class EditorComponentEdgeTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
         module.Mode = JSRuntimeMode.Loose;
-        var value = "<p>a</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>a</p>", parameters => parameters
             .Add(component => component.ToolbarRows, 1));
         Assert.Single(module.Invocations["fitToolbar"]);
 
@@ -85,10 +83,8 @@ public sealed class EditorComponentEdgeTests : OmniBunitContext
         var runtime = new ManualJSRuntime();
         runtime.Module.CallFailures["installPackageTooltips"] = new JSDisconnectedException("perdu");
         Services.AddSingleton<IJSRuntime>(runtime);
-        var value = "<p>a</p>";
 
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>a</p>", parameters => parameters
             .Add(component => component.ToolbarRows, 1));
 
         Assert.Contains("installPackageTooltips", runtime.Module.Calls);

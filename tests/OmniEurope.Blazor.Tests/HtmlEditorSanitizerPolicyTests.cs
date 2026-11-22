@@ -128,15 +128,13 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
     [Fact]
     public void Policy_WithAForbiddenPerTagAttribute_IsRejectedByTheEditorItself()
     {
-        var value = string.Empty;
         var policy = new OmniHtmlSanitizerPolicy
         {
             AdditionalTags = ["img"],
             AdditionalTagAttributes = new Dictionary<string, IReadOnlyList<string>> { ["img"] = ["onerror"] }
         };
 
-        Assert.Throws<ArgumentException>(() => Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        Assert.Throws<ArgumentException>(() => this.RenderHtmlEditor(string.Empty, parameters => parameters
             .Add(component => component.Extensions, [new PolicyExtension(policy)])));
     }
 
@@ -199,12 +197,10 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
     public void WithoutAPolicy_TheSurfaceReceivesOnlyItsRows()
     {
         var module = JSInterop.SetupModule(ModulePath);
-        var value = "<p>A</p>";
 
-        Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        this.RenderHtmlEditor("<p>A</p>");
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.Equal(["rows"], options.EnumerateObject().Select(property => property.Name));
     }
 
@@ -212,9 +208,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
     public void ChangingThePolicy_ReconfiguresTheMountedSurface()
     {
         var module = JSInterop.SetupModule(ModulePath);
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var editor = this.RenderHtmlEditor("<p>A</p>");
 
         editor.Render(parameters => parameters.Add(component => component.Extensions, [new PolicyExtension(new OmniHtmlSanitizerPolicy { AllowAnyClass = true })]));
 

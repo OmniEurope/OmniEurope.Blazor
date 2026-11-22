@@ -18,26 +18,11 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
 
     private static readonly IReadOnlyList<Row> Rows = [new("a", 1), new("b", 2), new("c", 3)];
 
-    private static RenderFragment Columns(params (string Property, string? Width)[] columns) => builder =>
-    {
-        for (var index = 0; index < columns.Length; index++)
-        {
-            builder.OpenComponent<OmniDataGridColumn<Row>>(index * 10);
-            builder.AddComponentParameter(index * 10 + 1, nameof(OmniDataGridColumn<Row>.Property), columns[index].Property);
-            builder.AddComponentParameter(index * 10 + 2, nameof(OmniDataGridColumn<Row>.Width), columns[index].Width);
-            builder.CloseComponent();
-        }
-    };
+    private static RenderFragment Columns(params (string Property, string? Width)[] columns) =>
+        DataGridRendering.PropertyColumns<Row, string?>(nameof(OmniDataGridColumn<Row>.Width), columns);
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? extra = null, RenderFragment? columns = null) =>
-        Render<OmniDataGrid<Row>>(parameters =>
-        {
-            parameters
-                .Add(component => component.Items, Rows)
-                .Add(component => component.KeyOf, row => row.Name)
-                .Add(component => component.Columns, columns ?? Columns(("Name", null), ("Amount", null)));
-            extra?.Invoke(parameters);
-        });
+        this.RenderKeyedGrid(Rows, row => row.Name, columns ?? Columns(("Name", null), ("Amount", null)), extra);
 
     [Theory]
     [InlineData("pas du json")]
@@ -191,19 +176,24 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
         Assert.Equal(3, grid.FindAll("tbody tr").Count);
     }
 
+    /// <summary>Refreshes the grid, then hands it the rows with a new row <c>d</c>.</summary>
+    private static async Task RefreshThenBringRowDAsync(IRenderedComponent<OmniDataGrid<Row>> grid)
+    {
+        await grid.InvokeAsync(grid.Instance.RefreshAsync);
+        grid.Render(parameters => parameters.Add(component => component.Items, [.. Rows, new Row("d", 4)]));
+    }
+
     [Fact]
     public async Task RefreshOfHostRows_MarksTheNewOnesAsNew()
     {
         var grid = RenderGrid(parameters => parameters.Add(component => component.NewRowHighlight, TimeSpan.FromMinutes(1)));
 
-        await grid.InvokeAsync(grid.Instance.RefreshAsync);
-        grid.Render(parameters => parameters.Add(component => component.Items, [.. Rows, new Row("d", 4)]));
+        await RefreshThenBringRowDAsync(grid);
 
         Assert.Single(grid.FindAll("tr.omni-data-grid__row--new"));
 
         // A refresh that brings nothing new marks nothing more.
-        await grid.InvokeAsync(grid.Instance.RefreshAsync);
-        grid.Render(parameters => parameters.Add(component => component.Items, [.. Rows, new Row("d", 4)]));
+        await RefreshThenBringRowDAsync(grid);
 
         Assert.Single(grid.FindAll("tr.omni-data-grid__row--new"));
     }
@@ -259,8 +249,7 @@ public sealed class GridBehaviourEdgeTests : OmniBunitContext
     {
         var grid = RenderGrid(parameters => parameters.Add(component => component.NewRowHighlight, TimeSpan.Zero));
 
-        await grid.InvokeAsync(grid.Instance.RefreshAsync);
-        grid.Render(parameters => parameters.Add(component => component.Items, [.. Rows, new Row("d", 4)]));
+        await RefreshThenBringRowDAsync(grid);
 
         Assert.Equal(4, grid.FindAll("tbody tr").Count);
         Assert.Empty(grid.FindAll("tr.omni-data-grid__row--new"));

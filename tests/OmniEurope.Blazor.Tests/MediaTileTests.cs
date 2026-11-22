@@ -24,6 +24,9 @@ public sealed class MediaTileTests : OmniBunitContext
     private static OmniInkStroke Stroke(string id = "s1", string color = "#abcdef")
         => new(color, 3, [new OmniInkPoint(0.25, 0.5, null), new OmniInkPoint(0.75, 0.5, 0.75)]) { Id = id };
 
+    /// <summary>The points of <see cref="Stroke"/> as the script receives them: x, y, pressure (-1 when none).</summary>
+    private static double[][] StrokeFlat => new[] { new[] { 0.25, 0.5, -1d, 0.75, 0.5, 0.75 } };
+
     // ----- Markup ------------------------------------------------------------------------------------
 
     [Fact]
@@ -451,7 +454,7 @@ public sealed class MediaTileTests : OmniBunitContext
 
         var arguments = Assert.Single(_module.Invocations["exportPng"]).Arguments;
         Assert.Equal(["#abcdef"], (string[])arguments[1]!);
-        Assert.Equal(new[] { new[] { 0.25, 0.5, -1d, 0.75, 0.5, 0.75 } }, (double[][])arguments[3]!);
+        Assert.Equal(StrokeFlat, (double[][])arguments[3]!);
     }
 
     [Fact]
@@ -515,13 +518,17 @@ public sealed class MediaTileTests : OmniBunitContext
         Assert.Equal(0, removed);
     }
 
+    /// <summary>Renders a drawing tile that adds each tool chosen on its toolbar to <paramref name="chosen"/>.</summary>
+    private IRenderedComponent<OmniMediaTile> RenderDrawingTile(List<OmniInkTool> chosen) =>
+        RenderTile(parameters => parameters
+            .Add(t => t.Drawing, true)
+            .Add(t => t.DrawingToolChanged, EventCallback.Factory.Create<OmniInkTool>(this, tool => chosen.Add(tool))));
+
     [Fact]
     public async Task TheToolbarToolChoice_IsRaised_AndStaysUntilTheParameterChanges()
     {
         var chosen = new List<OmniInkTool>();
-        var tile = RenderTile(parameters => parameters
-            .Add(t => t.Drawing, true)
-            .Add(t => t.DrawingToolChanged, EventCallback.Factory.Create<OmniInkTool>(this, tool => chosen.Add(tool))));
+        var tile = RenderDrawingTile(chosen);
 
         await tile.FindAll(".omni-media-tile__tool")[1].ClickAsync(new());
 
@@ -563,9 +570,7 @@ public sealed class MediaTileTests : OmniBunitContext
     public async Task ChoosingTheToolThatIsAlreadyCurrent_RaisesNothing()
     {
         var chosen = new List<OmniInkTool>();
-        var tile = RenderTile(parameters => parameters
-            .Add(t => t.Drawing, true)
-            .Add(t => t.DrawingToolChanged, EventCallback.Factory.Create<OmniInkTool>(this, tool => chosen.Add(tool))));
+        var tile = RenderDrawingTile(chosen);
 
         await tile.FindAll(".omni-media-tile__tool")[0].ClickAsync(new());
 
@@ -701,7 +706,7 @@ public sealed class MediaTileTests : OmniBunitContext
         var arguments = Assert.Single(_module.Invocations["exportPng"]).Arguments;
         Assert.Equal(["#abcdef"], (string[])arguments[1]!);
         Assert.Equal([3d], (double[])arguments[2]!);
-        Assert.Equal(new[] { new[] { 0.25, 0.5, -1d, 0.75, 0.5, 0.75 } }, (double[][])arguments[3]!);
+        Assert.Equal(StrokeFlat, (double[][])arguments[3]!);
     }
 
     [Fact]

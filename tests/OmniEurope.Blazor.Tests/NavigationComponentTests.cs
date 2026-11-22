@@ -161,16 +161,31 @@ public sealed class NavigationComponentTests : OmniBunitContext
         Assert.NotNull(label.Find("span.omni-panel-menu__label"));
     }
 
+    /// <summary>Renders an open sidebar around "Navigation", with its open state reported to <paramref name="openChanged"/> when given.</summary>
+    private IRenderedComponent<OmniSidebar> RenderOpenSidebar(OmniSidebarReveal reveal, Action<bool>? openChanged = null, bool backdrop = false) =>
+        Render<OmniSidebar>(parameters =>
+        {
+            parameters
+                .Add(component => component.Open, true)
+                .Add(component => component.Reveal, reveal);
+            if (backdrop)
+            {
+                parameters.Add(component => component.Backdrop, true);
+            }
+
+            if (openChanged is not null)
+            {
+                parameters.Add(component => component.OpenChanged, openChanged);
+            }
+
+            parameters.AddChildContent("Navigation");
+        });
+
     [Fact]
     public void Sidebar_FloatingOpen_ClosesWhenAnEntryIsChosen()
     {
         var open = true;
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
-            .Add(component => component.Backdrop, true)
-            .Add(component => component.OpenChanged, value => open = value)
-            .AddChildContent("Navigation"));
+        var sidebar = RenderOpenSidebar(OmniSidebarReveal.Overlay, value => open = value, backdrop: true);
 
         Assert.NotNull(sidebar.Find(".omni-sidebar__backdrop"));
 
@@ -184,12 +199,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
         var open = true;
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Overlay)
-            .Add(component => component.Backdrop, true)
-            .Add(component => component.OpenChanged, value => open = value)
-            .AddChildContent("Navigation"));
+        var sidebar = RenderOpenSidebar(OmniSidebarReveal.Overlay, value => open = value, backdrop: true);
 
         // Escape is heard on the whole document, since the focus usually stays on the toggle.
         var attached = Assert.Single(module.Invocations["attachEscape"]);
@@ -214,10 +224,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     public void Sidebar_Pushing_NeverListensForEscape()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
-        Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Push)
-            .AddChildContent("Navigation"));
+        RenderOpenSidebar(OmniSidebarReveal.Push);
 
         Assert.Empty(module.Invocations["attachEscape"]);
     }
@@ -227,11 +234,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
         var open = true;
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Push)
-            .Add(component => component.OpenChanged, value => open = value)
-            .AddChildContent("Navigation"));
+        var sidebar = RenderOpenSidebar(OmniSidebarReveal.Push, value => open = value);
         Assert.Single(module.Invocations["watchNarrow"]);
 
         await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
@@ -253,11 +256,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     public async Task Sidebar_StopsWatchingTheWidth_WhenItCanNoLongerFloat_AndWhenDisposed()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Push)
-            .Add(component => component.OpenChanged, _ => { })
-            .AddChildContent("Navigation"));
+        var sidebar = RenderOpenSidebar(OmniSidebarReveal.Push, _ => { });
         await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
         Assert.Contains("omni-sidebar--overlay", sidebar.Find("aside").ClassList);
 
@@ -275,10 +274,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     public async Task Sidebar_PushingThatTheHostNeverCloses_KeepsPushingOnAPhone()
     {
         var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
-        var sidebar = Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Push)
-            .AddChildContent("Navigation"));
+        var sidebar = RenderOpenSidebar(OmniSidebarReveal.Push);
 
         await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
 
@@ -291,11 +287,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     public void Sidebar_Pushing_StaysOpenAcrossNavigation()
     {
         var open = true;
-        Render<OmniSidebar>(parameters => parameters
-            .Add(component => component.Open, true)
-            .Add(component => component.Reveal, OmniSidebarReveal.Push)
-            .Add(component => component.OpenChanged, value => open = value)
-            .AddChildContent("Navigation"));
+        RenderOpenSidebar(OmniSidebarReveal.Push, value => open = value);
 
         Services.GetRequiredService<NavigationManager>().NavigateTo("/elsewhere");
 

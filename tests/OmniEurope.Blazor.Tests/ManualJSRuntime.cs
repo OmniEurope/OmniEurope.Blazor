@@ -10,7 +10,12 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 internal sealed class ManualJSRuntime : IJSRuntime
 {
+    private int _imports;
+
     public RecordingModule Module { get; init; } = new();
+
+    /// <summary>How many imports were asked, answered or not.</summary>
+    public int Imports => Volatile.Read(ref _imports);
 
     public bool HoldImports { get; init; }
 
@@ -29,6 +34,7 @@ internal sealed class ManualJSRuntime : IJSRuntime
             return ValueTask.FromResult(default(TValue)!);
         }
 
+        Interlocked.Increment(ref _imports);
         if (ImportFailure is not null)
         {
             return ValueTask.FromException<TValue>(ImportFailure);
@@ -45,6 +51,25 @@ internal sealed class ManualJSRuntime : IJSRuntime
     }
 
     public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) => InvokeAsync<TValue>(identifier, args);
+
+    /// <summary>A runtime whose module fails each of the <paramref name="calls"/> as a lost circuit does.</summary>
+    public static ManualJSRuntime LosingTheCircuitOn(params string[] calls)
+    {
+        var runtime = new ManualJSRuntime();
+        foreach (var call in calls)
+        {
+            runtime.Module.CallFailures[call] = new JSDisconnectedException("perdu");
+        }
+
+        return runtime;
+    }
+
+    /// <summary>Lets the held import answer <see cref="Module"/>, then waits until the component releases that module.</summary>
+    public async Task ReleaseHeldImportAsync()
+    {
+        PendingImport.SetResult(Module);
+        await Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+    }
 }
 
 /// <summary>A module that records its calls and its release, and can fail the release or a call.</summary>
@@ -52,6 +77,7 @@ internal sealed class RecordingModule : IJSObjectReference
 {
     private readonly Lock _callsLock = new();
     private readonly List<string> _calls = [];
+    private int _disposals;
 
     /// <summary>
     /// A snapshot of the calls: components call from pool threads while the test reads, which once broke an
@@ -70,6 +96,9 @@ internal sealed class RecordingModule : IJSObjectReference
 
     public TaskCompletionSource Disposal { get; } = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
+    /// <summary>How many times the module was released.</summary>
+    public int Disposals => Volatile.Read(ref _disposals);
+
     public Exception? DisposeFailure { get; init; }
 
     /// <summary>Calls that fail, by function name, as a call on a lost circuit does.</summary>
@@ -83,6 +112,7 @@ internal sealed class RecordingModule : IJSObjectReference
 
     public ValueTask DisposeAsync()
     {
+        Interlocked.Increment(ref _disposals);
         Disposal.TrySetResult();
         return DisposeFailure is null ? ValueTask.CompletedTask : ValueTask.FromException(DisposeFailure);
     }

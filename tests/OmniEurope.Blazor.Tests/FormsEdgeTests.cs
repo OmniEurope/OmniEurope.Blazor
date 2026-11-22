@@ -78,16 +78,33 @@ public sealed class FormsEdgeTests : OmniBunitContext
         Assert.Equal([null], changes);
     }
 
+    /// <summary>Renders a nullable numeric holding 5, each change added to <paramref name="changes"/>.</summary>
+    private IRenderedComponent<OmniNumeric<int?>> RenderNumericOnFive(List<int?> changes) =>
+        Render<OmniNumeric<int?>>(parameters => parameters
+            .Add(component => component.Value, 5)
+            .Add(component => component.ValueChanged, next => changes.Add(next))
+            .Add(component => component.ValueExpression, () => _number));
+
+    /// <summary>Renders a copyable text box on "valeur" whose typing waits a day, over a copy script that succeeds.</summary>
+    private (BunitJSModuleInterop Module, IRenderedComponent<OmniTextBox> Box) RenderCopyableBoxWithALongDelay()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Interop);
+        module.Setup<bool>("copyText", _ => true).SetResult(true);
+        var box = Render<OmniTextBox>(parameters => parameters
+            .Add(component => component.Value, "valeur")
+            .Add(component => component.Debounce, TimeSpan.FromDays(1))
+            .Add(component => component.ShowCopy, true)
+            .Add(component => component.ValueExpression, () => _text));
+        return (module, box);
+    }
+
     [Theory]
     [InlineData("Enter")]
     [InlineData("NumpadEnter")]
     public void Numeric_EnterWithNothingTyped_CommitsNothing(string key)
     {
         var changes = new List<int?>();
-        var numeric = Render<OmniNumeric<int?>>(parameters => parameters
-            .Add(component => component.Value, 5)
-            .Add(component => component.ValueChanged, next => changes.Add(next))
-            .Add(component => component.ValueExpression, () => _number));
+        var numeric = RenderNumericOnFive(changes);
 
         numeric.Find("input").KeyDown(new KeyboardEventArgs { Key = key });
 
@@ -99,10 +116,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
     public void Numeric_ANullInput_IsEmptyPendingText_ThatEnterCommitsAsNoNumber()
     {
         var changes = new List<int?>();
-        var numeric = Render<OmniNumeric<int?>>(parameters => parameters
-            .Add(component => component.Value, 5)
-            .Add(component => component.ValueChanged, next => changes.Add(next))
-            .Add(component => component.ValueExpression, () => _number));
+        var numeric = RenderNumericOnFive(changes);
 
         numeric.Find("input").Input(new ChangeEventArgs { Value = null });
         Assert.Empty(changes);
@@ -129,13 +143,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
     [Fact]
     public async Task TextBox_CopiesTheTextStillInItsDelay_AndKeepsOneClipboard()
     {
-        var module = JSInterop.SetupModule(OmniModules.Interop);
-        module.Setup<bool>("copyText", _ => true).SetResult(true);
-        var box = Render<OmniTextBox>(parameters => parameters
-            .Add(component => component.Value, "valeur")
-            .Add(component => component.Debounce, TimeSpan.FromDays(1))
-            .Add(component => component.ShowCopy, true)
-            .Add(component => component.ValueExpression, () => _text));
+        var (module, box) = RenderCopyableBoxWithALongDelay();
 
         _ = box.Find("input").InputAsync(new ChangeEventArgs { Value = "nouv" });
         _ = box.Find("input").InputAsync(new ChangeEventArgs { Value = null });
@@ -148,13 +156,7 @@ public sealed class FormsEdgeTests : OmniBunitContext
     [Fact]
     public async Task TextBox_CopiesTheTypedTextStillInItsDelay()
     {
-        var module = JSInterop.SetupModule(OmniModules.Interop);
-        module.Setup<bool>("copyText", _ => true).SetResult(true);
-        var box = Render<OmniTextBox>(parameters => parameters
-            .Add(component => component.Value, "valeur")
-            .Add(component => component.Debounce, TimeSpan.FromDays(1))
-            .Add(component => component.ShowCopy, true)
-            .Add(component => component.ValueExpression, () => _text));
+        var (module, box) = RenderCopyableBoxWithALongDelay();
 
         _ = box.Find("input").InputAsync(new ChangeEventArgs { Value = "tapé" });
         await box.Find(".omni-text-box-field__copy").ClickAsync(new());

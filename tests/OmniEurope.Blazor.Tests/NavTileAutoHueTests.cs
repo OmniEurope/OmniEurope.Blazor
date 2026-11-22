@@ -114,7 +114,7 @@ public sealed class NavTileAutoHueTests : OmniBunitContext
     [MemberData(nameof(ThemeContrastMatrixTests.Sets), MemberType = typeof(ThemeContrastMatrixTests))]
     public void Each_hue_reads_on_its_square_and_on_the_tile(string themeName, string paletteName, OmniAppearance mode)
     {
-        var tokens = TokensOf(themeName, paletteName, mode);
+        var tokens = ThemeTokens.Of(themeName, paletteName, mode);
         var tile = ThemeTokenResolution.Resolve(tokens, tokens.TryGetValue("--omni-card-background", out var card) ? card : tokens["--omni-color-surface"]);
 
         var failures = new List<string>();
@@ -139,7 +139,7 @@ public sealed class NavTileAutoHueTests : OmniBunitContext
     [MemberData(nameof(ThemeContrastMatrixTests.Sets), MemberType = typeof(ThemeContrastMatrixTests))]
     public void Neighbouring_hues_are_far_apart(string themeName, string paletteName, OmniAppearance mode)
     {
-        var hues = Hues(TokensOf(themeName, paletteName, mode)).Select(entry => entry.Hue).ToArray();
+        var hues = Hues(ThemeTokens.Of(themeName, paletteName, mode)).Select(entry => entry.Hue).ToArray();
 
         Assert.Equal(6, hues.Distinct(StringComparer.OrdinalIgnoreCase).Count());
         for (var rank = 0; rank < hues.Length; rank++)
@@ -150,11 +150,6 @@ public sealed class NavTileAutoHueTests : OmniBunitContext
             Assert.True(distance >= 60, $"{themeName} + {paletteName} in {mode}: hue {rank + 1} ({hues[rank]}) and the next ({next}) are {distance:F0} degrees apart.");
         }
     }
-
-    private static IReadOnlyDictionary<string, string> TokensOf(string themeName, string paletteName, OmniAppearance mode) =>
-        OmniThemePresets.All.Single(entry => entry.Name == themeName)
-            .With(OmniThemePalettes.All.Single(entry => entry.Name == paletteName))
-            .For(mode);
 
     private static IEnumerable<(int Rank, string Hue)> Hues(IReadOnlyDictionary<string, string> tokens) =>
         AnsiOfRank.Select((ansi, rank) => (rank + 1, ThemeTokenResolution.Resolve(tokens, tokens[$"--omni-ansi-{ansi}"])));

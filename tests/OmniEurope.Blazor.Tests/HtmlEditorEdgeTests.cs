@@ -25,16 +25,7 @@ public sealed class HtmlEditorEdgeTests : OmniBunitContext
     }
 
     private IRenderedComponent<OmniHtmlEditor> RenderEditor(Action<ComponentParameterCollectionBuilder<OmniHtmlEditor>>? extra = null, List<string>? changes = null) =>
-        Render<OmniHtmlEditor>(parameters =>
-        {
-            parameters.Add(editor => editor.Value, Start).Add(editor => editor.ValueExpression, () => _bound);
-            if (changes is not null)
-            {
-                parameters.Add(editor => editor.ValueChanged, html => changes.Add(html));
-            }
-
-            extra?.Invoke(parameters);
-        });
+        this.RenderTrackedHtmlEditor(Start, () => _bound, changes, extra);
 
     [Fact]
     public void DisabledAndReadOnly_IsMarkedDisabledOnly()
@@ -68,9 +59,7 @@ public sealed class HtmlEditorEdgeTests : OmniBunitContext
     public async Task NullValue_ExportsAsEmpty()
     {
         Modules();
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(editor => editor.Value, null)
-            .Add(editor => editor.ValueExpression, () => _bound)
+        var editor = this.RenderTrackedHtmlEditor(null, () => _bound, extra: parameters => parameters
             .Add(editor => editor.Mode, OmniHtmlEditorMode.Source));
 
         Assert.Equal(string.Empty, await editor.InvokeAsync(editor.Instance.ExportTextAsync));
@@ -121,46 +110,51 @@ public sealed class HtmlEditorEdgeTests : OmniBunitContext
         Assert.Empty(visual.FindAll("[role=menu]"));
     }
 
+    /// <summary>What the probe command last learnt of the editor.</summary>
+    private sealed class ProbedContext
+    {
+        public ElementReference? Seen { get; set; }
+
+        public OmniHtmlEditorMode? Mode { get; set; }
+    }
+
+    /// <summary>A command "probe" that writes the surface and the face it is given into <paramref name="probed"/>.</summary>
+    private static OmniHtmlEditorCommand Probe(ProbedContext probed) =>
+        OmniHtmlEditorCommand.Create("probe", "Sonder", context =>
+        {
+            probed.Seen = context.SurfaceElement;
+            probed.Mode = context.Mode;
+            return Task.CompletedTask;
+        });
+
     [Fact]
     public async Task CommandContext_TellsTheFace_AndTheSurfaceOfTheVisualOne()
     {
         Modules();
-        ElementReference? seen = null;
-        OmniHtmlEditorMode? mode = null;
-        var command = OmniHtmlEditorCommand.Create("probe", "Sonder", context =>
-        {
-            seen = context.SurfaceElement;
-            mode = context.Mode;
-            return Task.CompletedTask;
-        });
+        var probed = new ProbedContext { Seen = null };
+        var command = Probe(probed);
         var editor = RenderEditor(parameters => parameters.Add(editor => editor.Commands, [command]));
 
         await editor.Find("[data-command=probe]").ClickAsync(new());
 
-        Assert.NotNull(seen);
-        Assert.Equal(OmniHtmlEditorMode.Visual, mode);
+        Assert.NotNull(probed.Seen);
+        Assert.Equal(OmniHtmlEditorMode.Visual, probed.Mode);
     }
 
     [Fact]
     public async Task CommandContext_InTheSourceFace_HasNoSurface()
     {
         Modules();
-        ElementReference? seen = default(ElementReference);
-        OmniHtmlEditorMode? mode = null;
-        var command = OmniHtmlEditorCommand.Create("probe", "Sonder", context =>
-        {
-            seen = context.SurfaceElement;
-            mode = context.Mode;
-            return Task.CompletedTask;
-        });
+        var probed = new ProbedContext { Seen = default(ElementReference) };
+        var command = Probe(probed);
         var editor = RenderEditor(parameters => parameters
             .Add(editor => editor.Commands, [command])
             .Add(editor => editor.Mode, OmniHtmlEditorMode.Source));
 
         await editor.Find("[data-command=probe]").ClickAsync(new());
 
-        Assert.Equal(OmniHtmlEditorMode.Source, mode);
-        Assert.Null(seen);
+        Assert.Equal(OmniHtmlEditorMode.Source, probed.Mode);
+        Assert.Null(probed.Seen);
     }
 
     private sealed class MenuExtension : OmniHtmlEditorExtension

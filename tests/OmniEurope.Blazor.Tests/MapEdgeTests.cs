@@ -11,23 +11,15 @@ namespace OmniEurope.Blazor.Tests;
 /// or a marker, a render after the disposal, a lost circuit at each script call, a change of the tile options, a null entry
 /// in a list, and the bridge the script calls. Each test reads what the path does (markup, event, call to the script).
 /// </summary>
-public sealed class MapEdgeTests : OmniBunitContext
+public sealed class MapEdgeTests : MapTestContext
 {
-    private static readonly OmniGeoPoint Brussels = new(50.8466, 4.3528);
-    private readonly BunitJSModuleInterop _module;
-
-    public MapEdgeTests() => _module = JSInterop.SetupModule(OmniModules.Map);
-
-    private IRenderedComponent<OmniMap> RenderMap(Action<ComponentParameterCollectionBuilder<OmniMap>>? configure = null)
-        => Render<OmniMap>(parameters => configure?.Invoke(parameters));
-
     private static OmniMapLine Line(double width = 5, string? tooltip = null, object? key = null)
         => new() { Points = [new(50.8466, 4.3528), new(50.8355, 4.3330)], Width = width, Tooltip = tooltip, Key = key };
 
     private static OmniMapMarker Marker(string label, object? key = null)
         => new() { Point = Brussels, Label = label, Key = key };
 
-    private IReadOnlyList<object?> LastUpdate() => _module.Invocations["update"][^1].Arguments;
+    private IReadOnlyList<object?> LastUpdate() => MapModule.Invocations["update"][^1].Arguments;
 
     [Theory]
     [InlineData(-190, 170)]
@@ -96,20 +88,20 @@ public sealed class MapEdgeTests : OmniBunitContext
 
         map.Render(parameters => parameters.Add(m => m.Markers, [Marker("A"), Marker("B")]));
 
-        Assert.Single(_module.Invocations["attach"]);
-        Assert.Single(_module.Invocations["update"]);
+        Assert.Single(MapModule.Invocations["attach"]);
+        Assert.Single(MapModule.Invocations["update"]);
         Assert.Equal(2, map.FindAll("button.omni-map__marker").Count);
     }
 
     [Fact]
     public void ALostCircuit_WhileAttaching_IsIgnored_AndTheMapStaysRendered()
     {
-        _module.SetupVoid("attach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
+        MapModule.SetupVoid("attach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
 
         var map = RenderMap(parameters => parameters.Add(m => m.Markers, [Marker("Gare")]));
 
-        Assert.Single(_module.Invocations["attach"]);
-        Assert.Empty(_module.Invocations["update"]);
+        Assert.Single(MapModule.Invocations["attach"]);
+        Assert.Empty(MapModule.Invocations["update"]);
         Assert.Single(map.FindAll("button.omni-map__marker"));
     }
 
@@ -117,11 +109,11 @@ public sealed class MapEdgeTests : OmniBunitContext
     public async Task ALostCircuit_WhileDetaching_IsIgnored_AndTheMapIsDisposed()
     {
         var map = RenderMap();
-        _module.SetupVoid("detach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
+        MapModule.SetupVoid("detach", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
 
         await map.Instance.DisposeAsync();
 
-        Assert.Single(_module.Invocations["detach"]);
+        Assert.Single(MapModule.Invocations["detach"]);
         await Assert.ThrowsAsync<ObjectDisposedException>(() => map.Instance.ZoomInAsync());
     }
 
@@ -129,12 +121,12 @@ public sealed class MapEdgeTests : OmniBunitContext
     public async Task ALostCircuit_WhileZooming_IsIgnored()
     {
         var map = RenderMap();
-        _module.SetupVoid("zoomBy", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
+        MapModule.SetupVoid("zoomBy", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
 
         await map.Instance.ZoomInAsync();
         await map.Instance.ZoomOutAsync();
 
-        Assert.Equal([1, -1], _module.Invocations["zoomBy"].Select(call => (int)call.Arguments[1]!));
+        Assert.Equal([1, -1], MapModule.Invocations["zoomBy"].Select(call => (int)call.Arguments[1]!));
     }
 
     [Fact]
@@ -144,7 +136,7 @@ public sealed class MapEdgeTests : OmniBunitContext
 
         map.Render(parameters => parameters.Add(m => m.MaxZoom, 10));
 
-        Assert.Equal(2, _module.Invocations["update"].Count);
+        Assert.Equal(2, MapModule.Invocations["update"].Count);
         Assert.Equal(OmniMap.DefaultTileUrl, LastUpdate()[1]);
         Assert.Equal(2, LastUpdate()[2]);
         Assert.Equal(10, LastUpdate()[3]);
@@ -161,7 +153,7 @@ public sealed class MapEdgeTests : OmniBunitContext
 
         map.Render(parameters => parameters.Add(m => m.TileUrl, "/tiles/{z}/{x}/{y}.png"));
 
-        Assert.Equal(2, _module.Invocations["update"].Count);
+        Assert.Equal(2, MapModule.Invocations["update"].Count);
         Assert.Equal("/tiles/{z}/{x}/{y}.png", LastUpdate()[1]);
         Assert.Null(LastUpdate()[4]);
         Assert.Null(LastUpdate()[6]);
@@ -192,7 +184,7 @@ public sealed class MapEdgeTests : OmniBunitContext
             .Add(m => m.CenterChanged, centre => centres.Add(centre))
             .Add(m => m.ZoomChanged, zoom => zooms.Add(zoom))
             .Add(m => m.OnMapClick, point => clicks.Add(point)));
-        var bridge = ((DotNetObjectReference<MapInteropBridge>)_module.Invocations["attach"][0].Arguments[1]!).Value;
+        var bridge = ((DotNetObjectReference<MapInteropBridge>)MapModule.Invocations["attach"][0].Arguments[1]!).Value;
 
         await map.InvokeAsync(() => bridge.OnViewChanged(51, 5, 16));
         await map.InvokeAsync(() => bridge.OnMapClick(50.1, 4.2));

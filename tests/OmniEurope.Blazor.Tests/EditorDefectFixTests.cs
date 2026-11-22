@@ -147,25 +147,53 @@ public sealed class EditorDefectFixTests : OmniBunitContext
 
     // ── Script modules: an import ending after the component left, and a lost circuit ──
 
-    private static async Task<RecordingModule> HeldImportAsync(ManualJSRuntime runtime, Func<Task> dispose)
+    private static async Task<RecordingModule> HeldImportAsync(ManualJSRuntime runtime, IAsyncDisposable component)
     {
-        await dispose();
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+        await component.DisposeAsync();
+        await runtime.ReleaseHeldImportAsync();
         return runtime.Module;
+    }
+
+    /// <summary>Registers <paramref name="runtime"/> as the test's JavaScript runtime and returns it.</summary>
+    private TRuntime UseRuntime<TRuntime>(TRuntime runtime)
+        where TRuntime : IJSRuntime
+    {
+        Services.AddSingleton<IJSRuntime>(runtime);
+        return runtime;
+    }
+
+    /// <summary>Renders a code editor bound to <c>x</c>, with a 20rem height unless <paramref name="withHeight"/> is false.</summary>
+    private IRenderedComponent<OmniCodeEditor> RenderCodeEditor(bool withHeight = true)
+    {
+        var value = "x";
+        return Render<OmniCodeEditor>(parameters =>
+        {
+            parameters.BindValue(() => value);
+            if (withHeight)
+            {
+                parameters.Add(component => component.Height, "20rem");
+            }
+        });
+    }
+
+    /// <summary>Renders an HTML editor bound to <c>&lt;p&gt;x&lt;/p&gt;</c>, plus the parameters <paramref name="more"/> adds.</summary>
+    private IRenderedComponent<OmniHtmlEditor> RenderBoundHtmlEditor(Action<ComponentParameterCollectionBuilder<OmniHtmlEditor>>? more = null)
+    {
+        var value = "<p>x</p>";
+        return Render<OmniHtmlEditor>(parameters =>
+        {
+            parameters.BindValue(() => value);
+            more?.Invoke(parameters);
+        });
     }
 
     [Fact]
     public async Task CodeEditor_GoneWhileItsHeightScriptLoads_ReleasesTheModuleOnArrival()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var value = "x";
-        var editor = Render<OmniCodeEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Height, "20rem"));
+        var runtime = UseRuntime(new ManualJSRuntime { HoldImports = true });
+        var editor = RenderCodeEditor();
 
-        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+        var module = await HeldImportAsync(runtime, editor.Instance);
 
         Assert.Empty(module.Calls);
     }
@@ -173,13 +201,10 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public async Task CodeEditor_GoneWhileMonacoScriptLoads_ReleasesTheModuleOnArrival()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var value = "x";
-        var editor = Render<OmniCodeEditor>(parameters => parameters
-            .BindValue(() => value));
+        var runtime = UseRuntime(new ManualJSRuntime { HoldImports = true });
+        var editor = RenderCodeEditor(withHeight: false);
 
-        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+        var module = await HeldImportAsync(runtime, editor.Instance);
 
         Assert.Empty(module.Calls);
     }
@@ -187,12 +212,9 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public void CodeEditor_OnALostCircuit_RendersWithoutFailing()
     {
-        Services.AddSingleton<IJSRuntime>(new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") });
-        var value = "x";
+        UseRuntime(new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") });
 
-        var editor = Render<OmniCodeEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Height, "20rem"));
+        var editor = RenderCodeEditor();
 
         Assert.NotEmpty(editor.FindAll("textarea"));
     }
@@ -200,13 +222,10 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public async Task HtmlEditor_GoneWhileItsSurfaceScriptLoads_ReleasesTheModuleOnArrival()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var value = "<p>x</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var runtime = UseRuntime(new ManualJSRuntime { HoldImports = true });
+        var editor = RenderBoundHtmlEditor();
 
-        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+        var module = await HeldImportAsync(runtime, editor.Instance);
 
         Assert.DoesNotContain("mount", module.Calls);
     }
@@ -214,11 +233,9 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public void HtmlEditor_OnALostCircuit_RendersWithoutFailing()
     {
-        Services.AddSingleton<IJSRuntime>(new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") });
-        var value = "<p>x</p>";
+        UseRuntime(new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") });
 
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var editor = RenderBoundHtmlEditor();
 
         Assert.NotNull(editor.Find(".omni-html-editor"));
     }
@@ -227,13 +244,12 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public async Task MailTemplateEditor_GoneWhileItsPreviewScriptLoads_ReleasesTheModuleOnArrival()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = UseRuntime(new ManualJSRuntime { HoldImports = true });
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniMailTemplateEditor>(parameters => parameters
             .Add(component => component.Value, value));
 
-        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+        var module = await HeldImportAsync(runtime, editor.Instance);
 
         Assert.DoesNotContain("attachTokens", module.Calls);
         Assert.DoesNotContain("render", module.Calls);
@@ -242,7 +258,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public void MailTemplateEditor_OnALostCircuit_RendersWithoutFailing()
     {
-        Services.AddSingleton<IJSRuntime>(new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") });
+        UseRuntime(new ManualJSRuntime { ImportFailure = new JSDisconnectedException("perdu") });
         var value = "<p>Bonjour</p>";
 
         var editor = Render<OmniMailTemplateEditor>(parameters => parameters
@@ -254,13 +270,12 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public async Task Chart_GoneWhileItsScriptLoads_ReleasesTheModuleOnArrival()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = UseRuntime(new ManualJSRuntime { HoldImports = true });
         var chart = Render<OmniChart>(parameters => parameters
             .Add(component => component.Label, "Ventes")
             .Add(component => component.MaxHeight, "20rem"));
 
-        var module = await HeldImportAsync(runtime, () => chart.Instance.DisposeAsync().AsTask());
+        var module = await HeldImportAsync(runtime, chart.Instance);
 
         Assert.Empty(module.Calls);
     }
@@ -319,12 +334,8 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public async Task CodeEditor_TwoImportsInFlight_KeepsTheFirstAndReleasesTheSecond()
     {
-        var runtime = new QueuedJSRuntime();
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var value = "x";
-        var editor = Render<OmniCodeEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Height, "20rem"));
+        var runtime = UseRuntime(new QueuedJSRuntime());
+        var editor = RenderCodeEditor();
         editor.Render(parameters => parameters.Add(component => component.Height, "30rem"));
         Assert.Equal(2, runtime.Imports.Count(import => import.Path == OmniModules.CodeEditor));
 
@@ -338,8 +349,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public async Task MailTemplateEditor_TwoImportsInFlight_KeepsTheFirstAndReleasesTheSecond()
     {
-        var runtime = new QueuedJSRuntime();
-        Services.AddSingleton<IJSRuntime>(runtime);
+        var runtime = UseRuntime(new QueuedJSRuntime());
         var editor = Render<OmniMailTemplateEditor>(parameters => parameters.Add(component => component.Value, "<p>Bonjour</p>"));
         editor.FindAll("[role=tab]")[1].Click();
         editor.Render(parameters => parameters.Add(component => component.Value, "<p>Bonsoir</p>"));
@@ -365,13 +375,10 @@ public sealed class EditorDefectFixTests : OmniBunitContext
             HoldImports = true,
             Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") }
         };
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var value = "x";
-        var editor = Render<OmniCodeEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Height, "20rem"));
+        UseRuntime(runtime);
+        var editor = RenderCodeEditor();
 
-        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+        var module = await HeldImportAsync(runtime, editor.Instance);
 
         Assert.Empty(module.Calls);
     }
@@ -409,16 +416,13 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     [Fact]
     public async Task HtmlEditor_GoneWhileADownloadScriptLoads_ReleasesItAndDownloadsNothing()
     {
-        var runtime = new ManualJSRuntime { HoldImports = true };
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var value = "<p>x</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var runtime = UseRuntime(new ManualJSRuntime { HoldImports = true });
+        var editor = RenderBoundHtmlEditor(parameters => parameters
             .Add(component => component.ShowStatusBar, true)
             .Add(component => component.Sheet, true));
 
         var click = editor.Find("[data-export=text]").ClickAsync(new MouseEventArgs());
-        var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
+        var module = await HeldImportAsync(runtime, editor.Instance);
         await click.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
 
         Assert.DoesNotContain("download", module.Calls);

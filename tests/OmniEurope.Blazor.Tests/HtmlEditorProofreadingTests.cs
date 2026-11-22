@@ -25,7 +25,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(ModulePath);
         RenderEditor(new ProofreadingExtension(new TestProofreader()));
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.True(options.GetProperty("proofread").GetBoolean());
 
         var other = JSInterop.SetupModule(ModulePath);
@@ -67,9 +67,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
     {
         JSInterop.SetupModule(ModulePath);
         var proofreader = new TestProofreader { Check = _ => [new(0, 5, 7)] };
-        var value = "<p>A</p>";
-        var locked = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var locked = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
 
@@ -91,9 +89,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(ModulePath);
         module.Mode = JSRuntimeMode.Loose;
-        var value = "<p>Some speling</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>Some speling</p>", parameters => parameters
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Extensions, [new ProofreadingExtension(new TestProofreader())]));
         Assert.Single(module.Invocations["mount"]);
@@ -137,9 +133,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
     {
         JSInterop.SetupModule(ModulePath);
         var proofreader = new TestProofreader();
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
 

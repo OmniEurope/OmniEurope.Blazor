@@ -151,10 +151,7 @@ public sealed class UploadSizeFormatTests : OmniBunitContext
         {
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
             IReadOnlyList<OmniUploadFile> files = [new("image.iso", 3_931_000_000, "application/octet-stream")];
-            var upload = Render<OmniUpload>(parameters => parameters
-                .Add(component => component.Multiple, true)
-                .Add(component => component.Files, files)
-                .Add(component => component.FilesChanged, next => files = next));
+            var upload = this.RenderMultipleUpload(files);
 
             Assert.Equal("3,7 Go", upload.Find(".omni-upload__file-size").TextContent);
         }

@@ -11,12 +11,20 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class NavTileFavoriteTests : OmniBunitContext
 {
+    /// <summary>Renders the tile "A" to <c>/a</c>, plus the parameters <paramref name="more"/> adds.</summary>
+    private IRenderedComponent<OmniNavTile> RenderTileA(Action<ComponentParameterCollectionBuilder<OmniNavTile>>? more = null) =>
+        Render<OmniNavTile>(parameters =>
+        {
+            parameters
+                .Add(component => component.Href, "/a")
+                .Add(component => component.Title, "A");
+            more?.Invoke(parameters);
+        });
+
     [Fact]
     public void WithoutIsFavorite_NoToggleAndNoHost()
     {
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A"));
+        var tile = RenderTileA();
 
         Assert.Empty(tile.FindAll("button"));
         Assert.Empty(tile.FindAll(".omni-nav-tile-host"));
@@ -26,9 +34,7 @@ public sealed class NavTileFavoriteTests : OmniBunitContext
     [Fact]
     public void Class_GoesOnTheLinkOnly_NeverOnTheHostOrTheStar()
     {
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A")
+        var tile = RenderTileA(parameters => parameters
             .Add(component => component.Class, "requires-online-navigation")
             .Add(component => component.IsFavorite, false));
 
@@ -43,9 +49,7 @@ public sealed class NavTileFavoriteTests : OmniBunitContext
     [InlineData(false, "false", "Ajouter aux favoris")]
     public void IsFavorite_SetsAriaPressedAndTheLocalizedName(bool favorite, string pressed, string name)
     {
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A")
+        var tile = RenderTileA(parameters => parameters
             .Add(component => component.IsFavorite, favorite));
 
         var button = tile.Find("button.omni-nav-tile__favorite");
@@ -58,9 +62,7 @@ public sealed class NavTileFavoriteTests : OmniBunitContext
     [Fact]
     public void TheToggle_IsASiblingOfTheLink_NotInsideIt()
     {
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A")
+        var tile = RenderTileA(parameters => parameters
             .Add(component => component.IsFavorite, false));
 
         var anchor = tile.Find("a.omni-nav-tile");
@@ -76,9 +78,7 @@ public sealed class NavTileFavoriteTests : OmniBunitContext
         var navigation = Services.GetRequiredService<NavigationManager>();
         var before = navigation.Uri;
         bool? reported = null;
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A")
+        var tile = RenderTileA(parameters => parameters
             .Add(component => component.IsFavorite, false)
             .Add(component => component.IsFavoriteChanged, value => reported = value));
 
@@ -92,9 +92,7 @@ public sealed class NavTileFavoriteTests : OmniBunitContext
     public void ClickingAFavoriteTile_ReportsFalse()
     {
         bool? reported = null;
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A")
+        var tile = RenderTileA(parameters => parameters
             .Add(component => component.IsFavorite, true)
             .Add(component => component.IsFavoriteChanged, value => reported = value));
 
@@ -106,9 +104,7 @@ public sealed class NavTileFavoriteTests : OmniBunitContext
     [Fact]
     public void ADoubleWidthFavoriteTile_PutsTheSpanClassOnTheHost()
     {
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A")
+        var tile = RenderTileA(parameters => parameters
             .Add(component => component.DoubleWidth, true)
             .Add(component => component.IsFavorite, false));
 

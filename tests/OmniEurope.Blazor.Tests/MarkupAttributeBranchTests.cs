@@ -133,24 +133,17 @@ public sealed class MarkupAttributeBranchTests : OmniBunitContext
         Assert.Null(chosen);
     }
 
-    [Fact]
-    public void DatePickers_ReadOnly_DisableTheirToggle()
+    [Theory]
+    [InlineData(true)]
+    [InlineData(false)]
+    public void DatePickers_ReadOnlyOrDisabled_DisableTheirToggle(bool readOnly)
     {
-        var date = Render<OmniDatePicker>(parameters => parameters.Add(component => component.ReadOnly, true).Add(component => component.ValueExpression, () => _date));
-        var time = Render<OmniTimePicker>(parameters => parameters.Add(component => component.ReadOnly, true).Add(component => component.ValueExpression, () => _time));
-        var moment = Render<OmniDateTimePicker>(parameters => parameters.Add(component => component.ReadOnly, true).Add(component => component.ValueExpression, () => _moment));
-
-        Assert.NotNull(date.Find(".omni-date__toggle").GetAttribute("disabled"));
-        Assert.NotNull(time.Find("button[aria-haspopup]").GetAttribute("disabled"));
-        Assert.NotNull(moment.Find("button[aria-haspopup]").GetAttribute("disabled"));
-    }
-
-    [Fact]
-    public void DatePickers_Disabled_DisableTheirToggle()
-    {
-        var date = Render<OmniDatePicker>(parameters => parameters.Add(component => component.Disabled, true).Add(component => component.ValueExpression, () => _date));
-        var time = Render<OmniTimePicker>(parameters => parameters.Add(component => component.Disabled, true).Add(component => component.ValueExpression, () => _time));
-        var moment = Render<OmniDateTimePicker>(parameters => parameters.Add(component => component.Disabled, true).Add(component => component.ValueExpression, () => _moment));
+        var date = Render<OmniDatePicker>(parameters => (readOnly ? parameters.Add(component => component.ReadOnly, true) : parameters.Add(component => component.Disabled, true))
+            .Add(component => component.ValueExpression, () => _date));
+        var time = Render<OmniTimePicker>(parameters => (readOnly ? parameters.Add(component => component.ReadOnly, true) : parameters.Add(component => component.Disabled, true))
+            .Add(component => component.ValueExpression, () => _time));
+        var moment = Render<OmniDateTimePicker>(parameters => (readOnly ? parameters.Add(component => component.ReadOnly, true) : parameters.Add(component => component.Disabled, true))
+            .Add(component => component.ValueExpression, () => _moment));
 
         Assert.NotNull(date.Find(".omni-date__toggle").GetAttribute("disabled"));
         Assert.NotNull(time.Find("button[aria-haspopup]").GetAttribute("disabled"));

@@ -58,7 +58,7 @@ public sealed class LateJsAcquisitionTests
     }
 
     /// <summary>A runtime whose module import stays pending until the test completes it.</summary>
-    private sealed class PendingImportRuntime : IJSRuntime
+    private sealed class PendingImportRuntime : ForwardingJSRuntime
     {
         private readonly TaskCompletionSource<IJSObjectReference> _import = new(TaskCreationOptions.RunContinuationsAsynchronously);
 
@@ -66,32 +66,26 @@ public sealed class LateJsAcquisitionTests
 
         internal void Complete() => _import.SetResult(Module);
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public override async ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
         {
             Assert.Equal("import", identifier);
             return (TValue)await _import.Task;
         }
     }
 
-    private sealed class RecordingModule : IJSObjectReference
+    private sealed class RecordingModule : ForwardingJSObjectReference
     {
         internal List<string> Calls { get; } = [];
 
         internal bool Disposed { get; private set; }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
         {
             Calls.Add(identifier);
             return ValueTask.FromResult(default(TValue)!);
         }
 
-        public ValueTask DisposeAsync()
+        public override ValueTask DisposeAsync()
         {
             Disposed = true;
             return ValueTask.CompletedTask;

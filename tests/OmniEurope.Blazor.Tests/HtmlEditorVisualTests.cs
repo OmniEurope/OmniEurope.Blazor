@@ -42,10 +42,8 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         // reached the component: the surface now opens only once the mount has ended (data-omni-ready).
         var module = JSInterop.SetupModule(ModulePath);
         var mounting = module.SetupVoid("mount", _ => true);
-        var value = "<p>Texte</p>";
 
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var editor = this.RenderHtmlEditor("<p>Texte</p>");
 
         var surface = editor.Find(".omni-html-editor__surface");
         Assert.Equal("false", surface.GetAttribute("contenteditable"));
@@ -53,10 +51,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         Assert.False(surface.HasAttribute("data-omni-ready"));
         Assert.Equal(true, Assert.Single(module.Invocations["mount"]).Arguments[4]);
 
-        mounting.SetVoidResult();
-        // The script opens the surface itself; the next render of the component writes the same attributes.
-        editor.WaitForAssertion(() => Assert.True(editor.Instance.SurfaceReady));
-        editor.Render();
+        FinishMounting(editor, mounting);
 
         editor.WaitForAssertion(() =>
         {
@@ -80,10 +75,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
             .Add(component => component.ValueExpression, () => value));
 
         Assert.Equal(false, Assert.Single(module.Invocations["mount"]).Arguments[4]);
-        mounting.SetVoidResult();
-        // The script opens the surface itself; the next render of the component writes the same attributes.
-        editor.WaitForAssertion(() => Assert.True(editor.Instance.SurfaceReady));
-        editor.Render();
+        FinishMounting(editor, mounting);
 
         editor.WaitForAssertion(() =>
         {
@@ -181,11 +173,9 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     public void Separators_NeverLead_TrailOrRepeat()
     {
         JSInterop.SetupModule(ModulePath);
-        var value = string.Empty;
         var separator = OmniHtmlEditorCommands.Separator;
 
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor(string.Empty, parameters => parameters
             .Add(component => component.Commands, [separator, OmniHtmlEditorCommands.Bold, separator, separator, separator, OmniHtmlEditorCommands.Underline, separator]));
 
         var toolbar = editor.Find(".omni-html-editor__toolbar");
@@ -197,11 +187,9 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     public void Separators_OpenTheGroupThatFollowsThem_SoAWrappedRowNeverEndsWithOne()
     {
         JSInterop.SetupModule(ModulePath);
-        var value = string.Empty;
         var separator = OmniHtmlEditorCommands.Separator;
 
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor(string.Empty, parameters => parameters
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Bold, separator, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Underline, separator, OmniHtmlEditorCommands.Link]));
 
         var groups = editor.Find(".omni-html-editor__toolbar").Children;
@@ -218,10 +206,8 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     public void DefaultToolbar_OffersTheExpectedCommands()
     {
         JSInterop.SetupModule(ModulePath);
-        var value = string.Empty;
 
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var editor = this.RenderHtmlEditor(string.Empty);
 
         var names = editor.FindAll(".omni-html-editor__toolbar [data-command]").Select(control => control.GetAttribute("data-command")).ToHashSet();
         foreach (var expected in new[] { "block-format", "bold", "italic", "underline", "strikethrough", "sub", "sup", "inline-code", "bullet-list", "numbered-list", "outdent", "indent", "quote", "code-block", "link", "unlink", "align-left", "align-center", "align-right", "align-justify", "clear-formatting", "undo", "redo", "toggle-source" })
@@ -236,10 +222,8 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     [Fact]
     public void CustomCommand_WithoutAHandler_IsRejected()
     {
-        var value = string.Empty;
 
-        var exception = Assert.Throws<InvalidOperationException>(() => Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var exception = Assert.Throws<InvalidOperationException>(() => this.RenderHtmlEditor(string.Empty, parameters => parameters
             .Add(component => component.Commands, [new OmniHtmlEditorCommand("empty", OmniHtmlEditorAction.Custom)])));
 
         Assert.Contains("'empty'", exception.Message, StringComparison.Ordinal);
@@ -274,9 +258,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
     public void ModeParameter_SwitchesTheFace_BothWays()
     {
         var module = JSInterop.SetupModule(ModulePath);
-        var value = "<p>Bonjour</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>Bonjour</p>", parameters => parameters
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
 
         Assert.Single(editor.FindAll("textarea"));
@@ -374,5 +356,16 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         // The right-align command writes the logical end class, which the stylesheet draws.
         Assert.Matches(@"right: 'omni-align-end'", alignment.Groups["body"].Value);
         Assert.Contains(".omni-align-end { text-align: end; }", ShippedLookTests.Css, StringComparison.Ordinal);
+    }
+
+    /// <summary>
+    /// Lets the surface script finish mounting: the script opens the surface itself, and the next render of the
+    /// component writes the same attributes.
+    /// </summary>
+    private static void FinishMounting(IRenderedComponent<OmniHtmlEditor> editor, JSRuntimeInvocationHandler mounting)
+    {
+        mounting.SetVoidResult();
+        editor.WaitForAssertion(() => Assert.True(editor.Instance.SurfaceReady));
+        editor.Render();
     }
 }

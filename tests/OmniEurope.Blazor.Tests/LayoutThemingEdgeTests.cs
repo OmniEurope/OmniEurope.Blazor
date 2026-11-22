@@ -15,18 +15,27 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class LayoutThemingEdgeTests : OmniBunitContext
 {
-    [Fact]
-    public async Task BootSplashGoneWhileItsScriptAnswers_ReleasesIt_AndALostCircuitIsQuiet()
+    /// <summary>
+    /// Renders a boot splash whose script hides it and whose release fails on a lost circuit, recording each
+    /// hide it reports; the script import waits for the test when <paramref name="holdImports"/> is set.
+    /// </summary>
+    private (ManualJSRuntime Runtime, List<bool> Hidden, IRenderedComponent<OmniBootSplash> Splash) RenderBootSplash(bool holdImports)
     {
-        var runtime = new ManualJSRuntime { HoldImports = true, Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") } };
+        var runtime = new ManualJSRuntime { HoldImports = holdImports, Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") } };
         runtime.Module.Answers["hideBootSplash"] = true;
         Services.AddSingleton<IJSRuntime>(runtime);
         var hidden = new List<bool>();
         var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHide, value => hidden.Add(value)));
+        return (runtime, hidden, splash);
+    }
+
+    [Fact]
+    public async Task BootSplashGoneWhileItsScriptAnswers_ReleasesIt_AndALostCircuitIsQuiet()
+    {
+        var (runtime, hidden, splash) = RenderBootSplash(holdImports: true);
 
         await splash.Instance.DisposeAsync();
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+        await runtime.ReleaseHeldImportAsync();
 
         Assert.Equal(["hideBootSplash"], runtime.Module.Calls);
         Assert.Empty(hidden);
@@ -35,11 +44,7 @@ public sealed class LayoutThemingEdgeTests : OmniBunitContext
     [Fact]
     public async Task BootSplash_OnALostCircuit_IsQuiet_AndReleasesQuietly()
     {
-        var runtime = new ManualJSRuntime { Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") } };
-        runtime.Module.Answers["hideBootSplash"] = true;
-        Services.AddSingleton<IJSRuntime>(runtime);
-        var hidden = new List<bool>();
-        var splash = Render<OmniBootSplash>(parameters => parameters.Add(component => component.OnHide, value => hidden.Add(value)));
+        var (runtime, hidden, splash) = RenderBootSplash(holdImports: false);
         Assert.Equal([true], hidden);
         await splash.Instance.DisposeAsync();
 
@@ -104,6 +109,15 @@ public sealed class LayoutThemingEdgeTests : OmniBunitContext
         Assert.Single(module.Invocations["disposeScrollOverflow"]);
     }
 
+    /// <summary>Adds a check box <paramref name="id"/> bound to <paramref name="value"/>, from <paramref name="sequence"/> to <paramref name="sequence"/> + 2.</summary>
+    private static void CheckBox(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder, int sequence, string id, System.Linq.Expressions.Expression<Func<bool>> value)
+    {
+        builder.OpenComponent<OmniCheckBox<bool>>(sequence);
+        builder.AddComponentParameter(sequence + 1, nameof(OmniCheckBox<bool>.Id), id);
+        builder.AddComponentParameter(sequence + 2, nameof(OmniCheckBox<bool>.ValueExpression), value);
+        builder.CloseComponent();
+    }
+
     [Fact]
     public void SettingsTile_SharedByTwoControls_NamesTheFirst_AndIgnoresTheOtherLeaving()
     {
@@ -112,24 +126,12 @@ public sealed class LayoutThemingEdgeTests : OmniBunitContext
             .Add(component => component.Title, "Nom")
             .AddChildContent(builder =>
             {
-                builder.OpenComponent<OmniCheckBox<bool>>(0);
-                builder.AddComponentParameter(1, nameof(OmniCheckBox<bool>.Id), "premier");
-                builder.AddComponentParameter(2, nameof(OmniCheckBox<bool>.ValueExpression), (System.Linq.Expressions.Expression<Func<bool>>)(() => flag));
-                builder.CloseComponent();
-                builder.OpenComponent<OmniCheckBox<bool>>(3);
-                builder.AddComponentParameter(4, nameof(OmniCheckBox<bool>.Id), "second");
-                builder.AddComponentParameter(5, nameof(OmniCheckBox<bool>.ValueExpression), (System.Linq.Expressions.Expression<Func<bool>>)(() => flag));
-                builder.CloseComponent();
+                CheckBox(builder, 0, "premier", () => flag);
+                CheckBox(builder, 3, "second", () => flag);
             }));
 
         Assert.Contains("for=\"premier\"", tile.Markup, StringComparison.Ordinal);
-        tile.Render(parameters => parameters.AddChildContent(builder =>
-        {
-            builder.OpenComponent<OmniCheckBox<bool>>(0);
-            builder.AddComponentParameter(1, nameof(OmniCheckBox<bool>.Id), "premier");
-            builder.AddComponentParameter(2, nameof(OmniCheckBox<bool>.ValueExpression), (System.Linq.Expressions.Expression<Func<bool>>)(() => flag));
-            builder.CloseComponent();
-        }));
+        tile.Render(parameters => parameters.AddChildContent(builder => CheckBox(builder, 0, "premier", () => flag)));
 
         Assert.Contains("for=\"premier\"", tile.Markup, StringComparison.Ordinal);
     }

@@ -130,17 +130,54 @@ public sealed class MindMapComponentTests : OmniBunitContext
         Assert.Contains($"scale({MindMapGeometry.Format(view.Zoom)})", map.Find(".omni-mindmap__viewport").GetAttribute("transform"), StringComparison.Ordinal);
     }
 
-    [Fact]
-    public async Task AutomaticFit_FollowsTheCanvasUntilTheReaderMovesTheView()
+    /// <summary>
+    /// Renders the sample on a canvas of the given size, recording each view it reports, and waits for the
+    /// automatic fit to report its first view.
+    /// </summary>
+    private (IRenderedComponent<OmniMindMap> Map, MindMapInteropBridge Bridge, List<OmniMindMapViewState> Views) RenderFitting(MindMapCanvasSize canvas)
     {
         var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<MindMapCanvasSize?>("attach", _ => true).SetResult(new MindMapCanvasSize(300, 150));
+        module.Setup<MindMapCanvasSize?>("attach", _ => true).SetResult(canvas);
         var views = new List<OmniMindMapViewState>();
         var map = Render<OmniMindMap>(parameters => parameters
             .Add(component => component.Document, Sample())
             .Add(component => component.ViewStateChanged, value => views.Add(value)));
         var bridge = new MindMapInteropBridge(map.Instance);
         map.WaitForAssertion(() => Assert.NotEmpty(views));
+        return (map, bridge, views);
+    }
+
+    /// <summary>Renders the sample, with the bridge its script would call.</summary>
+    private (IRenderedComponent<OmniMindMap> Map, MindMapInteropBridge Bridge) RenderSampleWithItsBridge()
+    {
+        var map = Render<OmniMindMap>(parameters => parameters.Add(component => component.Document, Sample()));
+        return (map, new MindMapInteropBridge(map.Instance));
+    }
+
+    /// <summary>The document a map edits, as the host's binding keeps it.</summary>
+    private sealed class EditedDocument
+    {
+        public OmniMindMapDocument Current { get; set; } = Sample();
+    }
+
+    /// <summary>Renders the sample bound to a host that keeps each change, plus the parameters <paramref name="more"/> adds.</summary>
+    private (IRenderedComponent<OmniMindMap> Map, EditedDocument Edited) RenderEditable(Action<ComponentParameterCollectionBuilder<OmniMindMap>>? more = null)
+    {
+        var edited = new EditedDocument();
+        var map = Render<OmniMindMap>(parameters =>
+        {
+            parameters
+                .Add(component => component.Document, edited.Current)
+                .Add(component => component.DocumentChanged, value => edited.Current = value);
+            more?.Invoke(parameters);
+        });
+        return (map, edited);
+    }
+
+    [Fact]
+    public async Task AutomaticFit_FollowsTheCanvasUntilTheReaderMovesTheView()
+    {
+        var (map, bridge, views) = RenderFitting(new MindMapCanvasSize(300, 150));
         var cramped = views[^1].Zoom;
 
         await map.InvokeAsync(() => bridge.Resized(1000, 700));
@@ -162,14 +199,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
         // selection is cleared; each time the canvas changed width, and the automatic fit, still
         // following the canvas because the reader had not panned or zoomed, zoomed the map again.
         // Every click zoomed it in or out.
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<MindMapCanvasSize?>("attach", _ => true).SetResult(new MindMapCanvasSize(1000, 700));
-        var views = new List<OmniMindMapViewState>();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, Sample())
-            .Add(component => component.ViewStateChanged, value => views.Add(value)));
-        var bridge = new MindMapInteropBridge(map.Instance);
-        map.WaitForAssertion(() => Assert.NotEmpty(views));
+        var (map, bridge, views) = RenderFitting(new MindMapCanvasSize(1000, 700));
         var fitted = map.Instance.CurrentView;
         var reported = views.Count;
 
@@ -185,14 +215,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     [Fact]
     public async Task AKeyOnTheCanvas_AlsoEndsTheAutomaticFit()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<MindMapCanvasSize?>("attach", _ => true).SetResult(new MindMapCanvasSize(1000, 700));
-        var views = new List<OmniMindMapViewState>();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, Sample())
-            .Add(component => component.ViewStateChanged, value => views.Add(value)));
-        var bridge = new MindMapInteropBridge(map.Instance);
-        map.WaitForAssertion(() => Assert.NotEmpty(views));
+        var (map, bridge, views) = RenderFitting(new MindMapCanvasSize(1000, 700));
         var fitted = map.Instance.CurrentView;
 
         map.Find("svg").KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
@@ -266,8 +289,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     [Fact]
     public async Task History_IsBoundedToThirtyStates()
     {
-        var map = Render<OmniMindMap>(parameters => parameters.Add(component => component.Document, Sample()));
-        var bridge = new MindMapInteropBridge(map.Instance);
+        var (map, bridge) = RenderSampleWithItsBridge();
 
         for (var step = 1; step <= 40; step++)
         {
@@ -317,14 +339,11 @@ public sealed class MindMapComponentTests : OmniBunitContext
     [Fact]
     public void KeyboardCommands_AddDuplicateMoveAndDelete()
     {
-        OmniMindMapDocument current = Sample();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, current)
-            .Add(component => component.DocumentChanged, value => current = value));
+        var (map, edited) = RenderEditable();
         var canvas = map.Find("svg");
 
         canvas.KeyDown(new KeyboardEventArgs { Key = "n" });
-        var added = Assert.Single(current.Nodes, node => node.Id == "node_1");
+        var added = Assert.Single(edited.Current.Nodes, node => node.Id == "node_1");
         Assert.Equal("Nouveau", added.Label);
         Assert.Equal(OmniMindMapGroups.Green, added.Group);
         Assert.Equal("node_1", map.Instance.SelectedNode?.Id);
@@ -333,22 +352,22 @@ public sealed class MindMapComponentTests : OmniBunitContext
         canvas.KeyDown(new KeyboardEventArgs { Key = "Home" });
         canvas.KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
         canvas.KeyDown(new KeyboardEventArgs { Key = "d" });
-        var copy = Assert.Single(current.Nodes, node => node.Id == "node_2");
+        var copy = Assert.Single(edited.Current.Nodes, node => node.Id == "node_2");
         Assert.Equal(("Droite", 690d, 330d), (copy.Label, copy.X, copy.Y));
-        Assert.Contains(current.Edges, edge => edge is { From: "root", To: "node_2" });
-        Assert.DoesNotContain(current.Edges, edge => edge is { From: "node_2", To: "below" });
+        Assert.Contains(edited.Current.Edges, edge => edge is { From: "root", To: "node_2" });
+        Assert.DoesNotContain(edited.Current.Edges, edge => edge is { From: "node_2", To: "below" });
 
         canvas.KeyDown(new KeyboardEventArgs { Key = "ArrowUp", ShiftKey = true });
-        Assert.Equal(320d, Assert.Single(current.Nodes, node => node.Id == "node_2").Y);
+        Assert.Equal(320d, Assert.Single(edited.Current.Nodes, node => node.Id == "node_2").Y);
 
         canvas.KeyDown(new KeyboardEventArgs { Key = "Home" });
         canvas.KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
         Assert.Equal("right", map.Instance.SelectedNode?.Id);
         canvas.KeyDown(new KeyboardEventArgs { Key = "Delete" });
 
-        Assert.DoesNotContain(current.Nodes, node => node.Id == "right");
-        Assert.DoesNotContain(current.Edges, edge => edge.From == "right" || edge.To == "right");
-        Assert.Empty(current.Notes);
+        Assert.DoesNotContain(edited.Current.Nodes, node => node.Id == "right");
+        Assert.DoesNotContain(edited.Current.Edges, edge => edge.From == "right" || edge.To == "right");
+        Assert.Empty(edited.Current.Notes);
         Assert.Equal("Nœuds supprimés : 1.", map.Instance.Announcement);
     }
 
@@ -395,10 +414,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     [Fact]
     public async Task LassoSelectsSeveralNodes_ThenDeleteRemovesThemAll()
     {
-        OmniMindMapDocument current = Sample();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, current)
-            .Add(component => component.DocumentChanged, value => current = value));
+        var (map, edited) = RenderEditable();
         var bridge = new MindMapInteropBridge(map.Instance);
 
         await map.InvokeAsync(() => bridge.LassoSelected(600, 250, 700, 550));
@@ -409,17 +425,14 @@ public sealed class MindMapComponentTests : OmniBunitContext
 
         map.Find("svg").KeyDown(new KeyboardEventArgs { Key = "Delete" });
 
-        Assert.Equal(["root", "left"], current.Nodes.Select(node => node.Id));
-        Assert.Equal(["root->left"], current.Edges.Select(edge => $"{edge.From}->{edge.To}"));
+        Assert.Equal(["root", "left"], edited.Current.Nodes.Select(node => node.Id));
+        Assert.Equal(["root->left"], edited.Current.Edges.Select(edge => $"{edge.From}->{edge.To}"));
     }
 
     [Fact]
     public async Task SelectedLink_IsDeletedAlone()
     {
-        OmniMindMapDocument current = Sample();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, current)
-            .Add(component => component.DocumentChanged, value => current = value));
+        var (map, edited) = RenderEditable();
         var bridge = new MindMapInteropBridge(map.Instance);
 
         await map.InvokeAsync(() => bridge.EdgePressed(2));
@@ -427,18 +440,15 @@ public sealed class MindMapComponentTests : OmniBunitContext
         Assert.Contains("omni-mindmap__edge--selected", map.Find("[data-omni-edge='2']").ClassList);
         map.Find("svg").KeyDown(new KeyboardEventArgs { Key = "Backspace" });
 
-        Assert.Equal(4, current.Nodes.Count);
-        Assert.Equal(2, current.Edges.Count);
+        Assert.Equal(4, edited.Current.Nodes.Count);
+        Assert.Equal(2, edited.Current.Edges.Count);
         Assert.Equal("Lien supprimé.", map.Instance.Announcement);
     }
 
     [Fact]
     public async Task LinkMode_JoinsTwoPressedNodesOnce()
     {
-        OmniMindMapDocument current = Sample();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, current)
-            .Add(component => component.DocumentChanged, value => current = value));
+        var (map, edited) = RenderEditable();
         var bridge = new MindMapInteropBridge(map.Instance);
 
         await map.InvokeAsync(() => map.Instance.DispatchAsync(() => map.Instance.StartLinkModeAsync()));
@@ -451,14 +461,14 @@ public sealed class MindMapComponentTests : OmniBunitContext
 
         await map.InvokeAsync(() => bridge.NodePressed("below"));
 
-        Assert.Contains(current.Edges, edge => edge is { From: "left", To: "below" });
+        Assert.Contains(edited.Current.Edges, edge => edge is { From: "left", To: "below" });
         Assert.Equal("false", map.Find("svg").GetAttribute("data-omni-linking"));
         Assert.Equal("Lien créé de Gauche vers Dessous.", map.Instance.Announcement);
 
-        var edges = current.Edges.Count;
+        var edges = edited.Current.Edges.Count;
         await map.InvokeAsync(() => map.Instance.DispatchAsync(() => map.Instance.StartLinkModeAsync("below")));
         await map.InvokeAsync(() => bridge.NodePressed("left"));
-        Assert.Equal(edges, current.Edges.Count);
+        Assert.Equal(edges, edited.Current.Edges.Count);
     }
 
     [Fact]
@@ -478,10 +488,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     public async Task DoubleClicks_RenameANodeOrAddOneWhereTheCanvasWasClicked()
     {
         OmniMindMapNode? renamed = null;
-        OmniMindMapDocument current = Sample();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, current)
-            .Add(component => component.DocumentChanged, value => current = value)
+        var (map, edited) = RenderEditable(parameters => parameters
             .Add(component => component.OnNodeRename, value => renamed = value));
         var bridge = new MindMapInteropBridge(map.Instance);
 
@@ -489,7 +496,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
         Assert.Equal("left", renamed?.Id);
 
         await map.InvokeAsync(() => bridge.CanvasDoubleClicked(10.4, 20.6));
-        var added = Assert.Single(current.Nodes, node => node.Id == "node_1");
+        var added = Assert.Single(edited.Current.Nodes, node => node.Id == "node_1");
         Assert.Equal((10d, 21d), (added.X, added.Y));
         Assert.Equal(OmniMindMapGroups.Rotation[1], added.Group);
 
@@ -501,10 +508,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     [Fact]
     public async Task NodeContextMenu_OffersTheOriginalActionsAndRecolours()
     {
-        OmniMindMapDocument current = Sample();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, current)
-            .Add(component => component.DocumentChanged, value => current = value));
+        var (map, edited) = RenderEditable();
         var bridge = new MindMapInteropBridge(map.Instance);
 
         await map.InvokeAsync(() => bridge.ContextMenuRequested("left", 100, 100, 150, 300));
@@ -519,7 +523,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
 
         map.Find(".omni-mindmap__menu .omni-mindmap__swatch--purple").Click();
 
-        Assert.Equal(OmniMindMapGroups.Purple, current.Nodes.Single(node => node.Id == "left").Group);
+        Assert.Equal(OmniMindMapGroups.Purple, edited.Current.Nodes.Single(node => node.Id == "left").Group);
         Assert.Contains("omni-mindmap__node--purple", Node(map, "left").ClassList);
         Assert.Empty(map.FindAll("[role=menu]"));
     }
@@ -527,10 +531,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     [Fact]
     public async Task BackgroundContextMenu_AddsANodeWhereItWasOpened()
     {
-        OmniMindMapDocument current = Sample();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(component => component.Document, current)
-            .Add(component => component.DocumentChanged, value => current = value));
+        var (map, edited) = RenderEditable();
         var bridge = new MindMapInteropBridge(map.Instance);
 
         await map.InvokeAsync(() => bridge.ContextMenuRequested(null, 20, 30, 222, 333));
@@ -538,14 +539,13 @@ public sealed class MindMapComponentTests : OmniBunitContext
         Assert.Equal(["Nœud", "Réorganiser", "Ajuster"], map.FindAll("[role=menuitem]").Select(item => item.TextContent));
         map.FindAll("[role=menuitem]")[0].Click();
 
-        Assert.Contains(current.Nodes, node => node is { X: 222, Y: 333, Label: "Nouveau" });
+        Assert.Contains(edited.Current.Nodes, node => node is { X: 222, Y: 333, Label: "Nouveau" });
     }
 
     [Fact]
     public async Task ContextMenu_ClosesWithEscapeOrWhenDismissed()
     {
-        var map = Render<OmniMindMap>(parameters => parameters.Add(component => component.Document, Sample()));
-        var bridge = new MindMapInteropBridge(map.Instance);
+        var (map, bridge) = RenderSampleWithItsBridge();
 
         await map.InvokeAsync(() => bridge.ContextMenuRequested("left", 10, 10, 150, 300));
         map.Find("[role=menu]").KeyDown(new KeyboardEventArgs { Key = "Escape" });
@@ -596,8 +596,7 @@ public sealed class MindMapComponentTests : OmniBunitContext
     [Fact]
     public async Task DocumentReplacedFromOutside_KeepsTheSurvivingSelectionAndTheHistory()
     {
-        var map = Render<OmniMindMap>(parameters => parameters.Add(component => component.Document, Sample()));
-        var bridge = new MindMapInteropBridge(map.Instance);
+        var (map, bridge) = RenderSampleWithItsBridge();
         await map.InvokeAsync(() => bridge.NodePressed("left"));
         await map.InvokeAsync(() => bridge.NodesMoved([new MindMapNodeMove("left", 100, 100)]));
 

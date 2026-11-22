@@ -26,11 +26,10 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(Menus))]
     public void Arrows_HomeAndEnd_MoveThroughTheItemsOfTheOpenMenu(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = SetupFocus();
         var menu = Render(Menu(kind));
 
-        OpenByKeyboard(menu, kind);
-        menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+        OpenByKeyboardAndWait(menu, kind, module);
         Assert.Equal("m-menu", module.Invocations["openMenu"][0].Arguments[0]);
 
         foreach (var key in new[] { "ArrowDown", "ArrowUp", "Home", "End" })
@@ -48,11 +47,10 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(Menus))]
     public void Escape_ClosesTheMenu_AndGivesTheFocusBack(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = SetupFocus();
         var reported = new List<bool>();
         var menu = Render(Menu(kind, onOpenChanged: reported.Add));
-        OpenByKeyboard(menu, kind);
-        menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+        OpenByKeyboardAndWait(menu, kind, module);
 
         menu.Find("#m-menu").KeyDown("Escape");
 
@@ -66,10 +64,9 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(Menus))]
     public void Tab_ClosesTheMenu_WithoutPullingTheFocusBack(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = SetupFocus();
         var menu = Render(Menu(kind));
-        OpenByKeyboard(menu, kind);
-        menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+        OpenByKeyboardAndWait(menu, kind, module);
 
         menu.Find("#m-menu").KeyDown("Tab");
 
@@ -81,7 +78,7 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(TriggeredMenus))]
     public void ArrowUpOnTheTrigger_OpensOnTheLastItem(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = SetupFocus();
         var menu = Render(Menu(kind));
 
         menu.Find(TriggerSelector(kind)).KeyDown("ArrowUp");
@@ -94,11 +91,10 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(Menus))]
     public void ChoosingAnItem_ClosesTheMenuWithTheFocusBack_BeforeItsActionRuns(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = SetupFocus();
         var closesWhenRun = new List<int>();
         var menu = Render(Menu(kind, onItem: () => closesWhenRun.Add(module.Invocations["closeMenu"].Count)));
-        OpenByKeyboard(menu, kind);
-        menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+        OpenByKeyboardAndWait(menu, kind, module);
 
         menu.FindAll("[role=menuitem]")[0].Click();
 
@@ -111,7 +107,7 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(TriggeredMenus))]
     public void AriaControls_NamesTheMenuOnlyWhileItIsOpen(string kind)
     {
-        JSInterop.SetupModule(Internal.OmniModules.Focus);
+        SetupFocus();
         var menu = Render(Menu(kind));
         var trigger = menu.Find(TriggerSelector(kind));
         Assert.False(trigger.HasAttribute("aria-controls"));
@@ -136,7 +132,7 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(Menus))]
     public void Open_ControlsTheMenu_AndOpenChangedReportsTheReadersRequests(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = SetupFocus();
         var reported = new List<bool>();
         var open = Render(Menu(kind, open: true, onOpenChanged: reported.Add));
         open.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
@@ -157,7 +153,7 @@ public sealed class MenuKeyboardTests : OmniBunitContext
     [MemberData(nameof(TriggeredMenus))]
     public void MenuLabel_NamesTheSurface_AndLabelTheTrigger(string kind)
     {
-        JSInterop.SetupModule(Internal.OmniModules.Focus);
+        SetupFocus();
         var menu = Render(Menu(kind, label: "Déclencheur", menuLabel: "Surface"));
 
         Assert.Equal(kind == "split" ? "Surface" : "Déclencheur", menu.Find(TriggerSelector(kind)).GetAttribute("aria-label"));
@@ -172,16 +168,14 @@ public sealed class MenuKeyboardTests : OmniBunitContext
         // The script reports the same dismissal when it gives up looking for a menu that never reached
         // the page (tests/js/menus.test.mjs): the menu must not stay open, invisible, behind a trigger
         // that still says aria-expanded.
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = SetupFocus();
         module.Mode = JSRuntimeMode.Loose;
         var reported = new List<bool>();
         var menu = Render(Menu(kind, onOpenChanged: reported.Add));
         menu.Find(TriggerSelector(kind)).Click();
         menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
 
-        var reference = module.Invocations["openMenu"][0].Arguments[8]!;
-        var interop = reference.GetType().GetProperty("Value")!.GetValue(reference)!;
-        var dismiss = interop.GetType().GetMethod("DismissAsync", BindingFlags.Public | BindingFlags.Instance)!;
+        var (interop, dismiss) = DismissalOf(module.Invocations["openMenu"][0].Arguments[8]!);
         Assert.Equal("OmniMenu.Dismiss", dismiss.GetCustomAttribute<JSInvokableAttribute>()!.Identifier);
         menu.InvokeAsync(() => (Task)dismiss.Invoke(interop, [false])!);
 
@@ -200,6 +194,22 @@ public sealed class MenuKeyboardTests : OmniBunitContext
         "profile" => ".omni-profile-menu__trigger",
         _ => ".omni-context-menu"
     };
+
+    private BunitJSModuleInterop SetupFocus() => JSInterop.SetupModule(Internal.OmniModules.Focus);
+
+    /// <summary>The object a .NET reference given to the script wraps, and its public <c>DismissAsync</c> method.</summary>
+    private static (object Interop, MethodInfo Dismiss) DismissalOf(object reference)
+    {
+        var interop = reference.GetType().GetProperty("Value")!.GetValue(reference)!;
+        return (interop, interop.GetType().GetMethod("DismissAsync", BindingFlags.Public | BindingFlags.Instance)!);
+    }
+
+    /// <summary>Opens the menu from the keyboard and waits until its script was asked to open it.</summary>
+    private static void OpenByKeyboardAndWait(IRenderedComponent<ContainerFragment> menu, string kind, BunitJSModuleInterop module)
+    {
+        OpenByKeyboard(menu, kind);
+        menu.WaitForAssertion(() => Assert.Single(module.Invocations["openMenu"]));
+    }
 
     private static void OpenByKeyboard(IRenderedComponent<ContainerFragment> menu, string kind)
     {

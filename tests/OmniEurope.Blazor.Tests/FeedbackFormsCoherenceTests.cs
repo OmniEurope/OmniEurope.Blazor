@@ -396,11 +396,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
     public void Card_Alone_BindsABoolean()
     {
         var picked = new List<bool>();
-        var card = Render<OmniSelectableCard>(parameters => parameters
-            .Add(component => component.Title, "Docker")
-            .Add(component => component.Multiple, true)
-            .Add(component => component.Value, false)
-            .Add(component => component.ValueChanged, value => picked.Add(value)));
+        var card = this.RenderDockerCard(false, picked);
 
         Assert.False(card.Find("button").HasAttribute("tabindex"));
         card.Find("button").Click();

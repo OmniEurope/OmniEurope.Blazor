@@ -96,7 +96,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var extension = new TestExtension { Tracks = true };
         var editor = RenderEditor(extension, null);
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.True(options.GetProperty("selection").GetBoolean());
 
         await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnSelectionChanged(
@@ -146,7 +146,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         };
         var editor = RenderEditor(extension, null);
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.Equal(["ctrl+shift+s"], options.GetProperty("shortcuts").EnumerateArray().Select(item => item.GetString()));
 
         await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnShortcut(0));
@@ -194,13 +194,11 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
                 await context.ReplaceAsync("<span class=\"note\" onclick=\"x()\">Neuve</span>");
             })]
         };
-        string? bound = "<p>Texte <span class=\"note\" data-marker=\"1\">Ancienne</span></p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => bound)
-            .Add(component => component.ValueChanged, value => bound = value)
+        var bound = "<p>Texte <span class=\"note\" data-marker=\"1\">Ancienne</span></p>";
+        var editor = this.RenderChangingHtmlEditor(bound, value => bound = value, parameters => parameters
             .Add(component => component.Extensions, [extension]));
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.Equal([".note"], options.GetProperty("inline").EnumerateArray().Select(item => item.GetString()));
 
         await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnElementActivated(
@@ -225,10 +223,8 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
             Policy = new OmniHtmlSanitizerPolicy { AdditionalCssClasses = ["note"], AllowDataAttributes = true },
             Inline = [new OmniHtmlEditorInlineElement(".note", context => context.SetTextAsync("Revue <b>"))]
         };
-        string? bound = "<p><span class=\"note\" data-marker=\"1\">Ancienne</span></p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => bound)
-            .Add(component => component.ValueChanged, value => bound = value)
+        var bound = "<p><span class=\"note\" data-marker=\"1\">Ancienne</span></p>";
+        var editor = this.RenderChangingHtmlEditor(bound, value => bound = value, parameters => parameters
             .Add(component => component.Extensions, [extension]));
 
         await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnElementActivated(
@@ -247,7 +243,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var proposing = new SuggestingExtension(text => text.EndsWith("sous", StringComparison.Ordinal) ? " réserve" : null);
         var editor = RenderEditor([silent, proposing], null);
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.True(options.GetProperty("suggest").GetBoolean());
         var bridge = new HtmlEditorInteropBridge(editor.Instance);
 
@@ -262,7 +258,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var module = JSInterop.SetupModule(ModulePath);
         RenderEditor(new TestExtension(), null);
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.False(options.TryGetProperty("suggest", out _));
     }
 
@@ -270,9 +266,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
     public async Task Suggestion_InTheSourceFace_OrDisabled_IsNull()
     {
         var extension = new SuggestingExtension(_ => "suite");
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [extension]));
 
@@ -316,7 +310,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         };
         var editor = RenderEditor(extension, null);
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.True(options.GetProperty("menu").GetBoolean());
         Assert.Empty(editor.FindAll("[role=menu]"));
 
@@ -390,7 +384,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var module = JSInterop.SetupModule(ModulePath);
         var editor = RenderEditor(new TestExtension(), null);
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.False(options.TryGetProperty("menu", out _));
 
         await editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnContextMenu(10, 10, null, null));
@@ -412,10 +406,8 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
             ExtraCommands = [OmniHtmlEditorCommand.Create("formula", "Formule", async context =>
                 found.Add(await context.ReplaceClosestAsync("span.formula", "<span class=\"formula\"><script>x</script>y</span>")))]
         };
-        string? bound = "<p>x <span class=\"formula\">z</span></p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => bound)
-            .Add(component => component.ValueChanged, value => bound = value)
+        var bound = "<p>x <span class=\"formula\">z</span></p>";
+        var editor = this.RenderChangingHtmlEditor(bound, value => bound = value, parameters => parameters
             .Add(component => component.Extensions, [extension]));
 
         module.Setup<string?>("replaceClosest", _ => true).SetResult(answers.Dequeue());
@@ -445,10 +437,8 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
             ExtraCommands = [OmniHtmlEditorCommand.Create("upper", "Majuscules", async context =>
                 await context.InsertTextAsync((await context.GetSelectedTextAsync()).ToUpperInvariant()))]
         };
-        string? bound = "<p>deux mots</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => bound)
-            .Add(component => component.ValueChanged, value => bound = value)
+        var bound = "<p>deux mots</p>";
+        var editor = this.RenderChangingHtmlEditor(bound, value => bound = value, parameters => parameters
             .Add(component => component.Extensions, [extension]));
 
         await editor.Find("button[data-command=upper]").ClickAsync(new MouseEventArgs());
