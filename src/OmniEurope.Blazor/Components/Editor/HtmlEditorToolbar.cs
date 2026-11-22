@@ -1,3 +1,5 @@
+using System.Collections.Frozen;
+
 namespace OmniEurope.Blazor.Components;
 
 /// <summary>
@@ -85,90 +87,98 @@ internal static class HtmlEditorToolbar
     };
 
     /// <summary>The resource key of the name of a built-in action; custom commands share one.</summary>
-    internal static string LabelKey(OmniHtmlEditorAction action) => action switch
-    {
-        OmniHtmlEditorAction.Bold => "HtmlEditorBold",
-        OmniHtmlEditorAction.Italic => "HtmlEditorItalic",
-        OmniHtmlEditorAction.Underline => "HtmlEditorUnderline",
-        OmniHtmlEditorAction.Strikethrough => "HtmlEditorStrikethrough",
-        OmniHtmlEditorAction.Subscript => "HtmlEditorSubscript",
-        OmniHtmlEditorAction.Superscript => "HtmlEditorSuperscript",
-        OmniHtmlEditorAction.InlineCode => "HtmlEditorInlineCode",
-        OmniHtmlEditorAction.BlockFormat => "HtmlEditorBlockFormat",
-        OmniHtmlEditorAction.FontSize => "HtmlEditorFontSize",
-        OmniHtmlEditorAction.BulletList => "HtmlEditorBulletList",
-        OmniHtmlEditorAction.NumberedList => "HtmlEditorNumberedList",
-        OmniHtmlEditorAction.Indent => "HtmlEditorIndent",
-        OmniHtmlEditorAction.Outdent => "HtmlEditorOutdent",
-        OmniHtmlEditorAction.Quote => "HtmlEditorQuote",
-        OmniHtmlEditorAction.CodeBlock => "HtmlEditorCodeBlock",
-        OmniHtmlEditorAction.Link => "HtmlEditorLink",
-        OmniHtmlEditorAction.Unlink => "HtmlEditorUnlink",
-        OmniHtmlEditorAction.AlignLeft => "HtmlEditorAlignLeft",
-        OmniHtmlEditorAction.AlignCenter => "HtmlEditorAlignCenter",
-        OmniHtmlEditorAction.AlignRight => "HtmlEditorAlignRight",
-        OmniHtmlEditorAction.AlignJustify => "HtmlEditorAlignJustify",
-        OmniHtmlEditorAction.InsertTable => "HtmlEditorInsertTable",
-        OmniHtmlEditorAction.ClearFormatting => "HtmlEditorClearFormatting",
-        OmniHtmlEditorAction.Undo => "HtmlEditorUndo",
-        OmniHtmlEditorAction.Redo => "HtmlEditorRedo",
-        OmniHtmlEditorAction.ToggleSource => "HtmlEditorSource",
-        OmniHtmlEditorAction.Cut => "HtmlEditorCut",
-        OmniHtmlEditorAction.Copy => "HtmlEditorCopy",
-        OmniHtmlEditorAction.Paste => "HtmlEditorPaste",
-        OmniHtmlEditorAction.InsertParagraph => "HtmlEditorInsertParagraph",
-        OmniHtmlEditorAction.AddRowAbove => "HtmlEditorAddRowAbove",
-        OmniHtmlEditorAction.AddRowBelow => "HtmlEditorAddRowBelow",
-        OmniHtmlEditorAction.DeleteRow => "HtmlEditorDeleteRow",
-        OmniHtmlEditorAction.AddColumnBefore => "HtmlEditorAddColumnBefore",
-        OmniHtmlEditorAction.AddColumnAfter => "HtmlEditorAddColumnAfter",
-        OmniHtmlEditorAction.DeleteColumn => "HtmlEditorDeleteColumn",
-        OmniHtmlEditorAction.MergeCellRight => "HtmlEditorMergeCellRight",
-        OmniHtmlEditorAction.MergeCellDown => "HtmlEditorMergeCellDown",
-        OmniHtmlEditorAction.SplitCell => "HtmlEditorSplitCell",
-        OmniHtmlEditorAction.SetCellSpan => "HtmlEditorSetCellSpan",
-        OmniHtmlEditorAction.ChangeCase => "HtmlEditorChangeCase",
-        OmniHtmlEditorAction.InsertSpecialCharacter => "HtmlEditorInsertSpecialCharacter",
-        OmniHtmlEditorAction.ImportTable => "HtmlEditorImportTable",
-        OmniHtmlEditorAction.ShowBlocks => "HtmlEditorShowBlocks",
-        OmniHtmlEditorAction.Highlight => "HtmlEditorHighlight",
-        _ => "HtmlEditorCustomCommand"
-    };
+    internal static string LabelKey(OmniHtmlEditorAction action) =>
+        LabelKeys.TryGetValue(action, out var key) ? key : "HtmlEditorCustomCommand";
+
+    /// <summary>The resource key of the name of each built-in action.</summary>
+    private static readonly FrozenDictionary<OmniHtmlEditorAction, string> LabelKeys =
+        new Dictionary<OmniHtmlEditorAction, string>
+        {
+            [OmniHtmlEditorAction.Bold] = "HtmlEditorBold",
+            [OmniHtmlEditorAction.Italic] = "HtmlEditorItalic",
+            [OmniHtmlEditorAction.Underline] = "HtmlEditorUnderline",
+            [OmniHtmlEditorAction.Strikethrough] = "HtmlEditorStrikethrough",
+            [OmniHtmlEditorAction.Subscript] = "HtmlEditorSubscript",
+            [OmniHtmlEditorAction.Superscript] = "HtmlEditorSuperscript",
+            [OmniHtmlEditorAction.InlineCode] = "HtmlEditorInlineCode",
+            [OmniHtmlEditorAction.BlockFormat] = "HtmlEditorBlockFormat",
+            [OmniHtmlEditorAction.FontSize] = "HtmlEditorFontSize",
+            [OmniHtmlEditorAction.BulletList] = "HtmlEditorBulletList",
+            [OmniHtmlEditorAction.NumberedList] = "HtmlEditorNumberedList",
+            [OmniHtmlEditorAction.Indent] = "HtmlEditorIndent",
+            [OmniHtmlEditorAction.Outdent] = "HtmlEditorOutdent",
+            [OmniHtmlEditorAction.Quote] = "HtmlEditorQuote",
+            [OmniHtmlEditorAction.CodeBlock] = "HtmlEditorCodeBlock",
+            [OmniHtmlEditorAction.Link] = "HtmlEditorLink",
+            [OmniHtmlEditorAction.Unlink] = "HtmlEditorUnlink",
+            [OmniHtmlEditorAction.AlignLeft] = "HtmlEditorAlignLeft",
+            [OmniHtmlEditorAction.AlignCenter] = "HtmlEditorAlignCenter",
+            [OmniHtmlEditorAction.AlignRight] = "HtmlEditorAlignRight",
+            [OmniHtmlEditorAction.AlignJustify] = "HtmlEditorAlignJustify",
+            [OmniHtmlEditorAction.InsertTable] = "HtmlEditorInsertTable",
+            [OmniHtmlEditorAction.ClearFormatting] = "HtmlEditorClearFormatting",
+            [OmniHtmlEditorAction.Undo] = "HtmlEditorUndo",
+            [OmniHtmlEditorAction.Redo] = "HtmlEditorRedo",
+            [OmniHtmlEditorAction.ToggleSource] = "HtmlEditorSource",
+            [OmniHtmlEditorAction.Cut] = "HtmlEditorCut",
+            [OmniHtmlEditorAction.Copy] = "HtmlEditorCopy",
+            [OmniHtmlEditorAction.Paste] = "HtmlEditorPaste",
+            [OmniHtmlEditorAction.InsertParagraph] = "HtmlEditorInsertParagraph",
+            [OmniHtmlEditorAction.AddRowAbove] = "HtmlEditorAddRowAbove",
+            [OmniHtmlEditorAction.AddRowBelow] = "HtmlEditorAddRowBelow",
+            [OmniHtmlEditorAction.DeleteRow] = "HtmlEditorDeleteRow",
+            [OmniHtmlEditorAction.AddColumnBefore] = "HtmlEditorAddColumnBefore",
+            [OmniHtmlEditorAction.AddColumnAfter] = "HtmlEditorAddColumnAfter",
+            [OmniHtmlEditorAction.DeleteColumn] = "HtmlEditorDeleteColumn",
+            [OmniHtmlEditorAction.MergeCellRight] = "HtmlEditorMergeCellRight",
+            [OmniHtmlEditorAction.MergeCellDown] = "HtmlEditorMergeCellDown",
+            [OmniHtmlEditorAction.SplitCell] = "HtmlEditorSplitCell",
+            [OmniHtmlEditorAction.SetCellSpan] = "HtmlEditorSetCellSpan",
+            [OmniHtmlEditorAction.ChangeCase] = "HtmlEditorChangeCase",
+            [OmniHtmlEditorAction.InsertSpecialCharacter] = "HtmlEditorInsertSpecialCharacter",
+            [OmniHtmlEditorAction.ImportTable] = "HtmlEditorImportTable",
+            [OmniHtmlEditorAction.ShowBlocks] = "HtmlEditorShowBlocks",
+            [OmniHtmlEditorAction.Highlight] = "HtmlEditorHighlight",
+        }.ToFrozenDictionary();
 
     /// <summary>The icon of a command: its own, or the one of its built-in action, or none.</summary>
-    internal static OmniIconName? IconOf(OmniHtmlEditorCommand command) => command.Icon ?? command.Action switch
-    {
-        OmniHtmlEditorAction.Bold => OmniIconName.TextB,
-        OmniHtmlEditorAction.Italic => OmniIconName.TextItalic,
-        OmniHtmlEditorAction.Underline => OmniIconName.TextUnderline,
-        OmniHtmlEditorAction.Strikethrough => OmniIconName.TextStrikethrough,
-        OmniHtmlEditorAction.Subscript => OmniIconName.TextSubscript,
-        OmniHtmlEditorAction.Superscript => OmniIconName.TextSuperscript,
-        OmniHtmlEditorAction.InlineCode => OmniIconName.Code,
-        OmniHtmlEditorAction.BulletList => OmniIconName.ListBullets,
-        OmniHtmlEditorAction.NumberedList => OmniIconName.NumberedList,
-        OmniHtmlEditorAction.Indent => OmniIconName.TextIndent,
-        OmniHtmlEditorAction.Outdent => OmniIconName.TextOutdent,
-        OmniHtmlEditorAction.Quote => OmniIconName.Quotes,
-        OmniHtmlEditorAction.CodeBlock => OmniIconName.CodeBlock,
-        OmniHtmlEditorAction.Link => OmniIconName.Link,
-        OmniHtmlEditorAction.Unlink => OmniIconName.LinkBreak,
-        OmniHtmlEditorAction.AlignLeft => OmniIconName.TextAlignLeft,
-        OmniHtmlEditorAction.AlignCenter => OmniIconName.TextAlignCenter,
-        OmniHtmlEditorAction.AlignRight => OmniIconName.TextAlignRight,
-        OmniHtmlEditorAction.AlignJustify => OmniIconName.TextAlignJustify,
-        OmniHtmlEditorAction.InsertTable => OmniIconName.Table,
-        OmniHtmlEditorAction.ClearFormatting => OmniIconName.Eraser,
-        OmniHtmlEditorAction.Undo => OmniIconName.ArrowUUpLeft,
-        OmniHtmlEditorAction.Redo => OmniIconName.ArrowUUpRight,
-        OmniHtmlEditorAction.ToggleSource => OmniIconName.FileHtml,
-        OmniHtmlEditorAction.Copy => OmniIconName.Copy,
-        OmniHtmlEditorAction.InsertSpecialCharacter => OmniIconName.Smiley,
-        OmniHtmlEditorAction.ImportTable => OmniIconName.Upload,
-        OmniHtmlEditorAction.ShowBlocks => OmniIconName.Rows,
-        OmniHtmlEditorAction.Highlight => OmniIconName.Highlighter,
-        _ => null
-    };
+    internal static OmniIconName? IconOf(OmniHtmlEditorCommand command) =>
+        command.Icon ?? (Icons.TryGetValue(command.Action, out var icon) ? icon : null);
+
+    /// <summary>The icon of each built-in action that has one.</summary>
+    private static readonly FrozenDictionary<OmniHtmlEditorAction, OmniIconName> Icons =
+        new Dictionary<OmniHtmlEditorAction, OmniIconName>
+        {
+            [OmniHtmlEditorAction.Bold] = OmniIconName.TextB,
+            [OmniHtmlEditorAction.Italic] = OmniIconName.TextItalic,
+            [OmniHtmlEditorAction.Underline] = OmniIconName.TextUnderline,
+            [OmniHtmlEditorAction.Strikethrough] = OmniIconName.TextStrikethrough,
+            [OmniHtmlEditorAction.Subscript] = OmniIconName.TextSubscript,
+            [OmniHtmlEditorAction.Superscript] = OmniIconName.TextSuperscript,
+            [OmniHtmlEditorAction.InlineCode] = OmniIconName.Code,
+            [OmniHtmlEditorAction.BulletList] = OmniIconName.ListBullets,
+            [OmniHtmlEditorAction.NumberedList] = OmniIconName.NumberedList,
+            [OmniHtmlEditorAction.Indent] = OmniIconName.TextIndent,
+            [OmniHtmlEditorAction.Outdent] = OmniIconName.TextOutdent,
+            [OmniHtmlEditorAction.Quote] = OmniIconName.Quotes,
+            [OmniHtmlEditorAction.CodeBlock] = OmniIconName.CodeBlock,
+            [OmniHtmlEditorAction.Link] = OmniIconName.Link,
+            [OmniHtmlEditorAction.Unlink] = OmniIconName.LinkBreak,
+            [OmniHtmlEditorAction.AlignLeft] = OmniIconName.TextAlignLeft,
+            [OmniHtmlEditorAction.AlignCenter] = OmniIconName.TextAlignCenter,
+            [OmniHtmlEditorAction.AlignRight] = OmniIconName.TextAlignRight,
+            [OmniHtmlEditorAction.AlignJustify] = OmniIconName.TextAlignJustify,
+            [OmniHtmlEditorAction.InsertTable] = OmniIconName.Table,
+            [OmniHtmlEditorAction.ClearFormatting] = OmniIconName.Eraser,
+            [OmniHtmlEditorAction.Undo] = OmniIconName.ArrowUUpLeft,
+            [OmniHtmlEditorAction.Redo] = OmniIconName.ArrowUUpRight,
+            [OmniHtmlEditorAction.ToggleSource] = OmniIconName.FileHtml,
+            [OmniHtmlEditorAction.Copy] = OmniIconName.Copy,
+            [OmniHtmlEditorAction.InsertSpecialCharacter] = OmniIconName.Smiley,
+            [OmniHtmlEditorAction.ImportTable] = OmniIconName.Upload,
+            [OmniHtmlEditorAction.ShowBlocks] = OmniIconName.Rows,
+            [OmniHtmlEditorAction.Highlight] = OmniIconName.Highlighter,
+        }.ToFrozenDictionary();
 
     /// <summary>The pressed state of a toggle, from the formatting at the caret; null for a plain action.</summary>
     internal static string? PressedOf(OmniHtmlEditorCommand command, OmniHtmlEditorMode mode,
