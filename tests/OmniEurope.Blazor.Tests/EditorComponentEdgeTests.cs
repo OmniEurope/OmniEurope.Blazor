@@ -69,8 +69,7 @@ public sealed class EditorComponentEdgeTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         var value = "<p>a</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.ToolbarRows, 1));
         Assert.Single(module.Invocations["fitToolbar"]);
 
@@ -89,8 +88,7 @@ public sealed class EditorComponentEdgeTests : OmniBunitContext
         var value = "<p>a</p>";
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.ToolbarRows, 1));
 
         Assert.Contains("installPackageTooltips", runtime.Module.Calls);
@@ -112,8 +110,7 @@ public sealed class EditorComponentEdgeTests : OmniBunitContext
         }));
         string? bound = "<p>Texte <span class=\"note\">Ancienne</span></p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound)
+            .BindValue(() => bound)
             .Add(component => component.ValueChanged, next => bound = next)
             .Add(component => component.Extensions, [extension]));
 

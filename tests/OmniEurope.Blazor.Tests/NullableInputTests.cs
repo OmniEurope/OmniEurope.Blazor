@@ -16,8 +16,7 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         bool? value = null;
         var component = Render<OmniCheckBox<bool?>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         Assert.Equal("mixed", component.Find("button").GetAttribute("aria-checked"));
@@ -38,8 +37,7 @@ public sealed class NullableInputTests : OmniBunitContext
         bool? value = false;
         var component = Render<OmniCheckBox<bool?>>(parameters => parameters
             .Add(item => item.AllowIndeterminate, false)
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         component.Find("button").Click();
@@ -55,8 +53,7 @@ public sealed class NullableInputTests : OmniBunitContext
         bool? value = null;
         var component = Render<OmniCheckBox<bool?>>(parameters => parameters
             .Add(item => item.Disabled, true)
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         component.Find("button").Click();
@@ -73,8 +70,7 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         var value = state;
         var component = Render<OmniCheckBox<bool?>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value));
+            .BindValue(() => value));
 
         var button = component.Find("button");
         Assert.Equal(ariaChecked, button.GetAttribute("aria-checked"));
@@ -96,8 +92,7 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         bool? value = null;
         var component = Render<OmniSwitch<bool?>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         component.Find("button").Click();
@@ -116,8 +111,7 @@ public sealed class NullableInputTests : OmniBunitContext
         bool? value = false;
         var component = Render<OmniSwitch<bool?>>(parameters => parameters
             .Add(item => item.AllowIndeterminate, false)
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         component.Find("button").Click();
@@ -133,8 +127,7 @@ public sealed class NullableInputTests : OmniBunitContext
         bool? value = true;
         var component = Render<OmniSwitch<bool?>>(parameters => parameters
             .Add(item => item.Disabled, true)
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         component.Find("button").Click();
@@ -148,8 +141,7 @@ public sealed class NullableInputTests : OmniBunitContext
         bool? value = null;
         var component = Render<OmniSwitch<bool?>>(parameters => parameters
             .Add(item => item.IndeterminateDescription, "Indefini")
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         var button = component.Find("button");
@@ -172,11 +164,9 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         bool? bound = null;
         var checkBox = Render<CheckBoxParseProbe>(parameters => parameters
-            .Add(item => item.Value, bound)
-            .Add(item => item.ValueExpression, () => bound)).Instance;
+            .BindValue(() => bound)).Instance;
         var toggle = Render<SwitchParseProbe>(parameters => parameters
-            .Add(item => item.Value, bound)
-            .Add(item => item.ValueExpression, () => bound)).Instance;
+            .BindValue(() => bound)).Instance;
 
         Assert.Equal(expected, checkBox.Parse(candidate, out var checkBoxValue, out var checkBoxError));
         Assert.Equal(parsed, checkBoxValue);
@@ -200,11 +190,9 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         var value = false;
         var bare = Render<OmniCheckBox<bool>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value));
+            .BindValue(() => value));
         var labelled = Render<OmniCheckBox<bool>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed)
             .AddChildContent("Recevoir les alertes"));
 
@@ -225,8 +213,7 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         var value = true;
         var component = Render<OmniSwitch<bool>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(item => item.ValueChanged, changed => value = changed));
 
         Assert.False(component.Find("button").HasAttribute("aria-description"));
@@ -243,11 +230,9 @@ public sealed class NullableInputTests : OmniBunitContext
         var value = 1;
 
         var checkBox = Assert.Throws<InvalidOperationException>(() => Render<OmniCheckBox<int>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)));
+            .BindValue(() => value)));
         var toggle = Assert.Throws<InvalidOperationException>(() => Render<OmniSwitch<int>>(parameters => parameters
-            .Add(item => item.Value, value)
-            .Add(item => item.ValueExpression, () => value)));
+            .BindValue(() => value)));
 
         Assert.Contains("bool?", checkBox.Message, StringComparison.Ordinal);
         Assert.Contains("OmniSwitch", toggle.Message, StringComparison.Ordinal);

@@ -37,8 +37,7 @@ public sealed class EscapeInDialogTests : OmniBunitContext
     {
         var value = string.Empty;
         parameters.AddChildContent<OmniAutocomplete<string>>(child => child
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.MinimumLength, 0)
             .Add(component => component.Search, (_, _) => Task.FromResult(Cities)));
@@ -50,8 +49,7 @@ public sealed class EscapeInDialogTests : OmniBunitContext
         parameters.AddChildContent<OmniDropDown<string>>(child => child
             .Add(component => component.Filterable, true)
             .Add(component => component.Options, Cities)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
     }
 
     private static void FilterCombo(ComponentParameterCollectionBuilder<OmniDialog> parameters) =>
@@ -116,8 +114,7 @@ public sealed class EscapeInDialogTests : OmniBunitContext
         var openChanges = new List<bool>();
         var value = "<p>A</p>";
         var dialog = RenderDialog(openChanges, parameters => parameters.AddChildContent<OmniHtmlEditor>(child => child
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.InsertSpecialCharacter])));
         await dialog.Find("[data-command=insert-special-character]").ClickAsync(new MouseEventArgs());
         dialog.Find(".omni-html-editor__char-search").Input("eur");
@@ -139,8 +136,7 @@ public sealed class EscapeInDialogTests : OmniBunitContext
         module.Setup<string?>("read", _ => true).SetResult(null);
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.InsertSpecialCharacter]));
         await editor.Find("[data-command=insert-special-character]").ClickAsync(new MouseEventArgs());
 

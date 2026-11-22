@@ -256,8 +256,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         var plusTwo = TimeZoneInfo.CreateCustomTimeZone("test+2", TimeSpan.FromHours(2), "test+2", "test+2");
         TimeOnly? value = null;
         var picker = Render<OmniTimePicker>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.TimeZone, plusTwo)
             .Add(component => component.Step, TimeSpan.FromMinutes(5)));
 
@@ -390,8 +389,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         {
             var value = string.Empty;
             var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value)
+                .BindValue(() => value)
                 .Add(component => component.Search, (text, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>([new(text, text)]))
                 .Add(component => component.Debounce, TimeSpan.Zero));
             return autocomplete.Find("input").GetAttribute("aria-controls")!;
@@ -413,8 +411,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
             var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
                 .Add(component => component.Filterable, true)
                 .Add(component => component.Options, Countries)
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value));
+                .BindValue(() => value));
             dropDown.Find("[data-omni-autocomplete-toggle]").Click();
             return dropDown.WaitForElement("ul[role='listbox']").Id!;
         }
@@ -427,8 +424,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     {
         var value = string.Empty;
         var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(null!))
             .Add(component => component.Debounce, TimeSpan.Zero));
 
@@ -446,8 +442,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
             .Add(component => component.Filterable, true)
             .Add(component => component.Options, Countries)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         dropDown.Find("input").Input("LIEGE");
 
@@ -462,8 +457,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
             .Add(component => component.Filterable, true)
             .Add(component => component.Size, OmniControlSize.Small)
             .Add(component => component.Options, Countries)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         Assert.Contains("omni-input--small", dropDown.Find("input").ClassList);
     }
@@ -477,8 +471,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
             .Add(component => component.AllowEmpty, true)
             .Add(component => component.Placeholder, "Aucun")
             .Add(component => component.Options, Countries)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.ValueChanged, EventCallback.Factory.Create<int?>(this, changed => value = changed)));
         Assert.Equal("France", dropDown.Find("input").GetAttribute("value"));
 
@@ -500,8 +493,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
             .Add(component => component.Filterable, true)
             .Add(component => component.AllowEmpty, true)
             .Add(component => component.Options, Countries)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         dropDown.Find("input").Input("fra");
 
@@ -517,13 +509,11 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
             .Add(component => component.Filterable, true)
             .Add(component => component.AllowEmpty, true)
             .Add(component => component.Options, numbers)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
         var strict = Render<OmniDropDown<int>>(parameters => parameters
             .Add(component => component.Filterable, true)
             .Add(component => component.Options, numbers)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         Assert.True(string.IsNullOrEmpty(empty.Find("input").GetAttribute("value")));
         Assert.Equal("0", strict.Find("input").GetAttribute("value"));
@@ -533,8 +523,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
             .Add(component => component.Filterable, true)
             .Add(component => component.AllowEmpty, true)
             .Add(component => component.Options, numbers)
-            .Add(component => component.Value, other)
-            .Add(component => component.ValueExpression, () => other));
+            .BindValue(() => other));
         Assert.Equal("7", unknown.Find("input").GetAttribute("value"));
     }
 
@@ -545,8 +534,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
             .Add(component => component.Filterable, true)
             .Add(component => component.Options, Countries)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         dropDown.Find("[data-omni-autocomplete-toggle]").Click();
 
@@ -562,8 +550,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         var select = Render<OmniMultiSelect<int?>>(parameters => parameters
             .Add(component => component.Options, Countries)
             .Add(component => component.Filterable, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         select.Find(".omni-multi-select-compact__filter").Input("LIEGE");
 
@@ -577,8 +564,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         var select = Render<OmniMultiSelect<int?>>(parameters => parameters
             .Add(component => component.Options, Countries)
             .Add(component => component.Label, "Pays")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         Assert.Equal("Pays: France", select.Find("summary").GetAttribute("aria-label"));
         Assert.Equal("Pays", select.Find("[role='group']").GetAttribute("aria-label"));
@@ -594,8 +580,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
             .AddChildContent<OmniMultiSelect<int?>>(select => select
                 .Add(component => component.Id, "pays")
                 .Add(component => component.Options, Countries)
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value)));
+                .BindValue(() => value)));
 
         var labelId = field.Find("label").Id;
         var textId = field.Find(".omni-multi-select-compact__text").Id;
@@ -610,8 +595,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         IReadOnlyList<int?> value = [];
         var select = Render<OmniMultiSelect<int?>>(parameters => parameters
             .Add(component => component.Options, Countries)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         Assert.Null(select.Find("summary").GetAttribute("aria-label"));
         Assert.Equal(select.Find(".omni-multi-select-compact__text").TextContent.Trim(), select.Find("[role='group']").GetAttribute("aria-label"));

@@ -63,8 +63,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
         });
         module.Setup<string?>("read", _ => true).SetResult(null);
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [inspect])
             .Add(component => component.SelectionChanged, selection => reported = selection));
         var bridge = new HtmlEditorInteropBridge(editor.Instance);
@@ -89,8 +88,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
         var value = "<p>A</p>";
 
         Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
         Assert.False(options.TryGetProperty("selection", out _));
@@ -102,8 +100,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
         var module = JSInterop.SetupModule(ModulePath);
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         editor.Render(parameters => parameters.Add(component => component.SelectionChanged, _ => { }));
 
@@ -123,8 +120,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
             Pressed = selection => selection?.Closest("aside") is not null
         };
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [note, OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.ToggleSource]));
 
         // No SelectionChanged listener: the toggle alone asks the surface to report.
@@ -154,8 +150,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
             Enabled = selection => selection?.Closest("aside") is not null
         };
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [note, OmniHtmlEditorCommands.Bold]));
 
         var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
@@ -175,8 +170,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
         JSInterop.SetupModule(ModulePath);
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [OmniHtmlEditorCommand.Create("plain", "Simple", _ => Task.CompletedTask)]));
 
         Assert.Null(editor.Find("button[data-command=plain]").GetAttribute("aria-pressed"));
@@ -188,8 +182,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
         var value = "<p>A</p>";
         var raised = 0;
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.SelectionChanged, _ => raised++));
 

@@ -62,9 +62,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
         Internal.OmniHtmlSanitizer.For(policy).PostProcessDom += (_, _) => Interlocked.Increment(ref runs);
         var value = "<p>a</p><script>alert(1)</script>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Extensions, [new PolicyExtension(policy)])
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
         var afterFirstRender = Volatile.Read(ref runs);
@@ -90,9 +88,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
     {
         var value = "<p>a</p><script>alert(1)</script>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
 
         Assert.Equal("<p>a</p>", editor.Find(".omni-html-editor__preview").InnerHtml);
@@ -112,17 +108,13 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
     {
         var value = "<p>a</p><aside>note</aside>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
 
         Assert.DoesNotContain("aside", editor.Find(".omni-html-editor__preview").InnerHtml, StringComparison.Ordinal);
 
         editor.Render(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [new PolicyExtension(NotePolicy)]));
 
@@ -135,9 +127,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
         var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
         var value = "<p>a</p>";
         Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
 
         var call = Assert.Single(module.Invocations["holdInputBursts"]);
@@ -152,9 +142,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
         module.Setup<string?>("takeHeldInput", _ => true).SetResult("<p>held</p><script>alert(1)</script>");
         var value = "<p>a</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
 
         var captured = await editor.InvokeAsync(() => editor.Instance.CaptureAsync());
@@ -169,9 +157,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
         JSInterop.SetupModule(Internal.OmniModules.Interop).Setup<string?>("takeHeldInput", _ => true).SetResult(null);
         var value = "<p>a</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
 
         Assert.Equal("<p>a</p>", await editor.InvokeAsync(() => editor.Instance.CaptureAsync()));

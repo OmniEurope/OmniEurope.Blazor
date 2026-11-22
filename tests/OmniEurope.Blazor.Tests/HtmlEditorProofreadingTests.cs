@@ -69,8 +69,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
         var proofreader = new TestProofreader { Check = _ => [new(0, 5, 7)] };
         var value = "<p>A</p>";
         var locked = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
 
@@ -94,8 +93,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         var value = "<p>Some speling</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Extensions, [new ProofreadingExtension(new TestProofreader())]));
         Assert.Single(module.Invocations["mount"]);
@@ -141,8 +139,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
         var proofreader = new TestProofreader();
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
 
@@ -294,8 +291,7 @@ public sealed class HtmlEditorProofreadingTests : OmniBunitContext
     {
         var value = "<p>Some speling here.</p>";
         return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, extensions));
     }
 

@@ -281,8 +281,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     {
         var value = false;
         var box = Render<OmniCheckBox<bool>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Class, "host-row")
             .Add(component => component.TextFirst, true)
             .AddChildContent("Se souvenir de moi"));
@@ -300,8 +299,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     {
         var value = false;
         var box = Render<OmniCheckBox<bool>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Class, "host-box"));
 
         Assert.Contains("host-box", box.Find("input").ClassList);
@@ -312,15 +310,13 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     {
         var value = false;
         var withText = Render<OmniSwitch<bool>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.TextFirst, true)
             .AddChildContent("Suivre"));
         Assert.Contains("omni-switch--text-first", withText.Find("button").ClassList);
 
         var bare = Render<OmniSwitch<bool>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.TextFirst, true)
             .Add(component => component.AdditionalAttributes, new Dictionary<string, object> { ["aria-label"] = "Suivre" }));
         Assert.DoesNotContain("omni-switch--text-first", bare.Find("button").ClassList);

@@ -29,8 +29,7 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.ImportTable]));
         await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
         return editor;
@@ -95,8 +94,7 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
             Task.FromResult<IReadOnlyList<IReadOnlyList<string>>>([.. Enumerable.Range(1, 130).Select(index => (IReadOnlyList<string>)["a" + index, "b"])])));
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.ImportTable])
             .Add(component => component.Extensions, [extension]));
         await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
@@ -215,8 +213,7 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         var value = "<p>Some speling here.</p>";
         return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, [new ProofreadingExtension(new ThrowingProofreader())]));
     }
 
@@ -267,8 +264,7 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
         JSInterop.SetupModule(ModulePath).Mode = JSRuntimeMode.Loose;
         var value = "<p>Some speling here.</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, [new ProofreadingExtension(new WaitingProofreader())]));
 
         var pending = editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnProofreadRequested(["Some speling here."], [null]));
@@ -323,8 +319,7 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
         JSInterop.SetupModule(ModulePath).Mode = JSRuntimeMode.Loose;
         var value = "<p>Some speling here.</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, [new ProofreadingExtension(new SlowSuggestionProofreader())]));
         var proofreading = editor.Instance.Proofreading;
         Assert.True(proofreading.Begin(Flagged));

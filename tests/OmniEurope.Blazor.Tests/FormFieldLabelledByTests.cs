@@ -35,8 +35,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
             .Add(component => component.Label, "Corps du message")
             .AddChildContent<OmniHtmlEditor>(editor => editor
                 .Add(component => component.Id, "body")
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value)));
+                .BindValue(() => value)));
 
         var surface = field.Find("[role=textbox]");
         Assert.Equal("body-label", surface.GetAttribute("aria-labelledby"));
@@ -57,8 +56,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
             .AddChildContent<OmniHtmlEditor>(editor => editor
                 .Add(component => component.Id, "body")
                 .Add(component => component.Label, "Contenu")
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value)));
+                .BindValue(() => value)));
 
         var surface = field.Find("[role=textbox]");
         Assert.Equal("Contenu", surface.GetAttribute("aria-label"));
@@ -71,8 +69,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
         var value = "<p>a</p>";
         var alone = Render<OmniHtmlEditor>(parameters => parameters
             .Add(component => component.Id, "body")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
         Assert.Equal("Éditeur HTML", alone.Find("[role=textbox]").GetAttribute("aria-label"));
         Assert.Null(alone.Find("[role=textbox]").GetAttribute("aria-labelledby"));
 
@@ -81,8 +78,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
             .Add(component => component.Label, "Autre")
             .AddChildContent<OmniHtmlEditor>(editor => editor
                 .Add(component => component.Id, "body")
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value)));
+                .BindValue(() => value)));
         Assert.Equal("Éditeur HTML", elsewhere.Find("[role=textbox]").GetAttribute("aria-label"));
         Assert.Null(elsewhere.Find("[role=textbox]").GetAttribute("aria-labelledby"));
     }
@@ -96,8 +92,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
             .Add(component => component.Label, "Satisfaction")
             .AddChildContent<OmniRating>(rating => rating
                 .Add(component => component.Id, "stars")
-                .Add(component => component.Value, stars)
-                .Add(component => component.ValueExpression, () => stars)));
+                .BindValue(() => stars)));
 
         var group = field.Find("[role=radiogroup]");
         Assert.Equal("stars-label", group.GetAttribute("aria-labelledby"));
@@ -114,8 +109,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
             .AddChildContent<OmniRadioButtonList<string>>(list => list
                 .Add(component => component.Id, "choice")
                 .Add(component => component.Options, Choices)
-                .Add(component => component.Value, choice)
-                .Add(component => component.ValueExpression, () => choice)));
+                .BindValue(() => choice)));
 
         Assert.Equal("choice-label", field.Find("fieldset").GetAttribute("aria-labelledby"));
     }
@@ -130,8 +124,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
             .AddChildContent<OmniSelectBar<string>>(bar => bar
                 .Add(component => component.Id, "mode")
                 .Add(component => component.Options, Choices)
-                .Add(component => component.Value, choice)
-                .Add(component => component.ValueExpression, () => choice)));
+                .BindValue(() => choice)));
 
         Assert.Equal("mode-label", field.Find("[role=radiogroup]").GetAttribute("aria-labelledby"));
     }

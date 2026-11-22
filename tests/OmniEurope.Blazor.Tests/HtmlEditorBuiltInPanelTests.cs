@@ -49,8 +49,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
     {
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.ChangeCase, OmniHtmlEditorCommands.ShowBlocks]));
 
@@ -166,8 +165,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
             : Task.FromResult<IReadOnlyList<IReadOnlyList<string>>>([["1", "2"], ["3"]])));
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.ImportTable])
             .Add(component => component.Extensions, [extension]));
         await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
@@ -208,8 +206,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
     {
         var value = "<p>A</p>";
         return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, commands));
     }
 

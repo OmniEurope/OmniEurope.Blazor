@@ -19,8 +19,7 @@ public sealed class HtmlEditorToolbarOverflowTests : OmniBunitContext
     {
         var value = "<p>Texte</p>";
         return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Commands, commands)
             .Add(component => component.ToolbarRows, rows)

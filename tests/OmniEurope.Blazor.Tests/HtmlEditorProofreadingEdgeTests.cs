@@ -26,8 +26,7 @@ public sealed class HtmlEditorProofreadingEdgeTests : OmniBunitContext
     {
         var value = "<p>Some speling here.</p>";
         return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
     }
 

@@ -67,8 +67,7 @@ public sealed class KeyboardAuditTests : OmniBunitContext
         var chosen = string.Empty;
         var bar = Render<OmniSelectBar<string>>(parameters => parameters
             .Add(component => component.Options, options)
-            .Add(component => component.Value, chosen)
-            .Add(component => component.ValueExpression, () => chosen)
+            .BindValue(() => chosen)
             .Add(component => component.Label, "Vue"));
 
         Assert.True(bar.Find("[role=radiogroup]").HasAttribute("data-omni-roving"));

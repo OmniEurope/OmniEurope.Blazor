@@ -23,8 +23,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
     {
         JSInterop.SetupModule(OmniModules.HtmlEditor).Mode = JSRuntimeMode.Loose;
         return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, extensions));
     }
 
@@ -163,8 +162,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         Services.AddSingleton<IJSRuntime>(runtime);
         var value = "x";
         var editor = Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Height, "20rem"));
 
         var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
@@ -179,8 +177,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         Services.AddSingleton<IJSRuntime>(runtime);
         var value = "x";
         var editor = Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
 
@@ -194,8 +191,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         var value = "x";
 
         var editor = Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Height, "20rem"));
 
         Assert.NotEmpty(editor.FindAll("textarea"));
@@ -208,8 +204,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         Services.AddSingleton<IJSRuntime>(runtime);
         var value = "<p>x</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
 
@@ -223,8 +218,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         var value = "<p>x</p>";
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         Assert.NotNull(editor.Find(".omni-html-editor"));
     }
@@ -329,8 +323,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         Services.AddSingleton<IJSRuntime>(runtime);
         var value = "x";
         var editor = Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Height, "20rem"));
         editor.Render(parameters => parameters.Add(component => component.Height, "30rem"));
         Assert.Equal(2, runtime.Imports.Count(import => import.Path == OmniModules.CodeEditor));
@@ -375,8 +368,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         Services.AddSingleton<IJSRuntime>(runtime);
         var value = "x";
         var editor = Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Height, "20rem"));
 
         var module = await HeldImportAsync(runtime, () => editor.Instance.DisposeAsync().AsTask());
@@ -421,8 +413,7 @@ public sealed class EditorDefectFixTests : OmniBunitContext
         Services.AddSingleton<IJSRuntime>(runtime);
         var value = "<p>x</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.ShowStatusBar, true)
             .Add(component => component.Sheet, true));
 

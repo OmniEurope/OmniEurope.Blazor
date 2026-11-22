@@ -136,8 +136,7 @@ public sealed class LocalizationTests : OmniBunitContext
                 .Add(component => component.AllowEmpty, true)
                 .Add(component => component.ValueExpression, () => selection));
             var editor = Render<OmniHtmlEditor>(parameters => parameters
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueExpression, () => value));
+                .BindValue(() => value));
 
             Assert.Contains(emptyList, list.Markup, StringComparison.Ordinal);
             Assert.Equal(dayViewLabel, day.Find("section.omni-day-view").GetAttribute("aria-label"));
@@ -229,8 +228,7 @@ public sealed class LocalizationTests : OmniBunitContext
             var month = Render<OmniScheduler>(parameters => parameters.Add(component => component.View, OmniCalendarView.Month).Add(component => component.TimeZone, TimeZoneInfo.Utc));
             var notification = Render<OmniNotification>(parameters => parameters.Add(component => component.Message, "Message"));
             var nullableSwitch = Render<OmniSwitch<bool?>>(parameters => parameters
-                .Add(component => component.Value, nullable)
-                .Add(component => component.ValueExpression, () => nullable));
+                .BindValue(() => nullable));
             var pager = Render<OmniPager>(parameters => parameters
                 .Add(component => component.Page, 2)
                 .Add(component => component.PageCount, 4));
@@ -269,8 +267,7 @@ public sealed class LocalizationTests : OmniBunitContext
             var profile = Render<OmniProfileMenu>(parameters => parameters
                 .Add(component => component.SummaryContent, builder => builder.AddContent(0, "User")));
             var password = Render<OmniPassword>(parameters => parameters
-                .Add(component => component.Value, passwordValue)
-                .Add(component => component.ValueExpression, () => passwordValue));
+                .BindValue(() => passwordValue));
             var progress = Render<OmniProgressBar>(parameters => parameters
                 .Add(component => component.Value, 50)
                 .Add(component => component.ShowValue, true));

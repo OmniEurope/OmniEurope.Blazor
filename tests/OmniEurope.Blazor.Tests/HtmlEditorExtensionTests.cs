@@ -62,8 +62,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var extension = new TestExtension { Policy = new OmniHtmlSanitizerPolicy { AdditionalCssClasses = ["formula"] } };
 
         Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, [new PolicyExtension(new OmniHtmlSanitizerPolicy { AdditionalCssClasses = ["note"], AllowDataAttributes = true }), extension]));
 
         var mount = Assert.Single(module.Invocations["mount"]);
@@ -197,8 +196,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         };
         string? bound = "<p>Texte <span class=\"note\" data-marker=\"1\">Ancienne</span></p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound)
+            .BindValue(() => bound)
             .Add(component => component.ValueChanged, value => bound = value)
             .Add(component => component.Extensions, [extension]));
 
@@ -229,8 +227,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         };
         string? bound = "<p><span class=\"note\" data-marker=\"1\">Ancienne</span></p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound)
+            .BindValue(() => bound)
             .Add(component => component.ValueChanged, value => bound = value)
             .Add(component => component.Extensions, [extension]));
 
@@ -275,8 +272,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         var extension = new SuggestingExtension(_ => "suite");
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [extension]));
 
@@ -418,8 +414,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         };
         string? bound = "<p>x <span class=\"formula\">z</span></p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound)
+            .BindValue(() => bound)
             .Add(component => component.ValueChanged, value => bound = value)
             .Add(component => component.Extensions, [extension]));
 
@@ -452,8 +447,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         };
         string? bound = "<p>deux mots</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, bound)
-            .Add(component => component.ValueExpression, () => bound)
+            .BindValue(() => bound)
             .Add(component => component.ValueChanged, value => bound = value)
             .Add(component => component.Extensions, [extension]));
 
@@ -481,8 +475,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
         };
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [extension]));
 
@@ -500,8 +493,7 @@ public sealed class HtmlEditorExtensionTests : OmniBunitContext
     {
         var value = "<p>A</p>";
         return Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, commands)
             .Add(component => component.Extensions, extensions));
     }
