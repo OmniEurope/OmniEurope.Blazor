@@ -24,8 +24,7 @@ public sealed class FloatingSurfaceTests
         // The script writes the two custom properties on the panel, which leaves the page with them, and
         // follows the field through any scroll.
         var focus = Script("focus", "picker.js");
-        Assert.Contains("panel.style.setProperty('--omni-picker-x'", focus, StringComparison.Ordinal);
-        Assert.Contains("panel.style.setProperty('--omni-picker-y'", focus, StringComparison.Ordinal);
+        Assert.Contains("setFixedCorner(panel, '--omni-picker-x', '--omni-picker-y', left, top)", focus, StringComparison.Ordinal);
         Assert.Contains("window.addEventListener('scroll', onMove, true)", focus, StringComparison.Ordinal);
         Assert.Contains("window.removeEventListener('scroll', state.onMove, true)", focus, StringComparison.Ordinal);
     }

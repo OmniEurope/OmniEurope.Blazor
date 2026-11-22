@@ -30,3 +30,13 @@ export function rememberTarget(key) {
         returnTargets.set(key, active);
     }
 }
+
+// Gives the focus back at once to the element the surface keyed by key remembered, when restore is
+// asked and that element is still on the page and not inert, and forgets it either way.
+export function giveFocusBack(key, restore) {
+    const target = returnTargets.get(key);
+    returnTargets.delete(key);
+    if (restore && target?.isConnected && !target.closest('[inert]')) {
+        target.focus({ preventScroll: true });
+    }
+}

@@ -93,6 +93,18 @@ export function load(basePath, culture, timeout) {
     return loading;
 }
 
+// The editor options the component may change after the mount, from its parameters.
+function editableOptions(options) {
+    return {
+        readOnly: Boolean(options?.readOnly),
+        domReadOnly: Boolean(options?.readOnly),
+        lineNumbers: options?.lineNumbers === false ? 'off' : 'on',
+        wordWrap: options?.wordWrap ? 'on' : 'off',
+        tabSize: options?.tabSize > 0 ? options.tabSize : 4,
+        ariaLabel: options?.label ?? ''
+    };
+}
+
 export function mount(host, dotnet, options) {
     const monaco = window.monaco;
     if (!monaco?.editor || !host || editors.has(host)) {
@@ -117,12 +129,7 @@ export function mount(host, dotnet, options) {
     state.editor = monaco.editor.create(host, {
         value: options?.value ?? '',
         language: options?.language || 'plaintext',
-        readOnly: Boolean(options?.readOnly),
-        domReadOnly: Boolean(options?.readOnly),
-        lineNumbers: options?.lineNumbers === false ? 'off' : 'on',
-        wordWrap: options?.wordWrap ? 'on' : 'off',
-        tabSize: options?.tabSize > 0 ? options.tabSize : 4,
-        ariaLabel: options?.label ?? '',
+        ...editableOptions(options),
         automaticLayout: true,
         fixedOverflowWidgets: true,
         minimap: { enabled: false },
@@ -182,14 +189,7 @@ export function configure(host, options) {
         monaco.editor.setModelLanguage(model, language);
     }
 
-    state.editor.updateOptions({
-        readOnly: Boolean(options?.readOnly),
-        domReadOnly: Boolean(options?.readOnly),
-        lineNumbers: options?.lineNumbers === false ? 'off' : 'on',
-        wordWrap: options?.wordWrap ? 'on' : 'off',
-        tabSize: options?.tabSize > 0 ? options.tabSize : 4,
-        ariaLabel: options?.label ?? ''
-    });
+    state.editor.updateOptions(editableOptions(options));
     setLinks(state, options?.links);
 }
 

@@ -200,39 +200,34 @@ const letGo = () => {
     }
 };
 
-const onPointerMove = event => {
+// The tooltip an event over the page should place, or null. Outside every tooltip, the tracked one is
+// cleared. Inside the box already placed of a long tooltip (only such a box takes the pointer, and holds
+// its "Show more" action), the box holds still, so that action can be reached by the pointer or focused.
+const tooltipToPlace = event => {
     const tooltip = event.target instanceof Element ? event.target.closest('.omni-tooltip') : null;
     if (!tooltip) {
         clear();
-        return;
+        return null;
     }
 
-    // Over the box of a long tooltip (only such a box takes the pointer): it holds still so its
-    // "Show more" action can be reached.
-    if (tooltip === tracked && event.target.closest('.omni-tooltip__content')) {
-        return;
-    }
+    return tooltip === tracked && event.target.closest('.omni-tooltip__content') ? null : tooltip;
+};
 
-    place(tooltip, event.clientX, event.clientY);
+const onPointerMove = event => {
+    const tooltip = tooltipToPlace(event);
+    if (tooltip) {
+        place(tooltip, event.clientX, event.clientY);
+    }
 };
 
 // Keyboard users get the same fixed placement, anchored on the trigger they just reached rather than
 // on a pointer they are not using. Without this the tooltip would keep the stylesheet's anchored
 // position while its neighbours moved to the pointer, which is the inconsistency this replaces.
 const onFocusIn = event => {
-    const tooltip = event.target instanceof Element ? event.target.closest('.omni-tooltip') : null;
-    if (!tooltip) {
-        clear();
-        return;
+    const tooltip = tooltipToPlace(event);
+    if (tooltip) {
+        anchorOn(tooltip);
     }
-
-    // The "Show more" action of a long tooltip is inside the box already placed: focusing it keeps
-    // the box where it is.
-    if (tooltip === tracked && event.target.closest('.omni-tooltip__content')) {
-        return;
-    }
-
-    anchorOn(tooltip);
 };
 
 export function install() {

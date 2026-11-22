@@ -26,7 +26,7 @@
 // frames in a row, gets the still frame: drawn in software a frame took from 125 ms to 5 s, holding the
 // page's input that long.
 
-import { createCanvasField, pixelRatio, readColour as readChannels } from './shared/canvas-field.js';
+import { createCanvasField, fitToWindow, readColour as readChannels } from './shared/canvas-field.js';
 
 const INTENSITY = 0.5;
 // Three frames in a row further apart than this (under 10 a second) and the field stops moving.
@@ -233,13 +233,7 @@ function prepare(canvas, scope) {
     const state = { slow: 0, origin: performance.now(), colours: null, inverted: false };
 
     const draw = now => {
-        const ratio = pixelRatio();
-        const width = Math.max(1, Math.round(window.innerWidth * ratio));
-        const height = Math.max(1, Math.round(window.innerHeight * ratio));
-        if (canvas.width !== width || canvas.height !== height) {
-            canvas.width = width;
-            canvas.height = height;
-        }
+        const { width, height } = fitToWindow(canvas);
 
         // Colours are read once per size or theme change, not at every frame.
         // Turned over, the shader gets the inverse of the text and the accent: the ink it subtracts then

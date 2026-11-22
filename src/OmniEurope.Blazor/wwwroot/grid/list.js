@@ -1,5 +1,5 @@
 // Part of omni-grid.js, which re-exports attachList, detachList, syncList and applyListLayout.
-import { notifyDotNet } from './notify.js';
+import { viewportNotifier } from './notify.js';
 import { release } from './release.js';
 
 // ---- virtualised data list ------------------------------------------------------------------
@@ -78,21 +78,7 @@ export function attachList(root, reference) {
         state.atEnd = atEndOf(scroller);
     };
     let live = true;
-    let frame = 0;
-    const notify = () => {
-        frame = 0;
-        if (!root.isConnected) {
-            detachList(root);
-            return;
-        }
-        const current = listGeometry(root, container);
-        notifyDotNet(() => live, reference, 'OnViewportChangedAsync', current.scrollTop, current.viewportHeight);
-    };
-    const schedule = () => {
-        if (frame === 0) {
-            frame = window.requestAnimationFrame(notify);
-        }
-    };
+    const { schedule, cancel: cancelNotice } = viewportNotifier(root, detachList, () => listGeometry(root, container), () => live, reference);
 
     target.addEventListener('scroll', track, { passive: true });
     target.addEventListener('scroll', schedule, { passive: true });
@@ -106,9 +92,7 @@ export function attachList(root, reference) {
         state,
         dispose: () => {
             live = false;
-            if (frame !== 0) {
-                window.cancelAnimationFrame(frame);
-            }
+            cancelNotice();
 
             target.removeEventListener('scroll', track);
             target.removeEventListener('scroll', schedule);

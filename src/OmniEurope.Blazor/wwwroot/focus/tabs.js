@@ -3,6 +3,7 @@
 // of OmniSidebar, and the wheel scope of OmniTabs.
 
 import { notify } from '../shared/notify.js';
+import { canScrollVertically } from '../shared/scroll.js';
 
 const tabHandlers = new WeakMap();
 const tabOverflow = new WeakMap();
@@ -217,16 +218,6 @@ export function disposeTabsOverflow(strip) {
 
 const tabsWheelScopes = new Map();
 
-function scrollsVertically(element, deltaY) {
-    if (!/(auto|scroll)/.test(getComputedStyle(element).overflowY) || element.scrollHeight <= element.clientHeight) {
-        return false;
-    }
-
-    return deltaY < 0
-        ? element.scrollTop > 0
-        : element.scrollTop + element.clientHeight < element.scrollHeight - 1;
-}
-
 /**
  * OmniTabs WheelScrollScope: a vertical wheel turn over the named ancestor, outside the selected
  * panel, scrolls that panel. Anything under the pointer that can still scroll that way keeps the
@@ -259,12 +250,12 @@ export function attachTabsWheelScope(tabs, selector) {
         }
 
         for (let node = target; node && node !== scope; node = node.parentElement) {
-            if (scrollsVertically(node, event.deltaY)) {
+            if (canScrollVertically(node, event.deltaY)) {
                 return;
             }
         }
 
-        if (!scrollsVertically(panel, event.deltaY)) {
+        if (!canScrollVertically(panel, event.deltaY)) {
             return;
         }
 

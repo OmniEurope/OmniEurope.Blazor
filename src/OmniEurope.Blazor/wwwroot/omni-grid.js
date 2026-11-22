@@ -4,8 +4,9 @@
 // columns, the sizing of the columns to their content, the resize and auto-fit gestures, the header drag that reorders the columns, the filter
 // popovers, the focus of a row put in edit mode, the click that edits a row (EditTrigger) and the
 // virtualised data list live in ./grid/ and are re-exported here, so every export keeps this address.
-import { notifyDotNet } from './grid/notify.js';
+import { notifyDotNet, viewportNotifier } from './grid/notify.js';
 import { release } from './grid/release.js';
+import { canScrollVertically } from './shared/scroll.js';
 
 export { applyColumns, applyFrozen, attachContentFit, attachFrozenScroll, detachContentFit, detachFrozenScroll } from './grid/columns.js';
 export { attachResize, detachResize, autoFitColumn } from './grid/resize.js';
@@ -77,7 +78,6 @@ export function attach(viewport, reference) {
     detach(viewport);
 
     let live = true;
-    let frame = 0;
     // Whether the last scroll reached the end. Rows are placed on estimated heights until they are
     // measured: a jump to the end (the scrollbar dragged down, End) renders the last rows, which then
     // prove taller than estimated, the content grows and the end moves away while the scroll stays
@@ -87,22 +87,9 @@ export function attach(viewport, reference) {
         state.atEnd = viewport.scrollTop > 0
             && viewport.scrollTop + viewport.clientHeight >= viewport.scrollHeight - 2;
     };
-    const notify = () => {
-        frame = 0;
-        // Removed from the page: .NET is disposing the grid and cannot name this element any more
-        // (its detach call resolves to null), so the attachment ends itself instead of calling back.
-        if (!viewport.isConnected) {
-            detach(viewport);
-            return;
-        }
-        const current = metrics(viewport);
-        notifyDotNet(() => live, reference, 'OnViewportChangedAsync', current.scrollTop, current.viewportHeight);
-    };
-    const schedule = () => {
-        if (frame === 0) {
-            frame = window.requestAnimationFrame(notify);
-        }
-    };
+    // Removed from the page: .NET is disposing the grid and cannot name this element any more
+    // (its detach call resolves to null), so the attachment ends itself instead of calling back.
+    const { schedule, cancel: cancelNotice } = viewportNotifier(viewport, detach, () => metrics(viewport), () => live, reference);
 
     // A viewport at its end follows the end whatever moves it: rows measured taller, a row that grows
     // after it was drawn (an image, a font, a column made narrower), or the viewport itself made
@@ -148,9 +135,7 @@ export function attach(viewport, reference) {
         state,
         dispose: () => {
             live = false;
-            if (frame !== 0) {
-                window.cancelAnimationFrame(frame);
-            }
+            cancelNotice();
             if (contentFrame !== 0) {
                 window.cancelAnimationFrame(contentFrame);
             }
@@ -444,16 +429,6 @@ export function detachFill(viewport) {
 }
 
 const wheelScopes = new Map();
-
-function canScrollVertically(element, deltaY) {
-    if (!/(auto|scroll)/.test(getComputedStyle(element).overflowY) || element.scrollHeight <= element.clientHeight) {
-        return false;
-    }
-
-    return deltaY < 0
-        ? element.scrollTop > 0
-        : element.scrollTop + element.clientHeight < element.scrollHeight - 1;
-}
 
 /**
  * WheelScrollScope: a vertical wheel turn over the named ancestor scrolls the grid's rows. The grid

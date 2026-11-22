@@ -13,6 +13,20 @@ const MAX_PIXEL_RATIO = 2;
 /** Device pixels per CSS pixel of the window, from 1 to 2. */
 export const pixelRatio = () => Math.min(Math.max(window.devicePixelRatio || 1, 1), MAX_PIXEL_RATIO);
 
+// Gives the canvas the size of the window in device pixels (at the capped ratio), touching it only when
+// that size changed, and returns { ratio, width, height }.
+export function fitToWindow(canvas) {
+    const ratio = pixelRatio();
+    const width = Math.max(1, Math.round(window.innerWidth * ratio));
+    const height = Math.max(1, Math.round(window.innerHeight * ratio));
+    if (canvas.width !== width || canvas.height !== height) {
+        canvas.width = width;
+        canvas.height = height;
+    }
+
+    return { ratio, width, height };
+}
+
 const FRAME_MS = 1000 / 30;
 // Animation frames come every 16.7 ms at 60 Hz, two of them a hair under FRAME_MS apart: without this slack
 // every third frame would be drawn, 20 a second instead of 30.

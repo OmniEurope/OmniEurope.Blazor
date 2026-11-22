@@ -16,7 +16,7 @@
 // less motion, which the field follows as it changes. Nothing but the canvas API and a hidden probe element
 // read through the CSSOM is touched, as the strict CSP requires (no style attribute, no style element).
 
-import { createCanvasField, pixelRatio, readColour as readChannels } from './shared/canvas-field.js';
+import { createCanvasField, fitToWindow, readColour as readChannels } from './shared/canvas-field.js';
 
 const PIXEL = 2;
 // A gap longer than this between two frames (the tab was in the background) is not time the sky moved.
@@ -79,13 +79,7 @@ function prepare(canvas, scope) {
     const state = { elapsed: 0, colours: null, stars: null, stamp: '' };
 
     const draw = () => {
-        const ratio = pixelRatio();
-        const width = Math.max(1, Math.round(window.innerWidth * ratio));
-        const height = Math.max(1, Math.round(window.innerHeight * ratio));
-        if (canvas.width !== width || canvas.height !== height) {
-            canvas.width = width;
-            canvas.height = height;
-        }
+        const { ratio, width, height } = fitToWindow(canvas);
 
         // Stars and colours are made once per size or theme change, not at every frame.
         const stamp = `${window.innerWidth}x${window.innerHeight}`;

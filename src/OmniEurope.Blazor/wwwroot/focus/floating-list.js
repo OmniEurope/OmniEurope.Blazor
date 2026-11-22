@@ -2,7 +2,7 @@
 // autocomplete. It is fixed to the window and placed here, under its field, so whatever scrolls or clips
 // around the field (a dialog, a card) can neither cut it nor grow a scrollbar for it. It goes above the
 // field when there is no room below. Custom properties on the list only, which leaves the page with it.
-import { placeFloating } from '../shared/placement.js';
+import { placeFloating, setFixedCorner } from '../shared/placement.js';
 
 const floatingLists = new Map();
 
@@ -14,17 +14,7 @@ function placeList(root, list) {
         size: { width: anchor.width, height: list.offsetHeight },
         rtl: getComputedStyle(root).direction === 'rtl'
     });
-    const set = (x, y) => {
-        list.style.setProperty('--omni-autocomplete-x', `${Math.round(x)}px`);
-        list.style.setProperty('--omni-autocomplete-y', `${Math.round(y)}px`);
-    };
-    set(left, top);
-    // An ancestor with a transform, a filter or a containment is the origin of position: fixed instead
-    // of the window: the list is then drawn off by that origin, measured here and taken back.
-    const drawn = list.getBoundingClientRect();
-    if (Math.abs(drawn.left - left) > 1 || Math.abs(drawn.top - top) > 1) {
-        set(2 * left - drawn.left, 2 * top - drawn.top);
-    }
+    setFixedCorner(list, '--omni-autocomplete-x', '--omni-autocomplete-y', left, top);
 }
 
 export function attachFloatingList(root, list, key) {
