@@ -122,10 +122,7 @@ public partial class OmniTimePicker
         }
 
         StepMinutes(Step);
-        if (Minimum is { } minimum && Maximum is { } maximum && minimum > maximum)
-        {
-            throw new InvalidOperationException("Minimum cannot be greater than Maximum.");
-        }
+        PickerValue.EnsureOrdered(Minimum, Maximum);
     }
 
     /// <summary>Attaches the panel script when the panel opened, detaches it when it closed, and moves the focus into an open panel.</summary>
@@ -153,26 +150,14 @@ public partial class OmniTimePicker
     /// <param name="result">The time read, or null.</param>
     /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid time" message.</param>
     /// <returns>True when the text is blank or a time within the bounds.</returns>
-    protected override bool TryParseValueFromString(string? value, out TimeOnly? result, out string validationErrorMessage)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            result = null;
-            validationErrorMessage = null!;
-            return true;
-        }
-
-        if (PickerFormat.TryParseTime(value, Culture, out var time) && !IsOutside(time))
-        {
-            result = time;
-            validationErrorMessage = null!;
-            return true;
-        }
-
-        result = null;
-        validationErrorMessage = Localize("TimePickerInvalid");
-        return false;
-    }
+    protected override bool TryParseValueFromString(string? value, out TimeOnly? result, out string validationErrorMessage) =>
+        PickerValue.TryRead(
+            value,
+            (string text, out TimeOnly time) => PickerFormat.TryParseTime(text, Culture, out time),
+            IsOutside,
+            () => Localize("TimePickerInvalid"),
+            out result,
+            out validationErrorMessage);
 
     /// <summary>Releases the listeners of a panel still open, then the form subscription.</summary>
     /// <param name="disposing">True when called from <see cref="IDisposable.Dispose"/>.</param>

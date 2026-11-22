@@ -52,21 +52,14 @@ public partial class OmniTextArea
     /// <summary>After each render, follows the input element with the <see cref="SelectOnFocus"/> script; nothing happens while it is off.</summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the script follows the element drawn.</returns>
-    protected override Task OnAfterRenderAsync(bool firstRender) => SelectOnFocus || _selectOnFocus is not null
-        ? (_selectOnFocus ??= new Internal.OmniSelectOnFocus(JavaScript)).SyncAsync(SelectOnFocus, _field)
-        : Task.CompletedTask;
+    protected override Task OnAfterRenderAsync(bool firstRender) =>
+        Internal.OmniSelectOnFocus.FollowAsync(ref _selectOnFocus, JavaScript, SelectOnFocus, _field);
 
     /// <summary>Detaches the <see cref="SelectOnFocus"/> script and disposes the input.</summary>
     /// <returns>A task that completes once the script is detached; a lost circuit is ignored.</returns>
     public async ValueTask DisposeAsync()
     {
-        // Blazor calls only DisposeAsync on a component that has both: the input's own disposal goes through Dispose.
-        ((IDisposable)this).Dispose();
-        if (_selectOnFocus is not null)
-        {
-            await _selectOnFocus.DisposeAsync();
-        }
-
+        await Internal.OmniSelectOnFocus.DisposeWithInputAsync(this, _selectOnFocus);
         GC.SuppressFinalize(this);
     }
 
