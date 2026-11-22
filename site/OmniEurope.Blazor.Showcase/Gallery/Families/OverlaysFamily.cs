@@ -20,13 +20,15 @@ internal static class OverlaysFamily
             ["OmniContextMenu", "OmniMenuItem", "OmniSubMenu"],
             [
                 "Overlays/ContextMenusExample.razor", "Overlays/ContextMenusExample.razor.cs",
-                "Overlays/ContextMenuRowsExample.razor", "Overlays/ContextMenuRowsExample.razor.cs"
+                "Overlays/ContextMenuRowsExample.razor", "Overlays/ContextMenuRowsExample.razor.cs",
+                "Overlays/SingleOpenMenu.cs"
             ]),
         new("overflow-menu", "OverflowMenuTitle", "OverflowMenuDescription", OmniIconName.Menu,
             ["OmniOverflowMenu", "OmniMenuItem", "OmniSubMenu"],
             [
                 "Overlays/OverflowMenuExample.razor", "Overlays/OverflowMenuExample.razor.cs",
-                "Overlays/OverflowMenuSubmenuExample.razor", "Overlays/OverflowMenuSubmenuExample.razor.cs"
+                "Overlays/OverflowMenuSubmenuExample.razor", "Overlays/OverflowMenuSubmenuExample.razor.cs",
+                "Overlays/SingleOpenMenu.cs"
             ]),
         new("popover", "PopoverTitle", "PopoverDescription", OmniIconName.Chat,
             ["OmniPopover"],

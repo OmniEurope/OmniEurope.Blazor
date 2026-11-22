@@ -23,17 +23,7 @@ public partial class SplitButtonsPage
     /// <summary>The main text is one of the three option values, which are the English words the example shows.</summary>
     private string MainText { get; set; } = "Publish";
 
-    private IReadOnlyList<OmniOption<OmniButtonVariant>> VariantOptions =>
-    [
-        new(OmniButtonVariant.Primary, Text["ButtonsVariantPrimary"]),
-        new(OmniButtonVariant.Secondary, Text["ButtonsVariantSecondary"]),
-        new(OmniButtonVariant.Ghost, Text["ButtonsVariantGhost"]),
-        new(OmniButtonVariant.Success, Text["ButtonsVariantSuccess"]),
-        new(OmniButtonVariant.Warning, Text["ButtonsVariantWarning"]),
-        new(OmniButtonVariant.Info, Text["ButtonsVariantInfo"]),
-        new(OmniButtonVariant.Danger, Text["ButtonsVariantDanger"]),
-        new(OmniButtonVariant.GhostDanger, Text["ButtonsVariantGhostDanger"])
-    ];
+    private IReadOnlyList<OmniOption<OmniButtonVariant>> VariantOptions => ButtonVariantOptions.For(Text);
 
     private IReadOnlyList<OmniOption<OmniControlSize>> SizeOptions =>
     [

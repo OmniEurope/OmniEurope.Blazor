@@ -13,7 +13,7 @@
         <OmniFormField For="grid-fill-box-lines">
             <LabelContent>Lines</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridLines" Id="grid-fill-box-lines" Options="_lineOptions" @bind-Value="_lines" />
+                <OmniDropDown TValue="OmniDataGridLines" Id="grid-fill-box-lines" Options="DataGridLineOptions.All" @bind-Value="_lines" />
             </ChildContent>
         </OmniFormField>
     </OmniRow>

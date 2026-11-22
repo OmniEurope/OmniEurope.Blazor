@@ -34,7 +34,8 @@ internal static class DataFamily
                 "Data/DataGridFillBoxExample.razor", "Data/DataGridFillBoxExample.razor.cs",
                 "Data/FilterHighlightExample.razor", "Data/FilterHighlightExample.razor.cs",
                 "Data/FileDownloadExample.razor", "Data/FileDownloadExample.razor.cs",
-                "Data/CaseRow.cs", "Data/SiteRow.cs", "Data/StatementLine.cs", "Data/ArchiveNode.cs", "Data/PipelineRun.cs"
+                "Data/CaseRow.cs", "Data/SiteRow.cs", "Data/StatementLine.cs", "Data/ArchiveNode.cs", "Data/PipelineRun.cs",
+                "Data/DataGridLineOptions.cs"
             ]),
         new("data-grid-runs", "DataGridRunsTitle", "DataGridRunsDescription", OmniIconName.Gauge,
             ["OmniDataGrid", "OmniDataGridColumn"],
@@ -46,7 +47,8 @@ internal static class DataFamily
             ["OmniDataGrid", "OmniDataGridFilterCombo", "OmniDataGridFilterMultiSelect"],
             [
                 "Data/DataGridAdvancedExample.razor", "Data/DataGridAdvancedExample.razor.cs",
-                "Data/CaseRow.cs"
+                "Data/CaseRow.cs",
+                "Data/DataGridLineOptions.cs"
             ]),
         new("data-list", "DataListTitle", "DataListDescription", OmniIconName.ListBullets,
             ["OmniDataList", "OmniPager", "OmniAnsiText", "OmniMarkdownExportButton"],

@@ -22,10 +22,4 @@ public partial class DatesGalleryExample
         "Minimum: {0}. Maximum: {1}.",
         WeekStart.ToString("g", CultureInfo.CurrentCulture),
         WeekEnd.ToString("g", CultureInfo.CurrentCulture));
-
-    private static string FormatIso(DateOnly? value) =>
-        value?.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) ?? "null";
-
-    private static string FormatIso(DateTime? value) =>
-        value?.ToString("yyyy-MM-ddTHH:mm:ss", CultureInfo.InvariantCulture) ?? "null";
 }

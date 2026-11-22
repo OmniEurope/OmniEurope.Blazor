@@ -53,16 +53,6 @@ public partial class GalleryThemePicker : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    private Task SelectThemeAsync(string? name) =>
-        OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name) is { } theme
-            ? Theme.SelectThemeAsync(theme)
-            : Task.CompletedTask;
-
-    private Task SelectPaletteAsync(string? name) =>
-        OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == name) is { } palette
-            ? Theme.SelectPaletteAsync(palette)
-            : Task.CompletedTask;
-
     private Task ToggleModeAsync() => Theme.SetModeAsync(IsDark ? OmniAppearance.Light : OmniAppearance.Dark);
 
     private string WithDefaultMark(string name) => $"{name} ({Text["GalleryDefaultSuffix"]})";

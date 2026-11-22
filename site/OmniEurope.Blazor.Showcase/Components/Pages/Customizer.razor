@@ -16,14 +16,14 @@
         <LabelContent>@Text["WorkshopTheme"]</LabelContent>
         <ChildContent>
             <OmniDropDown TValue="string" Id="workshop-theme" Options="ThemeOptions"
-                          @bind-Value:get="Theme.Theme.Name" @bind-Value:set="SelectThemeAsync" />
+                          @bind-Value:get="Theme.Theme.Name" @bind-Value:set="Theme.SelectThemeByNameAsync" />
         </ChildContent>
     </OmniFormField>
     <OmniFormField For="workshop-palette">
         <LabelContent>@Text["WorkshopPalette"]</LabelContent>
         <ChildContent>
             <OmniDropDown TValue="string" Id="workshop-palette" Options="PaletteOptions"
-                          @bind-Value:get="Theme.Palette.Name" @bind-Value:set="SelectPaletteAsync" />
+                          @bind-Value:get="Theme.Palette.Name" @bind-Value:set="Theme.SelectPaletteByNameAsync" />
         </ChildContent>
     </OmniFormField>
     <OmniFormField For="workshop-reset-palette">

@@ -240,6 +240,22 @@ public sealed class ThemeState : IDisposable
         return ChangeAsync(() => _appearance.SetPaletteAsync(own ? null : palette), cancellationToken);
     }
 
+    /// <summary>Picks the theme a picker names; an unknown name changes nothing.</summary>
+    /// <param name="name">The name of the theme, as the theme picker binds it.</param>
+    /// <returns>The change, or a completed task for an unknown name.</returns>
+    public Task SelectThemeByNameAsync(string? name) =>
+        OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name) is { } theme
+            ? SelectThemeAsync(theme)
+            : Task.CompletedTask;
+
+    /// <summary>Picks the palette a picker names; an unknown name changes nothing.</summary>
+    /// <param name="name">The name of the palette, as the palette picker binds it.</param>
+    /// <returns>The change, or a completed task for an unknown name.</returns>
+    public Task SelectPaletteByNameAsync(string? name) =>
+        OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == name) is { } palette
+            ? SelectPaletteAsync(palette)
+            : Task.CompletedTask;
+
     /// <summary>Returns to the palette the theme comes with.</summary>
     public Task ResetPaletteAsync(CancellationToken cancellationToken = default) =>
         SelectPaletteAsync(OmniThemePresets.DefaultPaletteFor(Theme), cancellationToken);

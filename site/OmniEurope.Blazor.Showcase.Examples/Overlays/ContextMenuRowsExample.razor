@@ -1,11 +1,11 @@
 @* One context menu per row. The menus share the Open state kept here, so opening one closes the others.
    Like every context menu, they work with or without an OmniComponentsHost. *@
 <OmniStack Gap="OmniSpacing.Small">
-    @foreach (var file in Files)
+    @foreach (var file in SingleOpenMenu.Files)
     {
         <OmniContextMenu MenuLabel="@($"Actions on {file}")"
-                         Open="@(OpenFile == file)"
-                         OpenChanged="@(value => OnMenuChanged(file, value))">
+                         Open="@(Menus.OpenFile == file)"
+                         OpenChanged="@(value => Menus.OnChanged(file, value))">
             <TriggerContent>
                 <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center">
                     <OmniIcon Name="OmniIconName.Document" />

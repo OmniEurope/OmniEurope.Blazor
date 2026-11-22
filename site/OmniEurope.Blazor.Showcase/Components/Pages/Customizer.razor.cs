@@ -119,16 +119,6 @@ public partial class Customizer : IDisposable
     }
 
 
-    private Task SelectThemeAsync(string? name) =>
-        OmniThemePresets.All.FirstOrDefault(theme => theme.Name == name) is { } theme
-            ? Theme.SelectThemeAsync(theme)
-            : Task.CompletedTask;
-
-    private Task SelectPaletteAsync(string? name) =>
-        OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == name) is { } palette
-            ? Theme.SelectPaletteAsync(palette)
-            : Task.CompletedTask;
-
     private Task SetModeAsync(OmniAppearance mode) => Theme.SetModeAsync(mode);
 
     private Task SetDensityAsync(OmniDensity density) => Theme.SetDensityAsync(density);
