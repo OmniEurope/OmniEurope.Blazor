@@ -104,29 +104,15 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
             _cssRowEstimate = snapshot.RowEstimate;
             moved = true;
         }
-        if (Math.Abs(snapshot.ViewportHeight - _viewportHeight) > 0.5d)
-        {
-            _viewportHeight = snapshot.ViewportHeight;
-            moved = true;
-        }
-
-        if (Math.Abs(snapshot.ScrollTop - _scrollTop) > 0.5d)
-        {
-            _scrollTop = snapshot.ScrollTop;
-            moved = true;
-        }
+        moved |= GridVirtualWindow.TakeMeasured(snapshot.ViewportHeight, ref _viewportHeight);
+        moved |= GridVirtualWindow.TakeMeasured(snapshot.ScrollTop, ref _scrollTop);
 
         if ((RowsAreFixed && !grid.View.StructuredVirtual) || snapshot.Rows is null)
         {
             return moved;
         }
 
-        foreach (var row in snapshot.Rows)
-        {
-            moved |= _window.Measure(row.Index, row.Height);
-        }
-
-        return moved;
+        return _window.MeasureAll(snapshot.Rows) | moved;
     }
 
     /// <summary>Loads and renders the rows of the new window only when the window moved.</summary>

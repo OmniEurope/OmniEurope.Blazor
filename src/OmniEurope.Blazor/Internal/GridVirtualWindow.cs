@@ -58,6 +58,34 @@ internal sealed class GridVirtualWindow
         Rebuild();
     }
 
+    /// <summary>Records every row height a script snapshot measured; true when any of them moved the layout.</summary>
+    internal bool MeasureAll(IReadOnlyList<GridRowMeasurement>? rows)
+    {
+        var moved = false;
+        foreach (var row in rows ?? [])
+        {
+            moved |= Measure(row.Index, row.Height);
+        }
+
+        return moved;
+    }
+
+    /// <summary>
+    /// Takes a length the script measured (a scroll offset, a viewport height) when it differs from the
+    /// current one by more than half a pixel; true when it was taken.
+    /// </summary>
+    internal static bool TakeMeasured(double measured, ref double current)
+    {
+        // Written as "greater than" so a NaN measurement is never taken.
+        if (Math.Abs(measured - current) > MeasurementTolerance)
+        {
+            current = measured;
+            return true;
+        }
+
+        return false;
+    }
+
     /// <summary>Records a measured row height. Returns <c>true</c> when the layout actually moved.</summary>
     internal bool Measure(int index, double height)
     {

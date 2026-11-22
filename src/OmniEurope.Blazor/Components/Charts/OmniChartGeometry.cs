@@ -234,6 +234,7 @@ internal static class OmniChartGeometry
     private static double Fraction(double value, (double Minimum, double Maximum) domain) =>
         double.IsNaN(value) ? 0 : (value - domain.Minimum) / (domain.Maximum - domain.Minimum);
 
-    private static (double Minimum, double Maximum) Expand((double Minimum, double Maximum) domain) =>
+    // Widens an empty range (minimum equal to maximum) by half a unit on each side, so a ratio never divides by zero.
+    internal static (double Minimum, double Maximum) Expand((double Minimum, double Maximum) domain) =>
         domain.Minimum.Equals(domain.Maximum) ? (domain.Minimum - 0.5, domain.Maximum + 0.5) : domain;
 }

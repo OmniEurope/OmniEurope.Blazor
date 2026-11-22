@@ -67,31 +67,9 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         }
     }
 
-    /// <summary>The script work after a render, the virtual window included when the grid virtualizes.</summary>
-    internal async Task AfterRenderAsync()
+    // The interactions every grid wires after a render, virtual or not, in this order.
+    private async Task EnsureInteractionsAsync()
     {
-        var layout = grid.LayoutInterop;
-        if (!grid.View.Virtualized)
-        {
-            await DetachViewportAsync();
-            await layout.ApplyLayoutAsync();
-            await layout.ApplyMaxHeightAsync();
-            await EnsureResizeInteropAsync();
-            await EnsureReorderInteropAsync();
-            await EnsureFilterMenuInteropAsync();
-            await EnsureFillInteropAsync();
-            await EnsureEditCellInteropAsync();
-            await EnsureWheelScopeInteropAsync();
-            await EnsureFrozenScrollInteropAsync();
-            await EnsureCutTooltipsAsync();
-            await EnsureContentFitAsync();
-            await PushContentTextsAsync();
-            await EnsureColumnHoverAsync();
-            await CompletePreparationAsync();
-            return;
-        }
-
-        var module = await ModuleAsync();
         await EnsureResizeInteropAsync();
         await EnsureReorderInteropAsync();
         await EnsureFilterMenuInteropAsync();
@@ -103,6 +81,24 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
         await EnsureContentFitAsync();
         await PushContentTextsAsync();
         await EnsureColumnHoverAsync();
+    }
+
+    /// <summary>The script work after a render, the virtual window included when the grid virtualizes.</summary>
+    internal async Task AfterRenderAsync()
+    {
+        var layout = grid.LayoutInterop;
+        if (!grid.View.Virtualized)
+        {
+            await DetachViewportAsync();
+            await layout.ApplyLayoutAsync();
+            await layout.ApplyMaxHeightAsync();
+            await EnsureInteractionsAsync();
+            await CompletePreparationAsync();
+            return;
+        }
+
+        var module = await ModuleAsync();
+        await EnsureInteractionsAsync();
         if (!_virtualAttached)
         {
             await module.InvokeVoidAsync("attach", grid.Viewport, SelfReference);

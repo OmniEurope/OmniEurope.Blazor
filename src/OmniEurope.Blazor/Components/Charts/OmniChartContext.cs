@@ -717,11 +717,11 @@ internal sealed class OmniChartContext
         }
 
         var xValues = DrawnSeries.SelectMany(item => _range.Points(item.Data)).Select(point => point.X).ToArray();
-        _xDomain = Expand(xValues.Length == 0 ? (0d, 1d) : (xValues.Min(), xValues.Max()));
+        _xDomain = OmniChartGeometry.Expand(xValues.Length == 0 ? (0d, 1d) : (xValues.Min(), xValues.Max()));
 
         if (_valueAxes.Count > 0)
         {
-            _valueDomain = Expand((_valueAxes.Values.Min(item => item.Minimum), _valueAxes.Values.Max(item => item.Maximum)));
+            _valueDomain = OmniChartGeometry.Expand((_valueAxes.Values.Min(item => item.Minimum), _valueAxes.Values.Max(item => item.Maximum)));
         }
         else
         {
@@ -749,7 +749,7 @@ internal sealed class OmniChartContext
             }
             _valueDomain = _automaticValueAxes.Count > 0
                 ? OmniChartGeometry.RoundOutward(values.Min(), values.Max(), _automaticValueAxes.Values.Max())
-                : Expand((values.Min(), values.Max()));
+                : OmniChartGeometry.Expand((values.Min(), values.Max()));
         }
 
         DomainCalculationCount++;
@@ -762,11 +762,6 @@ internal sealed class OmniChartContext
 
     private static double Ratio(double value, (double Minimum, double Maximum) domain) =>
         Math.Clamp((value - domain.Minimum) / (domain.Maximum - domain.Minimum), 0, 1);
-
-    private static (double Minimum, double Maximum) Expand((double Minimum, double Maximum) domain) =>
-        domain.Minimum.Equals(domain.Maximum)
-            ? (domain.Minimum - 0.5, domain.Maximum + 0.5)
-            : domain;
 
     /// <summary>
     /// Outside the drawing, as an HTML list, when asked (below or above), or, for
