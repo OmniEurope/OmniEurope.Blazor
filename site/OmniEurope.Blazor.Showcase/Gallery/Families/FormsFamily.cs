@@ -54,7 +54,8 @@ internal static class FormsFamily
                 "Forms/VerticalFormExample.razor", "Forms/VerticalFormExample.razor.cs",
                 "Forms/VerticalFormModel.cs",
                 "Forms/VerticalFormChoicesExample.razor", "Forms/VerticalFormChoicesExample.razor.cs",
-                "Forms/VerticalFormChoicesModel.cs"
+                "Forms/VerticalFormChoicesModel.cs",
+                "Selection/UploadSamples.cs"
             ])
     ]);
 }

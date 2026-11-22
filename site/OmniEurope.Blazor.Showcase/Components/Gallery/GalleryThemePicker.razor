@@ -3,9 +3,9 @@
    customizer always agree. *@
 <div class="gallery-theme-picker">
     <OmniDropDown TValue="string" Class="gallery-theme-picker__select" Options="ThemeOptions" Label="@Text["GalleryThemePicker"]"
-                  @bind-Value:get="Theme.Theme.Name" @bind-Value:set="SelectThemeAsync" />
+                  @bind-Value:get="Theme.Theme.Name" @bind-Value:set="Theme.SelectThemeByNameAsync" />
     <OmniDropDown TValue="string" Class="gallery-theme-picker__select" Options="PaletteOptions" Label="@Text["GalleryPalettePicker"]"
-                  @bind-Value:get="Theme.Palette.Name" @bind-Value:set="SelectPaletteAsync" />
+                  @bind-Value:get="Theme.Palette.Name" @bind-Value:set="Theme.SelectPaletteByNameAsync" />
     <OmniButton Variant="OmniButtonVariant.Secondary" Label="@ModeLabel" title="@ModeLabel" Disabled="Theme.Theme.DarkOnly"
                 OnClick="ToggleModeAsync">
         <OmniIcon Name="@(IsDark ? OmniIconName.ThemeLight : OmniIconName.ThemeDark)" />

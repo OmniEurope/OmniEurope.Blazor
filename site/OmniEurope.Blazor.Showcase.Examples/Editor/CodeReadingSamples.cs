@@ -1,3 +1,5 @@
+using OmniEurope.Blazor.Components;
+
 namespace OmniEurope.Blazor.Showcase.Examples.Editor;
 
 /// <summary>The commands, diffs and configurations the code reading examples show.</summary>
@@ -25,4 +27,24 @@ public static class CodeReadingSamples
     /// <param name="changed">Whether the modified command is wanted.</param>
     /// <returns>The command text.</returns>
     public static string Command(bool changed) => changed ? UpdatedCommand : OriginalCommand;
+
+    /// <summary>The tone of the badge that reports the last copy.</summary>
+    /// <param name="lastCopy">Whether the clipboard accepted the last copy, or <c>null</c> before any.</param>
+    /// <returns>Success, danger, or neutral before any copy.</returns>
+    public static OmniTone CopyTone(bool? lastCopy) => lastCopy switch
+    {
+        true => OmniTone.Success,
+        false => OmniTone.Danger,
+        _ => OmniTone.Neutral
+    };
+
+    /// <summary>The text of the badge that reports the last copy.</summary>
+    /// <param name="lastCopy">Whether the clipboard accepted the last copy, or <c>null</c> before any.</param>
+    /// <returns>The outcome in words.</returns>
+    public static string CopyText(bool? lastCopy) => lastCopy switch
+    {
+        true => "accepted by the clipboard",
+        false => "refused by the clipboard",
+        _ => "none"
+    };
 }

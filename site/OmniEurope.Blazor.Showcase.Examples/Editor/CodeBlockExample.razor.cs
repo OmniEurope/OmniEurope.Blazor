@@ -14,19 +14,9 @@ public partial class CodeBlockExample
 
     private string Code => CodeReadingSamples.Command(Changed);
 
-    private OmniTone CopyTone => LastCopy switch
-    {
-        true => OmniTone.Success,
-        false => OmniTone.Danger,
-        _ => OmniTone.Neutral
-    };
+    private OmniTone CopyTone => CodeReadingSamples.CopyTone(LastCopy);
 
-    private string CopyText => LastCopy switch
-    {
-        true => "accepted by the clipboard",
-        false => "refused by the clipboard",
-        _ => "none"
-    };
+    private string CopyText => CodeReadingSamples.CopyText(LastCopy);
 
     /// <summary>OnCopy reports whether the clipboard accepted the text.</summary>
     private void OnCopied(bool accepted) => LastCopy = accepted;

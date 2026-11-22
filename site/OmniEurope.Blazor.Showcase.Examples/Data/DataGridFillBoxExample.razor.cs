@@ -14,14 +14,6 @@ public partial class DataGridFillBoxExample
         new("both", "Top and bottom")
     ];
 
-    private readonly IReadOnlyList<OmniOption<OmniDataGridLines>> _lineOptions =
-    [
-        new(OmniDataGridLines.None, "None"),
-        new(OmniDataGridLines.Horizontal, "Horizontal"),
-        new(OmniDataGridLines.Vertical, "Vertical"),
-        new(OmniDataGridLines.Both, "Both")
-    ];
-
     private string _pager = "none";
 
     private OmniDataGridLines _lines = OmniDataGridLines.Horizontal;

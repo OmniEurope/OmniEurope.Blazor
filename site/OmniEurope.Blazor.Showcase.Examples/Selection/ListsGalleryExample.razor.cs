@@ -47,13 +47,7 @@ public partial class ListsGalleryExample
 
     private IReadOnlyList<string> FrozenExtras { get; set; } = ["receipt", "copy"];
 
-    private IReadOnlyList<OmniOption<string>> ExtraOptions =>
-    [
-        new("receipt", "Acknowledgement of receipt"),
-        new("copy", "Certified copy", Disabled: DisableOption),
-        new("tracking", "Email tracking"),
-        new("insurance", "Insurance")
-    ];
+    private IReadOnlyList<OmniOption<string>> ExtraOptions => DeliveryExtras.Options(DisableOption);
 
     private static string Join<T>(IReadOnlyList<T> values) => values.Count == 0 ? "(none)" : string.Join(", ", values);
 }

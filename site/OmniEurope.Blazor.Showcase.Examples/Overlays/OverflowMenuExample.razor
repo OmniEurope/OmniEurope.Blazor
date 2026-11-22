@@ -5,9 +5,9 @@
    time. *@
 <OmniStack Gap="OmniSpacing.Medium">
     <OmniStack Gap="OmniSpacing.Small">
-        @for (var index = 0; index < Files.Length; index++)
+        @for (var index = 0; index < SingleOpenMenu.Files.Count; index++)
         {
-            var file = Files[index];
+            var file = SingleOpenMenu.Files[index];
             @* A copy per row: the child content renders after the loop, when index is already past the end. *@
             var menuId = $"overflow-menu-{index}";
             <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Justify="OmniJustification.Between">
@@ -20,8 +20,8 @@
                                   MenuLabel="@($"Actions on {file}")"
                                   Size="Size"
                                   Disabled="Disabled"
-                                  Open="@(OpenFile == file)"
-                                  OpenChanged="@(value => OnMenuChanged(file, value))">
+                                  Open="@(Menus.OpenFile == file)"
+                                  OpenChanged="@(value => Menus.OnChanged(file, value))">
                     <OmniMenuItem OnClick="@(() => Choose(file, "Open"))">
                         <Icon><OmniIcon Name="OmniIconName.OpenExternal" /></Icon>
                         <ChildContent>Open</ChildContent>
@@ -54,6 +54,6 @@
     <OmniStack Orientation="OmniOrientation.Horizontal" Align="OmniAlignment.Center" Wrap="true">
         <OmniIcon Name="OmniIconName.Menu" />
         <OmniText>Menu:</OmniText>
-        <OmniBadge Tone="@(OpenFile is null ? OmniTone.Neutral : OmniTone.Accent)">@(OpenFile ?? "closed")</OmniBadge>
+        <OmniBadge Tone="@(Menus.OpenFile is null ? OmniTone.Neutral : OmniTone.Accent)">@(Menus.OpenFile ?? "closed")</OmniBadge>
     </OmniStack>
 </OmniStack>

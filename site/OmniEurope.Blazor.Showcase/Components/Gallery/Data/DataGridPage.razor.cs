@@ -132,15 +132,10 @@ public partial class DataGridPage
         new(OmniLoadingBarMode.Continuous, Text["DataGridLoadingBarContinuous"])
     ];
 
-    private IReadOnlyList<OmniOption<int>> PageSizeChoices =>
-        [.. PageSizes.Select(size => new OmniOption<int>(size, size.ToString(CultureInfo.CurrentCulture)))];
+    private IReadOnlyList<OmniOption<int>> PageSizeChoices => PagerChoices.PageSizes(PageSizes);
 
     private IReadOnlyList<OmniOption<int>> NumericPageChoices =>
-    [
-        .. NumericPageCounts.Select(count => new OmniOption<int>(
-            count,
-            count == 0 ? Text["DataGridNumericPagesNone"] : count.ToString(CultureInfo.CurrentCulture)))
-    ];
+        PagerChoices.NumericPages(NumericPageCounts, Text["DataGridNumericPagesNone"]);
 
     private IReadOnlyList<OmniOption<OmniDataGridPlacement>> PagerPositionOptions =>
     [

@@ -22,17 +22,7 @@ public partial class ButtonsPage
 
     private bool BusyOnClick { get; set; } = true;
 
-    private IReadOnlyList<OmniOption<OmniButtonVariant>> VariantOptions =>
-    [
-        new(OmniButtonVariant.Primary, Text["ButtonsVariantPrimary"]),
-        new(OmniButtonVariant.Secondary, Text["ButtonsVariantSecondary"]),
-        new(OmniButtonVariant.Ghost, Text["ButtonsVariantGhost"]),
-        new(OmniButtonVariant.Success, Text["ButtonsVariantSuccess"]),
-        new(OmniButtonVariant.Warning, Text["ButtonsVariantWarning"]),
-        new(OmniButtonVariant.Info, Text["ButtonsVariantInfo"]),
-        new(OmniButtonVariant.Danger, Text["ButtonsVariantDanger"]),
-        new(OmniButtonVariant.GhostDanger, Text["ButtonsVariantGhostDanger"])
-    ];
+    private IReadOnlyList<OmniOption<OmniButtonVariant>> VariantOptions => ButtonVariantOptions.For(Text);
 
     private IReadOnlyList<OmniOption<OmniControlSize>> SizeOptions =>
     [

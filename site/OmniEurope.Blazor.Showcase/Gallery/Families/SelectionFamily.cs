@@ -20,21 +20,24 @@ internal static class SelectionFamily
                 "Selection/AutocompleteGalleryExample.razor", "Selection/AutocompleteGalleryExample.razor.cs",
                 "Selection/AutocompleteFreeTextExample.razor", "Selection/AutocompleteFreeTextExample.razor.cs",
                 "Selection/AutocompleteReplaceExample.razor", "Selection/AutocompleteReplaceExample.razor.cs",
-                "Selection/AutocompleteCities.cs"
+                "Selection/AutocompleteCities.cs",
+                "Selection/ModelNames.cs"
             ]),
         new("multi-select", "MultiSelectTitle", "MultiSelectDescription", OmniIconName.Tag,
             ["OmniMultiSelect", "OmniListBox"],
             [
                 "Selection/MultiSelectExample.razor", "Selection/MultiSelectExample.razor.cs",
                 "Selection/MultiSelectGalleryExample.razor", "Selection/MultiSelectGalleryExample.razor.cs",
-                "Selection/FieldsDialogExample.razor", "Selection/FieldsDialogExample.razor.cs"
+                "Selection/FieldsDialogExample.razor", "Selection/FieldsDialogExample.razor.cs",
+                "Selection/ModelNames.cs"
             ]),
         new("lists", "ListsTitle", "ListsDescription", OmniIconName.NumberedList,
             ["OmniListBox", "OmniCheckBoxList"],
             [
                 "Selection/ListsExample.razor", "Selection/ListsExample.razor.cs",
                 "Selection/ListsGalleryExample.razor", "Selection/ListsGalleryExample.razor.cs",
-                "Selection/ListsColumnsExample.razor", "Selection/ListsColumnsExample.razor.cs"
+                "Selection/ListsColumnsExample.razor", "Selection/ListsColumnsExample.razor.cs",
+                "Selection/DeliveryExtras.cs"
             ]),
         new("radio-buttons", "RadioButtonsTitle", "RadioButtonsDescription", OmniIconName.CheckCircle,
             ["OmniRadioButtonList", "OmniRating"],
@@ -68,7 +71,8 @@ internal static class SelectionFamily
                 "Selection/DatesGalleryExample.razor", "Selection/DatesGalleryExample.razor.cs",
                 "Selection/DatesTimeExample.razor", "Selection/DatesTimeExample.razor.cs",
                 "Selection/DatesFormExample.razor", "Selection/DatesFormExample.razor.cs",
-                "Selection/DatesDialogExample.razor", "Selection/DatesDialogExample.razor.cs"
+                "Selection/DatesDialogExample.razor", "Selection/DatesDialogExample.razor.cs",
+                "Selection/DateIsoFormat.cs"
             ]),
         new("colors", "ColorsTitle", "ColorsDescription", OmniIconName.Palette,
             ["OmniColorPicker"],
@@ -90,7 +94,8 @@ internal static class SelectionFamily
             [
                 "Selection/UploadExample.razor", "Selection/UploadExample.razor.cs",
                 "Selection/UploadFormExample.razor", "Selection/UploadFormExample.razor.cs",
-                "Selection/UploadEmptyFileExample.razor", "Selection/UploadEmptyFileExample.razor.cs"
+                "Selection/UploadEmptyFileExample.razor", "Selection/UploadEmptyFileExample.razor.cs",
+                "Selection/UploadSamples.cs"
             ])
     ]);
 }

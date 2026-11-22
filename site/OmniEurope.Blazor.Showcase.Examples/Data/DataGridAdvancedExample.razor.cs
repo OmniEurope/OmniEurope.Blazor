@@ -12,14 +12,6 @@ public partial class DataGridAdvancedExample
         OmniDataGridFilterOperator.EndsWith, OmniDataGridFilterOperator.DoesNotContain
     ];
 
-    private readonly IReadOnlyList<OmniOption<OmniDataGridLines>> _lineOptions =
-    [
-        new(OmniDataGridLines.None, "None"),
-        new(OmniDataGridLines.Horizontal, "Horizontal"),
-        new(OmniDataGridLines.Vertical, "Vertical"),
-        new(OmniDataGridLines.Both, "Both")
-    ];
-
     private readonly IReadOnlyList<OmniOption<OmniDensity>> _densityOptions =
     [
         new(OmniDensity.Compact, "Compact"),

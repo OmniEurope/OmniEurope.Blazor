@@ -8,7 +8,7 @@
         <OmniFormField For="grid-lines">
             <LabelContent>Lines</LabelContent>
             <ChildContent>
-                <OmniDropDown TValue="OmniDataGridLines" Id="grid-lines" Options="_lineOptions" @bind-Value="_lines" />
+                <OmniDropDown TValue="OmniDataGridLines" Id="grid-lines" Options="DataGridLineOptions.All" @bind-Value="_lines" />
             </ChildContent>
         </OmniFormField>
         <OmniFormField For="grid-density">

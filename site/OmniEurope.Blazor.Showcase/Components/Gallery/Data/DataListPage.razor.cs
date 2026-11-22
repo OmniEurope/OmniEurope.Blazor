@@ -41,15 +41,10 @@ public partial class DataListPage
         new(DataListSource.Load, Text["DataListSourceLoad"])
     ];
 
-    private IReadOnlyList<OmniOption<int>> PageSizeChoices =>
-        [.. PageSizes.Select(size => new OmniOption<int>(size, size.ToString(CultureInfo.CurrentCulture)))];
+    private IReadOnlyList<OmniOption<int>> PageSizeChoices => PagerChoices.PageSizes(PageSizes);
 
     private IReadOnlyList<OmniOption<int>> NumericPageChoices =>
-    [
-        .. NumericPageCounts.Select(count => new OmniOption<int>(
-            count,
-            count == 0 ? Text["DataListNumericPagesNone"] : count.ToString(CultureInfo.CurrentCulture)))
-    ];
+        PagerChoices.NumericPages(NumericPageCounts, Text["DataListNumericPagesNone"]);
 
     private IReadOnlyList<OmniOption<OmniJustification>> AlignOptions =>
     [
