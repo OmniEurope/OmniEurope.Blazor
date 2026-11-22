@@ -31,11 +31,7 @@ public sealed class PanelMenuGroupTests : OmniBunitContext
 
         var host = Render<PanelMenuGroupTestHost>();
 
-        host.WaitForAssertion(() =>
-        {
-            Assert.Contains(Open, host.Find("#group-inner").ClassName);
-            Assert.Contains(Open, host.Find("#group-outer").ClassName);
-        });
+        WaitUntilBothGroupsOpen(host);
     }
 
     [Fact]
@@ -46,11 +42,7 @@ public sealed class PanelMenuGroupTests : OmniBunitContext
 
         Services.GetRequiredService<NavigationManager>().NavigateTo("/reports/detail");
 
-        host.WaitForAssertion(() =>
-        {
-            Assert.Contains(Open, host.Find("#group-inner").ClassName);
-            Assert.Contains(Open, host.Find("#group-outer").ClassName);
-        });
+        WaitUntilBothGroupsOpen(host);
     }
 
     [Fact]
@@ -139,4 +131,11 @@ public sealed class PanelMenuGroupTests : OmniBunitContext
 
         Assert.EndsWith("/elsewhere", navigation.Uri, StringComparison.Ordinal);
     }
+
+    private static void WaitUntilBothGroupsOpen(IRenderedComponent<PanelMenuGroupTestHost> host) =>
+        host.WaitForAssertion(() =>
+        {
+            Assert.Contains(Open, host.Find("#group-inner").ClassName);
+            Assert.Contains(Open, host.Find("#group-outer").ClassName);
+        });
 }

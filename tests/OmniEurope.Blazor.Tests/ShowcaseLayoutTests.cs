@@ -23,7 +23,7 @@ public sealed class ShowcaseLayoutTests : OmniBunitContext
 
     public ShowcaseLayoutTests()
     {
-        Services.AddScoped(_ => new HttpClient(new StylesheetHandler(Css)) { BaseAddress = new Uri("https://localhost/") });
+        Services.AddScoped(_ => new HttpClient(new StylesheetResponder(Css)) { BaseAddress = new Uri("https://localhost/") });
         Services.AddScoped<ThemeTokenReader>();
         Services.AddScoped<ThemeState>();
         Services.AddScoped<ShowcaseLanguageSwitcher>();
@@ -172,13 +172,5 @@ public sealed class ShowcaseLayoutTests : OmniBunitContext
         });
     }
 
-    private IRenderedComponent<MainLayout> RenderLayout() =>
-        Render<MainLayout>(parameters => parameters.Add(layout => layout.Body, (RenderFragment)(builder => builder.AddMarkupContent(0, "<p id=\"page\">page</p>"))));
-
-    /// <summary>Answers the stylesheet request of the token reader, the one call the layout's first render makes.</summary>
-    private sealed class StylesheetHandler(string css) : HttpMessageHandler
-    {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
-            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(css) });
-    }
+    private IRenderedComponent<MainLayout> RenderLayout() => this.RenderShowcaseLayout();
 }

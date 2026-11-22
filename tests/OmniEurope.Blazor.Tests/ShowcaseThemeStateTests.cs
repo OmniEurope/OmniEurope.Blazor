@@ -38,7 +38,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Initialize_ReadsTheCatalogueAndPushesTheDefaultCombination()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
 
         await state.InitializeAsync(TestContext.Current.CancellationToken);
@@ -60,7 +60,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task ADarkOnlyTheme_IsDrawnDark_AndKeepsTheVisitorsMode()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, appearance) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         await state.SetModeAsync(OmniAppearance.Light, TestContext.Current.CancellationToken);
@@ -85,7 +85,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task EverySetting_IsThePackageStates_AndComesBackOnReload()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var browser = new PreferenceBrowser();
         var (state, appearance) = StateOver(js, browser);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
@@ -120,7 +120,7 @@ public sealed class ShowcaseThemeStateTests
         Assert.Equal(8, js.Calls[^1].Arguments[5]);
         Assert.Equal(2, js.Calls[^1].Arguments[6]);
 
-        var reloadJs = new RecordingJsRuntime();
+        var reloadJs = new ShowcaseThemeJs();
         var (reloaded, _) = StateOver(reloadJs, browser);
         await reloaded.InitializeAsync(TestContext.Current.CancellationToken);
 
@@ -144,7 +144,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Initialize_MovesALookKeptUnderTheFormerEntryIntoThePackageState_Once()
     {
-        var js = new RecordingJsRuntime
+        var js = new ShowcaseThemeJs
         {
             Stored = JsonSerializer.Serialize(new Dictionary<string, string>
             {
@@ -184,7 +184,7 @@ public sealed class ShowcaseThemeStateTests
         Assert.Equal(["--omni-color-accent"], rewritten.Keys);
 
         // The next visit reads the edits alone from the entry and the look from the package preference.
-        var nextJs = new RecordingJsRuntime { Stored = (string)js.Calls[^1].Arguments[4]! };
+        var nextJs = new ShowcaseThemeJs { Stored = (string)js.Calls[^1].Arguments[4]! };
         var (next, _) = StateOver(nextJs, browser);
         await next.InitializeAsync(TestContext.Current.CancellationToken);
         Assert.Equal("Galet", next.Theme.Name);
@@ -196,7 +196,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Initialize_ReadsAnEntryWrittenBeforeThemesAndPalettes()
     {
-        var js = new RecordingJsRuntime
+        var js = new ShowcaseThemeJs
         {
             Stored = JsonSerializer.Serialize(new Dictionary<string, string> { ["--omni-color-accent"] = "#ff0000" })
         };
@@ -211,7 +211,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Initialize_IgnoresNamesTheCatalogueNoLongerHas()
     {
-        var js = new RecordingJsRuntime
+        var js = new ShowcaseThemeJs
         {
             Stored = JsonSerializer.Serialize(new Dictionary<string, string>
             {
@@ -249,7 +249,7 @@ public sealed class ShowcaseThemeStateTests
     [InlineData("Galet", "Défaut", "Galet", "Essentiel")]
     public async Task Initialize_MapsRenamedThemeAndPaletteNames(string storedTheme, string storedPalette, string theme, string palette)
     {
-        var js = new RecordingJsRuntime
+        var js = new ShowcaseThemeJs
         {
             Stored = JsonSerializer.Serialize(new Dictionary<string, string>
             {
@@ -270,7 +270,7 @@ public sealed class ShowcaseThemeStateTests
     [InlineData("null")]
     public async Task Initialize_SurvivesAHalfWrittenEntry(string stored)
     {
-        var js = new RecordingJsRuntime { Stored = stored };
+        var js = new ShowcaseThemeJs { Stored = stored };
         var (state, _) = StateOver(js);
 
         await state.InitializeAsync(TestContext.Current.CancellationToken);
@@ -286,11 +286,11 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task AChangeMadeInAnotherTab_RepaintsThePage()
     {
-        var firstJs = new RecordingJsRuntime();
+        var firstJs = new ShowcaseThemeJs();
         var firstBrowser = new PreferenceBrowser();
         var (first, _) = StateOver(firstJs, firstBrowser);
         await first.InitializeAsync(TestContext.Current.CancellationToken);
-        var secondJs = new RecordingJsRuntime();
+        var secondJs = new ShowcaseThemeJs();
         var secondBrowser = new PreferenceBrowser();
         var (second, _) = StateOver(secondJs, secondBrowser);
         await second.InitializeAsync(TestContext.Current.CancellationToken);
@@ -316,7 +316,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task ABackdropChangedElsewhere_DropsTheEditsOfTheBackdropItLeaves()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, appearance) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         await state.SelectThemeAsync(Theme("Givre"), TestContext.Current.CancellationToken);
@@ -341,7 +341,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task AChangeBeforeInitialization_IsNotPushed()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, appearance) = StateOver(js);
         var announced = 0;
         state.Changed += () => announced++;
@@ -362,7 +362,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task SelectTheme_PaintsItWithItsOwnPalette()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         await state.SelectPaletteAsync(Palette("Mono"), TestContext.Current.CancellationToken);
@@ -381,7 +381,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task SelectPalette_RepaintsTheThemeWithoutReplacingIt()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, appearance) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var galet = Theme("Galet");
@@ -401,7 +401,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task ResetPalette_ReturnsToThePaletteOfTheTheme()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, appearance) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         await state.SelectThemeAsync(Theme("Néon"), TestContext.Current.CancellationToken);
@@ -418,7 +418,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task SelectBackdrop_OfTheThemesOwn_KeepsNoChoice()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, appearance) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         await state.SelectThemeAsync(Theme("Givre"), TestContext.Current.CancellationToken);
@@ -439,7 +439,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Set_KeepsOnlyTheTokensMovedAwayFromTheValueInForce()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
@@ -459,7 +459,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task ChoosingAnotherThemeOrPalette_DropsTheEdits()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
@@ -482,7 +482,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task SetMode_SendsBothHalvesAndTheModeAndKeepsTheEdits()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
@@ -502,7 +502,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task TheFont_IsLaidOverBothHalves_AndTheLevelsAreClamped()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var font = OmniThemeFonts.All[^1];
@@ -520,7 +520,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Reset_DropsTheEditsAndKeepsTheCombination()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         await state.SelectThemeAsync(Theme("Halo"), TestContext.Current.CancellationToken);
@@ -542,7 +542,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Export_OfAThemeWithAForeignPalette_CarriesThePaletteColoursAndTheThemeShape()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var galet = Theme("Galet");
@@ -581,7 +581,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Export_CarriesTheDarkShapeInBothDarkVariantsOnly()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var galet = Theme("Galet");
@@ -613,7 +613,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Export_TargetsTheThemeScopeInLightDarkAndSystem()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
 
@@ -632,7 +632,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Export_WritesTheEditsInBothHalves()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         var accent = state.Tokens.Single(token => token.Name == "--omni-color-accent");
@@ -652,7 +652,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task Export_WritesTheCatalogueTokensFirstThenThoseBeyondIt()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         await state.InitializeAsync(TestContext.Current.CancellationToken);
         await state.SelectThemeAsync(Theme("Galet"), TestContext.Current.CancellationToken);
@@ -669,7 +669,7 @@ public sealed class ShowcaseThemeStateTests
     [Fact]
     public async Task EveryChange_IsAnnouncedToOpenEditors()
     {
-        var js = new RecordingJsRuntime();
+        var js = new ShowcaseThemeJs();
         var (state, _) = StateOver(js);
         var announced = 0;
         state.Changed += () => announced++;
@@ -703,41 +703,6 @@ public sealed class ShowcaseThemeStateTests
         return css[start..end];
     }
 
-    /// <summary>The showcase state over a package appearance state whose preference lives in <paramref name="browser"/>.</summary>
-    private static (ThemeState State, OmniAppearanceState Appearance) StateOver(RecordingJsRuntime js, PreferenceBrowser? browser = null)
-    {
-        var preferences = new OmniPreferences(
-            browser ?? new PreferenceBrowser(),
-            null,
-            new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan },
-            NullLogger<OmniPreferences>.Instance,
-            TimeProvider.System);
-        var appearance = new OmniAppearanceState(preferences, js, NullLogger<OmniAppearanceState>.Instance);
-        var http = new HttpClient(new StubHandler(Css)) { BaseAddress = new Uri("https://localhost/") };
-        return (new ThemeState(new ThemeTokenReader(http), js, appearance), appearance);
-    }
-
-    private sealed class StubHandler(string body) : HttpMessageHandler
-    {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
-            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(body) });
-    }
-
-    private sealed class RecordingJsRuntime : IJSRuntime
-    {
-        public string? Stored { get; set; }
-
-        public List<(string Identifier, object?[] Arguments)> Calls { get; } = [];
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
-        {
-            Calls.Add((identifier, args ?? []));
-            return identifier is "omniShowcaseTheme.load" && Stored is TValue stored
-                ? ValueTask.FromResult(stored)
-                : ValueTask.FromResult<TValue>(default!);
-        }
-    }
+    private static (ThemeState State, OmniAppearanceState Appearance) StateOver(ShowcaseThemeJs js, PreferenceBrowser? browser = null) =>
+        ShowcaseThemeStateSetup.Create(js, Css, browser);
 }

@@ -351,15 +351,9 @@ public sealed class PreferenceUserSwitchConcurrencyTests
     }
 
     /// <summary>One in-memory store per account; the scope is the signed-in user, or <see cref="OmniPreferences.NoUserScope"/>.</summary>
-    private sealed class AccountStore : IOmniPreferenceStore
+    private sealed class AccountStore() : AccountPreferenceStore(null)
     {
-        private readonly ConcurrentDictionary<string, MemoryPreferenceStore> _accounts = new(StringComparer.Ordinal);
-
         private Pause? _pause;
-
-        public volatile string? User;
-
-        public MemoryPreferenceStore Of(string user) => _accounts.GetOrAdd(user, name => new MemoryPreferenceStore { Scope = name });
 
         /// <summary>The next save waits, inside the store, until the test releases it.</summary>
         public Pause PauseNextSave()
@@ -369,25 +363,15 @@ public sealed class PreferenceUserSwitchConcurrencyTests
             return pause;
         }
 
-        private MemoryPreferenceStore Current() =>
-            _accounts.GetOrAdd(User ?? throw new InvalidOperationException("No user is signed in: the store must not be called."), name => new MemoryPreferenceStore { Scope = name });
-
-        public Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default) => Current().GetAsync(key, cancellationToken);
-
-        public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
-            Current().GetChangedSinceAsync(since, cancellationToken);
-
-        public async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
+        public override async Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default)
         {
             if (Interlocked.Exchange(ref _pause, null) is { } pause)
             {
                 await pause.WaitAsync();
             }
 
-            return await Current().SaveAsync(preference, cancellationToken);
+            return await base.SaveAsync(preference, cancellationToken);
         }
-
-        public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => ValueTask.FromResult(User ?? OmniPreferences.NoUserScope);
     }
 
     /// <summary>A call held by the test: it says when it was reached, and waits to be released.</summary>

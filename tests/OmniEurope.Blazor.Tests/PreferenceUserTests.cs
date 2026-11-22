@@ -25,21 +25,8 @@ public sealed class PreferenceUserTests : OmniBunitContext
 
     private OmniPreferences Create()
     {
-        Services.AddSingleton<IJSRuntime>(_browser);
-        Services.AddSingleton<TimeProvider>(new PreferenceClock(Start));
-        Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniPreferences>>(_logger);
-        Services.AddSingleton<IOmniPreferenceStore>(_store);
-        var preferences = Services.GetRequiredService<OmniPreferences>();
-        preferences.Changed += change =>
-        {
-            lock (_changes)
-            {
-                _changes.Add(change);
-            }
-
-            return Task.CompletedTask;
-        };
-        return preferences;
+        Services.AddPreferenceDoubles(_browser, new PreferenceClock(Start), _logger, _store);
+        return Services.GetRequiredService<OmniPreferences>().RecordChangesInto(_changes);
     }
 
     [Fact]

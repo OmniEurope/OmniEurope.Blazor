@@ -77,16 +77,4 @@ public sealed class TimelineLayoutTests : OmniBunitContext
         Assert.True(css.IndexOf(".omni-timeline--first-start .omni-timeline__item:nth-child(odd) .omni-timeline__content", StringComparison.Ordinal) > query);
         Assert.True(css.IndexOf(".omni-timeline--first-end .omni-timeline__item:nth-child(even) .omni-timeline__content", StringComparison.Ordinal) > query);
     }
-
-    private static string RepositoryRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        Assert.NotNull(directory);
-        return directory.FullName;
-    }
 }

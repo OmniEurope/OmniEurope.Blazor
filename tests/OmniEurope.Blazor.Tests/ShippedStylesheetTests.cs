@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class ShippedStylesheetTests
 {
-    private static readonly string Root = RepositoryRoot();
+    private static readonly string Root = ShippedLookTests.RepositoryRoot();
 
     [Fact]
     public void ShippedStylesheet_DiffersFromTheSourceOnlyByCommentsAndMeaninglessWhitespace()
@@ -97,16 +97,5 @@ public sealed class ShippedStylesheetTests
         var path = Path.Combine(root, relativePath);
         Assert.True(File.Exists(path), $"The build did not produce the stylesheet at {path}.");
         return File.ReadAllText(path);
-    }
-
-    private static string RepositoryRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        return directory?.FullName ?? throw new InvalidOperationException("Repository root not found.");
     }
 }

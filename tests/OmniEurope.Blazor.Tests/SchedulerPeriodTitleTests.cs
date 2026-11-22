@@ -9,10 +9,7 @@ public sealed class SchedulerPeriodTitleTests : OmniBunitContext
 {
     private IRenderedComponent<OmniScheduler> RenderScheduler(DateTimeOffset date, OmniCalendarView view, string culture, bool show = true) =>
         Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, date)
-            .Add(component => component.View, view)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Culture, CultureInfo.GetCultureInfo(culture))
+            .InUtc(date, view, CultureInfo.GetCultureInfo(culture))
             .Add(component => component.ShowPeriodTitle, show));
 
     private static DateTimeOffset On(int year, int month, int day) => new(year, month, day, 12, 0, 0, TimeSpan.Zero);
@@ -55,10 +52,7 @@ public sealed class SchedulerPeriodTitleTests : OmniBunitContext
 
     private IRenderedComponent<OmniScheduler> RenderWeek(DateTimeOffset date, CultureInfo culture) =>
         Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, date)
-            .Add(component => component.View, OmniCalendarView.Week)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Culture, culture)
+            .InUtc(date, OmniCalendarView.Week, culture)
             .Add(component => component.ShowPeriodTitle, true));
 
     [Fact]

@@ -26,7 +26,7 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
 
     public ShowcaseAppearanceWindowTests()
     {
-        Services.AddScoped(_ => new HttpClient(new StylesheetHandler()) { BaseAddress = new Uri("https://localhost/") });
+        Services.AddScoped(_ => new HttpClient(new StylesheetResponder(Css)) { BaseAddress = new Uri("https://localhost/") });
         Services.AddScoped<ThemeTokenReader>();
         Services.AddScoped<ThemeState>();
         Services.AddScoped<ShowcaseLanguageSwitcher>();
@@ -35,7 +35,7 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
     [Fact]
     public async Task TheFourSettings_AreStored_AndReplayedByTheNextVisit()
     {
-        var js = new StoreJs();
+        var js = new ShowcaseThemeJs();
         var browser = new PreferenceBrowser();
         var state = StateOver(js, browser);
         await state.InitializeAsync(Xunit.TestContext.Current.CancellationToken);
@@ -55,7 +55,7 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
         Assert.Contains(browser.Storage.Values, entry => entry.Contains(font.Name, StringComparison.Ordinal));
         Assert.Equal(font.Family, state.Painted.Light["--omni-font-family"]);
 
-        var next = StateOver(new StoreJs { Stored = serialized }, browser);
+        var next = StateOver(new ShowcaseThemeJs { Stored = serialized }, browser);
         await next.InitializeAsync(Xunit.TestContext.Current.CancellationToken);
         Assert.Equal(font, next.Font);
         Assert.Equal(8, next.TextSizeLevel);
@@ -70,7 +70,7 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
     [InlineData("{ not json")]
     public async Task GarbageInTheStore_FallsBackToTheDefaults(string stored)
     {
-        var state = StateOver(new StoreJs { Stored = stored });
+        var state = StateOver(new ShowcaseThemeJs { Stored = stored });
 
         await state.InitializeAsync(Xunit.TestContext.Current.CancellationToken);
 
@@ -83,7 +83,7 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
     [Fact]
     public async Task SettingTheDefaultsAgain_RestoresThem_AndALevelOutOfRangeIsClamped()
     {
-        var js = new StoreJs();
+        var js = new ShowcaseThemeJs();
         var state = StateOver(js);
         await state.InitializeAsync(Xunit.TestContext.Current.CancellationToken);
         await state.SetFontAsync(OmniThemeFonts.All[0], Xunit.TestContext.Current.CancellationToken);
@@ -130,40 +130,5 @@ public sealed class ShowcaseAppearanceWindowTests : OmniBunitContext
         layout.WaitForAssertion(() => Assert.DoesNotContain("omni-main--wide", layout.Find("main.omni-main").ClassName, StringComparison.Ordinal));
     }
 
-    /// <summary>The showcase state over a package appearance state whose preference lives in <paramref name="browser"/>.</summary>
-    private static ThemeState StateOver(StoreJs js, PreferenceBrowser? browser = null)
-    {
-        var preferences = new OmniPreferences(
-            browser ?? new PreferenceBrowser(),
-            null,
-            new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan },
-            NullLogger<OmniPreferences>.Instance,
-            TimeProvider.System);
-        var appearance = new OmniAppearanceState(preferences, js, NullLogger<OmniAppearanceState>.Instance);
-        return new(new ThemeTokenReader(new HttpClient(new StylesheetHandler()) { BaseAddress = new Uri("https://localhost/") }), js, appearance);
-    }
-
-    private sealed class StylesheetHandler : HttpMessageHandler
-    {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
-            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(Css) });
-    }
-
-    private sealed class StoreJs : IJSRuntime
-    {
-        public string? Stored { get; set; }
-
-        public List<(string Identifier, object?[] Arguments)> Calls { get; } = [];
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
-        {
-            Calls.Add((identifier, args ?? []));
-            return identifier is "omniShowcaseTheme.load" && Stored is TValue stored
-                ? ValueTask.FromResult(stored)
-                : ValueTask.FromResult<TValue>(default!);
-        }
-    }
+    private static ThemeState StateOver(ShowcaseThemeJs js, PreferenceBrowser? browser = null) => ShowcaseThemeStateSetup.Create(js, Css, browser).State;
 }

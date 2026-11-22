@@ -1,4 +1,3 @@
-using System.Globalization;
 using AngleSharp.Dom;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,14 +19,7 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
         Action<OmniSchedulerAppointmentMove>? onMove = null) =>
         Render<OmniScheduler>(parameters =>
         {
-            parameters
-                .Add(component => component.Date, Monday)
-                .Add(component => component.View, OmniCalendarView.Week)
-                .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-                .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
-                .Add(component => component.DayStart, new TimeOnly(8, 0))
-                .Add(component => component.DayEnd, new TimeOnly(12, 0))
-                .Add(component => component.Items, items);
+            parameters.MorningWeek(items);
             if (orientation is { } value)
             {
                 parameters.Add(component => component.Orientation, value);
@@ -242,10 +234,5 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
         Assert.Equal("date", rows[1].QuerySelector("th")!.GetAttribute("aria-current"));
         Assert.Contains("omni-scheduler-grid__day--today", rows[1].QuerySelector("th")!.ClassList);
         Assert.Equal([1], rows.Select((row, index) => (row, index)).Where(item => item.row.QuerySelector("th")!.HasAttribute("aria-current")).Select(item => item.index));
-    }
-
-    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
-    {
-        public override DateTimeOffset GetUtcNow() => value;
     }
 }

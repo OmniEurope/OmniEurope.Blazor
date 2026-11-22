@@ -106,9 +106,4 @@ public sealed class StepTimelineComponentTests : OmniBunitContext
 
     /// <summary>Registers a component clock reading <paramref name="now"/>, where a running step ends.</summary>
     private void UseNow(DateTimeOffset now) => Services.AddSingleton<TimeProvider>(new FixedTimeProvider(now));
-
-    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
-    {
-        public override DateTimeOffset GetUtcNow() => value;
-    }
 }

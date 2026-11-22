@@ -32,15 +32,7 @@ public sealed class PreferenceVisitorMergeTests
             logger ?? NullLogger<OmniPreferences>.Instance, _time);
         if (changes is not null)
         {
-            preferences.Changed += change =>
-            {
-                lock (changes)
-                {
-                    changes.Add(change);
-                }
-
-                return Task.CompletedTask;
-            };
+            preferences.RecordChangesInto(changes);
         }
 
         return preferences;
@@ -227,34 +219,18 @@ public sealed class PreferenceVisitorMergeTests
         Assert.Equal(1, _browser.Imports);
     }
 
-    /// <summary>A store per account; no user answers <see cref="OmniPreferences.NoUserScope"/> and any call made then fails the test.</summary>
-    private sealed class AccountStore : IOmniPreferenceStore
+    /// <summary>A store per account that tells the test when a read of it answered.</summary>
+    private sealed class AccountStore() : AccountPreferenceStore("anne")
     {
-        private readonly ConcurrentDictionary<string, MemoryPreferenceStore> _accounts = new(StringComparer.Ordinal);
-
-        public string? User { get; set; } = "anne";
-
         /// <summary>Run after a read of the store answered, with the key read.</summary>
         public Action<string>? AfterGet { get; set; }
 
-        public MemoryPreferenceStore Of(string user) => _accounts.GetOrAdd(user, name => new MemoryPreferenceStore { Scope = name });
-
-        private MemoryPreferenceStore Current() =>
-            Of(User ?? throw new InvalidOperationException("No user is signed in: the store must not be called."));
-
-        public async Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default)
+        public override async Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default)
         {
-            var found = await Current().GetAsync(key, cancellationToken);
+            var found = await base.GetAsync(key, cancellationToken);
             AfterGet?.Invoke(key);
             return found;
         }
-
-        public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
-            Current().GetChangedSinceAsync(since, cancellationToken);
-
-        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Current().SaveAsync(preference, cancellationToken);
-
-        public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => ValueTask.FromResult(User ?? OmniPreferences.NoUserScope);
     }
 
     /// <summary>A store over a scoped context that is already disposed when the synchronization lists its changes.</summary>

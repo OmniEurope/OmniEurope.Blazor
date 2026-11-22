@@ -191,8 +191,7 @@ public sealed class PickerTests : OmniBunitContext
         Assert.Equal(new DateOnly(2026, 9, 24), host.Instance.Model.Date);
         Assert.Equal("24/09/2026", host.Find("#date").GetAttribute("value"));
         Assert.Empty(host.FindAll("[role='dialog']"));
-        host.WaitForAssertion(() => Assert.Single(_module.Invocations["detachPicker"]));
-        Assert.Equal(true, _module.Invocations["detachPicker"][0].Arguments[1]);
+        AssertDetachedGivingFocusBack(host);
     }
 
     [Fact]
@@ -371,8 +370,7 @@ public sealed class PickerTests : OmniBunitContext
 
         host.FindAll(".omni-calendar__foot button")[1].Click();
         Assert.Empty(host.FindAll("[role='dialog']"));
-        host.WaitForAssertion(() => Assert.Single(_module.Invocations["detachPicker"]));
-        Assert.Equal(true, _module.Invocations["detachPicker"][0].Arguments[1]);
+        AssertDetachedGivingFocusBack(host);
     }
 
     [Theory]
@@ -611,8 +609,7 @@ public sealed class PickerTests : OmniBunitContext
 
         Assert.Empty(host.FindAll(".omni-calendar"));
         Assert.Equal("false", host.Find($"#{id} ~ .omni-date__toggle").GetAttribute("aria-expanded"));
-        host.WaitForAssertion(() => Assert.Single(_module.Invocations["detachPicker"]));
-        Assert.Equal(true, _module.Invocations["detachPicker"][0].Arguments[1]);
+        AssertDetachedGivingFocusBack(host);
         Assert.True(host.Instance.Open);
         Assert.Single(host.FindAll(".omni-dialog"));
     }
@@ -621,19 +618,17 @@ public sealed class PickerTests : OmniBunitContext
 
     private IRenderedComponent<PickerTestHost> RenderHost(
         Action<PickerTestHost.PickerTestModel>? arrange = null,
-        Action<ComponentParameterCollectionBuilder<PickerTestHost>>? parameters = null)
-    {
-        var model = new PickerTestHost.PickerTestModel();
-        arrange?.Invoke(model);
-        return Render<PickerTestHost>(builder =>
-        {
-            builder.Add(component => component.Model, model);
-            parameters?.Invoke(builder);
-        });
-    }
+        Action<ComponentParameterCollectionBuilder<PickerTestHost>>? parameters = null) => this.RenderPickerHost(arrange, parameters);
 
-    private static IElement Toggle(IRenderedComponent<PickerTestHost> host, string id) =>
-        host.Find($"#{id} ~ .omni-date__toggle");
+    private static IElement Toggle(IRenderedComponent<PickerTestHost> host, string id) => host.PickerToggle(id);
+
+    /// <summary>The panel was detached once, asking the script to give the focus back to the toggle.</summary>
+    private void AssertDetachedGivingFocusBack<THost>(IRenderedComponent<THost> host)
+        where THost : Microsoft.AspNetCore.Components.IComponent
+    {
+        host.WaitForAssertion(() => Assert.Single(_module.Invocations["detachPicker"]));
+        Assert.Equal(true, _module.Invocations["detachPicker"][0].Arguments[1]);
+    }
 
     private static IElement Day(IRenderedComponent<PickerTestHost> host, string date) =>
         host.Find($".omni-calendar__day[data-date='{date}']");
