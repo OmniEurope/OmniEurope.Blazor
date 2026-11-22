@@ -1,0 +1,30 @@
+@page "/components/back-to-top"
+@using OmniEurope.Blazor.Showcase.Examples.Navigation
+
+<GalleryPageFrame Slug="back-to-top">
+    <Settings>
+        <OmniSettingsSection Title="@Text["BackToTopSettingsTitle"]" Description="@Text["BackToTopSettingsDescription"]">
+            <OmniSettingsTile Title="@Text["BackToTopLowThreshold"]" Description="@Text["BackToTopLowThresholdDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.ArrowLineUp" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="LowThreshold" aria-label="@Text["BackToTopLowThreshold"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+
+            <OmniSettingsTile Title="@Text["BackToTopCustomLabel"]" Description="@Text["BackToTopCustomLabelDescription"]">
+                <Icon><OmniIcon Name="OmniIconName.Edit" /></Icon>
+                <ChildContent>
+                    <OmniSwitch @bind-Value="CustomLabel" aria-label="@Text["BackToTopCustomLabel"]" />
+                </ChildContent>
+            </OmniSettingsTile>
+        </OmniSettingsSection>
+    </Settings>
+    <Preview>
+        <OmniCard Class="gallery-preview">
+            <HeaderContent>@Text["BackToTopPreviewTitle"]</HeaderContent>
+            <ChildContent>
+                <BackToTopExample Threshold="@(LowThreshold ? 100 : 400)" Label="@(CustomLabel ? Text["BackToTopCustomLabelValue"].Value : null)" />
+            </ChildContent>
+        </OmniCard>
+    </Preview>
+</GalleryPageFrame>

@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Alejar</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© colaboradores de OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Las flechas mueven el mapa, + y - hacen zoom.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Volver arriba</value></data>
 </root>

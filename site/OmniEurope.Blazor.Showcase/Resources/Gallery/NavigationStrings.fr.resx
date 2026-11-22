@@ -99,4 +99,14 @@
   <data name="SiteSearchGroupedDescription" xml:space="preserve"><value>Group : l’intitulé sous lequel chaque page est listée (une section, une famille).</value></data>
   <data name="SiteSearchIcons" xml:space="preserve"><value>Icônes</value></data>
   <data name="SiteSearchIconsDescription" xml:space="preserve"><value>Icon : un pictogramme devant le nom de chaque page.</value></data>
+  <data name="BackToTopTitle" xml:space="preserve"><value>Retour en haut</value></data>
+  <data name="BackToTopDescription" xml:space="preserve"><value>Un bouton fixé dans le coin de fin de la fenêtre : il apparaît quand le contenu a défilé au-delà d’un seuil et le ramène en haut, en douceur ou d’un coup quand le mouvement est réduit, puis place le focus au début du contenu. Par défaut, il suit la zone principale qui défile de la mise en page OE, sinon le document.</value></data>
+  <data name="BackToTopPreviewTitle" xml:space="preserve"><value>Un long article</value></data>
+  <data name="BackToTopSettingsTitle" xml:space="preserve"><value>Bouton</value></data>
+  <data name="BackToTopSettingsDescription" xml:space="preserve"><value>Quand le bouton apparaît et comment il s’appelle.</value></data>
+  <data name="BackToTopLowThreshold" xml:space="preserve"><value>Seuil bas</value></data>
+  <data name="BackToTopLowThresholdDescription" xml:space="preserve"><value>Threshold : 100 px au lieu des 400 px de défilement par défaut avant que le bouton apparaisse.</value></data>
+  <data name="BackToTopCustomLabel" xml:space="preserve"><value>Libellé propre</value></data>
+  <data name="BackToTopCustomLabelDescription" xml:space="preserve"><value>Label : le nom du bouton et de son infobulle, au lieu du texte localisé.</value></data>
+  <data name="BackToTopCustomLabelValue" xml:space="preserve"><value>Revenir au début de l’article</value></data>
 </root>

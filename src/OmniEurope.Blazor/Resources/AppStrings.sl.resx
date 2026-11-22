@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Pomanjšaj</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© sodelavci OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Puščice premikajo zemljevid, + in - spreminjata povečavo.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Nazaj na vrh</value></data>
 </root>

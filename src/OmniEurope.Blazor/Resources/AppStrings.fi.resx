@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Loitonna</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMapin tekijät</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Nuolinäppäimet siirtävät karttaa, + lähentää ja - loitontaa.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Takaisin ylös</value></data>
 </root>

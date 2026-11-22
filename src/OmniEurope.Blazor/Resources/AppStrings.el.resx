@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Σμίκρυνση</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© συντελεστές του OpenStreetMap</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Τα βέλη μετακινούν τον χάρτη, τα + και - αλλάζουν το ζουμ.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Επιστροφή στην αρχή</value></data>
 </root>

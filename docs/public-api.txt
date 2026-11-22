@@ -11,6 +11,7 @@ component OmniEurope.Blazor.Components.OmniArcGaugeScaleValue
 component OmniEurope.Blazor.Components.OmniAreaSeries
 component OmniEurope.Blazor.Components.OmniAutocomplete<TValue>
 component OmniEurope.Blazor.Components.OmniAxisTitle
+component OmniEurope.Blazor.Components.OmniBackToTop
 component OmniEurope.Blazor.Components.OmniBadge
 component OmniEurope.Blazor.Components.OmniBody
 component OmniEurope.Blazor.Components.OmniBootSplash
@@ -193,6 +194,7 @@ ctor public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue()
 ctor public OmniEurope.Blazor.Components.OmniAreaSeries()
 ctor public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>()
 ctor public OmniEurope.Blazor.Components.OmniAxisTitle()
+ctor public OmniEurope.Blazor.Components.OmniBackToTop()
 ctor public OmniEurope.Blazor.Components.OmniBadge()
 ctor public OmniEurope.Blazor.Components.OmniBody()
 ctor public OmniEurope.Blazor.Components.OmniBootSplash()
@@ -1148,6 +1150,9 @@ method protected override OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.
 method protected override OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.TryParseValueFromString(System.String? value, out TValue result, out System.String validationErrorMessage) : System.Boolean
 method protected override OmniEurope.Blazor.Components.OmniAxisTitle.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniBackToTop.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
+method protected override OmniEurope.Blazor.Components.OmniBackToTop.OnAfterRenderAsync(System.Boolean firstRender) : System.Threading.Tasks.Task
+method protected override OmniEurope.Blazor.Components.OmniBackToTop.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniBadge.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
 method protected override OmniEurope.Blazor.Components.OmniBadge.OnParametersSet() : System.Void
 method protected override OmniEurope.Blazor.Components.OmniBody.BuildRenderTree(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder __builder) : System.Void
@@ -1537,6 +1542,7 @@ method public OmniEurope.Blazor.Components.OmniAppearanceWindow.Dispose() : Syst
 method public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniAreaSeries.Dispose() : System.Void
 method public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.DisposeAsync() : System.Threading.Tasks.ValueTask
+method public OmniEurope.Blazor.Components.OmniBackToTop.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniBootSplash.DisposeAsync() : System.Threading.Tasks.ValueTask
 method public OmniEurope.Blazor.Components.OmniBreadcrumbEntry.<Clone>$() : OmniEurope.Blazor.Components.OmniBreadcrumbEntry
 method public OmniEurope.Blazor.Components.OmniBreadcrumbEntry.Deconstruct(out System.String Text, out System.String? Href, out System.Boolean Loading) : System.Void
@@ -2742,6 +2748,9 @@ property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.SearchErro
 property public OmniEurope.Blazor.Components.OmniAutocomplete<TValue>.ShowToggle : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAxisTitle.Orientation : OmniEurope.Blazor.Components.OmniOrientation {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAxisTitle.Text : System.String {get(public);set(public)} [Parameter, EditorRequired]
+property public OmniEurope.Blazor.Components.OmniBackToTop.Label : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniBackToTop.TargetId : System.String? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniBackToTop.Threshold : System.Int32 {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Fill : OmniEurope.Blazor.Components.OmniFill {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniBadge.Href : System.String? {get(public);set(public)} [Parameter]
@@ -4669,6 +4678,7 @@ type public OmniEurope.Blazor.Components.OmniArcGaugeScaleValue [class] : Micros
 type public OmniEurope.Blazor.Components.OmniAreaSeries [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniAutocomplete<TValue> [class] : OmniEurope.Blazor.Components.OmniInputBase<TValue>, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable, System.IDisposable
 type public OmniEurope.Blazor.Components.OmniAxisTitle [class] : Microsoft.AspNetCore.Components.ComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
+type public OmniEurope.Blazor.Components.OmniBackToTop [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent, System.IAsyncDisposable
 type public OmniEurope.Blazor.Components.OmniBadge [class] : OmniEurope.Blazor.Components.OmniComponentBase, Microsoft.AspNetCore.Components.IComponent, Microsoft.AspNetCore.Components.IHandleAfterRender, Microsoft.AspNetCore.Components.IHandleEvent
 type public OmniEurope.Blazor.Components.OmniBadgeInk [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32
 type public OmniEurope.Blazor.Components.OmniBadgeShape [enum, sealed] : System.IComparable, System.IConvertible, System.IFormattable, System.ISpanFormattable, System.Int32

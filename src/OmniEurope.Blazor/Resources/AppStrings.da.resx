@@ -866,4 +866,5 @@
   <data name="MapZoomOut" xml:space="preserve"><value>Zoom ud</value></data>
   <data name="MapAttributionOsm" xml:space="preserve"><value>© OpenStreetMap-bidragydere</value></data>
   <data name="MapKeyboardHelp" xml:space="preserve"><value>Piletasterne flytter kortet, + og - zoomer.</value></data>
+  <data name="BackToTopLabel" xml:space="preserve"><value>Tilbage til toppen</value></data>
 </root>

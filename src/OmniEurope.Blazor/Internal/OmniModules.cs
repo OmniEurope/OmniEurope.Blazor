@@ -15,6 +15,9 @@ internal static class OmniModules
     /// <summary>The text size and the size of the controls, laid on the document root.</summary>
     internal const string Appearance = Root + "omni-appearance.js";
 
+    /// <summary>The back-to-top button: shown past a scroll threshold of the content, which it brings back to its top.</summary>
+    internal const string BackToTop = Root + "omni-back-to-top.js";
+
     /// <summary>The code editor and the diff viewer.</summary>
     internal const string CodeEditor = Root + "omni-code-editor.js";
 
