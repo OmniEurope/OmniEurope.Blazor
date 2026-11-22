@@ -87,6 +87,14 @@ try {
         throw "Le collecteur CSP n'est pas vert : $($status.Content)"
     }
 
+    # A browser posts its CSP reports without any antiforgery token: the collector must reach its own checks
+    # (media type, size cap) and never answer the antiforgery 400. Neither request below is recorded.
+    $oversized = '{"csp-report":{"blocked-uri":"' + ('a' * (16 * 1024)) + '"}}'
+    $tooLarge = Invoke-WebRequest -UseBasicParsing -Method Post -Uri "$baseUri/csp-report" -ContentType 'application/csp-report' -Body $oversized -SkipHttpErrorCheck -TimeoutSec $RequestTimeoutSeconds
+    if ($tooLarge.StatusCode -ne 413) { throw "Le collecteur CSP ne refuse pas un rapport trop gros sans jeton par 413 : $($tooLarge.StatusCode)" }
+    $wrongType = Invoke-WebRequest -UseBasicParsing -Method Post -Uri "$baseUri/csp-report" -ContentType 'text/plain' -Body 'x' -SkipHttpErrorCheck -TimeoutSec $RequestTimeoutSeconds
+    if ($wrongType.StatusCode -ne 415) { throw "Le collecteur CSP ne refuse pas un type de contenu inconnu par 415 : $($wrongType.StatusCode)" }
+
     foreach ($path in @(
         '/_framework/blazor.web.js',
         '/_content/OmniEurope.Blazor/omnieurope.blazor.css',

@@ -58,8 +58,9 @@ app.MapPost("/csp-report", async (HttpRequest request, CspViolationStore store) 
 
     store.Add(report);
     return Results.NoContent();
-// nosemgrep - browsers post CSP reports without any token; the endpoint is anonymous, size-capped and only counts violations.
-}).DisableAntiforgery();
+});
+// Browsers post CSP reports without any token. The handler binds no form, so the antiforgery middleware does
+// not validate it; a cross-site form cannot send the accepted JSON media types without a CORS preflight.
 app.MapGet("/csp-status", (CspViolationStore store) => store.Count == 0
     ? Results.Ok(new { status = "pass", violations = 0 })
     : Results.Json(new { status = "fail", violations = store.Count }, statusCode: 500));

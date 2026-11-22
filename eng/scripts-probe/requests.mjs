@@ -708,16 +708,16 @@ export async function requestSteps(session, results) {
     check(same >= 3, `La grille ${gridId} ne se stabilise pas dans une boîte de ${width} px : ${last}`);
     return JSON.parse(last);
   };
-  const sizing = {};
+  const sizing = new Map();
   for (const width of [1300, 900, 600]) {
-    sizing[width] = await sizeBox('demo-grid-sizing', width);
-    const state = sizing[width];
+    const state = await sizeBox('demo-grid-sizing', width);
+    sizing.set(width, state);
     check(state.problems.length === 0, `Colonnes au contenu dans une boîte de ${width} px : ${state.problems.join(' | ')}`);
     // Status is the second column: its width is at most the wider of its badge cell and its header.
     check(state.widths[1] <= Math.max(state.badge, state.headers[1]) + 3, `La colonne État fait ${state.widths[1]} px dans une boîte de ${width} px, plus que son contenu (pastille ${state.badge.toFixed(1)}, en-tête ${state.headers[1].toFixed(1)}).`);
   }
-  const wide = sizing[1300];
-  const narrow = sizing[600];
+  const wide = sizing.get(1300);
+  const narrow = sizing.get(600);
   check(wide.scroll <= wide.client + 1, `La grille défile de côté dans une boîte de 1300 px : ${wide.scroll} > ${wide.client}.`);
   check(Math.abs(wide.widths.reduce((sum, item) => sum + item, 0) - wide.client) <= 2, `Les colonnes ne se partagent pas la largeur de 1300 px : ${wide.widths.join(' + ')} pour ${wide.client}.`);
   check(narrow.scroll > narrow.client + 1, `La grille ne défile pas de côté dans une boîte de 600 px : ${narrow.scroll} contre ${narrow.client}.`);
