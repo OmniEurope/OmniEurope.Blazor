@@ -471,15 +471,5 @@ public sealed class ChartLayoutTests : OmniBunitContext
     private static double Number(AngleSharp.Dom.IElement element, string attribute) =>
         double.Parse(element.GetAttribute(attribute)!, CultureInfo.InvariantCulture);
 
-    private static string RepositoryRoot()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        Assert.NotNull(directory);
-        return directory.FullName;
-    }
+    private static string RepositoryRoot() => RepositoryRootLocator.Find();
 }

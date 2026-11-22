@@ -138,15 +138,5 @@ public sealed class ShowcaseVariantCoverageTests
                 .Where(path => Path.GetRelativePath(examples, path).Split(Path.DirectorySeparatorChar)[0] is not ("bin" or "obj")));
     }
 
-    private static string Root()
-    {
-        var directory = new DirectoryInfo(AppContext.BaseDirectory);
-        while (directory is not null && !File.Exists(Path.Combine(directory.FullName, "OmniEurope.Blazor.slnx")))
-        {
-            directory = directory.Parent;
-        }
-
-        Assert.NotNull(directory);
-        return directory.FullName;
-    }
+    private static string Root() => RepositoryRootLocator.Find();
 }

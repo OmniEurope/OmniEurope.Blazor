@@ -2,6 +2,7 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using OmniEurope.Blazor.Components;
+using static OmniEurope.Blazor.Tests.ChartRenderTreeHelpers;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -12,20 +13,6 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class ChartComponentEdgeTests : OmniBunitContext
 {
-    private static OmniChartPoint[] Points(params double[] values) => [.. values.Select((value, index) => new OmniChartPoint(index, value))];
-
-    private static void Child<TComponent>(RenderTreeBuilder builder, int sequence, params (string Name, object? Value)[] parameters)
-        where TComponent : IComponent
-    {
-        builder.OpenComponent<TComponent>(sequence);
-        for (var index = 0; index < parameters.Length; index++)
-        {
-            builder.AddComponentParameter(sequence + index + 1, parameters[index].Name, parameters[index].Value);
-        }
-
-        builder.CloseComponent();
-    }
-
     [Fact]
     public void AxisTitle_OutsideAChart_SitsOnTheDefaultPlot()
     {
