@@ -17,6 +17,8 @@ namespace OmniEurope.Blazor.Internal;
 /// </remarks>
 internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> blocks, MailTemplateText text)
 {
+    private static readonly string[] SafeSchemes = ["http", "https", "mailto"];
+
     /// <summary>Marks an element the blocks drew with its look already written, which the inlining leaves as it is.</summary>
     internal const string Own = "data-omni-mail-own";
 
@@ -30,6 +32,9 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
 
     private readonly List<(IElement Placeholder, IElement? Container)> _placeholders = [];
     private readonly List<(IElement Container, string Kind, string? Argument)> _markers = [];
+
+    internal static bool IsSafeAddress(string address) =>
+        Uri.TryCreate(address, UriKind.Absolute, out var uri) && SafeSchemes.Contains(uri.Scheme, StringComparer.OrdinalIgnoreCase);
 
     /// <summary>The names of the variables a template uses, block variables and button addresses included, each once, in order.</summary>
     internal static IReadOnlyList<string> Names(string? template)
@@ -197,7 +202,7 @@ internal sealed partial class MailBlocks(IReadOnlyDictionary<string, string?> bl
             ("align", "center"), ("bgcolor", theme.Accent));
         var face = $"display:inline-block;padding:12px 24px;font-family:{theme.FontFamily};font-size:16px;font-weight:700;"
             + $"line-height:1.25;color:{theme.OnAccent};text-decoration:none;border:1px solid {theme.Accent};border-radius:{theme.Radius}";
-        var link = address is not null && MailDocument.IsSafeAddress(address)
+        var link = address is not null && IsSafeAddress(address)
             ? Element(owner, "a", lookAttribute, face, ("href", address), ("target", "_blank"), ("rel", "noopener noreferrer"))
             : Element(owner, "span", lookAttribute, face);
         link.TextContent = label;

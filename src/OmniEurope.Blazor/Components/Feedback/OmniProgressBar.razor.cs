@@ -94,8 +94,6 @@ public partial class OmniProgressBar
     private static int Bucket(double percentage) =>
         Math.Clamp((int)(Math.Round(percentage / 5, MidpointRounding.AwayFromZero) * 5), 0, 100);
 
-    private static string Number(double value, CultureInfo culture) => value.ToString("0.##", culture);
-
     /// <summary>
     /// Refuses a <see cref="Maximum"/> that is not positive, values that are not finite, and a segment that is
     /// missing, not finite or without a label.
@@ -146,5 +144,7 @@ public partial class OmniProgressBar
         public string OffsetText => StartPercent > 0 ? "-" + Number(StartPercent, CultureInfo.InvariantCulture) : "0";
 
         public string LengthText => Number(LengthPercent, CultureInfo.InvariantCulture);
+
+        private static string Number(double value, CultureInfo culture) => value.ToString("0.##", culture);
     }
 }

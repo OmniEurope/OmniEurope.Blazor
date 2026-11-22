@@ -14,12 +14,10 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public static partial class OmniUnifiedDiffParser
 {
-    private const string DevNull = "/dev/null";
-
     /// <summary>The files of <paramref name="diff"/>, in order; none for an empty text.</summary>
     public static IReadOnlyList<OmniDiffFile> Parse(string? diff)
     {
-        var reader = new DiffReader();
+        var reader = new DiffReader(HunkHeader());
         if (string.IsNullOrEmpty(diff))
         {
             return reader.Files;
@@ -34,9 +32,14 @@ public static partial class OmniUnifiedDiffParser
         return reader.Files;
     }
 
+    [GeneratedRegex("^@@ -(\\d+)(?:,(\\d+))? \\+(\\d+)(?:,(\\d+))? @@", RegexOptions.CultureInvariant)]
+    private static partial Regex HunkHeader();
+
     /// <summary>The reading state of one diff: the file and the hunk being filled, and the lines each side of the hunk still owes.</summary>
-    private sealed class DiffReader
+    private sealed class DiffReader(Regex hunkHeader)
     {
+        private const string DevNull = "/dev/null";
+
         private FileBuilder? _file;
         private HunkBuilder? _hunk;
         private int _oldLeft;
@@ -64,7 +67,7 @@ public static partial class OmniUnifiedDiffParser
                 return;
             }
 
-            var header = HunkHeader().Match(line);
+            var header = hunkHeader.Match(line);
             if (header.Success)
             {
                 StartHunk(line, header);
@@ -171,46 +174,38 @@ public static partial class OmniUnifiedDiffParser
 
             _file.ReadExtendedHeader(line);
         }
-    }
 
-    /// <summary>
-    /// The start and count of one side of a hunk header, a missing count meaning 1; false when either
-    /// does not fit an int or the last line of the range would not.
-    /// </summary>
-    private static bool TryRange(Group startGroup, Group countGroup, out int start, out int count)
-    {
-        count = 1;
-        return int.TryParse(startGroup.ValueSpan, NumberStyles.None, CultureInfo.InvariantCulture, out start)
-            && (!countGroup.Success || int.TryParse(countGroup.ValueSpan, NumberStyles.None, CultureInfo.InvariantCulture, out count))
-            && (long)start + count <= int.MaxValue;
-    }
-
-    /// <summary>The path of a <c>---</c> or <c>+++</c> header: quotes, the timestamp of <c>diff -u</c> and the <c>a/</c> or <c>b/</c> prefix removed.</summary>
-    private static string? PathOf(string value)
-    {
-        var path = value;
-        var tab = path.IndexOf('\t', StringComparison.Ordinal);
-        if (tab >= 0)
+        /// <summary>
+        /// The start and count of one side of a hunk header, a missing count meaning 1; false when either
+        /// does not fit an int or the last line of the range would not.
+        /// </summary>
+        private static bool TryRange(Group startGroup, Group countGroup, out int start, out int count)
         {
-            path = path[..tab];
+            count = 1;
+            return int.TryParse(startGroup.ValueSpan, NumberStyles.None, CultureInfo.InvariantCulture, out start)
+                && (!countGroup.Success || int.TryParse(countGroup.ValueSpan, NumberStyles.None, CultureInfo.InvariantCulture, out count))
+                && (long)start + count <= int.MaxValue;
         }
 
-        path = GitQuotedPath.Unquote(path.Trim());
-        if (path == DevNull)
+        /// <summary>The path of a <c>---</c> or <c>+++</c> header: quotes, the timestamp of <c>diff -u</c> and the <c>a/</c> or <c>b/</c> prefix removed.</summary>
+        private static string? PathOf(string value)
         {
-            return null;
+            var path = value;
+            var tab = path.IndexOf('\t', StringComparison.Ordinal);
+            if (tab >= 0)
+            {
+                path = path[..tab];
+            }
+
+            path = GitQuotedPath.Unquote(path.Trim());
+            if (path == DevNull)
+            {
+                return null;
+            }
+
+            return FileBuilder.StripSide(path);
         }
-
-        return StripSide(path);
     }
-
-    private static string StripSide(string path) =>
-        path.Length > 2 && (path.StartsWith("a/", StringComparison.Ordinal) || path.StartsWith("b/", StringComparison.Ordinal))
-            ? path[2..]
-            : path;
-
-    [GeneratedRegex("^@@ -(\\d+)(?:,(\\d+))? \\+(\\d+)(?:,(\\d+))? @@", RegexOptions.CultureInvariant)]
-    private static partial Regex HunkHeader();
 
     private sealed class FileBuilder
     {
@@ -223,6 +218,11 @@ public static partial class OmniUnifiedDiffParser
         private string? _newPath;
 
         internal bool HasHunks => _hunks.Count > 0;
+
+        internal static string StripSide(string path) =>
+            path.Length > 2 && (path.StartsWith("a/", StringComparison.Ordinal) || path.StartsWith("b/", StringComparison.Ordinal))
+                ? path[2..]
+                : path;
 
         internal static FileBuilder FromGitHeader(string paths)
         {
