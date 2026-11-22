@@ -204,7 +204,7 @@ public partial class OmniCodeEditor
     {
         // Claimed before the await, so a render arriving meanwhile does not mount a second editor.
         Monaco.Mounted = true;
-        _bridge ??= DotNetObjectReference.Create(new CodeEditorInteropBridge(this));
+        _bridge ??= DotNetObjectReference.Create(CreateInteropBridge());
         _editorValue = CurrentValue ?? string.Empty;
         _appliedOptions = OptionsSignature();
         if (!await module.InvokeAsync<bool>("mount", _host, _bridge, Options(_editorValue)))
@@ -247,6 +247,12 @@ public partial class OmniCodeEditor
     }
 
     private Task UnmountAsync() => Monaco.UnmountAsync("dispose", _host);
+
+    // The bridge receives only the handlers it forwards to, so it does not depend on this component.
+    internal CodeEditorInteropBridge CreateInteropBridge() => new(
+        value => DispatchAsync(() => HandleCodeChangedAsync(value)),
+        (line, column) => DispatchAsync(() => HandleCursorChanged(line, column)),
+        (name, target, line) => DispatchAsync(() => HandleLinkActivationAsync(new OmniCodeEditorLinkEventArgs(name, target, line))));
 
     internal Task DispatchAsync(Func<Task> work) => InvokeAsync(async () =>
     {

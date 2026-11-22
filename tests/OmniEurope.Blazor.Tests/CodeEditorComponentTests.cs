@@ -82,7 +82,7 @@ public sealed class CodeEditorComponentTests : OmniBunitContext
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.Language, "json"));
         editor.WaitForAssertion(() => Assert.Single(module.Invocations["mount"]));
-        var bridge = new CodeEditorInteropBridge(editor.Instance);
+        var bridge = editor.Instance.CreateInteropBridge();
 
         await editor.InvokeAsync(() => bridge.OnCodeChanged("{ \"a\": 1 }"));
         await editor.InvokeAsync(() => bridge.OnCursorChanged(1, 9));
@@ -132,7 +132,7 @@ public sealed class CodeEditorComponentTests : OmniBunitContext
             .Add(component => component.ValueExpression, () => value)
             .Add(component => component.OnLinkActivate, args => followed = args));
 
-        await editor.InvokeAsync(() => new CodeEditorInteropBridge(editor.Instance).OnLinkActivated("pipeline", "build", 1));
+        await editor.InvokeAsync(() => editor.Instance.CreateInteropBridge().OnLinkActivated("pipeline", "build", 1));
 
         Assert.Equal(new OmniCodeEditorLinkEventArgs("pipeline", "build", 1), followed);
     }
@@ -210,7 +210,7 @@ public sealed class CodeEditorComponentTests : OmniBunitContext
         Assert.True(editor.Find("textarea").HasAttribute("disabled"));
         Assert.Contains("omni-code-editor--disabled", editor.Find(".omni-code-editor").ClassList);
 
-        await editor.InvokeAsync(() => new CodeEditorInteropBridge(editor.Instance).OnCodeChanged("a: 2"));
+        await editor.InvokeAsync(() => editor.Instance.CreateInteropBridge().OnCodeChanged("a: 2"));
 
         Assert.Equal("a: 1", value);
     }

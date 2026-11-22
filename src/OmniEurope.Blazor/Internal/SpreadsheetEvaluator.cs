@@ -11,7 +11,8 @@ namespace OmniEurope.Blazor.Internal;
 /// </summary>
 internal sealed class SpreadsheetEvaluator
 {
-    private readonly OmniSpreadsheetData _sheet;
+    private readonly IReadOnlyList<IReadOnlyList<string>> _rows;
+    private readonly int _columnCount;
     private readonly Dictionary<(int Row, int Column), OmniSpreadsheetValue> _values = [];
     private readonly HashSet<(int Row, int Column)> _pending = [];
 
@@ -21,13 +22,21 @@ internal sealed class SpreadsheetEvaluator
     /// </summary>
     internal const int MaxDepth = 256;
 
-    internal SpreadsheetEvaluator(OmniSpreadsheetData sheet) => _sheet = sheet;
+    internal SpreadsheetEvaluator(IReadOnlyList<IReadOnlyList<string>> rows, int columnCount)
+    {
+        _rows = rows;
+        _columnCount = columnCount;
+    }
 
     /// <summary>The current nesting of the computation in progress, kept by <see cref="SpreadsheetFormula"/>.</summary>
     internal int Depth { get; set; }
 
+    // Same reading as the sheet's own GetInput: a position outside the sheet or a short row is empty.
+    private string InputOf(int row, int column) =>
+        Contains(row, column) && column < _rows[row].Count ? _rows[row][column] ?? string.Empty : string.Empty;
+
     internal bool Contains(int row, int column) =>
-        row >= 0 && column >= 0 && row < _sheet.RowCount && column < _sheet.ColumnCount;
+        row >= 0 && column >= 0 && row < _rows.Count && column < _columnCount;
 
     internal OmniSpreadsheetValue Evaluate(int row, int column)
     {
@@ -47,7 +56,7 @@ internal sealed class SpreadsheetEvaluator
             return OmniSpreadsheetValue.FromError(OmniSpreadsheetValue.CircularError);
         }
 
-        var value = Read(_sheet.GetInput(row, column));
+        var value = Read(InputOf(row, column));
         _pending.Remove(key);
         _values[key] = value;
         return value;

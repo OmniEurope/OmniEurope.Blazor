@@ -162,7 +162,7 @@ public partial class OmniSpreadsheet
         if (!ReferenceEquals(_evaluated, Sheet) || _evaluator is null)
         {
             _evaluated = Sheet;
-            _evaluator = new SpreadsheetEvaluator(Sheet);
+            _evaluator = new SpreadsheetEvaluator(Sheet.Rows, Sheet.ColumnCount);
         }
 
         return _evaluator.Evaluate(row, column);

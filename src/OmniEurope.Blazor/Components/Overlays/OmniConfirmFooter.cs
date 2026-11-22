@@ -15,7 +15,7 @@ internal sealed class OmniConfirmFooter : OmniComponentBase, IDisposable
     public OmniConfirmRequest Request { get; set; } = default!;
 
     [Parameter, EditorRequired]
-    public OmniOverlayService Service { get; set; } = default!;
+    public Action<bool> Close { get; set; } = default!;
 
     private string ConfirmText => string.IsNullOrWhiteSpace(Request.ConfirmText) ? Localize("ConfirmAction") : Request.ConfirmText;
 
@@ -62,7 +62,7 @@ internal sealed class OmniConfirmFooter : OmniComponentBase, IDisposable
             return;
         }
 
-        Service.CloseDialog(confirmed);
+        Close(confirmed);
     }
 
     private void Button(RenderTreeBuilder builder, int sequence, OmniButtonVariant variant, OmniIconName icon, string text, string cssClass, bool confirmed, RenderFragment? iconContent = null)
