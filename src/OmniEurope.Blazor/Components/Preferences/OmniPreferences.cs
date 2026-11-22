@@ -622,47 +622,15 @@ public sealed class OmniPreferences : IAsyncDisposable
         var visitor = _signedOut.Active && _signedOutMode == OmniSignedOutPreferences.Browser;
         if (_store is not null)
         {
-            try
-            {
-                scope = await _storeAccess!.CallAsync(store => store.GetScopeAsync(_stopping).AsTask(), _stopping);
-            }
-            catch (Exception exception) when (exception is not OperationCanceledException || !_stopping.IsCancellationRequested)
-            {
-                _logger.LogWarning(exception, "The preference store could not give the scope of the browser cache; the store is used alone until it does.");
-                return null;
-            }
-
-            // No user signed in yet: the defaults, quietly, until the store names one (or, in Browser mode,
-            // the visitor's own browser cache, opened below).
-            _signedOut.Active = scope == NoUserScope;
-            visitor = _signedOut.Active && _signedOutMode == OmniSignedOutPreferences.Browser;
-            if (_signedOut.Active && !visitor)
+            if (await ResolveStoreScopeAsync() is not { } resolved)
             {
                 return null;
             }
 
-            if (!visitor && (string.IsNullOrWhiteSpace(scope) || scope.Contains(':', StringComparison.Ordinal)))
-            {
-                throw new InvalidOperationException("IOmniPreferenceStore.GetScopeAsync must return a non-blank scope without a colon, or NoUserScope while no user is signed in.");
-            }
-
-            if (_signedOutMode == OmniSignedOutPreferences.Browser && scope == PreferenceCache.VisitorScope)
-            {
-                throw new InvalidOperationException($"IOmniPreferenceStore.GetScopeAsync must not return \"{PreferenceCache.VisitorScope}\" when OmniPreferencesOptions.SignedOut is Browser: that scope is the signed-out visitor's browser cache.");
-            }
+            (scope, visitor) = resolved;
         }
 
-        IJSObjectReference module;
-        try
-        {
-            module = await OmniScriptModule.ImportAsync(_javaScript, OmniModules.Preferences, _stopping);
-        }
-        catch (InvalidOperationException)
-        {
-            // Prerendering: JavaScript cannot be called yet.
-            return null;
-        }
-        catch (JSDisconnectedException)
+        if (await ImportModuleAsync() is not { } module)
         {
             return null;
         }
@@ -680,6 +648,68 @@ public sealed class OmniPreferences : IAsyncDisposable
         }
 
         return session;
+    }
+
+    /// <summary>
+    /// Asks the store for the scope of the browser cache and whether it is the signed-out visitor's;
+    /// null when no cache opens (the store failed, or no user is signed in outside Browser mode).
+    /// </summary>
+    private async Task<(string Scope, bool Visitor)?> ResolveStoreScopeAsync()
+    {
+        string scope;
+        try
+        {
+            scope = await _storeAccess!.CallAsync(store => store.GetScopeAsync(_stopping).AsTask(), _stopping);
+        }
+        catch (Exception exception) when (exception is not OperationCanceledException || !_stopping.IsCancellationRequested)
+        {
+            _logger.LogWarning(exception, "The preference store could not give the scope of the browser cache; the store is used alone until it does.");
+            return null;
+        }
+
+        // No user signed in yet: the defaults, quietly, until the store names one (or, in Browser mode,
+        // the visitor's own browser cache, opened afterwards).
+        _signedOut.Active = scope == NoUserScope;
+        var visitor = _signedOut.Active && _signedOutMode == OmniSignedOutPreferences.Browser;
+        if (_signedOut.Active && !visitor)
+        {
+            return null;
+        }
+
+        ValidateStoreScope(scope, visitor);
+        return (scope, visitor);
+    }
+
+    /// <summary>Refuses a scope the store must never return.</summary>
+    private void ValidateStoreScope(string scope, bool visitor)
+    {
+        if (!visitor && (string.IsNullOrWhiteSpace(scope) || scope.Contains(':', StringComparison.Ordinal)))
+        {
+            throw new InvalidOperationException("IOmniPreferenceStore.GetScopeAsync must return a non-blank scope without a colon, or NoUserScope while no user is signed in.");
+        }
+
+        if (_signedOutMode == OmniSignedOutPreferences.Browser && scope == PreferenceCache.VisitorScope)
+        {
+            throw new InvalidOperationException($"IOmniPreferenceStore.GetScopeAsync must not return \"{PreferenceCache.VisitorScope}\" when OmniPreferencesOptions.SignedOut is Browser: that scope is the signed-out visitor's browser cache.");
+        }
+    }
+
+    /// <summary>The preferences script module; null while prerendering or once the circuit is gone.</summary>
+    private async Task<IJSObjectReference?> ImportModuleAsync()
+    {
+        try
+        {
+            return await OmniScriptModule.ImportAsync(_javaScript, OmniModules.Preferences, _stopping);
+        }
+        catch (InvalidOperationException)
+        {
+            // Prerendering: JavaScript cannot be called yet.
+            return null;
+        }
+        catch (JSDisconnectedException)
+        {
+            return null;
+        }
     }
 
     private async Task WatchAsync(PreferenceSession session)

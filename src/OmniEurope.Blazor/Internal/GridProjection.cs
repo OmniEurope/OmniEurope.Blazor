@@ -102,35 +102,68 @@ internal static class GridProjection<TItem>
         // with the same equality rules as a single Equals filter.
         if (OmniDataGridFilterValues.IsMultiValued(filterOperator))
         {
-            var wanted = OmniDataGridFilterValues.Split(filter);
-            var normalizedText = OmniDataGridFilterText.Normalize(rawText, ignoreDiacritics);
-            var any = wanted.Any(value => string.Equals(
-                normalizedText,
-                OmniDataGridFilterText.Normalize(value, ignoreDiacritics),
-                comparison));
-            return filterOperator == OmniDataGridFilterOperator.In ? any : !any;
+            return MatchesAnyValue(rawText, filter, filterOperator, comparison, ignoreDiacritics);
         }
 
         var text = OmniDataGridFilterText.Normalize(rawText, ignoreDiacritics);
         filter = OmniDataGridFilterText.Normalize(filter, ignoreDiacritics);
-        return filterOperator switch
+        return MatchesPresence(candidate, text, filterOperator)
+            ?? MatchesOrder(text, filter, filterOperator, comparison)
+            ?? MatchesText(text, filter, filterOperator, comparison);
+    }
+
+    /// <summary>The In and NotIn operators: whether the text equals one of the listed values.</summary>
+    private static bool MatchesAnyValue(
+        string rawText,
+        string filter,
+        OmniDataGridFilterOperator filterOperator,
+        StringComparison comparison,
+        bool ignoreDiacritics)
+    {
+        var wanted = OmniDataGridFilterValues.Split(filter);
+        var normalizedText = OmniDataGridFilterText.Normalize(rawText, ignoreDiacritics);
+        var any = wanted.Any(value => string.Equals(
+            normalizedText,
+            OmniDataGridFilterText.Normalize(value, ignoreDiacritics),
+            comparison));
+        return filterOperator == OmniDataGridFilterOperator.In ? any : !any;
+    }
+
+    /// <summary>The null and empty operators; null for any other operator.</summary>
+    private static bool? MatchesPresence(object? candidate, string text, OmniDataGridFilterOperator filterOperator) =>
+        filterOperator switch
+        {
+            OmniDataGridFilterOperator.IsNull => candidate is null,
+            OmniDataGridFilterOperator.IsNotNull => candidate is not null,
+            OmniDataGridFilterOperator.IsEmpty => text.Length == 0,
+            OmniDataGridFilterOperator.IsNotEmpty => text.Length != 0,
+            _ => null
+        };
+
+    /// <summary>The ordering operators, numeric when both sides are numbers; null for any other operator.</summary>
+    private static bool? MatchesOrder(
+        string text, string filter, OmniDataGridFilterOperator filterOperator, StringComparison comparison) =>
+        filterOperator switch
+        {
+            OmniDataGridFilterOperator.GreaterThan => Compare(text, filter, comparison) > 0,
+            OmniDataGridFilterOperator.GreaterThanOrEquals => Compare(text, filter, comparison) >= 0,
+            OmniDataGridFilterOperator.LessThan => Compare(text, filter, comparison) < 0,
+            OmniDataGridFilterOperator.LessThanOrEquals => Compare(text, filter, comparison) <= 0,
+            _ => null
+        };
+
+    /// <summary>The text operators; an operator answered nowhere else means Contains.</summary>
+    private static bool MatchesText(
+        string text, string filter, OmniDataGridFilterOperator filterOperator, StringComparison comparison) =>
+        filterOperator switch
         {
             OmniDataGridFilterOperator.Equals => string.Equals(text, filter, comparison),
             OmniDataGridFilterOperator.NotEquals => !string.Equals(text, filter, comparison),
             OmniDataGridFilterOperator.StartsWith => text.StartsWith(filter, comparison),
             OmniDataGridFilterOperator.EndsWith => text.EndsWith(filter, comparison),
             OmniDataGridFilterOperator.DoesNotContain => !text.Contains(filter, comparison),
-            OmniDataGridFilterOperator.GreaterThan => Compare(text, filter, comparison) > 0,
-            OmniDataGridFilterOperator.GreaterThanOrEquals => Compare(text, filter, comparison) >= 0,
-            OmniDataGridFilterOperator.LessThan => Compare(text, filter, comparison) < 0,
-            OmniDataGridFilterOperator.LessThanOrEquals => Compare(text, filter, comparison) <= 0,
-            OmniDataGridFilterOperator.IsNull => candidate is null,
-            OmniDataGridFilterOperator.IsNotNull => candidate is not null,
-            OmniDataGridFilterOperator.IsEmpty => text.Length == 0,
-            OmniDataGridFilterOperator.IsNotEmpty => text.Length != 0,
             _ => text.Contains(filter, comparison)
         };
-    }
 
     private static int Compare(string left, string right, StringComparison comparison)
     {

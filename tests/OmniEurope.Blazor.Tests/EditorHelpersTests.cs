@@ -85,8 +85,26 @@ public sealed class EditorHelpersTests : OmniBunitContext
     [InlineData(OmniHtmlEditorAction.SetCellSpan, "HtmlEditorSetCellSpan")]
     [InlineData(OmniHtmlEditorAction.Highlight, "HtmlEditorHighlight")]
     [InlineData(OmniHtmlEditorAction.Custom, "HtmlEditorCustomCommand")]
+    [InlineData(OmniHtmlEditorAction.Bold, "HtmlEditorBold")]
+    [InlineData(OmniHtmlEditorAction.ToggleSource, "HtmlEditorSource")]
+    [InlineData(OmniHtmlEditorAction.Paste, "HtmlEditorPaste")]
+    [InlineData(OmniHtmlEditorAction.Separator, "HtmlEditorCustomCommand")]
+    [InlineData((OmniHtmlEditorAction)9999, "HtmlEditorCustomCommand")]
     public void Toolbar_NamesEveryAction(OmniHtmlEditorAction action, string key) =>
         Assert.Equal(key, HtmlEditorToolbar.LabelKey(action));
+
+    [Fact]
+    public void Toolbar_GivesEachBuiltInActionItsIcon_AndKeepsACommandsOwnIcon()
+    {
+        Assert.Equal(OmniIconName.TextB, HtmlEditorToolbar.IconOf(new OmniHtmlEditorCommand("b", OmniHtmlEditorAction.Bold)));
+        Assert.Equal(OmniIconName.FileHtml, HtmlEditorToolbar.IconOf(new OmniHtmlEditorCommand("s", OmniHtmlEditorAction.ToggleSource)));
+        Assert.Equal(OmniIconName.Copy, HtmlEditorToolbar.IconOf(new OmniHtmlEditorCommand("c", OmniHtmlEditorAction.Copy)));
+        Assert.Null(HtmlEditorToolbar.IconOf(new OmniHtmlEditorCommand("x", OmniHtmlEditorAction.Cut)));
+        Assert.Null(HtmlEditorToolbar.IconOf(new OmniHtmlEditorCommand("u", OmniHtmlEditorAction.Custom)));
+        Assert.Null(HtmlEditorToolbar.IconOf(new OmniHtmlEditorCommand("z", (OmniHtmlEditorAction)9999)));
+        Assert.Equal(OmniIconName.Smiley,
+            HtmlEditorToolbar.IconOf(new OmniHtmlEditorCommand("o", OmniHtmlEditorAction.Bold) { Icon = OmniIconName.Smiley }));
+    }
 
     [Fact]
     public void Toolbar_DrawsTheHighlighter_AndATableActionWaitsForATable()
