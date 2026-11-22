@@ -14,7 +14,6 @@ internal static class MailDocument
 {
     private const string Monospace = "Consolas, 'Courier New', monospace";
     private static readonly HtmlParser Parser = new();
-    private static readonly string[] SafeSchemes = ["http", "https", "mailto"];
 
     /// <summary>The attribute that carries each element's look: <c>style</c> in a mail.</summary>
     internal const string MailLook = "style";
@@ -149,7 +148,7 @@ internal static class MailDocument
             var address = tokens[0].Length == href.Trim().Length
                 ? text.ValueOf(tokens[0].Groups["name"].Value).Trim()
                 : text.ReplaceInAddress(href);
-            if (IsSafeAddress(address))
+            if (MailBlocks.IsSafeAddress(address))
             {
                 link.SetAttribute("href", address);
             }
@@ -159,9 +158,6 @@ internal static class MailDocument
             }
         }
     }
-
-    internal static bool IsSafeAddress(string address) =>
-        Uri.TryCreate(address, UriKind.Absolute, out var uri) && SafeSchemes.Contains(uri.Scheme, StringComparer.OrdinalIgnoreCase);
 
     /// <summary>The body with each link's address written after its text, for the plain-text alternative.</summary>
     private static string PlainTextSource(IElement body)

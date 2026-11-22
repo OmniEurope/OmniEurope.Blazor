@@ -13,12 +13,15 @@ internal sealed class GraphLayerPlacement(
     List<bool> isVirtual,
     double nodeSpacing)
 {
+    /// <summary>Alternating down and up sweeps of the placement along the layers.</summary>
+    internal const int PlacementPasses = 6;
+
     private readonly double[] _cross = new double[crossSizes.Count];
     private readonly List<double> _aims = [];
     private readonly List<(double Sum, int Count)> _blocks = [];
     private readonly List<double> _around = [];
 
-    /// <summary>The position of every node across the flow, after <see cref="GraphLayeredLayout.PlacementPasses"/> sweeps.</summary>
+    /// <summary>The position of every node across the flow, after <see cref="PlacementPasses"/> sweeps.</summary>
     internal static double[] Place(
         List<int>[] layers,
         List<List<int>> predecessors,
@@ -31,7 +34,7 @@ internal sealed class GraphLayerPlacement(
     private double[] Run()
     {
         PackLayers();
-        for (var pass = 0; pass < GraphLayeredLayout.PlacementPasses; pass++)
+        for (var pass = 0; pass < PlacementPasses; pass++)
         {
             Sweep(down: pass % 2 == 0);
         }

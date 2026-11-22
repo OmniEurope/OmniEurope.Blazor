@@ -19,9 +19,6 @@ internal static class GraphLayeredLayout
     /// <summary>Alternating down and up sweeps of the crossing reduction.</summary>
     internal const int OrderingPasses = 8;
 
-    /// <summary>Alternating down and up sweeps of the placement along the layers.</summary>
-    internal const int PlacementPasses = 6;
-
     internal static OmniGraphLayoutResult Build(
         IReadOnlyList<OmniGraphLayoutNode> nodes,
         IReadOnlyList<OmniGraphLayoutEdge> edges,

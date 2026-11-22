@@ -93,10 +93,10 @@ public sealed class OmniLoadingState
     public IDisposable Track()
     {
         Begin();
-        return new Scope(this);
+        return new Scope(End);
     }
 
-    private sealed class Scope(OmniLoadingState owner) : IDisposable
+    private sealed class Scope(Action end) : IDisposable
     {
         private int _ended;
 
@@ -104,7 +104,7 @@ public sealed class OmniLoadingState
         {
             if (Interlocked.Exchange(ref _ended, 1) == 0)
             {
-                owner.End();
+                end();
             }
         }
     }
