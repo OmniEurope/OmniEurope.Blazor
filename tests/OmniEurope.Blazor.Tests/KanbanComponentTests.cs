@@ -17,12 +17,7 @@ public sealed class KanbanComponentTests : OmniBunitContext
 {
     private const string ModulePath = OmniModules.Kanban;
 
-    private static readonly IReadOnlyList<OmniKanbanColumn> Columns =
-    [
-        new("todo", "À faire"),
-        new("doing", "En cours"),
-        new("done", "Terminé")
-    ];
+    private static readonly IReadOnlyList<OmniKanbanColumn> Columns = KanbanRendering.Columns;
 
     private static readonly IReadOnlyList<Card> Cards =
     [
@@ -421,14 +416,8 @@ public sealed class KanbanComponentTests : OmniBunitContext
     }
 
     private IRenderedComponent<OmniKanban<Card>> RenderBoard(Action<ComponentParameterCollectionBuilder<OmniKanban<Card>>>? configure = null, bool movable = true) =>
-        Render<OmniKanban<Card>>(parameters =>
+        this.RenderKanban(Cards, parameters =>
         {
-            parameters
-                .Add(component => component.Columns, Columns)
-                .Add(component => component.Items, Cards)
-                .Add(component => component.ColumnOf, card => card.Column)
-                .Add(component => component.KeyOf, card => card.Name)
-                .Add(component => component.CardTemplate, card => builder => builder.AddContent(0, card.Name));
             if (movable)
             {
                 parameters.Add(component => component.OnItemMove, EventCallback.Factory.Create<OmniKanbanMove<Card>>(this, move => _moves.Add(move)));

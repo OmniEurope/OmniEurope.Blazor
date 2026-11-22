@@ -17,14 +17,21 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
 {
     // ---- unsaved changes ------------------------------------------------------------------------
 
+    /// <summary>Renders a guard, with or without changes, inside a host on <paramref name="service"/>.</summary>
+    private (IRenderedComponent<OmniComponentsHost> Host, NavigationManager Navigation) RenderGuarded(OmniOverlayService service, bool hasChanges)
+    {
+        var navigation = Services.GetRequiredService<NavigationManager>();
+        var host = Render<OmniComponentsHost>(parameters => parameters
+            .Add(component => component.OverlayService, service)
+            .AddChildContent(Guard(hasChanges)));
+        return (host, navigation);
+    }
+
     [Fact]
     public async Task Guard_WithChanges_AsksBeforeAnInternalNavigation_AndStayKeepsThePage()
     {
         using var service = new OmniOverlayService();
-        var navigation = Services.GetRequiredService<NavigationManager>();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .AddChildContent(Guard(hasChanges: true)));
+        var (host, navigation) = RenderGuarded(service, hasChanges: true);
         var start = navigation.Uri;
 
         _ = host.InvokeAsync(() => navigation.NavigateTo("/ailleurs"));
@@ -49,10 +56,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     public async Task Guard_WithChanges_LetsTheNavigationThroughOnceConfirmed()
     {
         using var service = new OmniOverlayService();
-        var navigation = Services.GetRequiredService<NavigationManager>();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .AddChildContent(Guard(hasChanges: true)));
+        var (host, navigation) = RenderGuarded(service, hasChanges: true);
 
         _ = host.InvokeAsync(() => navigation.NavigateTo("/ailleurs"));
         // Same readiness as the Stay test: the question is drawn (its title) before its button is used.
@@ -80,10 +84,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     public async Task Guard_WithoutChanges_NeverAsks()
     {
         using var service = new OmniOverlayService();
-        var navigation = Services.GetRequiredService<NavigationManager>();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .AddChildContent(Guard(hasChanges: false)));
+        var (host, navigation) = RenderGuarded(service, hasChanges: false);
 
         _ = host.InvokeAsync(() => navigation.NavigateTo("/ailleurs"));
 
@@ -247,11 +248,7 @@ public sealed class FormAndPageAdditionsTests : OmniBunitContext
     public void SelectableCard_Multiple_IsACheckBoxThatToggles_AndDisabledStaysFocusableButInert()
     {
         var picked = new List<bool>();
-        var card = Render<OmniSelectableCard>(parameters => parameters
-            .Add(component => component.Title, "Docker")
-            .Add(component => component.Multiple, true)
-            .Add(component => component.Value, true)
-            .Add(component => component.ValueChanged, value => picked.Add(value)));
+        var card = this.RenderDockerCard(true, picked);
 
         Assert.Equal("checkbox", card.Find("button").GetAttribute("role"));
         card.Find("button").Click();

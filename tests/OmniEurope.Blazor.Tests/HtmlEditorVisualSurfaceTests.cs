@@ -55,9 +55,7 @@ public sealed class HtmlEditorVisualSurfaceTests : OmniBunitContext
         var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
         var editor = RenderEditor(parameters => parameters.Add(editor => editor.Mode, OmniHtmlEditorMode.Source));
 
-        var split = await editor.InvokeAsync(editor.Instance.GetHtmlAroundCaretAsync);
-        var selected = await editor.InvokeAsync(editor.Instance.GetSelectedTextAsync);
-        var text = await editor.InvokeAsync(editor.Instance.ExportTextAsync);
+        var (split, selected, text) = await ReadCaretSelectionAndTextAsync(editor);
 
         Assert.Equal((Start, string.Empty), (split.Before, split.After));
         Assert.Equal(string.Empty, selected);
@@ -75,9 +73,7 @@ public sealed class HtmlEditorVisualSurfaceTests : OmniBunitContext
         var editor = RenderEditor(parameters => parameters.Add(editor => editor.ValueChanged, html => changed = html));
 
         await editor.InvokeAsync(() => editor.Instance.RunBuiltInAsync(OmniHtmlEditorAction.Bold, null));
-        var split = await editor.InvokeAsync(editor.Instance.GetHtmlAroundCaretAsync);
-        var selected = await editor.InvokeAsync(editor.Instance.GetSelectedTextAsync);
-        var text = await editor.InvokeAsync(editor.Instance.ExportTextAsync);
+        var (split, selected, text) = await ReadCaretSelectionAndTextAsync(editor);
 
         Assert.Null(changed);
         Assert.Equal("Bonjour", text);
@@ -140,4 +136,10 @@ public sealed class HtmlEditorVisualSurfaceTests : OmniBunitContext
 
         Assert.Equal(expected, await editor.InvokeAsync(editor.Instance.GetSelectedTextAsync));
     }
+
+    /// <summary>Reads the HTML around the caret, the selected text and the plain text of <paramref name="editor"/>, in that order.</summary>
+    private static async Task<(OmniHtmlCaretSplit Split, string Selected, string Text)> ReadCaretSelectionAndTextAsync(IRenderedComponent<OmniHtmlEditor> editor) =>
+        (await editor.InvokeAsync(editor.Instance.GetHtmlAroundCaretAsync),
+         await editor.InvokeAsync(editor.Instance.GetSelectedTextAsync),
+         await editor.InvokeAsync(editor.Instance.ExportTextAsync));
 }

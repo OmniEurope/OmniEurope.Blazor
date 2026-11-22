@@ -46,10 +46,8 @@ public sealed class HtmlEditorTableAndClipboardTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(ModulePath);
         module.Setup<string?>("exec", _ => true).SetResult(null);
-        var value = "<p>A</p>";
         OmniHtmlEditorCommand[] commands = [.. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.ToggleSource];
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Commands, commands));
 
         foreach (var name in new[] { "cut", "copy", "paste", "insert-paragraph" })

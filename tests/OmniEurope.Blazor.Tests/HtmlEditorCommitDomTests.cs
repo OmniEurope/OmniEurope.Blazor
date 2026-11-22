@@ -64,17 +64,27 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
         Assert.False(editor.Find("button[data-command=undo]").HasAttribute("disabled"));
     }
 
+    /// <summary>Renders the source face on <c>&lt;p&gt;A&lt;/p&gt;</c>, each change reported to <paramref name="changed"/>, plus the parameters <paramref name="more"/> adds.</summary>
+    private IRenderedComponent<OmniHtmlEditor> RenderSourceFace(Action<string> changed, Action<ComponentParameterCollectionBuilder<OmniHtmlEditor>>? more = null)
+    {
+        var value = "<p>A</p>";
+        return Render<OmniHtmlEditor>(parameters =>
+        {
+            parameters
+                .Add(component => component.Value, value)
+                .Add(component => component.ValueChanged, changed)
+                .Add(component => component.ValueExpression, () => value)
+                .Add(component => component.Mode, OmniHtmlEditorMode.Source);
+            more?.Invoke(parameters);
+        });
+    }
+
     [Fact]
     public async Task EditorCommitDom_InTheSourceFace_DoesNothing()
     {
         var module = JSInterop.SetupModule(ModulePath);
-        var value = "<p>A</p>";
         var changed = false;
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, _ => changed = true)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Mode, OmniHtmlEditorMode.Source));
+        var editor = RenderSourceFace(_ => changed = true);
 
         await editor.Instance.CommitDomAsync();
 
@@ -106,7 +116,6 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
     [Fact]
     public void InTheSourceFace_ThereIsNoSurface_AndCommitDomDoesNothing()
     {
-        var value = "<p>A</p>";
         ElementReference? surface = default(ElementReference);
         var changed = false;
         var command = OmniHtmlEditorCommand.Create("host", "Hôte", async context =>
@@ -114,12 +123,7 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
             surface = context.SurfaceElement;
             await context.CommitDomAsync();
         });
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, _ => changed = true)
-            .Add(component => component.ValueExpression, () => value)
-            .Add(component => component.Mode, OmniHtmlEditorMode.Source)
-            .Add(component => component.Commands, [command]));
+        var editor = RenderSourceFace(_ => changed = true, parameters => parameters.Add(component => component.Commands, [command]));
 
         editor.Find("button[data-command=host]").Click();
 

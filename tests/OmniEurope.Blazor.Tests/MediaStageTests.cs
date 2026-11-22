@@ -48,6 +48,10 @@ public sealed class MediaStageTests : OmniBunitContext
     private static IElement ItemOf(IRenderedComponent<OmniMediaStage<string>> stage, string name) =>
         ItemElements(stage).Single(element => element.QuerySelector(".probe")!.FirstChild!.TextContent == name);
 
+    /// <summary>Chooses the tile <paramref name="name"/> with its select button, on the renderer's thread.</summary>
+    private static Task ChooseAsync(IRenderedComponent<OmniMediaStage<string>> stage, string name) =>
+        stage.InvokeAsync(() => SelectOf(stage, name).Click());
+
     private static IElement SelectOf(IRenderedComponent<OmniMediaStage<string>> stage, string name) =>
         ItemOf(stage, name).QuerySelector("button.omni-media-stage__select")!;
 
@@ -114,7 +118,7 @@ public sealed class MediaStageTests : OmniBunitContext
     {
         var stage = RenderStage();
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Linus").Click());
+        await ChooseAsync(stage, "Linus");
 
         Assert.Equal("Linus", MainName(stage));
         Assert.Equal(["Linus"], _raised);
@@ -132,7 +136,7 @@ public sealed class MediaStageTests : OmniBunitContext
         Assert.Equal("polite", live.GetAttribute("aria-live"));
         Assert.Equal(string.Empty, live.TextContent.Trim());
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        await ChooseAsync(stage, "Grace");
 
         Assert.Equal("Grace Lovelace est affiché en grand", stage.Find("[role=status]").TextContent.Trim(' ', ' '));
     }
@@ -141,7 +145,7 @@ public sealed class MediaStageTests : OmniBunitContext
     public async Task APickedMainItem_IsKept_WhenTheParentRendersAgainWithTheSameMainItem()
     {
         var stage = RenderStage(configure: parameters => parameters.Add(component => component.MainItem, "Ada"));
-        await stage.InvokeAsync(() => SelectOf(stage, "Margaret").Click());
+        await ChooseAsync(stage, "Margaret");
 
         stage.Render(parameters => parameters.Add(component => component.MainItem, "Ada").Add(component => component.Label, "Call"));
 
@@ -158,7 +162,7 @@ public sealed class MediaStageTests : OmniBunitContext
             .Bind(component => component.MainItem, main, value => main = value));
 
         Assert.Equal("Grace", MainName(stage));
-        await stage.InvokeAsync(() => SelectOf(stage, "Ada").Click());
+        await ChooseAsync(stage, "Ada");
 
         Assert.Equal("Ada", main);
         Assert.Equal("Ada", MainName(stage));
@@ -195,7 +199,7 @@ public sealed class MediaStageTests : OmniBunitContext
         Assert.Equal("-1", ItemOf(stage, "Ada").GetAttribute("tabindex"));
         Assert.Null(ItemOf(stage, "Grace").GetAttribute("tabindex"));
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        await ChooseAsync(stage, "Grace");
 
         JSInterop.VerifyFocusAsyncInvoke();
         Assert.Equal("-1", ItemOf(stage, "Grace").GetAttribute("tabindex"));
@@ -231,7 +235,7 @@ public sealed class MediaStageTests : OmniBunitContext
         JSInterop.SetupVoid("Blazor._internal.domWrapper.focus", _ => true).SetException(failure);
         var stage = RenderStage();
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        await ChooseAsync(stage, "Grace");
 
         Assert.Equal("Grace", MainName(stage));
         Assert.Equal(["Grace"], _raised);
@@ -263,9 +267,9 @@ public sealed class MediaStageTests : OmniBunitContext
         stage.Render(parameters => parameters.Add(component => component.Items, ["Ada", "Grace"]));
         var grace = ReferenceOf(stage, "Grace");
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        await ChooseAsync(stage, "Grace");
         Assert.Equal(grace, LastFocusTarget());
-        await stage.InvokeAsync(() => SelectOf(stage, "Ada").Click());
+        await ChooseAsync(stage, "Ada");
 
         Assert.Equal("Ada", MainName(stage));
         Assert.Equal(ada, LastFocusTarget());
@@ -278,7 +282,7 @@ public sealed class MediaStageTests : OmniBunitContext
         var linus = ReferenceOf(stage, "Linus");
         stage.Render(parameters => parameters.Add(component => component.Items, ["Ada", "Linus"]));
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Linus").Click());
+        await ChooseAsync(stage, "Linus");
 
         Assert.Equal("Linus", MainName(stage));
         Assert.Equal(linus, LastFocusTarget());
@@ -289,10 +293,10 @@ public sealed class MediaStageTests : OmniBunitContext
     {
         var stage = RenderStage(["Ada", "Grace"]);
         var ada = ReferenceOf(stage, "Ada");
-        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        await ChooseAsync(stage, "Grace");
         stage.Render(parameters => parameters.Add(component => component.Items, ["Grace", "Ada"]));
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Ada").Click());
+        await ChooseAsync(stage, "Ada");
 
         Assert.Equal("Ada", MainName(stage));
         Assert.Equal(ada, LastFocusTarget());
@@ -326,9 +330,9 @@ public sealed class MediaStageTests : OmniBunitContext
         var stage = RenderStage(template: ProbeTemplate(log));
         Assert.Equal(["init:Ada", "init:Grace", "init:Linus", "init:Margaret"], log);
 
-        await stage.InvokeAsync(() => SelectOf(stage, "Margaret").Click());
-        await stage.InvokeAsync(() => SelectOf(stage, "Ada").Click());
-        await stage.InvokeAsync(() => SelectOf(stage, "Grace").Click());
+        await ChooseAsync(stage, "Margaret");
+        await ChooseAsync(stage, "Ada");
+        await ChooseAsync(stage, "Grace");
 
         Assert.Equal("Grace", MainName(stage));
         Assert.Equal(["init:Ada", "init:Grace", "init:Linus", "init:Margaret"], log);

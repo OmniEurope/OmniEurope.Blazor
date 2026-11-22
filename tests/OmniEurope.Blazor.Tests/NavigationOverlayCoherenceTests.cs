@@ -190,12 +190,7 @@ public sealed class NavigationOverlayCoherenceTests : OmniBunitContext
     [InlineData(OmniSeverity.Danger)]
     public void Notification_AndAlert_DrawTheSameGlyphForTheSameSeverity(OmniSeverity severity)
     {
-        var notification = Render<OmniNotification>(parameters => parameters
-            .Add(component => component.Message, "Message")
-            .Add(component => component.Severity, severity));
-        var alert = Render<OmniAlert>(parameters => parameters
-            .Add(component => component.Severity, severity)
-            .AddChildContent("Message"));
+        var (notification, alert) = this.RenderNotificationAndAlert(severity);
 
         Assert.Equal(
             alert.Find(".omni-alert__glyph path").GetAttribute("d"),

@@ -13,6 +13,14 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
 {
     private const string ModulePath = OmniModules.HtmlEditor;
 
+    /// <summary>The surface script double, which reads nothing and can be disposed.</summary>
+    private BunitJSModuleInterop SetupDisposableSurface()
+    {
+        var module = JSInterop.SetupHtmlEditorSurface();
+        module.SetupVoid("dispose", _ => true).SetVoidResult();
+        return module;
+    }
+
     private const string CaretInANote =
         "{\"collapsed\":true,\"ancestors\":[" +
         "{\"tag\":\"sup\",\"classes\":[\"akn-noteref\"],\"data\":{\"data-eid\":\"ref_1\"}}," +
@@ -53,7 +61,6 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     public async Task SelectionChanged_AsksTheSurfaceToReport_AndHandsTheSelectionToTheHostAndToCommands()
     {
         var module = JSInterop.SetupModule(ModulePath);
-        var value = "<p>A</p>";
         OmniHtmlEditorSelection? reported = null;
         OmniHtmlEditorSelection? seenByCommand = null;
         var inspect = OmniHtmlEditorCommand.Create("inspect", "Inspecter", context =>
@@ -62,13 +69,12 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
             return Task.CompletedTask;
         });
         module.Setup<string?>("read", _ => true).SetResult(null);
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Commands, [inspect])
             .Add(component => component.SelectionChanged, selection => reported = selection));
         var bridge = new HtmlEditorInteropBridge(editor.Instance);
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.True(options.GetProperty("selection").GetBoolean());
 
         await editor.InvokeAsync(() => bridge.OnSelectionChanged(CaretInANote));
@@ -85,12 +91,10 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     public void WithoutAListener_TheSurfaceIsNotAskedToReport()
     {
         var module = JSInterop.SetupModule(ModulePath);
-        var value = "<p>A</p>";
 
-        Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        this.RenderHtmlEditor("<p>A</p>");
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.False(options.TryGetProperty("selection", out _));
     }
 
@@ -98,9 +102,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     public void AddingAListener_LaterReconfiguresTheSurface()
     {
         var module = JSInterop.SetupModule(ModulePath);
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var editor = this.RenderHtmlEditor("<p>A</p>");
 
         editor.Render(parameters => parameters.Add(component => component.SelectionChanged, _ => { }));
 
@@ -111,20 +113,16 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     [Fact]
     public async Task Pressed_MakesACommandAToggle_FollowingTheSelection()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.SetupVoid("dispose", _ => true).SetVoidResult();
-        module.Setup<string?>("read", _ => true).SetResult(null);
-        var value = "<p>A</p>";
+        var module = SetupDisposableSurface();
         var note = OmniHtmlEditorCommand.Create("note", "Note", _ => Task.CompletedTask) with
         {
             Pressed = selection => selection?.Closest("aside") is not null
         };
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Commands, [note, OmniHtmlEditorCommands.Bold, OmniHtmlEditorCommands.ToggleSource]));
 
         // No SelectionChanged listener: the toggle alone asks the surface to report.
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.True(options.GetProperty("selection").GetBoolean());
         Assert.Equal("false", editor.Find("button[data-command=note]").GetAttribute("aria-pressed"));
 
@@ -141,19 +139,15 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     [Fact]
     public async Task Enabled_DisablesAContextualCommand_WithoutRemovingItFromTheToolbar()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.SetupVoid("dispose", _ => true).SetVoidResult();
-        module.Setup<string?>("read", _ => true).SetResult(null);
-        var value = "<p>A</p>";
+        var module = SetupDisposableSurface();
         var note = OmniHtmlEditorCommand.Create("note", "Note", _ => Task.CompletedTask) with
         {
             Enabled = selection => selection?.Closest("aside") is not null
         };
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Commands, [note, OmniHtmlEditorCommands.Bold]));
 
-        var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
+        var options = module.SingleMountOptions();
         Assert.True(options.GetProperty("selection").GetBoolean());
         var buttonsBefore = editor.FindAll(".omni-html-editor__toolbar button").Count;
         Assert.True(editor.Find("button[data-command=note]").HasAttribute("disabled"));
@@ -168,9 +162,7 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     public void WithoutPressed_ACustomCommandHasNoPressedState()
     {
         JSInterop.SetupModule(ModulePath);
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Commands, [OmniHtmlEditorCommand.Create("plain", "Simple", _ => Task.CompletedTask)]));
 
         Assert.Null(editor.Find("button[data-command=plain]").GetAttribute("aria-pressed"));
@@ -179,10 +171,8 @@ public sealed class HtmlEditorSelectionTests : OmniBunitContext
     [Fact]
     public async Task SourceFace_NeverRaisesSelectionChanged()
     {
-        var value = "<p>A</p>";
         var raised = 0;
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.SelectionChanged, _ => raised++));
 

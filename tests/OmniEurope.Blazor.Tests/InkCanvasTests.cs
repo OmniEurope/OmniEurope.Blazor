@@ -446,12 +446,19 @@ public sealed class InkCanvasTests : OmniBunitContext
         Assert.Empty(_raised);
     }
 
+    /// <summary>Renders a canvas that adds "value" to <paramref name="order"/> on each change, plus the handlers <paramref name="more"/> adds.</summary>
+    private IRenderedComponent<OmniInkCanvas> RenderRecordingChanges(List<string> order, Action<ComponentParameterCollectionBuilder<OmniInkCanvas>> more) =>
+        Render<OmniInkCanvas>(parameters =>
+        {
+            parameters.Add(c => c.ValueChanged, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, _ => order.Add("value")));
+            more(parameters);
+        });
+
     [Fact]
     public async Task StrokeAdded_IsRaisedAfterValueChanged_ForEveryDrawnStroke_ButNotForARefusedOne()
     {
         var order = new List<string>();
-        var canvas = Render<OmniInkCanvas>(parameters => parameters
-            .Add(c => c.ValueChanged, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, _ => order.Add("value")))
+        var canvas = RenderRecordingChanges(order, parameters => parameters
             .Add(c => c.StrokeAdded, EventCallback.Factory.Create<OmniInkStroke>(this, _ => order.Add("added"))));
 
         await Draw(canvas);
@@ -466,8 +473,7 @@ public sealed class InkCanvasTests : OmniBunitContext
     public async Task StrokesRemoved_IsRaisedForUndo_AfterValueChanged_WithTheStrokeRemoved()
     {
         var order = new List<string>();
-        var canvas = Render<OmniInkCanvas>(parameters => parameters
-            .Add(c => c.ValueChanged, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, _ => order.Add("value")))
+        var canvas = RenderRecordingChanges(order, parameters => parameters
             .Add(c => c.StrokesRemoved, EventCallback.Factory.Create<IReadOnlyList<OmniInkStroke>>(this, strokes => { order.Add("removed"); _removed.Add(strokes); })));
         await Draw(canvas, "#111111");
         await Draw(canvas, "#222222");
@@ -750,38 +756,45 @@ public sealed class InkCanvasTests : OmniBunitContext
         var canvas = RenderCanvas();
 
         Assert.Equal("currentColor", canvas.Find("canvas").GetAttribute("data-omni-ink-color"));
-        Assert.Equal("#e0e0e0", canvas.Find("input[type=color]").GetAttribute("value"));
+        Assert.Equal("#e0e0e0", Swatch(canvas));
     }
+
+    /// <summary>The colour the swatch shows.</summary>
+    private static string? Swatch(IRenderedComponent<OmniInkCanvas> canvas) => canvas.Find("input[type=color]").GetAttribute("value");
+
+    /// <summary>Reports <paramref name="color"/> as the theme colour the script resolved.</summary>
+    private static Task ThemeColorAsync(IRenderedComponent<OmniInkCanvas> canvas, string color) =>
+        canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync(color));
 
     [Fact]
     public async Task Swatch_FollowsALaterThemeChangeTheScriptReports_ButNotAChosenColour()
     {
         var canvas = RenderCanvas();
-        Assert.Equal("#000000", canvas.Find("input[type=color]").GetAttribute("value"));
+        Assert.Equal("#000000", Swatch(canvas));
 
-        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#101010"));
-        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+        await ThemeColorAsync(canvas, "#101010");
+        Assert.Equal("#101010", Swatch(canvas));
 
         canvas.Find("input[type=color]").Input("#ff0000");
-        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#202020"));
-        Assert.Equal("#FF0000", canvas.Find("input[type=color]").GetAttribute("value"));
+        await ThemeColorAsync(canvas, "#202020");
+        Assert.Equal("#FF0000", Swatch(canvas));
     }
 
     [Fact]
     public async Task ThemeColour_ThatIsNotAHex_TheSameAgain_OrAfterDispose_ChangesNothing()
     {
         var canvas = RenderCanvas();
-        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#101010"));
+        await ThemeColorAsync(canvas, "#101010");
 
-        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("rgb(1, 2, 3)"));
-        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+        await ThemeColorAsync(canvas, "rgb(1, 2, 3)");
+        Assert.Equal("#101010", Swatch(canvas));
 
-        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#101010"));
-        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+        await ThemeColorAsync(canvas, "#101010");
+        Assert.Equal("#101010", Swatch(canvas));
 
         await canvas.Instance.DisposeAsync();
-        await canvas.InvokeAsync(() => canvas.Instance.HandleThemeColorAsync("#202020"));
-        Assert.Equal("#101010", canvas.Find("input[type=color]").GetAttribute("value"));
+        await ThemeColorAsync(canvas, "#202020");
+        Assert.Equal("#101010", Swatch(canvas));
     }
 
     [Fact]
@@ -792,7 +805,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         var surface = canvas.Find("canvas");
         Assert.Equal("currentColor", surface.GetAttribute("data-omni-ink-color"));
         Assert.Equal("2", surface.GetAttribute("data-omni-ink-width"));
-        Assert.Equal("#000000", canvas.Find("input[type=color]").GetAttribute("value"));
+        Assert.Equal("#000000", Swatch(canvas));
     }
 
     [Fact]
@@ -800,7 +813,7 @@ public sealed class InkCanvasTests : OmniBunitContext
     {
         var canvas = RenderCanvas(parameters => parameters.Add(c => c.Color, "#336699"));
         Assert.Equal("#336699", canvas.Find("canvas").GetAttribute("data-omni-ink-color"));
-        Assert.Equal("#336699", canvas.Find("input[type=color]").GetAttribute("value"));
+        Assert.Equal("#336699", Swatch(canvas));
 
         canvas.Find("input[type=color]").Input("#ff0000");
         Assert.Equal("#FF0000", canvas.Find("canvas").GetAttribute("data-omni-ink-color"));
@@ -818,7 +831,7 @@ public sealed class InkCanvasTests : OmniBunitContext
         var canvas = RenderCanvas(parameters => parameters.Add(c => c.Color, "navy"));
 
         Assert.Equal("navy", canvas.Find("canvas").GetAttribute("data-omni-ink-color"));
-        Assert.Equal("#000000", canvas.Find("input[type=color]").GetAttribute("value"));
+        Assert.Equal("#000000", Swatch(canvas));
     }
 
     [Fact]

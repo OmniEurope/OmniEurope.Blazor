@@ -24,9 +24,7 @@ public sealed class HtmlEditorProofreadingEdgeTests : OmniBunitContext
 
     private IRenderedComponent<OmniHtmlEditor> RenderEditor(OmniHtmlEditorProofreader proofreader)
     {
-        var value = "<p>Some speling here.</p>";
-        return Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        return this.RenderHtmlEditor("<p>Some speling here.</p>", parameters => parameters
             .Add(component => component.Extensions, [new ProofreadingExtension(proofreader)]));
     }
 
@@ -89,21 +87,13 @@ public sealed class HtmlEditorProofreadingEdgeTests : OmniBunitContext
     }
 
     /// <summary>Flags nothing itself, and fails at everything else it is asked.</summary>
-    private sealed class FailingProofreader : OmniHtmlEditorProofreader
+    private sealed class FailingProofreader : UnreachableProofreader
     {
-        public override bool CanIgnoreAll => true;
-
         public override bool CanAddToDictionary => true;
 
         public override Task<IReadOnlyList<OmniHtmlEditorProofreadingIssue>> CheckAsync(
             IReadOnlyList<OmniHtmlEditorProofreadingText> texts, CancellationToken cancellationToken) =>
             Task.FromResult<IReadOnlyList<OmniHtmlEditorProofreadingIssue>>([]);
-
-        public override Task<IReadOnlyList<string>> SuggestAsync(
-            OmniHtmlEditorProofreadingText text, OmniHtmlEditorProofreadingIssue issue, CancellationToken cancellationToken)
-            => throw new InvalidOperationException("dictionnaire absent");
-
-        public override Task IgnoreAllAsync(string passage, string? language) => throw new IOException("lecture seule");
 
         public override Task AddToDictionaryAsync(string passage, string? language) => throw new IOException("lecture seule");
     }

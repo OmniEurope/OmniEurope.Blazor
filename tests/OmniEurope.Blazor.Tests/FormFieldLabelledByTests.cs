@@ -26,16 +26,29 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
         Assert.Equal("body", label.GetAttribute("for"));
     }
 
+    /// <summary>Renders the field "Corps du message" around an HTML editor, which carries <paramref name="editorLabel"/> when it is given.</summary>
+    private IRenderedComponent<OmniFormField> RenderBodyFieldWithEditor(string? editorLabel)
+    {
+        var value = "<p>a</p>";
+        return Render<OmniFormField>(parameters => parameters
+            .Add(component => component.For, "body")
+            .Add(component => component.Label, "Corps du message")
+            .AddChildContent<OmniHtmlEditor>(editor =>
+            {
+                editor.Add(component => component.Id, "body");
+                if (editorLabel is not null)
+                {
+                    editor.Add(component => component.Label, editorLabel);
+                }
+
+                editor.BindValue(() => value);
+            }));
+    }
+
     [Fact]
     public void HtmlEditor_InsideAFormField_IsNamedByTheFieldLabel_NotByItsDefaultName()
     {
-        var value = "<p>a</p>";
-        var field = Render<OmniFormField>(parameters => parameters
-            .Add(component => component.For, "body")
-            .Add(component => component.Label, "Corps du message")
-            .AddChildContent<OmniHtmlEditor>(editor => editor
-                .Add(component => component.Id, "body")
-                .BindValue(() => value)));
+        var field = RenderBodyFieldWithEditor(editorLabel: null);
 
         var surface = field.Find("[role=textbox]");
         Assert.Equal("body-label", surface.GetAttribute("aria-labelledby"));
@@ -49,14 +62,7 @@ public sealed class FormFieldLabelledByTests : OmniBunitContext
     [Fact]
     public void HtmlEditor_OwnLabel_WinsOverTheFieldLabel()
     {
-        var value = "<p>a</p>";
-        var field = Render<OmniFormField>(parameters => parameters
-            .Add(component => component.For, "body")
-            .Add(component => component.Label, "Corps du message")
-            .AddChildContent<OmniHtmlEditor>(editor => editor
-                .Add(component => component.Id, "body")
-                .Add(component => component.Label, "Contenu")
-                .BindValue(() => value)));
+        var field = RenderBodyFieldWithEditor("Contenu");
 
         var surface = field.Find("[role=textbox]");
         Assert.Equal("Contenu", surface.GetAttribute("aria-label"));

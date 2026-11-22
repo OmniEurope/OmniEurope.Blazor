@@ -19,15 +19,9 @@ public sealed class InstanceIdTests : OmniBunitContext
 
     private static RenderFragment Columns(bool searchable) => builder =>
     {
-        builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-        builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "name");
-        builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Title), "Nom");
-        builder.AddComponentParameter(3, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Name));
+        builder.OpenValueColumn<Row>(0, "name", "Nom", row => row.Name);
         builder.CloseComponent();
-        builder.OpenComponent<OmniDataGridColumn<Row>>(4);
-        builder.AddComponentParameter(5, nameof(OmniDataGridColumn<Row>.Key), "kind");
-        builder.AddComponentParameter(6, nameof(OmniDataGridColumn<Row>.Title), "Genre");
-        builder.AddComponentParameter(7, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Name));
+        builder.OpenValueColumn<Row>(4, "kind", "Genre", row => row.Name);
         builder.AddComponentParameter(8, nameof(OmniDataGridColumn<Row>.FilterType), OmniDataGridColumnFilterType.MultiSelect);
         builder.AddComponentParameter(9, nameof(OmniDataGridColumn<Row>.FilterSearchable), searchable);
         builder.CloseComponent();

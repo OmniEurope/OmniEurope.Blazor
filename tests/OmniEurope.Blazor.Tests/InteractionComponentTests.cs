@@ -184,12 +184,15 @@ public sealed class InteractionComponentTests : OmniBunitContext
         Assert.Equal("alice@example.test", form.Instance.Model.Email);
     }
 
+    private static Task<bool> ValidateAsync(IRenderedComponent<FormTestHost> form) =>
+        form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync());
+
     [Fact]
     public async Task RequiredValidator_TracksValidationRequestsAndFieldChanges()
     {
         var form = Render<FormTestHost>();
 
-        Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
+        Assert.False(await ValidateAsync(form));
         Assert.Contains("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
         form.WaitForAssertion(() =>
         {
@@ -203,7 +206,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
 
         form.Find("#name").Input("Alice");
 
-        Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
+        Assert.True(await ValidateAsync(form));
         Assert.Empty(form.Instance.EditContext.GetValidationMessages());
         form.WaitForAssertion(() => Assert.All(form.FindAll(".omni-validation-message"), message => Assert.Equal(string.Empty, message.TextContent)));
     }
@@ -251,12 +254,12 @@ public sealed class InteractionComponentTests : OmniBunitContext
     {
         var form = Render<FormTestHost>();
 
-        Assert.False(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
+        Assert.False(await ValidateAsync(form));
         Assert.Contains("Ce champ est obligatoire.", form.Instance.EditContext.GetValidationMessages());
 
         form.Find("#name").Input("Alice");
 
-        Assert.True(await form.InvokeAsync(() => form.Instance.EditContext.ValidateAsync()));
+        Assert.True(await ValidateAsync(form));
     }
 
     [Fact]
@@ -267,15 +270,18 @@ public sealed class InteractionComponentTests : OmniBunitContext
 
         Assert.True(await host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()));
         host.Instance.ValidateTheBlankField();
-        host.Render();
-        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()));
-        Assert.Contains("Ce champ est obligatoire.", host.Instance.EditContext.GetValidationMessages());
+        await RendersAndRejectsTheBlankFieldAsync();
 
         host.Instance.ReplaceModel();
-        host.Render();
-        Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()));
-        Assert.Contains("Ce champ est obligatoire.", host.Instance.EditContext.GetValidationMessages());
+        await RendersAndRejectsTheBlankFieldAsync();
         Assert.Empty(originalContext.GetValidationMessages());
+
+        async Task RendersAndRejectsTheBlankFieldAsync()
+        {
+            host.Render();
+            Assert.False(await host.InvokeAsync(() => host.Instance.EditContext.ValidateAsync()));
+            Assert.Contains("Ce champ est obligatoire.", host.Instance.EditContext.GetValidationMessages());
+        }
     }
 
     [Fact]
@@ -339,6 +345,13 @@ public sealed class InteractionComponentTests : OmniBunitContext
         Assert.Equal(1, notifications);
     }
 
+    /// <summary>Renders a decimal numeric bound to <paramref name="holder"/>.</summary>
+    private IRenderedComponent<OmniNumeric<decimal>> RenderBoundNumeric(NumericHolder holder) =>
+        Render<OmniNumeric<decimal>>(parameters => parameters
+            .Add(component => component.Value, holder.Value)
+            .Add(component => component.ValueChanged, value => holder.Value = value)
+            .Add(component => component.ValueExpression, () => holder.Value));
+
     [Fact]
     public void Numeric_ParsesTheActiveCulture()
     {
@@ -349,10 +362,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
             var holder = new NumericHolder();
-            var numeric = Render<OmniNumeric<decimal>>(parameters => parameters
-                .Add(component => component.Value, holder.Value)
-                .Add(component => component.ValueChanged, value => holder.Value = value)
-                .Add(component => component.ValueExpression, () => holder.Value));
+            var numeric = RenderBoundNumeric(holder);
 
             numeric.Find("input").Change("12,5");
 
@@ -373,10 +383,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
         {
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
             var holder = new NumericHolder();
-            var numeric = Render<OmniNumeric<decimal>>(parameters => parameters
-                .Add(component => component.Value, holder.Value)
-                .Add(component => component.ValueChanged, value => holder.Value = value)
-                .Add(component => component.ValueExpression, () => holder.Value));
+            var numeric = RenderBoundNumeric(holder);
 
             numeric.Find("input").Change("3.5");
 
@@ -396,10 +403,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
         {
             CultureInfo.CurrentCulture = CultureInfo.GetCultureInfo("fr-FR");
             var holder = new NumericHolder { Value = 2.5m };
-            var numeric = Render<OmniNumeric<decimal>>(parameters => parameters
-                .Add(component => component.Value, holder.Value)
-                .Add(component => component.ValueChanged, value => holder.Value = value)
-                .Add(component => component.ValueExpression, () => holder.Value));
+            var numeric = RenderBoundNumeric(holder);
 
             Assert.Equal("2.5", numeric.Find("input").GetAttribute("value"));
         }
@@ -422,13 +426,18 @@ public sealed class InteractionComponentTests : OmniBunitContext
         Assert.Equal("Fields", form.Find("form").TextContent);
     }
 
+    /// <summary>Renders interactively, as the focus script needs (a static form posts without a circuit), over a strict interop module.</summary>
+    private BunitJSModuleInterop SetupStrictInteractiveInterop()
+    {
+        SetRendererInfo(new RendererInfo("Server", isInteractive: true));
+        JSInterop.Mode = JSRuntimeMode.Strict;
+        return JSInterop.SetupModule(Internal.OmniModules.Interop);
+    }
+
     [Fact]
     public void TemplateForm_FocusesTheFirstInvalidControlThroughTheStaticModule()
     {
-        // The focus script runs only in an interactive render (a static form posts without a circuit).
-        SetRendererInfo(new RendererInfo("Server", isInteractive: true));
-        JSInterop.Mode = JSRuntimeMode.Strict;
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = SetupStrictInteractiveInterop();
         module.SetupVoid("focusFirstInvalid", _ => true);
         var form = Render<TemplateFormTestHost>();
 
@@ -445,10 +454,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
     [Fact]
     public void TemplateForm_ContainsExpectedInteropFailuresDuringInvalidSubmission()
     {
-        // The focus script runs only in an interactive render (a static form posts without a circuit).
-        SetRendererInfo(new RendererInfo("Server", isInteractive: true));
-        JSInterop.Mode = JSRuntimeMode.Strict;
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = SetupStrictInteractiveInterop();
         module.SetupVoid("focusFirstInvalid", _ => true).SetException(new JSException("unavailable"));
         var form = Render<TemplateFormTestHost>();
 

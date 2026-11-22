@@ -32,70 +32,43 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     private sealed class StrictClock(DateTimeOffset now, TimeZoneInfo? zone = null) : TimeProvider
     {
         private const double MaximumMilliseconds = 4294967294;
-        private readonly List<StrictTimer> _timers = [];
-        private DateTimeOffset _now = now;
+        private readonly ManualTimeProvider _clock = new(now);
 
         public List<TimeSpan> Waits { get; } = [];
 
-        public int Pending => _timers.Count(timer => !timer.Disposed);
+        public int Pending => _clock.Pending;
 
         public override TimeZoneInfo LocalTimeZone => zone ?? TimeZoneInfo.Utc;
 
-        public override DateTimeOffset GetUtcNow() => _now;
+        public override DateTimeOffset GetUtcNow() => _clock.GetUtcNow();
 
         public override ITimer CreateTimer(TimerCallback callback, object? state, TimeSpan dueTime, TimeSpan period)
         {
             ArgumentOutOfRangeException.ThrowIfGreaterThan(dueTime.TotalMilliseconds, MaximumMilliseconds);
             Waits.Add(dueTime);
-            var timer = new StrictTimer(callback, state, _now + dueTime);
-            _timers.Add(timer);
-            return timer;
+            return _clock.CreateTimer(callback, state, dueTime, period);
         }
 
-        public void Advance(TimeSpan by)
-        {
-            _now += by;
-            foreach (var timer in _timers.Where(timer => !timer.Disposed && timer.Due <= _now).ToList())
-            {
-                timer.Fire();
-            }
-        }
+        public void Advance(TimeSpan by) => _clock.Advance(by);
+    }
 
-        private sealed class StrictTimer(TimerCallback callback, object? state, DateTimeOffset due) : ITimer
-        {
-            public DateTimeOffset Due { get; } = due;
-
-            public bool Disposed { get; private set; }
-
-            public void Fire()
-            {
-                Disposed = true;
-                callback(state);
-            }
-
-            public bool Change(TimeSpan dueTime, TimeSpan period) => true;
-
-            public void Dispose() => Disposed = true;
-
-            public ValueTask DisposeAsync()
-            {
-                Disposed = true;
-                return ValueTask.CompletedTask;
-            }
-        }
+    /// <summary>Renders a badge updated now, stale after <paramref name="staleAfter"/>, on a strict clock that reads now.</summary>
+    private (StrictClock Clock, IRenderedComponent<OmniStatusBadge<int>> Badge) RenderBadgeOnAStrictClock(TimeSpan staleAfter)
+    {
+        var clock = new StrictClock(Now);
+        Services.AddSingleton<TimeProvider>(clock);
+        var badge = Render<OmniStatusBadge<int>>(parameters => parameters
+            .Add(component => component.Value, 1)
+            .Add(component => component.Map, Map())
+            .Add(component => component.Timestamp, Now)
+            .Add(component => component.StaleAfter, staleAfter));
+        return (clock, badge);
     }
 
     [Fact]
     public void StatusBadge_WithAnEndlessThreshold_NeverGrowsStale_AndArmsNoTimer()
     {
-        var clock = new StrictClock(Now);
-        Services.AddSingleton<TimeProvider>(clock);
-
-        var badge = Render<OmniStatusBadge<int>>(parameters => parameters
-            .Add(component => component.Value, 1)
-            .Add(component => component.Map, Map())
-            .Add(component => component.Timestamp, Now)
-            .Add(component => component.StaleAfter, TimeSpan.MaxValue));
+        var (clock, badge) = RenderBadgeOnAStrictClock(TimeSpan.MaxValue);
 
         Assert.False(badge.Instance.IsStale);
         Assert.Equal(0, clock.Pending);
@@ -104,15 +77,8 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     [Fact]
     public void StatusBadge_WithAThresholdBeyondTheTimerLimit_WaitsInStepsAndTurnsStaleOnTime()
     {
-        var clock = new StrictClock(Now);
-        Services.AddSingleton<TimeProvider>(clock);
         var threshold = TimeSpan.FromDays(100);
-
-        var badge = Render<OmniStatusBadge<int>>(parameters => parameters
-            .Add(component => component.Value, 1)
-            .Add(component => component.Map, Map())
-            .Add(component => component.Timestamp, Now)
-            .Add(component => component.StaleAfter, threshold));
+        var (clock, badge) = RenderBadgeOnAStrictClock(threshold);
 
         // A first wait below the limit of a system timer (about 49.7 days), not the 100 days asked for.
         var first = Assert.Single(clock.Waits);
@@ -382,6 +348,20 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
         new(3, "Liège")
     ];
 
+    /// <summary>Renders a filterable drop-down of the countries with no value, plus the parameters <paramref name="more"/> adds.</summary>
+    private IRenderedComponent<OmniDropDown<int?>> RenderFilterableCountries(Action<ComponentParameterCollectionBuilder<OmniDropDown<int?>>>? more = null)
+    {
+        int? value = null;
+        return Render<OmniDropDown<int?>>(parameters =>
+        {
+            parameters.Add(component => component.Filterable, true);
+            more?.Invoke(parameters);
+            parameters
+                .Add(component => component.Options, Countries)
+                .BindValue(() => value);
+        });
+    }
+
     [Fact]
     public void Autocomplete_WithoutAnId_GivesEachInstanceItsOwnListAndErrorIds()
     {
@@ -407,11 +387,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     {
         string ResultsId()
         {
-            int? value = null;
-            var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
-                .Add(component => component.Filterable, true)
-                .Add(component => component.Options, Countries)
-                .BindValue(() => value));
+            var dropDown = RenderFilterableCountries();
             dropDown.Find("[data-omni-autocomplete-toggle]").Click();
             return dropDown.WaitForElement("ul[role='listbox']").Id!;
         }
@@ -438,11 +414,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     [Fact]
     public void FilterableDropDown_IgnoresAccentsAndCaseWhenNarrowing()
     {
-        int? value = null;
-        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
-            .Add(component => component.Filterable, true)
-            .Add(component => component.Options, Countries)
-            .BindValue(() => value));
+        var dropDown = RenderFilterableCountries();
 
         dropDown.Find("input").Input("LIEGE");
 
@@ -452,12 +424,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     [Fact]
     public void FilterableDropDown_KeepsTheSizeOfTheControl()
     {
-        int? value = null;
-        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
-            .Add(component => component.Filterable, true)
-            .Add(component => component.Size, OmniControlSize.Small)
-            .Add(component => component.Options, Countries)
-            .BindValue(() => value));
+        var dropDown = RenderFilterableCountries(parameters => parameters.Add(component => component.Size, OmniControlSize.Small));
 
         Assert.Contains("omni-input--small", dropDown.Find("input").ClassList);
     }
@@ -488,12 +455,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     [Fact]
     public void FilterableDropDown_WithAllowEmpty_OffersNoEmptyChoiceOnceTextIsTyped()
     {
-        int? value = null;
-        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
-            .Add(component => component.Filterable, true)
-            .Add(component => component.AllowEmpty, true)
-            .Add(component => component.Options, Countries)
-            .BindValue(() => value));
+        var dropDown = RenderFilterableCountries(parameters => parameters.Add(component => component.AllowEmpty, true));
 
         dropDown.Find("input").Input("fra");
 
@@ -530,11 +492,7 @@ public sealed class FormsSelectionFeedbackDefectTests : OmniBunitContext
     [Fact]
     public void FilterableDropDown_WithoutAllowEmpty_OffersNoEmptyChoice()
     {
-        int? value = null;
-        var dropDown = Render<OmniDropDown<int?>>(parameters => parameters
-            .Add(component => component.Filterable, true)
-            .Add(component => component.Options, Countries)
-            .BindValue(() => value));
+        var dropDown = RenderFilterableCountries();
 
         dropDown.Find("[data-omni-autocomplete-toggle]").Click();
 

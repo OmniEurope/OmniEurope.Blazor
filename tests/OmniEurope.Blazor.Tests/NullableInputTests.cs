@@ -1,4 +1,6 @@
+using System.Linq.Expressions;
 using Bunit;
+using Microsoft.AspNetCore.Components.Forms;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
@@ -11,23 +13,36 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class NullableInputTests : OmniBunitContext
 {
+    private static void Click<TComponent>(IRenderedComponent<TComponent> component)
+        where TComponent : Microsoft.AspNetCore.Components.IComponent => component.Find("button").Click();
+
+    /// <summary>
+    /// Renders a nullable toggle bound to <paramref name="value"/>, each change given to <paramref name="changed"/>,
+    /// with the flag <paramref name="flag"/> set to <paramref name="flagValue"/>.
+    /// </summary>
+    private IRenderedComponent<TComponent> RenderBoundToggle<TComponent>(
+        bool? value, Action<bool?> changed, Expression<Func<TComponent, bool>> flag, bool flagValue)
+        where TComponent : InputBase<bool?> =>
+        Render<TComponent>(parameters => parameters
+            .Add(flag, flagValue)
+            .BindValue(() => value, changed));
+
     [Fact]
     public void NullableCheckBox_CyclesNullThenTrueThenFalseAndBackToNull()
     {
         bool? value = null;
         var component = Render<OmniCheckBox<bool?>>(parameters => parameters
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+            .BindValue(() => value, changed => value = changed));
 
         Assert.Equal("mixed", component.Find("button").GetAttribute("aria-checked"));
 
-        component.Find("button").Click();
+        Click(component);
         Assert.True(value);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.False(value);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.Null(value);
     }
 
@@ -35,15 +50,12 @@ public sealed class NullableInputTests : OmniBunitContext
     public void NullableCheckBox_WithoutIndeterminateNeverReturnsToNull()
     {
         bool? value = false;
-        var component = Render<OmniCheckBox<bool?>>(parameters => parameters
-            .Add(item => item.AllowIndeterminate, false)
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+        var component = RenderBoundToggle<OmniCheckBox<bool?>>(value, changed => value = changed, item => item.AllowIndeterminate, false);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.True(value);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.False(value);
     }
 
@@ -51,12 +63,9 @@ public sealed class NullableInputTests : OmniBunitContext
     public void NullableCheckBox_DisabledIgnoresTheClick()
     {
         bool? value = null;
-        var component = Render<OmniCheckBox<bool?>>(parameters => parameters
-            .Add(item => item.Disabled, true)
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+        var component = RenderBoundToggle<OmniCheckBox<bool?>>(value, changed => value = changed, item => item.Disabled, true);
 
-        component.Find("button").Click();
+        Click(component);
 
         Assert.Null(value);
         Assert.True(component.Find("button").HasAttribute("disabled"));
@@ -92,16 +101,15 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         bool? value = null;
         var component = Render<OmniSwitch<bool?>>(parameters => parameters
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+            .BindValue(() => value, changed => value = changed));
 
-        component.Find("button").Click();
+        Click(component);
         Assert.True(value);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.False(value);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.Null(value);
     }
 
@@ -109,15 +117,12 @@ public sealed class NullableInputTests : OmniBunitContext
     public void NullableSwitch_WithoutIndeterminateNeverReturnsToNull()
     {
         bool? value = false;
-        var component = Render<OmniSwitch<bool?>>(parameters => parameters
-            .Add(item => item.AllowIndeterminate, false)
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+        var component = RenderBoundToggle<OmniSwitch<bool?>>(value, changed => value = changed, item => item.AllowIndeterminate, false);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.True(value);
 
-        component.Find("button").Click();
+        Click(component);
         Assert.False(value);
     }
 
@@ -125,12 +130,9 @@ public sealed class NullableInputTests : OmniBunitContext
     public void NullableSwitch_DisabledIgnoresTheClick()
     {
         bool? value = true;
-        var component = Render<OmniSwitch<bool?>>(parameters => parameters
-            .Add(item => item.Disabled, true)
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+        var component = RenderBoundToggle<OmniSwitch<bool?>>(value, changed => value = changed, item => item.Disabled, true);
 
-        component.Find("button").Click();
+        Click(component);
 
         Assert.True(value);
     }
@@ -141,15 +143,14 @@ public sealed class NullableInputTests : OmniBunitContext
         bool? value = null;
         var component = Render<OmniSwitch<bool?>>(parameters => parameters
             .Add(item => item.IndeterminateDescription, "Indefini")
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+            .BindValue(() => value, changed => value = changed));
 
         var button = component.Find("button");
         Assert.Equal("Indefini", button.GetAttribute("aria-description"));
         Assert.Equal("false", button.GetAttribute("aria-checked"));
         Assert.Contains("omni-switch--mixed", button.GetAttribute("class") ?? string.Empty, StringComparison.Ordinal);
 
-        component.Find("button").Click();
+        Click(component);
 
         Assert.False(component.Find("button").HasAttribute("aria-description"));
         Assert.Contains("omni-switch--checked", component.Find("button").GetAttribute("class") ?? string.Empty, StringComparison.Ordinal);
@@ -213,13 +214,12 @@ public sealed class NullableInputTests : OmniBunitContext
     {
         var value = true;
         var component = Render<OmniSwitch<bool>>(parameters => parameters
-            .BindValue(() => value)
-            .Add(item => item.ValueChanged, changed => value = changed));
+            .BindValue(() => value, changed => value = changed));
 
         Assert.False(component.Find("button").HasAttribute("aria-description"));
-        component.Find("button").Click();
+        Click(component);
         Assert.False(value);
-        component.Find("button").Click();
+        Click(component);
         Assert.True(value);
         Assert.DoesNotContain("omni-switch--mixed", component.Find("button").GetAttribute("class") ?? string.Empty, StringComparison.Ordinal);
     }

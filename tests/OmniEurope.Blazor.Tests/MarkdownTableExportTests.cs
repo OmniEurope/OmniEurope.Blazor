@@ -380,11 +380,18 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
         Assert.Contains("ligne 3", System.Text.Encoding.UTF8.GetString(csv.Content.Span), StringComparison.Ordinal);
     }
 
-    [Fact]
-    public void Button_DownloadsTheWholeExport_StampedWithTheGenerationTime()
+    /// <summary>Sets up the download script, whose <c>download</c> succeeds.</summary>
+    private BunitJSModuleInterop SetupDownload()
     {
         var module = JSInterop.SetupModule(DownloadModulePath);
         module.SetupVoid("download", _ => true).SetVoidResult();
+        return module;
+    }
+
+    [Fact]
+    public void Button_DownloadsTheWholeExport_StampedWithTheGenerationTime()
+    {
+        var module = SetupDownload();
         var requests = new List<OmniTableExportPageRequest>();
         OmniTableExportDocument? exported = null;
         var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters
@@ -407,8 +414,7 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     [Fact]
     public void Button_WhenAPageFails_DownloadsNothing_AndReportsTheError()
     {
-        var module = JSInterop.SetupModule(DownloadModulePath);
-        module.SetupVoid("download", _ => true).SetVoidResult();
+        var module = SetupDownload();
         Exception? error = null;
         var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters
             .Add(component => component.Export, () => Export(0, []) with { LoadPage = _ => throw new HttpRequestException("down") })
@@ -426,8 +432,7 @@ public sealed class MarkdownTableExportTests : OmniBunitContext
     [Fact]
     public async Task Button_AHandlerOfOnExportThatThrows_IsNotReportedAsAFailedExport()
     {
-        var module = JSInterop.SetupModule(DownloadModulePath);
-        module.SetupVoid("download", _ => true).SetVoidResult();
+        var module = SetupDownload();
         Exception? error = null;
         var button = Render<OmniMarkdownExportButton<Row>>(parameters => parameters
             .Add(component => component.Export, () => Export(3, []))

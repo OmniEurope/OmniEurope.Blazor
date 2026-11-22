@@ -23,16 +23,10 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
 
     public EditorImportAndDiagnosticsTests() => Services.AddSingleton<ILoggerProvider>(new ListLoggerProvider(_logs));
 
-    private async Task<IRenderedComponent<OmniHtmlEditor>> OpenTableImportAsync()
+    private Task<IRenderedComponent<OmniHtmlEditor>> OpenTableImportAsync(OmniHtmlEditorExtension? extension = null)
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Mode = JSRuntimeMode.Loose;
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Commands, [OmniHtmlEditorCommands.ImportTable]));
-        await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
-        return editor;
+        JSInterop.SetupModule(ModulePath).Mode = JSRuntimeMode.Loose;
+        return HtmlEditorTestSetup.OpenTableImportAsync(this, extension);
     }
 
     private static string Rows(int count, string separator = "\n", string cells = "a{0},b{0}") =>
@@ -88,16 +82,9 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
     [Fact]
     public async Task ReaderTable_BeyondTheLimit_SaysItWasTruncated()
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Mode = JSRuntimeMode.Loose;
         var extension = new ReaderExtension(new OmniHtmlEditorTableReader([".xlsx"], (_, _) =>
             Task.FromResult<IReadOnlyList<IReadOnlyList<string>>>([.. Enumerable.Range(1, 130).Select(index => (IReadOnlyList<string>)["a" + index, "b"])])));
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Commands, [OmniHtmlEditorCommands.ImportTable])
-            .Add(component => component.Extensions, [extension]));
-        await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
+        var editor = await OpenTableImportAsync(extension);
 
         editor.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromBinary([1], "sheet.xlsx"));
 
@@ -187,19 +174,11 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
 
     // ── Proofreaders that throw are logged ──
 
-    private sealed class ThrowingProofreader : OmniHtmlEditorProofreader
+    private sealed class ThrowingProofreader : UnreachableProofreader
     {
-        public override bool CanIgnoreAll => true;
-
         public override Task<IReadOnlyList<OmniHtmlEditorProofreadingIssue>> CheckAsync(
             IReadOnlyList<OmniHtmlEditorProofreadingText> texts, CancellationToken cancellationToken) =>
             throw new InvalidOperationException("service injoignable");
-
-        public override Task<IReadOnlyList<string>> SuggestAsync(
-            OmniHtmlEditorProofreadingText text, OmniHtmlEditorProofreadingIssue issue, CancellationToken cancellationToken) =>
-            throw new InvalidOperationException("dictionnaire absent");
-
-        public override Task IgnoreAllAsync(string passage, string? language) => throw new IOException("lecture seule");
     }
 
     private sealed class ProofreadingExtension(OmniHtmlEditorProofreader proofreader) : OmniHtmlEditorExtension
@@ -207,14 +186,12 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
         public override OmniHtmlEditorProofreader? Proofreader => proofreader;
     }
 
-    private IRenderedComponent<OmniHtmlEditor> RenderProofreadingEditor()
+    /// <summary>Renders an editor over a misspelt passage, checked by <paramref name="proofreader"/> (a throwing one by default).</summary>
+    private IRenderedComponent<OmniHtmlEditor> RenderProofreadingEditor(OmniHtmlEditorProofreader? proofreader = null)
     {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Mode = JSRuntimeMode.Loose;
-        var value = "<p>Some speling here.</p>";
-        return Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Extensions, [new ProofreadingExtension(new ThrowingProofreader())]));
+        JSInterop.SetupModule(ModulePath).Mode = JSRuntimeMode.Loose;
+        return this.RenderHtmlEditor("<p>Some speling here.</p>", parameters => parameters
+            .Add(component => component.Extensions, [new ProofreadingExtension(proofreader ?? new ThrowingProofreader())]));
     }
 
     [Fact]
@@ -261,11 +238,7 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
     [Fact]
     public async Task ProofreaderCancelledByTheEditorLeaving_IsNotLoggedAsAFailure()
     {
-        JSInterop.SetupModule(ModulePath).Mode = JSRuntimeMode.Loose;
-        var value = "<p>Some speling here.</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Extensions, [new ProofreadingExtension(new WaitingProofreader())]));
+        var editor = RenderProofreadingEditor(new WaitingProofreader());
 
         var pending = editor.InvokeAsync(() => new HtmlEditorInteropBridge(editor.Instance).OnProofreadRequested(["Some speling here."], [null]));
         await editor.Instance.DisposeAsync();
@@ -316,11 +289,7 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
     [Fact]
     public async Task MenuClosedWhileCorrectionsLoad_DropsThem_WithoutLoggingAFailure()
     {
-        JSInterop.SetupModule(ModulePath).Mode = JSRuntimeMode.Loose;
-        var value = "<p>Some speling here.</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Extensions, [new ProofreadingExtension(new SlowSuggestionProofreader())]));
+        var editor = RenderProofreadingEditor(new SlowSuggestionProofreader());
         var proofreading = editor.Instance.Proofreading;
         Assert.True(proofreading.Begin(Flagged));
 
@@ -346,21 +315,11 @@ public sealed class EditorImportAndDiagnosticsTests : OmniBunitContext
 
     private sealed class ListLoggerProvider(List<(LogLevel, string, Exception?)> logs) : ILoggerProvider
     {
-        public ILogger CreateLogger(string categoryName) => new ListLogger(logs);
+        public ILogger CreateLogger(string categoryName) =>
+            new CallbackLogger((level, message, exception) => logs.Add((level, message, exception)));
 
         public void Dispose()
         {
-        }
-
-        private sealed class ListLogger(List<(LogLevel, string, Exception?)> logs) : ILogger
-        {
-            public IDisposable? BeginScope<TState>(TState state)
-                where TState : notnull => null;
-
-            public bool IsEnabled(LogLevel logLevel) => true;
-
-            public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter) =>
-                logs.Add((logLevel, formatter(state, exception), exception));
         }
     }
 }

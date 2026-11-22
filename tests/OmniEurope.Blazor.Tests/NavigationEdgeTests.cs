@@ -92,6 +92,12 @@ public sealed class NavigationEdgeTests : OmniBunitContext
         Assert.Equal(4, menu.FindAll(".omni-panel-menu__badge").Count);
     }
 
+    /// <summary>Renders a panel menu of one entry to <paramref name="href"/>.</summary>
+    private IRenderedComponent<OmniPanelMenu> RenderOneEntryMenu(string href) =>
+        Render<OmniPanelMenu>(parameters => parameters.AddChildContent<OmniPanelMenuItem>(item => item
+            .Add(component => component.Text, "Entrée")
+            .Add(component => component.Href, href)));
+
     [Theory]
     [InlineData("mailto:equipe@example.org")]
     [InlineData("/")]
@@ -100,9 +106,7 @@ public sealed class NavigationEdgeTests : OmniBunitContext
         var navigation = Services.GetRequiredService<NavigationManager>();
         navigation.NavigateTo("/autre");
 
-        var menu = Render<OmniPanelMenu>(parameters => parameters.AddChildContent<OmniPanelMenuItem>(item => item
-            .Add(component => component.Text, "Entrée")
-            .Add(component => component.Href, href)));
+        var menu = RenderOneEntryMenu(href);
 
         Assert.Null(menu.Find("a").GetAttribute("aria-current"));
     }
@@ -114,9 +118,7 @@ public sealed class NavigationEdgeTests : OmniBunitContext
     {
         Services.GetRequiredService<NavigationManager>().NavigateTo(at);
 
-        var menu = Render<OmniPanelMenu>(parameters => parameters.AddChildContent<OmniPanelMenuItem>(item => item
-            .Add(component => component.Text, "Entrée")
-            .Add(component => component.Href, href)));
+        var menu = RenderOneEntryMenu(href);
 
         Assert.Equal(current, menu.Find("a").GetAttribute("aria-current"));
     }

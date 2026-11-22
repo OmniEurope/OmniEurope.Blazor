@@ -9,14 +9,26 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class FormFieldHelpTests : OmniBunitContext
 {
+    /// <summary>Renders the field "Hote" around an input, with <paramref name="help"/> when it is given.</summary>
+    private IRenderedComponent<OmniFormField> RenderHostField(string? help) =>
+        Render<OmniFormField>(parameters =>
+        {
+            parameters
+                .Add(component => component.Id, "host-field")
+                .Add(component => component.For, "host")
+                .Add(component => component.Label, "Hote");
+            if (help is not null)
+            {
+                parameters.Add(component => component.Help, help);
+            }
+
+            parameters.AddChildContent("<input id=\"host\" />");
+        });
+
     [Fact]
     public void WithoutHelp_TheLabelIsADirectChild_AndThereIsNoMark()
     {
-        var field = Render<OmniFormField>(parameters => parameters
-            .Add(component => component.Id, "host-field")
-            .Add(component => component.For, "host")
-            .Add(component => component.Label, "Hote")
-            .AddChildContent("<input id=\"host\" />"));
+        var field = RenderHostField(help: null);
 
         Assert.Equal("LABEL", field.Find(".omni-form-field").Children[0].TagName);
         Assert.Empty(field.FindAll(".omni-form-field__label-row"));
@@ -26,12 +38,7 @@ public sealed class FormFieldHelpTests : OmniBunitContext
     [Fact]
     public void WithHelp_AFocusableMarkBesideTheLabel_CarriesTheText()
     {
-        var field = Render<OmniFormField>(parameters => parameters
-            .Add(component => component.Id, "host-field")
-            .Add(component => component.For, "host")
-            .Add(component => component.Label, "Hote")
-            .Add(component => component.Help, "Nom DNS du serveur de messagerie.")
-            .AddChildContent("<input id=\"host\" />"));
+        var field = RenderHostField("Nom DNS du serveur de messagerie.");
 
         var row = field.Find(".omni-form-field > .omni-form-field__label-row");
         var label = row.QuerySelector("label")!;

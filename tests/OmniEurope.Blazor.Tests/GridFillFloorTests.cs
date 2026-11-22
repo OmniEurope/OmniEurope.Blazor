@@ -23,13 +23,7 @@ public sealed class GridFillFloorTests : OmniBunitContext
             .Add(component => component.FillAvailableHeight, true)
             .Add(component => component.MinHeight, "12rem")
             .Add(component => component.ShowHeaderBar, true)
-            .Add(component => component.Columns, (RenderFragment)(builder =>
-            {
-                builder.OpenComponent<OmniDataGridColumn<Row>>(0);
-                builder.AddComponentParameter(1, nameof(OmniDataGridColumn<Row>.Key), "name");
-                builder.AddComponentParameter(2, nameof(OmniDataGridColumn<Row>.Value), (Func<Row, object?>)(row => row.Name));
-                builder.CloseComponent();
-            })));
+            .Add(component => component.Columns, DataGridRendering.KeyedColumn<Row>("name", row => row.Name)));
 
         // The stylesheet's floor rules name these exact relations: the frame as a child of the filling
         // root, the filling viewport inside the frame, the header bar beside it.

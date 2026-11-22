@@ -14,22 +14,16 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class KanbanEdgeTests : OmniBunitContext
 {
-    private static readonly IReadOnlyList<OmniKanbanColumn> Columns = [new("todo", "À faire"), new("doing", "En cours"), new("done", "Terminé")];
+    private static readonly IReadOnlyList<OmniKanbanColumn> Columns = KanbanRendering.Columns;
 
     private static readonly IReadOnlyList<Card> Cards = [new("A", "todo"), new("C", "doing"), new("X", "archived")];
 
     private readonly List<OmniKanbanMove<Card>> _moves = [];
 
     private IRenderedComponent<OmniKanban<Card>> RenderBoard(Action<ComponentParameterCollectionBuilder<OmniKanban<Card>>>? configure = null) =>
-        Render<OmniKanban<Card>>(parameters =>
+        this.RenderKanban(Cards, parameters =>
         {
-            parameters
-                .Add(component => component.Columns, Columns)
-                .Add(component => component.Items, Cards)
-                .Add(component => component.ColumnOf, card => card.Column)
-                .Add(component => component.KeyOf, card => card.Name)
-                .Add(component => component.CardTemplate, card => builder => builder.AddContent(0, card.Name))
-                .Add(component => component.OnItemMove, EventCallback.Factory.Create<OmniKanbanMove<Card>>(this, move => _moves.Add(move)));
+            parameters.Add(component => component.OnItemMove, EventCallback.Factory.Create<OmniKanbanMove<Card>>(this, move => _moves.Add(move)));
             configure?.Invoke(parameters);
         });
 
@@ -139,8 +133,7 @@ public sealed class KanbanEdgeTests : OmniBunitContext
         var board = RenderBoard();
 
         await board.Instance.DisposeAsync();
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+        await runtime.ReleaseHeldImportAsync();
         board.Render();
 
         Assert.Empty(runtime.Module.Calls);
@@ -149,9 +142,7 @@ public sealed class KanbanEdgeTests : OmniBunitContext
     [Fact]
     public async Task LostCircuit_WhileAttachingOrDetaching_IsIgnored()
     {
-        var runtime = new ManualJSRuntime();
-        runtime.Module.CallFailures["attach"] = new JSDisconnectedException("perdu");
-        runtime.Module.CallFailures["detach"] = new JSDisconnectedException("perdu");
+        var runtime = ManualJSRuntime.LosingTheCircuitOn("attach", "detach");
         Services.AddSingleton<IJSRuntime>(runtime);
         var board = RenderBoard();
         Assert.Equal(["attach"], runtime.Module.Calls);

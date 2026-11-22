@@ -6,13 +6,30 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class NotificationTests : OmniBunitContext
 {
+    /// <summary>
+    /// Renders a host around "Application" on a new overlay service, with the notification options grouped as
+    /// <paramref name="group"/> says, or without options when it is null.
+    /// </summary>
+    private (OmniOverlayService Service, IRenderedComponent<OmniComponentsHost> Host) RenderApplication(bool? group)
+    {
+        var service = new OmniOverlayService();
+        var host = Render<OmniComponentsHost>(parameters =>
+        {
+            parameters.Add(component => component.OverlayService, service);
+            if (group is { } grouped)
+            {
+                parameters.Add(component => component.Notifications, new OmniNotificationOptions(Group: grouped));
+            }
+
+            parameters.AddChildContent("Application");
+        });
+        return (service, host);
+    }
+
     [Fact]
     public void Action_RunsOnceAndClosesTheNotification()
     {
-        var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .AddChildContent("Application"));
+        var (service, host) = RenderApplication(group: null);
         var runs = 0;
 
         service.Notify("Déplacé", OmniSeverity.Success, "Succès", null, "Annuler", () =>
@@ -32,10 +49,7 @@ public sealed class NotificationTests : OmniBunitContext
     [Fact]
     public void WithoutAction_NoActionButton()
     {
-        var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .AddChildContent("Application"));
+        var (service, host) = RenderApplication(group: null);
 
         service.Notify("Rien à annuler", OmniSeverity.Info);
 
@@ -46,11 +60,7 @@ public sealed class NotificationTests : OmniBunitContext
     [Fact]
     public void Group_KeepsErrorsOutOfThePileAndCountsOnlyThePile()
     {
-        var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .Add(component => component.Notifications, new OmniNotificationOptions(Group: true))
-            .AddChildContent("Application"));
+        var (service, host) = RenderApplication(group: true);
 
         service.Notify("Un", OmniSeverity.Info);
         service.Notify("Échec", OmniSeverity.Danger);
@@ -66,11 +76,7 @@ public sealed class NotificationTests : OmniBunitContext
     [Fact]
     public void Group_OneCard_SitsInAnUnstackedPileWithoutACount()
     {
-        var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .Add(component => component.Notifications, new OmniNotificationOptions(Group: true))
-            .AddChildContent("Application"));
+        var (service, host) = RenderApplication(group: true);
 
         service.Notify("Seule", OmniSeverity.Info);
 
@@ -86,11 +92,7 @@ public sealed class NotificationTests : OmniBunitContext
     [InlineData(true)]
     public void Dismiss_OldestCard_KeepsTheOthersAlive(bool group)
     {
-        var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters
-            .Add(component => component.OverlayService, service)
-            .Add(component => component.Notifications, new OmniNotificationOptions(Group: group))
-            .AddChildContent("Application"));
+        var (service, host) = RenderApplication(group);
 
         service.Notify("Un", OmniSeverity.Info);
         service.Notify("Deux", OmniSeverity.Info);

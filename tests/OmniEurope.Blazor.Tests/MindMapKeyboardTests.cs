@@ -19,6 +19,19 @@ public sealed class MindMapKeyboardTests : OmniBunitContext
             .Add(map => map.DocumentChanged, value => _changes.Add(value))
             .Add(map => map.ViewStateChanged, value => _views.Add(value)));
 
+    /// <summary>Renders the sample, adding each node asked to be renamed to <paramref name="renamed"/>, and each change when <paramref name="recordChanges"/> is set.</summary>
+    private IRenderedComponent<OmniMindMap> RenderRecordingRenames(List<string> renamed, bool recordChanges) =>
+        Render<OmniMindMap>(parameters =>
+        {
+            parameters.Add(map => map.Document, MindMapComponentTests.Sample());
+            if (recordChanges)
+            {
+                parameters.Add(map => map.DocumentChanged, value => _changes.Add(value));
+            }
+
+            parameters.Add(map => map.OnNodeRename, node => renamed.Add(node.Id));
+        });
+
     private static void Press(IRenderedComponent<OmniMindMap> map, string key, bool shift = false, bool ctrl = false, bool alt = false, bool meta = false) =>
         map.Find("svg.omni-mindmap__canvas").KeyDown(new KeyboardEventArgs { Key = key, ShiftKey = shift, CtrlKey = ctrl, AltKey = alt, MetaKey = meta });
 
@@ -137,10 +150,7 @@ public sealed class MindMapKeyboardTests : OmniBunitContext
     public async Task EnterWhileLinking_WithNothingSelected_DoesNothing()
     {
         var renamed = new List<string>();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(map => map.Document, MindMapComponentTests.Sample())
-            .Add(map => map.DocumentChanged, value => _changes.Add(value))
-            .Add(map => map.OnNodeRename, node => renamed.Add(node.Id)));
+        var map = RenderRecordingRenames(renamed, recordChanges: true);
         await map.InvokeAsync(() => map.Instance.StartLinkModeAsync());
 
         Press(map, "Enter");
@@ -153,9 +163,7 @@ public sealed class MindMapKeyboardTests : OmniBunitContext
     public void EnterOrF2_WithoutALink_RenamesTheSelectedNode()
     {
         var renamed = new List<string>();
-        var map = Render<OmniMindMap>(parameters => parameters
-            .Add(map => map.Document, MindMapComponentTests.Sample())
-            .Add(map => map.OnNodeRename, node => renamed.Add(node.Id)));
+        var map = RenderRecordingRenames(renamed, recordChanges: false);
         Press(map, "Home");
 
         Press(map, "F2");

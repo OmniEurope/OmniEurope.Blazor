@@ -12,23 +12,15 @@ namespace OmniEurope.Blazor.Tests;
 /// zoom buttons, lines and their colours), the checks of the parameters, the callbacks and what the component tells its
 /// module, read back from bUnit's interop.
 /// </summary>
-public sealed class MapTests : OmniBunitContext
+public sealed class MapTests : MapTestContext
 {
-    private static readonly OmniGeoPoint Brussels = new(50.8466, 4.3528);
-    private readonly BunitJSModuleInterop _module;
-
-    public MapTests() => _module = JSInterop.SetupModule(OmniModules.Map);
-
-    private IRenderedComponent<OmniMap> RenderMap(Action<ComponentParameterCollectionBuilder<OmniMap>>? configure = null)
-        => Render<OmniMap>(parameters => configure?.Invoke(parameters));
-
     private static OmniMapLine Line(string? color = null, OmniTone tone = OmniTone.Accent, double width = 5, string? tooltip = null)
         => new() { Points = [new(50.8466, 4.3528), new(50.8355, 4.3330)], Color = color, Tone = tone, Width = width, Tooltip = tooltip };
 
     private static OmniMapMarker Marker(string label, OmniMapMarkerKind kind = OmniMapMarkerKind.Point, OmniIconName? icon = null)
         => new() { Point = Brussels, Label = label, Kind = kind, Icon = icon };
 
-    private IReadOnlyList<object?> LastUpdate() => _module.Invocations["update"][^1].Arguments;
+    private IReadOnlyList<object?> LastUpdate() => MapModule.Invocations["update"][^1].Arguments;
 
     // ----- Markup ------------------------------------------------------------------------------------
 
@@ -245,8 +237,8 @@ public sealed class MapTests : OmniBunitContext
     {
         RenderMap(parameters => parameters.Add(m => m.Lines, [Line()]).Add(m => m.Markers, [Marker("Gare")]));
 
-        Assert.Single(_module.Invocations["attach"]);
-        var update = Assert.Single(_module.Invocations["update"]).Arguments;
+        Assert.Single(MapModule.Invocations["attach"]);
+        var update = Assert.Single(MapModule.Invocations["update"]).Arguments;
         Assert.Equal(OmniMap.DefaultTileUrl, update[1]);
         Assert.Equal(2, update[2]);
         Assert.Equal(19, update[3]);
@@ -340,15 +332,21 @@ public sealed class MapTests : OmniBunitContext
 
     // ----- What the script is told -------------------------------------------------------------------
 
+    /// <summary>Renders a map of one default line, and returns the list it was given.</summary>
+    private (OmniMapLine[] Lines, IRenderedComponent<OmniMap> Map) RenderOneLine()
+    {
+        var lines = new[] { Line() };
+        return (lines, RenderMap(parameters => parameters.Add(m => m.Lines, lines)));
+    }
+
     [Fact]
     public void ARenderWithNothingChanged_TellsTheScriptNothing()
     {
-        var lines = new[] { Line() };
-        var map = RenderMap(parameters => parameters.Add(m => m.Lines, lines));
+        var (lines, map) = RenderOneLine();
 
         map.Render(parameters => parameters.Add(m => m.Lines, lines).Add(m => m.Label, "Autre"));
 
-        Assert.Single(_module.Invocations["update"]);
+        Assert.Single(MapModule.Invocations["update"]);
     }
 
     [Fact]
@@ -359,7 +357,7 @@ public sealed class MapTests : OmniBunitContext
 
         map.Render(parameters => parameters.Add(m => m.FitToContent, true).Add(m => m.Lines, [Line(), Line()]));
 
-        Assert.Equal(2, _module.Invocations["update"].Count);
+        Assert.Equal(2, MapModule.Invocations["update"].Count);
         Assert.Equal(2, ((double[][])LastUpdate()[4]!).Length);
         Assert.Null(LastUpdate()[6]);
         Assert.Equal(true, LastUpdate()[7]);
@@ -380,8 +378,7 @@ public sealed class MapTests : OmniBunitContext
     [Fact]
     public void TurningFitToContentOn_FramesTheContentAlreadyThere()
     {
-        var lines = new[] { Line() };
-        var map = RenderMap(parameters => parameters.Add(m => m.Lines, lines));
+        var (lines, map) = RenderOneLine();
 
         map.Render(parameters => parameters.Add(m => m.Lines, lines).Add(m => m.FitToContent, true));
 
@@ -415,7 +412,7 @@ public sealed class MapTests : OmniBunitContext
         Assert.Equal([15], zooms);
         // The bound host gives the same view back: nothing to tell the script.
         map.Render(parameters => parameters.Add(m => m.Center, new OmniGeoPoint(50.9, 4.4)).Add(m => m.Zoom, 15));
-        Assert.Single(_module.Invocations["update"]);
+        Assert.Single(MapModule.Invocations["update"]);
         Assert.False(map.FindAll(".omni-map__controls button")[0].HasAttribute("disabled"));
     }
 
@@ -471,7 +468,7 @@ public sealed class MapTests : OmniBunitContext
         map.FindAll(".omni-map__controls button")[1].Click();
         await map.Instance.ZoomInAsync();
 
-        Assert.Equal([1, -1, 1], _module.Invocations["zoomBy"].Select(call => (int)call.Arguments[1]!));
+        Assert.Equal([1, -1, 1], MapModule.Invocations["zoomBy"].Select(call => (int)call.Arguments[1]!));
     }
 
     [Fact]
@@ -481,7 +478,7 @@ public sealed class MapTests : OmniBunitContext
 
         await map.Instance.DisposeAsync();
 
-        Assert.Single(_module.Invocations["detach"]);
+        Assert.Single(MapModule.Invocations["detach"]);
         await Assert.ThrowsAsync<ObjectDisposedException>(() => map.Instance.ZoomOutAsync());
         await map.InvokeAsync(() => map.Instance.HandleMapClickAsync(1, 2));
     }

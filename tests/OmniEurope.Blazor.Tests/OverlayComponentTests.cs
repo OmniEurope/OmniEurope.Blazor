@@ -101,7 +101,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
     public void OverlayService_RendersAndInvokesAnExplicitDialogFooterAction()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
         service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?"))
         {
             FooterContent = builder =>
@@ -125,7 +125,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
     public async Task ConfirmAsync_PutsTheActionFirstAndCancelAfterItInNeutralSecondary_EachWithAnIcon()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         var pending = service.ConfirmAsync(new OmniConfirmRequest("Supprimer le dossier", "Le dossier sera retiré.")
         {
@@ -153,13 +153,15 @@ public sealed class OverlayComponentTests : OmniBunitContext
         Assert.Null(service.Dialog);
     }
 
+    private static OmniConfirmRequest PublishRequest => new("Publier", "Publier la page ?");
+
     [Fact]
     public async Task ConfirmAsync_DefaultsToAPrimaryConfirmAndAnswersFalseOnCancel()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
-        var pending = service.ConfirmAsync(new OmniConfirmRequest("Publier", "Publier la page ?"));
+        var pending = service.ConfirmAsync(PublishRequest);
 
         host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-confirm__cancel")));
         var action = host.Find(".omni-confirm__action");
@@ -175,7 +177,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
     public async Task OpenDialogAsyncOfComponent_RendersTheComponentWithItsParameters_AndAnswersItsResult()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         var pending = service.OpenDialogAsync<OmniText>(
             "Renommer",
@@ -198,9 +200,9 @@ public sealed class OverlayComponentTests : OmniBunitContext
     public async Task ConfirmAsync_ClosedAnyOtherWay_AnswersFalse()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
-        var pending = service.ConfirmAsync(new OmniConfirmRequest("Publier", "Publier la page ?"));
+        var pending = service.ConfirmAsync(PublishRequest);
         host.WaitForAssertion(() => Assert.NotNull(host.Find(".omni-dialog__close")));
         host.Find(".omni-dialog__close").Click();
 
@@ -447,7 +449,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
     public void DialogTitleContent_ReplacesTheTextInsideTheNamingHeading_AndTitleStaysTheDefault()
     {
         var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         service.OpenDialog(new OmniDialogRequest("Raccourcis", Content("Liste"))
         {

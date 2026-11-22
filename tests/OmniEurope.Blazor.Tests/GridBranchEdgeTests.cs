@@ -45,14 +45,43 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     }
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? extra = null, RenderFragment? columns = null) =>
+        this.RenderKeyedGrid(Rows, row => row.Name, columns ?? Columns(), extra);
+
+    /// <summary>The two columns, the amount summed in the footer.</summary>
+    private static RenderFragment AmountSummed() => Columns((index, column) =>
+    {
+        if (index == 1)
+        {
+            column.Add(nameof(OmniDataGridColumn<Row>.Aggregate), OmniDataGridAggregate.Sum);
+        }
+    });
+
+    /// <summary>Renders a grid loaded by <paramref name="load"/> and keyed by name, then the parameters <paramref name="more"/> adds.</summary>
+    private IRenderedComponent<OmniDataGrid<Row>> RenderRemoteGrid(
+        Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>> load,
+        Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>> more) =>
         Render<OmniDataGrid<Row>>(parameters =>
         {
             parameters
-                .Add(component => component.Items, Rows)
-                .Add(component => component.KeyOf, row => row.Name)
-                .Add(component => component.Columns, columns ?? Columns());
-            extra?.Invoke(parameters);
+                .Add(component => component.Load, load)
+                .Add(component => component.KeyOf, row => row.Name);
+            more(parameters);
         });
+
+    /// <summary>A loader that adds each request to <paramref name="requests"/>, then answers what <paramref name="answer"/> gives.</summary>
+    private static Func<OmniDataGridLoadRequest, Task<OmniDataGridResult<Row>>> Recorded(
+        List<OmniDataGridLoadRequest> requests, Func<OmniDataGridLoadRequest, OmniDataGridResult<Row>> answer) => request =>
+        {
+            requests.Add(request);
+            return Task.FromResult(answer(request));
+        };
+
+    private BunitJSModuleInterop SetupLooseGridModule()
+    {
+        var module = JSInterop.SetupModule(OmniModules.Grid);
+        module.Mode = JSRuntimeMode.Loose;
+        return module;
+    }
 
     [Fact]
     public void FooterAndPager_TopAndBottom_AreDrawnTwice()
@@ -62,13 +91,7 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
                 .Add(component => component.FooterPlacement, OmniDataGridPlacement.TopAndBottom)
                 .Add(component => component.PagerPlacement, OmniDataGridPlacement.TopAndBottom)
                 .Add(component => component.PageSize, 2),
-            Columns((index, column) =>
-            {
-                if (index == 1)
-                {
-                    column.Add(nameof(OmniDataGridColumn<Row>.Aggregate), OmniDataGridAggregate.Sum);
-                }
-            }));
+            AmountSummed());
 
         Assert.Equal(2, grid.FindAll(".omni-pager").Count);
         Assert.Equal(2, grid.FindAll("tr.omni-data-grid__footer-row").Count);
@@ -80,13 +103,7 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     public void InitialSort_OnAColumnSortedByAnotherProperty_SendsThatProperty()
     {
         var requests = new List<OmniDataGridLoadRequest>();
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Load, request =>
-            {
-                requests.Add(request);
-                return Task.FromResult(new OmniDataGridResult<Row>(Rows, Rows.Count));
-            })
-            .Add(component => component.KeyOf, row => row.Name)
+        var grid = RenderRemoteGrid(Recorded(requests, _ => new OmniDataGridResult<Row>(Rows, Rows.Count)), parameters => parameters
             .Add(component => component.Columns, Columns((index, column) =>
             {
                 if (index == 0)
@@ -184,8 +201,7 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     [Fact]
     public void FillAvailableHeight_WithABlankMinimum_SendsNoMinimum()
     {
-        var module = JSInterop.SetupModule(OmniModules.Grid);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = SetupLooseGridModule();
 
         RenderGrid(parameters => parameters
             .Add(component => component.FillAvailableHeight, true)
@@ -199,13 +215,7 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     public void RemotePagedGrid_LoadsAgainOnANewPageAndANewPageSize()
     {
         var requests = new List<OmniDataGridLoadRequest>();
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Load, request =>
-            {
-                requests.Add(request);
-                return Task.FromResult(new OmniDataGridResult<Row>(Rows.Take(request.PageSize).ToArray(), 30));
-            })
-            .Add(component => component.KeyOf, row => row.Name)
+        var grid = RenderRemoteGrid(Recorded(requests, request => new OmniDataGridResult<Row>(Rows.Take(request.PageSize).ToArray(), 30)), parameters => parameters
             .Add(component => component.PageSize, 2)
             .Add(component => component.PageSizeOptions, [2, 5])
             .Add(component => component.Columns, Columns()));
@@ -317,18 +327,10 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     {
         JSInterop.Mode = JSRuntimeMode.Loose;
         var pending = new TaskCompletionSource<OmniDataGridResult<Row>>();
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Load, _ => pending.Task)
-            .Add(component => component.KeyOf, row => row.Name)
+        var grid = RenderRemoteGrid(_ => pending.Task, parameters => parameters
             .Add(component => component.ScrollMode, OmniDataGridScrollMode.Virtual)
             .Add(component => component.ShowLoadingBar, false)
-            .Add(component => component.Columns, Columns((index, column) =>
-            {
-                if (index == 1)
-                {
-                    column.Add(nameof(OmniDataGridColumn<Row>.Aggregate), OmniDataGridAggregate.Sum);
-                }
-            })));
+            .Add(component => component.Columns, AmountSummed()));
 
         grid.WaitForAssertion(() => Assert.NotEmpty(grid.FindAll(".omni-data-grid__state--loading")));
         pending.SetResult(new OmniDataGridResult<Row>(Rows, Rows.Count));
@@ -340,16 +342,8 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     [Fact]
     public void RemotePagedGrid_SumsItsPage()
     {
-        var grid = Render<OmniDataGrid<Row>>(parameters => parameters
-            .Add(component => component.Load, _ => Task.FromResult(new OmniDataGridResult<Row>(Rows, 30)))
-            .Add(component => component.KeyOf, row => row.Name)
-            .Add(component => component.Columns, Columns((index, column) =>
-            {
-                if (index == 1)
-                {
-                    column.Add(nameof(OmniDataGridColumn<Row>.Aggregate), OmniDataGridAggregate.Sum);
-                }
-            })));
+        var grid = RenderRemoteGrid(_ => Task.FromResult(new OmniDataGridResult<Row>(Rows, 30)), parameters => parameters
+            .Add(component => component.Columns, AmountSummed()));
 
         grid.WaitForAssertion(() => Assert.Equal("6", grid.Find("tr.omni-data-grid__footer-row td[data-omni-col='Amount']").TextContent.Trim()));
     }
@@ -470,8 +464,7 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     [Fact]
     public void FillAvailableHeight_KeepsItsMinimumHeight()
     {
-        var module = JSInterop.SetupModule(OmniModules.Grid);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = SetupLooseGridModule();
 
         RenderGrid(parameters => parameters
             .Add(component => component.FillAvailableHeight, true)
@@ -483,8 +476,7 @@ public sealed class GridBranchEdgeTests : OmniBunitContext
     [Fact]
     public void FillAvailableHeight_WithoutAMinHeight_SendsThreeQuartersOfTheViewportAsTheFloor()
     {
-        var module = JSInterop.SetupModule(OmniModules.Grid);
-        module.Mode = JSRuntimeMode.Loose;
+        var module = SetupLooseGridModule();
 
         RenderGrid(parameters => parameters.Add(component => component.FillAvailableHeight, true));
 

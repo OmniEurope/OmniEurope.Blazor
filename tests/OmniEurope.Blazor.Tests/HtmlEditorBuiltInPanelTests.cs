@@ -12,8 +12,6 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
 {
-    private const string ModulePath = Internal.OmniModules.HtmlEditor;
-
     [Fact]
     public async Task ShowBlocks_TogglesTheOutlineClassAndItsPressedState()
     {
@@ -47,9 +45,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
     [Fact]
     public void ChangeCaseAndShowBlocks_AreDisabledInTheSourceFace()
     {
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var editor = this.RenderHtmlEditor("<p>A</p>", parameters => parameters
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.ChangeCase, OmniHtmlEditorCommands.ShowBlocks]));
 
@@ -135,8 +131,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
     {
         var module = SetupSurface();
         module.Setup<string?>("exec", _ => true).SetResult("<table></table>");
-        var editor = RenderEditor([OmniHtmlEditorCommands.ImportTable]);
-        await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
+        var editor = await this.OpenTableImportAsync();
 
         Assert.Equal(".csv,.tsv", editor.Find("input[type=file]").GetAttribute("accept"));
         editor.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("Nom,Âge\nAda,36\nAlan,41", "people.csv"));
@@ -163,12 +158,7 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
         var extension = new ReaderExtension(new OmniHtmlEditorTableReader([".xlsx"], (name, _) => fail
             ? throw new HttpRequestException("down")
             : Task.FromResult<IReadOnlyList<IReadOnlyList<string>>>([["1", "2"], ["3"]])));
-        var value = "<p>A</p>";
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Commands, [OmniHtmlEditorCommands.ImportTable])
-            .Add(component => component.Extensions, [extension]));
-        await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
+        var editor = await this.OpenTableImportAsync(extension);
 
         Assert.Equal(".csv,.tsv,.xlsx", editor.Find("input[type=file]").GetAttribute("accept"));
         editor.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromBinary([1, 2, 3], "sheet.xlsx"));
@@ -187,28 +177,17 @@ public sealed class HtmlEditorBuiltInPanelTests : OmniBunitContext
     public async Task ImportTable_OfAnUnreadFormat_SaysItIsNotSupported()
     {
         SetupSurface();
-        var editor = RenderEditor([OmniHtmlEditorCommands.ImportTable]);
-        await editor.Find("[data-command=import-table]").ClickAsync(new MouseEventArgs());
+        var editor = await this.OpenTableImportAsync();
 
         editor.FindComponent<InputFile>().UploadFiles(InputFileContent.CreateFromText("x", "notes.txt"));
 
         editor.WaitForElement(".omni-html-editor__panel [role=alert]");
     }
 
-    private BunitJSModuleInterop SetupSurface()
-    {
-        var module = JSInterop.SetupModule(ModulePath);
-        module.Setup<string?>("read", _ => true).SetResult(null);
-        return module;
-    }
+    private BunitJSModuleInterop SetupSurface() => JSInterop.SetupHtmlEditorSurface();
 
-    private IRenderedComponent<OmniHtmlEditor> RenderEditor(IReadOnlyList<OmniHtmlEditorCommand> commands)
-    {
-        var value = "<p>A</p>";
-        return Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
-            .Add(component => component.Commands, commands));
-    }
+    private IRenderedComponent<OmniHtmlEditor> RenderEditor(IReadOnlyList<OmniHtmlEditorCommand> commands) =>
+        this.RenderHtmlEditor("<p>A</p>", parameters => parameters.Add(component => component.Commands, commands));
 
     private sealed class ReaderExtension(OmniHtmlEditorTableReader reader) : OmniHtmlEditorExtension
     {

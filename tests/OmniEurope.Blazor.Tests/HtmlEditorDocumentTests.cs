@@ -41,10 +41,8 @@ public sealed class HtmlEditorDocumentTests : OmniBunitContext
     public void WithoutSheetOrStatusBar_TheEditorRendersAloneAsBefore()
     {
         JSInterop.SetupModule(EditorModulePath);
-        var value = "<p>Bonjour</p>";
 
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value));
+        var editor = this.RenderHtmlEditor("<p>Bonjour</p>");
 
         Assert.Empty(editor.FindAll(".omni-document-editor"));
         Assert.Empty(editor.FindAll(".omni-document-editor__status"));
@@ -116,9 +114,7 @@ public sealed class HtmlEditorDocumentTests : OmniBunitContext
         JSInterop.SetupModule(EditorModulePath);
         var download = JSInterop.SetupModule(DocumentModulePath);
         download.SetupVoid("download", _ => true).SetVoidResult();
-        var value = "<p>Bonjour</p>";
-        var document = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var document = this.RenderHtmlEditor("<p>Bonjour</p>", parameters => parameters
             .Add(component => component.ShowStatusBar, true)
             .Add(component => component.FileName, "compte-rendu")
             .Add(component => component.DocumentTitle, "Compte rendu"));
@@ -139,10 +135,8 @@ public sealed class HtmlEditorDocumentTests : OmniBunitContext
     public void Disabled_LocksThePage_AndTheStatusBarCanBeHidden()
     {
         JSInterop.SetupModule(EditorModulePath);
-        var value = "<p>Bonjour</p>";
 
-        var document = Render<OmniHtmlEditor>(parameters => parameters
-            .BindValue(() => value)
+        var document = this.RenderHtmlEditor("<p>Bonjour</p>", parameters => parameters
             .Add(component => component.Sheet, true)
             .Add(component => component.Commands, OmniHtmlEditorCommands.Document)
             .Add(component => component.Disabled, true));

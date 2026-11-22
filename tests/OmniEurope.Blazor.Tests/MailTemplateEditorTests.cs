@@ -82,12 +82,18 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
         Assert.Equal(["<p>Bonjour {{client.name}}{{file}}</p>"], bodies);
     }
 
+    private BunitJSModuleInterop SetupPreviewInsertingAtTheCaret()
+    {
+        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        preview.Setup<bool>("insertAtCaret", _ => true).SetResult(true);
+        return preview;
+    }
+
     [Fact]
     public async Task AVariable_IsWrittenInTheSubject_WhenTheSubjectWasFocusedLast()
     {
         var surface = SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
-        preview.Setup<bool>("insertAtCaret", _ => true).SetResult(true);
+        var preview = SetupPreviewInsertingAtTheCaret();
         var editor = RenderEditor();
 
         await editor.Find(".omni-mail-template-editor__subject").TriggerEventAsync("onfocusin", new FocusEventArgs());
@@ -102,8 +108,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     public async Task AVariable_InTheSourceFace_UsesTheSourceCaretAndItsInputEvent()
     {
         var surface = SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
-        preview.Setup<bool>("insertAtCaret", _ => true).SetResult(true);
+        var preview = SetupPreviewInsertingAtTheCaret();
         var editor = RenderEditor();
         await editor.Find("[data-command=toggle-source]").ClickAsync(new MouseEventArgs());
         var source = editor.Find("textarea");

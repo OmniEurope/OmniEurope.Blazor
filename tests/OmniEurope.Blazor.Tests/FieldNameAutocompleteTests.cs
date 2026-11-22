@@ -1,4 +1,5 @@
 using System.Linq.Expressions;
+using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components.Forms;
 using OmniEurope.Blazor.Components;
@@ -44,9 +45,9 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void Two_models_whose_member_is_called_name_give_two_names()
     {
-        var project = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var project = RenderInForm(parameters => parameters
             .Add(component => component.ValueExpression, () => Project.Name)).Find("input");
-        var alert = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var alert = RenderInForm(parameters => parameters
             .Add(component => component.ValueExpression, () => Alert.Name)).Find("input");
 
         Assert.Equal("ProjectModel.Name", project.GetAttribute("name"));
@@ -56,7 +57,7 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void An_id_wins_over_the_member_path()
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var input = RenderInForm(parameters => parameters
             .Add(component => component.Id, "project-name")
             .Add(component => component.ValueExpression, () => Project.Name)).Find("input");
 
@@ -66,7 +67,7 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void A_name_given_as_attribute_wins_over_the_id()
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var input = RenderInForm(parameters => parameters
             .Add(component => component.Id, "project-name")
             .Add(component => component.ValueExpression, () => Project.Name)
             .AddUnmatched("name", "raison-sociale")).Find("input");
@@ -77,7 +78,7 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void A_generic_model_is_named_without_its_arity()
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var input = RenderInForm(parameters => parameters
             .Add(component => component.ValueExpression, () => Wrapped.Content!)).Find("input");
 
         Assert.Equal("Envelope.Content", input.GetAttribute("name"));
@@ -85,6 +86,31 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
 
     // The edit context of an interactive EditForm, where Blazor itself writes no name (it does only in a static render).
     private readonly EditContext _form = new(new object()) { ShouldUseFieldIdentifiers = false };
+
+    /// <summary>Renders a text box in the interactive edit context, with the parameters the test gives.</summary>
+    private IRenderedComponent<OmniTextBox> RenderInForm(Action<ComponentParameterCollectionBuilder<OmniTextBox>> parameters) =>
+        Render<OmniTextBox>(builder =>
+        {
+            builder.AddCascadingValue(_form);
+            parameters(builder);
+        });
+
+    /// <summary>The input of a text box in the form bound to <c>Project.Name</c>, with the parameters <paramref name="more"/> adds.</summary>
+    private IElement InputBoundToTheName(Action<ComponentParameterCollectionBuilder<OmniTextBox>> more) =>
+        RenderInForm(parameters =>
+        {
+            parameters.Add(component => component.ValueExpression, () => Project.Name);
+            more(parameters);
+        }).Find("input");
+
+    /// <summary>The name written by a text box with an id, bound to an array element rather than a member chain.</summary>
+    private string? NameOfAnIndexedBinding()
+    {
+        string[] names = ["a"];
+        return RenderInForm(parameters => parameters
+            .Add(component => component.Id, "project-name")
+            .Add(component => component.ValueExpression, () => names[0])).Find("input").GetAttribute("name");
+    }
 
     [Theory]
     [InlineData(OmniTextBoxType.Text)]
@@ -94,10 +120,9 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [InlineData(OmniTextBoxType.Url)]
     public void A_text_box_given_no_parameter_is_named_by_the_bound_member_and_writes_no_autocomplete(OmniTextBoxType type)
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var input = InputBoundToTheName(parameters => parameters
             .Add(component => component.Type, type)
-            .Add(component => component.Value, Project.Name)
-            .Add(component => component.ValueExpression, () => Project.Name)).Find("input");
+            .Add(component => component.Value, Project.Name));
 
         Assert.Equal("ProjectModel.Name", input.GetAttribute("name"));
         Assert.False(input.HasAttribute("autocomplete"));
@@ -106,7 +131,7 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void A_nested_member_gives_its_whole_path()
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var input = RenderInForm(parameters => parameters
             .Add(component => component.ValueExpression, () => Project.Parent!.Name)).Find("input");
 
         Assert.Equal("ProjectModel.Parent.Name", input.GetAttribute("name"));
@@ -115,10 +140,9 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void A_name_and_an_autocomplete_given_as_attributes_win()
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
-            .Add(component => component.ValueExpression, () => Project.Name)
+        var input = InputBoundToTheName(parameters => parameters
             .AddUnmatched("name", "raison-sociale")
-            .AddUnmatched("autocomplete", "organization")).Find("input");
+            .AddUnmatched("autocomplete", "organization"));
 
         Assert.Equal("raison-sociale", input.GetAttribute("name"));
         Assert.Equal("organization", input.GetAttribute("autocomplete"));
@@ -130,9 +154,8 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [InlineData("off")]
     public void The_autocomplete_parameter_is_written_as_given(string given)
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
-            .Add(component => component.ValueExpression, () => Project.Name)
-            .Add(component => component.Autocomplete, given)).Find("input");
+        var input = InputBoundToTheName(parameters => parameters
+            .Add(component => component.Autocomplete, given));
 
         Assert.Equal(given, input.GetAttribute("autocomplete"));
     }
@@ -140,9 +163,8 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void The_wrapped_text_box_writes_the_name_on_its_input()
     {
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
-            .Add(component => component.ShowCopy, true)
-            .Add(component => component.ValueExpression, () => Project.Name)).Find("input");
+        var input = InputBoundToTheName(parameters => parameters
+            .Add(component => component.ShowCopy, true));
 
         Assert.Equal("ProjectModel.Name", input.GetAttribute("name"));
         Assert.False(input.HasAttribute("autocomplete"));
@@ -162,30 +184,20 @@ public sealed class FieldNameAutocompleteTests : OmniBunitContext
     [Fact]
     public void A_bound_value_that_is_not_a_member_chain_falls_back_to_the_id()
     {
-        string[] names = ["a"];
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
-            .Add(component => component.Id, "project-name")
-            .Add(component => component.ValueExpression, () => names[0])).Find("input");
-
-        Assert.Equal("project-name", input.GetAttribute("name"));
+        Assert.Equal("project-name", NameOfAnIndexedBinding());
     }
 
     [Fact]
     public void In_a_static_render_the_name_blazor_formats_is_kept()
     {
         _form.ShouldUseFieldIdentifiers = true;
-        string[] names = ["a"];
-        var input = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
-            .Add(component => component.Id, "project-name")
-            .Add(component => component.ValueExpression, () => names[0])).Find("input");
-
-        Assert.Equal("names[0]", input.GetAttribute("name"));
+        Assert.Equal("names[0]", NameOfAnIndexedBinding());
     }
 
     [Fact]
     public void A_field_keeps_its_name_across_renders_of_the_same_bound_value()
     {
-        var bound = Render<OmniTextBox>(parameters => parameters.AddCascadingValue(_form)
+        var bound = RenderInForm(parameters => parameters
             .Add(component => component.ValueExpression, () => Project.Name));
         bound.Render(parameters => parameters.Add(component => component.Placeholder, "Name"));
 

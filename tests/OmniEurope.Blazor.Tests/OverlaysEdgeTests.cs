@@ -145,9 +145,8 @@ public sealed class OverlaysEdgeTests : OmniBunitContext
         var tooltips = Render<OmniTitleTooltips>();
 
         await tooltips.Instance.DisposeAsync();
-        runtime.PendingImport.SetResult(runtime.Module);
+        await runtime.ReleaseHeldImportAsync();
 
-        await runtime.Module.Disposal.Task.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
         Assert.Empty(runtime.Module.Calls);
     }
 

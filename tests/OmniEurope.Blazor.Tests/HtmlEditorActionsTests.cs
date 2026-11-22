@@ -31,16 +31,14 @@ public sealed class HtmlEditorActionsTests : OmniBunitContext
     }
 
     private IRenderedComponent<OmniHtmlEditor> RenderEditor(Action<ComponentParameterCollectionBuilder<OmniHtmlEditor>>? extra = null, List<string>? changes = null) =>
-        Render<OmniHtmlEditor>(parameters =>
-        {
-            parameters.Add(editor => editor.Value, Start).Add(editor => editor.ValueExpression, () => _bound);
-            if (changes is not null)
-            {
-                parameters.Add(editor => editor.ValueChanged, html => changes.Add(html));
-            }
+        this.RenderTrackedHtmlEditor(Start, () => _bound, changes, extra);
 
-            extra?.Invoke(parameters);
-        });
+    /// <summary>Renders the editor as a document: a sheet, its status bar and the document commands.</summary>
+    private IRenderedComponent<OmniHtmlEditor> RenderDocumentSheet() =>
+        RenderEditor(parameters => parameters
+            .Add(editor => editor.Sheet, true)
+            .Add(editor => editor.ShowStatusBar, true)
+            .Add(editor => editor.Commands, OmniHtmlEditorCommands.Document));
 
     // Called the way the toolbar calls it, then rendered as an event handler would be.
     private static async Task Run(IRenderedComponent<OmniHtmlEditor> editor, OmniHtmlEditorAction action, string? argument = null)
@@ -181,11 +179,8 @@ public sealed class HtmlEditorActionsTests : OmniBunitContext
     public async Task HistoryOfAnEmptyValue_UndoesBackToEmpty()
     {
         var changes = new List<string>();
-        var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(editor => editor.Value, null)
-            .Add(editor => editor.ValueExpression, () => _bound)
-            .Add(editor => editor.Mode, OmniHtmlEditorMode.Source)
-            .Add(editor => editor.ValueChanged, html => changes.Add(html)));
+        var editor = this.RenderTrackedHtmlEditor(null, () => _bound, changes, parameters => parameters
+            .Add(editor => editor.Mode, OmniHtmlEditorMode.Source));
 
         editor.Find("textarea").Input("<p>un</p>");
         await editor.InvokeAsync(editor.Instance.UndoAsync);
@@ -242,10 +237,7 @@ public sealed class HtmlEditorActionsTests : OmniBunitContext
     {
         var download = JSInterop.SetupModule(OmniModules.DocumentEditor);
         download.SetupVoid("download", _ => true).SetVoidResult();
-        var editor = RenderEditor(parameters => parameters
-            .Add(editor => editor.Sheet, true)
-            .Add(editor => editor.ShowStatusBar, true)
-            .Add(editor => editor.Commands, OmniHtmlEditorCommands.Document));
+        var editor = RenderDocumentSheet();
 
         var html = await editor.InvokeAsync(editor.Instance.ExportHtmlAsync);
         editor.Find("[data-export=html]").Click();
@@ -259,10 +251,7 @@ public sealed class HtmlEditorActionsTests : OmniBunitContext
     {
         var runtime = new ManualJSRuntime { Module = new RecordingModule { DisposeFailure = new JSDisconnectedException("perdu") } };
         Services.AddSingleton<IJSRuntime>(runtime);
-        var editor = RenderEditor(parameters => parameters
-            .Add(editor => editor.Sheet, true)
-            .Add(editor => editor.ShowStatusBar, true)
-            .Add(editor => editor.Commands, OmniHtmlEditorCommands.Document));
+        var editor = RenderDocumentSheet();
         editor.Find("[data-export=text]").Click();
         Assert.Contains("download", runtime.Module.Calls);
 

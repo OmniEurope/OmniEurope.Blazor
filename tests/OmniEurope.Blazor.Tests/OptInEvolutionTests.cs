@@ -78,7 +78,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
         Assert.True(request.Dismissible);
 
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         service.OpenDialog(request);
         host.WaitForAssertion(() => Assert.Equal("dialog", host.Find(".omni-dialog").GetAttribute("role")));
@@ -88,13 +88,11 @@ public sealed class OptInEvolutionTests : OmniBunitContext
         host.Find(".omni-overlay").Click();
         Assert.Null(service.Dialog);
 
-        service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?")));
-        host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-dialog")));
+        OpenAndWait(service, host, new OmniDialogRequest("Confirmation", Content("Continuer ?")));
         host.Find(".omni-dialog").KeyDown(new KeyboardEventArgs { Key = "Escape" });
         Assert.Null(service.Dialog);
 
-        service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?")));
-        host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-dialog")));
+        OpenAndWait(service, host, new OmniDialogRequest("Confirmation", Content("Continuer ?")));
         host.Find(".omni-dialog__close").Click();
         Assert.Null(service.Dialog);
     }
@@ -119,7 +117,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(FocusModule);
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?"))
         {
@@ -137,10 +135,9 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     public void DialogRequest_CloseOnBackdropFalse_IgnoresTheBackdropOnly()
     {
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
-        service.OpenDialog(new OmniDialogRequest("Confirmation", Content("Continuer ?")) { CloseOnBackdrop = false });
-        host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-dialog")));
+        OpenAndWait(service, host, new OmniDialogRequest("Confirmation", Content("Continuer ?")) { CloseOnBackdrop = false });
 
         host.Find(".omni-overlay").Click();
         Assert.NotNull(service.Dialog);
@@ -156,7 +153,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     {
         var module = JSInterop.SetupModule(FocusModule);
         using var service = new OmniOverlayService();
-        var host = Render<OmniComponentsHost>(parameters => parameters.Add(component => component.OverlayService, service));
+        var host = this.RenderOverlayHost(service);
 
         var pending = service.OpenDialogAsync(new OmniDialogRequest("Mise à jour", Content("Installation en cours."))
         {
@@ -194,13 +191,21 @@ public sealed class OptInEvolutionTests : OmniBunitContext
         host.WaitForAssertion(() => Assert.Empty(host.FindAll(".omni-dialog")));
     }
 
+    /// <summary>Renders an open dialog that reports its open state to <paramref name="openChanged"/>, plus the parameters <paramref name="more"/> adds.</summary>
+    private IRenderedComponent<OmniDialog> RenderOpenDialog(Action<bool> openChanged, Action<ComponentParameterCollectionBuilder<OmniDialog>> more) =>
+        Render<OmniDialog>(parameters =>
+        {
+            parameters
+                .Add(component => component.Open, true)
+                .Add(component => component.OpenChanged, openChanged);
+            more(parameters);
+        });
+
     [Fact]
     public void Dialog_NotDismissible_IgnoresEscapeAndOverridesCloseOnBackdrop()
     {
         var open = true;
-        var dialog = Render<OmniDialog>(parameters => parameters
-            .Add(component => component.Open, open)
-            .Add(component => component.OpenChanged, value => open = value)
+        var dialog = RenderOpenDialog(value => open = value, parameters => parameters
             .Add(component => component.Title, "Mise à jour")
             .Add(component => component.CloseOnBackdrop, true)
             .Add(component => component.Dismissible, false)
@@ -221,9 +226,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     public void Dialog_ModelessWindow_KeepsItsCloseButtonWithoutAutofocus_AndEscapeStillClosesIt()
     {
         var open = true;
-        var dialog = Render<OmniDialog>(parameters => parameters
-            .Add(component => component.Open, open)
-            .Add(component => component.OpenChanged, value => open = value)
+        var dialog = RenderOpenDialog(value => open = value, parameters => parameters
             .Add(component => component.Modal, false)
             .Add(component => component.Title, "Journal")
             .AddChildContent("Lignes"));
@@ -652,6 +655,13 @@ public sealed class OptInEvolutionTests : OmniBunitContext
     // ---- helpers ---------------------------------------------------------------------------------
 
     private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
+
+    /// <summary>Opens <paramref name="request"/> through <paramref name="service"/> and waits until the host draws its dialog.</summary>
+    private static void OpenAndWait(OmniOverlayService service, IRenderedComponent<OmniComponentsHost> host, OmniDialogRequest request)
+    {
+        service.OpenDialog(request);
+        host.WaitForAssertion(() => Assert.Single(host.FindAll(".omni-dialog")));
+    }
 
     private static RenderFragment Icon(OmniIconName name) => builder =>
     {
