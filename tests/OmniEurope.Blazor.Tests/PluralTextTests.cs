@@ -216,19 +216,7 @@ public sealed class PluralTextTests : OmniBunitContext
 
     public static TheoryData<string> LanguageData() => new(Languages);
 
-    private static string InCulture(string language, Func<string> read)
-    {
-        var (culture, ui) = (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture);
-        try
-        {
-            CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(language);
-            return read();
-        }
-        finally
-        {
-            (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture) = (culture, ui);
-        }
-    }
+    private static string InCulture(string language, Func<string> read) => CultureSwitch.InCulture(language, read);
 
     private static IEnumerable<(string Key, string Value)> Entries(string language)
     {

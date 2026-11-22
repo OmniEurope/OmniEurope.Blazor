@@ -49,19 +49,7 @@ public sealed class ValidationSummaryTests : OmniBunitContext
 
     private static string TitleOf(IRenderedComponent<ValidationSummaryTestHost> host) => host.Find(".omni-alert__title").TextContent;
 
-    private static T InCulture<T>(string language, Func<T> read)
-    {
-        var (culture, ui) = (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture);
-        try
-        {
-            CultureInfo.CurrentCulture = CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo(language);
-            return read();
-        }
-        finally
-        {
-            (CultureInfo.CurrentCulture, CultureInfo.CurrentUICulture) = (culture, ui);
-        }
-    }
+    private static T InCulture<T>(string language, Func<T> read) => CultureSwitch.InCulture(language, read);
 
     [Fact]
     public async Task One_error_gets_the_singular_title()

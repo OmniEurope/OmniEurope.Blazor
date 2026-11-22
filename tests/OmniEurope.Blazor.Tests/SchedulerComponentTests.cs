@@ -344,14 +344,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         Action<ComponentParameterCollectionBuilder<OmniScheduler>>? more = null) =>
         Render<OmniScheduler>(parameters =>
         {
-            parameters
-                .Add(component => component.Date, Monday)
-                .Add(component => component.View, OmniCalendarView.Week)
-                .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-                .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
-                .Add(component => component.DayStart, new TimeOnly(8, 0))
-                .Add(component => component.DayEnd, new TimeOnly(12, 0))
-                .Add(component => component.Items, items);
+            parameters.MorningWeek(items);
             more?.Invoke(parameters);
         });
 
@@ -460,10 +453,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         var given = new OmniSchedulerAppointment("a", "Revue", Monday.AddHours(9).AddMinutes(15), Monday.AddHours(10));
         OmniSchedulerAppointmentMove? moved = null;
         var scheduler = Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, Monday)
-            .Add(component => component.View, OmniCalendarView.Month)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
+            .OnMonday(OmniCalendarView.Month)
             .Add(component => component.Items, new[] { given })
             .Add(component => component.OnAppointmentMove, value => moved = value));
 
@@ -527,10 +517,5 @@ public sealed class SchedulerComponentTests : OmniBunitContext
 
         scheduler.Render(parameters => parameters.Add(component => component.View, OmniCalendarView.Week));
         Assert.NotEmpty(scheduler.FindAll(".omni-week-view"));
-    }
-
-    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
-    {
-        public override DateTimeOffset GetUtcNow() => value;
     }
 }

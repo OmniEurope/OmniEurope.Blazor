@@ -32,19 +32,22 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
     private PreferenceCacheEntry? Cached(string key) =>
         _browser.Storage.TryGetValue(Key(key), out var json) ? JsonSerializer.Deserialize<PreferenceCacheEntry>(json) : null;
 
+    /// <summary>A store over <paramref name="memory"/> whose every read says it was reached, then waits for <paramref name="hold"/>.</summary>
+    private static ExclusivePreferenceStore HeldBeforeEachRead(MemoryPreferenceStore memory, TaskCompletionSource entered, TaskCompletionSource hold) =>
+        new(memory)
+        {
+            BeforeGet = async _ =>
+            {
+                entered.TrySetResult();
+                await hold.Task;
+            },
+        };
+
     private OmniPreferences Create(IOmniPreferenceStore store, TimeSpan? interval = null)
     {
         var preferences = new OmniPreferences(_browser, store,
             new OmniPreferencesOptions { SyncInterval = interval ?? Timeout.InfiniteTimeSpan }, _logger, _time);
-        preferences.Changed += change =>
-        {
-            lock (_changes)
-            {
-                _changes.Add(change);
-            }
-
-            return Task.CompletedTask;
-        };
+        preferences.RecordChangesInto(_changes);
         _created.Add(preferences);
         return preferences;
     }
@@ -140,14 +143,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         memory.Put("theme", "\"givre\"", Start.AddHours(-1));
         var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = new ExclusivePreferenceStore(memory)
-        {
-            BeforeGet = async _ =>
-            {
-                entered.TrySetResult();
-                await hold.Task;
-            },
-        };
+        var store = HeldBeforeEachRead(memory, entered, hold);
         var preferences = Create(store);
 
         var read = preferences.GetAsync<string>("theme", Token);
@@ -173,14 +169,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         memory.Put("theme", "\"dark\"", Start.AddHours(-1));
         var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = new ExclusivePreferenceStore(memory)
-        {
-            BeforeGet = async _ =>
-            {
-                entered.TrySetResult();
-                await hold.Task;
-            },
-        };
+        var store = HeldBeforeEachRead(memory, entered, hold);
         var preferences = Create(store);
 
         var first = preferences.GetAsync<string>("theme", Token);
@@ -212,14 +201,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         var memory = new MemoryPreferenceStore();
         var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = new ExclusivePreferenceStore(memory)
-        {
-            BeforeGet = async _ =>
-            {
-                entered.TrySetResult();
-                await hold.Task;
-            },
-        };
+        var store = HeldBeforeEachRead(memory, entered, hold);
         var preferences = Create(store);
 
         var read = preferences.GetAsync<string>("theme", Token);
@@ -239,14 +221,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         memory.Put("theme", "\"dark\"", Start.AddHours(-1));
         var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = new ExclusivePreferenceStore(memory)
-        {
-            BeforeGet = async _ =>
-            {
-                entered.TrySetResult();
-                await hold.Task;
-            },
-        };
+        var store = HeldBeforeEachRead(memory, entered, hold);
         var preferences = Create(store);
 
         var first = preferences.GetAsync<string>("theme", Token);
@@ -267,14 +242,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         memory.Put("theme", "\"dark\"", Start.AddHours(-1));
         var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = new ExclusivePreferenceStore(memory)
-        {
-            BeforeGet = async _ =>
-            {
-                entered.TrySetResult();
-                await hold.Task;
-            },
-        };
+        var store = HeldBeforeEachRead(memory, entered, hold);
         var preferences = Create(store);
         using var cancelled = CancellationTokenSource.CreateLinkedTokenSource(Token);
 

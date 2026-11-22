@@ -101,9 +101,4 @@ public sealed class SchedulerPastSlotTests : OmniBunitContext
             [true, true, true, false],
             rows.Select(row => row.QuerySelectorAll("td")[1].ClassList.Contains("omni-scheduler__past")));
     }
-
-    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
-    {
-        public override DateTimeOffset GetUtcNow() => value;
-    }
 }

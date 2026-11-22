@@ -31,31 +31,16 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     }
 
     /// <summary>The layers of a comma-separated CSS list, split where no parenthesis is open.</summary>
-    private static List<string> Layers(string list)
+    /// <summary>A canvas backdrop script whose <c>start</c> succeeds.</summary>
+    private BunitJSModuleInterop StartingModule(string module)
     {
-        var parts = new List<string>();
-        var depth = 0;
-        var start = 0;
-        for (var index = 0; index < list.Length; index++)
-        {
-            switch (list[index])
-            {
-                case '(':
-                    depth++;
-                    break;
-                case ')':
-                    depth--;
-                    break;
-                case ',' when depth == 0:
-                    parts.Add(list[start..index].Trim());
-                    start = index + 1;
-                    break;
-            }
-        }
-
-        parts.Add(list[start..].Trim());
-        return parts;
+        var interop = JSInterop.SetupModule(module);
+        interop.Mode = JSRuntimeMode.Loose;
+        interop.Setup<bool>("start", _ => true).SetResult(true);
+        return interop;
     }
+
+    private static List<string> Layers(string list) => CssListSplitter.SplitTopLevel(list);
 
     /// <summary>
     /// Review R1-3 (owner decisions of 2026-11-12): Nénuphar, Velours, Relief, Aplat and Épure each draw
@@ -265,9 +250,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public void The_plain_page_under_Trou_noir_draws_no_canvas_and_its_backdrop_under_another_theme_does()
     {
-        var blackHole = JSInterop.SetupModule(OmniModules.BlackHole);
-        blackHole.Mode = JSRuntimeMode.Loose;
-        blackHole.Setup<bool>("start", _ => true).SetResult(true);
+        var blackHole = StartingModule(OmniModules.BlackHole);
 
         var plain = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Preset, Theme("Trou noir"))
@@ -294,12 +277,8 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     {
         // A canvas keeps the first kind of context it gave (WebGL for Trou noir), so the 2D stars of Étoiles
         // cannot draw on the canvas the black hole used: each canvas backdrop gets a canvas of its own.
-        var blackHole = JSInterop.SetupModule(OmniModules.BlackHole);
-        blackHole.Mode = JSRuntimeMode.Loose;
-        blackHole.Setup<bool>("start", _ => true).SetResult(true);
-        var stars = JSInterop.SetupModule(OmniModules.PixelStars);
-        stars.Mode = JSRuntimeMode.Loose;
-        stars.Setup<bool>("start", _ => true).SetResult(true);
+        var blackHole = StartingModule(OmniModules.BlackHole);
+        var stars = StartingModule(OmniModules.PixelStars);
 
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Preset, Theme("Ardoise"))
@@ -323,13 +302,9 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     {
         // Random draws in a row (the dice of the application menu) render again before the old canvas
         // script has finished sweeping: the second render must not dispose a module the first already let go.
-        var blackHole = JSInterop.SetupModule(OmniModules.BlackHole);
-        blackHole.Mode = JSRuntimeMode.Loose;
-        blackHole.Setup<bool>("start", _ => true).SetResult(true);
+        var blackHole = StartingModule(OmniModules.BlackHole);
         var sweep = blackHole.SetupVoid("sweep");
-        var stars = JSInterop.SetupModule(OmniModules.PixelStars);
-        stars.Mode = JSRuntimeMode.Loose;
-        stars.Setup<bool>("start", _ => true).SetResult(true);
+        var stars = StartingModule(OmniModules.PixelStars);
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Preset, Theme("Ardoise"))
             .Add(component => component.Backdrop, Named("Trou noir"))
@@ -420,9 +395,7 @@ public sealed class ThemeBackdropTests : OmniBunitContext
     [Fact]
     public void Without_a_preset_a_canvas_backdrop_draws_its_canvas()
     {
-        var blackHole = JSInterop.SetupModule(OmniModules.BlackHole);
-        blackHole.Mode = JSRuntimeMode.Loose;
-        blackHole.Setup<bool>("start", _ => true).SetResult(true);
+        var blackHole = StartingModule(OmniModules.BlackHole);
 
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Backdrop, Named("Trou noir"))

@@ -28,15 +28,7 @@ public sealed class PreferenceSignedOutBrowserTests
             new OmniPreferencesOptions { SignedOut = mode, SyncInterval = Timeout.InfiniteTimeSpan }, NullLogger<OmniPreferences>.Instance, _time);
         if (changes is not null)
         {
-            preferences.Changed += change =>
-            {
-                lock (changes)
-                {
-                    changes.Add(change);
-                }
-
-                return Task.CompletedTask;
-            };
+            preferences.RecordChangesInto(changes);
         }
 
         return preferences;
@@ -195,30 +187,15 @@ public sealed class PreferenceSignedOutBrowserTests
         await Assert.ThrowsAsync<InvalidOperationException>(() => preferences.GetAsync<string>("theme", Token));
     }
 
-    /// <summary>A store per account; no user answers <see cref="OmniPreferences.NoUserScope"/> and any call made then fails the test.</summary>
-    private sealed class AccountStore : IOmniPreferenceStore
+    /// <summary>A store per account that counts the calls made to it.</summary>
+    private sealed class AccountStore() : AccountPreferenceStore("anne")
     {
-        private readonly ConcurrentDictionary<string, MemoryPreferenceStore> _accounts = new(StringComparer.Ordinal);
-
-        public string? User { get; set; } = "anne";
-
         public int Calls;
 
-        public MemoryPreferenceStore Of(string user) => _accounts.GetOrAdd(user, name => new MemoryPreferenceStore { Scope = name });
-
-        private MemoryPreferenceStore Current()
+        protected override MemoryPreferenceStore Current()
         {
             Interlocked.Increment(ref Calls);
-            return Of(User ?? throw new InvalidOperationException("No user is signed in: the store must not be called."));
+            return base.Current();
         }
-
-        public Task<OmniPreference?> GetAsync(string key, CancellationToken cancellationToken = default) => Current().GetAsync(key, cancellationToken);
-
-        public Task<IReadOnlyList<OmniPreference>> GetChangedSinceAsync(DateTimeOffset? since, CancellationToken cancellationToken = default) =>
-            Current().GetChangedSinceAsync(since, cancellationToken);
-
-        public Task<OmniPreference> SaveAsync(OmniPreference preference, CancellationToken cancellationToken = default) => Current().SaveAsync(preference, cancellationToken);
-
-        public ValueTask<string> GetScopeAsync(CancellationToken cancellationToken = default) => ValueTask.FromResult(User ?? OmniPreferences.NoUserScope);
     }
 }

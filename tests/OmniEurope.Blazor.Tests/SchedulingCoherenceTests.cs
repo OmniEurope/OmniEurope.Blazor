@@ -19,10 +19,7 @@ public sealed class SchedulingCoherenceTests : OmniBunitContext
     public void MonthView_IsATableOfWeeks_EachDayACellUnderItsColumnHeader()
     {
         var scheduler = Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, August)
-            .Add(component => component.View, OmniCalendarView.Month)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR")));
+            .InUtc(August, OmniCalendarView.Month, CultureInfo.GetCultureInfo("fr-FR")));
 
         var table = scheduler.Find(".omni-month-view");
         Assert.Equal("table", table.GetAttribute("role"));
@@ -58,10 +55,7 @@ public sealed class SchedulingCoherenceTests : OmniBunitContext
         {
             CultureInfo.CurrentUICulture = CultureInfo.GetCultureInfo("fr-FR");
             var scheduler = Render<OmniScheduler>(parameters => parameters
-                .Add(component => component.Date, August)
-                .Add(component => component.View, OmniCalendarView.Month)
-                .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-                .Add(component => component.Culture, CultureInfo.GetCultureInfo("en-US")));
+                .InUtc(August, OmniCalendarView.Month, CultureInfo.GetCultureInfo("en-US")));
 
             Assert.Equal("Month view", scheduler.Find(".omni-month-view").GetAttribute("aria-label"));
             Assert.Equal(["Day", "Week", "Month"], scheduler.FindAll("[role=radio]").Select(radio => radio.TextContent));
@@ -196,10 +190,5 @@ public sealed class SchedulingCoherenceTests : OmniBunitContext
         var layout = gantt.Instance.Layout;
         Assert.Equal(layout.X(new DateOnly(2026, 3, 4)) + (layout.PixelsPerDay / 2), layout.TodayX);
         Assert.Single(gantt.FindAll(".omni-gantt__today"));
-    }
-
-    private sealed class FixedTimeProvider(DateTimeOffset value) : TimeProvider
-    {
-        public override DateTimeOffset GetUtcNow() => value;
     }
 }

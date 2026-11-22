@@ -19,10 +19,7 @@ public sealed class SchedulerGridBlockTests : OmniBunitContext
         Render<OmniScheduler>(parameters =>
         {
             parameters
-                .Add(component => component.Date, Monday)
-                .Add(component => component.View, view)
-                .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-                .Add(component => component.Culture, CultureInfo.GetCultureInfo("fr-FR"))
+                .OnMonday(view)
                 .Add(component => component.DayStart, start)
                 .Add(component => component.DayEnd, end)
                 .Add(component => component.SlotDuration, TimeSpan.FromMinutes(30))

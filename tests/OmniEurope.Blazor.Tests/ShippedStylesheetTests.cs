@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class ShippedStylesheetTests
 {
-    private static readonly string Root = RepositoryRoot();
+    private static readonly string Root = ShippedLookTests.RepositoryRoot();
 
     [Fact]
     public void ShippedStylesheet_DiffersFromTheSourceOnlyByCommentsAndMeaninglessWhitespace()
@@ -98,6 +98,4 @@ public sealed class ShippedStylesheetTests
         Assert.True(File.Exists(path), $"The build did not produce the stylesheet at {path}.");
         return File.ReadAllText(path);
     }
-
-    private static string RepositoryRoot() => RepositoryRootLocator.Find();
 }

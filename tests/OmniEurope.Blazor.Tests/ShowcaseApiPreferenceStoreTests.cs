@@ -34,10 +34,7 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
 
     private OmniPreferences CreatePreferences(ShowcaseApiPreferenceStore store)
     {
-        Services.AddSingleton<IJSRuntime>(_browser);
-        Services.AddSingleton<TimeProvider>(new PreferenceClock(Start));
-        Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniPreferences>>(_logger);
-        Services.AddSingleton<IOmniPreferenceStore>(store);
+        Services.AddPreferenceDoubles(_browser, new PreferenceClock(Start), _logger, store);
         return Services.GetRequiredService<OmniPreferences>();
     }
 

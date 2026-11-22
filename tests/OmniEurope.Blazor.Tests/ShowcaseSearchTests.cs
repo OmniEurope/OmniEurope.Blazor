@@ -23,7 +23,7 @@ public sealed class ShowcaseSearchTests : OmniBunitContext
 {
     public ShowcaseSearchTests()
     {
-        Services.AddScoped(_ => new HttpClient(new StylesheetHandler(":root { --omni-color-accent: #2563eb; }")) { BaseAddress = new Uri("https://localhost/") });
+        Services.AddScoped(_ => new HttpClient(new StylesheetResponder(":root { --omni-color-accent: #2563eb; }")) { BaseAddress = new Uri("https://localhost/") });
         Services.AddScoped<ThemeTokenReader>();
         Services.AddScoped<ThemeState>();
         Services.AddScoped<ShowcaseLanguageSwitcher>();
@@ -81,12 +81,5 @@ public sealed class ShowcaseSearchTests : OmniBunitContext
         Assert.Equal(gallery.Length, gallery.Select(destination => destination.Href).Distinct().Count());
     });
 
-    private IRenderedComponent<MainLayout> RenderLayout() =>
-        Render<MainLayout>(parameters => parameters.Add(layout => layout.Body, (RenderFragment)(builder => builder.AddMarkupContent(0, "<p id=\"page\">page</p>"))));
-
-    private sealed class StylesheetHandler(string css) : HttpMessageHandler
-    {
-        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
-            Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK) { Content = new StringContent(css) });
-    }
+    private IRenderedComponent<MainLayout> RenderLayout() => this.RenderShowcaseLayout();
 }

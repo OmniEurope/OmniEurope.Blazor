@@ -29,18 +29,9 @@ public sealed class PickerEdgeTests : OmniBunitContext
 
     private IRenderedComponent<PickerTestHost> RenderHost(
         Action<PickerTestHost.PickerTestModel>? arrange = null,
-        Action<ComponentParameterCollectionBuilder<PickerTestHost>>? parameters = null)
-    {
-        var model = new PickerTestHost.PickerTestModel();
-        arrange?.Invoke(model);
-        return Render<PickerTestHost>(builder =>
-        {
-            builder.Add(component => component.Model, model);
-            parameters?.Invoke(builder);
-        });
-    }
+        Action<ComponentParameterCollectionBuilder<PickerTestHost>>? parameters = null) => this.RenderPickerHost(arrange, parameters);
 
-    private static IElement Toggle(IRenderedComponent<PickerTestHost> host, string id) => host.Find($"#{id} ~ .omni-date__toggle");
+    private static IElement Toggle(IRenderedComponent<PickerTestHost> host, string id) => host.PickerToggle(id);
 
     private static string Title(IRenderedComponent<PickerTestHost> host) => host.Find(".omni-calendar__title").TextContent;
 

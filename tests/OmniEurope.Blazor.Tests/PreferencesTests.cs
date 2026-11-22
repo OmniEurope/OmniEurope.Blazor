@@ -36,30 +36,13 @@ public sealed class PreferencesTests : OmniBunitContext
 
     private OmniPreferences Create(bool withStore = true, Action<OmniPreferencesOptions>? configure = null)
     {
-        Services.AddSingleton<IJSRuntime>(_browser);
-        Services.AddSingleton<TimeProvider>(_time);
-        Services.AddSingleton<Microsoft.Extensions.Logging.ILogger<OmniPreferences>>(_logger);
-        if (withStore)
-        {
-            Services.AddSingleton<IOmniPreferenceStore>(_store);
-        }
-
+        Services.AddPreferenceDoubles(_browser, _time, _logger, withStore ? _store : null);
         if (configure is not null)
         {
             Services.Configure(configure);
         }
 
-        var preferences = Services.GetRequiredService<OmniPreferences>();
-        preferences.Changed += change =>
-        {
-            lock (_changes)
-            {
-                _changes.Add(change);
-            }
-
-            return Task.CompletedTask;
-        };
-        return preferences;
+        return Services.GetRequiredService<OmniPreferences>().RecordChangesInto(_changes);
     }
 
     [Fact]

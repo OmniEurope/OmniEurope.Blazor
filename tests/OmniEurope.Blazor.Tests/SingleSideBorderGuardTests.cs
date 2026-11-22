@@ -29,29 +29,7 @@ public sealed partial class SingleSideBorderGuardTests
         .ToArray();
 
     // The selectors of a list, split on the commas outside :is(), :where() and :not().
-    private static IEnumerable<string> SplitSelectorList(string list)
-    {
-        var depth = 0;
-        var start = 0;
-        for (var index = 0; index < list.Length; index++)
-        {
-            switch (list[index])
-            {
-                case '(':
-                    depth++;
-                    break;
-                case ')':
-                    depth--;
-                    break;
-                case ',' when depth == 0:
-                    yield return list[start..index].Trim();
-                    start = index + 1;
-                    break;
-            }
-        }
-
-        yield return list[start..].Trim();
-    }
+    private static IEnumerable<string> SplitSelectorList(string list) => CssListSplitter.SplitTopLevel(list);
 
     [Theory]
     [InlineData(".omni-header")]

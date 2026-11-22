@@ -1,4 +1,3 @@
-using System.Globalization;
 using System.Text.RegularExpressions;
 using Bunit;
 using OmniEurope.Blazor.Components;
@@ -21,11 +20,7 @@ public sealed class SchedulerSlotHeightAndHeaderTests : OmniBunitContext
         Action<ComponentParameterCollectionBuilder<OmniScheduler>>? more = null) =>
         Render<OmniScheduler>(parameters =>
         {
-            parameters
-                .Add(component => component.Date, Monday)
-                .Add(component => component.View, view)
-                .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-                .Add(component => component.Culture, CultureInfo.GetCultureInfo(culture));
+            parameters.OnMonday(view, culture);
             if (timeGrid)
             {
                 parameters

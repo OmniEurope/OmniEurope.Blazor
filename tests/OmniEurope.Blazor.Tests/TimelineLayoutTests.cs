@@ -77,6 +77,4 @@ public sealed class TimelineLayoutTests : OmniBunitContext
         Assert.True(css.IndexOf(".omni-timeline--first-start .omni-timeline__item:nth-child(odd) .omni-timeline__content", StringComparison.Ordinal) > query);
         Assert.True(css.IndexOf(".omni-timeline--first-end .omni-timeline__item:nth-child(even) .omni-timeline__content", StringComparison.Ordinal) > query);
     }
-
-    private static string RepositoryRoot() => RepositoryRootLocator.Find();
 }
