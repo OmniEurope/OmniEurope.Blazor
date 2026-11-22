@@ -37,6 +37,20 @@ internal sealed class AppearanceFollower : IDisposable
     internal static bool Sets(ParameterView parameters, params string[] names) =>
         names.Any(name => parameters.TryGetValue<object?>(name, out _));
 
+    /// <summary>
+    /// Decides, from the first render's <paramref name="parameters"/>, whether the component follows
+    /// <paramref name="state"/>: not when the host writes any of <paramref name="names"/>. Each change of the
+    /// state then runs <paramref name="follow"/> and <paramref name="render"/> through <paramref name="invokeAsync"/>,
+    /// the component's own dispatcher.
+    /// </summary>
+    internal static AppearanceFollower? Start(
+        OmniAppearanceState? state, ParameterView parameters, string[] names, Func<Action, Task> invokeAsync, Action follow, Action render) =>
+        Start(state, Sets(parameters, names), () => invokeAsync(() =>
+        {
+            follow();
+            render();
+        }));
+
     public void Dispose() => State.Changed -= OnChanged;
 
     // Raised by the state, which awaits nothing: the refresh is observed here, so its failure is logged

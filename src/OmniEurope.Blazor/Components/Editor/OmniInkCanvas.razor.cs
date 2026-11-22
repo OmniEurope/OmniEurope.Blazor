@@ -301,21 +301,7 @@ public partial class OmniInkCanvas
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        if (_moduleTask is not null)
-        {
-            try
-            {
-                var module = await _moduleTask;
-                if (module is not null)
-                {
-                    await module.InvokeVoidAsync("detach", _canvas);
-                    await module.DisposeAsync();
-                }
-            }
-            catch (JSDisconnectedException)
-            {
-            }
-        }
+        await Internal.OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _canvas);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);

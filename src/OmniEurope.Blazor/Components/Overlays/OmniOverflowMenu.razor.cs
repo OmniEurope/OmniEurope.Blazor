@@ -78,17 +78,9 @@ public partial class OmniOverflowMenu
         Menu.SyncPortal();
     }
 
-    private Task ToggleAsync() => IsOpen ? CloseAsync(restoreFocus: true) : OpenAsync(focusLast: false);
+    private bool OpenBlocked => Disabled;
 
-    private Task OpenAsync(bool focusLast)
-    {
-        if (Disabled)
-        {
-            return Task.CompletedTask;
-        }
-
-        return Menu.OpenAsync(focusLast);
-    }
+    private Task ToggleAsync() => Menu.ToggleFromTriggerAsync(OpenBlocked);
 
     /// <summary>
     /// Closes the menu. <paramref name="restoreFocus"/> gives the focus back to the trigger at once, so
@@ -98,9 +90,7 @@ public partial class OmniOverflowMenu
 
     private Task CloseAsync(bool restoreFocus) => Menu.CloseAsync(restoreFocus);
 
-    private Task HandleTriggerKeyDownAsync(KeyboardEventArgs args) => !IsOpen && args.Key is "ArrowDown" or "ArrowUp"
-        ? OpenAsync(focusLast: args.Key == "ArrowUp")
-        : Task.CompletedTask;
+    private Task HandleTriggerKeyDownAsync(KeyboardEventArgs args) => Menu.HandleTriggerKeyAsync(args, OpenBlocked);
 
     private Task HandleMenuKeyDownAsync(KeyboardEventArgs args) => Menu.HandleMenuKeyAsync(args, MenuId, CloseAsync);
 

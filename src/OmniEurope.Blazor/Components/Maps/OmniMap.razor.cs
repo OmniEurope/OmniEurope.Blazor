@@ -264,22 +264,7 @@ public partial class OmniMap
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        if (_moduleTask is not null)
-        {
-            try
-            {
-                var module = await _moduleTask;
-                if (module is not null)
-                {
-                    await module.InvokeVoidAsync("detach", _root);
-                    await module.DisposeAsync();
-                }
-            }
-            catch (JSDisconnectedException)
-            {
-                // The circuit is gone: nothing left to release in the page.
-            }
-        }
+        await Internal.OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
 
         if (_tooltips is not null)
         {

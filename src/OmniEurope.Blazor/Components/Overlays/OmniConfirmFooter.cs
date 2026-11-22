@@ -9,7 +9,12 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal sealed class OmniConfirmFooter : OmniComponentBase, IDisposable
 {
-    private OmniConfirmRequest? _subscribed;
+    private readonly ConfirmRequestRedraw _redraw;
+
+    public OmniConfirmFooter()
+    {
+        _redraw = new ConfirmRequestRedraw(Redraw);
+    }
 
     [Parameter, EditorRequired]
     public OmniConfirmRequest Request { get; set; } = default!;
@@ -24,31 +29,15 @@ internal sealed class OmniConfirmFooter : OmniComponentBase, IDisposable
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (ReferenceEquals(_subscribed, Request))
-        {
-            return;
-        }
-
-        Unsubscribe();
-        _subscribed = Request;
-        _subscribed.Refreshed += Redraw;
+        _redraw.Follow(Request);
     }
 
-    public void Dispose() => Unsubscribe();
+    public void Dispose() => _redraw.Dispose();
 
     protected override void BuildRenderTree(RenderTreeBuilder builder)
     {
         Button(builder, 0, Request.ConfirmVariant, Request.ConfirmIcon, ConfirmText, "omni-confirm__action", confirmed: true, Request.ConfirmIconContent);
         Button(builder, 10, Request.CancelVariant, OmniIconName.Close, CancelText, "omni-confirm__cancel", confirmed: false);
-    }
-
-    private void Unsubscribe()
-    {
-        if (_subscribed is not null)
-        {
-            _subscribed.Refreshed -= Redraw;
-            _subscribed = null;
-        }
     }
 
     private void Redraw() => _ = InvokeAsync(StateHasChanged);

@@ -121,26 +121,16 @@ public partial class OmniSplitButton
 
     private Task InvokeMainAsync(MouseEventArgs args) => Disabled || Busy ? Task.CompletedTask : OnClick.InvokeAsync(args);
 
-    private Task ToggleMenuAsync() => IsOpen ? CloseAsync(restoreFocus: true) : OpenAsync(focusLast: false);
-
     // A busy button stays focusable, so the keyboard would otherwise open the menu that disabled blocks.
-    private Task OpenAsync(bool focusLast)
-    {
-        if (Disabled || Busy)
-        {
-            return Task.CompletedTask;
-        }
+    private bool OpenBlocked => Disabled || Busy;
 
-        return Menu.OpenAsync(focusLast);
-    }
+    private Task ToggleMenuAsync() => Menu.ToggleFromTriggerAsync(OpenBlocked);
 
     Task IOmniMenu.CloseAsync(bool restoreFocus) => CloseAsync(restoreFocus);
 
     private Task CloseAsync(bool restoreFocus) => Menu.CloseAsync(restoreFocus);
 
-    private Task HandleToggleKeyDownAsync(KeyboardEventArgs args) => !IsOpen && args.Key is "ArrowDown" or "ArrowUp"
-        ? OpenAsync(focusLast: args.Key == "ArrowUp")
-        : Task.CompletedTask;
+    private Task HandleToggleKeyDownAsync(KeyboardEventArgs args) => Menu.HandleTriggerKeyAsync(args, OpenBlocked);
 
     private Task HandleMenuKeyDownAsync(KeyboardEventArgs args) => Menu.HandleMenuKeyAsync(args, MenuId, CloseAsync);
 

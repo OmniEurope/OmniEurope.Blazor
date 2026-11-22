@@ -386,22 +386,9 @@ public partial class OmniHtmlEditor
         }
     }
 
-    internal Task DispatchAsync(Func<Task> work) => InvokeAsync(async () =>
-    {
-        if (_disposed)
-        {
-            return;
-        }
+    internal Task DispatchAsync(Func<Task> work) => OmniGuardedDispatch.RunAsync(InvokeAsync, () => _disposed, StateHasChanged, work);
 
-        await work();
-        StateHasChanged();
-    });
-
-    internal Task DispatchAsync(Action work) => DispatchAsync(() =>
-    {
-        work();
-        return Task.CompletedTask;
-    });
+    internal Task DispatchAsync(Action work) => DispatchAsync(OmniGuardedDispatch.Synchronous(work));
 
     /// <summary>Renders the editor again, from any thread.</summary>
     internal Task RenderAsync() => InvokeAsync(StateHasChanged);

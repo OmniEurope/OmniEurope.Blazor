@@ -106,6 +106,23 @@ internal sealed class OmniMenuController : IAsyncDisposable
     internal Task CloseAsync(bool restoreFocus) =>
         SetOpenAsync(false, _portal!.Open, _portal.OpenChanged, Refresh, restoreFocus);
 
+    /// <summary>
+    /// The trigger's click: closes an open menu and gives the focus back to the trigger, or opens it
+    /// on its first item unless <paramref name="blocked"/> (a disabled or busy trigger).
+    /// </summary>
+    internal Task ToggleFromTriggerAsync(bool blocked) =>
+        IsOpen() ? CloseAsync(restoreFocus: true) : OpenFromTriggerAsync(blocked, focusLast: false);
+
+    /// <summary>
+    /// The trigger's keys: ArrowDown or ArrowUp open a closed menu on its first or last item, unless
+    /// <paramref name="blocked"/>; any other key does nothing.
+    /// </summary>
+    internal Task HandleTriggerKeyAsync(KeyboardEventArgs args, bool blocked) => !IsOpen() && args.Key is "ArrowDown" or "ArrowUp"
+        ? OpenFromTriggerAsync(blocked, focusLast: args.Key == "ArrowUp")
+        : Task.CompletedTask;
+
+    private Task OpenFromTriggerAsync(bool blocked, bool focusLast) => blocked ? Task.CompletedTask : OpenAsync(focusLast);
+
     private void Refresh()
     {
         SyncPortal();
