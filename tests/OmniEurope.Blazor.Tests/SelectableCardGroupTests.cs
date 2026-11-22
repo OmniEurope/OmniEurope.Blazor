@@ -26,6 +26,17 @@ public sealed class SelectableCardGroupTests : OmniBunitContext
 
     private readonly string? _bound = null;
 
+    /// <summary>The systems as a group of check box cards bound to <paramref name="value"/>, with what the test adds.</summary>
+    private IRenderedComponent<OmniSelectableCardGroup<string, IReadOnlyList<string>>> RenderCheckBoxes(
+        IReadOnlyList<string> value, Action<ComponentParameterCollectionBuilder<OmniSelectableCardGroup<string, IReadOnlyList<string>>>>? configure = null) =>
+        this.RenderBound<OmniSelectableCardGroup<string, IReadOnlyList<string>>, IReadOnlyList<string>>(value, parameters =>
+        {
+            parameters
+                .Add(component => component.Options, Systems)
+                .Add(component => component.Multiple, true);
+            configure?.Invoke(parameters);
+        });
+
     private static IReadOnlyList<AngleSharp.Dom.IElement> Cards<T>(IRenderedComponent<T> group) where T : Microsoft.AspNetCore.Components.IComponent =>
         group.FindAll("button.omni-selectable-card");
 
@@ -156,9 +167,7 @@ public sealed class SelectableCardGroupTests : OmniBunitContext
     public void NullChoice_InAGroupOfValues_IsRefusedWithItsName()
     {
         int? value = null;
-        var error = Assert.Throws<InvalidOperationException>(() => Render<OmniSelectableCardGroup<int, int?>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var error = Assert.Throws<InvalidOperationException>(() => this.RenderBound<OmniSelectableCardGroup<int, int?>, int?>(value, parameters => parameters
             .AddChildContent<OmniSelectableCard>(card => card.Add(c => c.Title, "Aucun").Add(c => c.Choice, null))));
         Assert.Contains("a null", error.Message, StringComparison.Ordinal);
     }
@@ -167,10 +176,8 @@ public sealed class SelectableCardGroupTests : OmniBunitContext
     public void NullValue_OfAGroupOfValues_ChoosesNothing()
     {
         int? value = null;
-        var group = Render<OmniSelectableCardGroup<int, int?>>(parameters => parameters
-            .Add(component => component.Options, [new OmniOption<int>(1, "Un"), new OmniOption<int>(2, "Deux")])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var group = this.RenderBound<OmniSelectableCardGroup<int, int?>, int?>(value, parameters => parameters
+            .Add(component => component.Options, [new OmniOption<int>(1, "Un"), new OmniOption<int>(2, "Deux")]));
 
         Assert.All(Cards(group), card => Assert.Equal("false", card.GetAttribute("aria-checked")));
     }
@@ -179,10 +186,8 @@ public sealed class SelectableCardGroupTests : OmniBunitContext
     public void CollectionBoundWithoutMultiple_IsRefused()
     {
         IReadOnlyList<string> value = [];
-        var error = Assert.Throws<InvalidOperationException>(() => Render<OmniSelectableCardGroup<string, IReadOnlyList<string>>>(parameters => parameters
-            .Add(component => component.Options, Systems)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)));
+        var error = Assert.Throws<InvalidOperationException>(() => this.RenderBound<OmniSelectableCardGroup<string, IReadOnlyList<string>>, IReadOnlyList<string>>(value, parameters => parameters
+            .Add(component => component.Options, Systems)));
         Assert.Contains("Multiple", error.Message, StringComparison.Ordinal);
     }
 
@@ -190,12 +195,7 @@ public sealed class SelectableCardGroupTests : OmniBunitContext
     public void ArrowsOnACheckBoxCardOrACardAlone_MoveNothing_AndAnIconIsDrawnBesideTheTitle()
     {
         IReadOnlyList<string> value = [];
-        var multiple = Render<OmniSelectableCardGroup<string, IReadOnlyList<string>>>(parameters => parameters
-            .Add(component => component.Options, Systems)
-            .Add(component => component.Multiple, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, next => value = next)
-            .Add(component => component.ValueExpression, () => value));
+        var multiple = RenderCheckBoxes(value, parameters => parameters.Add(component => component.ValueChanged, next => value = next));
         Cards(multiple)[0].KeyDown("ArrowDown");
         Assert.Empty(value);
 
@@ -232,11 +232,7 @@ public sealed class SelectableCardGroupTests : OmniBunitContext
     public void AGroupOfCheckBoxes_HasNoSidewaysArrowsToMirror_AndLoadsNoScript()
     {
         IReadOnlyList<string> value = [];
-        var multiple = Render<OmniSelectableCardGroup<string, IReadOnlyList<string>>>(parameters => parameters
-            .Add(component => component.Options, Systems)
-            .Add(component => component.Multiple, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var multiple = RenderCheckBoxes(value);
 
         Assert.False(multiple.Find("[role='group']").HasAttribute("data-omni-mirror-arrows"));
         Cards(multiple)[0].FocusIn();

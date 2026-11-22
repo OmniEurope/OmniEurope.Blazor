@@ -16,7 +16,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
     public void A_palette_alone_sends_its_colours_and_no_shape()
     {
         var module = JSInterop.SetupModule(ThemeModule);
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == "Lagune");
+        var palette = ShippedThemes.Palette("Lagune");
 
         Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Palette, palette)
@@ -32,8 +32,8 @@ public sealed class ThemePaletteTests : OmniBunitContext
     public void A_theme_and_a_foreign_palette_send_the_palette_colours_under_the_theme_shape()
     {
         var module = JSInterop.SetupModule(ThemeModule);
-        var halo = OmniThemePresets.All.Single(entry => entry.Name == "Halo");
-        var braise = OmniThemePalettes.All.Single(entry => entry.Name == "Braise");
+        var halo = ShippedThemes.Preset("Halo");
+        var braise = ShippedThemes.Palette("Braise");
 
         Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Preset, halo)
@@ -54,8 +54,8 @@ public sealed class ThemePaletteTests : OmniBunitContext
     public void Changing_only_the_palette_repaints_and_dropping_it_returns_to_the_theme_palette()
     {
         var module = JSInterop.SetupModule(ThemeModule);
-        var galet = OmniThemePresets.All.Single(entry => entry.Name == "Galet");
-        var prune = OmniThemePalettes.All.Single(entry => entry.Name == "Prune");
+        var galet = ShippedThemes.Preset("Galet");
+        var prune = ShippedThemes.Palette("Prune");
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Preset, galet)
             .AddChildContent("Contenu"));
@@ -87,8 +87,8 @@ public sealed class ThemePaletteTests : OmniBunitContext
     [Fact]
     public void With_lays_the_shape_over_both_halves_and_the_dark_shape_over_the_dark_one()
     {
-        var papier = OmniThemePresets.All.Single(entry => entry.Name == "Papier");
-        var ocean = OmniThemePalettes.All.Single(entry => entry.Name == "Océan");
+        var papier = ShippedThemes.Preset("Papier");
+        var ocean = ShippedThemes.Palette("Océan");
 
         var painted = papier.With(ocean);
 
@@ -129,7 +129,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
     [Fact]
     public void Retro_button_shadow_rings_the_surface_before_its_offset_shadow()
     {
-        var retro = OmniThemePresets.All.Single(entry => entry.Name == "Rétro");
+        var retro = ShippedThemes.Preset("Rétro");
 
         Assert.StartsWith("0 0 0 2px var(--omni-color-surface),", retro.Shape["--omni-button-shadow"], StringComparison.Ordinal);
     }
@@ -174,7 +174,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
     [InlineData("--omni-color-danger-deep", "#d13a2e")]
     public void The_default_palette_matches_the_reference_mockup_in_light_mode(string token, string expected)
     {
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == "Essentiel");
+        var palette = ShippedThemes.Palette("Essentiel");
 
         Assert.Equal(expected, palette.Light[token]);
     }
@@ -324,7 +324,7 @@ public sealed class ThemePaletteTests : OmniBunitContext
     [InlineData("Trou noir")]
     public void The_style_themes_draw_a_solid_focus_ring(string name)
     {
-        var ring = OmniThemePresets.All.Single(theme => theme.Name == name).Shape["--omni-focus-ring"];
+        var ring = ShippedThemes.Preset(name).Shape["--omni-focus-ring"];
 
         Assert.Matches(@"^0 0 0 2px var\(--omni-color-surface\), 0 0 0 [34]px var\(--omni-color-(accent|text)\)$", ring);
         foreach (var palette in OmniThemePalettes.All)

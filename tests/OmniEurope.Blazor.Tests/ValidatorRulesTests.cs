@@ -12,6 +12,16 @@ public sealed class ValidatorRulesTests : OmniBunitContext
         return host.Instance.EditContext.GetValidationMessages(new FieldIdentifier(host.Instance.Model, field)).ToArray();
     }
 
+    /// <summary>The form whose code is held between <paramref name="min"/> and <paramref name="max"/> characters, the code set to <paramref name="value"/>.</summary>
+    private IRenderedComponent<ValidatorRulesTestHost> RenderCodeOfLength(int? min, int? max, string? value)
+    {
+        var host = Render<ValidatorRulesTestHost>(parameters => parameters
+            .Add(component => component.Minimum, min)
+            .Add(component => component.Maximum, max));
+        host.Instance.Model.Code = value;
+        return host;
+    }
+
     [Theory]
     [InlineData("")]
     [InlineData("   ")]
@@ -86,10 +96,7 @@ public sealed class ValidatorRulesTests : OmniBunitContext
     [InlineData(3, 3, "abc")]
     public void Length_AcceptsATextWithinItsBoundsOrNothing(int? min, int? max, string? value)
     {
-        var host = Render<ValidatorRulesTestHost>(parameters => parameters
-            .Add(component => component.Minimum, min)
-            .Add(component => component.Maximum, max));
-        host.Instance.Model.Code = value;
+        var host = RenderCodeOfLength(min, max, value);
 
         Assert.Empty(MessagesFor(host, "Code"));
     }
@@ -103,10 +110,7 @@ public sealed class ValidatorRulesTests : OmniBunitContext
     [InlineData(null, 1, "ab", "Ce champ doit contenir au plus 1 caractère.")]
     public void Length_WritesItsBoundsInTheMessage(int? min, int? max, string value, string? expected)
     {
-        var host = Render<ValidatorRulesTestHost>(parameters => parameters
-            .Add(component => component.Minimum, min)
-            .Add(component => component.Maximum, max));
-        host.Instance.Model.Code = value;
+        var host = RenderCodeOfLength(min, max, value);
 
         // A space counts: one space meets a minimum of one.
         Assert.Equal(expected is null ? Array.Empty<string>() : new[] { expected }, MessagesFor(host, "Code"));

@@ -1,5 +1,4 @@
 using System.Globalization;
-using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,8 +30,6 @@ public sealed class PickerEdgeTests : OmniBunitContext
         Action<PickerTestHost.PickerTestModel>? arrange = null,
         Action<ComponentParameterCollectionBuilder<PickerTestHost>>? parameters = null) => this.RenderPickerHost(arrange, parameters);
 
-    private static IElement Toggle(IRenderedComponent<PickerTestHost> host, string id) => host.PickerToggle(id);
-
     private static string Title(IRenderedComponent<PickerTestHost> host) => host.Find(".omni-calendar__title").TextContent;
 
     [Theory]
@@ -52,7 +49,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
         });
         var notifications = 0;
         host.Instance.EditContext.OnFieldChanged += (_, _) => notifications++;
-        Toggle(host, id).Click();
+        host.PickerToggle(id).Click();
         Assert.Single(host.FindAll("[role='dialog']"));
 
         host.Render(parameters => parameters
@@ -60,8 +57,8 @@ public sealed class PickerEdgeTests : OmniBunitContext
             .Add(component => component.ReadOnly, !disabled));
 
         Assert.Empty(host.FindAll("[role='dialog']"));
-        Assert.Equal("false", Toggle(host, id).GetAttribute("aria-expanded"));
-        Assert.True(Toggle(host, id).HasAttribute("disabled"));
+        Assert.Equal("false", host.PickerToggle(id).GetAttribute("aria-expanded"));
+        Assert.True(host.PickerToggle(id).HasAttribute("disabled"));
         Assert.Equal(new DateOnly(2026, 9, 21), host.Instance.Model.Date);
         Assert.Equal(new TimeOnly(9, 30), host.Instance.Model.Time);
         Assert.Equal(new DateTime(2026, 9, 21, 9, 30, 0, DateTimeKind.Unspecified), host.Instance.Model.Moment);
@@ -70,7 +67,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
         host.Render(parameters => parameters
             .Add(component => component.Disabled, false)
             .Add(component => component.ReadOnly, false));
-        Toggle(host, id).Click();
+        host.PickerToggle(id).Click();
         if (id == "time")
         {
             host.FindAll("[data-omni-part='hour'] [role='option']")[10].Click();
@@ -94,9 +91,9 @@ public sealed class PickerEdgeTests : OmniBunitContext
     {
         var host = RenderHost();
 
-        Toggle(host, id).Click();
+        host.PickerToggle(id).Click();
         Assert.NotEmpty(host.FindAll("[role='dialog']"));
-        Toggle(host, id).Click();
+        host.PickerToggle(id).Click();
 
         Assert.Empty(host.FindAll("[role='dialog']"));
     }
@@ -111,15 +108,15 @@ public sealed class PickerEdgeTests : OmniBunitContext
             model.Moment = new DateTime(2026, 9, 21, 9, 0, 0, DateTimeKind.Unspecified);
         });
 
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
         host.Find("#date").Change("15/03/2026");
         Assert.Equal("mars 2026", Title(host));
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
         host.Find("#moment").Change("15/04/2026 10:00");
         Assert.Equal("avril 2026", Title(host));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         host.Find("#date").Change("   ");
         host.Find("#time").Change("   ");
@@ -133,7 +130,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
     public void DateTimePanel_StepsMonths_AndMovesItsFocusedDayWithTheKeys()
     {
         var host = RenderHost(model => model.Moment = new DateTime(2026, 9, 21, 14, 30, 0, DateTimeKind.Unspecified));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         host.FindAll(".omni-calendar__step")[1].Click();
         Assert.Equal("octobre 2026", Title(host));
@@ -149,7 +146,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
             .Add(component => component.DateMinimum, new DateOnly(2026, 9, 10))
             .Add(component => component.MomentMinimum, new DateTime(2026, 9, 10, 9, 0, 0, DateTimeKind.Unspecified))
             .Add(component => component.TimeMinimum, new TimeOnly(9, 0)));
-        Toggle(floorOnly, "moment").Click();
+        floorOnly.PickerToggle("moment").Click();
         Assert.True(floorOnly.Find(".omni-calendar__day[data-date='2026-09-09']").HasAttribute("disabled"));
         Assert.False(floorOnly.Find(".omni-calendar__day[data-date='2026-09-30']").HasAttribute("disabled"));
 
@@ -157,7 +154,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
             .Add(component => component.DateMaximum, new DateOnly(2026, 9, 25))
             .Add(component => component.MomentMaximum, new DateTime(2026, 9, 25, 12, 0, 0, DateTimeKind.Unspecified))
             .Add(component => component.TimeMaximum, new TimeOnly(17, 0)));
-        Toggle(ceilingOnly, "moment").Click();
+        ceilingOnly.PickerToggle("moment").Click();
         Assert.False(ceilingOnly.Find(".omni-calendar__day[data-date='2026-09-01']").HasAttribute("disabled"));
         Assert.True(ceilingOnly.Find(".omni-calendar__day[data-date='2026-09-26']").HasAttribute("disabled"));
     }
@@ -171,12 +168,12 @@ public sealed class PickerEdgeTests : OmniBunitContext
             model.Moment = new DateTime(2026, 9, 21, 9, 0, 0, DateTimeKind.Unspecified);
         });
 
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
         host.Find("#date").Change("  ");
         Assert.Equal("septembre 2026", Title(host));
-        Toggle(host, "date").Click();
+        host.PickerToggle("date").Click();
 
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
         host.Find("#moment").Change("  ");
         Assert.Equal("septembre 2026", Title(host));
         Assert.Null(host.Instance.Model.Moment);
@@ -212,7 +209,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
         var host = RenderHost(
             model => model.Moment = new DateTime(2026, 9, 21, 8, 0, 0, DateTimeKind.Unspecified),
             parameters => parameters.Add(component => component.MomentMinimum, floor));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         host.Find(".omni-calendar__day[data-date='2026-09-10']").Click();
 
@@ -232,9 +229,9 @@ public sealed class PickerEdgeTests : OmniBunitContext
 
         foreach (var id in new[] { "date", "time", "moment" })
         {
-            Toggle(host, id).Click();
+            host.PickerToggle(id).Click();
             Assert.True(host.Find(".omni-calendar__foot button").HasAttribute("disabled"));
-            Toggle(host, id).Click();
+            host.PickerToggle(id).Click();
         }
     }
 
@@ -246,7 +243,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
             parameters => parameters
                 .Add(component => component.MomentMinimum, new DateTime(2026, 9, 10, 9, 0, 0, DateTimeKind.Unspecified))
                 .Add(component => component.MomentMaximum, new DateTime(2026, 9, 25, 12, 0, 0, DateTimeKind.Unspecified)));
-        Toggle(host, "moment").Click();
+        host.PickerToggle("moment").Click();
 
         host.Find(".omni-calendar__day[data-date='2026-09-22']").Click();
 
@@ -269,7 +266,7 @@ public sealed class PickerEdgeTests : OmniBunitContext
             parameters => parameters
                 .Add(component => component.TimeMinimum, new TimeOnly(9, 0))
                 .Add(component => component.TimeMaximum, new TimeOnly(17, 0)));
-        Toggle(host, "time").Click();
+        host.PickerToggle("time").Click();
 
         host.FindAll("[data-omni-part='hour'] [role='option']")[hour].Click();
 

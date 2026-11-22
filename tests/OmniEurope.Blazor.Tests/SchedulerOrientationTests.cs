@@ -31,13 +31,6 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
             }
         });
 
-    /// <summary>The cell of a day (0 is Monday) and a slot (0 is 08:00), wherever the orientation puts it.</summary>
-    private static IElement Cell(IRenderedComponent<OmniScheduler> scheduler, OmniOrientation orientation, int day, int slot)
-    {
-        var (row, column) = orientation == OmniOrientation.Horizontal ? (day, slot) : (slot, day);
-        return scheduler.FindAll(".omni-scheduler-grid__table tbody tr")[row].QuerySelectorAll("td")[column];
-    }
-
     [Fact]
     public void Vertical_IsTheDefault_AndKeepsTheTimeDownTheGrid()
     {
@@ -58,7 +51,7 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
 
         // The appointment of Monday 09:00 starts in the second row, in the first day column.
         var block = scheduler.Find("[data-omni-scheduler-appointment='a']");
-        Assert.Same(Cell(scheduler, OmniOrientation.Vertical, 0, 1), block.ParentElement);
+        Assert.Same(scheduler.GridCell(OmniOrientation.Vertical, 0, 1), block.ParentElement);
     }
 
     [Fact]
@@ -87,14 +80,14 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
 
         // Monday 09:00 to 11:00 starts in the Monday row, in the 09:00 cell, and is two slots long.
         var block = scheduler.Find("[data-omni-scheduler-appointment='a']");
-        Assert.Same(Cell(scheduler, OmniOrientation.Horizontal, 0, 1), block.ParentElement);
+        Assert.Same(scheduler.GridCell(OmniOrientation.Horizontal, 0, 1), block.ParentElement);
         Assert.Contains("omni-scheduler__len-2-2", block.ClassList);
 
         // Two appointments that share their time stand in two lanes, and their row is two lanes high.
         Assert.Contains("omni-scheduler-grid__row--lanes-2", rows[2].ClassList);
         Assert.DoesNotContain(rows[0].ClassList, name => name.StartsWith("omni-scheduler-grid__row--lanes", StringComparison.Ordinal));
-        Assert.Same(Cell(scheduler, OmniOrientation.Horizontal, 2, 0), scheduler.Find("[data-omni-scheduler-appointment='b']").ParentElement);
-        Assert.Same(Cell(scheduler, OmniOrientation.Horizontal, 2, 0), scheduler.Find("[data-omni-scheduler-appointment='c']").ParentElement);
+        Assert.Same(scheduler.GridCell(OmniOrientation.Horizontal, 2, 0), scheduler.Find("[data-omni-scheduler-appointment='b']").ParentElement);
+        Assert.Same(scheduler.GridCell(OmniOrientation.Horizontal, 2, 0), scheduler.Find("[data-omni-scheduler-appointment='c']").ParentElement);
         Assert.Contains("omni-scheduler__lanes-2", scheduler.Find("[data-omni-scheduler-appointment='b']").ClassList);
     }
 
@@ -107,9 +100,9 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
         var scheduler = RenderWeek(orientation, [new("a", "Revue", Monday.AddHours(9), Monday.AddHours(10).AddMinutes(30))], move => moved = move);
 
         scheduler.Find("[data-omni-scheduler-appointment='a']").DragStart();
-        Cell(scheduler, orientation, 1, 3).DragEnter();
-        Assert.Contains("omni-scheduler__drop", Cell(scheduler, orientation, 1, 3).ClassList);
-        Cell(scheduler, orientation, 1, 3).Drop();
+        scheduler.GridCell(orientation, 1, 3).DragEnter();
+        Assert.Contains("omni-scheduler__drop", scheduler.GridCell(orientation, 1, 3).ClassList);
+        scheduler.GridCell(orientation, 1, 3).Drop();
 
         // Tuesday 11:00, the duration kept.
         Assert.Equal(Monday.AddDays(1).AddHours(11), moved!.Start);
@@ -126,7 +119,7 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
         var scheduler = RenderWeek(orientation, [new("a", "Revue", Monday.AddHours(9), Monday.AddHours(10))], move => moved = move);
 
         scheduler.Find("[data-omni-scheduler-appointment='a'] .omni-scheduler__move").Click();
-        Cell(scheduler, orientation, 4, 0).QuerySelector(".omni-scheduler__place")!.Click();
+        scheduler.GridCell(orientation, 4, 0).QuerySelector(".omni-scheduler__place")!.Click();
 
         // Friday 08:00.
         Assert.Equal(Monday.AddDays(4).AddHours(8), moved!.Start);
@@ -197,12 +190,7 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
         var clicked = new List<string>();
         OmniSchedulerAppointmentMove? moved = null;
         var scheduler = Render<OmniScheduler>(parameters => parameters
-            .Add(component => component.Date, Monday)
-            .Add(component => component.View, OmniCalendarView.Week)
-            .Add(component => component.TimeZone, TimeZoneInfo.Utc)
-            .Add(component => component.DayStart, new TimeOnly(8, 0))
-            .Add(component => component.DayEnd, new TimeOnly(12, 0))
-            .Add(component => component.Items, items)
+            .MorningWeekInTheHostCulture(items)
             .Add(component => component.OnAppointmentClick, (OmniSchedulerAppointment appointment) => clicked.Add(appointment.Id))
             .Add(component => component.OnAppointmentMove, (OmniSchedulerAppointmentMove move) => moved = move));
         var open = scheduler.Find("[data-omni-scheduler-appointment='a'] .omni-scheduler__open");
@@ -216,7 +204,7 @@ public sealed class SchedulerOrientationTests : OmniBunitContext
         pickUp.Click();
         items.RemoveAt(0);
         dragged.DragStart();
-        Cell(scheduler, OmniOrientation.Vertical, 2, 2).Drop();
+        scheduler.GridCell(OmniOrientation.Vertical, 2, 2).Drop();
 
         Assert.Empty(clicked);
         Assert.Empty(scheduler.FindAll(".omni-scheduler__place"));

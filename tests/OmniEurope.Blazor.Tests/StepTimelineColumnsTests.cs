@@ -37,9 +37,7 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void RunningStep_FillsItsBarUpToItsUsualDuration_AndSaysHowFar()
     {
-        UseNow(Run.AddSeconds(180));
-        var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, Steps));
+        var timeline = RenderAfter(180, Steps);
 
         var rows = timeline.FindAll(".omni-step-timeline__step");
         Assert.Empty(rows[0].QuerySelectorAll(".omni-step-timeline__progress"));
@@ -55,9 +53,7 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void RunningStep_PastItsUsualDuration_DrawsTheOverrunAndSaysSo()
     {
-        UseNow(Run.AddSeconds(60));
-        var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, [new OmniStepTimelineStep("Deploy", Run, null, OmniStepTimelineStatus.Running) { ExpectedDuration = TimeSpan.FromSeconds(40) }]));
+        var timeline = RenderAfter(60, [new OmniStepTimelineStep("Deploy", Run, null, OmniStepTimelineStatus.Running) { ExpectedDuration = TimeSpan.FromSeconds(40) }]);
 
         var row = timeline.Find(".omni-step-timeline__step");
         Assert.Equal("100%", row.QuerySelector(".omni-step-timeline__progress")!.GetAttribute("width"));
@@ -69,15 +65,12 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void Columns_AreHeadedOnce_AndEachValueIsHeardWithItsTitle()
     {
-        UseNow(Run.AddSeconds(180));
-        var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, Steps)
-            .Add(component => component.Columns,
+        var timeline = RenderAfter(180, Steps,
             [
                 new OmniStepTimelineColumn("Habituelle", step => step.ExpectedDuration is { } expected ? StepTimelineLayout.Format(expected) : null) { Description = "Durée médiane des dernières exécutions" },
                 new OmniStepTimelineColumn("Agent", step => step.Name == "Build" ? "agent-1" : null),
                 new OmniStepTimelineColumn("Vide", _ => null)
-            ]));
+            ]);
 
         Assert.Contains("omni-step-timeline--columns", timeline.Find("section").ClassList);
         var head = timeline.Find(".omni-step-timeline__head");
@@ -104,10 +97,7 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [Fact]
     public void WithoutColumns_TheRowsAreDrawnAsBefore()
     {
-        UseNow(Run.AddSeconds(180));
-        var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, Steps)
-            .Add(component => component.Columns, [new OmniStepTimelineColumn("Vide", _ => string.Empty)]));
+        var timeline = RenderAfter(180, Steps, [new OmniStepTimelineColumn("Vide", _ => string.Empty)]);
 
         Assert.DoesNotContain("omni-step-timeline--columns", timeline.Find("section").ClassList);
         Assert.Empty(timeline.FindAll(".omni-step-timeline__columns"));
@@ -121,12 +111,24 @@ public sealed class StepTimelineColumnsTests : OmniBunitContext
     [InlineData(OmniStepTimelineStatus.Cancelled)]
     public void EveryStatus_HasItsClass(OmniStepTimelineStatus status)
     {
-        UseNow(Run.AddSeconds(10));
-        var timeline = Render<OmniStepTimeline>(parameters => parameters
-            .Add(component => component.Steps, [new OmniStepTimelineStep("S", Run, Run.AddSeconds(10), status)]));
+        var timeline = RenderAfter(10, [new OmniStepTimelineStep("S", Run, Run.AddSeconds(10), status)]);
 
         Assert.Contains($"omni-step-timeline__step--{status.ToString().ToLowerInvariant()}", timeline.Find(".omni-step-timeline__step").ClassList);
         Assert.Equal(5, Enum.GetValues<OmniStepTimelineStatus>().Length);
+    }
+
+    /// <summary>The timeline of <paramref name="steps"/> read <paramref name="seconds"/> after the run started, with <paramref name="columns"/> when given.</summary>
+    private IRenderedComponent<OmniStepTimeline> RenderAfter(int seconds, IReadOnlyList<OmniStepTimelineStep> steps, IReadOnlyList<OmniStepTimelineColumn>? columns = null)
+    {
+        UseNow(Run.AddSeconds(seconds));
+        return Render<OmniStepTimeline>(parameters =>
+        {
+            parameters.Add(component => component.Steps, steps);
+            if (columns is not null)
+            {
+                parameters.Add(component => component.Columns, columns);
+            }
+        });
     }
 
     /// <summary>Registers a component clock reading <paramref name="now"/>, where a running step ends.</summary>

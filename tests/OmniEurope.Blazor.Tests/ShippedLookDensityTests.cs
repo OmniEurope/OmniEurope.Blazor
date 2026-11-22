@@ -541,11 +541,8 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     {
         IReadOnlyList<OmniUploadFile> files = Enumerable.Range(1, 5).Select(index => new OmniUploadFile($"f{index}.pdf", 1024)).ToList();
         var removed = new List<string>();
-        var upload = Render<OmniUpload>(parameters => parameters
-            .Add(component => component.Multiple, true)
+        var upload = RenderMultipleUpload(files, next => files = next, parameters => parameters
             .Add(component => component.ReducedList, true)
-            .Add(component => component.Files, files)
-            .Add(component => component.FilesChanged, next => files = next)
             .Add(component => component.OnFileRemove, file => removed.Add(file.Name)));
 
         Assert.Equal(["f3.pdf", "f4.pdf", "f5.pdf"], upload.FindAll(".omni-upload__file-name").Select(name => name.TextContent));
@@ -572,11 +569,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
     public void ReducedList_HidesShowAll_AtThreeFilesOrFewer_AndDisablesRemoveAll_WhenEmpty()
     {
         IReadOnlyList<OmniUploadFile> files = [new("a.pdf", 10), new("b.pdf", 10), new("c.pdf", 10)];
-        var upload = Render<OmniUpload>(parameters => parameters
-            .Add(component => component.Multiple, true)
-            .Add(component => component.ReducedList, true)
-            .Add(component => component.Files, files)
-            .Add(component => component.FilesChanged, next => files = next));
+        var upload = RenderMultipleUpload(files, next => files = next, parameters => parameters.Add(component => component.ReducedList, true));
 
         Assert.Equal(3, upload.FindAll(".omni-upload__file").Count);
         Assert.Empty(upload.FindAll(".omni-upload__show-all"));
@@ -586,10 +579,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("Aucun fichier", upload.Find(".omni-upload__count").TextContent);
         Assert.True(upload.Find(".omni-upload__clear").HasAttribute("disabled"));
 
-        var plain = Render<OmniUpload>(parameters => parameters
-            .Add(component => component.Multiple, true)
-            .Add(component => component.Files, files)
-            .Add(component => component.FilesChanged, next => files = next));
+        var plain = RenderMultipleUpload(files, next => files = next);
         Assert.Empty(plain.FindAll(".omni-upload__toolbar"));
     }
 
@@ -752,6 +742,18 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Equal("false", menu.Find(".omni-profile-menu__trigger").GetAttribute("aria-expanded"));
         Assert.Empty(menu.FindAll("[role=menu]"));
     }
+
+    /// <summary>An upload of several files bound to <paramref name="files"/>, with the options the test adds.</summary>
+    private IRenderedComponent<OmniUpload> RenderMultipleUpload(
+        IReadOnlyList<OmniUploadFile> files, Action<IReadOnlyList<OmniUploadFile>> filesChanged, Action<ComponentParameterCollectionBuilder<OmniUpload>>? configure = null) =>
+        Render<OmniUpload>(parameters =>
+        {
+            parameters
+                .Add(component => component.Multiple, true)
+                .Add(component => component.Files, files)
+                .Add(component => component.FilesChanged, filesChanged);
+            configure?.Invoke(parameters);
+        });
 
     private static HashSet<string> Declared(string body) =>
         Regex.Matches(body, @"(--omni-[a-z0-9-]+)\s*:").Select(match => match.Groups[1].Value).ToHashSet(StringComparer.Ordinal);

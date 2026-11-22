@@ -155,9 +155,7 @@ public sealed partial class ThemeContrastMatrixTests
     [MemberData(nameof(Sets))]
     public void Solid_neutral_badge_stands_out_from_grid_and_card_frames(string themeName, string paletteName, OmniAppearance mode)
     {
-        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
-        var tokens = theme.With(palette).For(mode);
+        var tokens = TokensOf(themeName, paletteName, mode);
         var fill = ThemeTokenResolution.Resolve(tokens, tokens["--omni-badge-solid-fill-neutral"]);
 
         var failures = new List<string>();
@@ -211,9 +209,7 @@ public sealed partial class ThemeContrastMatrixTests
     [MemberData(nameof(Sets))]
     public void Solid_badges_share_one_white_ink_and_read_at_the_text_ratio(string themeName, string paletteName, OmniAppearance mode)
     {
-        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
-        var tokens = theme.With(palette).For(mode);
+        var tokens = TokensOf(themeName, paletteName, mode);
         const string wanted = SolidBadgeInk;
 
         var failures = new List<string>();
@@ -275,9 +271,7 @@ public sealed partial class ThemeContrastMatrixTests
     [MemberData(nameof(Sets))]
     public void Solid_badges_in_black_ink_read_at_the_text_ratio(string themeName, string paletteName, OmniAppearance mode)
     {
-        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
-        var tokens = theme.With(palette).For(mode);
+        var tokens = TokensOf(themeName, paletteName, mode);
         var baseBody = ShippedLookTests.Body(".omni-badge--solid.omni-badge--ink-black");
         var ink = ThemeTokenResolution.Resolve(tokens, ShippedLookTests.Value(baseBody, "color"));
 
@@ -313,9 +307,7 @@ public sealed partial class ThemeContrastMatrixTests
     [MemberData(nameof(Sets))]
     public void Grid_header_titles_read_on_the_tinted_header_fill(string themeName, string paletteName, OmniAppearance mode)
     {
-        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
-        var tokens = theme.With(palette).For(mode);
+        var tokens = TokensOf(themeName, paletteName, mode);
         // The frame of the stylesheet: --omni-grid-background, else the card fill, else the surface; a
         // translucent one is read over the opaque surface the sticky header lays behind its cells.
         var frame = ThemeTokenResolution.Resolve(tokens, tokens.TryGetValue("--omni-grid-background", out var grid) ? grid
@@ -593,12 +585,14 @@ public sealed partial class ThemeContrastMatrixTests
     }
 #endif
 
+    /// <summary>The token set of a theme worn with a palette, in one mode.</summary>
+    private static IReadOnlyDictionary<string, string> TokensOf(string themeName, string paletteName, OmniAppearance mode) =>
+        OmniThemePresets.All.Single(entry => entry.Name == themeName).With(OmniThemePalettes.All.Single(entry => entry.Name == paletteName)).For(mode);
+
     private static List<(string Foreground, string ForegroundValue, string Background, string BackgroundValue, double Contrast, double Required)> Measure(
         string themeName, string paletteName, OmniAppearance mode)
     {
-        var theme = OmniThemePresets.All.Single(entry => entry.Name == themeName);
-        var palette = OmniThemePalettes.All.Single(entry => entry.Name == paletteName);
-        var tokens = theme.With(palette).For(mode);
+        var tokens = TokensOf(themeName, paletteName, mode);
         var checks = new List<(string, string, string, string, double, double)>();
 
         foreach (var (foreground, background, ratio) in Pairs)

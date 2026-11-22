@@ -16,6 +16,8 @@ public sealed class ThemeScopeDisposedWhileLoadingTests : OmniBunitContext
     private const string ThemeScript = "omni-theme.js";
     private const string BlackHoleScript = "omni-black-hole.js";
 
+    private static readonly OmniThemePreset BlackHole = OmniThemePresets.All.Single(theme => theme.Name == "Trou noir");
+
     private GatedImportRuntime Hold(params string[] held)
     {
         var runtime = new GatedImportRuntime(held);
@@ -23,93 +25,97 @@ public sealed class ThemeScopeDisposedWhileLoadingTests : OmniBunitContext
         return runtime;
     }
 
-    private static async Task ReleasedWithoutACallAsync(GatedImportRuntime runtime, string script)
+    /// <summary>The held <paramref name="script"/> arrives: it is released without a call, and was imported only once.</summary>
+    private static async Task ReleasedOnceWithoutACallAsync(GatedImportRuntime runtime, string script)
     {
         runtime.Arrive(script);
         var module = runtime.ModuleOf(script);
         await module.Disposal.Task.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
         await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
         Assert.Empty(module.Calls);
+        Assert.Equal(1, runtime.Imports(script));
+    }
+
+    /// <summary>The scope drawn over a page with what the test sets, once it has asked for <paramref name="script"/>, which is held loading.</summary>
+    private async Task<IRenderedComponent<OmniThemeScope>> RenderWhileLoadingAsync(
+        GatedImportRuntime runtime, string script, Action<ComponentParameterCollectionBuilder<OmniThemeScope>> configure)
+    {
+        var scope = Render<OmniThemeScope>(parameters =>
+        {
+            configure(parameters);
+            parameters.AddChildContent("page");
+        });
+        await runtime.Requested(script).WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+        return scope;
+    }
+
+    /// <summary>The dark black hole scope, drawn once it has asked for its canvas script, which is held loading.</summary>
+    private async Task<(GatedImportRuntime Runtime, IRenderedComponent<OmniThemeScope> Scope)> RenderTheDarkBlackHoleWhileItsScriptLoadsAsync()
+    {
+        var runtime = Hold(BlackHoleScript);
+        var scope = await RenderWhileLoadingAsync(runtime, BlackHoleScript, parameters => parameters
+            .Add(component => component.Preset, BlackHole)
+            .Add(component => component.Appearance, OmniAppearance.Dark));
+        return (runtime, scope);
     }
 
     [Fact]
     public async Task Scope_DisposedWhileTheThemeScriptLoadsToApplyTokens_ReleasesItAndCallsNothing()
     {
         var runtime = Hold(ThemeScript);
-        var scope = Render<OmniThemeScope>(parameters => parameters
+        var scope = await RenderWhileLoadingAsync(runtime, ThemeScript, parameters => parameters
             .Add(component => component.Preset, OmniThemePresets.All[0])
-            .Add(component => component.Appearance, OmniAppearance.Dark)
-            .AddChildContent("page"));
-        await runtime.Requested(ThemeScript).WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+            .Add(component => component.Appearance, OmniAppearance.Dark));
 
         await scope.Instance.DisposeAsync();
 
-        await ReleasedWithoutACallAsync(runtime, ThemeScript);
-        Assert.Equal(1, runtime.Imports(ThemeScript));
+        await ReleasedOnceWithoutACallAsync(runtime, ThemeScript);
     }
 
     [Fact]
     public async Task Scope_DisposedWhileTheThemeScriptLoadsToFollowTheSystem_ReleasesItAndCallsNothing()
     {
         var runtime = Hold(ThemeScript);
-        var scope = Render<OmniThemeScope>(parameters => parameters
-            .Add(component => component.Appearance, OmniAppearance.System)
-            .AddChildContent("page"));
-        await runtime.Requested(ThemeScript).WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+        var scope = await RenderWhileLoadingAsync(runtime, ThemeScript, parameters => parameters
+            .Add(component => component.Appearance, OmniAppearance.System));
 
         await scope.Instance.DisposeAsync();
 
-        await ReleasedWithoutACallAsync(runtime, ThemeScript);
-        Assert.Equal(1, runtime.Imports(ThemeScript));
+        await ReleasedOnceWithoutACallAsync(runtime, ThemeScript);
     }
 
     [Fact]
     public async Task Scope_DisposedWhileTheThemeScriptLoadsToWriteTheSnapshot_ReleasesItAndCallsNothing()
     {
         var runtime = Hold(ThemeScript);
-        var scope = Render<OmniThemeScope>(parameters => parameters
+        var scope = await RenderWhileLoadingAsync(runtime, ThemeScript, parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.Light)
-            .Add(component => component.SnapshotKey, "disposal-snapshot")
-            .AddChildContent("page"));
-        await runtime.Requested(ThemeScript).WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+            .Add(component => component.SnapshotKey, "disposal-snapshot"));
 
         await scope.Instance.DisposeAsync();
 
-        await ReleasedWithoutACallAsync(runtime, ThemeScript);
-        Assert.Equal(1, runtime.Imports(ThemeScript));
+        await ReleasedOnceWithoutACallAsync(runtime, ThemeScript);
     }
 
     [Fact]
     public async Task Scope_DisposedWhileTheCanvasScriptLoads_ReleasesItAndCallsNothing()
     {
-        var runtime = Hold(BlackHoleScript);
-        var scope = Render<OmniThemeScope>(parameters => parameters
-            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Trou noir"))
-            .Add(component => component.Appearance, OmniAppearance.Dark)
-            .AddChildContent("page"));
-        await runtime.Requested(BlackHoleScript).WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+        var (runtime, scope) = await RenderTheDarkBlackHoleWhileItsScriptLoadsAsync();
 
         await scope.Instance.DisposeAsync();
 
-        await ReleasedWithoutACallAsync(runtime, BlackHoleScript);
-        Assert.Equal(1, runtime.Imports(BlackHoleScript));
+        await ReleasedOnceWithoutACallAsync(runtime, BlackHoleScript);
     }
 
     [Fact]
     public async Task Scope_RenderedAgainWhileTheCanvasScriptLoadsThenDisposed_DoesNotLoadItAgain()
     {
-        var runtime = Hold(BlackHoleScript);
-        var scope = Render<OmniThemeScope>(parameters => parameters
-            .Add(component => component.Preset, OmniThemePresets.All.Single(theme => theme.Name == "Trou noir"))
-            .Add(component => component.Appearance, OmniAppearance.Dark)
-            .AddChildContent("page"));
-        await runtime.Requested(BlackHoleScript).WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+        var (runtime, scope) = await RenderTheDarkBlackHoleWhileItsScriptLoadsAsync();
         scope.Render(parameters => parameters.Add(component => component.BackdropMotion, false));
 
         await scope.Instance.DisposeAsync();
 
-        await ReleasedWithoutACallAsync(runtime, BlackHoleScript);
-        Assert.Equal(1, runtime.Imports(BlackHoleScript));
+        await ReleasedOnceWithoutACallAsync(runtime, BlackHoleScript);
     }
 
     [Fact]

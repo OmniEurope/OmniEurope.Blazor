@@ -56,12 +56,18 @@ public sealed class PreferenceSyncRateTests
         await preferences.WhenIdleAsync();
     }
 
-    /// <summary>A single-page application: one service instance for the whole session, navigations are client-side.</summary>
-    private async Task<OmniPreferences> RunClientNavigationAsync(OmniPreferencesOptions? options = null)
+    /// <summary>Seeds the browser cache and opens the first page of the session.</summary>
+    private async Task<OmniPreferences> OpenFirstPageAsync(OmniPreferencesOptions? options = null)
     {
         SeedCache();
         var preferences = Open(options);
         await ReadPageAsync(preferences, 0);
+        return preferences;
+    }
+
+    /// <summary>Plays the <see cref="Timeline"/> on the clock: each navigation goes to <paramref name="navigateAsync"/>, each tab switch shows the page again.</summary>
+    private async Task<TimeSpan> PlayTimelineAsync(Func<int, Task> navigateAsync)
+    {
         var elapsed = TimeSpan.Zero;
         foreach (var (at, navigation, index) in Timeline())
         {
@@ -69,13 +75,22 @@ public sealed class PreferenceSyncRateTests
             elapsed = at;
             if (navigation)
             {
-                await ReadPageAsync(preferences, index);
+                await navigateAsync(index);
             }
             else
             {
                 await _browser.Bridge!.OnVisible();
             }
         }
+
+        return elapsed;
+    }
+
+    /// <summary>A single-page application: one service instance for the whole session, navigations are client-side.</summary>
+    private async Task<OmniPreferences> RunClientNavigationAsync(OmniPreferencesOptions? options = null)
+    {
+        var preferences = await OpenFirstPageAsync(options);
+        var elapsed = await PlayTimelineAsync(index => ReadPageAsync(preferences, index));
 
         // The periodic synchronization of the five-minute interval.
         _time.Advance(Session - elapsed);
@@ -97,25 +112,13 @@ public sealed class PreferenceSyncRateTests
     public async Task FullPageLoadNavigationAndTabSwitches_LimitTheChangeFeed_ButEveryPageLoadReadsItsKeys()
     {
         // Every navigation is a new document: a new service instance, the browser cache is the only memory.
-        SeedCache();
-        var preferences = Open();
-        await ReadPageAsync(preferences, 0);
-        var elapsed = TimeSpan.Zero;
-        foreach (var (at, navigation, index) in Timeline())
+        var preferences = await OpenFirstPageAsync();
+        await PlayTimelineAsync(async index =>
         {
-            _time.Advance(at - elapsed);
-            elapsed = at;
-            if (navigation)
-            {
-                await preferences.DisposeAsync();
-                preferences = Open();
-                await ReadPageAsync(preferences, index);
-            }
-            else
-            {
-                await _browser.Bridge!.OnVisible();
-            }
-        }
+            await preferences.DisposeAsync();
+            preferences = Open();
+            await ReadPageAsync(preferences, index);
+        });
 
         await preferences.DisposeAsync();
 

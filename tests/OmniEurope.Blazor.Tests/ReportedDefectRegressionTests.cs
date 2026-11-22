@@ -82,10 +82,8 @@ public sealed class ReportedDefectRegressionTests : OmniBunitContext
         JSInterop.SetupModule(OmniModules.Focus).SetupVoid("configureSelectBarOverflow", _ => true).SetException(Lost());
         var value = "a";
 
-        var bar = Render<OmniSelectBar<string>>(parameters => parameters
-            .Add(component => component.Options, [new OmniOption<string>("a", "Alpha"), new OmniOption<string>("b", "Beta")])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var bar = this.RenderBound<OmniSelectBar<string>, string>(value, parameters => parameters
+            .Add(component => component.Options, [new OmniOption<string>("a", "Alpha"), new OmniOption<string>("b", "Beta")]));
 
         Assert.Equal(2, bar.FindAll(".omni-select-bar__item").Count);
     }
@@ -292,9 +290,7 @@ public sealed class ReportedDefectRegressionTests : OmniBunitContext
     public void TextArea_AnInvalidMaxLength_NamesTheMaxLength()
     {
         var value = string.Empty;
-        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => Render<OmniTextArea>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var exception = Assert.Throws<ArgumentOutOfRangeException>(() => this.RenderBound<OmniTextArea, string>(value, parameters => parameters
             .Add(component => component.MaxLength, 0)));
 
         Assert.Equal(nameof(OmniTextArea.MaxLength), exception.ParamName);
@@ -365,12 +361,10 @@ public sealed class ReportedDefectRegressionTests : OmniBunitContext
     public void Slider_WritesItsValueTextInTheCurrentCulture_AndItsNumbersInvariant()
     {
         var value = 0.5;
-        var slider = Render<OmniSlider>(parameters => parameters
+        var slider = this.RenderBound<OmniSlider, double>(value, parameters => parameters
             .Add(component => component.Minimum, 0d)
             .Add(component => component.Maximum, 1d)
-            .Add(component => component.Step, 0.1d)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Step, 0.1d));
 
         var input = slider.Find("input");
         Assert.Equal("0,5", input.GetAttribute("aria-valuetext"));
@@ -403,10 +397,8 @@ public sealed class ReportedDefectRegressionTests : OmniBunitContext
     public void DropDown_TheIndexOfADisabledOption_DoesNotParse()
     {
         var value = "a";
-        var dropDown = Render<ParsingDropDown>(parameters => parameters
-            .Add(component => component.Options, OptionsWithADisabledOne)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var dropDown = this.RenderBound<ParsingDropDown, string>(value, parameters => parameters
+            .Add(component => component.Options, OptionsWithADisabledOne));
 
         Assert.True(dropDown.Instance.Parse("0", out var enabled));
         Assert.Equal("a", enabled);
@@ -417,10 +409,8 @@ public sealed class ReportedDefectRegressionTests : OmniBunitContext
     public void ListBox_TheIndexOfADisabledOption_DoesNotParse()
     {
         var value = "a";
-        var listBox = Render<ParsingListBox>(parameters => parameters
-            .Add(component => component.Options, OptionsWithADisabledOne)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var listBox = this.RenderBound<ParsingListBox, string>(value, parameters => parameters
+            .Add(component => component.Options, OptionsWithADisabledOne));
 
         Assert.True(listBox.Instance.Parse("0", out var enabled));
         Assert.Equal("a", enabled);

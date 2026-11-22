@@ -32,9 +32,16 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
     private PreferenceCacheEntry? Cached(string key) =>
         _browser.Storage.TryGetValue(Key(key), out var json) ? JsonSerializer.Deserialize<PreferenceCacheEntry>(json) : null;
 
-    /// <summary>A store over <paramref name="memory"/> whose every read says it was reached, then waits for <paramref name="hold"/>.</summary>
-    private static ExclusivePreferenceStore HeldBeforeEachRead(MemoryPreferenceStore memory, TaskCompletionSource entered, TaskCompletionSource hold) =>
-        new(memory)
+    /// <summary>
+    /// The service over a store over <paramref name="memory"/> whose every read says it was reached (<c>Entered</c>), then
+    /// waits for <c>Hold</c>.
+    /// </summary>
+    private (OmniPreferences Preferences, ExclusivePreferenceStore Store, TaskCompletionSource Entered, TaskCompletionSource Hold) CreateOverAStoreHeldBeforeEachRead(
+        MemoryPreferenceStore memory)
+    {
+        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var store = new ExclusivePreferenceStore(memory)
         {
             BeforeGet = async _ =>
             {
@@ -42,6 +49,45 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
                 await hold.Task;
             },
         };
+        return (Create(store), store, entered, hold);
+    }
+
+    /// <summary>The call <paramref name="start"/> makes reaches the held store; relief is written through <paramref name="preferences"/> and cached meanwhile, then the store answers.</summary>
+    private async Task<(TCall Call, Task Write)> WriteReliefWhileTheStoreAnswersAsync<TCall>(
+        OmniPreferences preferences, Func<TCall> start, TaskCompletionSource entered, TaskCompletionSource hold)
+        where TCall : Task
+    {
+        var call = start();
+        await entered.Task.WaitAsync(Patience, Token);
+        var write = preferences.SetAsync("theme", "relief", Token);
+        await WaitUntilAsync(() => Cached("theme")?.Value == "\"relief\"");
+        hold.SetResult();
+        return (call, write);
+    }
+
+    /// <summary>A read of the theme reaches a store over <paramref name="memory"/>, held while relief is written.</summary>
+    private async Task<(Task<string?> Read, Task Write, ExclusivePreferenceStore Store)> ReadWhileReliefIsWrittenAsync(MemoryPreferenceStore memory)
+    {
+        var (preferences, store, entered, hold) = CreateOverAStoreHeldBeforeEachRead(memory);
+        var (read, write) = await WriteReliefWhileTheStoreAnswersAsync(preferences, () => preferences.GetAsync<string>("theme", Token), entered, hold);
+        return (read, write, store);
+    }
+
+    /// <summary>
+    /// Two reads of the theme over a store holding dark: the first reaches the store and is held there (until
+    /// <c>Hold</c>), the second is made meanwhile with <paramref name="secondToken"/>.
+    /// </summary>
+    private async Task<(Task<string?> First, Task<string?> Second, MemoryPreferenceStore Memory, TaskCompletionSource Hold)> TwoReadsOfDarkWhileTheStoreAnswersAsync(
+        CancellationToken secondToken)
+    {
+        var memory = new MemoryPreferenceStore();
+        memory.Put("theme", "\"dark\"", Start.AddHours(-1));
+        var (preferences, _, entered, hold) = CreateOverAStoreHeldBeforeEachRead(memory);
+        var first = preferences.GetAsync<string>("theme", Token);
+        await entered.Task.WaitAsync(Patience, Token);
+        var second = preferences.GetAsync<string>("theme", secondToken);
+        return (first, second, memory, hold);
+    }
 
     private OmniPreferences Create(IOmniPreferenceStore store, TimeSpan? interval = null)
     {
@@ -121,11 +167,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         };
         var preferences = Create(store);
 
-        var sync = preferences.SyncAsync(Token);
-        await entered.Task.WaitAsync(Patience, Token);
-        var write = preferences.SetAsync("theme", "relief", Token);
-        await WaitUntilAsync(() => Cached("theme")?.Value == "\"relief\"");
-        hold.SetResult();
+        var (sync, write) = await WriteReliefWhileTheStoreAnswersAsync(preferences, () => preferences.SyncAsync(Token), entered, hold);
         await Task.WhenAll(sync, write).WaitAsync(Patience, Token);
 
         Assert.Equal("\"relief\"", Cached("theme")!.Value);
@@ -141,16 +183,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         // Nothing cached (a new device): the first read asks the store, which holds an older value.
         var memory = new MemoryPreferenceStore();
         memory.Put("theme", "\"givre\"", Start.AddHours(-1));
-        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = HeldBeforeEachRead(memory, entered, hold);
-        var preferences = Create(store);
-
-        var read = preferences.GetAsync<string>("theme", Token);
-        await entered.Task.WaitAsync(Patience, Token);
-        var write = preferences.SetAsync("theme", "relief", Token);
-        await WaitUntilAsync(() => Cached("theme")?.Value == "\"relief\"");
-        hold.SetResult();
+        var (read, write, store) = await ReadWhileReliefIsWrittenAsync(memory);
 
         Assert.Equal("relief", await read.WaitAsync(Patience, Token));
         await write.WaitAsync(Patience, Token);
@@ -165,16 +198,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
         // A new browser: nothing cached, the store holds the user's choice and answers slowly. A second
         // read made while it answers must not take the empty cache for "no preference" (an application
         // deciding on that answer would overwrite the stored choice with an older local one).
-        var memory = new MemoryPreferenceStore();
-        memory.Put("theme", "\"dark\"", Start.AddHours(-1));
-        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = HeldBeforeEachRead(memory, entered, hold);
-        var preferences = Create(store);
-
-        var first = preferences.GetAsync<string>("theme", Token);
-        await entered.Task.WaitAsync(Patience, Token);
-        var second = preferences.GetAsync<string>("theme", Token);
+        var (first, second, memory, hold) = await TwoReadsOfDarkWhileTheStoreAnswersAsync(Token);
         Assert.False(second.IsCompleted);
         hold.SetResult();
 
@@ -199,16 +223,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
     public async Task AWriteMadeWhileTheStoreFindsNothing_IsWhatTheReadReturns()
     {
         var memory = new MemoryPreferenceStore();
-        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = HeldBeforeEachRead(memory, entered, hold);
-        var preferences = Create(store);
-
-        var read = preferences.GetAsync<string>("theme", Token);
-        await entered.Task.WaitAsync(Patience, Token);
-        var write = preferences.SetAsync("theme", "relief", Token);
-        await WaitUntilAsync(() => Cached("theme")?.Value == "\"relief\"");
-        hold.SetResult();
+        var (read, write, _) = await ReadWhileReliefIsWrittenAsync(memory);
 
         Assert.Equal("relief", await read.WaitAsync(Patience, Token));
         await write.WaitAsync(Patience, Token);
@@ -217,16 +232,7 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
     [Fact]
     public async Task ACacheFailureAfterTheStoreAnswered_ReachesEveryWaitingRead()
     {
-        var memory = new MemoryPreferenceStore();
-        memory.Put("theme", "\"dark\"", Start.AddHours(-1));
-        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = HeldBeforeEachRead(memory, entered, hold);
-        var preferences = Create(store);
-
-        var first = preferences.GetAsync<string>("theme", Token);
-        await entered.Task.WaitAsync(Patience, Token);
-        var second = preferences.GetAsync<string>("theme", Token);
+        var (first, second, _, hold) = await TwoReadsOfDarkWhileTheStoreAnswersAsync(Token);
         // The browser refuses its storage once the store has answered: the value cannot be kept.
         _browser.Failures["get"] = new Microsoft.JSInterop.JSException("SecurityError: storage denied");
         hold.SetResult();
@@ -238,17 +244,8 @@ public sealed class PreferenceConcurrencyTests : IAsyncDisposable
     [Fact]
     public async Task ASecondReadCancelledWhileTheFirstWaits_LeavesTheFirstRead()
     {
-        var memory = new MemoryPreferenceStore();
-        memory.Put("theme", "\"dark\"", Start.AddHours(-1));
-        var entered = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var hold = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
-        var store = HeldBeforeEachRead(memory, entered, hold);
-        var preferences = Create(store);
         using var cancelled = CancellationTokenSource.CreateLinkedTokenSource(Token);
-
-        var first = preferences.GetAsync<string>("theme", Token);
-        await entered.Task.WaitAsync(Patience, Token);
-        var second = preferences.GetAsync<string>("theme", cancelled.Token);
+        var (first, second, _, hold) = await TwoReadsOfDarkWhileTheStoreAnswersAsync(cancelled.Token);
         await cancelled.CancelAsync();
         await Assert.ThrowsAnyAsync<OperationCanceledException>(() => second.WaitAsync(Patience, Token));
         hold.SetResult();

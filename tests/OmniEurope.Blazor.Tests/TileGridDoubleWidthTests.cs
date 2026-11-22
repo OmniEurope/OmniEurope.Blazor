@@ -17,7 +17,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class TileGridDoubleWidthTests : OmniBunitContext
 {
-    private const string Function = "applyTileGrid";
+    private const string Function = TileGridScript.Function;
 
     [Fact]
     public void AUniformTileGridWithoutADoubleTile_LoadsNoScript()
@@ -45,7 +45,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
             .Add(component => component.UniformSize, true)
             .AddChildContent(DoubleTile(kind)));
 
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
+        grid.WaitForCalls(module, 1);
         // No minimum of its own (the token applies), and the columns watched.
         Assert.Null(module.Invocations[Function][0].Arguments[1]);
         Assert.Equal(true, module.Invocations[Function][0].Arguments[2]);
@@ -67,9 +67,9 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
             .Add(component => component.MinColumnWidth, "18rem")
             .AddChildContent(DoubleTile(kind)));
 
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal("18rem", module.Invocations[Function][0].Arguments[1]);
-        Assert.Equal(true, module.Invocations[Function][0].Arguments[2]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal("18rem", firstCall[1]);
+        Assert.Equal(true, firstCall[2]);
     }
 
     [Theory]
@@ -118,9 +118,9 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
             .Add(component => component.MinColumnWidth, "14rem")
             .AddChildContent<OmniNavTile>(tile => tile.Add(component => component.Href, "/a").Add(component => component.Title, "A").Add(component => component.DoubleWidth, true)));
 
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal("14rem", module.Invocations[Function][0].Arguments[1]);
-        Assert.Equal(true, module.Invocations[Function][0].Arguments[2]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal("14rem", firstCall[1]);
+        Assert.Equal(true, firstCall[2]);
     }
 
     [Fact]
@@ -132,9 +132,9 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
             .Add(component => component.MinColumnWidth, "14rem")
             .AddChildContent(NavTile(doubleWidth: false)));
 
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal("14rem", module.Invocations[Function][0].Arguments[1]);
-        Assert.Equal(false, module.Invocations[Function][0].Arguments[2]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal("14rem", firstCall[1]);
+        Assert.Equal(false, firstCall[2]);
     }
 
     [Fact]
@@ -148,8 +148,8 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
 
         // A tile that turns double: the grid watches.
         grid.Render(parameters => parameters.AddChildContent(NavTile(doubleWidth: true)));
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal(true, module.Invocations[Function][0].Arguments[2]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal(true, firstCall[2]);
 
         // The same tiles again change nothing for the script.
         grid.Render(parameters => parameters.AddChildContent(NavTile(doubleWidth: true)));
@@ -157,17 +157,17 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
 
         // The last double tile leaves (turns single): the grid stops the watch, once.
         grid.Render(parameters => parameters.AddChildContent(NavTile(doubleWidth: false)));
-        grid.WaitForAssertion(() => Assert.Equal(2, module.Invocations[Function].Count));
-        Assert.Equal(false, module.Invocations[Function][1].Arguments[2]);
+        var secondCall = grid.WaitForCalls(module, 2);
+        Assert.Equal(false, secondCall[2]);
         grid.Render(parameters => parameters.AddChildContent(NavTile(doubleWidth: false)));
         Assert.Equal(2, module.Invocations[Function].Count);
 
         // A double tile that is removed from the grid stops the watch too.
         grid.Render(parameters => parameters.AddChildContent(NavTile(doubleWidth: true)));
-        grid.WaitForAssertion(() => Assert.Equal(3, module.Invocations[Function].Count));
+        grid.WaitForCalls(module, 3);
         grid.Render(parameters => parameters.AddChildContent(string.Empty));
-        grid.WaitForAssertion(() => Assert.Equal(4, module.Invocations[Function].Count));
-        Assert.Equal(false, module.Invocations[Function][3].Arguments[2]);
+        var fourthCall = grid.WaitForCalls(module, 4);
+        Assert.Equal(false, fourthCall[2]);
     }
 
     [Fact]
@@ -177,14 +177,14 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
             .AddChildContent(NavTile(doubleWidth: true, count: 2)));
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
+        grid.WaitForCalls(module, 1);
 
         grid.Render(parameters => parameters.AddChildContent(NavTile(doubleWidth: true, count: 1)));
         Assert.Single(module.Invocations[Function]);
 
         grid.Render(parameters => parameters.AddChildContent(NavTile(doubleWidth: true, count: 0)));
-        grid.WaitForAssertion(() => Assert.Equal(2, module.Invocations[Function].Count));
-        Assert.Equal(false, module.Invocations[Function][1].Arguments[2]);
+        var secondCall = grid.WaitForCalls(module, 2);
+        Assert.Equal(false, secondCall[2]);
     }
 
     [Fact]
@@ -195,13 +195,13 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
         Assert.Empty(JSInterop.Invocations);
 
         grid.Render(parameters => parameters.Add(component => component.UniformSize, true));
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal(true, module.Invocations[Function][0].Arguments[2]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal(true, firstCall[2]);
 
         grid.Render(parameters => parameters.Add(component => component.UniformSize, false));
-        grid.WaitForAssertion(() => Assert.Equal(2, module.Invocations[Function].Count));
-        Assert.Null(module.Invocations[Function][1].Arguments[1]);
-        Assert.Equal(false, module.Invocations[Function][1].Arguments[2]);
+        var secondCall = grid.WaitForCalls(module, 2);
+        Assert.Null(secondCall[1]);
+        Assert.Equal(false, secondCall[2]);
     }
 
     [Fact]
@@ -216,12 +216,12 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
 
         // Only the wrapper redraws: the grid is not re-rendered by anyone, the tile tells it.
         await grid.InvokeAsync(() => toggled.Set(true));
-        grid.WaitForAssertion(() => Assert.Single(module.Invocations[Function]));
-        Assert.Equal(true, module.Invocations[Function][0].Arguments[2]);
+        var firstCall = grid.WaitForCalls(module, 1);
+        Assert.Equal(true, firstCall[2]);
 
         await grid.InvokeAsync(() => toggled.Set(false));
-        grid.WaitForAssertion(() => Assert.Equal(2, module.Invocations[Function].Count));
-        Assert.Equal(false, module.Invocations[Function][1].Arguments[2]);
+        var secondCall = grid.WaitForCalls(module, 2);
+        Assert.Equal(false, secondCall[2]);
     }
 
     [Fact]
@@ -273,10 +273,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [Fact]
     public void ADoubleTileOutsideAnyGrid_IsHarmless_AndLoadsNoScript()
     {
-        var tile = Render<OmniNavTile>(parameters => parameters
-            .Add(component => component.Href, "/a")
-            .Add(component => component.Title, "A")
-            .Add(component => component.DoubleWidth, true));
+        var tile = this.RenderDoubleNavTile();
 
         Assert.Contains("omni-tile--double", tile.Find(".omni-nav-tile").ClassList);
         Assert.Empty(JSInterop.Invocations);

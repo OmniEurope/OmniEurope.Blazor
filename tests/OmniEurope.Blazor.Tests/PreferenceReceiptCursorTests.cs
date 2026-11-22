@@ -22,13 +22,22 @@ public sealed class PreferenceReceiptCursorTests
     private OmniPreferences Open(IOmniPreferenceStore store) =>
         new(_browser, store, new OmniPreferencesOptions(), NullLogger<OmniPreferences>.Instance, _time);
 
+    /// <summary>
+    /// A store whose clock is an hour behind the devices, holding b written three minutes ago then a written one minute ago.
+    /// </summary>
+    private static ReceiptPreferenceStore StoreHoldingAnOldBThenA(bool stampReceipts)
+    {
+        var store = new ReceiptPreferenceStore(Device.AddHours(-1)) { StampReceipts = stampReceipts };
+        store.Receive("b", "\"old\"", Device.AddMinutes(-3));
+        store.Receive("a", "\"a\"", Device.AddMinutes(-1));
+        return store;
+    }
+
     [Fact]
     public async Task ALateWriteDatedBeforeTheLatestValueRead_IsStillRead_WhenTheStoreSetsReceivedAt()
     {
         // The store's clock is an hour behind the devices: the receipt dates are all before the arbitration dates.
-        var store = new ReceiptPreferenceStore(Device.AddHours(-1));
-        store.Receive("b", "\"old\"", Device.AddMinutes(-3));
-        store.Receive("a", "\"a\"", Device.AddMinutes(-1));
+        var store = StoreHoldingAnOldBThenA(stampReceipts: true);
         await using var preferences = Open(store);
         await preferences.SyncAsync(Token);
         Assert.Equal("old", await preferences.GetAsync<string>("b", Token));
@@ -45,9 +54,7 @@ public sealed class PreferenceReceiptCursorTests
     [Fact]
     public async Task AStoreThatLeavesReceivedAtNull_KeepsTheCursorOnUpdatedAt()
     {
-        var store = new ReceiptPreferenceStore(Device.AddHours(-1)) { StampReceipts = false };
-        store.Receive("b", "\"old\"", Device.AddMinutes(-3));
-        store.Receive("a", "\"a\"", Device.AddMinutes(-1));
+        var store = StoreHoldingAnOldBThenA(stampReceipts: false);
         await using var preferences = Open(store);
 
         await preferences.SyncAsync(Token);

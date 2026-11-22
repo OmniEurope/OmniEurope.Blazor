@@ -203,12 +203,10 @@ public sealed class SelectionEdgeTests : OmniBunitContext
     [InlineData(0d, double.PositiveInfinity, 1d, 0d)]
     [InlineData(0d, 100d, double.NaN, 0d)]
     public void Slider_InvalidSettings_AreRefused(double minimum, double maximum, double step, double value) =>
-        Assert.Throws<ArgumentOutOfRangeException>(() => Render<OmniSlider>(parameters => parameters
+        Assert.Throws<ArgumentOutOfRangeException>(() => this.RenderBound<OmniSlider, double>(value, parameters => parameters
             .Add(component => component.Minimum, minimum)
             .Add(component => component.Maximum, maximum)
-            .Add(component => component.Step, step)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)));
+            .Add(component => component.Step, step)));
 
     // ---- drop down and list box -------------------------------------------------------------------
 
@@ -244,11 +242,9 @@ public sealed class SelectionEdgeTests : OmniBunitContext
         dropDown.Render(parameters => parameters.Add(component => component.Value, "a"));
         Assert.Equal("A", dropDown.Find("input").GetAttribute("value"));
 
-        var silent = Render<OmniDropDown<Silent>>(parameters => parameters
+        var silent = this.RenderBound<OmniDropDown<Silent>, Silent>(new Silent(), () => _silent!, parameters => parameters
             .Add(component => component.Options, [new OmniOption<Silent>(new Silent(), "Muet")])
-            .Add(component => component.Filterable, true)
-            .Add(component => component.Value, new Silent())
-            .Add(component => component.ValueExpression, () => _silent!));
+            .Add(component => component.Filterable, true));
         Assert.Equal(string.Empty, silent.Find("input").GetAttribute("value") ?? string.Empty);
     }
 
@@ -414,9 +410,7 @@ public sealed class SelectionEdgeTests : OmniBunitContext
         autocomplete.Render(parameters => parameters.Add(component => component.Value, "linux"));
         Assert.Equal("linux", autocomplete.Find("input").GetAttribute("value"));
 
-        var silent = Render<OmniAutocomplete<Silent>>(parameters => parameters
-            .Add(component => component.Value, new Silent())
-            .Add(component => component.ValueExpression, () => _silent!));
+        var silent = this.RenderBound<OmniAutocomplete<Silent>, Silent>(new Silent(), () => _silent!);
         Assert.Equal(string.Empty, silent.Find("input").GetAttribute("value") ?? string.Empty);
     }
 

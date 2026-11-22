@@ -14,6 +14,26 @@ public sealed class UploadEdgeTests : OmniBunitContext
     private static InputFileContent Text(string name, string content = "hello") =>
         InputFileContent.CreateFromText(content, name, contentType: "text/plain");
 
+    /// <summary>
+    /// Selects the text file <paramref name="name"/> on another thread, the selection being handed over only once its upload
+    /// ends, and waits until the upload runs (its cancel button is drawn).
+    /// </summary>
+    private static Task SelectAside(IRenderedComponent<OmniUpload> upload, string name)
+    {
+        var input = upload.FindComponent<InputFile>();
+        var selecting = Task.Run(() => input.UploadFiles(Text(name)), Xunit.TestContext.Current.CancellationToken);
+        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
+        return selecting;
+    }
+
+    /// <summary>The selection running aside ends, and the upload shows it was cancelled with a retry.</summary>
+    private static async Task AssertTheSelectionEndedCancelledAsync(IRenderedComponent<OmniUpload> upload, Task selecting)
+    {
+        await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__retry")));
+        Assert.Equal("Téléversement annulé.", upload.Find(".omni-upload__message").TextContent);
+    }
+
     [Fact]
     public void MoreFilesThanTheBrowserListMayHold_AreRefusedTogether()
     {
@@ -50,13 +70,9 @@ public sealed class UploadEdgeTests : OmniBunitContext
                 : Task.CompletedTask));
 
         // The selection is handed over only once the upload ends: it runs aside while the test cancels it.
-        var input = upload.FindComponent<InputFile>();
-        var selecting = Task.Run(() => input.UploadFiles(Text("note.txt")), Xunit.TestContext.Current.CancellationToken);
-        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
+        var selecting = SelectAside(upload, "note.txt");
         upload.Find(".omni-upload__cancel").Click();
-        await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
-        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__retry")));
-        Assert.Equal("Téléversement annulé.", upload.Find(".omni-upload__message").TextContent);
+        await AssertTheSelectionEndedCancelledAsync(upload, selecting);
 
         upload.Find(".omni-upload__retry").Click();
 
@@ -77,9 +93,7 @@ public sealed class UploadEdgeTests : OmniBunitContext
             .Add(component => component.OnFileRemove, file => removed.Add(file))
             .Add(component => component.Upload, _ => pending.Task));
 
-        var input = upload.FindComponent<InputFile>();
-        var selecting = Task.Run(() => input.UploadFiles(Text("b.txt")), Xunit.TestContext.Current.CancellationToken);
-        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
+        var selecting = SelectAside(upload, "b.txt");
         upload.Find(".omni-upload__remove").Click();
         pending.SetResult();
         await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
@@ -187,17 +201,12 @@ public sealed class UploadEdgeTests : OmniBunitContext
                 return tokens.Count == 1 ? pending.Task : Task.CompletedTask;
             }));
 
-        var input = upload.FindComponent<InputFile>();
-        var selecting = Task.Run(() => input.UploadFiles(Text("a.txt")), Xunit.TestContext.Current.CancellationToken);
-        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
+        var selecting = SelectAside(upload, "a.txt");
         upload.Find(".omni-upload__cancel").Click();
         // The selection runs on another thread, so the click reaches the renderer's dispatcher asynchronously.
         upload.WaitForAssertion(() => Assert.True(tokens[0].IsCancellationRequested));
         pending.SetResult();
-        await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
-
-        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__retry")));
-        Assert.Equal("Téléversement annulé.", upload.Find(".omni-upload__message").TextContent);
+        await AssertTheSelectionEndedCancelledAsync(upload, selecting);
         Assert.Empty(files);
 
         upload.Find(".omni-upload__retry").Click();
@@ -226,9 +235,7 @@ public sealed class UploadEdgeTests : OmniBunitContext
                 return pending.Task;
             }));
 
-        var input = upload.FindComponent<InputFile>();
-        var selecting = Task.Run(() => input.UploadFiles(Text("a.txt")), Xunit.TestContext.Current.CancellationToken);
-        upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
+        var selecting = SelectAside(upload, "a.txt");
         await upload.InvokeAsync(() => upload.Instance.DisposeAsync().AsTask());
         Assert.True(seen!.CancellationToken.IsCancellationRequested);
 

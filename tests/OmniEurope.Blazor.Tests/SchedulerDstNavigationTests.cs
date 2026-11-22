@@ -19,6 +19,10 @@ public sealed class SchedulerDstNavigationTests : OmniBunitContext
             .Add(component => component.TimeZone, Paris)
             .Add(component => component.Culture, System.Globalization.CultureInfo.GetCultureInfo("fr-FR")));
 
+    private static DateTimeOffset Moment(string text) => DateTimeOffset.Parse(text, System.Globalization.CultureInfo.InvariantCulture);
+
+    private static DateTime Day(string text) => DateTime.Parse(text, System.Globalization.CultureInfo.InvariantCulture).Date;
+
     private static DateTime LocalOf(IRenderedComponent<OmniScheduler> scheduler) =>
         TimeZoneInfo.ConvertTime(scheduler.Instance.CurrentDate, Paris).DateTime;
 
@@ -35,11 +39,11 @@ public sealed class SchedulerDstNavigationTests : OmniBunitContext
     [InlineData("2026-10-26T00:30:00+01:00", "‹", "2026-10-25")]
     public void TheDayView_MovesByOneCalendarDayAcrossAClockChange(string from, string arrow, string expectedDay)
     {
-        var scheduler = Render(OmniCalendarView.Day, DateTimeOffset.Parse(from, System.Globalization.CultureInfo.InvariantCulture));
+        var scheduler = Render(OmniCalendarView.Day, Moment(from));
 
         Press(scheduler, arrow);
 
-        Assert.Equal(DateTime.Parse(expectedDay, System.Globalization.CultureInfo.InvariantCulture).Date, LocalOf(scheduler).Date);
+        Assert.Equal(Day(expectedDay), LocalOf(scheduler).Date);
     }
 
     [Theory]
@@ -49,11 +53,11 @@ public sealed class SchedulerDstNavigationTests : OmniBunitContext
     [InlineData("2026-10-27T23:30:00+01:00", "‹", "2026-10-20")]
     public void TheWeekView_MovesBySevenCalendarDaysAcrossAClockChange(string from, string arrow, string expectedDay)
     {
-        var scheduler = Render(OmniCalendarView.Week, DateTimeOffset.Parse(from, System.Globalization.CultureInfo.InvariantCulture));
+        var scheduler = Render(OmniCalendarView.Week, Moment(from));
 
         Press(scheduler, arrow);
 
-        Assert.Equal(DateTime.Parse(expectedDay, System.Globalization.CultureInfo.InvariantCulture).Date, LocalOf(scheduler).Date);
+        Assert.Equal(Day(expectedDay), LocalOf(scheduler).Date);
     }
 
     [Theory]
@@ -63,13 +67,13 @@ public sealed class SchedulerDstNavigationTests : OmniBunitContext
     [InlineData("2026-10-31T23:30:00+01:00", "‹", "2026-09-30")]
     public void TheMonthView_MovesByOneCalendarMonth_KeepingTheTimeOfDay(string from, string arrow, string expectedDay)
     {
-        var scheduler = Render(OmniCalendarView.Month, DateTimeOffset.Parse(from, System.Globalization.CultureInfo.InvariantCulture));
+        var scheduler = Render(OmniCalendarView.Month, Moment(from));
 
         Press(scheduler, arrow);
 
         var local = LocalOf(scheduler);
-        Assert.Equal(DateTime.Parse(expectedDay, System.Globalization.CultureInfo.InvariantCulture).Date, local.Date);
-        Assert.Equal(DateTimeOffset.Parse(from, System.Globalization.CultureInfo.InvariantCulture).TimeOfDay, local.TimeOfDay);
+        Assert.Equal(Day(expectedDay), local.Date);
+        Assert.Equal(Moment(from).TimeOfDay, local.TimeOfDay);
     }
 
     [Fact]

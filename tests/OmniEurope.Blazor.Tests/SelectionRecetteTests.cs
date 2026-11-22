@@ -50,21 +50,17 @@ public sealed class SelectionRecetteTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         IReadOnlyList<string> value = [];
         var options = new OmniOption<string>[] { new("a", "Alpha"), new("b", "Beta", Disabled: true) };
-        var compact = Render<OmniMultiSelect<string>>(parameters => parameters
-            .Add(component => component.Options, options)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var compact = this.RenderBound<OmniMultiSelect<string>, IReadOnlyList<string>>(value, parameters => parameters
+            .Add(component => component.Options, options));
 
         compact.WaitForAssertion(() => Assert.Single(module.Invocations["configureDisclosure"]));
         Assert.Equal(true, module.Invocations["configureDisclosure"][0].Arguments[1]);
         Assert.Equal(false, module.Invocations["configureDisclosure"][0].Arguments[2]);
 
         // The always-open list, a list box with Multiple, has no panel to close.
-        Render<OmniListBox<string, IReadOnlyList<string>>>(parameters => parameters
+        this.RenderBound<OmniListBox<string, IReadOnlyList<string>>, IReadOnlyList<string>>(value, parameters => parameters
             .Add(component => component.Multiple, true)
-            .Add(component => component.Options, options)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .Add(component => component.Options, options));
         Assert.Single(module.Invocations["configureDisclosure"]);
     }
 
@@ -72,20 +68,16 @@ public sealed class SelectionRecetteTests : OmniBunitContext
     public void MultiSelectCompact_Disabled_KeepsItsSummaryShutAndOutOfTheTabOrder()
     {
         IReadOnlyList<string> value = ["a"];
-        var compact = Render<OmniMultiSelect<string>>(parameters => parameters
+        var compact = this.RenderBound<OmniMultiSelect<string>, IReadOnlyList<string>>(value, parameters => parameters
             .Add(component => component.Options, [new OmniOption<string>("a", "Alpha")])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.Disabled, true));
 
         var summary = compact.Find("summary");
         Assert.Equal("true", summary.GetAttribute("aria-disabled"));
         Assert.Equal("-1", summary.GetAttribute("tabindex"));
 
-        var enabled = Render<OmniMultiSelect<string>>(parameters => parameters
-            .Add(component => component.Options, [new OmniOption<string>("a", "Alpha")])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var enabled = this.RenderBound<OmniMultiSelect<string>, IReadOnlyList<string>>(value, parameters => parameters
+            .Add(component => component.Options, [new OmniOption<string>("a", "Alpha")]));
         Assert.Null(enabled.Find("summary").GetAttribute("aria-disabled"));
         Assert.Null(enabled.Find("summary").GetAttribute("tabindex"));
     }
@@ -97,11 +89,9 @@ public sealed class SelectionRecetteTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         var value = "b";
         var options = new OmniOption<string>[] { new("a", "Alpha"), new("b", "Beta"), new("c", "Carte", Disabled: true) };
-        var bar = Render<OmniSelectBar<string>>(parameters => parameters
+        var bar = this.RenderBound<OmniSelectBar<string>, string>(value, parameters => parameters
             .Add(component => component.Id, "bar")
             .Add(component => component.Options, options)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, next => value = next));
 
         bar.WaitForAssertion(() => Assert.Single(module.Invocations["configureSelectBarOverflow"]));
@@ -130,10 +120,8 @@ public sealed class SelectionRecetteTests : OmniBunitContext
     public void RadioButtonList_MarksADisabledOptionOnItsLabel()
     {
         var value = "a";
-        var list = Render<OmniRadioButtonList<string>>(parameters => parameters
+        var list = this.RenderBound<OmniRadioButtonList<string>, string>(value, parameters => parameters
             .Add(component => component.Options, [new OmniOption<string>("a", "Standard"), new OmniOption<string>("b", "Retrait en agence", Disabled: true)])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
             .Add(component => component.ValueChanged, next => value = next));
 
         var labels = list.FindAll("label.omni-choice-list__item");
@@ -146,9 +134,7 @@ public sealed class SelectionRecetteTests : OmniBunitContext
     public async Task Autocomplete_MarksTheSearchedLettersIgnoringCaseAndAccents()
     {
         var value = string.Empty;
-        var autocomplete = Render<OmniAutocomplete<string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var autocomplete = this.RenderBound<OmniAutocomplete<string>, string>(value, parameters => parameters
             .Add(component => component.Debounce, TimeSpan.Zero)
             .Add(component => component.Search, (_, _) => Task.FromResult<IReadOnlyList<OmniOption<string>>>(
                 [new("liege", "Liège (Belgique)"), new("lille", "Lille, Lille-Flandres")])));

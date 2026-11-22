@@ -14,9 +14,7 @@ public sealed class RatingTests : OmniBunitContext
     public void Selecting_a_star_fills_every_preceding_star_and_can_decrease_the_rating()
     {
         int? value = 1;
-        var rating = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var rating = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.ValueChanged, selected => value = selected));
         rating.FindAll("input[type=radio]")[3].Change(true);
         Assert.Equal(4, value);
@@ -32,9 +30,7 @@ public sealed class RatingTests : OmniBunitContext
     public void Editable_rating_is_a_named_radio_group_of_native_radios_sharing_one_name()
     {
         int? value = 3;
-        var rating = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+        var rating = this.RenderBound<OmniRating, int?>(value);
 
         var group = rating.Find(".omni-rating");
         Assert.Equal("radiogroup", group.GetAttribute("role"));
@@ -53,9 +49,7 @@ public sealed class RatingTests : OmniBunitContext
     public void Label_names_the_group()
     {
         int? value = null;
-        var rating = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var rating = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.Label, "Qualité"));
 
         Assert.Equal("Qualité", rating.Find("[role=radiogroup]").GetAttribute("aria-label"));
@@ -65,9 +59,7 @@ public sealed class RatingTests : OmniBunitContext
     public void Disabled_wins_over_ReadOnly()
     {
         int? value = 3;
-        var rating = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var rating = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.ReadOnly, true)
             .Add(component => component.Disabled, true));
         Assert.Equal(5, rating.FindAll("input[type=radio]:disabled").Count);
@@ -78,9 +70,7 @@ public sealed class RatingTests : OmniBunitContext
     public void ReadOnly_rating_is_one_announced_value_outside_the_tab_order_that_cannot_change()
     {
         int? value = 3;
-        var rating = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var rating = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.ValueChanged, selected => value = selected)
             .Add(component => component.Label, "Note")
             .Add(component => component.ReadOnly, true));
@@ -101,9 +91,7 @@ public sealed class RatingTests : OmniBunitContext
     public void ReadOnly_rating_without_label_announces_the_localized_default()
     {
         int? value = null;
-        var rating = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var rating = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.ReadOnly, true));
 
         Assert.Equal("Note : 0 sur 5", rating.Find(".omni-rating").GetAttribute("aria-label"));
@@ -113,9 +101,7 @@ public sealed class RatingTests : OmniBunitContext
     public void Disabled_rating_keeps_disabled_radios_out_of_the_tab_order()
     {
         int? value = 2;
-        var rating = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var rating = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.Label, "Note")
             .Add(component => component.Disabled, true));
 
@@ -131,9 +117,7 @@ public sealed class RatingTests : OmniBunitContext
     public void Change_OnADisabledOrReadOnlyRating_IsRefused()
     {
         int? value = 2;
-        var disabled = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var disabled = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.ValueChanged, selected => value = selected)
             .Add(component => component.Disabled, true));
 
@@ -142,9 +126,7 @@ public sealed class RatingTests : OmniBunitContext
         Assert.Equal(2, value);
 
         // Disabled and read-only together draw the disabled radios: read-only refuses the change too.
-        var both = Render<OmniRating>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+        var both = this.RenderBound<OmniRating, int?>(value, parameters => parameters
             .Add(component => component.ValueChanged, selected => value = selected)
             .Add(component => component.Disabled, true)
             .Add(component => component.ReadOnly, true));
