@@ -54,9 +54,8 @@ public partial class OmniTextBox
     /// <summary>After each render, follows the input element with the <see cref="SelectOnFocus"/> script; nothing happens while it is off.</summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the script follows the element drawn.</returns>
-    protected override Task OnAfterRenderAsync(bool firstRender) => SelectOnFocus || _selectOnFocus is not null
-        ? (_selectOnFocus ??= new Internal.OmniSelectOnFocus(JavaScript)).SyncAsync(SelectOnFocus, _field)
-        : Task.CompletedTask;
+    protected override Task OnAfterRenderAsync(bool firstRender) =>
+        Internal.OmniSelectOnFocus.FollowAsync(ref _selectOnFocus, JavaScript, SelectOnFocus, _field);
 
     /// <summary>
     /// A decorative icon laid over the start of the field, muted and click-through, such as the

@@ -157,10 +157,7 @@ public partial class OmniDateTimePicker
         }
 
         OmniTimePicker.StepMinutes(Step);
-        if (Minimum is { } minimum && Maximum is { } maximum && minimum > maximum)
-        {
-            throw new InvalidOperationException("Minimum cannot be greater than Maximum.");
-        }
+        PickerValue.EnsureOrdered(Minimum, Maximum);
     }
 
     /// <summary>Attaches the panel script when the panel opened, detaches it when it closed, and moves the focus into an open panel.</summary>
@@ -192,28 +189,16 @@ public partial class OmniDateTimePicker
     /// <param name="result">The moment read, or null.</param>
     /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid date and time" message.</param>
     /// <returns>True when the text is blank or a moment within the bounds.</returns>
-    protected override bool TryParseValueFromString(string? value, out DateTime? result, out string validationErrorMessage)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            result = null;
-            validationErrorMessage = null!;
-            return true;
-        }
-
+    protected override bool TryParseValueFromString(string? value, out DateTime? result, out string validationErrorMessage) =>
         // Seconds are accepted whatever ShowSeconds says: a pasted or older value may have them, and
         // rejecting it would silently empty the field.
-        if (PickerFormat.TryParseDateTime(value, Culture, out var moment) && !IsOutside(moment))
-        {
-            result = moment;
-            validationErrorMessage = null!;
-            return true;
-        }
-
-        result = null;
-        validationErrorMessage = Localize("DateTimePickerInvalid");
-        return false;
-    }
+        PickerValue.TryRead(
+            value,
+            (string text, out DateTime moment) => PickerFormat.TryParseDateTime(text, Culture, out moment),
+            IsOutside,
+            () => Localize("DateTimePickerInvalid"),
+            out result,
+            out validationErrorMessage);
 
     /// <summary>Releases the listeners of a panel still open, then the form subscription.</summary>
     /// <param name="disposing">True when called from <see cref="IDisposable.Dispose"/>.</param>
@@ -301,11 +286,8 @@ public partial class OmniDateTimePicker
         Popup.FocusAfterRender(FocusedDaySelector);
     }
 
-    private void StepMonth(int step)
-    {
-        _visibleMonth = PickerCalendar.AddMonths(new DateOnly(_visibleMonth.Year, _visibleMonth.Month, 1), step);
-        _focusedDate = PickerCalendar.Clamp(PickerCalendar.AddMonths(_focusedDate, step), MinimumDate, MaximumDate);
-    }
+    private void StepMonth(int step) =>
+        (_visibleMonth, _focusedDate) = PickerCalendar.StepMonth(_visibleMonth, _focusedDate, step, MinimumDate, MaximumDate);
 
     private Task OnToggleKeyDown(KeyboardEventArgs args) => Popup.HandleToggleKeyDownAsync(args);
 

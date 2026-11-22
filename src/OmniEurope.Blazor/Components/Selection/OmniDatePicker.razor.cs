@@ -114,10 +114,7 @@ public partial class OmniDatePicker
             _popup?.Close(restoreFocus: false);
         }
 
-        if (Minimum is { } minimum && Maximum is { } maximum && minimum > maximum)
-        {
-            throw new InvalidOperationException("Minimum cannot be greater than Maximum.");
-        }
+        PickerValue.EnsureOrdered(Minimum, Maximum);
     }
 
     /// <summary>Attaches the panel script when the calendar opened, detaches it when it closed, and moves the focus into an open grid.</summary>
@@ -145,26 +142,14 @@ public partial class OmniDatePicker
     /// <param name="result">The date read, or null.</param>
     /// <param name="validationErrorMessage">Null on success; on failure, the localized "invalid date" message.</param>
     /// <returns>True when the text is blank or a date within the bounds.</returns>
-    protected override bool TryParseValueFromString(string? value, out DateOnly? result, out string validationErrorMessage)
-    {
-        if (string.IsNullOrWhiteSpace(value))
-        {
-            result = null;
-            validationErrorMessage = null!;
-            return true;
-        }
-
-        if (PickerFormat.TryParseDate(value, EffectiveCulture, out var date) && !PickerCalendar.IsOutside(date, Minimum, Maximum))
-        {
-            result = date;
-            validationErrorMessage = null!;
-            return true;
-        }
-
-        result = null;
-        validationErrorMessage = Localize("DatePickerInvalid");
-        return false;
-    }
+    protected override bool TryParseValueFromString(string? value, out DateOnly? result, out string validationErrorMessage) =>
+        PickerValue.TryRead(
+            value,
+            (string text, out DateOnly date) => PickerFormat.TryParseDate(text, EffectiveCulture, out date),
+            date => PickerCalendar.IsOutside(date, Minimum, Maximum),
+            () => Localize("DatePickerInvalid"),
+            out result,
+            out validationErrorMessage);
 
     /// <summary>Releases the listeners of a calendar still open, then the form subscription.</summary>
     /// <param name="disposing">True when called from <see cref="IDisposable.Dispose"/>.</param>
@@ -222,11 +207,8 @@ public partial class OmniDatePicker
         Popup.FocusAfterRender(FocusedDaySelector);
     }
 
-    private void StepMonth(int step)
-    {
-        _visibleMonth = PickerCalendar.AddMonths(new DateOnly(_visibleMonth.Year, _visibleMonth.Month, 1), step);
-        _focusedDate = PickerCalendar.Clamp(PickerCalendar.AddMonths(_focusedDate, step), Minimum, Maximum);
-    }
+    private void StepMonth(int step) =>
+        (_visibleMonth, _focusedDate) = PickerCalendar.StepMonth(_visibleMonth, _focusedDate, step, Minimum, Maximum);
 
     private Task OnToggleKeyDown(KeyboardEventArgs args) => Popup.HandleToggleKeyDownAsync(args);
 

@@ -231,22 +231,7 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         }
     }
 
-    private void EnsureSelectionType()
-    {
-        var single = typeof(TSelection) == typeof(TValue) || Nullable.GetUnderlyingType(typeof(TSelection)) == typeof(TValue);
-        var many = typeof(TSelection).IsAssignableFrom(typeof(TValue[]));
-        if (Multiple && !many)
-        {
-            throw new InvalidOperationException(
-                $"OmniSelectableCardGroup with Multiple binds a collection of {typeof(TValue).Name} (IReadOnlyList<{typeof(TValue).Name}>), not a {typeof(TSelection).Name}.");
-        }
-
-        if (!Multiple && !single)
-        {
-            throw new InvalidOperationException(
-                $"OmniSelectableCardGroup binds one {typeof(TValue).Name}, not a {typeof(TSelection).Name}: set Multiple=\"true\" to bind several values.");
-        }
-    }
+    private void EnsureSelectionType() => SelectionBinding.EnsureSelectionType<TValue, TSelection>(Multiple, "OmniSelectableCardGroup");
 
     /// <inheritdoc />
     protected override bool TryParseValueFromString(string? value, out TSelection result, out string validationErrorMessage)

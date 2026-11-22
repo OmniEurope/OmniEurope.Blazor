@@ -99,6 +99,13 @@ internal sealed class PickerCalendar : ComponentBase
         return maximum is { } ceiling && date > ceiling ? ceiling : date;
     }
 
+    /// <summary>
+    /// Moves a picker's calendar by <paramref name="step"/> months: the first day of the shown month moved by those months, and the
+    /// focused day moved by the same months then clamped to the bounds.
+    /// </summary>
+    internal static (DateOnly Visible, DateOnly Focused) StepMonth(DateOnly visible, DateOnly focused, int step, DateOnly? minimum, DateOnly? maximum) =>
+        (AddMonths(new DateOnly(visible.Year, visible.Month, 1), step), Clamp(AddMonths(focused, step), minimum, maximum));
+
     internal static bool IsOutside(DateOnly date, DateOnly? minimum, DateOnly? maximum) =>
         (minimum is { } floor && date < floor) || (maximum is { } ceiling && date > ceiling);
 

@@ -19,6 +19,29 @@ internal sealed class OmniSelectOnFocus(IJSRuntime javaScript) : IAsyncDisposabl
     private bool _everEnabled;
 
     /// <summary>
+    /// What a field's <c>OnAfterRenderAsync</c> does for <c>SelectOnFocus</c>: creates <paramref name="script"/> the first
+    /// time the parameter is on, then follows <paramref name="field"/> with it; nothing happens while it has never been on.
+    /// </summary>
+    internal static Task FollowAsync(ref OmniSelectOnFocus? script, IJSRuntime javaScript, bool enabled, ElementReference field) =>
+        enabled || script is not null
+            ? (script ??= new OmniSelectOnFocus(javaScript)).SyncAsync(enabled, field)
+            : Task.CompletedTask;
+
+    /// <summary>
+    /// What a field's <c>DisposeAsync</c> does: disposes <paramref name="input"/> (Blazor calls only <c>DisposeAsync</c> on a
+    /// component that has both, so the input's own disposal goes through <c>Dispose</c>), then detaches
+    /// <paramref name="script"/>, if any.
+    /// </summary>
+    internal static async ValueTask DisposeWithInputAsync(IDisposable input, OmniSelectOnFocus? script)
+    {
+        input.Dispose();
+        if (script is not null)
+        {
+            await script.DisposeAsync();
+        }
+    }
+
+    /// <summary>
     /// Attaches the script to <paramref name="field"/> when <paramref name="enabled"/>, follows it when the element is
     /// drawn anew, and detaches it when the parameter is turned off. Nothing is imported while it has never been on.
     /// A lost circuit is ignored.
