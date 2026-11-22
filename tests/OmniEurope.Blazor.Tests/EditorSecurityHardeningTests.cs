@@ -58,8 +58,7 @@ public sealed class EditorSecurityHardeningTests : OmniBunitContext
         var value = string.Empty;
 
         var exception = Assert.Throws<ArgumentException>(() => Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.MonacoPath, path)));
 
         Assert.Equal(nameof(OmniCodeEditor.MonacoPath), exception.ParamName);
@@ -85,8 +84,7 @@ public sealed class EditorSecurityHardeningTests : OmniBunitContext
         var value = string.Empty;
 
         Render<OmniCodeEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.MonacoPath, path));
 
         Assert.Equal(path, Assert.Single(module.Invocations["load"]).Arguments[0]);
@@ -222,8 +220,7 @@ public sealed class EditorSecurityHardeningTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         var value = "<p>Texte</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
         editor.WaitForAssertion(() => Assert.Single(module.Invocations["mount"]));
 
         await Assert.ThrowsAsync<InvalidOperationException>(() =>
@@ -247,8 +244,7 @@ public sealed class EditorSecurityHardeningTests : OmniBunitContext
         module.Mode = JSRuntimeMode.Loose;
         var value = "<p>Texte</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
         editor.WaitForAssertion(() => Assert.Single(module.Invocations["mount"]));
 
         await editor.InvokeAsync(() => editor.Instance.RunBuiltInAsync(OmniHtmlEditorAction.Link, address));

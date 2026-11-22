@@ -24,9 +24,7 @@ public sealed class HtmlEditorTableAndClipboardTests : OmniBunitContext
             .SetResult("<table><tbody><tr><td>A</td></tr><tr><td onclick=\"x()\"><br></td></tr></tbody></table>");
         var value = "<table><tbody><tr><td>A</td></tr></tbody></table>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Commands, OmniHtmlEditorCommands.Table));
 
         Assert.All(TableCommandNames, name => Assert.True(editor.Find($"button[data-command={name}]").HasAttribute("disabled")));
@@ -51,8 +49,7 @@ public sealed class HtmlEditorTableAndClipboardTests : OmniBunitContext
         var value = "<p>A</p>";
         OmniHtmlEditorCommand[] commands = [.. OmniHtmlEditorCommands.Clipboard, OmniHtmlEditorCommands.InsertParagraph, OmniHtmlEditorCommands.ToggleSource];
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, commands));
 
         foreach (var name in new[] { "cut", "copy", "paste", "insert-paragraph" })
@@ -80,9 +77,7 @@ public sealed class HtmlEditorTableAndClipboardTests : OmniBunitContext
         var value = "<table><tbody><tr><td>A</td><td>B</td></tr></tbody></table>";
         var merge = OmniHtmlEditorCommand.Create("span", "Étendre", context => context.ExecuteAsync(OmniHtmlEditorAction.SetCellSpan, "1x2"));
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Commands, [merge]));
 
         editor.Find("button[data-command=span]").Click();

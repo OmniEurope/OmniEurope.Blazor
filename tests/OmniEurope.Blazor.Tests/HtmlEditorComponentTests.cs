@@ -90,9 +90,7 @@ public sealed class HtmlEditorComponentTests : OmniBunitContext
     {
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Disabled, true)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Commands,

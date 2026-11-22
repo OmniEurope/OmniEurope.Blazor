@@ -195,8 +195,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
     {
         var value = "x";
         var password = Render<OmniPassword>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Id, "secret")
             .Add(component => component.Class, "hote")
             .AddUnmatched("data-probe", "1"));
@@ -206,8 +205,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         Assert.Equal("1", password.Find("input").GetAttribute("data-probe"));
 
         var area = Render<OmniTextArea>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Id, "note")
             .Add(component => component.Class, "hote"));
         Assert.Contains("hote", area.Find(".omni-text-area").ClassList);
@@ -215,16 +213,14 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         Assert.Equal("note", area.Find("textarea").Id);
 
         var withIcon = Render<OmniTextBox>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Class, "hote")
             .Add(component => component.Icon, (RenderFragment)(builder => builder.AddMarkupContent(0, "<i></i>"))));
         Assert.Contains("hote", withIcon.Find(".omni-text-box-field").ClassList);
         Assert.DoesNotContain("hote", withIcon.Find("input").ClassList);
 
         var alone = Render<OmniTextBox>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Class, "hote"));
         Assert.Contains("hote", alone.Find("input").ClassList);
     }
@@ -234,8 +230,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
     {
         var value = "abc";
         var area = Render<OmniTextArea>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.MaxLength, 10)
             .Add(component => component.ShowCount, true));
 
@@ -247,8 +242,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
     {
         decimal value = 1;
         var numeric = Render<OmniNumeric<decimal>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Minimum, 0.5)
             .Add(component => component.Maximum, 1250.75)
             .Add(component => component.Step, 0.25));
@@ -293,9 +287,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         var group = Render<OmniSelectableCardGroup<string, string>>(parameters => parameters
             .Add(component => component.Options, Systems)
             .Add(component => component.Label, "Système")
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, next => value = next)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value, next => value = next));
 
         var root = group.Find(".omni-selectable-card-group");
         Assert.Equal("radiogroup", root.GetAttribute("role"));
@@ -316,9 +308,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         var value = "linux";
         var group = Render<OmniSelectableCardGroup<string, string>>(parameters => parameters
             .Add(component => component.Options, Systems)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, next => value = next)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value, next => value = next));
 
         // macOS is disabled: the arrow skips it.
         group.FindAll("button.omni-selectable-card")[0].KeyDown("ArrowDown");
@@ -342,8 +332,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         string? value = null;
         var group = Render<OmniSelectableCardGroup<string, string?>>(parameters => parameters
             .Add(component => component.Options, [new OmniOption<string>("mac", "macOS", Disabled: true), new OmniOption<string>("linux", "Linux")])
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         Assert.Equal(["-1", "0"], group.FindAll("button.omni-selectable-card").Select(card => card.GetAttribute("tabindex")));
     }
@@ -355,9 +344,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
         var group = Render<OmniSelectableCardGroup<string, IReadOnlyList<string>>>(parameters => parameters
             .Add(component => component.Options, Systems)
             .Add(component => component.Multiple, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, next => value = next)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value, next => value = next));
 
         Assert.Equal("group", group.Find(".omni-selectable-card-group").GetAttribute("role"));
         var cards = group.FindAll("button.omni-selectable-card");
@@ -378,9 +365,7 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
     {
         var value = "b";
         var group = Render<OmniSelectableCardGroup<string, string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, next => value = next)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, next => value = next)
             .AddChildContent<OmniSelectableCard>(card => card.Add(c => c.Title, "A").Add(c => c.Choice, "a"))
             .AddChildContent<OmniSelectableCard>(card => card.Add(c => c.Title, "B").Add(c => c.Choice, "b")));
 
@@ -398,15 +383,13 @@ public sealed class FeedbackFormsCoherenceTests : OmniBunitContext
     {
         var value = "a";
         Assert.Throws<InvalidOperationException>(() => Render<OmniSelectableCardGroup<string, string>>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .AddChildContent<OmniSelectableCard>(card => card.Add(c => c.Title, "Un").Add(c => c.Choice, 1))));
 
         Assert.Throws<InvalidOperationException>(() => Render<OmniSelectableCardGroup<string, string>>(parameters => parameters
             .Add(component => component.Options, Systems)
             .Add(component => component.Multiple, true)
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)));
+            .BindValue(() => value)));
     }
 
     [Fact]

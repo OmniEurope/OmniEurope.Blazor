@@ -44,8 +44,7 @@ public sealed class HtmlEditorDocumentTests : OmniBunitContext
         var value = "<p>Bonjour</p>";
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         Assert.Empty(editor.FindAll(".omni-document-editor"));
         Assert.Empty(editor.FindAll(".omni-document-editor__status"));
@@ -119,8 +118,7 @@ public sealed class HtmlEditorDocumentTests : OmniBunitContext
         download.SetupVoid("download", _ => true).SetVoidResult();
         var value = "<p>Bonjour</p>";
         var document = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.ShowStatusBar, true)
             .Add(component => component.FileName, "compte-rendu")
             .Add(component => component.DocumentTitle, "Compte rendu"));
@@ -144,8 +142,7 @@ public sealed class HtmlEditorDocumentTests : OmniBunitContext
         var value = "<p>Bonjour</p>";
 
         var document = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Sheet, true)
             .Add(component => component.Commands, OmniHtmlEditorCommands.Document)
             .Add(component => component.Disabled, true));

@@ -136,8 +136,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
         };
 
         Assert.Throws<ArgumentException>(() => Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Extensions, [new PolicyExtension(policy)])));
     }
 
@@ -155,9 +154,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
             "Note",
             context => context.InsertHtmlAsync("<aside data-marker=\"2\" onmouseover=\"x()\">Nouvelle note</aside>"));
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Extensions, [new PolicyExtension(AknPolicy)])
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Bold, insert]));
         var bridge = new HtmlEditorInteropBridge(editor.Instance);
@@ -188,9 +185,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
     {
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source)
             .Add(component => component.Extensions, [new PolicyExtension(AknPolicy)]));
 
@@ -207,8 +202,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
         var value = "<p>A</p>";
 
         Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         var options = JsonSerializer.SerializeToElement(Assert.Single(module.Invocations["mount"]).Arguments[3]);
         Assert.Equal(["rows"], options.EnumerateObject().Select(property => property.Name));
@@ -220,8 +214,7 @@ public sealed class HtmlEditorSanitizerPolicyTests : OmniBunitContext
         var module = JSInterop.SetupModule(ModulePath);
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         editor.Render(parameters => parameters.Add(component => component.Extensions, [new PolicyExtension(new OmniHtmlSanitizerPolicy { AllowAnyClass = true })]));
 

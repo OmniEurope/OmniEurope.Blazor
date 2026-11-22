@@ -22,8 +22,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var value = "<p onclick=\"steal()\">Sain</p><script>alert(1)</script>";
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
         // Mounted by the module double at once: the next render writes what the script set (data-omni-ready).
         editor.Render();
 
@@ -46,8 +45,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var value = "<p>Texte</p>";
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         var surface = editor.Find(".omni-html-editor__surface");
         Assert.Equal("false", surface.GetAttribute("contenteditable"));
@@ -101,9 +99,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var module = JSInterop.SetupModule(ModulePath);
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value, updated => value = updated));
         var bridge = new HtmlEditorInteropBridge(editor.Instance);
 
         await editor.InvokeAsync(() => bridge.OnVisualInput("<p onclick=\"x()\">Nouveau <img src=x onerror=bad()></p><script>alert(1)</script>"));
@@ -125,9 +121,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
             .SetResult("<p><b>Bonjour</b><span onclick=\"x()\"></span></p>");
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value, updated => value = updated));
 
         editor.Find("button[data-command=bold]").Click();
 
@@ -141,8 +135,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         JSInterop.SetupModule(ModulePath);
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
         var bridge = new HtmlEditorInteropBridge(editor.Instance);
 
         await editor.InvokeAsync(() => bridge.OnVisualState("bold link|h2|center|normal"));
@@ -169,9 +162,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
             context => context.InsertHtmlAsync("<p onclick=\"x()\">Signature</p>"),
             OmniIconName.Edit);
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Separator, OmniHtmlEditorCommands.Bold, signature]));
 
         var names = editor.FindAll(".omni-html-editor__toolbar [data-command]").Select(control => control.GetAttribute("data-command") ?? string.Empty).ToArray();
@@ -194,8 +185,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var separator = OmniHtmlEditorCommands.Separator;
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [separator, OmniHtmlEditorCommands.Bold, separator, separator, separator, OmniHtmlEditorCommands.Underline, separator]));
 
         var toolbar = editor.Find(".omni-html-editor__toolbar");
@@ -211,8 +201,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var separator = OmniHtmlEditorCommands.Separator;
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Bold, separator, OmniHtmlEditorCommands.Italic, OmniHtmlEditorCommands.Underline, separator, OmniHtmlEditorCommands.Link]));
 
         var groups = editor.Find(".omni-html-editor__toolbar").Children;
@@ -232,8 +221,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var value = string.Empty;
 
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value));
 
         var names = editor.FindAll(".omni-html-editor__toolbar [data-command]").Select(control => control.GetAttribute("data-command")).ToHashSet();
         foreach (var expected in new[] { "block-format", "bold", "italic", "underline", "strikethrough", "sub", "sup", "inline-code", "bullet-list", "numbered-list", "outdent", "indent", "quote", "code-block", "link", "unlink", "align-left", "align-center", "align-right", "align-justify", "clear-formatting", "undo", "redo", "toggle-source" })
@@ -251,8 +239,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var value = string.Empty;
 
         var exception = Assert.Throws<InvalidOperationException>(() => Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Commands, [new OmniHtmlEditorCommand("empty", OmniHtmlEditorAction.Custom)])));
 
         Assert.Contains("'empty'", exception.Message, StringComparison.Ordinal);
@@ -267,9 +254,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var value = "<p>Bonjour</p>";
         var mode = OmniHtmlEditorMode.Visual;
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.ModeChanged, updated => mode = updated));
 
         await editor.Find("button[data-command=toggle-source]").ClickAsync(new Microsoft.AspNetCore.Components.Web.MouseEventArgs());
@@ -291,8 +276,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         var module = JSInterop.SetupModule(ModulePath);
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value)
             .Add(component => component.Mode, OmniHtmlEditorMode.Source));
 
         Assert.Single(editor.FindAll("textarea"));
@@ -314,9 +298,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
             .SetResult("<p><a href=\"https://example.test/\" rel=\"noopener noreferrer\">Bonjour</a></p>");
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value));
+            .BindValue(() => value, updated => value = updated));
 
         editor.Find("button[data-command=link]").Click();
         var field = editor.Find(".omni-html-editor__link-input");
@@ -344,9 +326,7 @@ public sealed class HtmlEditorVisualTests : OmniBunitContext
         JSInterop.SetupModule(ModulePath);
         var value = "<p>Bonjour</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Disabled, true));
 
         Assert.Equal("false", editor.Find(".omni-html-editor__surface").GetAttribute("contenteditable"));

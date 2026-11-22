@@ -29,9 +29,7 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
             await context.CommitDomAsync();
         });
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Extensions, [new PolicyExtension(NotePolicy)])
             .Add(component => component.Commands, [command, OmniHtmlEditorCommands.Undo]));
 
@@ -53,9 +51,7 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
         module.Setup<string?>("read", _ => true).SetResult("<p>A</p><aside data-marker=\"1\" onclick=\"x()\">Note</aside>");
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Extensions, [new PolicyExtension(NotePolicy)])
             .Add(component => component.Commands, [OmniHtmlEditorCommands.Undo]));
         Assert.True(editor.Find("button[data-command=undo]").HasAttribute("disabled"));
@@ -98,9 +94,7 @@ public sealed class HtmlEditorCommitDomTests : OmniBunitContext
             await context.CommitDomAsync();
         });
         var editor = Render<OmniHtmlEditor>(parameters => parameters
-            .Add(component => component.Value, value)
-            .Add(component => component.ValueChanged, updated => value = updated)
-            .Add(component => component.ValueExpression, () => value)
+            .BindValue(() => value, updated => value = updated)
             .Add(component => component.Commands, [command]));
 
         editor.Find("button[data-command=host]").Click();

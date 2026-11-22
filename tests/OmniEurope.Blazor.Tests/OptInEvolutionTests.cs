@@ -247,9 +247,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
         {
             int value = 5;
             var numeric = Render<OmniNumeric<int>>(parameters => parameters
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueChanged, next => value = next)
-                .Add(component => component.ValueExpression, () => value)
+                .BindValue(() => value, next => value = next)
                 .Add(component => component.Minimum, 0d)
                 .Add(component => component.Maximum, 100d));
 
@@ -301,9 +299,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
             // carry the same "20" and the browser would keep the "150" the reader typed.
             var value = 20;
             var numeric = Render<OmniNumeric<int>>(parameters => parameters
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueChanged, next => value = next)
-                .Add(component => component.ValueExpression, () => value)
+                .BindValue(() => value, next => value = next)
                 .Add(component => component.Minimum, 0d)
                 .Add(component => component.Maximum, 20d)
                 .Add(component => component.Clamp, true));
@@ -329,9 +325,7 @@ public sealed class OptInEvolutionTests : OmniBunitContext
         {
             var value = 20;
             var numeric = Render<OmniNumeric<int>>(parameters => parameters
-                .Add(component => component.Value, value)
-                .Add(component => component.ValueChanged, next => value = next)
-                .Add(component => component.ValueExpression, () => value)
+                .BindValue(() => value, next => value = next)
                 .Add(component => component.Minimum, 0d)
                 .Add(component => component.Maximum, 20d));
 
