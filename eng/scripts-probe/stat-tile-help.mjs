@@ -13,11 +13,8 @@
 
 export async function statTileHelpSteps(session, results) {
   const { evaluate, waitFor, key, check, hover, mouse, pause, pointOf, click, clickOn, send } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
-  const tab = () => key('Tab', 'Tab', 9);
+  const step = session.stepRecorder(results);
+  const { tab } = session;
   const enter = () => key('Enter', 'Enter', 13, 0, '\r');
   const space = () => key(' ', 'Space', 32, 0, ' ');
 

@@ -12,11 +12,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { reportContrast, reportLanguages } from './ProbeShards.mjs';
+import { readOptions } from './ShowcaseCdp.mjs';
 
-const options = new Map();
-for (let index = 2; index < process.argv.length; index += 2) {
-  options.set(process.argv[index], process.argv[index + 1]);
-}
+const options = readOptions();
 const probe = options.get('--probe');
 const directory = options.get('--directory');
 const count = Number(options.get('--count'));

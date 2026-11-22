@@ -7,11 +7,9 @@
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 import { createJsCoverage } from './JsCoverage.mjs';
+import { check, connectCdp, createEvaluate, enableShowcasePage, pause, pollUntil, readOptions } from './ShowcaseCdp.mjs';
 
-const options = new Map();
-for (let index = 2; index < process.argv.length; index += 2) {
-  options.set(process.argv[index], process.argv[index + 1]);
-}
+const options = readOptions();
 
 const endpoint = options.get('--endpoint');
 const siteUrl = options.get('--url');
@@ -19,73 +17,13 @@ if (!endpoint || !siteUrl) {
   throw new Error('Usage: node Test-ShowcaseMindMapProbe.mjs --endpoint <cdp url> --url <showcase root url>');
 }
 
-const deadline = Date.now() + 20_000;
-let target;
-while (Date.now() < deadline) {
-  try {
-    const targets = await fetch(`${endpoint}/json/list`).then(response => response.json());
-    target = targets.find(candidate => candidate.type === 'page' && candidate.webSocketDebuggerUrl);
-    if (target) break;
-  } catch {
-    // The browser may still be starting.
-  }
-  await new Promise(resolve => setTimeout(resolve, 100));
-}
-if (!target) throw new Error(`Aucune cible CDP disponible sur ${endpoint}.`);
+const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
 
-const socket = new WebSocket(target.webSocketDebuggerUrl);
-await new Promise((resolve, reject) => {
-  socket.addEventListener('open', resolve, { once: true });
-  socket.addEventListener('error', () => reject(new Error('Connexion CDP impossible.')), { once: true });
-});
-
-let commandId = 0;
-const pending = new Map();
-const consoleErrors = [];
-socket.addEventListener('message', event => {
-  const message = JSON.parse(event.data);
-  if (message.id && pending.has(message.id)) {
-    const { resolve, reject } = pending.get(message.id);
-    pending.delete(message.id);
-    if (message.error) reject(new Error(message.error.message));
-    else resolve(message.result);
-    return;
-  }
-
-  if (message.method === 'Runtime.exceptionThrown') {
-    consoleErrors.push(message.params.exceptionDetails.exception?.description ?? message.params.exceptionDetails.text);
-  } else if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
-    const source = message.params.entry.url ? ` (${message.params.entry.url})` : '';
-    consoleErrors.push(`${message.params.entry.text}${source}`);
-  } else if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-    consoleErrors.push(message.params.args.map(argument => argument.value ?? argument.description ?? '').join(' '));
-  }
-});
-
-const sendCdp = (method, params = {}) => {
-  const id = ++commandId;
-  socket.send(JSON.stringify({ id, method, params }));
-  return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
-};
-
-const evaluate = async expression => {
-  const response = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-  if (response.exceptionDetails) throw new Error(response.exceptionDetails.exception?.description ?? response.exceptionDetails.text);
-  return response.result.value;
-};
-
-const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+// `send` is the coverage-wrapped sender declared below, read at call time.
+const evaluate = createEvaluate((method, params) => send(method, params));
 
 const waitFor = async (description, expression, timeout = 15_000) => {
-  const until = Date.now() + timeout;
-  while (Date.now() < until) {
-    try {
-      if (await evaluate(expression)) return;
-    } catch (error) {
-      if (!String(error.message).includes('context was destroyed')) throw error;
-    }
-    await pause(100);
-  }
+  if (await pollUntil(evaluate, expression, timeout)) return;
   // Where the page stands when the wait runs out: without it a timeout says nothing of its cause.
   const state = await evaluate(`JSON.stringify({
     path: location.pathname,
@@ -103,10 +41,6 @@ const waitFor = async (description, expression, timeout = 15_000) => {
   throw new Error(`Attente dépassée : ${description}. Page : ${state}. Console : ${consoleErrors.join(' | ') || 'aucune erreur'}.`);
 };
 
-const check = (condition, message) => {
-  if (!condition) throw new Error(message);
-};
-
 const map = '#demo-mindmap';
 const node = id => `document.querySelector('${map} [data-omni-node="${id}"]')`;
 const centerOf = async id => evaluate(`(() => { const box = ${node(id)}.querySelector('rect').getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
@@ -118,14 +52,7 @@ const key = (keyName, code, text, modifiers = 0) => Promise.all([
 
 const coverage = createJsCoverage(sendCdp, 'MindMap');
 const send = coverage.send;
-await send('Runtime.enable');
-await send('Log.enable');
-await send('Page.enable');
-await coverage.start();
-await send('Emulation.setDeviceMetricsOverride', { width: 1280, height: 900, deviceScaleFactor: 1, mobile: false });
-await send('Page.addScriptToEvaluateOnNewDocument', {
-  source: "window.__omniCsp = []; document.addEventListener('securitypolicyviolation', event => window.__omniCsp.push(`${event.violatedDirective} ${event.blockedURI}`));"
-});
+await enableShowcasePage(send, coverage);
 await send('Page.navigate', { url: siteUrl });
 // #showcase-theme is rendered by the application itself; #app is already in the static page, and a
 // navigation asked before the router listens changes the address and leaves the home page shown.

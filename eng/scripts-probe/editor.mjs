@@ -7,10 +7,7 @@ export async function editorSteps(session, results) {
   const { evaluate, waitFor, click, key, type, pause, check, send, centerOf } = session;
 
   // Records a step and stops at the first one after which the console holds an error, naming it.
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   const surface = id => `document.getElementById(${JSON.stringify(id)})`;
   const html = id => evaluate(`${surface(id)}.innerHTML`);

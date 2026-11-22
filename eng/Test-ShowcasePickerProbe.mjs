@@ -9,11 +9,9 @@
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 import { createJsCoverage } from './JsCoverage.mjs';
+import { check, createEvaluate, findPageTargets, openSocket, pause, pollUntil, readOptions, recordConsoleError, settleResponse } from './ShowcaseCdp.mjs';
 
-const options = new Map();
-for (let index = 2; index < process.argv.length; index += 2) {
-  options.set(process.argv[index], process.argv[index + 1]);
-}
+const options = readOptions();
 
 const endpoint = options.get('--endpoint');
 const siteUrl = options.get('--url');
@@ -21,30 +19,13 @@ if (!endpoint || !siteUrl) {
   throw new Error('Usage: node Test-ShowcasePickerProbe.mjs --endpoint <cdp url> --url <showcase root url>');
 }
 
-const deadline = Date.now() + 20_000;
-let target;
-let pageTargets = [];
-while (Date.now() < deadline) {
-  try {
-    const targets = await fetch(`${endpoint}/json/list`).then(response => response.json());
-    // Edge lists as "page" its own windows too (edge://sync-confirmation-dialog/, extension background
-    // pages), some of them before the tab the launcher opened. The probe drives that tab, never a
-    // browser dialog: an Escape sent to the sync dialog closes it, and the link with it.
-    pageTargets = targets.filter(candidate => candidate.type === 'page' && candidate.webSocketDebuggerUrl && /^(https?:|about:blank)/.test(candidate.url));
-    target = pageTargets[0];
-    if (target) break;
-  } catch {
-    // The browser may still be starting.
-  }
-  await new Promise(resolve => setTimeout(resolve, 100));
-}
-if (!target) throw new Error(`Aucune cible CDP disponible sur ${endpoint}.`);
+// Edge lists as "page" its own windows too (edge://sync-confirmation-dialog/, extension background
+// pages), some of them before the tab the launcher opened. The probe drives that tab, never a
+// browser dialog: an Escape sent to the sync dialog closes it, and the link with it.
+const pageTargets = await findPageTargets(endpoint, { accept: candidate => candidate.type === 'page' && candidate.webSocketDebuggerUrl && /^(https?:|about:blank)/.test(candidate.url) });
+const target = pageTargets[0];
 
-const socket = new WebSocket(target.webSocketDebuggerUrl);
-await new Promise((resolve, reject) => {
-  socket.addEventListener('open', resolve, { once: true });
-  socket.addEventListener('error', () => reject(new Error('Connexion CDP impossible.')), { once: true });
-});
+const socket = await openSocket(target.webSocketDebuggerUrl);
 
 let commandId = 0;
 const pending = new Map();
@@ -101,22 +82,8 @@ socket.addEventListener('message', event => {
     const label = lifecycle[message.method](message.params ?? {});
     if (label) record('evt', `${message.method} ${label}`);
   }
-  if (message.id && pending.has(message.id)) {
-    const { resolve, reject } = pending.get(message.id);
-    pending.delete(message.id);
-    if (message.error) reject(new Error(message.error.message));
-    else resolve(message.result);
-    return;
-  }
-
-  if (message.method === 'Runtime.exceptionThrown') {
-    consoleErrors.push(message.params.exceptionDetails.exception?.description ?? message.params.exceptionDetails.text);
-  } else if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
-    const source = message.params.entry.url ? ` (${message.params.entry.url})` : '';
-    consoleErrors.push(`${message.params.entry.text}${source}`);
-  } else if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-    consoleErrors.push(message.params.args.map(argument => argument.value ?? argument.description ?? '').join(' '));
-  }
+  if (settleResponse(message, pending)) return;
+  recordConsoleError(message, consoleErrors);
 });
 
 const sendCdp = (method, params = {}) => {
@@ -127,31 +94,15 @@ const sendCdp = (method, params = {}) => {
   return new Promise((resolve, reject) => pending.set(id, { resolve, reject, method, sentAt: Date.now() }));
 };
 
-const evaluate = async expression => {
-  const response = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-  if (response.exceptionDetails) throw new Error(response.exceptionDetails.exception?.description ?? response.exceptionDetails.text);
-  return response.result.value;
-};
-
-const pause = milliseconds => new Promise(resolve => setTimeout(resolve, milliseconds));
+// `send` is the coverage-wrapped sender declared below, read at call time.
+const evaluate = createEvaluate((method, params) => send(method, params));
 
 // A page expression, or an async test of the probe itself.
 const waitFor = async (description, expression, timeout = 10_000) => {
-  const until = Date.now() + timeout;
-  while (Date.now() < until) {
-    try {
-      if (typeof expression === 'function' ? await expression() : await evaluate(`Boolean(${expression})`)) return;
-    } catch (error) {
-      if (!String(error.message).includes('context was destroyed')) throw error;
-    }
-    await pause(50);
-  }
+  const test = candidate => (typeof candidate === 'function' ? candidate() : evaluate(`Boolean(${candidate})`));
+  if (await pollUntil(test, expression, timeout, 50)) return;
   const state = await evaluate(`JSON.stringify({ active: document.activeElement?.outerHTML?.slice(0, 160), panels: document.querySelectorAll('.omni-calendar').length })`).catch(() => '');
   throw new Error(`Attente dépassée : ${description}. État : ${state}`);
-};
-
-const check = (condition, message) => {
-  if (!condition) throw new Error(message);
 };
 
 const keyCodes = { ArrowLeft: 37, ArrowUp: 38, ArrowRight: 39, ArrowDown: 40, PageUp: 33, PageDown: 34, End: 35, Home: 36, Escape: 27, Enter: 13, Tab: 9 };

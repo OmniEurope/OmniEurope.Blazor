@@ -6,10 +6,7 @@
 
 export async function structuredDocumentSteps(session, results) {
   const { evaluate, waitFor, check, clickOn, key, type, mouse, pause } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   const editor = '#structured-demo';
   const run = id => `${editor} [data-omni-run="${id}"]`;

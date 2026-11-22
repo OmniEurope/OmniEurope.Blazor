@@ -7,10 +7,7 @@ import { subMenuSteps } from './submenus.mjs';
 
 export async function overlaySteps(session, results) {
   const { evaluate, waitFor, key, pause, check, send, clickOn, hover, mouse } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
   const focusedText = () => evaluate('document.activeElement?.textContent.trim() ?? ""');
 
   // 0. The boot splash the served page carries is faded out and removed once the application rendered.

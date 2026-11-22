@@ -5,6 +5,12 @@
 // listeners dispatched by hand and a fake timer queue. It proves the logic of a script; the layout,
 // the focus and the real events stay the business of the browser probes.
 
+import path from 'node:path';
+import { pathToFileURL } from 'node:url';
+
+// The file URL of a package script (a path under src/OmniEurope.Blazor/wwwroot), for a test to import it.
+export const packageScriptUrl = file => pathToFileURL(path.join(path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot'), file)).href;
+
 const splitTop = (text, separator) => {
     const parts = [];
     let depth = 0;

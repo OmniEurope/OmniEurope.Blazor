@@ -5,10 +5,7 @@
 
 export async function documentViewerSteps(session, results) {
   const { evaluate, waitFor, check, send, centerOf, pause } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   const viewport = '#document-viewer';
   const indicator = () => evaluate("document.querySelector('.omni-document-viewer__indicator')?.textContent ?? ''");

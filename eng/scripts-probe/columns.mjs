@@ -29,21 +29,13 @@ const arrow = (key, step) => `${chooserPanel} button[data-omni-col="${key}"][dat
 export async function columnSteps(session, results) {
   const { evaluate, waitFor, check, send, mouse, key, clickOn, pointOf, pause } = session;
   const { siteUrl } = probeOptions('Test-ShowcaseScriptsProbe.mjs');
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
-  const cspClean = async when => {
-    const csp = await evaluate('window.__omniCsp');
-    check(csp.length === 0, `Violations CSP ${when} : ${csp.join(' | ')}`);
-  };
+  const step = session.stepRecorder(results);
+  const { cspClean } = session;
   const order = () => evaluate(headerKeys);
   const expectOrder = (expected, what) => waitFor(what, `JSON.stringify(${headerKeys}) === ${JSON.stringify(JSON.stringify(expected))}`);
   // Reloads the application at its root (the static host has no fallback for deep links), then opens the grid.
   const reload = async () => {
-    await cspClean('avant le rechargement');
-    await send('Page.navigate', { url: siteUrl });
-    await waitFor('le runtime Blazor rechargé', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
+    await session.reloadShowcase(siteUrl);
     await session.visit(page, header('Amount'));
     await pause(300);
   };

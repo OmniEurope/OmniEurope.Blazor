@@ -1,16 +1,13 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { installDom } from './dom-stub.mjs';
+import { installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // The tile grid script (applyTileGrid of omniInterop.js): the minimum column width of a grid that sets its
 // own is written through the CSSOM, and a grid holding a double tile is marked while it has two real tracks
 // or more. The tracks come from the resolved grid-template-columns, which these tests set by hand: what the
 // browser makes of them is the business of the showcase.
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 const dom = installDom();
-const { applyTileGrid } = await import(pathToFileURL(path.join(wwwroot, 'omniInterop.js')).href);
+const { applyTileGrid } = await import(packageScriptUrl('omniInterop.js'));
 
 const MULTI = 'omni-tile-grid--multi-column';
 const observers = [];

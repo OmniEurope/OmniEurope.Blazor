@@ -84,10 +84,7 @@ const legible = (text, background) => Math.min(contrast(rgb(text), rgb(backgroun
 
 export async function mapSteps(session, results) {
   const { evaluate, waitFor, check, clickOn, pause, mouse, send, key, on } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
 
   const png = tilePng().toString('base64');
   const broken = Buffer.from('not an image').toString('base64');
@@ -107,13 +104,7 @@ export async function mapSteps(session, results) {
   await send('Fetch.enable', { patterns: [{ urlPattern: `${TILE_HOST}*`, requestStage: 'Request' }] });
 
   const viewport = width => send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
-  const pickMode = async position => {
-    await clickOn('.omni-header .omni-app-menu__trigger');
-    await waitFor("le menu d'application", "document.querySelector('.omni-app-menu__mode') !== null");
-    await clickOn(`.omni-app-menu__mode .omni-appearance-window__mode:nth-child(${position})`);
-    await key('Escape', 'Escape', 27);
-    await waitFor("le menu d'application refermé", "document.querySelector('.omni-app-menu__mode') === null");
-  };
+  const { pickMode } = session;
 
   // What the page shows: the bound view, the last click, the last marker pressed.
   const shown = () => evaluate(`(() => {

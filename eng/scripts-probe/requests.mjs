@@ -7,11 +7,8 @@ import { join } from 'node:path';
 
 export async function requestSteps(session, results) {
   const { evaluate, waitFor, key, check, hover, mouse, pause, pointOf, click, clickOn, send, type } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
-  const tab = () => key('Tab', 'Tab', 9);
+  const step = session.stepRecorder(results);
+  const { tab } = session;
 
   // Both rules used to be nested under an unrelated diagram selector by a missing closing brace.
   const editorStyles = [];

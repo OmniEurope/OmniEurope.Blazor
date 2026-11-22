@@ -5,10 +5,7 @@
 
 export async function focusSteps(session, results) {
   const { evaluate, waitFor, key, pause, check, clickOn } = session;
-  const step = label => {
-    if (session.consoleErrors.length > 0) throw new Error(`Console en erreur après « ${label} » : ${session.consoleErrors.join(' | ')}`);
-    results.push(label);
-  };
+  const step = session.stepRecorder(results);
   const focusedId = () => evaluate('document.activeElement?.id ?? ""');
 
   // 1. A dialog opened from a dialog: when it closes, the focus goes back to the button of the lower dialog that

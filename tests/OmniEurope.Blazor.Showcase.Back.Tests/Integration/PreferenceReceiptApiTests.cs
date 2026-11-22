@@ -9,27 +9,9 @@ namespace OmniEurope.Blazor.Showcase.Back.Tests.Integration;
 /// The receipt date of the change feed, over HTTP and a real PostgreSQL: a browser that reads from the latest
 /// <see cref="VisitorPreferenceDto.ReceivedAt"/> it saw still gets a write dated before the latest date it read.
 /// </summary>
-public sealed class PreferenceReceiptApiTests(PostgresFixture postgres) : IAsyncLifetime
+public sealed class PreferenceReceiptApiTests(PostgresFixture postgres) : ShowcaseApiTest(postgres)
 {
     private static readonly DateTimeOffset Device = new(2026, 10, 27, 9, 30, 0, TimeSpan.Zero);
-
-    private ShowcaseApiFactory _factory = null!;
-    private HttpClient _client = null!;
-
-    private static CancellationToken Token => TestContext.Current.CancellationToken;
-
-    public ValueTask InitializeAsync()
-    {
-        _factory = new ShowcaseApiFactory(postgres);
-        _client = _factory.CreateClient();
-        return ValueTask.CompletedTask;
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        _client.Dispose();
-        await _factory.DisposeAsync();
-    }
 
     private async Task<VisitorPreferenceDto> PutAsync(string visitor, string key, string? value, DateTimeOffset updatedAt)
     {
@@ -38,7 +20,7 @@ public sealed class PreferenceReceiptApiTests(PostgresFixture postgres) : IAsync
             Content = JsonContent.Create(new SaveVisitorPreferenceRequest(value, updatedAt)),
         };
         message.Headers.Add(VisitorPreferenceApi.VisitorHeader, visitor);
-        using var response = await _client.SendAsync(message, Token);
+        using var response = await Client.SendAsync(message, Token);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return (await response.Content.ReadFromJsonAsync<VisitorPreferenceDto>(Token))!;
     }
@@ -50,7 +32,7 @@ public sealed class PreferenceReceiptApiTests(PostgresFixture postgres) : IAsync
             : VisitorPreferenceApi.Route;
         using var message = new HttpRequestMessage(HttpMethod.Get, path);
         message.Headers.Add(VisitorPreferenceApi.VisitorHeader, visitor);
-        using var response = await _client.SendAsync(message, Token);
+        using var response = await Client.SendAsync(message, Token);
         Assert.Equal(HttpStatusCode.OK, response.StatusCode);
         return (await response.Content.ReadFromJsonAsync<VisitorPreferenceDto[]>(Token))!;
     }

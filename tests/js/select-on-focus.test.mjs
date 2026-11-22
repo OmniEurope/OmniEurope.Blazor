@@ -1,15 +1,12 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { installDom } from './dom-stub.mjs';
+import { installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // SelectOnFocus of the text-entry fields: the whole content selected when the field is entered, and a mouse press that
 // gives the focus keeps that selection (its mouseup is cancelled once). The stub field records its listeners and its
 // select() calls; the real caret behaviour of a click is proved by the showcase probe in a browser.
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 const dom = installDom();
-const { attach, detach } = await import(pathToFileURL(path.join(wwwroot, 'omni-select-on-focus.js')).href);
+const { attach, detach } = await import(packageScriptUrl('omni-select-on-focus.js'));
 
 // A field that dispatches by hand to the listeners attached to it, like the browser would.
 const newField = () => {

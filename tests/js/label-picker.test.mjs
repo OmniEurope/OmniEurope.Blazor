@@ -1,17 +1,14 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { installDom } from './dom-stub.mjs';
+import { installDom, packageScriptUrl } from './dom-stub.mjs';
 
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 let loads = 0;
 
 // A fresh page and a fresh module (it remembers that its listener is installed), with a label for a
 // control placed beside it, as an OmniFormField draws them.
 const fixture = async (control = { localName: 'select' }, showPicker = () => { }) => {
     const dom = installDom();
-    const labels = await import(`${pathToFileURL(path.join(wwwroot, 'focus/labels.js')).href}?labels${loads++}`);
+    const labels = await import(`${packageScriptUrl('focus/labels.js')}?labels${loads++}`);
     const { localName, ...attributes } = control;
     const field = dom.el(localName, { id: 'field', ...attributes });
     const calls = [];
@@ -101,7 +98,7 @@ test('a click that is not on a label, or already handled, opens nothing', async 
 
 test('a control placed inside the label is that control\'s own click', async () => {
     const dom = installDom();
-    const labels = await import(`${pathToFileURL(path.join(wwwroot, 'focus/labels.js')).href}?labels${loads++}`);
+    const labels = await import(`${packageScriptUrl('focus/labels.js')}?labels${loads++}`);
     const calls = [];
     const select = dom.el('select');
     select.showPicker = () => calls.push('showPicker');

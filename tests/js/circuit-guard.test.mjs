@@ -1,15 +1,12 @@
 import assert from 'node:assert/strict';
-import path from 'node:path';
 import { test } from 'node:test';
-import { pathToFileURL } from 'node:url';
-import { dotnetRecorder, installDom } from './dom-stub.mjs';
+import { dotnetRecorder, installDom, packageScriptUrl } from './dom-stub.mjs';
 
 // The scripts that call .NET on their own (the grid, the board, the log viewer) make no call while Blazor
 // Server shows its connection as lost. The send failure itself happens inside blazor.web.js, where no catch
 // of the package reaches it, and the promise of the call is then never settled: what is proved here is that
 // no call is made during the cut, and that nothing stays held once the connection is back.
-const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
-const load = file => import(pathToFileURL(path.join(wwwroot, file)).href);
+const load = file => import(packageScriptUrl(file));
 
 // A page with the reconnection display of Blazor Server (the host's own element), shown or hidden by the test.
 const fixture = () => {
