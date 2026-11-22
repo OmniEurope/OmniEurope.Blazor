@@ -110,33 +110,86 @@ public sealed partial class ThemeTokenReader(HttpClient http)
     /// fill, the button press, fonts, shadows and the floating layer) never lands among the colours:
     /// the colours are the palette's, and a visitor looking for the shape of a theme looks elsewhere.
     /// </summary>
-    private static ThemeTokenGroup GroupOf(string name) => name switch
+    private static ThemeTokenGroup GroupOf(string name)
     {
-        _ when name.StartsWith("--omni-chart-", StringComparison.Ordinal) => ThemeTokenGroup.Chart,
-        _ when name.StartsWith("--omni-grid-", StringComparison.Ordinal) => ThemeTokenGroup.Grid,
-        _ when name.StartsWith("--omni-mindmap-", StringComparison.Ordinal) => ThemeTokenGroup.Diagram,
-        _ when name.StartsWith("--omni-space-", StringComparison.Ordinal) => ThemeTokenGroup.Spacing,
-        // How surfaces stand off the page: shadows, the floating layer and its acrylic, the overlay.
-        _ when name.StartsWith("--omni-shadow", StringComparison.Ordinal) || name.EndsWith("-shadow", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
-        _ when name.StartsWith("--omni-layer-", StringComparison.Ordinal) || name.StartsWith("--omni-elevation-", StringComparison.Ordinal) || name.StartsWith("--omni-overlay-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
-        "--omni-focus-ring" or "--omni-focus-ring-danger" or "--omni-focus-ring-inset" or "--omni-color-overlay" or "--omni-scrim-filter" or "--omni-card-filter" => ThemeTokenGroup.Elevation,
-        _ when name.StartsWith("--omni-backdrop", StringComparison.Ordinal) || name.StartsWith("--omni-scope-backdrop-", StringComparison.Ordinal) || name is "--omni-scope-canvas" or "--omni-scope-page" => ThemeTokenGroup.Elevation,
-        // The stacking layers: how high a surface stands above the page.
-        _ when name.StartsWith("--omni-z-", StringComparison.Ordinal) => ThemeTokenGroup.Elevation,
-        // How long a part takes to move, beside the movement of a pressed button.
-        _ when name.StartsWith("--omni-duration-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
-        _ when name.StartsWith("--omni-color-", StringComparison.Ordinal) => ThemeTokenGroup.Color,
-        _ when name.StartsWith("--omni-font", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
-        // How buttons and headings set their text: weight, case, tracking and the heading face.
-        _ when name.Contains("-font-", StringComparison.Ordinal) || name.EndsWith("-text-transform", StringComparison.Ordinal) || name.EndsWith("-letter-spacing", StringComparison.Ordinal) => ThemeTokenGroup.Typography,
-        // How parts are drawn: radii, borders, the card fill and the movement of a pressed button.
-        _ when name.StartsWith("--omni-radius", StringComparison.Ordinal) || name.EndsWith("-radius", StringComparison.Ordinal) || name.Contains("-border-", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
-        _ when name.EndsWith("-transform", StringComparison.Ordinal) => ThemeTokenGroup.Shape,
-        "--omni-border-width" or "--omni-card-background" or "--omni-dialog-background" or "--omni-input-background" or "--omni-alert-fill-opacity" => ThemeTokenGroup.Shape,
-        // The scope's own hooks: its stacking, the motion of its colour field, the fill of its shell.
-        "--omni-scope-isolation" or "--omni-scope-motion" or "--omni-shell-background" => ThemeTokenGroup.Shape,
-        _ => ThemeTokenGroup.Color
+        foreach (var (match, text, group) in GroupRules)
+        {
+            if (Matches(name, match, text))
+            {
+                return group;
+            }
+        }
+
+        return ThemeTokenGroup.Color;
+    }
+
+    private static bool Matches(string name, NameMatch match, string text) => match switch
+    {
+        NameMatch.Prefix => name.StartsWith(text, StringComparison.Ordinal),
+        NameMatch.Suffix => name.EndsWith(text, StringComparison.Ordinal),
+        NameMatch.Contains => name.Contains(text, StringComparison.Ordinal),
+        _ => string.Equals(name, text, StringComparison.Ordinal)
     };
+
+    /// <summary>How a rule of <see cref="GroupRules"/> compares its text with a token name.</summary>
+    private enum NameMatch
+    {
+        Prefix,
+        Suffix,
+        Contains,
+        Exact
+    }
+
+    /// <summary>
+    /// The families in order of precedence: the first rule that matches wins, and a name no rule matches is a colour.
+    /// </summary>
+    private static readonly (NameMatch Match, string Text, ThemeTokenGroup Group)[] GroupRules =
+    [
+        (NameMatch.Prefix, "--omni-chart-", ThemeTokenGroup.Chart),
+        (NameMatch.Prefix, "--omni-grid-", ThemeTokenGroup.Grid),
+        (NameMatch.Prefix, "--omni-mindmap-", ThemeTokenGroup.Diagram),
+        (NameMatch.Prefix, "--omni-space-", ThemeTokenGroup.Spacing),
+        // How surfaces stand off the page: shadows, the floating layer and its acrylic, the overlay.
+        (NameMatch.Prefix, "--omni-shadow", ThemeTokenGroup.Elevation),
+        (NameMatch.Suffix, "-shadow", ThemeTokenGroup.Elevation),
+        (NameMatch.Prefix, "--omni-layer-", ThemeTokenGroup.Elevation),
+        (NameMatch.Prefix, "--omni-elevation-", ThemeTokenGroup.Elevation),
+        (NameMatch.Prefix, "--omni-overlay-", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-focus-ring", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-focus-ring-danger", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-focus-ring-inset", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-color-overlay", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-scrim-filter", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-card-filter", ThemeTokenGroup.Elevation),
+        (NameMatch.Prefix, "--omni-backdrop", ThemeTokenGroup.Elevation),
+        (NameMatch.Prefix, "--omni-scope-backdrop-", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-scope-canvas", ThemeTokenGroup.Elevation),
+        (NameMatch.Exact, "--omni-scope-page", ThemeTokenGroup.Elevation),
+        // The stacking layers: how high a surface stands above the page.
+        (NameMatch.Prefix, "--omni-z-", ThemeTokenGroup.Elevation),
+        // How long a part takes to move, beside the movement of a pressed button.
+        (NameMatch.Prefix, "--omni-duration-", ThemeTokenGroup.Shape),
+        (NameMatch.Prefix, "--omni-color-", ThemeTokenGroup.Color),
+        (NameMatch.Prefix, "--omni-font", ThemeTokenGroup.Typography),
+        // How buttons and headings set their text: weight, case, tracking and the heading face.
+        (NameMatch.Contains, "-font-", ThemeTokenGroup.Typography),
+        (NameMatch.Suffix, "-text-transform", ThemeTokenGroup.Typography),
+        (NameMatch.Suffix, "-letter-spacing", ThemeTokenGroup.Typography),
+        // How parts are drawn: radii, borders, the card fill and the movement of a pressed button.
+        (NameMatch.Prefix, "--omni-radius", ThemeTokenGroup.Shape),
+        (NameMatch.Suffix, "-radius", ThemeTokenGroup.Shape),
+        (NameMatch.Contains, "-border-", ThemeTokenGroup.Shape),
+        (NameMatch.Suffix, "-transform", ThemeTokenGroup.Shape),
+        (NameMatch.Exact, "--omni-border-width", ThemeTokenGroup.Shape),
+        (NameMatch.Exact, "--omni-card-background", ThemeTokenGroup.Shape),
+        (NameMatch.Exact, "--omni-dialog-background", ThemeTokenGroup.Shape),
+        (NameMatch.Exact, "--omni-input-background", ThemeTokenGroup.Shape),
+        (NameMatch.Exact, "--omni-alert-fill-opacity", ThemeTokenGroup.Shape),
+        // The scope's own hooks: its stacking, the motion of its colour field, the fill of its shell.
+        (NameMatch.Exact, "--omni-scope-isolation", ThemeTokenGroup.Shape),
+        (NameMatch.Exact, "--omni-scope-motion", ThemeTokenGroup.Shape),
+        (NameMatch.Exact, "--omni-shell-background", ThemeTokenGroup.Shape),
+    ];
 
     // The brace before a selector is looked behind, not consumed: it closes the previous block, and a
     // minified stylesheet has no line start to anchor the next one on.

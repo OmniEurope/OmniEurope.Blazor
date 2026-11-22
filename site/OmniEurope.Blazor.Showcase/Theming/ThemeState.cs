@@ -506,32 +506,23 @@ public sealed class ThemeState : IDisposable
     private async Task MigrateAsync(Dictionary<string, string> saved)
     {
         // The theme first: a new theme drops the palette, the font and the backdrop chosen for another one.
-        if (saved.TryGetValue(ThemeKey, out var themeName)
-            && OmniThemePresets.All.FirstOrDefault(theme => theme.Name == LegacyName(themeName, RenamedThemes)) is { } theme)
-        {
-            await _appearance.SetPresetAsync(ReferenceEquals(theme, OmniThemePresets.All[0]) ? null : theme).ConfigureAwait(false);
-        }
-
-        if (saved.TryGetValue(PaletteKey, out var paletteName)
-            && OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == LegacyName(paletteName, RenamedPalettes)) is { } palette)
-        {
-            await _appearance.SetPaletteAsync(ReferenceEquals(palette, OmniThemePresets.DefaultPaletteFor(Theme)) ? null : palette).ConfigureAwait(false);
-        }
+        await MigrateThemeAsync(saved).ConfigureAwait(false);
+        await MigratePaletteAsync(saved).ConfigureAwait(false);
 
         // The former showcase modes (Light, Dark, System) carry the names of OmniAppearance.
-        if (saved.TryGetValue(ModeKey, out var mode) && Enum.TryParse<OmniAppearance>(mode, out var parsedMode) && Enum.IsDefined(parsedMode))
+        if (DefinedEnum<OmniAppearance>(saved, ModeKey) is { } mode)
         {
-            await _appearance.SetAppearanceAsync(parsedMode).ConfigureAwait(false);
+            await _appearance.SetAppearanceAsync(mode).ConfigureAwait(false);
         }
 
-        if (saved.TryGetValue(DensityKey, out var density) && Enum.TryParse<OmniDensity>(density, out var parsedDensity) && Enum.IsDefined(parsedDensity))
+        if (DefinedEnum<OmniDensity>(saved, DensityKey) is { } density)
         {
-            await _appearance.SetDensityAsync(parsedDensity).ConfigureAwait(false);
+            await _appearance.SetDensityAsync(density).ConfigureAwait(false);
         }
 
-        if (saved.TryGetValue(MotionKey, out var motion) && bool.TryParse(motion, out var parsedMotion))
+        if (Flag(saved, MotionKey) is { } motion)
         {
-            await _appearance.SetBackdropMotionAsync(parsedMotion).ConfigureAwait(false);
+            await _appearance.SetBackdropMotionAsync(motion).ConfigureAwait(false);
         }
 
         if (saved.TryGetValue(FontKey, out var fontName) && OmniThemeFonts.All.FirstOrDefault(font => font.Name == fontName) is { } font)
@@ -539,22 +530,45 @@ public sealed class ThemeState : IDisposable
             await _appearance.SetFontAsync(font).ConfigureAwait(false);
         }
 
-        if (saved.TryGetValue(TextSizeKey, out var textSize) && int.TryParse(textSize, CultureInfo.InvariantCulture, out var parsedText) && parsedText is >= 1 and <= 10)
+        if (Level(saved, TextSizeKey) is { } textSize)
         {
-            await _appearance.SetTextSizeLevelAsync(parsedText).ConfigureAwait(false);
+            await _appearance.SetTextSizeLevelAsync(textSize).ConfigureAwait(false);
         }
 
-        if (saved.TryGetValue(ControlSizeKey, out var controlSize) && int.TryParse(controlSize, CultureInfo.InvariantCulture, out var parsedControl) && parsedControl is >= 1 and <= 10)
+        if (Level(saved, ControlSizeKey) is { } controlSize)
         {
-            await _appearance.SetControlSizeLevelAsync(parsedControl).ConfigureAwait(false);
+            await _appearance.SetControlSizeLevelAsync(controlSize).ConfigureAwait(false);
         }
 
-        if (saved.TryGetValue(FullWidthKey, out var fullWidth) && bool.TryParse(fullWidth, out var parsedWidth))
+        if (Flag(saved, FullWidthKey) is { } fullWidth)
         {
-            await _appearance.SetFullWidthAsync(parsedWidth).ConfigureAwait(false);
+            await _appearance.SetFullWidthAsync(fullWidth).ConfigureAwait(false);
         }
 
-        // Empty or absent: the theme's own backdrop. A name the catalogue no longer has keeps it too.
+        await MigrateBackdropAsync(saved).ConfigureAwait(false);
+    }
+
+    private async Task MigrateThemeAsync(Dictionary<string, string> saved)
+    {
+        if (saved.TryGetValue(ThemeKey, out var themeName)
+            && OmniThemePresets.All.FirstOrDefault(theme => theme.Name == LegacyName(themeName, RenamedThemes)) is { } theme)
+        {
+            await _appearance.SetPresetAsync(ReferenceEquals(theme, OmniThemePresets.All[0]) ? null : theme).ConfigureAwait(false);
+        }
+    }
+
+    private async Task MigratePaletteAsync(Dictionary<string, string> saved)
+    {
+        if (saved.TryGetValue(PaletteKey, out var paletteName)
+            && OmniThemePalettes.All.FirstOrDefault(palette => palette.Name == LegacyName(paletteName, RenamedPalettes)) is { } palette)
+        {
+            await _appearance.SetPaletteAsync(ReferenceEquals(palette, OmniThemePresets.DefaultPaletteFor(Theme)) ? null : palette).ConfigureAwait(false);
+        }
+    }
+
+    // Empty or absent: the theme's own backdrop. A name the catalogue no longer has keeps it too.
+    private async Task MigrateBackdropAsync(Dictionary<string, string> saved)
+    {
         if (saved.TryGetValue(BackdropKey, out var backdropName)
             && OmniThemeBackdrops.All.FirstOrDefault(backdrop => backdrop.Name == backdropName) is { } backdrop
             && !ReferenceEquals(backdrop, OmniThemePresets.DefaultBackdropFor(Theme)))
@@ -562,6 +576,19 @@ public sealed class ThemeState : IDisposable
             await _appearance.SetBackdropAsync(backdrop).ConfigureAwait(false);
         }
     }
+
+    /// <summary>The saved value of an enumeration, or null when it is absent, unparsable or not a defined member.</summary>
+    private static TEnum? DefinedEnum<TEnum>(Dictionary<string, string> saved, string key)
+        where TEnum : struct, Enum =>
+        saved.TryGetValue(key, out var text) && Enum.TryParse<TEnum>(text, out var parsed) && Enum.IsDefined(parsed) ? parsed : null;
+
+    /// <summary>The saved boolean, or null when it is absent or unparsable.</summary>
+    private static bool? Flag(Dictionary<string, string> saved, string key) =>
+        saved.TryGetValue(key, out var text) && bool.TryParse(text, out var parsed) ? parsed : null;
+
+    /// <summary>The saved size level, or null when it is absent, unparsable or out of 1 to 10.</summary>
+    private static int? Level(Dictionary<string, string> saved, string key) =>
+        saved.TryGetValue(key, out var text) && int.TryParse(text, CultureInfo.InvariantCulture, out var parsed) && parsed is >= 1 and <= 10 ? parsed : null;
 
     private string Serialize() => JsonSerializer.Serialize(_edits);
 

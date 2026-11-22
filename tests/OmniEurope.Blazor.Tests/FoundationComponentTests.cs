@@ -318,7 +318,13 @@ public sealed class FoundationComponentTests : OmniBunitContext
         Assert.Throws<ArgumentOutOfRangeException>(() => Render<OmniProgressBar>(parameters => parameters
             .Add(component => component.Maximum, 0d)));
 
-    private string RenderFoundation(string componentName) => componentName switch
+    private string RenderFoundation(string componentName) =>
+        RenderFoundationContent(componentName)
+        ?? RenderFoundationLayout(componentName)
+        ?? throw new ArgumentOutOfRangeException(nameof(componentName), componentName, null);
+
+    // The text, media and status foundations, or null for a name this family does not render.
+    private string? RenderFoundationContent(string componentName) => componentName switch
     {
         nameof(OmniText) => Render<OmniText>(parameters => parameters.AddChildContent("Text")).Markup,
         nameof(OmniHeading) => Render<OmniHeading>(parameters => parameters.AddChildContent("Heading")).Markup,
@@ -327,14 +333,20 @@ public sealed class FoundationComponentTests : OmniBunitContext
         nameof(OmniLink) => Render<OmniLink>(parameters => parameters.Add(item => item.Href, "/target").AddChildContent("Link")).Markup,
         nameof(OmniImage) => Render<OmniImage>(parameters => parameters.Add(item => item.Source, "/image.png").Add(item => item.Alt, "Description")).Markup,
         nameof(OmniSkeleton) => Render<OmniSkeleton>().Markup,
+        nameof(OmniProgressBar) => Render<OmniProgressBar>().Markup,
+        _ => null
+    };
+
+    // The layout and grouping foundations, or null for a name this family does not render.
+    private string? RenderFoundationLayout(string componentName) => componentName switch
+    {
         nameof(OmniRow) => Render<OmniRow>(parameters => parameters.AddChildContent("Row")).Markup,
         nameof(OmniColumn) => Render<OmniColumn>(parameters => parameters.AddChildContent("Column")).Markup,
         nameof(OmniLayout) => Render<OmniLayout>(parameters => parameters.AddChildContent("Layout")).Markup,
         nameof(OmniMain) => Render<OmniMain>(parameters => parameters.AddChildContent("Main")).Markup,
         nameof(OmniHeader) => Render<OmniHeader>(parameters => parameters.AddChildContent("Header")).Markup,
         nameof(OmniFieldset) => Render<OmniFieldset>(parameters => parameters.Add(item => item.Legend, Content("Legend")).AddChildContent("Fields")).Markup,
-        nameof(OmniProgressBar) => Render<OmniProgressBar>().Markup,
-        _ => throw new ArgumentOutOfRangeException(nameof(componentName), componentName, null)
+        _ => null
     };
 
     private static RenderFragment Content(string value) => builder => builder.AddContent(0, value);
