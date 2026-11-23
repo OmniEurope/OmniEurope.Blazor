@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Components;
 /// an optional help mark, controls of its own, a value or badge and a chevron the component draws.
 /// Used alone, outside an accordion, it is a disclosure that opens and closes by itself.
 /// </summary>
-public partial class OmniAccordionItem
+public partial class OmniAccordionItem : IOmniAccordionRow
 {
     private readonly string _generatedId = $"omni-accordion-item-{Guid.NewGuid():N}";
     private bool _open;
@@ -79,6 +79,8 @@ public partial class OmniAccordionItem
 
     internal bool IsOpen => _open;
 
+    bool IOmniAccordionRow.IsOpen => _open;
+
     private string ToggleId => Id ?? _generatedId;
     private string BodyId => $"{ToggleId}-body";
     private string SummaryId => $"{ToggleId}-summary";
@@ -119,7 +121,7 @@ public partial class OmniAccordionItem
         await ExpandedChanged.InvokeAsync(_open);
     }
 
-    internal async Task CloseFromPeerAsync()
+    async Task IOmniAccordionRow.CloseFromPeerAsync()
     {
         _open = false;
         await InvokeAsync(StateHasChanged);

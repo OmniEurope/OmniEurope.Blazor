@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Components;
 /// goes to the end of the list, so a wizard whose steps vary declares all of them and lets the
 /// content of each say when it does not apply.
 /// </remarks>
-public partial class OmniWizardStep : IDisposable
+public partial class OmniWizardStep : IDisposable, IOmniWizardStepView
 {
     private string? _announcedTitle;
     private bool _announcedCanContinue = true;
@@ -68,7 +68,7 @@ public partial class OmniWizardStep : IDisposable
     /// Redraws the step when the wizard moves: a step whose parameters did not change would otherwise
     /// keep showing, or hiding, its content.
     /// </summary>
-    internal void Redraw() => StateHasChanged();
+    void IOmniWizardStepView.Redraw() => StateHasChanged();
 
     /// <summary>Leaves the wizard's list of steps.</summary>
     public void Dispose()

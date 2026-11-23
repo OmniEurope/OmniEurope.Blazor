@@ -79,7 +79,7 @@ public partial class OmniWizard
 
     private bool IsLast => _current >= Count - 1;
 
-    private OmniWizardStep? CurrentStep => _current < Count ? _context.Steps[_current] : null;
+    private IOmniWizardStepView? CurrentStep => _current < Count ? _context.Steps[_current] : null;
 
     private bool CurrentCanContinue => CurrentStep?.CanContinue ?? true;
 

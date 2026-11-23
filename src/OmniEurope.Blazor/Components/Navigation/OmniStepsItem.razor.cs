@@ -4,7 +4,7 @@ namespace OmniEurope.Blazor.Components;
 /// One step of an <see cref="OmniSteps"/>: a numbered button that selects the step, and the panel shown
 /// while it is selected (unless a shared panel shows the steps instead).
 /// </summary>
-public partial class OmniStepsItem
+public partial class OmniStepsItem : IOmniStepsEntry
 {
     private readonly string _generatedId = $"omni-step-{Guid.NewGuid():N}";
 

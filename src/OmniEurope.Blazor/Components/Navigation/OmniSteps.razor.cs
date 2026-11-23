@@ -26,7 +26,7 @@ public partial class OmniSteps
     public RenderFragment? ChildContent { get; set; }
 
     // The steps in the order they were first rendered: a step without an index takes its position here.
-    private readonly List<OmniStepsItem> _items = [];
+    private readonly List<IOmniStepsEntry> _items = [];
 
     private OmniStepsContext Context => new()
     {
