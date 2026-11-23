@@ -135,7 +135,7 @@ public partial class OmniPageVeil : IDisposable, Internal.IHostedPageVeil, Inter
         remove => Changed -= value;
     }
 
-    private int OpacityBucket =>Math.Clamp((int)(Math.Round(Opacity / 5d, MidpointRounding.AwayFromZero) * 5), 0, 100);
+    private int OpacityBucket => Math.Clamp((int)(Math.Round(Opacity / 5d, MidpointRounding.AwayFromZero) * 5), 0, 100);
 
     /// <summary>Hands the veil to its main area (or takes it back) and tells the element to draw again.</summary>
     protected override void OnParametersSet()
