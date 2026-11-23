@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Internal;
 /// imported table. The state of the panels is <see cref="HtmlEditorPanels"/>; the work reaches the document
 /// through the editor, on whichever face is showing.
 /// </summary>
-internal sealed class HtmlEditorPanelActions(OmniHtmlEditor owner, HtmlEditorPanels panels)
+internal sealed class HtmlEditorPanelActions(IHtmlEditorHost owner, HtmlEditorPanels panels, Func<HtmlEditorVisualSurface> visual, Func<HtmlEditorSourceFace> sourceFace)
 {
     /// <summary>Opens the link field, unless the editor is read only or disabled.</summary>
     internal Task OpenLinkAsync()
@@ -70,11 +70,11 @@ internal sealed class HtmlEditorPanelActions(OmniHtmlEditor owner, HtmlEditorPan
         panels.Close();
         if (owner.CurrentMode == OmniHtmlEditorMode.Visual)
         {
-            await owner.Visual.ExecuteAsync("inserttext", character);
+            await visual().ExecuteAsync("inserttext", character);
         }
         else
         {
-            await owner.SourceFace.WrapSelectionAsync(WebUtility.HtmlEncode(character), string.Empty);
+            await sourceFace().WrapSelectionAsync(WebUtility.HtmlEncode(character), string.Empty);
         }
     }
 

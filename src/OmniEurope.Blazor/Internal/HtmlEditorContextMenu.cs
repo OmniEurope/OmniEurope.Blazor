@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// (<see cref="OmniMenuController"/>, <c>omni-focus.js</c>) opened at the pointer over the visual surface
 /// and drawn in place around its <see cref="OmniMenuItem"/> rows, which close it when chosen.
 /// </summary>
-internal sealed class HtmlEditorContextMenu(OmniHtmlEditor owner, IJSRuntime javaScript, Func<string> label) : IOmniMenu, IAsyncDisposable
+internal sealed class HtmlEditorContextMenu(IHtmlEditorHost owner, IJSRuntime javaScript, Func<string> label) : IOmniMenu, IAsyncDisposable
 {
     private OmniMenuController? _controller;
     private RenderFragment<RenderFragment>? _list;

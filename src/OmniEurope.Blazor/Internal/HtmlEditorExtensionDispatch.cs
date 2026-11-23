@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// proposal of a sentence ending, a keyboard shortcut an extension registered, and the activation of an
 /// inline element an extension owns. Each acts only on the visual face.
 /// </summary>
-internal sealed class HtmlEditorExtensionDispatch(OmniHtmlEditor owner)
+internal sealed class HtmlEditorExtensionDispatch(IHtmlEditorHost owner)
 {
     /// <summary>The first proposal of the extensions that suggest text, or null.</summary>
     internal async Task<string?> SuggestAsync(string textBeforeCaret)

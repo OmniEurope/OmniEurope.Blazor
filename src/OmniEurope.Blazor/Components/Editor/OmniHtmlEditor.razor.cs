@@ -15,7 +15,7 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="ShowStatusBar"/> and <see cref="OmniHtmlEditorCommands.Document"/> make it a light word
 /// processor: a sheet of paper, live word and character counts, and export to HTML and plain text.
 /// </remarks>
-public partial class OmniHtmlEditor
+public partial class OmniHtmlEditor : IHtmlEditorHost
 {
     private const string DownloadModulePath = OmniModules.DocumentEditor;
 
@@ -263,7 +263,7 @@ public partial class OmniHtmlEditor
 
     private HtmlEditorExtensionDispatch ExtensionDispatch => _extensionDispatch ??= new(this);
 
-    private HtmlEditorPanelActions PanelActions => _panelActions ??= new(this, _panels);
+    private HtmlEditorPanelActions PanelActions => _panelActions ??= new(this, _panels, () => Visual, () => SourceFace);
 
     /// <summary>Opens the link field (the link shortcut of the surface script); nothing while locked.</summary>
     internal Task OpenLinkAsync() => PanelActions.OpenLinkAsync();
@@ -298,7 +298,13 @@ public partial class OmniHtmlEditor
         base.OnParametersSet();
         if (!_extensionSet.Matches(Extensions))
         {
-            _extensionSet = HtmlEditorExtensionSet.For(Extensions);
+            var extensionSet = HtmlEditorExtensionSet.For(Extensions);
+            if (extensionSet.DuplicateShortcut is { } duplicate)
+            {
+                throw new InvalidOperationException($"The shortcut '{duplicate}' of {nameof(OmniHtmlEditor)} is declared twice.");
+            }
+
+            _extensionSet = extensionSet;
             _cleanValue = null;
         }
 
@@ -665,6 +671,54 @@ public partial class OmniHtmlEditor
     internal Task<string> GetSelectedTextAsync() => Visual.GetSelectedTextAsync();
 
     internal Task InsertTextAsync(string text) => Visual.InsertTextAsync(text);
+
+    // ── The contracts its contexts (IHtmlEditorDocument) and collaborators (IHtmlEditorHost) reach the editor through ──
+
+    string IHtmlEditorDocument.CurrentHtml => CurrentHtml;
+    OmniHtmlEditorMode IHtmlEditorDocument.CurrentMode => CurrentMode;
+    OmniHtmlEditorSelection? IHtmlEditorDocument.CurrentSelection => CurrentSelection;
+    ElementReference? IHtmlEditorDocument.SurfaceReference => SurfaceReference;
+    Task IHtmlEditorDocument.CommitSurfaceAsync() => CommitSurfaceAsync();
+    Task IHtmlEditorDocument.InsertHtmlAsync(string html) => InsertHtmlAsync(html);
+    Task IHtmlEditorDocument.ReplaceHtmlAsync(string html) => ReplaceHtmlAsync(html);
+    Task IHtmlEditorDocument.RunBuiltInAsync(OmniHtmlEditorAction action, string? argument) => RunBuiltInAsync(action, argument);
+    Task<bool> IHtmlEditorDocument.ReplaceClosestAsync(string selector, string html) => ReplaceClosestAsync(selector, html);
+    Task<OmniHtmlCaretSplit> IHtmlEditorDocument.GetHtmlAroundCaretAsync() => GetHtmlAroundCaretAsync();
+    Task<string> IHtmlEditorDocument.GetSelectedTextAsync() => GetSelectedTextAsync();
+    Task IHtmlEditorDocument.InsertTextAsync(string text) => InsertTextAsync(text);
+    Task IHtmlEditorDocument.ReplaceActivatedAsync(string html) => ReplaceActivatedAsync(html);
+    Task IHtmlEditorDocument.SetActivatedTextAsync(string text) => SetActivatedTextAsync(text);
+    bool IHtmlEditorHost.IsLocked => IsLocked;
+    bool IHtmlEditorHost.IsDisposed => IsDisposed;
+    bool IHtmlEditorHost.TracksSelection => TracksSelection;
+    string? IHtmlEditorHost.EditorValue => EditorValue;
+    HtmlEditorExtensionSet IHtmlEditorHost.ExtensionSet => ExtensionSet;
+    ElementReference IHtmlEditorHost.SurfaceElement => SurfaceElement;
+    ElementReference IHtmlEditorHost.SourceElement => SourceElement;
+    string IHtmlEditorHost.SurfaceId => SurfaceId;
+    ILogger IHtmlEditorHost.Logger => Logger;
+    IReadOnlyList<OmniHtmlEditorCommand> IHtmlEditorHost.ArrangedCommands => ArrangedCommands;
+    string IHtmlEditorHost.Clean(string? html) => Clean(html);
+    string IHtmlEditorHost.CleanPaste(string? html, string? text) => CleanPaste(html, text);
+    Task IHtmlEditorHost.CommitAsync(string value) => CommitAsync(value);
+    void IHtmlEditorHost.Rerender() => Rerender();
+    Task IHtmlEditorHost.RenderAsync() => RenderAsync();
+    Task IHtmlEditorHost.DispatchAsync(Func<Task> work) => DispatchAsync(work);
+    Task IHtmlEditorHost.DispatchAsync(Action work) => DispatchAsync(work);
+    Task IHtmlEditorHost.RunAsync(OmniHtmlEditorCommand command) => RunAsync(command);
+    Task IHtmlEditorHost.CaptureVisualAsync() => CaptureVisualAsync();
+    void IHtmlEditorHost.CancelProofreadingSuggestions() => CancelProofreadingSuggestions();
+    Task IHtmlEditorHost.HandleVisualInputAsync(string html) => HandleVisualInputAsync(html);
+    void IHtmlEditorHost.HandleVisualState(string state) => HandleVisualState(state);
+    Task IHtmlEditorHost.HandleSelectionAsync(string json) => HandleSelectionAsync(json);
+    Task IHtmlEditorHost.UndoAsync() => UndoAsync();
+    Task IHtmlEditorHost.RedoAsync() => RedoAsync();
+    Task IHtmlEditorHost.OpenLinkAsync() => OpenLinkAsync();
+    Task IHtmlEditorHost.HandleShortcutAsync(int index) => HandleShortcutAsync(index);
+    Task IHtmlEditorHost.HandleElementActivatedAsync(int index, string element, string text) => HandleElementActivatedAsync(index, element, text);
+    Task IHtmlEditorHost.HandleContextMenuAsync(double x, double y, string? selection, string? issue) => HandleContextMenuAsync(x, y, selection, issue);
+    Task<string?> IHtmlEditorHost.SuggestAsync(string textBeforeCaret) => SuggestAsync(textBeforeCaret);
+    Task<string?> IHtmlEditorHost.ProofreadAsync(string[] texts, string?[] languages) => Proofreading.CheckAsync(texts, languages);
 
     // ── Panels of the built-in special characters and table import (HtmlEditorPanels) ──
 
