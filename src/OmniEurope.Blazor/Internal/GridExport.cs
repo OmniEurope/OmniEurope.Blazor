@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// and sorts select (not the page or window on screen), the file handed to the browser, and what the
 /// bar says meanwhile and afterwards. Exporting changes nothing of what the grid shows.
 /// </summary>
-internal sealed class GridExport<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisposable
+internal sealed class GridExport<TItem>(IGridHost<TItem> grid) : IAsyncDisposable
 {
     /// <summary>Rows asked per request of a remote grid.</summary>
     internal const int PageSize = 200;

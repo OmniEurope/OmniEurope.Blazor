@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// until applied, the declared defaults taken once per column, and the sorts and filters a loader
 /// receives.
 /// </summary>
-internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridQueryState<TItem>(IGridHost<TItem> grid) : IGridQueryState<TItem>
 {
     private readonly Dictionary<string, GridColumnFilter> _filters = new(StringComparer.Ordinal);
     private readonly Dictionary<string, GridColumnFilter> _draftFilters = new(StringComparer.Ordinal);
@@ -16,20 +16,20 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     private readonly HashSet<string> _defaultFilterKeys = new(StringComparer.Ordinal);
 
     /// <summary>The applied filters, by column key.</summary>
-    internal IReadOnlyDictionary<string, GridColumnFilter> Filters => _filters;
+    public IReadOnlyDictionary<string, GridColumnFilter> Filters => _filters;
 
     /// <summary>The applied sorts, outermost first.</summary>
-    internal IReadOnlyList<OmniDataGridSort> Sorts => _sorts;
+    public IReadOnlyList<OmniDataGridSort> Sorts => _sorts;
 
     /// <summary>Whether any applied filter filters something.</summary>
-    internal bool HasActiveFilter() => _filters.Values.Any(filter => filter.IsActive);
+    public bool HasActiveFilter() => _filters.Values.Any(filter => filter.IsActive);
 
     /// <summary>
     /// Applies a column's declared <c>SortOrder</c> the first time that column registers. Columns
     /// register while the child content renders, after the grid's own parameters are set, so this
     /// runs per column rather than once for the grid. Returns whether it added a sort.
     /// </summary>
-    internal bool ApplyInitialSort(OmniDataGridColumnDefinition<TItem> column)
+    public bool ApplyInitialSort(OmniDataGridColumnDefinition<TItem> column)
     {
         if (column.SortOrder is null || !_initialSortKeys.Add(column.Key))
         {
@@ -57,7 +57,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     /// (restored state, or set from code before the column rendered) wins. Returns whether it added
     /// a filter.
     /// </summary>
-    internal bool ApplyDefaultFilter(OmniDataGridColumnDefinition<TItem> column)
+    public bool ApplyDefaultFilter(OmniDataGridColumnDefinition<TItem> column)
     {
         if (string.IsNullOrEmpty(column.DefaultFilterValue) || !_defaultFilterKeys.Add(column.Key)
             || _filters.ContainsKey(column.Key))
@@ -102,7 +102,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Replaces the filters and sorts with the ones restored from the persisted state.</summary>
-    internal void Restore(IEnumerable<KeyValuePair<string, GridColumnFilter>> filters, IEnumerable<OmniDataGridSort> sorts)
+    public void Restore(IEnumerable<KeyValuePair<string, GridColumnFilter>> filters, IEnumerable<OmniDataGridSort> sorts)
     {
         _filters.Clear();
         foreach (var (columnKey, filter) in filters)
@@ -118,7 +118,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     /// Back to what the columns declare: every filter, draft and sort dropped, then each declared
     /// column's <c>SortOrder</c> and <c>DefaultFilterValue</c> applied again.
     /// </summary>
-    internal void ResetToDeclared()
+    public void ResetToDeclared()
     {
         _filters.Clear();
         _draftFilters.Clear();
@@ -133,7 +133,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Drops the filter, draft and sort of a column that left the grid.</summary>
-    internal void Forget(string key)
+    public void Forget(string key)
     {
         _filters.Remove(key);
         _draftFilters.Remove(key);
@@ -168,7 +168,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
         await grid.View.QueryChangedAsync();
     }
 
-    internal bool IsSortable(OmniDataGridColumnDefinition<TItem> column) => grid.AllowSorting && column.Sortable;
+    public bool IsSortable(OmniDataGridColumnDefinition<TItem> column) => grid.AllowSorting && column.Sortable;
 
     internal string? AriaSort(OmniDataGridColumnDefinition<TItem> column)
     {
@@ -180,7 +180,7 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     /// Visual sort indicator next to a sortable header's title, mirroring aria-sort. Null on an
     /// unsorted column so no icon is rendered at all.
     /// </summary>
-    internal OmniIconName? SortIcon(OmniDataGridColumnDefinition<TItem> column) => AriaSort(column) switch
+    public OmniIconName? SortIcon(OmniDataGridColumnDefinition<TItem> column) => AriaSort(column) switch
     {
         "ascending" => OmniIconName.SortAscending,
         "descending" => OmniIconName.SortDescending,
@@ -191,11 +191,11 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     /// Whether the column is filtered right now. Read from the applied filter, not the draft: an
     /// advanced condition typed but not yet applied filters nothing, so it offers nothing to clear.
     /// </summary>
-    internal bool HasActiveFilter(OmniDataGridColumnDefinition<TItem> column) =>
+    public bool HasActiveFilter(OmniDataGridColumnDefinition<TItem> column) =>
         _filters.TryGetValue(column.Key, out var filter) && filter.IsActive;
 
     /// <summary>A column is active while it carries the sort or a filter value.</summary>
-    internal bool IsColumnActive(OmniDataGridColumnDefinition<TItem> column) =>
+    public bool IsColumnActive(OmniDataGridColumnDefinition<TItem> column) =>
         _sorts.Any(sort => sort.Key == column.Key)
         || (_filters.TryGetValue(column.Key, out var filter) && filter.IsActive);
 
@@ -204,14 +204,14 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
         _filters.GetValueOrDefault(column.Key, GridFilterOperators<TItem>.DefaultFilter(column));
 
     /// <summary>The filter being edited for a column: its draft, or its applied filter.</summary>
-    internal GridColumnFilter DraftOf(OmniDataGridColumnDefinition<TItem> column) =>
+    public GridColumnFilter DraftOf(OmniDataGridColumnDefinition<TItem> column) =>
         _draftFilters.GetValueOrDefault(column.Key, FilterOf(column));
 
     /// <summary>Holds a pending change of a column's filter.</summary>
-    internal void Stage(OmniDataGridColumnDefinition<TItem> column, GridColumnFilter filter) => _draftFilters[column.Key] = filter;
+    public void Stage(OmniDataGridColumnDefinition<TItem> column, GridColumnFilter filter) => _draftFilters[column.Key] = filter;
 
     /// <summary>Applies the draft of a column: an active one filters, an empty one clears the column.</summary>
-    internal void Commit(OmniDataGridColumnDefinition<TItem> column)
+    public void Commit(OmniDataGridColumnDefinition<TItem> column)
     {
         var filter = DraftOf(column);
         if (filter.IsActive)
@@ -225,21 +225,21 @@ internal sealed class GridQueryState<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Clears the applied filter and the draft of a column.</summary>
-    internal void Clear(OmniDataGridColumnDefinition<TItem> column)
+    public void Clear(OmniDataGridColumnDefinition<TItem> column)
     {
         _filters.Remove(column.Key);
         _draftFilters.Remove(column.Key);
     }
 
     /// <summary>The sorts a loader receives: those of the columns still declared.</summary>
-    internal IReadOnlyList<OmniDataGridSort> CurrentSorts()
+    public IReadOnlyList<OmniDataGridSort> CurrentSorts()
     {
         var keys = grid.ColumnSet.EffectiveColumns.Select(column => column.Key).ToHashSet(StringComparer.Ordinal);
         return _sorts.Where(sort => keys.Contains(sort.Key)).ToArray();
     }
 
     /// <summary>The active filters a loader receives, a date range already resolved to its bounds.</summary>
-    internal IReadOnlyList<OmniDataGridFilter> CurrentFilters()
+    public IReadOnlyList<OmniDataGridFilter> CurrentFilters()
     {
         var columns = grid.ColumnSet.EffectiveColumns;
         var keys = columns.Select(column => column.Key).ToHashSet(StringComparer.Ordinal);

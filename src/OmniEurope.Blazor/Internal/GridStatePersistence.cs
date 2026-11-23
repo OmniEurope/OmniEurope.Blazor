@@ -1,5 +1,4 @@
 using System.Text.Json;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.JSInterop;
@@ -13,7 +12,7 @@ namespace OmniEurope.Blazor.Internal;
 /// key, restores what is valid of a saved state, and applies again a state that changed elsewhere (the
 /// host's store, another tab) while the grid is on screen.
 /// </summary>
-internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : IDisposable
+internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGridStatePersistence, IDisposable
 {
     /// <summary>The prefix of the preference key of a grid: <c>omni.grid.</c> then its <c>StateKey</c>.</summary>
     internal const string PreferencePrefix = "omni.grid.";
@@ -82,7 +81,7 @@ internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : ID
         grid.View.InvalidateLocalProjection();
     }
 
-    internal async Task SaveAsync()
+    public async Task SaveAsync()
     {
         if (grid.StateKey is not { } key)
         {
@@ -165,7 +164,7 @@ internal sealed class GridStatePersistence<TItem>(OmniDataGrid<TItem> grid) : ID
     private void Follow(string key)
     {
         // Every Blazor host registers logging; a container built by hand may not, and the grid then logs nothing.
-        _logger = grid.Services.GetService<ILogger<OmniDataGrid<TItem>>>() ?? (ILogger)NullLogger.Instance;
+        _logger = grid.Logger;
         grid.Preferences.Changed += OnPreferenceChangedAsync;
         _subscribedKey = PreferenceKey(key);
     }

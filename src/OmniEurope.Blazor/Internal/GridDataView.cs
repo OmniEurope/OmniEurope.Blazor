@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// its loader or the blocks of a remote virtualized grid, with the loading, failure and empty states
 /// that follow from them.
 /// </summary>
-internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisposable
+internal sealed class GridDataView<TItem>(IGridHost<TItem> grid) : IGridDataView<TItem>, IAsyncDisposable
 {
     private readonly GridRemoteState<TItem> _remote = new();
     private readonly GridVirtualDataSource<TItem> _virtualSource = new();
@@ -24,15 +24,15 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     private bool _parametersObserved;
 
     // A tree grid is virtualized over its visible rows, the flattened tree; it is never paged, whatever ScrollMode says.
-    internal bool Virtualized => grid.ScrollMode == OmniDataGridScrollMode.Virtual;
-    internal bool Paged => grid.ScrollMode == OmniDataGridScrollMode.Paged && !grid.Tree.Active;
+    public bool Virtualized => grid.ScrollMode == OmniDataGridScrollMode.Virtual;
+    public bool Paged => grid.ScrollMode == OmniDataGridScrollMode.Paged && !grid.Tree.Active;
 
     /// <summary>
     /// A local virtualized grid whose body is not one row per item: group header rows and detail rows
     /// sit between the items. The virtual window then indexes "slots", an item row together with the
     /// group headers opening above it and its detail row, and measures each slot as a whole.
     /// </summary>
-    internal bool StructuredVirtual => Virtualized && grid.Load is null
+    public bool StructuredVirtual => Virtualized && grid.Load is null
         && (grid.DetailTemplate is not null || grid.Grouping.ActiveGroups.Count > 0);
 
     /// <summary>
@@ -42,7 +42,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     private int LocalVirtualCount => grid.Tree.Active ? grid.Tree.Nodes.Count : VirtualLocalItems.Count;
 
     /// <summary>The items of the projection; for a tree, every item the filters keep, whatever is collapsed.</summary>
-    internal IReadOnlyList<TItem> VirtualLocalItems => grid.Tree.Active ? grid.Tree.AllItems : _virtualLocalItems ??= GridProjection<TItem>.Create(
+    public IReadOnlyList<TItem> VirtualLocalItems => grid.Tree.Active ? grid.Tree.AllItems : _virtualLocalItems ??= GridProjection<TItem>.Create(
         grid.Items, grid.ColumnSet.EffectiveColumns, grid.Query.Filters, grid.Query.Sorts,
         grid.CaseSensitiveFilters, grid.IgnoreDiacritics, 1, int.MaxValue).Items;
 
@@ -50,12 +50,12 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
         grid.Items, grid.ColumnSet.EffectiveColumns, grid.Query.Filters, grid.Query.Sorts,
         grid.CaseSensitiveFilters, grid.IgnoreDiacritics, grid.Paging.Page, Paged ? grid.Paging.PageSize : int.MaxValue);
 
-    internal IReadOnlyList<TItem> VisibleItems => Virtualized
+    public IReadOnlyList<TItem> VisibleItems => Virtualized
         ? Array.Empty<TItem>()
         : grid.Tree.Active ? grid.Tree.Nodes.Select(node => node.Item).ToArray()
         : grid.Load is null ? LocalView.Items : _remote.Items;
 
-    internal int TotalCount => grid.Count
+    public int TotalCount => grid.Count
         ?? (Virtualized
             ? grid.Load is null ? LocalVirtualCount : _virtualSource.TotalCount
             : grid.Tree.Active ? grid.Tree.Nodes.Count
@@ -64,12 +64,12 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     internal int BlockSize => grid.VirtualBlockSize > 0 ? grid.VirtualBlockSize : Math.Max(1, grid.Paging.PageSize);
 
     /// <summary>The columns have rendered and the saved state is read: the first request can go, or has gone.</summary>
-    internal bool FirstRequestReady => _columnsRendered && _parametersObserved;
+    public bool FirstRequestReady => _columnsRendered && _parametersObserved;
 
     /// <summary>A loader is set and its first request waits for the columns and the saved state.</summary>
     private bool InitialLoadPending => !FirstRequestReady && grid.Load is not null;
 
-    internal bool Loading => grid.Busy || InitialLoadPending || _remote.Loading || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
+    public bool Loading => grid.Busy || InitialLoadPending || _remote.Loading || (Virtualized && _virtualSource.Loading && _virtualSource.CachedItemCount == 0);
 
     // The bar follows every load: the grid's own requests, also the blocks a virtualized grid fetches while
     // rows are already shown, and a host load signalled by Busy. A live refresh keeps the rows and shows no
@@ -95,14 +95,14 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     /// </summary>
     internal bool ShowPendingRow => grid.ShowLoadingBar && Loading && IsEmpty;
 
-    internal bool IsEmpty => Virtualized ? TotalCount == 0 : VisibleItems.Count == 0;
+    public bool IsEmpty => Virtualized ? TotalCount == 0 : VisibleItems.Count == 0;
 
     /// <summary>
     /// Every item the grid holds in memory, whatever part of it is on screen: the whole filtered and
     /// sorted local set (all pages, all virtual rows), the external or remote page, or the blocks a
     /// remote virtualized grid has fetched so far.
     /// </summary>
-    internal IEnumerable<TItem> LoadedItems() => grid.Load is null
+    public IEnumerable<TItem> LoadedItems() => grid.Load is null
         ? VirtualLocalItems
         : Virtualized ? _virtualSource.CachedItems : _remote.Items;
 
@@ -110,9 +110,9 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     /// Changes when the rows of <see cref="LoadedItems"/> are renewed inside a collection that keeps its identity
     /// (the block cache of a virtualized grid evicts a block as it loads another); constant for every other source.
     /// </summary>
-    internal int LoadedItemsVersion => grid.Load is not null && Virtualized ? _virtualSource.CacheVersion : 0;
+    public int LoadedItemsVersion => grid.Load is not null && Virtualized ? _virtualSource.CacheVersion : 0;
 
-    internal void InvalidateLocalProjection()
+    public void InvalidateLocalProjection()
     {
         _localProjection = null;
         _virtualLocalItems = null;
@@ -194,7 +194,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
         }
     }
 
-    internal bool TryGetVirtualItem(int index, out TItem item)
+    public bool TryGetVirtualItem(int index, out TItem item)
     {
         if (grid.Load is null)
         {
@@ -222,7 +222,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
         await EnsureVirtualDataAsync();
     }
 
-    internal async Task EnsureVirtualDataAsync()
+    public async Task EnsureVirtualDataAsync()
     {
         if (grid.Load is null || !FirstRequestReady)
         {
@@ -256,7 +256,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     }
 
     /// <summary>The whole reaction to a sort or filter change: first page, new rows, saved state.</summary>
-    internal async Task QueryChangedAsync()
+    public async Task QueryChangedAsync()
     {
         await grid.Paging.ResetToFirstPageAsync();
         InvalidateLocalProjection();
@@ -265,7 +265,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     }
 
     /// <summary>Restarts the row set after a sort or filter changed, discarding measurements and cached rows.</summary>
-    internal async Task RefreshAfterQueryChangeAsync()
+    public async Task RefreshAfterQueryChangeAsync()
     {
         if (Virtualized)
         {
@@ -294,7 +294,7 @@ internal sealed class GridDataView<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisp
     /// Fetches the rows of the loader again from the start of the current query, with the loading
     /// state; a virtualized grid starts again from its first block.
     /// </summary>
-    internal async Task ReloadAsync()
+    public async Task ReloadAsync()
     {
         if (grid.Load is null) return;
         if (Virtualized)

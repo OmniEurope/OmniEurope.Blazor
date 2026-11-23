@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The columns of a grid: the ones its column components registered, the implicit single column of a
 /// grid that declares none, and the visible set with the control columns that widen each row.
 /// </summary>
-internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridColumnSet<TItem>(IGridHost<TItem> grid) : IGridColumnSet<TItem>
 {
     private readonly List<OmniDataGridColumnDefinition<TItem>> _columns = [];
     private OmniDataGridColumnDefinition<TItem>? _implicitColumn;
@@ -20,7 +20,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     private bool _columnsFragmentRendered;
 
     /// <summary>The columns registered by the column components, in registration order.</summary>
-    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Declared => _columns;
+    public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Declared => _columns;
 
     /// <summary>
     /// A grid that declares columns, before they registered: its column components only run after the grid's
@@ -30,7 +30,7 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     internal bool AwaitingColumns => _columns.Count == 0 && grid.Columns is not null && !_columnsFragmentRendered;
 
     /// <summary>The registered columns, none while they are awaited, or the implicit column when there is none.</summary>
-    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> EffectiveColumns =>
+    public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> EffectiveColumns =>
         _columns.Count > 0 ? (_columns.Exists(column => column.ExportOnly) ? [.. _columns.Where(column => !column.ExportOnly)] : _columns)
         : AwaitingColumns ? Array.Empty<OmniDataGridColumnDefinition<TItem>>()
         : [ImplicitColumn];
@@ -54,33 +54,33 @@ internal sealed class GridColumnSet<TItem>(OmniDataGrid<TItem> grid)
     };
 
     /// <summary>The columns shown, in the reader's order (see <see cref="GridColumnArrangement{TItem}"/>): every part of the grid draws these.</summary>
-    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> VisibleColumns => _visibleColumns;
+    public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> VisibleColumns => _visibleColumns;
 
     /// <summary>Whether the grid appends its own edit column.</summary>
-    internal bool HasEditing => _hasEditing;
+    public bool HasEditing => _hasEditing;
 
     /// <summary>Cells in a row, control columns included.</summary>
     internal int ColumnSpan => _columnSpan;
 
-    internal bool ShowDetailColumn => grid.DetailTemplate is not null && grid.ShowExpandColumn;
+    public bool ShowDetailColumn => grid.DetailTemplate is not null && grid.ShowExpandColumn;
 
-    internal bool HasFrozenColumns => VisibleColumns.Any(column => column.Frozen);
+    public bool HasFrozenColumns => VisibleColumns.Any(column => column.Frozen);
 
     internal bool HasFooter => VisibleColumns.Any(column => column.FooterContent is not null || column.Aggregate != OmniDataGridAggregate.None);
 
     /// <summary>Whether a grouped grid closes each group with a footer row: a visible column fills it.</summary>
-    internal bool HasGroupFooter => VisibleColumns.Any(column => column.GroupFooterTemplate is not null || column.Aggregate != OmniDataGridAggregate.None);
+    public bool HasGroupFooter => VisibleColumns.Any(column => column.GroupFooterTemplate is not null || column.Aggregate != OmniDataGridAggregate.None);
 
     internal bool HasTopFooter => HasFooter && grid.FooterPlacement is OmniDataGridPlacement.Top or OmniDataGridPlacement.TopAndBottom;
 
     internal bool HasBottomFooter => HasFooter && grid.FooterPlacement is OmniDataGridPlacement.Bottom or OmniDataGridPlacement.TopAndBottom;
 
     /// <summary>The column of a key among the effective columns, or null.</summary>
-    internal OmniDataGridColumnDefinition<TItem>? Find(string key) =>
+    public OmniDataGridColumnDefinition<TItem>? Find(string key) =>
         EffectiveColumns.FirstOrDefault(candidate => candidate.Key == key);
 
     /// <summary>The visible column of a key, or null.</summary>
-    internal OmniDataGridColumnDefinition<TItem>? FindVisible(string key) =>
+    public OmniDataGridColumnDefinition<TItem>? FindVisible(string key) =>
         VisibleColumns.FirstOrDefault(candidate => candidate.Key == key);
 
     /// <summary>Forgets the implicit column, so its localized title is read again.</summary>

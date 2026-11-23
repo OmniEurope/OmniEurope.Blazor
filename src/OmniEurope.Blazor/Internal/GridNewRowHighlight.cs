@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The new-row mark of a live grid: the keys held before a refresh, the rows the refresh brought in
 /// and the deadline after which each of them stops reading as new.
 /// </summary>
-internal sealed class GridNewRowHighlight<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisposable
+internal sealed class GridNewRowHighlight<TItem>(IGridHost<TItem> grid) : IGridNewRowHighlight<TItem>, IAsyncDisposable
 {
     private readonly Dictionary<object, long> _newRowKeys = [];
     private readonly CancellationTokenSource _highlightLifetime = new();
@@ -17,14 +17,14 @@ internal sealed class GridNewRowHighlight<TItem>(OmniDataGrid<TItem> grid) : IAs
         && grid.KeyOf is not null;
 
     /// <summary>The keys of <paramref name="items"/>, or null when the grid marks no new row.</summary>
-    internal HashSet<object>? HeldKeys(IEnumerable<TItem> items) =>
+    public HashSet<object>? HeldKeys(IEnumerable<TItem> items) =>
         HighlightsNewRows ? items.Select(grid.ItemKey).ToHashSet() : null;
 
     /// <summary>Remembers the rows held now, to compare the next item list the host hands with them.</summary>
-    internal void HoldBaseline(IEnumerable<TItem> items) => _refreshBaseline = HeldKeys(items);
+    public void HoldBaseline(IEnumerable<TItem> items) => _refreshBaseline = HeldKeys(items);
 
     /// <summary>Marks the rows of a new item list that the held baseline did not have, then drops it.</summary>
-    internal void CompareWithBaseline(IEnumerable<TItem> items)
+    public void CompareWithBaseline(IEnumerable<TItem> items)
     {
         if (_refreshBaseline is { } baseline)
         {
@@ -34,7 +34,7 @@ internal sealed class GridNewRowHighlight<TItem>(OmniDataGrid<TItem> grid) : IAs
     }
 
     /// <summary>Marks the rows of <paramref name="now"/> whose key <paramref name="before"/> did not hold.</summary>
-    internal void MarkNewRows(HashSet<object>? before, IEnumerable<TItem> now)
+    public void MarkNewRows(HashSet<object>? before, IEnumerable<TItem> now)
     {
         if (before is null || grid.NewRowHighlight is not { } duration)
         {
@@ -83,7 +83,7 @@ internal sealed class GridNewRowHighlight<TItem>(OmniDataGrid<TItem> grid) : IAs
         await grid.RenderLaterAsync();
     }
 
-    internal bool IsNewRow(TItem item) => _newRowKeys.Count > 0 && _newRowKeys.ContainsKey(grid.ItemKey(item));
+    public bool IsNewRow(TItem item) => _newRowKeys.Count > 0 && _newRowKeys.ContainsKey(grid.ItemKey(item));
 
     public async ValueTask DisposeAsync()
     {

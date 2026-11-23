@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// grid holds for its footer row, over the rows of a group for that group's footer row, and written with the
 /// column's aggregate format.
 /// </summary>
-internal sealed class GridAggregates<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridAggregates<TItem>(IGridHost<TItem> grid)
 {
     /// <summary>The text of a column's cell in the grid footer: its aggregate over the rows the grid holds.</summary>
     internal string FooterText(OmniDataGridColumnDefinition<TItem> column) =>

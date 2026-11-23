@@ -10,7 +10,7 @@ internal sealed record GridTreeNode<TItem>(TItem Item, int Level, bool HasChildr
 /// kept by the grid and mirrored from the host's keys, and the flattening of the tree into the rows on
 /// screen, siblings sorted by the grid's sorts and the filters kept with the ancestors of what they match.
 /// </summary>
-internal sealed class GridTree<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridTree<TItem>(IGridHost<TItem> grid) : IGridTree<TItem>
 {
     private static readonly IReadOnlyDictionary<string, GridColumnFilter> NoFilter = new Dictionary<string, GridColumnFilter>();
     private HashSet<object> _expanded = [];
@@ -19,16 +19,16 @@ internal sealed class GridTree<TItem>(OmniDataGrid<TItem> grid)
     private IReadOnlyList<object>? _receivedKeys;
     private (IReadOnlyList<GridTreeNode<TItem>> Visible, IReadOnlyList<TItem> All, IReadOnlyList<TItem> Roots)? _flat;
 
-    internal bool Active => grid.ChildrenOf is not null;
+    public bool Active => grid.ChildrenOf is not null;
 
     /// <summary>The rows on screen, in display order.</summary>
-    internal IReadOnlyList<GridTreeNode<TItem>> Nodes => Flatten().Visible;
+    public IReadOnlyList<GridTreeNode<TItem>> Nodes => Flatten().Visible;
 
     /// <summary>Every row the filters keep, at every depth and whatever is collapsed, in display order.</summary>
-    internal IReadOnlyList<TItem> AllItems => Flatten().All;
+    public IReadOnlyList<TItem> AllItems => Flatten().All;
 
     /// <summary>The top-level rows the filters keep, sorted.</summary>
-    internal IReadOnlyList<TItem> Roots => Flatten().Roots;
+    public IReadOnlyList<TItem> Roots => Flatten().Roots;
 
     /// <summary>Takes the host's expanded keys when they are a new list; the host's list wins over earlier decisions.</summary>
     internal void Mirror()
@@ -44,7 +44,7 @@ internal sealed class GridTree<TItem>(OmniDataGrid<TItem> grid)
         Invalidate();
     }
 
-    internal void Invalidate() => _flat = null;
+    public void Invalidate() => _flat = null;
 
     internal bool IsToggleable(TItem item) => grid.CanToggleTreeRow?.Invoke(item) ?? true;
 
@@ -64,7 +64,7 @@ internal sealed class GridTree<TItem>(OmniDataGrid<TItem> grid)
         return _expanded.Contains(key);
     }
 
-    internal Task ToggleAsync(TItem item) => SetAsync([item], !_expanded.Contains(grid.ItemKey(item)));
+    public Task ToggleAsync(TItem item) => SetAsync([item], !_expanded.Contains(grid.ItemKey(item)));
 
     /// <summary>Opens or closes every row that has children and can be toggled, reported once.</summary>
     internal Task SetAllAsync(bool expanded) => SetAsync(Parents(AllNodes(grid.Items, [])).ToArray(), expanded);

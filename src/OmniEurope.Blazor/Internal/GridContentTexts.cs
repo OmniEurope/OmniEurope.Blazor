@@ -22,7 +22,7 @@ internal sealed record GridContentTextsUpdate(IReadOnlyDictionary<string, string
 /// A block that replaces another in the full cache changes neither the collection nor its count: the version
 /// of the cache tells the renewal, and the texts of the rows that came in are added the same way.
 /// </summary>
-internal sealed class GridContentTexts<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridContentTexts<TItem>(IGridHost<TItem> grid)
 {
     /// <summary>
     /// Most texts of a column the script holds while blocks keep adding to them: twice the most a fit to

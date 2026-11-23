@@ -3,7 +3,7 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>The classes a grid's markup puts on its root, viewport, rows, cells and controls.</summary>
-internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridCssClasses<TItem>(IGridHost<TItem> grid) : IGridCssClasses
 {
     internal string LoadingBarClass => grid.LoadingBarMode == OmniLoadingBarMode.Continuous
         ? "omni-loading-bar omni-loading-bar--continuous omni-loading-bar--active omni-data-grid__loading-bar"
@@ -31,7 +31,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
     /// The size of the bars' buttons (export, cancel, column chooser): the one the host set through
     /// <c>BarButtonSize</c>, else small, then made more compact still by the stylesheet.
     /// </summary>
-    internal OmniControlSize BarButtonSize => grid.BarButtonSize ?? OmniControlSize.Small;
+    public OmniControlSize BarButtonSize => grid.BarButtonSize ?? OmniControlSize.Small;
 
     // The compact modifier carries the stylesheet's reduction: a size the host chose is a button's own size.
     internal string ExportButtonClass => grid.BarButtonSize is null
@@ -43,7 +43,7 @@ internal sealed class GridCssClasses<TItem>(OmniDataGrid<TItem> grid)
         ? "omni-data-grid__export-copy omni-data-grid__bar-button--compact"
         : "omni-data-grid__export-copy";
 
-    internal string ChooserToggleClass => grid.BarButtonSize is null
+    public string ChooserToggleClass => grid.BarButtonSize is null
         ? "omni-data-grid__chooser-toggle omni-data-grid__bar-button--compact"
         : "omni-data-grid__chooser-toggle";
 

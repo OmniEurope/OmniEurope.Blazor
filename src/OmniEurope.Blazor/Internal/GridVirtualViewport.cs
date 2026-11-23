@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The virtual window of a virtualized grid: the scroll offset and viewport height the script
 /// reports, the measured row heights and the range of rows (or slots) rendered between the spacers.
 /// </summary>
-internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridVirtualViewport<TItem>(IGridHost<TItem> grid) : IGridVirtualViewport
 {
     private readonly GridVirtualWindow _window = new();
     private GridVirtualRange _range;
@@ -19,12 +19,12 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
     /// Whether every row has one exact height, which rows are then never measured for: the height the
     /// consumer gave, or, when none, the row height of the density, which the stylesheet draws.
     /// </summary>
-    internal bool RowsAreFixed => grid.FixedRowHeight && grid.EstimatedRowHeight is null or > 0d;
+    public bool RowsAreFixed => grid.FixedRowHeight && grid.EstimatedRowHeight is null or > 0d;
 
     /// <summary>The height the consumer imposed on every row, or null: measured rows, or the density's row height.</summary>
-    internal double? FixedHeight => RowsAreFixed ? grid.EstimatedRowHeight : null;
+    public double? FixedHeight => RowsAreFixed ? grid.EstimatedRowHeight : null;
 
-    internal GridVirtualRange Range => _range;
+    public GridVirtualRange Range => _range;
 
     /// <summary>
     /// The heights of the spacers as the render writes them, invariant: they reach the page in the same
@@ -36,7 +36,7 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
 
     private static string SpacerHeight(double height) => Math.Max(0d, height).ToString(CultureInfo.InvariantCulture);
 
-    internal void Sync()
+    public void Sync()
     {
         var estimate = FixedHeight ?? _cssRowEstimate ?? (grid.EstimatedRowHeight is > 0d ? grid.EstimatedRowHeight.Value : 40d);
         if (grid.View.StructuredVirtual)
@@ -63,7 +63,7 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
     /// rows of a tree that is not slotted move to other indexes when a branch opens or closes, so the
     /// heights measured by index no longer describe them.
     /// </summary>
-    internal void RefreshSlots()
+    public void RefreshSlots()
     {
         grid.Rows.ForgetSlots();
         if (!grid.View.Virtualized)
@@ -79,10 +79,10 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
         Sync();
     }
 
-    internal void ResetMeasurements() => _window.ResetMeasurements();
+    public void ResetMeasurements() => _window.ResetMeasurements();
 
     /// <summary>Back to the top with no measured row, after the query changed.</summary>
-    internal void ResetScroll()
+    public void ResetScroll()
     {
         _scrollTop = 0d;
         _window.ResetMeasurements();
@@ -91,7 +91,7 @@ internal sealed class GridVirtualViewport<TItem>(OmniDataGrid<TItem> grid)
     internal double OffsetOf(int index) => _window.OffsetOf(index);
 
     /// <summary>Takes what the script measured; true when the window has to move.</summary>
-    internal bool ApplySnapshot(GridViewportSnapshot? snapshot)
+    public bool ApplySnapshot(GridViewportSnapshot? snapshot)
     {
         if (snapshot is null)
         {

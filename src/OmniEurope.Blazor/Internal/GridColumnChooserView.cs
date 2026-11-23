@@ -14,9 +14,11 @@ namespace OmniEurope.Blazor.Internal;
 /// Written in C#, the grid's markup file being at its size budget. Rows are keyed by column, so a moved row
 /// keeps its controls; the focus is then given back to its arrow.
 /// </summary>
-internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridColumnChooserView<TItem>(IGridHost<TItem> grid, IGridColumnChooserModel<TItem> chooser)
 {
-    private GridColumnChooser<TItem> Chooser => grid.Chooser;
+    /// <summary>The name of a column in the chooser: its title, else its key (a column titled by a template).</summary>
+    internal static string NameOf(OmniDataGridColumnDefinition<TItem> column) =>
+        string.IsNullOrWhiteSpace(column.Title) ? column.Key : column.Title;
 
     /// <summary>The chooser, rendered by the header bar while <see cref="GridColumnChooser{TItem}.Shown"/>.</summary>
     internal RenderFragment Render => builder =>
@@ -38,8 +40,8 @@ internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
         builder.OpenElement(0, "ul");
         builder.AddAttribute(1, "class", "omni-data-grid__chooser-list");
         builder.AddAttribute(2, "aria-label", label);
-        builder.AddElementReferenceCapture(3, reference => Chooser.List = reference);
-        foreach (var column in Chooser.Entries)
+        builder.AddElementReferenceCapture(3, reference => chooser.List = reference);
+        foreach (var column in chooser.Entries)
         {
             builder.OpenElement(4, "li");
             builder.SetKey(column.Key);
@@ -56,7 +58,7 @@ internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
             builder.AddComponentParameter(9, nameof(OmniButton.Variant), OmniButtonVariant.Secondary);
             builder.AddComponentParameter(10, nameof(OmniButton.Size), OmniControlSize.Small);
             builder.AddComponentParameter(11, nameof(OmniButton.Class), "omni-data-grid__chooser-reset");
-            builder.AddComponentParameter(12, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(grid, Chooser.ResetAsync));
+            builder.AddComponentParameter(12, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(grid, chooser.ResetAsync));
             builder.AddComponentParameter(13, nameof(OmniButton.Icon), Icon(OmniIconName.Reset));
             builder.AddComponentParameter(14, nameof(OmniButton.ChildContent), (RenderFragment)(content =>
             {
@@ -70,16 +72,16 @@ internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
 
     private RenderFragment Row(OmniDataGridColumnDefinition<TItem> column) => builder =>
     {
-        var name = GridColumnChooser<TItem>.NameOf(column);
+        var name = NameOf(column);
         if (grid.AllowColumnHide)
         {
-            var shown = Chooser.IsVisible(column);
+            var shown = chooser.IsVisible(column);
             builder.OpenComponent<OmniCheckBox<bool>>(0);
             builder.AddComponentParameter(1, nameof(OmniCheckBox<bool>.Class), "omni-data-grid__chooser-check");
             builder.AddComponentParameter(2, nameof(OmniCheckBox<bool>.Value), shown);
             builder.AddComponentParameter(3, nameof(OmniCheckBox<bool>.ValueExpression), (Expression<Func<bool>>)(() => shown));
-            builder.AddComponentParameter(4, nameof(OmniCheckBox<bool>.ValueChanged), EventCallback.Factory.Create<bool>(grid, visible => Chooser.ToggleAsync(column, visible)));
-            builder.AddComponentParameter(5, nameof(OmniCheckBox<bool>.Disabled), !Chooser.CanToggle(column));
+            builder.AddComponentParameter(4, nameof(OmniCheckBox<bool>.ValueChanged), EventCallback.Factory.Create<bool>(grid, visible => chooser.ToggleAsync(column, visible)));
+            builder.AddComponentParameter(5, nameof(OmniCheckBox<bool>.Disabled), !chooser.CanToggle(column));
             builder.AddComponentParameter(6, nameof(OmniCheckBox<bool>.ChildContent), (RenderFragment)(content => content.AddContent(0, name)));
             builder.CloseComponent();
         }
@@ -109,8 +111,8 @@ internal sealed class GridColumnChooserView<TItem>(OmniDataGrid<TItem> grid)
         builder.AddComponentParameter(2, nameof(OmniButton.Size), OmniControlSize.Small);
         builder.AddComponentParameter(3, nameof(OmniButton.Class), "omni-data-grid__chooser-move");
         builder.AddComponentParameter(4, nameof(OmniButton.Label), text);
-        builder.AddComponentParameter(5, nameof(OmniButton.Disabled), !Chooser.CanMove(column, step));
-        builder.AddComponentParameter(6, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(grid, () => Chooser.MoveAsync(column, step)));
+        builder.AddComponentParameter(5, nameof(OmniButton.Disabled), !chooser.CanMove(column, step));
+        builder.AddComponentParameter(6, nameof(OmniButton.OnClick), EventCallback.Factory.Create<MouseEventArgs>(grid, () => chooser.MoveAsync(column, step)));
         builder.AddComponentParameter(7, nameof(OmniButton.Icon), Icon(step < 0 ? OmniIconName.ArrowLeft : OmniIconName.ArrowRight));
         builder.AddComponentParameter(8, "title", text);
         builder.AddComponentParameter(9, "data-omni-move", step.ToString(System.Globalization.CultureInfo.InvariantCulture));

@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The row groups of a grid: the active groups, the header toggles that add or remove one, the groups
 /// the reader closed and the grouped sequence of header and item rows.
 /// </summary>
-internal sealed class GridGrouping<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridGrouping<TItem>(IGridHost<TItem> grid) : IGridGrouping<TItem>
 {
     // The segment of a null value. An escaped value only has a backslash before another backslash or a
     // slash, so a backslash before a zero cannot come from one.
@@ -22,7 +22,7 @@ internal sealed class GridGrouping<TItem>(OmniDataGrid<TItem> grid)
     private bool _observedDefault = true;
 
     // A tree grid is not grouped: its rows are already nested under their parents.
-    internal IReadOnlyList<OmniDataGridGroup> ActiveGroups => grid.AllowGrouping && !grid.Tree.Active ? grid.Groups : Array.Empty<OmniDataGridGroup>();
+    public IReadOnlyList<OmniDataGridGroup> ActiveGroups => grid.AllowGrouping && !grid.Tree.Active ? grid.Groups : Array.Empty<OmniDataGridGroup>();
 
     internal bool IsGroupable(OmniDataGridColumnDefinition<TItem> column) => grid.AllowGrouping && column.Groupable;
 
@@ -132,7 +132,7 @@ internal sealed class GridGrouping<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>The rows of <paramref name="items"/> grouped by <paramref name="groups"/>, each group opened by its header row.</summary>
-    internal IReadOnlyList<GridRenderRow<TItem>> GroupedRows(IReadOnlyList<OmniDataGridGroup> groups, IReadOnlyList<TItem> items)
+    public IReadOnlyList<GridRenderRow<TItem>> GroupedRows(IReadOnlyList<OmniDataGridGroup> groups, IReadOnlyList<TItem> items)
     {
         // Each group keeps its own direction: a group naming no column is dropped with its direction,
         // not left to shift the directions of the groups after it.

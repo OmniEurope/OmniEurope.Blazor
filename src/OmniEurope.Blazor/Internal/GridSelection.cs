@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The selected rows of a grid, kept by the grid and mirrored from the host's value when it passes a
 /// new one, and the row activation (click, Enter, Space) that selects a row or reports it.
 /// </summary>
-internal sealed class GridSelection<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridSelection<TItem>(IGridHost<TItem> grid) : IGridSelection
 {
     // The grid's own selection, mirrored from the parameter when the host passes a new value: a
     // component never writes its own parameters.
@@ -29,9 +29,9 @@ internal sealed class GridSelection<TItem>(OmniDataGrid<TItem> grid)
     /// <summary>Indexes the keys of the selection for the rows about to render.</summary>
     internal void Reindex() => _selectedKeyIndex = SelectionKeys().ToHashSet();
 
-    internal bool IsSelected(object key) => _selectedKeyIndex.Contains(key);
+    public bool IsSelected(object key) => _selectedKeyIndex.Contains(key);
 
-    internal bool RowsAreInteractive => grid.AllowRowSelectOnRowClick || grid.OnRowClick.HasDelegate || grid.OnRowDoubleClick.HasDelegate
+    public bool RowsAreInteractive => grid.AllowRowSelectOnRowClick || grid.OnRowClick.HasDelegate || grid.OnRowDoubleClick.HasDelegate
         || (grid.ToggleTreeOnRowClick && grid.Tree.Active);
 
     internal async Task ToggleSelectionAsync(TItem item)

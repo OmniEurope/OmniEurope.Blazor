@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The column widths of a grid: the widths the reader chose by dragging, fitting to content or with
 /// the arrow keys, the handles that offer those gestures and the narrowest width the table may take.
 /// </summary>
-internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridColumnLayout<TItem>(IGridHost<TItem> grid) : IGridColumnLayout<TItem>
 {
     internal const double MinimumColumnWidth = 48d;
 
@@ -26,7 +26,7 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     private readonly Dictionary<string, string?> _columnWidths = new(StringComparer.Ordinal);
 
     /// <summary>The widths chosen by the reader, by column key.</summary>
-    internal IReadOnlyDictionary<string, string?> Widths => _columnWidths;
+    public IReadOnlyDictionary<string, string?> Widths => _columnWidths;
 
     /// <summary>
     /// The width of a column: the reader's choice, else its declared width. With content sizing the declared
@@ -35,10 +35,10 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     internal string? WidthOf(OmniDataGridColumnDefinition<TItem> column) =>
         _columnWidths.GetValueOrDefault(column.Key, grid.SizesToContent ? null : column.Width);
 
-    internal void Forget(string key) => _columnWidths.Remove(key);
+    public void Forget(string key) => _columnWidths.Remove(key);
 
     /// <summary>Replaces the widths with the ones restored from the persisted state.</summary>
-    internal void Restore(IEnumerable<KeyValuePair<string, string?>> widths)
+    public void Restore(IEnumerable<KeyValuePair<string, string?>> widths)
     {
         _columnWidths.Clear();
         foreach (var (columnKey, width) in widths)
@@ -52,7 +52,7 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     internal bool IsAutoFit(OmniDataGridColumnDefinition<TItem> column) => column.AutoFit ?? grid.AllowColumnAutoFit;
 
     // The trailing-edge handle serves both gestures, so it is there as soon as either one is allowed.
-    internal bool HasEdgeHandle(OmniDataGridColumnDefinition<TItem> column) => IsResizable(column) || IsAutoFit(column);
+    public bool HasEdgeHandle(OmniDataGridColumnDefinition<TItem> column) => IsResizable(column) || IsAutoFit(column);
 
     internal int ResizeAriaValueNow(OmniDataGridColumnDefinition<TItem> column) => (int)Math.Round(Math.Clamp(
         ParseWidth(WidthOf(column)),
@@ -66,7 +66,7 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     /// once the viewport is narrower than their sum: they collapsed to zero, titles and filters
     /// piled on top of each other. Below this width the viewport scrolls sideways instead.
     /// </summary>
-    internal string TableMinimumWidth()
+    public string TableMinimumWidth()
     {
         // Content sizing: a column's floor is its content, which only the script can measure (it adds the sum
         // to this minimum), so a column without a width or a minimum counts for nothing here, not for the
@@ -112,13 +112,13 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Every width input of the visible columns in one value, so a change re-runs the layout interop.</summary>
-    internal string Signature() => string.Join(
+    public string Signature() => string.Join(
         '|',
         grid.ColumnSet.VisibleColumns.Select(column =>
             $"{column.Key}:{WidthOf(column)}:{column.MinWidth}:{column.Frozen}").Append(grid.ColumnSizing.ToString()));
 
     /// <summary>The column specifications the script applies to the column elements.</summary>
-    internal object Specs() => grid.ColumnSet.VisibleColumns.Select(column => new
+    public object Specs() => grid.ColumnSet.VisibleColumns.Select(column => new
     {
         key = column.Key,
         width = WidthOf(column),
@@ -152,7 +152,7 @@ internal sealed class GridColumnLayout<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>The distinct texts of a column without a template over every loaded row, bounded as <see cref="AutoFitTexts"/> says; null for a templated column.</summary>
-    internal string[]? LoadedTexts(OmniDataGridColumnDefinition<TItem> column)
+    public string[]? LoadedTexts(OmniDataGridColumnDefinition<TItem> column)
     {
         if (column.Template is not null)
         {

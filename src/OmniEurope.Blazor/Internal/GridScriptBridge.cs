@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// the gestures and observers attached to the viewport and detached on disposal, the pass run after
 /// each render and the wait for the images of the rows.
 /// </summary>
-internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsyncDisposable
+internal sealed class GridScriptBridge<TItem>(IGridHost<TItem> grid) : IGridScriptBridge, IAsyncDisposable
 {
     private const string GridModulePath = OmniModules.Grid;
 
@@ -34,13 +34,13 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     private bool _renderReady;
 
     /// <summary>The module, or null while nothing has needed it.</summary>
-    internal IJSObjectReference? Module => _gridModule;
+    public IJSObjectReference? Module => _gridModule;
 
     /// <summary>Whether the first content-sizing observer was attached successfully.</summary>
     internal bool ContentFitAttached => _contentFitAttached;
 
     /// <summary>The module, imported on first use.</summary>
-    internal async Task<IJSObjectReference> ModuleAsync() =>
+    public async Task<IJSObjectReference> ModuleAsync() =>
         _gridModule ??= await OmniScriptModule.ImportAsync(grid.JavaScript, GridModulePath);
 
     private DotNetObjectReference<GridInteropBridge<TItem>> SelfReference => _selfReference ??= DotNetObjectReference.Create(new GridInteropBridge<TItem>(grid));
@@ -50,16 +50,16 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     // Waiting for the images of rows already there. The headers always stay and the LoadingContent sits in
     // a row under them, while the rows load and while their images do: a veil over the whole grid hid the
     // headers, against the shared acceptance rule (RET-002 §3.8).
-    internal bool Veiled => Preparing && !grid.View.Loading;
+    public bool Veiled => Preparing && !grid.View.Loading;
 
     /// <summary>Whether Enter on a resize handle can fit its column to content.</summary>
     // The resize gesture is attached only once the module is loaded.
-    internal bool CanAutoFit => _resizeAttached;
+    public bool CanAutoFit => _resizeAttached;
 
-    internal Task AutoFitColumnAsync(string key) => _gridModule!.InvokeVoidAsync("autoFitColumn", grid.Viewport, key).AsTask();
+    public Task AutoFitColumnAsync(string key) => _gridModule!.InvokeVoidAsync("autoFitColumn", grid.Viewport, key).AsTask();
 
     /// <summary>Scrolls the viewport to an offset; nothing while the script is not loaded.</summary>
-    internal async Task ScrollToOffsetAsync(double offset)
+    public async Task ScrollToOffsetAsync(double offset)
     {
         if (_gridModule is not null)
         {
@@ -132,7 +132,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     /// Turns on, at the first focus of a row, the page keys of the focus module: Up, Down, Home and End
     /// between the rows that take the focus (rows marked <c>data-omni-row-nav</c>).
     /// </summary>
-    internal async Task EnsureRowKeysAsync()
+    public async Task EnsureRowKeysAsync()
     {
         if (_rowKeysEnabled)
         {
@@ -290,7 +290,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     }
 
     /// <summary>Gives the focus back to an arrow of a column moved from the chooser (see <see cref="GridColumnChooser{TItem}"/>).</summary>
-    internal async Task FocusMoveControlAsync(Microsoft.AspNetCore.Components.ElementReference list, string key, int step)
+    public async Task FocusMoveControlAsync(Microsoft.AspNetCore.Components.ElementReference list, string key, int step)
     {
         var module = await ModuleAsync();
         await module.InvokeVoidAsync("focusMoveControl", list, key, step);
@@ -325,7 +325,7 @@ internal sealed class GridScriptBridge<TItem>(OmniDataGrid<TItem> grid) : IAsync
     /// Closes any open header filter popover after a suggestion was chosen in one of them, when the
     /// grid was told to hide the menu on select.
     /// </summary>
-    internal async Task CloseFilterMenusAsync()
+    public async Task CloseFilterMenusAsync()
     {
         if (!grid.HideFilterMenuOnSelect || !_filterMenuAttached || _gridModule is null)
         {

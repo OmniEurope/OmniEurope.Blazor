@@ -9,21 +9,21 @@ namespace OmniEurope.Blazor.Internal;
 /// keyboard path of the header drag, which lands here too), the reset of the layout, and the polite
 /// announcement of each change for screen readers.
 /// </summary>
-internal sealed class GridColumnChooser<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridColumnChooser<TItem>(IGridHost<TItem> grid) : IGridColumnChooser, IGridColumnChooserModel<TItem>
 {
     private string _announcement = string.Empty;
     private bool _announceToggle;
     private (string Key, int Step)? _focusRequest;
-    private readonly GridColumnChooserView<TItem> _view = new(grid);
+    private GridColumnChooserView<TItem>? _view;
 
     /// <summary>Whether the header bar carries the chooser.</summary>
-    internal bool Shown => grid.AllowColumnHide || grid.AllowColumnReorder;
+    public bool Shown => grid.AllowColumnHide || grid.AllowColumnReorder;
 
     /// <summary>The chooser itself, at the end of the header bar.</summary>
-    internal RenderFragment View => _view.Render;
+    internal RenderFragment View => (_view ??= new(grid, this)).Render;
 
     /// <summary>The list of the open chooser, where the focus goes back after a move.</summary>
-    internal ElementReference List { get; set; }
+    public ElementReference List { get; set; }
 
     /// <summary>The last change, read by the grid's live region.</summary>
     internal string Announcement => _announcement;
@@ -33,35 +33,31 @@ internal sealed class GridColumnChooser<TItem>(OmniDataGrid<TItem> grid)
     /// columns, a column that cannot be hidden (<c>Hideable</c> false) is not listed; while it also moves
     /// them, every column is, so each one can be moved.
     /// </summary>
-    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Entries =>
+    public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Entries =>
         [.. grid.Arrangement.Arrange(grid.ColumnSet.EffectiveColumns).Where(column => grid.AllowColumnReorder || column.Hideable)];
 
-    /// <summary>The name of a column in the chooser: its title, else its key (a column titled by a template).</summary>
-    internal static string NameOf(OmniDataGridColumnDefinition<TItem> column) =>
-        string.IsNullOrWhiteSpace(column.Title) ? column.Key : column.Title;
-
     /// <summary>Whether a column shows on the grid, so its box tells what the reader sees (a kept last column included).</summary>
-    internal bool IsVisible(OmniDataGridColumnDefinition<TItem> column) => grid.ColumnSet.VisibleColumns.Contains(column);
+    public bool IsVisible(OmniDataGridColumnDefinition<TItem> column) => grid.ColumnSet.VisibleColumns.Contains(column);
 
     /// <summary>A box can change a hideable column, except the last visible one, which would leave no column.</summary>
-    internal bool CanToggle(OmniDataGridColumnDefinition<TItem> column) =>
+    public bool CanToggle(OmniDataGridColumnDefinition<TItem> column) =>
         column.Hideable && !(IsVisible(column) && grid.ColumnSet.VisibleColumns.Count <= 1);
 
     /// <summary>Whether an arrow can move a column: a neighbour in the list, of the same frozen group.</summary>
-    internal bool CanMove(OmniDataGridColumnDefinition<TItem> column, int step) => Neighbour(column, step) is not null;
+    public bool CanMove(OmniDataGridColumnDefinition<TItem> column, int step) => Neighbour(column, step) is not null;
 
-    internal async Task ToggleAsync(OmniDataGridColumnDefinition<TItem> column, bool visible)
+    public async Task ToggleAsync(OmniDataGridColumnDefinition<TItem> column, bool visible)
     {
         if (!grid.AllowColumnHide || !column.Hideable || !await grid.Arrangement.SetVisibleAsync(column.Key, visible))
         {
             return;
         }
 
-        Announce(grid.Text(visible ? "GridColumnShown" : "GridColumnHidden", NameOf(column)));
+        Announce(grid.Text(visible ? "GridColumnShown" : "GridColumnHidden", GridColumnChooserView<TItem>.NameOf(column)));
     }
 
     /// <summary>Moves a column past its neighbour in the list (-1 to the left, 1 to the right), keeping the focus on its arrows.</summary>
-    internal async Task MoveAsync(OmniDataGridColumnDefinition<TItem> column, int step)
+    public async Task MoveAsync(OmniDataGridColumnDefinition<TItem> column, int step)
     {
         if (Neighbour(column, step) is not { } neighbour)
         {
@@ -91,7 +87,7 @@ internal sealed class GridColumnChooser<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>The reset action of the chooser (<c>ShowResetLayout</c>).</summary>
-    internal async Task ResetAsync()
+    public async Task ResetAsync()
     {
         await grid.ResetLayoutAsync();
         Announce(grid.Text("GridLayoutReset"));
@@ -115,7 +111,7 @@ internal sealed class GridColumnChooser<TItem>(OmniDataGrid<TItem> grid)
         var visible = grid.ColumnSet.VisibleColumns;
         var entries = Entries;
         var place = IndexOf(visible, column) is var shown and >= 0 ? (Index: shown, visible.Count) : (Index: IndexOf(entries, column), entries.Count);
-        Announce(grid.Text("GridColumnMoved", NameOf(column), place.Index + 1, place.Count));
+        Announce(grid.Text("GridColumnMoved", GridColumnChooserView<TItem>.NameOf(column), place.Index + 1, place.Count));
         // A move always leaves an order of the reader.
         await grid.OnColumnReorder.InvokeAsync(new OmniDataGridColumnOrderChange(column.Key, [.. grid.Arrangement.Order!]));
     }

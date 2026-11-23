@@ -7,18 +7,18 @@ namespace OmniEurope.Blazor.Internal;
 /// Flattens a grid's current view into the exact sequence of rows its markup emits: flat or grouped
 /// rows, the virtual window of rows, or the slots of a grouped or detailed virtualized grid.
 /// </summary>
-internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridRowBuilder<TItem>(IGridHost<TItem> grid) : IGridRowBuilder<TItem>
 {
     private IReadOnlyList<GridRenderRow<TItem>>? _slots;
     private bool _slotsRebuilt;
     private int _slotShape;
 
-    internal IReadOnlyList<GridRenderRow<TItem>> Slots => _slots ??= BuildSlots();
+    public IReadOnlyList<GridRenderRow<TItem>> Slots => _slots ??= BuildSlots();
 
-    internal void ForgetSlots() => _slots = null;
+    public void ForgetSlots() => _slots = null;
 
     /// <summary>Whether the slots changed shape since the last call, which then forgets it.</summary>
-    internal bool TakeSlotsRebuilt()
+    public bool TakeSlotsRebuilt()
     {
         var rebuilt = _slotsRebuilt;
         _slotsRebuilt = false;
@@ -55,7 +55,7 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Flattens the current view into the exact sequence of rows the markup emits.</summary>
-    internal IReadOnlyList<GridRenderRow<TItem>> RenderRows()
+    public IReadOnlyList<GridRenderRow<TItem>> RenderRows()
     {
         var range = grid.Virtual.Range;
         if (grid.View.StructuredVirtual)
@@ -97,7 +97,7 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
         return groups.Count > 0 ? grid.Grouping.GroupedRows(groups, visible) : FlatRows(visible);
     }
 
-    internal IReadOnlyList<GridRenderRow<TItem>> FlatRows(IReadOnlyList<TItem> items)
+    public IReadOnlyList<GridRenderRow<TItem>> FlatRows(IReadOnlyList<TItem> items)
     {
         var rows = new List<GridRenderRow<TItem>>(items.Count);
         var index = 0;
@@ -128,7 +128,7 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
     /// the index it is rendered under, so a row callback that reads the index vetoes the same row in the
     /// header as in the body. A row of a closed group is not rendered: it keeps its position on the page.
     /// </summary>
-    internal IEnumerable<GridRenderRow<TItem>> PageRows()
+    public IEnumerable<GridRenderRow<TItem>> PageRows()
     {
         var items = grid.View.VisibleItems;
         if (grid.RowRender is null || items.Count == 0)
@@ -147,7 +147,7 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>A row of an item, with the class and the controls the host's row callback gives it.</summary>
-    internal GridRenderRow<TItem> Describe(TItem item, int index, IReadOnlyList<GridGroupHeader> headers, bool showDetail)
+    public GridRenderRow<TItem> Describe(TItem item, int index, IReadOnlyList<GridGroupHeader> headers, bool showDetail)
     {
         if (grid.RowRender is null)
         {
@@ -160,7 +160,7 @@ internal sealed class GridRowBuilder<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>The items of the rows on screen.</summary>
-    internal IEnumerable<TItem> CurrentRows()
+    public IEnumerable<TItem> CurrentRows()
     {
         var range = grid.Virtual.Range;
         return grid.View.StructuredVirtual

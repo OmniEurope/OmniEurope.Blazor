@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Internal;
 /// than public API, as <see cref="KanbanInteropBridge"/> does for the board.
 /// </summary>
 /// <typeparam name="TItem">The type of the grid's items.</typeparam>
-internal sealed class GridInteropBridge<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridInteropBridge<TItem>(IGridHost<TItem> grid)
 {
     /// <summary>The viewport left its horizontal start, or came back to it.</summary>
     [JSInvokable]
