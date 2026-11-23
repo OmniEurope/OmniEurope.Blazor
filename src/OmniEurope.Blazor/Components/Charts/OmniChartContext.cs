@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Components;
 /// axes, grid lines, legend and titles all read their coordinates here, so they line up by
 /// construction rather than by each repeating the same constants.
 /// </summary>
-internal sealed class OmniChartContext
+internal sealed class OmniChartContext : IChartBandSource
 {
     /// <summary>
     /// More categories than this make a time series: without an explicit aspect ratio the chart
@@ -600,6 +600,30 @@ internal sealed class OmniChartContext
 
     /// <summary>A horizontal bar inside its category band, see <see cref="ChartBandLayout.BarRect"/>.</summary>
     internal (double X, double Y, double Width, double Height) BarRect(object owner, int index, bool stacked) => _bands.BarRect(owner, index, stacked);
+
+    double IChartBandSource.PlotTop => PlotTop;
+
+    double IChartBandSource.PlotBottom => PlotBottom;
+
+    IEnumerable<SeriesRegistration> IChartBandSource.DrawnSeries => DrawnSeries;
+
+    int IChartBandSource.FirstCategory => FirstCategory;
+
+    int IChartBandSource.CategoryCount => CategoryCount;
+
+    double IChartBandSource.PlotLeft => PlotLeft;
+
+    double IChartBandSource.PlotRight => PlotRight;
+
+    SeriesRegistration IChartBandSource.GetSeries(object owner) => GetSeries(owner);
+
+    bool IChartBandSource.InRange(int index) => InRange(index);
+
+    string IChartBandSource.Project(double x, double y) => Project(x, y);
+
+    double IChartBandSource.ValueToY(double value) => ValueToY(value);
+
+    double IChartBandSource.ValueToX(double value) => ValueToX(value);
 
     /// <summary>
     /// The rectangles of the column or bar series drawn on <paramref name="data"/>, one per point, with

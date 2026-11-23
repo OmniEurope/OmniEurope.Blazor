@@ -4,9 +4,9 @@ namespace OmniEurope.Blazor.Components;
 /// The shapes a chart draws inside its category bands: the outline of an area, a column or a bar, and
 /// the place each series takes among those sharing a band (columns side by side, stacked series in one
 /// place, each value starting where the previous one ended). It reads the registrations, the plot
-/// rectangle and the value scale of the <see cref="OmniChartContext"/> it is built on.
+/// rectangle and the value scale of the chart (<see cref="IChartBandSource"/>) it is built on.
 /// </summary>
-internal sealed class ChartBandLayout(OmniChartContext chart)
+internal sealed class ChartBandLayout(IChartBandSource chart)
 {
     /// <summary>Share of a category band the columns of that category occupy together.</summary>
     private const double BandFill = 0.8;
@@ -66,7 +66,7 @@ internal sealed class ChartBandLayout(OmniChartContext chart)
         var series = chart.GetSeries(owner);
         var point = series.Data[index];
         var (slot, slots) = SlotOf(series, OmniChartSeriesKind.Bar, OmniChartSeriesKind.StackedBar);
-        var (start, height) = SlotSpan(OmniChartContext.PlotTop, OmniChartContext.PlotBottom, index, slot, slots);
+        var (start, height) = SlotSpan(chart.PlotTop, chart.PlotBottom, index, slot, slots);
         var from = stacked ? StackBaseline(series, index, point.Y) : 0;
         var first = chart.ValueToX(from);
         var second = chart.ValueToX(from + point.Y);

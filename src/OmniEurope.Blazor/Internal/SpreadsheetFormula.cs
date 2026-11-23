@@ -14,22 +14,28 @@ namespace OmniEurope.Blazor.Internal;
 /// Arguments are separated by a comma or a semicolon, so a formula written with either spreadsheet
 /// convention reads the same. Functions: SUM, AVERAGE, MIN, MAX, COUNT, ROUND and ABS, also under
 /// their French names SOMME, MOYENNE, NB and ARRONDI. Nesting, through brackets, signs, arguments
-/// and the cells a formula reads, is bounded by <see cref="SpreadsheetEvaluator.MaxDepth"/>: past it
+/// and the cells a formula reads, is bounded by <see cref="MaxDepth"/>: past it
 /// the formula reads <see cref="OmniSpreadsheetValue.SyntaxError"/> instead of exhausting the stack.
 /// </remarks>
 internal sealed class SpreadsheetFormula
 {
+    /// <summary>
+    /// How deep a computation may nest, counting brackets, signs and arguments within a formula and
+    /// the chain of cells formulas read: far past any sheet written by hand, far below the stack.
+    /// </summary>
+    internal const int MaxDepth = 256;
+
     private readonly string _text;
-    private readonly SpreadsheetEvaluator _cells;
+    private readonly ISpreadsheetCells _cells;
     private int _position;
 
-    private SpreadsheetFormula(string text, SpreadsheetEvaluator cells)
+    private SpreadsheetFormula(string text, ISpreadsheetCells cells)
     {
         _text = text;
         _cells = cells;
     }
 
-    internal static OmniSpreadsheetValue Evaluate(string formula, SpreadsheetEvaluator cells)
+    internal static OmniSpreadsheetValue Evaluate(string formula, ISpreadsheetCells cells)
     {
         var reader = new SpreadsheetFormula(formula, cells);
         try
@@ -92,7 +98,7 @@ internal sealed class SpreadsheetFormula
     // here, so this one count bounds the depth of the whole descent.
     private OmniSpreadsheetValue Unary()
     {
-        if (++_cells.Depth > SpreadsheetEvaluator.MaxDepth)
+        if (++_cells.Depth > MaxDepth)
         {
             _cells.Depth--;
             throw new FormatException();
@@ -400,7 +406,7 @@ internal sealed class SpreadsheetFormula
                 return true;
             case OmniSpreadsheetValueKind.Empty:
                 return true;
-            case OmniSpreadsheetValueKind.Text when SpreadsheetEvaluator.TryReadNumber(value.Text, out number):
+            case OmniSpreadsheetValueKind.Text when SpreadsheetNumber.TryRead(value.Text, out number):
                 return true;
             case OmniSpreadsheetValueKind.Error:
                 error = value;

@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Internal;
 /// writes and the synchronization; this collaborator calls back into it to track and raise.
 /// </summary>
 internal sealed class PreferenceReads(
-    OmniPreferences owner,
+    IPreferenceReadsHost owner,
     PreferenceStoreAccess? storeAccess,
     PreferenceSynchronizer? sync,
     SignedOutPreferences signedOut,

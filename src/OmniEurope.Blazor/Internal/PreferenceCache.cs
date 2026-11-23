@@ -26,6 +26,9 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope, b
     /// <summary>The scope of the signed-out visitor's cache; a store may not use it for a user in <see cref="Components.OmniSignedOutPreferences.Browser"/> mode.</summary>
     internal const string VisitorScope = "visitor";
 
+    /// <summary>The scope a store answers while no user is signed in, published as <see cref="Components.OmniPreferences.NoUserScope"/>.</summary>
+    internal const string NoUserScope = "";
+
     internal const string KeyPrefix = "omni:pref:";
     internal const string SyncPrefix = "omni:pref-sync:";
     internal const string SyncedPrefix = "omni:pref-synced:";
@@ -37,7 +40,7 @@ internal sealed class PreferenceCache(IJSObjectReference module, string scope, b
     internal bool IsVisitor { get; } = isVisitor;
 
     /// <summary>What the store answers as its scope while this cache is the one in use: the user's scope, or <see cref="Components.OmniPreferences.NoUserScope"/> for the visitor.</summary>
-    internal string StoreScope { get; } = isVisitor ? Components.OmniPreferences.NoUserScope : scope;
+    internal string StoreScope { get; } = isVisitor ? NoUserScope : scope;
 
     /// <summary>The visitor's cache that copies every write of this one; null when there is none.</summary>
     internal PreferenceCache? Mirror { get; } = mirror;
