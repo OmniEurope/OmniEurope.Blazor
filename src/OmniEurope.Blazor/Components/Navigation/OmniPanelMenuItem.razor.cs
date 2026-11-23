@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Components;
 /// a label, or a group that folds its child entries. The entry matching the current route is marked
 /// current and the groups holding it unfold.
 /// </summary>
-public partial class OmniPanelMenuItem
+public partial class OmniPanelMenuItem : Internal.IPanelMenuSibling, Internal.IPanelMenuGroupOwner
 {
     private readonly string _childrenId = $"omni-panel-menu-children-{Guid.NewGuid():N}";
 
@@ -114,7 +114,7 @@ public partial class OmniPanelMenuItem
     /// exact match, which is the longest address that can match, beats a prefix. Null when the entry
     /// does not match at all.
     /// </summary>
-    internal int? RouteRank => IsActive ? AddressRank : null;
+    private int? RouteRank => IsActive ? AddressRank : null;
 
     private int AddressRank => Uri.UnescapeDataString(Navigation.ToAbsoluteUri(SafeHref!).AbsolutePath).Trim('/').Length;
 
@@ -150,11 +150,11 @@ public partial class OmniPanelMenuItem
     private bool HasMatchingDescendant => _ownContext?.Siblings.AnyMatchesFilter(Filter) ?? false;
 
     /// <summary>Whether this entry, or an entry nested under it, matches <paramref name="filter"/>.</summary>
-    internal bool MatchesFilterWithin(OmniPanelMenuFilter filter) =>
+    private bool MatchesFilterWithin(OmniPanelMenuFilter filter) =>
         filter.Matches(Text) || (_ownContext?.Siblings.AnyMatchesFilter(filter) ?? false);
 
     /// <summary>Whether this entry, or a group above it, matches <paramref name="filter"/>: all that is under such a group is shown.</summary>
-    internal bool InMatchedBranch(OmniPanelMenuFilter filter) =>
+    private bool InMatchedBranch(OmniPanelMenuFilter filter) =>
         filter.Matches(Text) || (ParentGroup?.Owner?.InMatchedBranch(filter) ?? false);
 
     // Hidden through the attribute rather than left out of the markup: a group has to keep its children
@@ -181,11 +181,20 @@ public partial class OmniPanelMenuItem
         }
     }
 
-    internal void RefreshForFilter()
+    private void RefreshForFilter()
     {
         _ = InvokeAsync(StateHasChanged);
         NotifyFilterChanged();
     }
+
+    // The level and the group this entry sits in read it through these contracts, so neither names the entry.
+    int? Internal.IPanelMenuSibling.RouteRank => RouteRank;
+
+    bool Internal.IPanelMenuSibling.MatchesFilterWithin(OmniPanelMenuFilter filter) => MatchesFilterWithin(filter);
+
+    bool Internal.IPanelMenuGroupOwner.InMatchedBranch(OmniPanelMenuFilter filter) => InMatchedBranch(filter);
+
+    void Internal.IPanelMenuGroupOwner.RefreshForFilter() => RefreshForFilter();
 
     private string ChildrenId => _childrenId;
 

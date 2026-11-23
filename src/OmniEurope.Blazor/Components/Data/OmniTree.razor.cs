@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="Value"/>, whose items can be dragged onto one another (<see cref="AllowDragDrop"/>).
 /// </summary>
 /// <typeparam name="TValue">The type of the values the items stand for, compared with the default equality.</typeparam>
-public partial class OmniTree<TValue>
+public partial class OmniTree<TValue> : Internal.ITreeDragHost<TValue>
 {
     private OmniTreeContext<TValue> _context = default!;
     private IReadOnlyList<TValue>? _lastReceivedValues;
@@ -98,7 +98,16 @@ public partial class OmniTree<TValue>
         }
     }
 
-    internal void Redraw() => _ = InvokeAsync(StateHasChanged);
+    // The items read the tree through their context, which holds it through this contract only.
+    bool Internal.ITreeDragHost<TValue>.AllowDragDrop => AllowDragDrop;
+
+    Func<TValue, bool>? Internal.ITreeDragHost<TValue>.CanDrag => CanDrag;
+
+    Func<TValue, TValue, bool>? Internal.ITreeDragHost<TValue>.CanDrop => CanDrop;
+
+    Task Internal.ITreeDragHost<TValue>.ReportDropAsync(OmniTreeDropEventArgs<TValue> drop) => OnItemDropped.InvokeAsync(drop);
+
+    void Internal.ITreeDragHost<TValue>.Redraw() => _ = InvokeAsync(StateHasChanged);
 
     /// <summary>
     /// Mirrors the horizontal arrows of a right-to-left page before .NET reads them (the script is imported

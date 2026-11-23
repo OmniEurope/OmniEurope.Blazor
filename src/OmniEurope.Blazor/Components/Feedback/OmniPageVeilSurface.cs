@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Components;
 internal sealed class OmniPageVeilSurface : ComponentBase, IDisposable
 {
     [Parameter, EditorRequired]
-    public OmniPageVeil Veil { get; set; } = default!;
+    public Internal.IPageVeilSurfaceSource Veil { get; set; } = default!;
 
     protected override void OnInitialized() => Veil.Changed += Redraw;
 

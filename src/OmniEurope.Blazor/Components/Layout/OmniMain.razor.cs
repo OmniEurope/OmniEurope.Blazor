@@ -25,7 +25,7 @@ public partial class OmniMain
     private bool _watching;
     private bool _disposed;
     private AppearanceFollower? _shared;
-    private readonly List<OmniPageVeil> _veils = [];
+    private readonly List<Internal.IHostedPageVeil> _veils = [];
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
@@ -143,14 +143,14 @@ public partial class OmniMain
     }
 
     /// <summary>Holds a page veil declared in this main area, which draws it over the area instead of in place.</summary>
-    internal void AddVeil(OmniPageVeil veil)
+    internal void AddVeil(Internal.IHostedPageVeil veil)
     {
         _veils.Add(veil);
         _ = InvokeAsync(StateHasChanged);
     }
 
     /// <summary>Lets go of a page veil that was disposed or moved to another scope.</summary>
-    internal void RemoveVeil(OmniPageVeil veil)
+    internal void RemoveVeil(Internal.IHostedPageVeil veil)
     {
         if (_veils.Remove(veil) && !_disposed)
         {

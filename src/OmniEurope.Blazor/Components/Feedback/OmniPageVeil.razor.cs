@@ -35,7 +35,7 @@ namespace OmniEurope.Blazor.Components;
 /// under the sidebar drawer.
 /// </para>
 /// </remarks>
-public partial class OmniPageVeil : IDisposable
+public partial class OmniPageVeil : IDisposable, Internal.IHostedPageVeil, Internal.IPageVeilSurfaceSource
 {
     private OmniMain? _host;
 
@@ -110,7 +110,32 @@ public partial class OmniPageVeil : IDisposable
         ? "omni-page-veil--parent"
         : _host is null ? null : _host.Scrollable ? "omni-page-veil--frame" : "omni-page-veil--flow";
 
-    private int OpacityBucket => Math.Clamp((int)(Math.Round(Opacity / 5d, MidpointRounding.AwayFromZero) * 5), 0, 100);
+    // The main area and the element read the veil through these contracts, so neither names the veil.
+    RenderFragment Internal.IHostedPageVeil.Surface => Surface;
+
+    bool Internal.IPageVeilSurfaceSource.Busy => Busy;
+
+    IReadOnlyDictionary<string, object>? Internal.IPageVeilSurfaceSource.AdditionalAttributes => AdditionalAttributes;
+
+    string? Internal.IPageVeilSurfaceSource.Id => Id;
+
+    string Internal.IPageVeilSurfaceSource.RootClass => RootClass;
+
+    bool Internal.IPageVeilSurfaceSource.HasLogo => HasLogo;
+
+    RenderFragment? Internal.IPageVeilSurfaceSource.Logo => Logo;
+
+    string? Internal.IPageVeilSurfaceSource.LogoSource => LogoSource;
+
+    string Internal.IPageVeilSurfaceSource.EffectiveLabel => EffectiveLabel;
+
+    event Action? Internal.IPageVeilSurfaceSource.Changed
+    {
+        add => Changed += value;
+        remove => Changed -= value;
+    }
+
+    private int OpacityBucket =>Math.Clamp((int)(Math.Round(Opacity / 5d, MidpointRounding.AwayFromZero) * 5), 0, 100);
 
     /// <summary>Hands the veil to its main area (or takes it back) and tells the element to draw again.</summary>
     protected override void OnParametersSet()

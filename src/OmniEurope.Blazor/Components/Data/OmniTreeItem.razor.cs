@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>An item of an <see cref="OmniTree{TValue}"/>, with its child items declared or loaded on demand.</summary>
 /// <typeparam name="TValue">The type of the value the item stands for; the same as its tree's.</typeparam>
-public partial class OmniTreeItem<TValue>
+public partial class OmniTreeItem<TValue> : Internal.ITreeNode<TValue>
 {
     private bool _expanded;
     private bool _keyOnButton;
@@ -191,7 +191,7 @@ public partial class OmniTreeItem<TValue>
         }
     }
     /// <summary>Opens or closes the item from its tree (expand or collapse all), loading its children when it opens.</summary>
-    internal async Task SetExpandedAsync(bool expanded)
+    async Task Internal.ITreeNode<TValue>.SetExpandedAsync(bool expanded)
     {
         if (!HasChildren || _expanded == expanded)
         {
@@ -202,10 +202,12 @@ public partial class OmniTreeItem<TValue>
         StateHasChanged();
     }
 
+    TValue Internal.ITreeNode<TValue>.Value => Value;
+
     /// <inheritdoc />
     protected override void OnInitialized() => Context?.Items.Add(this);
 
-    private OmniTree<TValue>? Tree => Context?.Tree;
+    private Internal.ITreeDragHost<TValue>? Tree => Context?.Tree;
 
     private bool CanDragThis => Tree is { AllowDragDrop: true } tree && !Disabled && (tree.CanDrag?.Invoke(Value) ?? true);
 
@@ -214,7 +216,7 @@ public partial class OmniTreeItem<TValue>
         && !ReferenceEquals(dragged, this) && !IsInside(dragged)
         && (tree.CanDrop?.Invoke(dragged.Value, Value) ?? true);
 
-    private bool IsInside(OmniTreeItem<TValue> ancestor)
+    private bool IsInside(Internal.ITreeNode<TValue> ancestor)
     {
         for (var parent = ParentItem; parent is not null; parent = parent.ParentItem)
         {
@@ -287,7 +289,7 @@ public partial class OmniTreeItem<TValue>
         Context.Redraw();
         if (accepted && Tree is { } tree)
         {
-            await tree.OnItemDropped.InvokeAsync(new OmniTreeDropEventArgs<TValue>(dragged.Value, Value));
+            await tree.ReportDropAsync(new OmniTreeDropEventArgs<TValue>(dragged.Value, Value));
         }
     }
 

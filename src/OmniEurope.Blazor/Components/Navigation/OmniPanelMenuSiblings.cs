@@ -8,11 +8,11 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal sealed class OmniPanelMenuSiblings
 {
-    private readonly List<OmniPanelMenuItem> _items = [];
+    private readonly List<Internal.IPanelMenuSibling> _items = [];
 
-    public void Add(OmniPanelMenuItem item) => _items.Add(item);
+    public void Add(Internal.IPanelMenuSibling item) => _items.Add(item);
 
-    public void Remove(OmniPanelMenuItem item) => _items.Remove(item);
+    public void Remove(Internal.IPanelMenuSibling item) => _items.Remove(item);
 
     /// <summary>Whether an entry of this level, or one nested under it, matches the menu's filter.</summary>
     public bool AnyMatchesFilter(OmniPanelMenuFilter filter) => _items.Any(item => item.MatchesFilterWithin(filter));
@@ -21,6 +21,6 @@ internal sealed class OmniPanelMenuSiblings
     /// True when another entry of this level matches the route with a longer address. An exact match is
     /// always the longest address that can match, so it needs no rule of its own.
     /// </summary>
-    public bool IsOutranked(OmniPanelMenuItem item, int rank) =>
+    public bool IsOutranked(Internal.IPanelMenuSibling item, int rank) =>
         _items.Any(other => !ReferenceEquals(other, item) && other.RouteRank > rank);
 }
