@@ -22,20 +22,20 @@ internal interface IOmniSelectableCardGroup
     bool ShowCheckBox { get; }
 
     /// <summary>Adds a card, in rendering order; refuses a choice that is not of the group's value type.</summary>
-    void Register(OmniSelectableCard card);
+    void Register(IOmniSelectableCardEntry card);
 
     /// <summary>Removes a card that left the page.</summary>
-    void Unregister(OmniSelectableCard card);
+    void Unregister(IOmniSelectableCardEntry card);
 
     /// <summary>Whether the card's choice is part of the group's value.</summary>
-    bool IsSelected(OmniSelectableCard card);
+    bool IsSelected(IOmniSelectableCardEntry card);
 
     /// <summary>In a radio group, whether the card is the one Tab reaches (roving tab index).</summary>
-    bool IsTabStop(OmniSelectableCard card);
+    bool IsTabStop(IOmniSelectableCardEntry card);
 
     /// <summary>Picks the card: selects it in a radio group, toggles it in a group of check boxes.</summary>
-    Task PickAsync(OmniSelectableCard card);
+    Task PickAsync(IOmniSelectableCardEntry card);
 
     /// <summary>In a radio group, moves the selection and the focus for an arrow, Home or End key.</summary>
-    Task MoveAsync(OmniSelectableCard card, string key);
+    Task MoveAsync(IOmniSelectableCardEntry card, string key);
 }

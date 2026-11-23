@@ -19,7 +19,7 @@ namespace OmniEurope.Blazor.Components;
 /// </typeparam>
 public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectableCardGroup
 {
-    private readonly List<OmniSelectableCard> _cards = [];
+    private readonly List<IOmniSelectableCardEntry> _cards = [];
     private bool _pageKeys;
 
     /// <summary>Cards drawn from options: the text is the title, a disabled option a disabled card.</summary>
@@ -106,7 +106,7 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         return Internal.OmniPageKeys.EnableAsync(JavaScript);
     }
 
-    void IOmniSelectableCardGroup.Register(OmniSelectableCard card)
+    void IOmniSelectableCardGroup.Register(IOmniSelectableCardEntry card)
     {
         if (!TryChoice(card, out _))
         {
@@ -118,19 +118,19 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         _cards.Add(card);
     }
 
-    void IOmniSelectableCardGroup.Unregister(OmniSelectableCard card) => _cards.Remove(card);
+    void IOmniSelectableCardGroup.Unregister(IOmniSelectableCardEntry card) => _cards.Remove(card);
 
-    bool IOmniSelectableCardGroup.IsSelected(OmniSelectableCard card) => IsSelected(card);
+    bool IOmniSelectableCardGroup.IsSelected(IOmniSelectableCardEntry card) => IsSelected(card);
 
-    bool IOmniSelectableCardGroup.IsTabStop(OmniSelectableCard card) => ReferenceEquals(TabStop(), card);
+    bool IOmniSelectableCardGroup.IsTabStop(IOmniSelectableCardEntry card) => ReferenceEquals(TabStop(), card);
 
-    Task IOmniSelectableCardGroup.PickAsync(OmniSelectableCard card)
+    Task IOmniSelectableCardGroup.PickAsync(IOmniSelectableCardEntry card)
     {
         Pick(card);
         return Task.CompletedTask;
     }
 
-    async Task IOmniSelectableCardGroup.MoveAsync(OmniSelectableCard card, string key)
+    async Task IOmniSelectableCardGroup.MoveAsync(IOmniSelectableCardEntry card, string key)
     {
         // Only a card of a radio group calls it (OmniSelectableCard.HandleKeyDownAsync).
         if (key is not ("ArrowRight" or "ArrowDown" or "ArrowLeft" or "ArrowUp" or "Home" or "End"))
@@ -157,7 +157,7 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         await target.FocusAsync();
     }
 
-    private void Pick(OmniSelectableCard card)
+    private void Pick(IOmniSelectableCardEntry card)
     {
         // A read-only group never gets here either: its cards refuse the click and the arrows (IsReadOnly).
         // A disabled card never gets here: it refuses its own click, and the arrows skip it. Its choice may
@@ -190,7 +190,7 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         RefreshCards();
     }
 
-    private bool IsSelected(OmniSelectableCard card) => TryChoice(card, out var choice) && Contains(choice);
+    private bool IsSelected(IOmniSelectableCardEntry card) => TryChoice(card, out var choice) && Contains(choice);
 
     private bool Contains(TValue value) => SelectedValues().Contains(value, EqualityComparer<TValue>.Default);
 
@@ -200,12 +200,12 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         : CurrentValue is TValue current ? [current] : default(TValue) is null ? [default!] : [];
 
     /// <summary>The card Tab reaches in a radio group: the chosen available card, else the first available one.</summary>
-    private OmniSelectableCard? TabStop() =>
+    private IOmniSelectableCardEntry? TabStop() =>
         _cards.FirstOrDefault(card => !card.IsDisabled && IsSelected(card))
         ?? _cards.FirstOrDefault(card => !card.IsDisabled)
         ?? _cards.FirstOrDefault();
 
-    private static bool TryChoice(OmniSelectableCard card, out TValue value)
+    private static bool TryChoice(IOmniSelectableCardEntry card, out TValue value)
     {
         switch (card.Choice)
         {

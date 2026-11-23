@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="ValueChanged"/> and <see cref="Multiple"/> are then the group's. The card is one button:
 /// Enter or Space picks it.
 /// </summary>
-public partial class OmniSelectableCard
+public partial class OmniSelectableCard : IOmniSelectableCardEntry
 {
     private ElementReference _element;
     private IOmniSelectableCardGroup? _registeredIn;
@@ -115,6 +115,8 @@ public partial class OmniSelectableCard
 
     internal bool IsDisabled => Disabled || Group?.Disabled == true;
 
+    bool IOmniSelectableCardEntry.IsDisabled => IsDisabled;
+
     internal bool IsReadOnly => ReadOnly || Group?.ReadOnly == true;
 
     // Only a radio group keeps a single card in the tab order; elsewhere every card is a plain button.
@@ -133,9 +135,9 @@ public partial class OmniSelectableCard
         OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
     }
 
-    internal ValueTask FocusAsync() => _element.FocusAsync();
+    ValueTask IOmniSelectableCardEntry.FocusAsync() => _element.FocusAsync();
 
-    internal void Refresh() => StateHasChanged();
+    void IOmniSelectableCardEntry.Refresh() => StateHasChanged();
 
     private Task ToggleAsync()
     {

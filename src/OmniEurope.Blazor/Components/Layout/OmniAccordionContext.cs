@@ -6,21 +6,21 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal sealed class OmniAccordionContext
 {
-    private readonly List<OmniAccordionItem> _items = [];
+    private readonly List<IOmniAccordionRow> _items = [];
 
     public bool Multiple { get; set; }
     public bool KeepContent { get; set; }
     public OmniHeadingLevel Level { get; set; } = OmniHeadingLevel.H3;
 
-    public void Register(OmniAccordionItem item) => _items.Add(item);
+    public void Register(IOmniAccordionRow item) => _items.Add(item);
 
-    public void Unregister(OmniAccordionItem item) => _items.Remove(item);
+    public void Unregister(IOmniAccordionRow item) => _items.Remove(item);
 
     /// <summary>
     /// In single mode, closes every other open row of the accordion, each reporting its own
     /// <see cref="OmniAccordionItem.ExpandedChanged"/> so a bound value stays true to the screen.
     /// </summary>
-    public async Task ClosePeersAsync(OmniAccordionItem opened)
+    public async Task ClosePeersAsync(IOmniAccordionRow opened)
     {
         if (Multiple)
         {

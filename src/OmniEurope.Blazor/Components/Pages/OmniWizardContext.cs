@@ -6,21 +6,21 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal sealed class OmniWizardContext(Action changed)
 {
-    private readonly List<OmniWizardStep> _steps = [];
+    private readonly List<IOmniWizardStepView> _steps = [];
 
-    internal IReadOnlyList<OmniWizardStep> Steps => _steps;
+    internal IReadOnlyList<IOmniWizardStepView> Steps => _steps;
 
     internal int CurrentIndex { get; set; }
 
-    internal bool IsCurrent(OmniWizardStep step) => _steps.IndexOf(step) == CurrentIndex;
+    internal bool IsCurrent(IOmniWizardStepView step) => _steps.IndexOf(step) == CurrentIndex;
 
-    internal void Register(OmniWizardStep step)
+    internal void Register(IOmniWizardStepView step)
     {
         _steps.Add(step);
         changed();
     }
 
-    internal void Unregister(OmniWizardStep step)
+    internal void Unregister(IOmniWizardStepView step)
     {
         if (_steps.Remove(step))
         {
