@@ -47,7 +47,7 @@ namespace OmniEurope.Blazor.Components;
 /// and later changes stay local.
 /// </para>
 /// </remarks>
-public sealed class OmniPreferences : IAsyncDisposable
+public sealed class OmniPreferences : IAsyncDisposable, IPreferenceReadsHost
 {
     internal const string LocalScope = "local";
 
@@ -59,7 +59,7 @@ public sealed class OmniPreferences : IAsyncDisposable
     /// preferences are then kept in the browser, never in the store). Nothing is logged. The scope is asked again
     /// at the next read or write; <see cref="ResetUserAsync"/> applies at once the preferences of the user who signs in.
     /// </summary>
-    public const string NoUserScope = "";
+    public const string NoUserScope = PreferenceCache.NoUserScope;
 
     private readonly IJSRuntime _javaScript;
     private readonly IOmniPreferenceStore? _store;
@@ -796,6 +796,14 @@ public sealed class OmniPreferences : IAsyncDisposable
             _known.Add(key);
         }
     }
+
+    bool IPreferenceReadsHost.HasStore => HasStore;
+
+    void IPreferenceReadsHost.Track(Task work) => Track(work);
+
+    Task IPreferenceReadsHost.RunInBackgroundAsync(Func<CancellationToken, Task> work) => RunInBackgroundAsync(work);
+
+    Task IPreferenceReadsHost.RaiseAsync(OmniPreferenceChangedEventArgs change) => RaiseAsync(change);
 
     internal void Track(Task work)
     {

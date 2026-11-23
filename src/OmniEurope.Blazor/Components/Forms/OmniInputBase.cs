@@ -14,7 +14,7 @@ namespace OmniEurope.Blazor.Components;
 /// and localized texts of <see cref="OmniComponentBase"/>, under the same rules.
 /// </summary>
 /// <typeparam name="TValue">The type of the bound value.</typeparam>
-public abstract class OmniInputBase<TValue> : InputBase<TValue>
+public abstract class OmniInputBase<TValue> : InputBase<TValue>, IOmniPresetTarget
 {
     [Inject]
     private IStringLocalizer<AppStrings> StringLocalizer { get; set; } = default!;

@@ -24,8 +24,8 @@ internal static class GraphLayeredLayout
         IReadOnlyList<OmniGraphLayoutEdge> edges,
         OmniGraphLayoutOptions options)
     {
-        var nodeSpacing = Sanitize(options.NodeSpacing);
-        var layerSpacing = Sanitize(options.LayerSpacing);
+        var nodeSpacing = Drawing.Sanitize(options.NodeSpacing);
+        var layerSpacing = Drawing.Sanitize(options.LayerSpacing);
         var leftToRight = options.Direction == OmniGraphDirection.LeftToRight;
 
         var drawing = Drawing.Of(nodes, leftToRight);
@@ -113,6 +113,9 @@ internal static class GraphLayeredLayout
 
         public int Total => IsVirtual.Count;
 
+        /// <summary>A size or a spacing as the layout uses it: a finite positive value, else zero.</summary>
+        public static double Sanitize(double value) => double.IsFinite(value) && value > 0 ? value : 0;
+
         /// <summary>The real nodes, the first occurrence of an identifier winning.</summary>
         public static Drawing Of(IReadOnlyList<OmniGraphLayoutNode> nodes, bool leftToRight)
         {
@@ -185,8 +188,6 @@ internal static class GraphLayeredLayout
             Predecessors[to].Add(from);
         }
     }
-
-    private static double Sanitize(double value) => double.IsFinite(value) && value > 0 ? value : 0;
 
     /// <summary>The edges between two known, different nodes, each pair once.</summary>
     private static List<(int From, int To)> DistinctEdges(IReadOnlyList<OmniGraphLayoutEdge> edges, Dictionary<string, int> index)

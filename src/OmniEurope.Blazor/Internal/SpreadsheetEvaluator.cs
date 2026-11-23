@@ -1,4 +1,3 @@
-using System.Globalization;
 using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Internal;
@@ -9,18 +8,13 @@ namespace OmniEurope.Blazor.Internal;
 /// and reads <see cref="OmniSpreadsheetValue.CircularError"/>. One instance serves one immutable
 /// sheet: a new sheet gets a new evaluator.
 /// </summary>
-internal sealed class SpreadsheetEvaluator
+internal sealed class SpreadsheetEvaluator : ISpreadsheetCells
 {
     private readonly IReadOnlyList<IReadOnlyList<string>> _rows;
     private readonly int _columnCount;
     private readonly Dictionary<(int Row, int Column), OmniSpreadsheetValue> _values = [];
     private readonly HashSet<(int Row, int Column)> _pending = [];
-
-    /// <summary>
-    /// How deep a computation may nest, counting brackets, signs and arguments within a formula and
-    /// the chain of cells formulas read: far past any sheet written by hand, far below the stack.
-    /// </summary>
-    internal const int MaxDepth = 256;
+    private int _depth;
 
     internal SpreadsheetEvaluator(IReadOnlyList<IReadOnlyList<string>> rows, int columnCount)
     {
@@ -29,7 +23,11 @@ internal sealed class SpreadsheetEvaluator
     }
 
     /// <summary>The current nesting of the computation in progress, kept by <see cref="SpreadsheetFormula"/>.</summary>
-    internal int Depth { get; set; }
+    int ISpreadsheetCells.Depth { get => _depth; set => _depth = value; }
+
+    bool ISpreadsheetCells.Contains(int row, int column) => Contains(row, column);
+
+    OmniSpreadsheetValue ISpreadsheetCells.Evaluate(int row, int column) => Evaluate(row, column);
 
     // Same reading as the sheet's own GetInput: a position outside the sheet or a short row is empty.
     private string InputOf(int row, int column) =>
@@ -84,33 +82,8 @@ internal sealed class SpreadsheetEvaluator
             return OmniSpreadsheetValue.FromText(input[1..]);
         }
 
-        return TryReadNumber(input, out var number)
+        return SpreadsheetNumber.TryRead(input, out var number)
             ? OmniSpreadsheetValue.FromNumber(number)
             : OmniSpreadsheetValue.FromText(input);
-    }
-
-    internal static bool TryReadNumber(string text, out double number)
-    {
-        var trimmed = text.Trim();
-        var percent = trimmed.EndsWith('%');
-        if (percent)
-        {
-            trimmed = trimmed[..^1].TrimEnd();
-        }
-
-        const NumberStyles styles = NumberStyles.Float;
-        if (double.TryParse(trimmed, styles, CultureInfo.CurrentCulture, out number)
-            || double.TryParse(trimmed, styles, CultureInfo.InvariantCulture, out number))
-        {
-            if (percent)
-            {
-                number /= 100d;
-            }
-
-            return true;
-        }
-
-        number = 0d;
-        return false;
     }
 }

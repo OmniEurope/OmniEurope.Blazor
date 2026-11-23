@@ -18,7 +18,7 @@ namespace OmniEurope.Blazor.Components;
 /// of the same name passed by the host. A lowercase <c>class</c> or <c>id</c> passed as an attribute
 /// is refused: <see cref="Class"/> and <see cref="Id"/> are the parameters.
 /// </remarks>
-public abstract class OmniComponentBase : ComponentBase
+public abstract class OmniComponentBase : ComponentBase, IOmniPresetTarget
 {
     [Inject]
     private IStringLocalizer<AppStrings> StringLocalizer { get; set; } = default!;

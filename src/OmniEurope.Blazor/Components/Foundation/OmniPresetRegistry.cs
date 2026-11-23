@@ -1,6 +1,7 @@
 using System.Collections.Concurrent;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -107,7 +108,7 @@ public sealed class OmniPresetRegistry
         var attribute = property?.GetCustomAttribute<ParameterAttribute>();
         if (property is null || attribute is null)
             throw new ArgumentException($"{componentType.Name} has no parameter named '{parameter}'.", nameof(parameter));
-        if (attribute.CaptureUnmatchedValues || parameter == nameof(OmniComponentBase.PresetName))
+        if (attribute.CaptureUnmatchedValues || parameter == nameof(IOmniPresetTarget.PresetName))
             throw new ArgumentException($"'{parameter}' of {componentType.Name} cannot be set by a preset.", nameof(parameter));
 
         var type = property.PropertyType;
@@ -142,13 +143,9 @@ public sealed class OmniPresetRegistry
             yield return current;
     }
 
-    private static bool IsPackageComponent(Type type)
-    {
-        for (var current = type; current is not null; current = current.BaseType)
-        {
-            if (current == typeof(OmniComponentBase)) return true;
-            if (current.IsGenericType && current.GetGenericTypeDefinition() == typeof(OmniInputBase<>)) return true;
-        }
-        return false;
-    }
+    /// <summary>
+    /// Whether <paramref name="type"/> derives from a package base: only <c>OmniComponentBase</c> and
+    /// <c>OmniInputBase&lt;&gt;</c> implement the internal <see cref="IOmniPresetTarget"/>, so no host type can.
+    /// </summary>
+    private static bool IsPackageComponent(Type type) => typeof(IOmniPresetTarget).IsAssignableFrom(type);
 }
