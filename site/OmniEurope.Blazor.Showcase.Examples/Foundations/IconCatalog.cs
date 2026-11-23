@@ -265,5 +265,16 @@ public static class IconCatalog
         OmniIconName.ShieldX,
         OmniIconName.MicrophoneSlash,
         OmniIconName.VideoCamera,
+        OmniIconName.CloudSun,
+        OmniIconName.CloudRain,
+        OmniIconName.CloudSnow,
+        OmniIconName.CloudFog,
+        OmniIconName.CloudLightning,
+        OmniIconName.Snowflake,
+        OmniIconName.Drop,
+        OmniIconName.Umbrella,
+        OmniIconName.Wind,
+        OmniIconName.Thermometer,
+        OmniIconName.MoonStars,
     ];
 }
