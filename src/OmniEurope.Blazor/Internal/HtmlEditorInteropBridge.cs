@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The only .NET object <c>omni-html-editor.js</c> can call. Kept apart from the component so that
 /// the callable surface is internal rather than public API.
 /// </summary>
-internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
+internal sealed class HtmlEditorInteropBridge(IHtmlEditorHost owner)
 {
     /// <summary>The surface changed: typing, a paste, a drop. The HTML is sanitised before it is kept.</summary>
     [JSInvokable]
@@ -58,5 +58,5 @@ internal sealed class HtmlEditorInteropBridge(OmniHtmlEditor owner)
     /// null when nothing was checked.
     /// </summary>
     [JSInvokable]
-    public Task<string?> OnProofreadRequested(string[] texts, string?[] languages) => owner.Proofreading.CheckAsync(texts, languages);
+    public Task<string?> OnProofreadRequested(string[] texts, string?[] languages) => owner.ProofreadAsync(texts, languages);
 }

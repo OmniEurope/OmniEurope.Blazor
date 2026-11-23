@@ -20,16 +20,14 @@ internal sealed class HtmlEditorExtensionSet
         TableReaders = [.. extensions.SelectMany(extension => extension.TableReaders)];
         Proofreaders = [.. extensions.Select(extension => extension.Proofreader).OfType<OmniHtmlEditorProofreader>()];
         var keys = Shortcuts.Select(shortcut => shortcut.Normalized).ToList();
-        var duplicate = keys.GroupBy(key => key, StringComparer.Ordinal).FirstOrDefault(group => group.Count() > 1);
-        if (duplicate is not null)
-        {
-            throw new InvalidOperationException($"The shortcut '{duplicate.Key}' of {nameof(OmniHtmlEditor)} is declared twice.");
-        }
-
+        DuplicateShortcut = keys.GroupBy(key => key, StringComparer.Ordinal).FirstOrDefault(group => group.Count() > 1)?.Key;
         ShortcutKeys = keys;
     }
 
     internal IReadOnlyList<OmniHtmlEditorExtension> Source { get; }
+
+    /// <summary>The first combination two shortcuts declare, which the editor refuses; null when every one is distinct.</summary>
+    internal string? DuplicateShortcut { get; }
 
     /// <summary>Every extension's policy merged; null when none widens the allow-list.</summary>
     internal OmniHtmlSanitizerPolicy? Policy { get; }

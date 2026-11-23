@@ -7,9 +7,9 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public sealed class OmniHtmlEditorCommandContext
 {
-    private readonly OmniHtmlEditor _editor;
+    private readonly IHtmlEditorDocument _editor;
 
-    internal OmniHtmlEditorCommandContext(OmniHtmlEditor editor, OmniHtmlEditorCommand command)
+    internal OmniHtmlEditorCommandContext(IHtmlEditorDocument editor, OmniHtmlEditorCommand command)
     {
         _editor = editor;
         Command = command;

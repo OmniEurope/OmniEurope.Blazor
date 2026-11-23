@@ -17,9 +17,9 @@ public sealed class OmniHtmlEditorElementContext
     /// <summary>The command the editor context of an activation reports, since no toolbar command ran.</summary>
     private static readonly OmniHtmlEditorCommand ActivationCommand = new("inline-element", OmniHtmlEditorAction.Custom);
 
-    private readonly OmniHtmlEditor _editor;
+    private readonly IHtmlEditorDocument _editor;
 
-    internal OmniHtmlEditorElementContext(OmniHtmlEditor editor, OmniHtmlEditorSelectionNode element, string text)
+    internal OmniHtmlEditorElementContext(IHtmlEditorDocument editor, OmniHtmlEditorSelectionNode element, string text)
     {
         _editor = editor;
         Element = element;

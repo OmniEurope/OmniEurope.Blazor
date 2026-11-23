@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Internal;
 /// sends are checked by each proofreader, and the passage a right-click lands on gets its corrections and its
 /// actions in the context menu. Answers travel as plain JSON written here, so nothing depends on reflection.
 /// </summary>
-internal sealed class HtmlEditorProofreading(OmniHtmlEditor owner) : IDisposable
+internal sealed class HtmlEditorProofreading(IHtmlEditorHost owner) : IDisposable
 {
     /// <summary>The most corrections the menu shows.</summary>
     internal const int MaxSuggestions = 5;

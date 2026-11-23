@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// and every read or change made through the script. What the surface gives back is sanitised and
 /// committed through the editor, so the history and <c>ValueChanged</c> stay the editor's.
 /// </summary>
-internal sealed class HtmlEditorVisualSurface(OmniHtmlEditor owner, IJSRuntime javaScript) : IAsyncDisposable
+internal sealed class HtmlEditorVisualSurface(IHtmlEditorHost owner, IJSRuntime javaScript) : IAsyncDisposable
 {
     private const string VisualModulePath = OmniModules.HtmlEditor;
 

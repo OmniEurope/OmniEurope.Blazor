@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Internal;
 /// selection of the text area, through <c>wrapTextSelection</c> and <c>restoreTextSelection</c> of the
 /// interop module. Every result goes through the editor's sanitiser and history.
 /// </summary>
-internal sealed class HtmlEditorSourceFace(OmniHtmlEditor owner, IJSRuntime javaScript)
+internal sealed class HtmlEditorSourceFace(IHtmlEditorHost owner, IJSRuntime javaScript)
 {
     private const string InteropModulePath = OmniModules.Interop;
 

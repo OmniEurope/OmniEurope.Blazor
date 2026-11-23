@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Internal;
 /// <see cref="OmniHtmlEditor.ToolbarRows"/>, the buttons moved to the "more" menu because they would
 /// open a row beyond the limit (R-042). The script measures; this keeps the names it reports.
 /// </summary>
-internal sealed class HtmlEditorToolbarFit(OmniHtmlEditor owner, IJSRuntime javaScript) : IAsyncDisposable
+internal sealed class HtmlEditorToolbarFit(IHtmlEditorHost owner, IJSRuntime javaScript) : IAsyncDisposable
 {
     private IJSObjectReference? _module;
     private DotNetObjectReference<HtmlEditorToolbarFit>? _self;
