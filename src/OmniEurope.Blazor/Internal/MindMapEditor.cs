@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Internal;
 /// <see cref="OmniMindMap.OnNodeSelect"/>.
 /// </summary>
 internal sealed class MindMapEditor(
-    OmniMindMap owner,
+    IMindMapHost owner,
     MindMapModel model,
     MindMapSelection selection,
     MindMapHistory history,
@@ -68,7 +68,7 @@ internal sealed class MindMapEditor(
             return;
         }
 
-        if (model.Drawable.Count >= OmniMindMap.MaxNodes)
+        if (model.Drawable.Count >= MindMapLimits.MaxNodes)
         {
             owner.Announce(owner.Text("MindMapAnnounceLimit"));
             owner.NotifyStateChanged();
@@ -127,7 +127,7 @@ internal sealed class MindMapEditor(
     /// <summary>Copies the selected node beside it, with the links that point to it.</summary>
     public async Task DuplicateSelectionAsync()
     {
-        if (owner.ReadOnly || SelectedNode is not { } source || model.Drawable.Count >= OmniMindMap.MaxNodes)
+        if (owner.ReadOnly || SelectedNode is not { } source || model.Drawable.Count >= MindMapLimits.MaxNodes)
         {
             return;
         }
@@ -137,7 +137,7 @@ internal sealed class MindMapEditor(
         var edges = document.Edges.ToList();
         foreach (var incoming in document.Edges.Where(edge => string.Equals(edge.To, source.Id, StringComparison.Ordinal)))
         {
-            if (edges.Count < OmniMindMap.MaxEdges)
+            if (edges.Count < MindMapLimits.MaxEdges)
             {
                 edges.Add(incoming with { To = copy.Id });
             }
@@ -209,7 +209,7 @@ internal sealed class MindMapEditor(
             (string.Equals(edge.From, source, StringComparison.Ordinal) && string.Equals(edge.To, nodeId, StringComparison.Ordinal))
             || (string.Equals(edge.From, nodeId, StringComparison.Ordinal) && string.Equals(edge.To, source, StringComparison.Ordinal)));
         await SelectNodeAsync(nodeId);
-        if (duplicate || model.Document.Edges.Count >= OmniMindMap.MaxEdges)
+        if (duplicate || model.Document.Edges.Count >= MindMapLimits.MaxEdges)
         {
             owner.NotifyStateChanged();
             return;

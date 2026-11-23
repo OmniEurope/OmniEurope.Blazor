@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Internal;
 /// redo, N D C add, duplicate and centre, and the menu key or Shift+F10 opens the context menu.
 /// </summary>
 internal sealed class MindMapKeyboard(
-    OmniMindMap owner,
+    IMindMapHost owner,
     MindMapModel model,
     MindMapSelection selection,
     MindMapViewport viewport,
@@ -44,8 +44,8 @@ internal sealed class MindMapKeyboard(
         "Enter" or "F2" => EnterAsync(),
         "Escape" => EscapeAsync(),
         "Delete" or "Backspace" => editor.DeleteSelectionAsync(),
-        "+" or "=" => viewport.ZoomByAsync(OmniMindMap.ZoomStep),
-        "-" or "_" => viewport.ZoomByAsync(1 / OmniMindMap.ZoomStep),
+        "+" or "=" => viewport.ZoomByAsync(MindMapLimits.ZoomStep),
+        "-" or "_" => viewport.ZoomByAsync(1 / MindMapLimits.ZoomStep),
         "0" => viewport.FitAsync(),
         "ContextMenu" => menu.OpenFromKeyboardAsync(),
         "F10" when args.ShiftKey => menu.OpenFromKeyboardAsync(),
@@ -90,7 +90,7 @@ internal sealed class MindMapKeyboard(
     {
         if (args.ShiftKey)
         {
-            await editor.MoveSelectionAsync(directionX * OmniMindMap.KeyboardMoveStep, directionY * OmniMindMap.KeyboardMoveStep);
+            await editor.MoveSelectionAsync(directionX * MindMapLimits.KeyboardMoveStep, directionY * MindMapLimits.KeyboardMoveStep);
             return;
         }
 

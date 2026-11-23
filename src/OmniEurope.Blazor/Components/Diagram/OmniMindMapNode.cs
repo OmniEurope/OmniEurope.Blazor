@@ -1,4 +1,5 @@
 using System.Text.Json;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -58,5 +59,5 @@ public sealed record OmniMindMapNode
     /// back does not drop them.
     /// </summary>
     public IReadOnlyDictionary<string, JsonElement> AdditionalProperties { get; init; } =
-        OmniMindMapDocument.NoAdditionalProperties;
+        MindMapExtraProperties.None;
 }

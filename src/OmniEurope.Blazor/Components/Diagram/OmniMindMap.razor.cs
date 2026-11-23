@@ -11,16 +11,16 @@ namespace OmniEurope.Blazor.Components;
 /// the history and through <see cref="DocumentChanged"/>. No inline style is ever written: colours
 /// are classes over the <c>--omni-mindmap-*</c> tokens, geometry is SVG attributes.
 /// </remarks>
-public partial class OmniMindMap
+public partial class OmniMindMap : IMindMapHost, IMindMapBridgeHost
 {
-    internal const int MaxNodes = 500;
-    internal const int MaxEdges = 1000;
-    internal const int MaxHistory = 30;
-    internal const double MinZoom = 0.1;
-    internal const double MaxZoom = 5;
-    internal const double ZoomStep = 1.2;
-    internal const double KeyboardMoveStep = 10;
-    internal const double MenuWidth = 224;
+    internal const int MaxNodes = MindMapLimits.MaxNodes;
+    internal const int MaxEdges = MindMapLimits.MaxEdges;
+    internal const int MaxHistory = MindMapLimits.MaxHistory;
+    internal const double MinZoom = MindMapLimits.MinZoom;
+    internal const double MaxZoom = MindMapLimits.MaxZoom;
+    internal const double ZoomStep = MindMapLimits.ZoomStep;
+    internal const double KeyboardMoveStep = MindMapLimits.KeyboardMoveStep;
+    internal const double MenuWidth = MindMapLimits.MenuWidth;
     private const string ModulePath = Internal.OmniModules.MindMap;
 
     private readonly string _generatedId = $"omni-mindmap-{Guid.NewGuid():N}";
@@ -474,6 +474,38 @@ public partial class OmniMindMap
 
     /// <summary>Tells the toolbar and the panel of this map that its state changed.</summary>
     internal void NotifyStateChanged() => StateChanged?.Invoke();
+
+    // ----- What the helpers and the script bridge see of the map ----------------------------
+
+    bool IMindMapHost.ReadOnly => ReadOnly;
+
+    OmniGraphLayoutOptions? IMindMapHost.LayeredLayout => LayeredLayout;
+
+    EventCallback<OmniMindMapDocument> IMindMapHost.DocumentChanged => DocumentChanged;
+
+    EventCallback<OmniMindMapNode?> IMindMapHost.OnNodeSelect => OnNodeSelect;
+
+    EventCallback<OmniMindMapViewState> IMindMapHost.ViewStateChanged => ViewStateChanged;
+
+    string IMindMapHost.NewNodeLabel => NewNodeLabel;
+
+    string IMindMapHost.LinkSelectTargetLabel => LinkSelectTargetLabel;
+
+    string IMindMapHost.LinkBannerText => LinkBannerText;
+
+    MindMapGestures IMindMapBridgeHost.Gestures => Gestures;
+
+    string IMindMapHost.Text(string name, params object[] arguments) => Text(name, arguments);
+
+    void IMindMapHost.Announce(string text) => Announce(text);
+
+    void IMindMapHost.NotifyStateChanged() => NotifyStateChanged();
+
+    Task IMindMapHost.RequestRenameAsync() => RequestRenameAsync();
+
+    Task IMindMapHost.CenterOnSelectionAsync() => CenterOnSelectionAsync();
+
+    Task IMindMapBridgeHost.DispatchAsync(Func<Task> work) => DispatchAsync(work);
 
     // ----- Rendering helpers ---------------------------------------------------------------
 

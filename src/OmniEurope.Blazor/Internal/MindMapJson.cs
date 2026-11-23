@@ -24,7 +24,7 @@ internal static class MindMapJson
     private static readonly string[] EdgeKeys = ["from", "to"];
     private static readonly string[] NoteKeys = ["attachedTo", "text"];
 
-    public static OmniMindMapDocument Read(string json)
+    public static MindMapGraph Read(string json)
     {
         using var parsed = JsonDocument.Parse(json);
         var root = parsed.RootElement;
@@ -33,33 +33,31 @@ internal static class MindMapJson
             throw new JsonException("A mind map document must be a JSON object.");
         }
 
-        return new OmniMindMapDocument
-        {
-            RootId = String(root, "rootId", null),
-            Nodes = [.. Items(root, "nodes").Select(ReadNode).OfType<OmniMindMapNode>()],
-            Edges = [.. Items(root, "edges").Select(ReadEdge).OfType<OmniMindMapEdge>()],
-            Notes = [.. Items(root, "notes").Select(ReadNote).OfType<OmniMindMapNote>()],
-            AdditionalProperties = Extra(root, DocumentKeys)
-        };
+        return new MindMapGraph(
+            String(root, "rootId", null),
+            [.. Items(root, "nodes").Select(ReadNode).OfType<OmniMindMapNode>()],
+            [.. Items(root, "edges").Select(ReadEdge).OfType<OmniMindMapEdge>()],
+            [.. Items(root, "notes").Select(ReadNote).OfType<OmniMindMapNote>()],
+            Extra(root, DocumentKeys));
     }
 
-    public static string Write(OmniMindMapDocument document)
+    public static string Write(MindMapGraph graph)
     {
         using var buffer = new MemoryStream();
         using (var writer = new Utf8JsonWriter(buffer, WriterOptions))
         {
             writer.WriteStartObject();
-            if (document.RootId is null)
+            if (graph.RootId is null)
             {
                 writer.WriteNull("rootId");
             }
             else
             {
-                writer.WriteString("rootId", document.RootId);
+                writer.WriteString("rootId", graph.RootId);
             }
 
             writer.WriteStartArray("nodes");
-            foreach (var node in document.Nodes)
+            foreach (var node in graph.Nodes)
             {
                 writer.WriteStartObject();
                 writer.WriteString("id", node.Id);
@@ -78,7 +76,7 @@ internal static class MindMapJson
 
             writer.WriteEndArray();
             writer.WriteStartArray("edges");
-            foreach (var edge in document.Edges)
+            foreach (var edge in graph.Edges)
             {
                 writer.WriteStartObject();
                 writer.WriteString("from", edge.From);
@@ -89,7 +87,7 @@ internal static class MindMapJson
 
             writer.WriteEndArray();
             writer.WriteStartArray("notes");
-            foreach (var note in document.Notes)
+            foreach (var note in graph.Notes)
             {
                 writer.WriteStartObject();
                 writer.WriteString("attachedTo", note.AttachedTo);
@@ -99,7 +97,7 @@ internal static class MindMapJson
             }
 
             writer.WriteEndArray();
-            WriteExtra(writer, document.AdditionalProperties);
+            WriteExtra(writer, graph.AdditionalProperties);
             writer.WriteEndObject();
         }
 
@@ -226,7 +224,7 @@ internal static class MindMapJson
             }
         }
 
-        return extra ?? OmniMindMapDocument.NoAdditionalProperties;
+        return extra ?? MindMapExtraProperties.None;
     }
 
     private static void WriteExtra(Utf8JsonWriter writer, IReadOnlyDictionary<string, JsonElement> extra)

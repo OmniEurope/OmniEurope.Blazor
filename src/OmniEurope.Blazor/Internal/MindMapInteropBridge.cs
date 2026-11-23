@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// the gesture itself: a drag reports where the nodes were dropped, a pan where it stopped. Kept
 /// apart from the component so that the callable surface is internal rather than public API.
 /// </summary>
-internal sealed class MindMapInteropBridge(OmniMindMap owner)
+internal sealed class MindMapInteropBridge(IMindMapBridgeHost owner)
 {
     [JSInvokable]
     public Task NodePressed(string nodeId) => owner.DispatchAsync(() => owner.Gestures.NodePressedAsync(nodeId));

@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// moves of the view (fit, zoom, centre, a resized canvas), each reported through
 /// <see cref="OmniMindMap.ViewStateChanged"/>.
 /// </summary>
-internal sealed class MindMapViewport(OmniMindMap owner, MindMapModel model, MindMapLabelSizes sizes)
+internal sealed class MindMapViewport(IMindMapHost owner, MindMapModel model, MindMapLabelSizes sizes)
 {
     private const double FitMaxZoom = 2;
     private const double FitPadding = 60;
@@ -44,7 +44,7 @@ internal sealed class MindMapViewport(OmniMindMap owner, MindMapModel model, Min
 
     /// <summary>A zoom within the allowed range; a value that is not a number becomes 1.</summary>
     public static double ClampZoom(double zoom) =>
-        double.IsFinite(zoom) ? Math.Clamp(zoom, OmniMindMap.MinZoom, OmniMindMap.MaxZoom) : 1;
+        double.IsFinite(zoom) ? Math.Clamp(zoom, MindMapLimits.MinZoom, MindMapLimits.MaxZoom) : 1;
 
     /// <summary>Where a map point sits on the canvas, in pixels.</summary>
     public (double Left, double Top) ToCanvas(double x, double y) => ((x * Zoom) + PanX, (y * Zoom) + PanY);
@@ -119,7 +119,7 @@ internal sealed class MindMapViewport(OmniMindMap owner, MindMapModel model, Min
 
         var scaleX = (CanvasWidth - (FitPadding * 2)) / Math.Max(1, right - left);
         var scaleY = (CanvasHeight - (FitPadding * 2)) / Math.Max(1, bottom - top);
-        var zoom = Math.Clamp(Math.Min(scaleX, scaleY), OmniMindMap.MinZoom, FitMaxZoom);
+        var zoom = Math.Clamp(Math.Min(scaleX, scaleY), MindMapLimits.MinZoom, FitMaxZoom);
         var before = Current;
         await SetAsync(FitPadding - (left * zoom), FitPadding - (top * zoom), zoom);
         return before != Current;
