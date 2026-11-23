@@ -38,7 +38,7 @@ internal sealed class MindMapHistory
 
         _undo.Add(next);
         _redo.Clear();
-        while (_undo.Count > OmniMindMap.MaxHistory)
+        while (_undo.Count > MindMapLimits.MaxHistory)
         {
             _undo.RemoveAt(0);
         }

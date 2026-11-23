@@ -19,9 +19,6 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public sealed record OmniMindMapDocument
 {
-    internal static readonly IReadOnlyDictionary<string, JsonElement> NoAdditionalProperties =
-        new Dictionary<string, JsonElement>(StringComparer.Ordinal);
-
     /// <summary>An empty map.</summary>
     public static OmniMindMapDocument Empty { get; } = new();
 
@@ -38,7 +35,7 @@ public sealed record OmniMindMapDocument
     public IReadOnlyList<OmniMindMapNote> Notes { get; init; } = [];
 
     /// <summary>Top-level properties of the stored graph this model does not know.</summary>
-    public IReadOnlyDictionary<string, JsonElement> AdditionalProperties { get; init; } = NoAdditionalProperties;
+    public IReadOnlyDictionary<string, JsonElement> AdditionalProperties { get; init; } = MindMapExtraProperties.None;
 
     /// <summary>
     /// Reads a stored graph. Missing values take the defaults the original editor gave them (empty
@@ -49,9 +46,17 @@ public sealed record OmniMindMapDocument
     public static OmniMindMapDocument FromJson(string json)
     {
         ArgumentNullException.ThrowIfNull(json);
-        return MindMapJson.Read(json);
+        var graph = MindMapJson.Read(json);
+        return new OmniMindMapDocument
+        {
+            RootId = graph.RootId,
+            Nodes = graph.Nodes,
+            Edges = graph.Edges,
+            Notes = graph.Notes,
+            AdditionalProperties = graph.AdditionalProperties
+        };
     }
 
     /// <summary>Writes the graph in the stored format, compact and in the format's property order.</summary>
-    public string ToJson() => MindMapJson.Write(this);
+    public string ToJson() => MindMapJson.Write(new MindMapGraph(RootId, Nodes, Edges, Notes, AdditionalProperties));
 }

@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// canvas when an action closes it).
 /// </summary>
 internal sealed class MindMapContextMenu(
-    OmniMindMap owner,
+    IMindMapHost owner,
     MindMapModel model,
     MindMapSelection selection,
     MindMapViewport viewport,
@@ -168,7 +168,7 @@ internal sealed class MindMapContextMenu(
 
     /// <summary>The left edge of the menu, kept inside the canvas.</summary>
     public double Left(MindMapMenuState menu) =>
-        Math.Max(0, Math.Min(menu.Left, viewport.CanvasWidth - OmniMindMap.MenuWidth - 8));
+        Math.Max(0, Math.Min(menu.Left, viewport.CanvasWidth - MindMapLimits.MenuWidth - 8));
 
     /// <summary>The top edge of the menu, kept inside the canvas.</summary>
     public double Top(MindMapMenuState menu) =>

@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Internal;
 /// press elsewhere closes the context menu.
 /// </summary>
 internal sealed class MindMapGestures(
-    OmniMindMap owner,
+    IMindMapHost owner,
     MindMapModel model,
     MindMapSelection selection,
     MindMapViewport viewport,

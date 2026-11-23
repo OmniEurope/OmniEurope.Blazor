@@ -1,4 +1,5 @@
 using System.Text.Json;
+using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -17,5 +18,5 @@ public sealed record OmniMindMapEdge
 
     /// <summary>Properties of the stored link this model does not know.</summary>
     public IReadOnlyDictionary<string, JsonElement> AdditionalProperties { get; init; } =
-        OmniMindMapDocument.NoAdditionalProperties;
+        MindMapExtraProperties.None;
 }
