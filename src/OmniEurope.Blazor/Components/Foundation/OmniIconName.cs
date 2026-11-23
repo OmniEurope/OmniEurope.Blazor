@@ -511,5 +511,27 @@ public enum OmniIconName
     /// <summary>Microphone crossed by a slash: a muted microphone.</summary>
     MicrophoneSlash,
     /// <summary>Video camera: a camera that is filming.</summary>
-    VideoCamera
+    VideoCamera,
+    /// <summary>Cloud partly covering the sun: partly cloudy weather.</summary>
+    CloudSun,
+    /// <summary>Cloud with rain: rainy weather.</summary>
+    CloudRain,
+    /// <summary>Cloud with snow: snowy weather.</summary>
+    CloudSnow,
+    /// <summary>Cloud above fog lines: foggy weather.</summary>
+    CloudFog,
+    /// <summary>Cloud with a lightning bolt: stormy weather.</summary>
+    CloudLightning,
+    /// <summary>Snowflake: frost, freezing temperature.</summary>
+    Snowflake,
+    /// <summary>Water drop: humidity, precipitation, liquid.</summary>
+    Drop,
+    /// <summary>Umbrella: rain protection, chance of rain.</summary>
+    Umbrella,
+    /// <summary>Wind lines: wind, air flow.</summary>
+    Wind,
+    /// <summary>Thermometer: temperature.</summary>
+    Thermometer,
+    /// <summary>Crescent moon with stars: clear night.</summary>
+    MoonStars
 }
