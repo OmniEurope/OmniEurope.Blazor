@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The page and page size of a grid, kept by the grid and mirrored from the host's parameters when
 /// it passes new values, with the pager and the paging summary that read them.
 /// </summary>
-internal sealed class GridPaging<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridPaging<TItem>(IGridHost<TItem> grid) : IGridPaging
 {
     // Mirrored from the parameters when the host passes a new value: a component never writes its own parameters.
     private int _page = 1;
@@ -14,9 +14,9 @@ internal sealed class GridPaging<TItem>(OmniDataGrid<TItem> grid)
     private int _pageSize = 20;
     private int? _receivedPageSize;
 
-    internal int Page => _page;
+    public int Page => _page;
 
-    internal int PageSize => _pageSize;
+    public int PageSize => _pageSize;
 
     /// <summary>Takes the page and page size the host passes when they are new values.</summary>
     internal void Mirror()
@@ -49,7 +49,7 @@ internal sealed class GridPaging<TItem>(OmniDataGrid<TItem> grid)
 
     internal bool ShowPagerBottom => ShowPager && grid.PagerPlacement is OmniDataGridPlacement.Bottom or OmniDataGridPlacement.TopAndBottom;
 
-    internal async Task ResetToFirstPageAsync()
+    public async Task ResetToFirstPageAsync()
     {
         if (_page == 1)
         {

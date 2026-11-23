@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// shape each column gets, their labels, ids and summary, and the staging of a change until it is
 /// applied.
 /// </summary>
-internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridFilterEditor<TItem>(IGridHost<TItem> grid) : IGridFilterEditor<TItem>
 {
     private bool UsesAdvancedFilter => grid.FilterMode == OmniDataGridFilterMode.Advanced;
 
@@ -35,7 +35,7 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     internal bool HasFilterRow => !InHeaderMenu && grid.ColumnSet.VisibleColumns.Any(IsFilterable);
 
     /// <summary>Whether any filter editor of this grid opens something over the rows.</summary>
-    internal bool HasPopovers => grid.ColumnSet.VisibleColumns.Any(column => IsFilterable(column)
+    public bool HasPopovers => grid.ColumnSet.VisibleColumns.Any(column => IsFilterable(column)
         && (InHeaderMenu
             || UsesAdvancedFilter
             || column.FilterTemplate is not null
@@ -66,7 +66,7 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     /// Whether a date column shows its typed field: in the inline row and its popovers always, in the header menu
     /// unless the column holds the range alone.
     /// </summary>
-    internal bool ShowsDateText(OmniDataGridColumnDefinition<TItem> column) =>
+    public bool ShowsDateText(OmniDataGridColumnDefinition<TItem> column) =>
         !ChoosesDateEditor(column) || HeaderMenuDateEditor(column) == OmniDataGridDateFilterEditor.Single;
 
     /// <summary>
@@ -75,7 +75,7 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     /// typed field only for a column with <c>AdvancedFilter</c>; the row itself never does (its calendar menu
     /// is separate, see <see cref="ShowsRangeMenu"/>). Asked only for a column whose filter type is Date.
     /// </summary>
-    internal bool HoldsRange(OmniDataGridColumnDefinition<TItem> column, bool inPanel) =>
+    public bool HoldsRange(OmniDataGridColumnDefinition<TItem> column, bool inPanel) =>
         InHeaderMenu
             ? HeaderMenuDateEditor(column) == OmniDataGridDateFilterEditor.Range
             : inPanel && column.AdvancedFilter;
@@ -131,7 +131,7 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     internal string HeaderFilterId(OmniDataGridColumnDefinition<TItem> column) => $"{FilterId(column)}-menu";
 
     /// <summary>What the advanced filter trigger reads: the applied condition, or the placeholder.</summary>
-    internal string FilterSummary(OmniDataGridColumnDefinition<TItem> column)
+    public string FilterSummary(OmniDataGridColumnDefinition<TItem> column)
     {
         if (!grid.Query.Filters.TryGetValue(column.Key, out var filter) || !filter.IsActive)
         {
@@ -188,7 +188,7 @@ internal sealed class GridFilterEditor<TItem>(OmniDataGrid<TItem> grid)
     /// grid only ever sees the current page, so Select/Combo on such a grid is a known limitation
     /// rather than a silent wrong answer.
     /// </summary>
-    internal IReadOnlyList<string> DistinctFilterValues(OmniDataGridColumnDefinition<TItem> column) =>
+    public IReadOnlyList<string> DistinctFilterValues(OmniDataGridColumnDefinition<TItem> column) =>
         column.FilterValues is { } declared
             // Declared values keep their order, as an enum's members do: a host lists them in their own
             // sense (severity, workflow), which an alphabetical sort would break.

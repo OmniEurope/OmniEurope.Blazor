@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Internal;
 /// The sizes a grid pushes to its script: the table height, floor and ceiling, the column widths and
 /// frozen offsets, and the fixed row height, each sent again only when it changed.
 /// </summary>
-internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridLayoutInterop<TItem>(IGridHost<TItem> grid) : IGridLayoutInterop
 {
     private string? _appliedHeight;
     private string? _appliedMaxHeight;
@@ -23,18 +23,18 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
     private string HeightSignature => $"{grid.Height}|{EffectiveMinHeight}";
 
     /// <summary>The ceiling pushed to CSS: only when no other height input already sizes the table.</summary>
-    internal string? EffectiveMaxHeight => string.IsNullOrWhiteSpace(grid.MaxHeight) || grid.Height is not null || grid.FillAvailableHeight
+    public string? EffectiveMaxHeight => string.IsNullOrWhiteSpace(grid.MaxHeight) || grid.Height is not null || grid.FillAvailableHeight
         ? null
         : grid.MaxHeight.Trim();
 
     /// <summary>A resized column: the widths are sent again on the next layout pass.</summary>
-    internal void InvalidateColumnLayout() => _appliedColumnLayout = null;
+    public void InvalidateColumnLayout() => _appliedColumnLayout = null;
 
     /// <summary>
     /// Pushes the ceiling on its own call, only once one was asked for, so a grid without one runs
     /// exactly the interop it ran before the parameter existed.
     /// </summary>
-    internal async Task ApplyMaxHeightAsync()
+    public async Task ApplyMaxHeightAsync()
     {
         var maxHeight = EffectiveMaxHeight;
         if (string.Equals(maxHeight, _appliedMaxHeight, StringComparison.Ordinal))
@@ -48,7 +48,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Applies the table height and the column widths outside the virtualized path.</summary>
-    internal async Task ApplyLayoutAsync()
+    public async Task ApplyLayoutAsync()
     {
         var signature = grid.ColumnLayout.Signature();
         if (!RequiresLayoutInterop && _appliedHeight is null && _appliedColumnLayout is null && _appliedRowHeight is null)
@@ -71,7 +71,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Applies the table height with the spacers of the virtual window around its rows.</summary>
-    internal async Task ApplyVirtualLayoutAsync(IJSObjectReference module)
+    public async Task ApplyVirtualLayoutAsync(IJSObjectReference module)
     {
         var range = grid.Virtual.Range;
         await module.InvokeVoidAsync("applyLayout", grid.Viewport, range.TopSpacer, range.BottomSpacer, grid.Height, EffectiveMinHeight);
@@ -93,7 +93,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
         await module.InvokeVoidAsync("applyFrozen", grid.Viewport);
     }
 
-    internal async Task ApplyRowHeightAsync(double? rowHeight)
+    public async Task ApplyRowHeightAsync(double? rowHeight)
     {
         if (rowHeight == _appliedRowHeight)
         {
@@ -115,7 +115,7 @@ internal sealed class GridLayoutInterop<TItem>(OmniDataGrid<TItem> grid)
         || grid.Virtual.FixedHeight is not null
         || grid.ColumnSet.VisibleColumns.Any(column => column.Width is not null || column.MinWidth is not null || column.Frozen);
 
-    internal async Task ApplyColumnLayoutAsync()
+    public async Task ApplyColumnLayoutAsync()
     {
         var signature = grid.ColumnLayout.Signature();
         if (grid.Script.Module is not { } module)

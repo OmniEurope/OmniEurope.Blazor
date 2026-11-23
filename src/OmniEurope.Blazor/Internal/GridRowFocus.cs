@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Internal;
 /// is the only place that sees which element a key was pressed on; the focus it moves reaches this class
 /// through <see cref="FocusInCallback"/>, which turns the row it landed on into the tab stop.
 /// </summary>
-internal sealed class GridRowFocus<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridRowFocus<TItem>(IGridHost<TItem> grid)
 {
     // The key of the row that last took the focus; it stays the tab stop for as long as it is on screen.
     private object? _tabStopKey;

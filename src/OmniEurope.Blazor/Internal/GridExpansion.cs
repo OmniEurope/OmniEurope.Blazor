@@ -6,14 +6,14 @@ namespace OmniEurope.Blazor.Internal;
 /// The open detail rows of a grid: the keys the host passes, the expand button of each row and the
 /// header button that opens or closes every expandable row on screen.
 /// </summary>
-internal sealed class GridExpansion<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridExpansion<TItem>(IGridHost<TItem> grid) : IGridExpansion
 {
     private HashSet<object> _expandedKeyIndex = [];
 
     /// <summary>Indexes the host's expanded keys for the rows about to render.</summary>
     internal void Reindex() => _expandedKeyIndex = grid.ExpandedKeys.ToHashSet();
 
-    internal bool IsExpanded(object key) => _expandedKeyIndex.Contains(key);
+    public bool IsExpanded(object key) => _expandedKeyIndex.Contains(key);
 
     internal async Task ToggleExpandedAsync(TItem item)
     {

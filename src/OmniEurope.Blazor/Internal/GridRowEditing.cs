@@ -3,7 +3,7 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>The rows of a grid in edit mode, entered, saved and cancelled by their key.</summary>
-internal sealed class GridRowEditing<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridRowEditing<TItem>(IGridHost<TItem> grid) : IGridRowEditing<TItem>
 {
     private readonly HashSet<object> _editedKeys = [];
 
@@ -14,30 +14,30 @@ internal sealed class GridRowEditing<TItem>(OmniDataGrid<TItem> grid)
     // script falls back to the cell last pressed, then to the first editor of the row.
     private string? _focusColumn;
 
-    internal bool IsRowEditing(TItem item) => _editedKeys.Contains(grid.ItemKey(item));
+    public bool IsRowEditing(TItem item) => _editedKeys.Contains(grid.ItemKey(item));
 
     /// <summary>Whether this row is the one whose editor takes the focus after the render (<c>data-omni-edit-focus</c>).</summary>
     internal bool TakesFocus(TItem item) => _focusKey is not null && _focusKey.Equals(grid.ItemKey(item)) && IsRowEditing(item);
 
     /// <summary>Whether a row in edit mode waits for its editor to take the focus.</summary>
-    internal bool FocusRequested => _focusKey is not null && _editedKeys.Contains(_focusKey);
+    public bool FocusRequested => _focusKey is not null && _editedKeys.Contains(_focusKey);
 
     /// <summary>The key of the column whose editor takes the focus, or null to let the script choose.</summary>
-    internal string? FocusColumn => _focusColumn;
+    public string? FocusColumn => _focusColumn;
 
     /// <summary>The focus was given (or the row has no editor): the request is spent.</summary>
-    internal void FocusGiven()
+    public void FocusGiven()
     {
         _focusKey = null;
         _focusColumn = null;
     }
 
     /// <summary>Whether a click or a key in a cell of this column puts its row in edit mode (<see cref="OmniDataGrid{TItem}.EditTrigger"/>).</summary>
-    internal bool TriggersFrom(OmniDataGridColumnDefinition<TItem> column) =>
+    public bool TriggersFrom(OmniDataGridColumnDefinition<TItem> column) =>
         grid.EditTrigger == OmniDataGridEditTrigger.Cell && column.EditTemplate is not null;
 
     /// <summary>Puts a row in edit mode; in single mode the row previously edited leaves it without any callback.</summary>
-    internal async Task EditAsync(TItem item, string? focusColumn = null)
+    public async Task EditAsync(TItem item, string? focusColumn = null)
     {
         if (grid.EditMode == OmniDataGridRowMode.Single)
         {
@@ -56,7 +56,7 @@ internal sealed class GridRowEditing<TItem>(OmniDataGrid<TItem> grid)
     /// cell taking the focus. Nothing when the grid does not edit on a cell, the column is not visible or has no
     /// edit template, the row is not on the page, or it is already being edited (the pointer then only moves the focus).
     /// </summary>
-    internal Task EditCellAsync(int rowIndex, string columnKey)
+    public Task EditCellAsync(int rowIndex, string columnKey)
     {
         var column = grid.ColumnSet.FindVisible(columnKey);
         if (column is null || !TriggersFrom(column))

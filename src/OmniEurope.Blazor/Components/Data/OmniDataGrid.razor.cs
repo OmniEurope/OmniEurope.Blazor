@@ -1,4 +1,7 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Internal;
 
@@ -11,7 +14,7 @@ namespace OmniEurope.Blazor.Components;
 /// Its texts come from the library resources; a host rewords them through <c>AddOmniEuropeTextOverrides</c>.
 /// </summary>
 /// <typeparam name="TItem">The type of the rows.</typeparam>
-public partial class OmniDataGrid<TItem>
+public partial class OmniDataGrid<TItem> : IGridHost<TItem>
 {
     private readonly SemaphoreSlim _lifecycleGate = new(1, 1);
     private readonly string _generatedId = $"omni-grid-{Guid.NewGuid():N}";
@@ -75,6 +78,35 @@ public partial class OmniDataGrid<TItem>
     internal GridAggregates<TItem> Aggregates { get; }
     internal GridTree<TItem> Tree { get; }
     internal GridColumnChooser<TItem> Chooser { get; }
+
+    // The collaborators see each other through their role interfaces only (see IGridHost).
+    IGridColumnSet<TItem> IGridHost<TItem>.ColumnSet => ColumnSet;
+    IGridColumnArrangement<TItem> IGridHost<TItem>.Arrangement => Arrangement;
+    IGridQueryState<TItem> IGridHost<TItem>.Query => Query;
+    IGridFilterEditor<TItem> IGridHost<TItem>.FilterEditor => FilterEditor;
+    IGridDataView<TItem> IGridHost<TItem>.View => View;
+    IGridVirtualViewport IGridHost<TItem>.Virtual => Virtual;
+    IGridRowBuilder<TItem> IGridHost<TItem>.Rows => Rows;
+    IGridGrouping<TItem> IGridHost<TItem>.Grouping => Grouping;
+    IGridSelection IGridHost<TItem>.Selection => Selection;
+    IGridExpansion IGridHost<TItem>.Expansion => Expansion;
+    IGridRowEditing<TItem> IGridHost<TItem>.Editing => Editing;
+    IGridPaging IGridHost<TItem>.Paging => Paging;
+    IGridColumnLayout<TItem> IGridHost<TItem>.ColumnLayout => ColumnLayout;
+    IGridLayoutInterop IGridHost<TItem>.LayoutInterop => LayoutInterop;
+    IGridScriptBridge IGridHost<TItem>.Script => Script;
+    IGridFrozenState IGridHost<TItem>.FrozenState => FrozenState;
+    IGridNewRowHighlight<TItem> IGridHost<TItem>.Highlight => Highlight;
+    IGridStatePersistence IGridHost<TItem>.Persistence => Persistence;
+    IGridCssClasses IGridHost<TItem>.Classes => Classes;
+    IGridTree<TItem> IGridHost<TItem>.Tree => Tree;
+    IGridColumnChooser IGridHost<TItem>.Chooser => Chooser;
+    IJSRuntime IGridHost<TItem>.JavaScript => JavaScript;
+    OmniPreferences IGridHost<TItem>.Preferences => Preferences;
+    IServiceProvider IGridHost<TItem>.Services => Services;
+
+    // Every Blazor host registers logging; a container built by hand may not, and the grid then logs nothing.
+    ILogger IGridHost<TItem>.Logger => Services.GetService<ILogger<OmniDataGrid<TItem>>>() ?? (ILogger)NullLogger.Instance;
 
     [Inject]
     internal IJSRuntime JavaScript { get; set; } = default!;
@@ -932,28 +964,28 @@ public partial class OmniDataGrid<TItem>
     [Parameter]
     public EventCallback<Exception> OnExportError { get; set; }
 
-    internal bool DisposeRequested => _disposeRequested;
+    bool IGridHost<TItem>.DisposeRequested => _disposeRequested;
 
     /// <summary>The prefix of the ids inside the grid: <see cref="OmniComponentBase.Id"/>, else one of its own, so two grids never share one.</summary>
-    internal string BaseId => Id ?? _generatedId;
+    string IGridHost<TItem>.BaseId => Id ?? _generatedId;
 
-    internal ElementReference Viewport => _viewport;
+    ElementReference IGridHost<TItem>.Viewport => _viewport;
 
     /// <summary>The identity of a row: <see cref="KeyOf"/>, or the item itself.</summary>
     internal object ItemKey(TItem item) => KeyOf is not null ? KeyOf(item) : item!;
 
-    internal void Render() => StateHasChanged();
+    void IGridHost<TItem>.Render() => StateHasChanged();
 
-    internal Task RenderLaterAsync() => InvokeAsync(StateHasChanged);
+    Task IGridHost<TItem>.RenderLaterAsync() => InvokeAsync(StateHasChanged);
 
-    internal Task DispatchAsync(Func<Task> work) => InvokeAsync(work);
+    Task IGridHost<TItem>.DispatchAsync(Func<Task> work) => InvokeAsync(work);
 
     /// <summary>
     /// Runs <paramref name="work"/> on the renderer for a caller that does not wait for it (a column that
     /// registers while the grid renders). A failure, an <see cref="OnLoadError"/> handler that throws say, reaches
     /// the renderer as one from a lifecycle method would, instead of vanishing with a discarded task.
     /// </summary>
-    internal async Task DispatchDetachedAsync(Func<Task> work)
+    async Task IGridHost<TItem>.DispatchDetachedAsync(Func<Task> work)
     {
         try
         {
@@ -967,9 +999,25 @@ public partial class OmniDataGrid<TItem>
 
     internal string Text(string name, params object[] arguments) => Localize(name, arguments);
 
-    internal DateTimeOffset Now() => Clock.GetUtcNow();
+    string IGridHost<TItem>.Text(string name, params object[] arguments) => Text(name, arguments);
 
-    internal TimeProvider TimeSource => Clock;
+    object IGridHost<TItem>.ItemKey(TItem item) => ItemKey(item);
+
+    bool IGridHost<TItem>.SizesToContent => SizesToContent;
+
+    void IGridHost<TItem>.RebuildRenderSnapshot() => RebuildRenderSnapshot();
+
+    DateTimeOffset IGridHost<TItem>.Now() => Clock.GetUtcNow();
+
+    TimeProvider IGridHost<TItem>.TimeSource => Clock;
+
+    Task IGridHost<TItem>.OnHorizontalScrollChangedAsync(bool scrolled) => OnHorizontalScrollChangedAsync(scrolled);
+    Task IGridHost<TItem>.OnContentResizedAsync() => OnContentResizedAsync();
+    Task IGridHost<TItem>.OnViewportChangedAsync(double scrollTop, double viewportHeight) => OnViewportChangedAsync(scrollTop, viewportHeight);
+    string[]? IGridHost<TItem>.GetColumnAutoFitTexts(string key) => GetColumnAutoFitTexts(key);
+    Task IGridHost<TItem>.OnColumnAutoFitAsync(string key, double width) => OnColumnAutoFitAsync(key, width);
+    Task IGridHost<TItem>.OnColumnResizedAsync(string key, double width) => OnColumnResizedAsync(key, width);
+    Task IGridHost<TItem>.OnColumnDroppedAsync(string key, string targetKey, bool after) => OnColumnDroppedAsync(key, targetKey, after);
 
     /// <summary>Narrowest the table may become, as a CSS length (see <see cref="GridColumnLayout{TItem}.TableMinimumWidth"/>).</summary>
     internal string TableMinimumWidth() => ColumnLayout.TableMinimumWidth();
@@ -1104,7 +1152,7 @@ public partial class OmniDataGrid<TItem>
             if (ColumnSet.ColumnsFragmentRendered())
             {
                 RebuildRenderSnapshot();
-                await RenderLaterAsync();
+                await InvokeAsync(StateHasChanged);
             }
 
             await View.ColumnsRenderedAsync();

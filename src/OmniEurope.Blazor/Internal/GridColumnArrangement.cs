@@ -20,19 +20,19 @@ namespace OmniEurope.Blazor.Internal;
 /// mixing the two groups would slide rows under a column that is not pinned.
 /// </para>
 /// </remarks>
-internal sealed class GridColumnArrangement<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridColumnArrangement<TItem>(IGridHost<TItem> grid) : IGridColumnArrangement<TItem>
 {
     private readonly Dictionary<string, bool> _visibility = new(StringComparer.Ordinal);
     private List<string>? _order;
 
     /// <summary>The order the reader chose, by column key, or null for the declared order.</summary>
-    internal IReadOnlyList<string>? Order => _order;
+    public IReadOnlyList<string>? Order => _order;
 
     /// <summary>The visibility the reader chose, by column key; a column it does not name keeps its declared one.</summary>
-    internal IReadOnlyDictionary<string, bool> Visibility => _visibility;
+    public IReadOnlyDictionary<string, bool> Visibility => _visibility;
 
     /// <summary>The columns in their arranged order, hidden ones included.</summary>
-    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Arrange(IReadOnlyList<OmniDataGridColumnDefinition<TItem>> declared)
+    public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Arrange(IReadOnlyList<OmniDataGridColumnDefinition<TItem>> declared)
     {
         if (_order is not { Count: > 0 })
         {
@@ -88,7 +88,7 @@ internal sealed class GridColumnArrangement<TItem>(OmniDataGrid<TItem> grid)
     /// (another tab, an older layout) keeps the first of them, as the chooser always keeps one: a grid
     /// without any column has nothing left to show its rows nor to bring a column back.
     /// </summary>
-    internal IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Visible(IReadOnlyList<OmniDataGridColumnDefinition<TItem>> arranged)
+    public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Visible(IReadOnlyList<OmniDataGridColumnDefinition<TItem>> arranged)
     {
         var visible = arranged.Where(IsVisible).ToArray();
         if (visible.Length > 0)
@@ -101,7 +101,7 @@ internal sealed class GridColumnArrangement<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Replaces the arrangement with the one restored from the saved state.</summary>
-    internal void Restore(IEnumerable<string>? order, IEnumerable<KeyValuePair<string, bool>>? visibility)
+    public void Restore(IEnumerable<string>? order, IEnumerable<KeyValuePair<string, bool>>? visibility)
     {
         var keys = order?.Where(key => !string.IsNullOrEmpty(key)).ToList();
         _order = keys is { Count: > 0 } ? keys : null;
@@ -113,7 +113,7 @@ internal sealed class GridColumnArrangement<TItem>(OmniDataGrid<TItem> grid)
     }
 
     /// <summary>Back to the declared order and visibility.</summary>
-    internal void Reset() => Restore(null, null);
+    public void Reset() => Restore(null, null);
 
     /// <summary>
     /// Moves a column to a position of the arranged order (hidden columns included), then saves the state.
@@ -158,7 +158,7 @@ internal sealed class GridColumnArrangement<TItem>(OmniDataGrid<TItem> grid)
     /// <param name="target">The key of the column it lands next to.</param>
     /// <param name="after">True to land after that column, false before it.</param>
     /// <returns>Whether the arranged order changed.</returns>
-    internal Task<bool> MoveNextToAsync(string key, string target, bool after)
+    public Task<bool> MoveNextToAsync(string key, string target, bool after)
     {
         var keys = Arrange(grid.ColumnSet.EffectiveColumns).Select(candidate => candidate.Key).Where(candidate => candidate != key).ToList();
         var index = keys.IndexOf(target);
@@ -172,7 +172,7 @@ internal sealed class GridColumnArrangement<TItem>(OmniDataGrid<TItem> grid)
     /// <param name="key">The key of the column.</param>
     /// <param name="visible">Whether it shows.</param>
     /// <returns>Whether the visibility changed.</returns>
-    internal async Task<bool> SetVisibleAsync(string key, bool visible)
+    public async Task<bool> SetVisibleAsync(string key, bool visible)
     {
         var column = grid.ColumnSet.Find(key);
         if (column is null || !ReaderMayHide(column) || IsVisible(column) == visible

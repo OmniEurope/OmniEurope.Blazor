@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Internal;
 /// Renders the value control of a grid column filter, and of a body cell: the one place that decides
 /// which editor a filterable column gets.
 /// </summary>
-internal sealed class GridFilterControls<TItem>(OmniDataGrid<TItem> grid)
+internal sealed class GridFilterControls<TItem>(IGridHost<TItem> grid)
 {
     /// <summary>
     /// The single place that decides which editor a filterable column gets. A column's own
