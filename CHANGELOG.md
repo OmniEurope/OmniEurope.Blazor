@@ -4,6 +4,11 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Corrigé
+
+- Un fond animé en CSS (Bokeh, Aquarelle, Quadrillage, Ricochets...) se fige sur un moteur de rendu trop lent pour le mouvoir : sans processeur graphique, chaque image du fond prenait de 130 à 500 ms et retenait d'autant les clics et les touches de la page. Trois images de suite espacées de plus de 100 ms (la règle du canvas de Trou noir) et la portée pose `data-omni-backdrop-slow`, qui fige le fond.
+- Les thèmes Ardoise et Galet foncent leur trait de bordure (`--omni-color-border`, 40 % du texte en clair, 36 % en sombre) : sur la teinte de leur fond (Quadrillage, Ricochets), le cadre des champs tombait de 1,50 à 1,68 sous le plancher de 1,7.
+
 ## [1.15.1] - 2026-11-24
 
 ### Ajouté
@@ -23,8 +28,6 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Corrigé
 
-- Un fond animé en CSS (Bokeh, Aquarelle, Quadrillage, Ricochets...) se fige sur un moteur de rendu trop lent pour le mouvoir : sans processeur graphique, chaque image du fond prenait de 130 à 500 ms et retenait d'autant les clics et les touches de la page. Trois images de suite espacées de plus de 100 ms (la règle du canvas de Trou noir) et la portée pose `data-omni-backdrop-slow`, qui fige le fond.
-- Les thèmes Ardoise et Galet foncent leur trait de bordure (`--omni-color-border`, 40 % du texte en clair, 36 % en sombre) : sur la teinte de leur fond (Quadrillage, Ricochets), le cadre des champs tombait de 1,50 à 1,68 sous le plancher de 1,7.
 - `OmniMediaStage` ne perd plus la référence d'une tuile quand le nombre de tuiles change : les références étaient tenues par position et le tableau était recréé sans que Blazor recapture les éléments déjà dessinés, si bien qu'après l'arrivée ou le départ d'une tuile, rendre une tuile principale levait `InvalidOperationException` (« ElementReference has not been configured correctly ») au moment du focus, et qu'après un réordonnancement le focus pouvait aller à une autre tuile. Les références sont désormais tenues par clé, et une référence pas encore capturée ne reçoit simplement pas le focus.
 - Une fenêtre à l'échelle gelée (`OmniAppearanceWindow`, boîte de dialogue gelée) ne suit plus la taille du texte sous un thème prédéfini : la portée de thème réécrit ses jetons dans un autre ordre quand elle se redessine, et la fenêtre y voyait un nouveau thème et reprenait ses mesures à la nouvelle échelle. Le thème est désormais comparé comme un ensemble de déclarations.
 - Les en-têtes figés d'`OmniSpreadsheet` (ligne des colonnes, colonne des lignes, coin) gardent leur cadre pendant le défilement : la bordure fusionnée appartient au tableau et défilait avec lui ; un contour sur les quatre côtés suit désormais la cellule figée.
