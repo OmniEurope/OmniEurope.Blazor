@@ -181,7 +181,12 @@ const pageLibrary = String.raw`
     return { r: channel('r'), g: channel('g'), b: channel('b'), a };
   };
 
-  const key = color => [color.r, color.g, color.b, color.a].map(value => value.toFixed(3)).join(',');
+  // Two colours are the same paint when they fall on the same step of the 8-bit grid the browser paints
+  // with (a channel and the alpha in 256 steps): the browser cannot tell them apart, nor can a reading of
+  // its pixels. A finer key kept every rounding difference apart, and a field of eight translucent
+  // gradient layers (Bokeh, Aquarelle, Aplat's shapes) then composed tens of millions of colours per
+  // walk, which ran the renderer out of memory or past the command timeout.
+  const key = color => [color.r, color.g, color.b, color.a * 255].map(value => Math.round(value)).join(',');
   const unique = colors => [...new Map(colors.map(color => [key(color), color])).values()];
 
   // Every colour a gradient layer can paint: each stop and four points between each pair of stops. A
@@ -203,12 +208,21 @@ const pageLibrary = String.raw`
   // its image layers. A flat colour gives one; a gradient gives every colour it passes through, and
   // several gradient layers every combination of theirs, a superset of what is painted, so the worst
   // reading is never missed. An icon image (url) is not under text.
+  // The colours of one background, by its computed colour and image: a measure runs synchronously, so
+  // no frame passes and a moving field keeps one value; the cache is emptied before each measure.
+  const fieldCache = new Map();
   const backgroundOf = node => {
     const style = getComputedStyle(node);
     const color = parse(style.backgroundColor);
     if (!color) throw new Unresolved('couleur de fond illisible sur ' + describe(node) + ' : ' + style.backgroundColor);
     const image = style.backgroundImage;
     if (!image || image === 'none') return [color];
+    const cacheKey = style.backgroundColor + '|' + image;
+    if (!fieldCache.has(cacheKey)) fieldCache.set(cacheKey, layeredColors(node, color, image));
+    return fieldCache.get(cacheKey);
+  };
+
+  const layeredColors = (node, color, image) => {
     let colors = [color];
     for (const layer of layers(image).reverse()) {
       if (/^url\(/.test(layer)) continue;
@@ -452,11 +466,12 @@ const pageLibrary = String.raw`
     }
   };
 
-  const measure = () => current.map((entry, index) => ({ index, ...measureEntry(entry) }));
+  const measure = () => { fieldCache.clear(); return current.map((entry, index) => ({ index, ...measureEntry(entry) })); };
 
   // The busy veil: read the ::after colour, step its animation to find the peak opacity, then measure
   // the content of the control under it at that peak.
   const measureBusy = () => {
+    fieldCache.clear();
     const results = [];
     for (const control of [...document.querySelectorAll('.showcase-stage .omni-busy')].filter(visible)) {
       const veil = getComputedStyle(control, '::after');

@@ -695,6 +695,9 @@ body:has(.omni-layout > .omni-body > .omni-main-scroll) { margin: 0; }
 /* The field stands still when the scope asks for it (OmniThemeScope.BackdropMotion) and whenever the
    user asked the system for less motion. */
 .omni-theme-scope[data-omni-backdrop-motion="off"] { animation: none; }
+/* A renderer too slow to move the field (omni-theme.js: three frames in a row over 100 ms apart) holds it
+   still, so its frames stop holding the page's input. */
+.omni-theme-scope[data-omni-backdrop-slow] { animation: none; }
 @media (prefers-reduced-motion: reduce) { .omni-theme-scope { animation: none; } }
 .omni-body { box-sizing: border-box; display: flex; flex: 1 1 auto; min-height: 0; min-width: 0; }
 /* Two axes: reveal (push takes width, overlay floats) and collapse (nothing, or an icon rail). The

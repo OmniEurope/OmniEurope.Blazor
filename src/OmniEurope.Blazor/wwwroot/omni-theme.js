@@ -5,6 +5,73 @@
 // scope and its content repaint.
 const scopes = new WeakMap();
 const follows = new WeakMap();
+const watches = new WeakMap();
+
+// A moving CSS field (--omni-scope-motion: Bokeh, Aquarelle, Quadrillage...) is painted again whole at
+// every frame. A renderer without a GPU took 130 to 500 ms per frame at 1440 x 900 (headless Edge with
+// --disable-gpu, 2026-11-24), holding the page's clicks and keys that long for as long as the field moved.
+// The rule of the canvas fields (omni-black-hole.js) applies: three frames in a row further apart than
+// SLOW_FRAME_MS and the scope is marked data-omni-backdrop-slow, which holds its field still (see the
+// stylesheet) for as long as the scope lives: the renderer does not get faster.
+const SLOW_FRAME_MS = 100;
+const SLOW_FRAMES = 3;
+
+// Whether the scope's own field is moving now: the animation runs only while a backdrop sets a motion,
+// the scope lets it move and the system does not ask for less motion.
+function fieldMoving(element) {
+    return element.isConnected && element.getAnimations().some(animation => animation.animationName === 'omni-scope-turn' && animation.playState === 'running');
+}
+
+// Watches the frames while the field moves; the loop stops with the field and starts again with it
+// (animationstart), and the time spent with the page hidden is no slow frame.
+function watchMotion(element) {
+    if (watches.has(element) || element.hasAttribute('data-omni-backdrop-slow')) {
+        return;
+    }
+
+    const watch = { frame: 0, last: 0, slow: 0, start: null };
+    const loop = now => {
+        watch.frame = 0;
+        if (!fieldMoving(element)) {
+            return;
+        }
+
+        watch.slow = watch.last && now - watch.last > SLOW_FRAME_MS ? watch.slow + 1 : 0;
+        watch.last = now;
+        if (watch.slow >= SLOW_FRAMES) {
+            element.setAttribute('data-omni-backdrop-slow', '');
+            unwatchMotion(element);
+            return;
+        }
+
+        watch.frame = requestAnimationFrame(loop);
+    };
+    watch.start = () => {
+        watch.last = 0;
+        watch.slow = 0;
+        if (!watch.frame && !document.hidden) {
+            watch.frame = requestAnimationFrame(loop);
+        }
+    };
+    element.addEventListener('animationstart', watch.start);
+    document.addEventListener('visibilitychange', watch.start);
+    watches.set(element, watch);
+    watch.start();
+}
+
+function unwatchMotion(element) {
+    const watch = watches.get(element);
+    if (!watch) {
+        return;
+    }
+
+    if (watch.frame) {
+        cancelAnimationFrame(watch.frame);
+    }
+    element.removeEventListener('animationstart', watch.start);
+    document.removeEventListener('visibilitychange', watch.start);
+    watches.delete(element);
+}
 
 // The scope that keeps the snapshot (OmniThemeScope.SnapshotKey) takes over from the copy omni-boot.js
 // laid before Blazor started: that copy leaves the scope now and the document root once the boot
@@ -51,6 +118,7 @@ export function apply(element, light, dark, appearance, takeOver, fromPreference
 
     scopes.set(element, state);
     state.paint();
+    watchMotion(element);
 }
 
 export function clear(element, takeOver, fromPreferences) {
@@ -58,6 +126,10 @@ export function clear(element, takeOver, fromPreferences) {
         handOver();
     } else if (fromPreferences === true) {
         handOver(true);
+    }
+
+    if (element) {
+        unwatchMotion(element);
     }
 
     const state = element ? scopes.get(element) : undefined;

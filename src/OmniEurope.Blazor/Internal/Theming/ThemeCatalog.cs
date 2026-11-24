@@ -63,8 +63,11 @@ internal static class ThemeCatalog
                 ("--omni-button-font-weight", "600"),
                 ("--omni-heading-text-transform", "uppercase"), ("--omni-heading-letter-spacing", "0.05em"),
                 ("--omni-card-shadow", NoShadow), ("--omni-button-shadow", NoShadow), ("--omni-alert-shadow", NoShadow),
+                // The rule stays legible over the tint of the backdrop (the contrast checks measure it on every stop).
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
                 ("--omni-font-family", Sans)),
-            Shape(),
+            Shape(
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))")),
             DefaultBackdrop: "Quadrillage"),
 
         new("Galet", "ThemeDescriptionGalet", "Forêt",
@@ -78,8 +81,11 @@ internal static class ThemeCatalog
                 // A pebble: shaded underneath, resting on a soft diffuse shadow.
                 ("--omni-button-shadow", "0 0.125rem 0.5rem rgb(0 0 0 / 14%)"),
                 ("--omni-button-font-weight", "600"),
+                // The rule stays legible over the tint of the backdrop (the contrast checks measure it on every stop).
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 40%, var(--omni-color-surface))"),
                 ("--omni-font-family", Rounded), ("--omni-heading-font-weight", "700")),
             Shape(
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-text) 36%, var(--omni-color-surface))"),
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-text) 5%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-text) 12%, transparent), 0 0.5rem 1.5rem rgb(0 0 0 / 45%)")),
             DefaultBackdrop: "Ricochets"),
