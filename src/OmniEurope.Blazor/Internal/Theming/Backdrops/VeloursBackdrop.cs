@@ -58,9 +58,10 @@ internal static class VeloursBackdrop
             ("--omni-backdrop", Field),
             ("--omni-scope-motion", "omni-scope-turn 120s linear infinite")),
         BackdropDefinition.Tokens(
-            // At night the lit side of a fold is the lighter one, the sheen a pale tint of the accent.
-            ("--omni-backdrop-lit", "color-mix(in srgb, var(--omni-color-accent-fill) 12%, var(--omni-color-surface))"),
+            // At night the lit side of a fold is the lighter one, the sheen a pale tint of the accent; both stay
+            // low, so a white accent (Mono) leaves the danger ink of a ghost button readable on the cloth.
+            ("--omni-backdrop-lit", "color-mix(in srgb, var(--omni-color-accent-fill) 10%, var(--omni-color-surface))"),
             ("--omni-backdrop-shade", "color-mix(in srgb, var(--omni-color-accent-fill) 5%, var(--omni-color-surface))"),
-            ("--omni-backdrop-sheen", "color-mix(in srgb, var(--omni-color-accent-fill) 13%, var(--omni-color-surface))"),
+            ("--omni-backdrop-sheen", "color-mix(in srgb, var(--omni-color-accent-fill) 11%, var(--omni-color-surface))"),
             ("--omni-backdrop-weave", "color-mix(in srgb, var(--omni-color-text) 7%, var(--omni-color-surface))")));
 }
