@@ -727,6 +727,9 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Stĺpec {0} presunutý na pozíciu {1} z {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Obnoviť rozloženie</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Rozloženie stĺpcov obnovené</value></data>
+  <data name="GridColumnFreeze" xml:space="preserve"><value>Ukotviť stĺpec {0}</value></data>
+  <data name="GridColumnFrozen" xml:space="preserve"><value>Stĺpec {0} ukotvený</value></data>
+  <data name="GridColumnUnfrozen" xml:space="preserve"><value>Stĺpec {0} uvoľnený</value></data>
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Nebezpečná zóna</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Odstrániť</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Túto akciu nemožno vrátiť späť. Chcete pokračovať?</value></data>

@@ -15,13 +15,13 @@ internal sealed class GridPreferenceHarness
 {
     private static readonly JsonSerializerOptions Web = new(JsonSerializerDefaults.Web);
 
-    public GridPreferenceHarness(IServiceCollection services, bool withStore = false)
+    public GridPreferenceHarness(IServiceCollection services, bool withStore = false, bool persistGridState = false)
     {
         Store = withStore ? new MemoryPreferenceStore() : null;
         services.AddScoped(_ => Preferences = new OmniPreferences(
             Browser,
             Store,
-            new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan },
+            new OmniPreferencesOptions { SyncInterval = Timeout.InfiniteTimeSpan, PersistGridState = persistGridState },
             NullLogger<OmniPreferences>.Instance,
             TimeProvider.System));
     }

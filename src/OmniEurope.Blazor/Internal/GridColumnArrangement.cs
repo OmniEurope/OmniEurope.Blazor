@@ -23,6 +23,7 @@ namespace OmniEurope.Blazor.Internal;
 internal sealed class GridColumnArrangement<TItem>(IGridHost<TItem> grid) : IGridColumnArrangement<TItem>
 {
     private readonly Dictionary<string, bool> _visibility = new(StringComparer.Ordinal);
+    private readonly Dictionary<string, bool> _frozen = new(StringComparer.Ordinal);
     private List<string>? _order;
 
     /// <summary>The order the reader chose, by column key, or null for the declared order.</summary>
@@ -31,12 +32,47 @@ internal sealed class GridColumnArrangement<TItem>(IGridHost<TItem> grid) : IGri
     /// <summary>The visibility the reader chose, by column key; a column it does not name keeps its declared one.</summary>
     public IReadOnlyDictionary<string, bool> Visibility => _visibility;
 
+    /// <summary>The frozen state the reader chose, by column key; a column it does not name keeps its declared <c>Frozen</c>.</summary>
+    public IReadOnlyDictionary<string, bool> Frozen => _frozen;
+
+    /// <summary>
+    /// Whether a column is frozen: the reader's choice, else its declared <c>Frozen</c>. As for the visibility,
+    /// the choice only counts on a grid that lets the reader undo it (<c>AllowColumnFreeze</c>); it stays kept.
+    /// </summary>
+    public bool IsFrozen(OmniDataGridColumnDefinition<TItem> column) =>
+        grid.AllowColumnFreeze && _frozen.TryGetValue(column.Key, out var frozen) ? frozen : column.Frozen;
+
     /// <summary>The columns in their arranged order, hidden ones included.</summary>
     public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Arrange(IReadOnlyList<OmniDataGridColumnDefinition<TItem>> declared)
     {
+        if (declared.Any(column => IsFrozen(column) != column.Frozen))
+        {
+            // The reader froze or unfroze a column: the frozen columns lead, contiguous, as the sticky
+            // offsets need, each group in the arranged order.
+            var arranged = Ordered(declared);
+            return [.. arranged.Where(IsFrozen), .. arranged.Where(column => !IsFrozen(column))];
+        }
+
         if (_order is not { Count: > 0 })
         {
             return declared;
+        }
+
+        var ordered = Ordered(declared);
+        var frozen = new Queue<OmniDataGridColumnDefinition<TItem>>(ordered.Where(column => column.Frozen));
+        var free = new Queue<OmniDataGridColumnDefinition<TItem>>(ordered.Where(column => !column.Frozen));
+        return declared.Select(column => column.Frozen ? frozen.Dequeue() : free.Dequeue()).ToArray();
+    }
+
+    /// <summary>
+    /// The declared columns in the saved order: the columns it names first, a column it does not name right
+    /// after the one declared before it, a name whose column is gone ignored.
+    /// </summary>
+    private List<OmniDataGridColumnDefinition<TItem>> Ordered(IReadOnlyList<OmniDataGridColumnDefinition<TItem>> declared)
+    {
+        if (_order is not { Count: > 0 })
+        {
+            return [.. declared];
         }
 
         var byKey = new Dictionary<string, OmniDataGridColumnDefinition<TItem>>(StringComparer.Ordinal);
@@ -66,9 +102,7 @@ internal sealed class GridColumnArrangement<TItem>(IGridHost<TItem> grid) : IGri
             }
         }
 
-        var frozen = new Queue<OmniDataGridColumnDefinition<TItem>>(ordered.Where(column => column.Frozen));
-        var free = new Queue<OmniDataGridColumnDefinition<TItem>>(ordered.Where(column => !column.Frozen));
-        return declared.Select(column => column.Frozen ? frozen.Dequeue() : free.Dequeue()).ToArray();
+        return ordered;
     }
 
     /// <summary>
@@ -101,7 +135,7 @@ internal sealed class GridColumnArrangement<TItem>(IGridHost<TItem> grid) : IGri
     }
 
     /// <summary>Replaces the arrangement with the one restored from the saved state.</summary>
-    public void Restore(IEnumerable<string>? order, IEnumerable<KeyValuePair<string, bool>>? visibility)
+    public void Restore(IEnumerable<string>? order, IEnumerable<KeyValuePair<string, bool>>? visibility, IEnumerable<KeyValuePair<string, bool>>? frozen)
     {
         var keys = order?.Where(key => !string.IsNullOrEmpty(key)).ToList();
         _order = keys is { Count: > 0 } ? keys : null;
@@ -110,10 +144,49 @@ internal sealed class GridColumnArrangement<TItem>(IGridHost<TItem> grid) : IGri
         {
             _visibility[key] = visible;
         }
+
+        _frozen.Clear();
+        foreach (var (key, isFrozen) in frozen ?? [])
+        {
+            if (!string.IsNullOrEmpty(key))
+            {
+                _frozen[key] = isFrozen;
+            }
+        }
     }
 
-    /// <summary>Back to the declared order and visibility.</summary>
-    public void Reset() => Restore(null, null);
+    /// <summary>Back to the declared order, visibility and frozen columns.</summary>
+    public void Reset() => Restore(null, null, null);
+
+    /// <summary>
+    /// Freezes or unfreezes a column, then saves the state. A column frozen this way joins the end of the
+    /// frozen columns, an unfrozen one the start of the others (see <see cref="Arrange"/>); the order kept is
+    /// the order shown, so a later move or a saved state never splits the frozen columns.
+    /// </summary>
+    /// <param name="key">The key of the column.</param>
+    /// <param name="frozen">Whether it is frozen.</param>
+    /// <returns>Whether its frozen state changed.</returns>
+    public async Task<bool> SetFrozenAsync(string key, bool frozen)
+    {
+        var column = grid.ColumnSet.Find(key);
+        if (column is null || !grid.AllowColumnFreeze || IsFrozen(column) == frozen)
+        {
+            return false;
+        }
+
+        if (frozen == column.Frozen)
+        {
+            _frozen.Remove(key);
+        }
+        else
+        {
+            _frozen[key] = frozen;
+        }
+
+        _order = [.. Arrange(grid.ColumnSet.EffectiveColumns).Select(candidate => candidate.Key)];
+        await ChangedAsync();
+        return true;
+    }
 
     /// <summary>
     /// Moves a column to a position of the arranged order (hidden columns included), then saves the state.

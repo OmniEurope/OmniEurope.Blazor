@@ -438,7 +438,10 @@ public partial class OmniDataGrid<TItem> : IGridHost<TItem>
     [Parameter]
     public bool ShowGroupPanel { get; set; }
 
-    /// <summary>The active groups, outermost first. Bind it (<c>@bind-Groups</c>) for the header toggles to take effect.</summary>
+    /// <summary>
+    /// The active groups, outermost first. The grid keeps its own groups and reports every change through
+    /// <see cref="GroupsChanged"/> (bind it with <c>@bind-Groups</c>); a new value from the host replaces them.
+    /// </summary>
     [Parameter]
     public IReadOnlyList<OmniDataGridGroup> Groups { get; set; } = Array.Empty<OmniDataGridGroup>();
 
@@ -594,6 +597,16 @@ public partial class OmniDataGrid<TItem> : IGridHost<TItem>
     /// </summary>
     [Parameter]
     public bool ShowResetLayout { get; set; }
+
+    /// <summary>
+    /// Lets the reader freeze or unfreeze each column from the column chooser of the header bar (a toggle
+    /// per column, pressed while the column is frozen, reached by mouse and keyboard). A frozen column joins
+    /// the end of the frozen columns at the start of the table, an unfrozen one the start of the others. The
+    /// choice is kept with the state (<see cref="StateKey"/>) and undone by <see cref="ResetLayoutAsync"/>;
+    /// while this is off, a saved choice freezes nothing and the declared <c>Frozen</c> applies. Off by default.
+    /// </summary>
+    [Parameter]
+    public bool AllowColumnFreeze { get; set; }
 
     /// <summary>
     /// Raised with the moved column and the resulting order once the reader moved a column, by a drag or
@@ -802,6 +815,18 @@ public partial class OmniDataGrid<TItem> : IGridHost<TItem>
     /// </remarks>
     [Parameter]
     public string? StateKey { get; set; }
+
+    /// <summary>
+    /// Whether this grid keeps its state. Null, the default, follows the host: a grid with a
+    /// <see cref="StateKey"/> keeps it, and so does every grid once the host turns on
+    /// <see cref="OmniPreferencesOptions.PersistGridState"/>. True keeps it even without either: the key is
+    /// then derived from the current route (query left out, integer and GUID segments replaced by <c>*</c>)
+    /// and the grid's <see cref="OmniComponentBase.Id"/>, else a signature of its declared column keys. False
+    /// keeps nothing, <see cref="StateKey"/> included. Two grids of one page without an id and with the same
+    /// columns share a derived key: give them an <see cref="OmniComponentBase.Id"/> or a <see cref="StateKey"/>.
+    /// </summary>
+    [Parameter]
+    public bool? PersistState { get; set; }
 
     /// <summary>
     /// Where the footer row goes (the columns' <c>FooterContent</c>): in a real table footer after the
@@ -1044,7 +1069,7 @@ public partial class OmniDataGrid<TItem> : IGridHost<TItem>
     /// </summary>
     protected override async Task OnInitializedAsync()
     {
-        if (StateKey is { } key)
+        if (Persistence.ResolveInitialKey() is { } key)
         {
             await Persistence.LoadAsync(key);
         }
@@ -1080,6 +1105,7 @@ public partial class OmniDataGrid<TItem> : IGridHost<TItem>
     private void MirrorParameters()
     {
         Paging.Mirror();
+        Grouping.Mirror();
         Selection.Mirror();
         Tree.Mirror();
     }
@@ -1151,6 +1177,14 @@ public partial class OmniDataGrid<TItem> : IGridHost<TItem>
             // A columns fragment that declared no column: the implicit column takes over from the loading row.
             if (ColumnSet.ColumnsFragmentRendered())
             {
+                RebuildRenderSnapshot();
+                await InvokeAsync(StateHasChanged);
+            }
+
+            // A state keyed by the signature of the columns: they are known now, before the first request.
+            if (Persistence.ResolveDeferredKey() is { } key)
+            {
+                await Persistence.LoadAsync(key);
                 RebuildRenderSnapshot();
                 await InvokeAsync(StateHasChanged);
             }

@@ -1,4 +1,6 @@
 using System.Text.Json;
+using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.JSInterop;
@@ -7,21 +9,23 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
-/// Keeps a grid's filters, sorts, column widths, column order and column visibility as one user
-/// preference (<see cref="OmniPreferences"/>) under <see cref="PreferencePrefix"/> followed by its state
-/// key, restores what is valid of a saved state, and applies again a state that changed elsewhere (the
-/// host's store, another tab) while the grid is on screen.
+/// Keeps a grid's filters, sorts, page size, groups, column widths, column order, column visibility and frozen
+/// columns as one user preference (<see cref="OmniPreferences"/>) under <see cref="PreferencePrefix"/> followed
+/// by its state key (its <c>StateKey</c>, else the key <see cref="GridStateKey"/> derives), restores what is
+/// valid of a saved state, and applies again a state that changed elsewhere (the host's store, another tab)
+/// while the grid is on screen.
 /// </summary>
 internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGridStatePersistence, IDisposable
 {
     /// <summary>The prefix of the preference key of a grid: <c>omni.grid.</c> then its <c>StateKey</c>.</summary>
-    internal const string PreferencePrefix = "omni.grid.";
+    internal const string PreferencePrefix = GridStateKey.PreferencePrefix;
 
     /// <summary>
     /// The version written. 1 (or none) is the former shape: filters, sorts and widths. 2 adds the column
-    /// order and visibility; a state without them keeps the declared order and visibility.
+    /// order and visibility; a state without them keeps the declared order and visibility. 3 adds the page
+    /// size, the groups and the frozen columns the reader chose; a state without them keeps the current ones.
     /// </summary>
-    internal const int CurrentVersion = 2;
+    internal const int CurrentVersion = 3;
 
     private static readonly JsonSerializerOptions JsonOptions = new(JsonSerializerDefaults.Web);
 
@@ -34,6 +38,10 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
     private Task _applying = Task.CompletedTask;
     private ILogger _logger = NullLogger.Instance;
     private bool _storageRefusalReported;
+    // The key derived for a grid without a StateKey (see GridStateKey), once resolved.
+    private string? _derivedKey;
+    // A derived key that needs the declared columns: resolved after the first render.
+    private bool _derivedKeyPending;
 
     internal sealed record PersistedState(
         int Version,
@@ -41,9 +49,63 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
         List<OmniDataGridSort>? Sorts,
         Dictionary<string, string?>? ColumnWidths,
         List<string>? ColumnOrder = null,
-        Dictionary<string, bool>? ColumnVisibility = null);
+        Dictionary<string, bool>? ColumnVisibility = null,
+        int? PageSize = null,
+        List<OmniDataGridGroup>? Groups = null,
+        Dictionary<string, bool>? ColumnFrozen = null);
 
     internal static string PreferenceKey(string stateKey) => PreferencePrefix + stateKey;
+
+    /// <summary>
+    /// The key the grid keeps its state under: its <c>StateKey</c>, else the derived one, none when the grid
+    /// opts out (<c>PersistState</c> false) or keeps nothing.
+    /// </summary>
+    internal string? CurrentKey => grid.PersistState == false ? null : grid.StateKey ?? _derivedKey;
+
+    /// <summary>
+    /// The key to read before the first render: the <c>StateKey</c>, or the derived key of a grid with an id
+    /// when the host keeps every grid's state (<c>PersistGridState</c>) or the grid asks for it
+    /// (<c>PersistState</c> true). Without an id the derived key needs the declared columns: it is left to
+    /// <see cref="ResolveDeferredKey"/>. Null when nothing is kept, or not yet.
+    /// </summary>
+    internal string? ResolveInitialKey()
+    {
+        if (grid.PersistState == false)
+        {
+            return null;
+        }
+
+        if (grid.StateKey is { } stateKey)
+        {
+            return stateKey;
+        }
+
+        if (grid.PersistState != true && !grid.Preferences.PersistGridState)
+        {
+            return null;
+        }
+
+        if (string.IsNullOrWhiteSpace(grid.Id))
+        {
+            _derivedKeyPending = true;
+            return null;
+        }
+
+        return _derivedKey = GridStateKey.Derive(grid.Services.GetService<NavigationManager>(), grid.Id, () => []);
+    }
+
+    /// <summary>The derived key of a grid without an id, once its columns registered (after its first render); null otherwise.</summary>
+    internal string? ResolveDeferredKey()
+    {
+        if (!_derivedKeyPending)
+        {
+            return null;
+        }
+
+        _derivedKeyPending = false;
+        return _derivedKey = GridStateKey.Derive(
+            grid.Services.GetService<NavigationManager>(), null, () => grid.ColumnSet.Declared.Select(column => column.Key));
+    }
 
     /// <summary>
     /// Reads the saved state and follows its later changes. Without a preference, an entry the former
@@ -57,8 +119,9 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
         PersistedState? state;
         try
         {
+            // A derived key never had an entry of the former browser store.
             state = await grid.Preferences.GetAsync<PersistedState>(PreferenceKey(key))
-                ?? await ImportLegacyAsync(key);
+                ?? (key == _derivedKey ? null : await ImportLegacyAsync(key));
         }
         catch (Exception exception) when (exception is JSDisconnectedException or ObjectDisposedException)
         {
@@ -77,13 +140,13 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
             return;
         }
 
-        Restore(state);
+        await RestoreAsync(state);
         grid.View.InvalidateLocalProjection();
     }
 
     public async Task SaveAsync()
     {
-        if (grid.StateKey is not { } key)
+        if (CurrentKey is not { } key)
         {
             return;
         }
@@ -94,7 +157,10 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
             [.. grid.Query.Sorts],
             new Dictionary<string, string?>(grid.ColumnLayout.Widths, StringComparer.Ordinal),
             grid.Arrangement.Order is { } order ? [.. order] : null,
-            grid.Arrangement.Visibility.Count > 0 ? new Dictionary<string, bool>(grid.Arrangement.Visibility, StringComparer.Ordinal) : null);
+            grid.Arrangement.Visibility.Count > 0 ? new Dictionary<string, bool>(grid.Arrangement.Visibility, StringComparer.Ordinal) : null,
+            grid.Paging.ChosenPageSize,
+            grid.Grouping.ChosenGroups is { } groups ? [.. groups] : null,
+            grid.Arrangement.Frozen.Count > 0 ? new Dictionary<string, bool>(grid.Arrangement.Frozen, StringComparer.Ordinal) : null);
         try
         {
             await grid.Preferences.SetAsync(PreferenceKey(key), state);
@@ -129,8 +195,8 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
     }
 
     /// <summary>
-    /// Back to the declared layout (order, visibility, widths), then saves the state, which keeps the
-    /// filters and the sorts: the rows stay as they are, and the user's other devices take the same layout.
+    /// Back to the declared layout (order, visibility, frozen columns, widths), then saves the state, which
+    /// keeps the filters, the sorts, the page size and the groups: the rows stay as they are, and the user's other devices take the same layout.
     /// The preference is not removed, it would take the filters and sorts with it (owner decision, PLAN-019
     /// lot 4). A state removed elsewhere still brings everything back to the declaration
     /// (<see cref="OnPreferenceChangedAsync"/>).
@@ -143,6 +209,7 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
         {
             grid.ColumnLayout.Restore([]);
             grid.Arrangement.Reset();
+            return Task.CompletedTask;
         });
         if (applied)
         {
@@ -210,7 +277,7 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
         await previous;
         try
         {
-            await grid.DispatchAsync(() => ApplyAsync(() => Replace(state)));
+            await grid.DispatchAsync(() => ApplyAsync(() => ReplaceAsync(state)));
         }
         catch (Exception exception) when (exception is JSDisconnectedException or ObjectDisposedException)
         {
@@ -223,26 +290,28 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
         }
     }
 
-    /// <summary>A state from elsewhere in place of the grid's (null: the declared one).</summary>
-    private void Replace(PersistedState? state)
+    /// <summary>
+    /// A state from elsewhere in place of the grid's (null: the declared layout and query; the page size and
+    /// the groups stay as they are).
+    /// </summary>
+    private Task ReplaceAsync(PersistedState? state)
     {
-        if (state is null)
+        if (state is not null)
         {
-            grid.Query.ResetToDeclared();
-            grid.ColumnLayout.Restore([]);
-            grid.Arrangement.Reset();
+            return RestoreAsync(state);
         }
-        else
-        {
-            Restore(state);
-        }
+
+        grid.Query.ResetToDeclared();
+        grid.ColumnLayout.Restore([]);
+        grid.Arrangement.Reset();
+        return Task.CompletedTask;
     }
 
     /// <summary>
     /// Applies a change of the state to a grid on screen, loading again when its query changed. A grid being
     /// removed takes no change: false, nothing applied.
     /// </summary>
-    private async Task<bool> ApplyAsync(Action change)
+    private async Task<bool> ApplyAsync(Func<Task> change)
     {
         // A change queued while the grid was being removed: no rows to load, nothing to draw.
         if (grid.DisposeRequested)
@@ -252,9 +321,17 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
 
         var filtersBefore = grid.Query.Filters.ToArray();
         var sortsBefore = grid.Query.Sorts.ToArray();
-        change();
+        var pageSizeBefore = grid.Paging.PageSize;
+        var groupsBefore = grid.Grouping.ActiveGroups;
+        await change();
         grid.LayoutInterop.InvalidateColumnLayout();
-        if (!SameQuery(filtersBefore, sortsBefore))
+        if (!groupsBefore.SequenceEqual(grid.Grouping.ActiveGroups))
+        {
+            grid.View.InvalidateLocalProjection();
+        }
+
+        // Another page size moves the rows of every page: back to the first one, like a new query.
+        if (!SameQuery(filtersBefore, sortsBefore) || pageSizeBefore != grid.Paging.PageSize)
         {
             await grid.Paging.ResetToFirstPageAsync();
             grid.View.InvalidateLocalProjection();
@@ -273,9 +350,11 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
 
     /// <summary>
     /// Valid JSON can still miss a part or hold entries of an older shape: a missing part restores the
-    /// declared one, an incomplete entry is dropped, and a missing filter text is an empty one.
+    /// declared one (the page size and the groups keep the current ones), an incomplete entry is dropped, and
+    /// a missing filter text is an empty one. A restored page size or groups are reported to the host
+    /// (<c>PageSizeChanged</c>, <c>GroupsChanged</c>), as the reader's own change would be.
     /// </summary>
-    private void Restore(PersistedState state)
+    private async Task RestoreAsync(PersistedState state)
     {
         var filters = new List<KeyValuePair<string, GridColumnFilter>>();
         foreach (var (columnKey, filter) in state.Filters ?? [])
@@ -291,7 +370,16 @@ internal sealed class GridStatePersistence<TItem>(IGridHost<TItem> grid) : IGrid
 
         grid.Query.Restore(filters, (state.Sorts ?? []).Where(sort => sort is { Key: not null }));
         grid.ColumnLayout.Restore(state.ColumnWidths ?? []);
-        grid.Arrangement.Restore(state.ColumnOrder, state.ColumnVisibility);
+        grid.Arrangement.Restore(state.ColumnOrder, state.ColumnVisibility, state.ColumnFrozen);
+        if (grid.Paging.Restore(state.PageSize))
+        {
+            await grid.PageSizeChanged.InvokeAsync(grid.Paging.PageSize);
+        }
+
+        if (grid.Grouping.Restore(state.Groups))
+        {
+            await grid.GroupsChanged.InvokeAsync(grid.Grouping.ActiveGroups);
+        }
     }
 
     /// <summary>

@@ -245,6 +245,9 @@
             <OmniSettingsTile Title="@Text["DataGridResetLayout"]">
                 <ChildContent><OmniSwitch @bind-Value="ShowResetLayout" aria-label="@Text["DataGridResetLayout"]" /></ChildContent>
             </OmniSettingsTile>
+            <OmniSettingsTile Title="@Text["DataGridColumnFreeze"]">
+                <ChildContent><OmniSwitch @bind-Value="AllowColumnFreeze" aria-label="@Text["DataGridColumnFreeze"]" /></ChildContent>
+            </OmniSettingsTile>
             <OmniSettingsTile Title="@Text["DataGridExportLabels"]">
                 <ChildContent><OmniSwitch @bind-Value="ShowExportButtonText" aria-label="@Text["DataGridExportLabels"]" /></ChildContent>
             </OmniSettingsTile>
@@ -369,6 +372,7 @@
                                      AllowColumnReorder="AllowColumnReorder"
                                      AllowColumnHide="AllowColumnHide"
                                      ShowResetLayout="ShowResetLayout"
+                                     AllowColumnFreeze="AllowColumnFreeze"
                                      ShowExportButtonText="ShowExportButtonText"
                                      FreezeNumber="FreezeNumber"
                                      HeaderWrap="HeaderWrap"

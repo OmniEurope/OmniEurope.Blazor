@@ -20,9 +20,59 @@ internal sealed class GridGrouping<TItem>(IGridHost<TItem> grid) : IGridGrouping
     private readonly HashSet<string> _collapsedGroups = new(StringComparer.Ordinal);
     private bool? _allExpanded;
     private bool _observedDefault = true;
+    // Mirrored from the Groups parameter when the host passes a new value, like the page size: the grid keeps
+    // its own groups, so a header toggle or a restored state applies whether or not the host binds them.
+    private IReadOnlyList<OmniDataGridGroup> _groups = Array.Empty<OmniDataGridGroup>();
+    private IReadOnlyList<OmniDataGridGroup>? _receivedGroups;
+    // The groups the reader set (or a saved state restored): the ones the state keeps. A different value from
+    // the host is the host's decision and forgets them; the same value is its binding.
+    private IReadOnlyList<OmniDataGridGroup>? _chosenGroups;
 
     // A tree grid is not grouped: its rows are already nested under their parents.
-    public IReadOnlyList<OmniDataGridGroup> ActiveGroups => grid.AllowGrouping && !grid.Tree.Active ? grid.Groups : Array.Empty<OmniDataGridGroup>();
+    public IReadOnlyList<OmniDataGridGroup> ActiveGroups => grid.AllowGrouping && !grid.Tree.Active ? _groups : Array.Empty<OmniDataGridGroup>();
+
+    /// <summary>The groups the reader set (or a saved state restored), null while they are the host's.</summary>
+    public IReadOnlyList<OmniDataGridGroup>? ChosenGroups => _chosenGroups;
+
+    /// <summary>Takes the groups the host passes when they are a new value (another content).</summary>
+    internal void Mirror()
+    {
+        var received = grid.Groups;
+        if (_receivedGroups is not null && _receivedGroups.SequenceEqual(received))
+        {
+            return;
+        }
+
+        _receivedGroups = [.. received];
+        _groups = _receivedGroups;
+        if (_chosenGroups is not null && !_chosenGroups.SequenceEqual(received))
+        {
+            _chosenGroups = null;
+        }
+    }
+
+    /// <summary>
+    /// Takes saved groups, on a grid that lets the reader group (<c>AllowGrouping</c>) and can group its rows
+    /// (not a remote virtualized grid, which only holds blocks of them). True when they changed the groups;
+    /// the caller raises the change.
+    /// </summary>
+    public bool Restore(IReadOnlyList<OmniDataGridGroup>? groups)
+    {
+        if (groups is null || !grid.AllowGrouping || grid.Tree.Active || (grid.View.Virtualized && grid.Load is not null))
+        {
+            return false;
+        }
+
+        IReadOnlyList<OmniDataGridGroup> valid = [.. groups.Where(group => group is { Key.Length: > 0 })];
+        _chosenGroups = valid;
+        if (_groups.SequenceEqual(valid))
+        {
+            return false;
+        }
+
+        _groups = valid;
+        return true;
+    }
 
     internal bool IsGroupable(OmniDataGridColumnDefinition<TItem> column) => grid.AllowGrouping && column.Groupable;
 
@@ -41,7 +91,12 @@ internal sealed class GridGrouping<TItem>(IGridHost<TItem> grid) : IGridGrouping
             groups.Add(new OmniDataGridGroup(column.Key));
         }
 
+        _groups = groups;
+        _chosenGroups = groups;
+        grid.View.InvalidateLocalProjection();
+        grid.RebuildRenderSnapshot();
         await grid.GroupsChanged.InvokeAsync(groups);
+        await grid.Persistence.SaveAsync();
     }
 
     /// <summary>Removes a group from the group panel.</summary>
@@ -54,6 +109,7 @@ internal sealed class GridGrouping<TItem>(IGridHost<TItem> grid) : IGridGrouping
     /// <summary>A host that changes AllGroupsExpanded takes back the default that opening or closing every group had replaced.</summary>
     internal void ObserveParameters()
     {
+        Mirror();
         if (grid.AllGroupsExpanded != _observedDefault)
         {
             _observedDefault = grid.AllGroupsExpanded;

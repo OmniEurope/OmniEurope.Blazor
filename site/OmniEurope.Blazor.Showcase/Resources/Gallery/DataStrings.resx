@@ -184,6 +184,7 @@
   <data name="DataGridPagingTitle" xml:space="preserve"><value>Paging</value></data>
   <data name="DataGridPreviewTitle" xml:space="preserve"><value>Flights of the day</value></data>
   <data name="DataGridResetLayout" xml:space="preserve"><value>Offer to reset the layout</value></data>
+  <data name="DataGridColumnFreeze" xml:space="preserve"><value>Let the reader freeze columns</value></data>
   <data name="DataGridResponsive" xml:space="preserve"><value>Cards on small screens</value></data>
   <data name="DataGridResponsiveDescription" xml:space="preserve"><value>Below 40 rem, each row is stacked into a labelled card.</value></data>
   <data name="DataGridRowHover" xml:space="preserve"><value>Row hover</value></data>

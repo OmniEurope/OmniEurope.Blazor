@@ -13,10 +13,16 @@ internal sealed class GridPaging<TItem>(IGridHost<TItem> grid) : IGridPaging
     private int? _receivedPage;
     private int _pageSize = 20;
     private int? _receivedPageSize;
+    // The page size the reader picked in the pager, or a saved state restored: the one the state keeps. A
+    // different value from the host is the host's decision and forgets it; the same value is its binding.
+    private int? _chosenPageSize;
 
     public int Page => _page;
 
     public int PageSize => _pageSize;
+
+    /// <summary>The page size the reader chose (or a saved state restored), null while it is the host's.</summary>
+    public int? ChosenPageSize => _chosenPageSize;
 
     /// <summary>Takes the page and page size the host passes when they are new values.</summary>
     internal void Mirror()
@@ -31,7 +37,32 @@ internal sealed class GridPaging<TItem>(IGridHost<TItem> grid) : IGridPaging
         {
             _receivedPageSize = grid.PageSize;
             _pageSize = grid.PageSize;
+            if (_chosenPageSize != grid.PageSize)
+            {
+                _chosenPageSize = null;
+            }
         }
+    }
+
+    /// <summary>
+    /// Takes a saved page size, only one the pager offers (<c>PageSizeOptions</c>): a size the reader could
+    /// not pick back is left aside. True when it changed the page size; the caller raises the change.
+    /// </summary>
+    public bool Restore(int? pageSize)
+    {
+        if (pageSize is not { } size || !grid.PageSizeOptions.Contains(size))
+        {
+            return false;
+        }
+
+        _chosenPageSize = size;
+        if (size == _pageSize)
+        {
+            return false;
+        }
+
+        _pageSize = size;
+        return true;
     }
 
     internal int PageCount => Math.Max(1, (int)Math.Ceiling(grid.View.TotalCount / (double)Math.Max(1, _pageSize)));
@@ -86,11 +117,13 @@ internal sealed class GridPaging<TItem>(IGridHost<TItem> grid) : IGridPaging
     internal async Task ChangePageSizeAsync(int pageSize)
     {
         _pageSize = pageSize;
+        _chosenPageSize = pageSize;
         grid.View.InvalidateLocalProjection();
         await grid.PageSizeChanged.InvokeAsync(pageSize);
         await ResetToFirstPageAsync();
         if (grid.Load is not null && !grid.View.Virtualized) await grid.View.ReloadAsync();
         grid.RebuildRenderSnapshot();
+        await grid.Persistence.SaveAsync();
     }
 
     internal string PagingSummary()

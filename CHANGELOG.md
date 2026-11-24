@@ -18,6 +18,18 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 - Une fenêtre à l'échelle gelée (`OmniAppearanceWindow`, boîte de dialogue gelée) ne suit plus la taille du texte sous un thème prédéfini : la portée de thème réécrit ses jetons dans un autre ordre quand elle se redessine, et la fenêtre y voyait un nouveau thème et reprenait ses mesures à la nouvelle échelle. Le thème est désormais comparé comme un ensemble de déclarations.
 - Les en-têtes figés d'`OmniSpreadsheet` (ligne des colonnes, colonne des lignes, coin) gardent leur cadre pendant le défilement : la bordure fusionnée appartient au tableau et défilait avec lui ; un contour sur les quatre côtés suit désormais la cellule figée.
 
+## [1.15.1] - 2026-11-24
+
+### Ajouté
+
+- État des grilles enregistré sans code dans chaque application, à la demande d'une application cliente : `OmniPreferencesOptions.PersistGridState` (`bool`, `false` par défaut) garde l'état de toutes les `OmniDataGrid`, même sans `StateKey`, sous une clé déduite de la page (`omni.grid.route:<chemin>#id:<Id>`, sinon `#cols:<signature des colonnes déclarées>`) : chemin relatif à l'adresse de base, sans requête, en minuscules, segments entiers et GUID remplacés par `*` (`/projets/12` et `/projets/34` partagent un état). `OmniDataGrid.PersistState` (`bool?`, `null` par défaut) suit l'hôte, `true` garde l'état de cette grille sans option globale, `false` ne garde rien, pas même sous sa `StateKey`. Deux grilles d'une page sans `Id` et aux mêmes colonnes partagent leur état : leur donner un `Id` ou une `StateKey`. Une clé de plus de 200 caractères est hachée.
+- État de la grille en version 3 : la taille de page choisie (`pageSize`), les regroupements posés par le lecteur (`groups`) et les colonnes figées ou libérées par lui (`columnFrozen`) sont enregistrés et restaurés, publiés par `PageSizeChanged` et `GroupsChanged` comme un geste du lecteur ; un état des versions 1 et 2 se relit sans perte. Une taille absente de `PageSizeOptions`, des regroupements sur une grille sans `AllowGrouping` et des colonnes figées sur une grille sans `AllowColumnFreeze` ne s'appliquent pas.
+- `OmniDataGrid.AllowColumnFreeze` (`bool`, `false` par défaut) : dans le sélecteur de colonnes, un bouton bascule à épingle par colonne (`OmniToggleButton`, « Figer la colonne … », `aria-pressed`) fige ou libère la colonne, à la souris comme au clavier ; les colonnes figées restent contiguës au début, le focus revient sur le bouton, le changement est annoncé et enregistré, et `ResetLayoutAsync()` (comme l'action « Réinitialiser la disposition ») le défait. Textes dans les 24 langues (`GridColumnFreeze`, `GridColumnFrozen`, `GridColumnUnfrozen`). Démonstration dans la vue complète de la grille de la vitrine.
+
+### Modifié
+
+- `OmniDataGrid` tient ses propres regroupements, comme sa page et sa taille de page : le bouton de regroupement d'un en-tête agit même sans `@bind-Groups` (il ne faisait que lever `GroupsChanged`), et une nouvelle valeur de `Groups` passée par l'hôte (un autre contenu) les remplace.
+
 ## [1.15.0] - 2026-11-20
 
 ### Modifié

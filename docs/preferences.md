@@ -36,6 +36,11 @@ limitée) ; `TimeSpan.Zero` supprime la limite, une valeur négative
 lève `ArgumentOutOfRangeException`. Les dates des valeurs viennent du `TimeProvider` de l'hôte quand il en
 enregistre un, de l'horloge système sinon, toujours en UTC.
 
+`OmniPreferencesOptions.PersistGridState` (`bool`, `false`, 1.15.1) garde l'état de toutes les grilles,
+même sans `StateKey`, sous une clé déduite de la page (voir [data-components.md](data-components.md),
+« Toutes les grilles sans `StateKey` : clé déduite ») ; avec ou sans base :
+`services.Configure<OmniPreferencesOptions>(options => options.PersistGridState = true)`.
+
 ## API
 
 - `GetAsync<T>(key)` : la valeur, ou `default` quand la préférence n'existe pas, a été supprimée ou ne se
@@ -454,7 +459,8 @@ store.
 | Clé | Contenu |
 |---|---|
 | `omni.appearance` (`OmniAppearanceState.PreferenceKey`) | L'apparence tenue par `OmniAppearanceState`, voir [foundation-components.md](foundation-components.md), « Apparence portée par le paquet ». Son entrée de cache porte aussi, dans ce navigateur seulement, la copie d'amorçage (`Boot`, voir « Copie d'amorçage de l'apparence »). |
-| `omni.grid.<StateKey>` | L'état d'une grille à `StateKey` (filtres, tris, largeurs, ordre et visibilité des colonnes), voir [data-components.md](data-components.md), « Enregistrement de l'état ». |
+| `omni.grid.<StateKey>` | L'état d'une grille à `StateKey` (filtres, tris, taille de page, regroupements, largeurs, ordre, visibilité et colonnes figées), voir [data-components.md](data-components.md), « Enregistrement de l'état ». |
+| `omni.grid.route:<chemin>#id:<Id>`, `omni.grid.route:<chemin>#cols:<signature>` | Le même état pour une grille sans `StateKey`, quand l'application active `OmniPreferencesOptions.PersistGridState` (ou la grille `PersistState`) : chemin de la page sans requête, segments entiers et GUID remplacés par `*`, puis l'`Id` de la grille, sinon une signature de ses colonnes déclarées ; `omni.grid.route:~<hachage>` au-delà de 200 caractères. Voir [data-components.md](data-components.md), « Toutes les grilles sans `StateKey` : clé déduite ». |
 
 ## Limites
 

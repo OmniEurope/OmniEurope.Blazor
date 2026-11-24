@@ -78,7 +78,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
 
         var saved = preferences.Store!["omni.grid.orders"]!;
         var state = JsonDocument.Parse(saved.Value!).RootElement;
-        Assert.Equal(2, state.GetProperty("version").GetInt32());
+        Assert.Equal(3, state.GetProperty("version").GetInt32());
         Assert.Equal(["City", "Name", "Amount"], state.GetProperty("columnOrder").EnumerateArray().Select(key => key.GetString()));
         Assert.False(state.GetProperty("columnVisibility").GetProperty("Amount").GetBoolean());
         Assert.Equal("Amount", state.GetProperty("sorts")[0].GetProperty("key").GetString());
@@ -173,7 +173,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         Assert.Single(JSInterop.Invocations["localStorage.removeItem"]);
         // Kept as the preference, in the current shape.
         var stored = preferences.Saved("orders")!.Value;
-        Assert.Equal(2, stored.GetProperty("version").GetInt32());
+        Assert.Equal(3, stored.GetProperty("version").GetInt32());
         Assert.Equal("b", stored.GetProperty("filters").GetProperty("Name").GetProperty("value").GetString());
     }
 

@@ -113,7 +113,7 @@ internal sealed class GridLayoutInterop<TItem>(IGridHost<TItem> grid) : IGridLay
         || grid.FillAvailableHeight
         || grid.ColumnLayout.Widths.Count > 0
         || grid.Virtual.FixedHeight is not null
-        || grid.ColumnSet.VisibleColumns.Any(column => column.Width is not null || column.MinWidth is not null || column.Frozen);
+        || grid.ColumnSet.VisibleColumns.Any(column => column.Width is not null || column.MinWidth is not null || grid.Arrangement.IsFrozen(column));
 
     public async Task ApplyColumnLayoutAsync()
     {

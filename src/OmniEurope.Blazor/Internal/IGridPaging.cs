@@ -7,5 +7,9 @@ internal interface IGridPaging
 
     int PageSize { get; }
 
+    int? ChosenPageSize { get; }
+
+    bool Restore(int? pageSize);
+
     Task ResetToFirstPageAsync();
 }

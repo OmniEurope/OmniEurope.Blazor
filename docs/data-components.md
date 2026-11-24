@@ -178,7 +178,9 @@ Des colonnes figées larges mangent la place des colonnes qui défilent. Dès qu
 côté, un bouton posé sur le bord de fin des colonnes figées, au niveau de l'en-tête, permet de les
 détacher le temps de lire le reste de la ligne. Le cycle est une machine à trois états tenue par la
 grille elle-même : état propre à chaque instance, jamais persisté (ni paramètre, ni stockage du
-navigateur), perdu quand la grille est retirée de la page.
+navigateur), perdu quand la grille est retirée de la page. Figer ou libérer une colonne pour de bon
+est un autre geste, enregistré avec l'état : `AllowColumnFreeze` (voir « Réordonner, masquer et
+réinitialiser les colonnes »).
 
 | État | Défilement horizontal | Colonnes figées | Bouton |
 |---|---|---|---|
@@ -439,7 +441,9 @@ comme n'importe quel autre filtre.
   `AddOmniEuropeTextOverrides` ([localization.md](localization.md)).
 - `Groups` liste les regroupements actifs par clé de colonne, `GroupsChanged` les publie, et le
   panneau `ShowGroupPanel` les affiche avec un retrait par regroupement. `AllGroupsExpanded` fixe
-  l'état initial ; chaque en-tête de groupe se replie individuellement.
+  l'état initial ; chaque en-tête de groupe se replie individuellement. Depuis la 1.15.1, la grille
+  tient ses propres regroupements, comme sa page et sa taille de page : le bouton d'en-tête agit même
+  sans `@bind-Groups`, et une nouvelle valeur passée par l'hôte (un autre contenu) les remplace.
 - `ShowExpandAllGroups` (`bool`, `false` par défaut) ajoute, à la suite du panneau des regroupements (ou seul, sans
   `ShowGroupPanel`), un bouton qui ouvre ou ferme d'un coup tous les groupes de tous les niveaux : il n'apparaît que
   tant qu'un regroupement est actif. Son texte dit l'action du prochain clic (« Réduire tous les groupes » quand tout
@@ -671,20 +675,33 @@ reprend sa teinte au mouvement suivant du pointeur.
 
 ## Enregistrement de l'état (`StateKey`)
 
-`StateKey` active l'enregistrement de l'état de la grille : filtres, tris, largeurs choisies, ordre et
-visibilité des colonnes. Sans `StateKey`, rien n'est lu ni écrit. L'état est une préférence de
+`StateKey` active l'enregistrement de l'état de la grille : filtres, tris, taille de page,
+regroupements, largeurs choisies, ordre, visibilité et colonnes figées choisies. Sans `StateKey` (et
+sans l'option globale décrite plus bas), rien n'est lu ni écrit. L'état est une préférence de
 l'utilisateur tenue par `OmniPreferences`, sous la clé `omni.grid.` suivie de `StateKey`
 (`omni.grid.commandes` pour `StateKey="commandes"`) : dans la base de l'application quand elle
 enregistre un `IOmniPreferenceStore` (`AddOmniEuropePreferences`), dans le cache `localStorage` du
-navigateur sinon. Chaque tri, filtre, redimensionnement ou changement de disposition réécrit la
-préférence.
+navigateur sinon. Chaque tri, filtre, choix de taille de page, regroupement, redimensionnement ou
+changement de disposition réécrit la préférence.
 
 - Format : JSON (conventions web de `System.Text.Json`, noms en camelCase) avec un numéro `version`.
   La version 2 ajoute `columnOrder` (clés des colonnes dans l'ordre choisi, `null` pour l'ordre
   déclaré) et `columnVisibility` (clé vers visible ou non, seulement pour les colonnes que
-  l'utilisateur a changées). Un état de la version 1 (filtres, tris, largeurs seulement) se relit sans
-  perte : l'ordre et la visibilité restent ceux déclarés. Une partie absente ou une entrée incomplète
-  est ignorée, le reste est restauré ; une valeur illisible garde l'état déclaré.
+  l'utilisateur a changées). La version 3 (1.15.1) ajoute `pageSize` (la taille choisie dans le
+  sélecteur de pagination), `groups` (les regroupements posés par le lecteur, `{ key, descending }`)
+  et `columnFrozen` (clé vers figée ou non, seulement pour les colonnes que l'utilisateur a changées) ;
+  chacune vaut `null` tant que le lecteur n'y a pas touché, et la valeur de l'hôte s'applique. Un état
+  de la version 1 (filtres, tris, largeurs seulement) ou 2 se relit sans perte : ce qu'il ne porte pas
+  reste tel que déclaré. Une partie absente ou une entrée incomplète est ignorée, le reste est
+  restauré ; une valeur illisible garde l'état déclaré.
+- Taille de page et regroupements restaurés : la grille les applique et les publie comme un geste du
+  lecteur (`PageSizeChanged`, `GroupsChanged`), liés ou non. Une taille absente de `PageSizeOptions`
+  (que le lecteur ne pourrait pas rechoisir) est écartée ; des regroupements ne s'appliquent que sur une
+  grille à `AllowGrouping`, hors arbre et hors grille distante virtualisée. Une valeur différente passée
+  ensuite par l'hôte est sa décision : elle remplace le choix enregistré, qui n'est plus réécrit.
+- Colonnes figées : comme la visibilité, le choix enregistré ne compte que sur une grille à
+  `AllowColumnFreeze`, où le lecteur peut le défaire ; sans elle, `Frozen` déclaré s'applique et le choix
+  reste gardé.
 - Identité des colonnes : la `Key` de la colonne (à défaut `Property`, puis `Title`), la même que pour
   les tris, filtres et largeurs.
 - Ordre : une colonne absente de l'ordre enregistré (ajoutée depuis) se place juste après la colonne
@@ -701,9 +718,9 @@ préférence.
   une. Une colonne masquée disparaît de l'en-tête, des cellules, du pied, des filtres et de
   l'export, et garde son tri et son filtre.
 - Réinitialisation de la disposition (`ResetLayoutAsync`, ou l'action du sélecteur de colonnes) : l'ordre,
-  la visibilité et les largeurs reviennent à la déclaration, et l'état est réécrit sans eux
-  (`columnOrder` et `columnVisibility` à `null`, `columnWidths` vide) ; les filtres et les tris
-  restent, et les lignes ne sont pas rechargées. La préférence n'est pas supprimée : la supprimer
+  la visibilité, les colonnes figées et les largeurs reviennent à la déclaration, et l'état est réécrit
+  sans eux (`columnOrder`, `columnVisibility` et `columnFrozen` à `null`, `columnWidths` vide) ; les
+  filtres, les tris, la taille de page et les regroupements restent, et les lignes ne sont pas rechargées. La préférence n'est pas supprimée : la supprimer
   emporterait aussi les filtres et les tris (décision du propriétaire, PLAN-019, lot 4). Les autres postes
   de l'utilisateur reçoivent cette disposition comme tout état modifié.
 - Changement reçu : un état modifié ailleurs (un autre poste par la base, un autre onglet du même
@@ -726,9 +743,37 @@ préférence.
   l'application n'est pas repris : il se migre côté application vers son `IOmniPreferenceStore`, sous
   la clé `omni.grid.<StateKey>`.
 
+### Toutes les grilles sans `StateKey` : clé déduite
+
+Une application qui veut garder l'état de toutes ses grilles sans écrire de `StateKey` l'active une
+fois : `services.Configure<OmniPreferencesOptions>(options => options.PersistGridState = true)`, ou
+`AddOmniEuropePreferences<TStore>(options => options.PersistGridState = true)`. L'option vaut `false`
+par défaut : sans elle, rien ne change pour les autres applications.
+
+- `PersistState` (`bool?`, `null`) sur la grille : `null` suit l'hôte (une `StateKey`, ou l'option
+  globale) ; `true` garde l'état de cette grille même sans option globale ; `false` ne garde rien, pas
+  même sous sa `StateKey`.
+- Clé : une `StateKey` l'emporte toujours. Sans elle, la clé est `route:` suivi du chemin de la page
+  relatif à l'adresse de base, sans requête ni fragment, en minuscules, chaque segment entier ou GUID
+  remplacé par `*` (`/projets/12` et `/projets/34` partagent `route:/projets/*`), puis `#id:` et l'`Id`
+  de la grille quand elle en a un, sinon `#cols:` et une signature (FNV-1a 64 bits, 16 caractères
+  hexadécimaux) des clés des colonnes déclarées, dans l'ordre de déclaration. La préférence est donc
+  `omni.grid.route:/projets/*#id:taches`. Une clé qui dépasserait les 200 caractères de la colonne
+  conseillée (voir [preferences.md](preferences.md), « Table conseillée ») est remplacée par
+  `route:~` et un hachage d'elle-même.
+- Lecture : une grille à `Id` lit son état avant le premier rendu, comme une `StateKey` ; sans `Id`,
+  la signature attend que les colonnes se soient inscrites, donc la fin du premier rendu, et la première
+  requête d'une grille `Load` attend cette lecture. Une grille à `Items` peut alors se dessiner une fois
+  dans son état déclaré avant l'état restauré. L'ancienne entrée du magasin d'avant la 1.8 n'est jamais
+  reprise sous une clé déduite.
+- Risque de collision : deux grilles d'une même page, sans `Id` et avec les mêmes colonnes, partagent
+  une clé et donc un état. De même, une colonne déclarée sous condition (`@if`) change la signature et
+  l'état ne se retrouve pas. Pour l'éviter, donner un `Id` à chaque grille de la page, ou une
+  `StateKey`.
+
 ## Réordonner, masquer et réinitialiser les colonnes
 
-Trois options de la grille, toutes désactivées par défaut, rendent la disposition des colonnes au
+Quatre options de la grille, toutes désactivées par défaut, rendent la disposition des colonnes au
 lecteur ; avec `StateKey`, elle est gardée (voir plus haut) et suit l'utilisateur d'un poste à l'autre.
 
 - `AllowColumnReorder` (`bool`, `false`) : un en-tête se glisse sur un autre à la souris. Au-delà de
@@ -748,7 +793,16 @@ lecteur ; avec `StateKey`, elle est gardée (voir plus haut) et suit l'utilisate
   `OmniDataGridColumn.Hideable` (`bool`, `true`) à `false` garde une colonne telle que déclarée
   (colonne d'actions, colonne qui nomme la ligne) : elle n'est pas listée quand le sélecteur ne fait que
   masquer, et sa case est désactivée quand il réordonne aussi.
-- Le sélecteur de colonnes : dès que l'une des deux options est active, la barre d'en-tête (voir « Barres
+- `AllowColumnFreeze` (`bool`, `false`, 1.15.1) : chaque ligne du sélecteur porte, après la case et
+  les flèches, un bouton bascule à icône d'épingle (`OmniToggleButton`) nommé et titré « Figer la
+  colonne … », dont `aria-pressed` dit si la colonne est figée. Un clic, ou Entrée et Espace, fige ou
+  libère la colonne. Les colonnes figées restent contiguës au début, comme leur collage l'exige : une
+  colonne figée rejoint la fin des colonnes figées, une colonne libérée le début des autres, l'ordre
+  gardé est l'ordre montré. Le focus revient sur le même bouton une fois la ligne déplacée dans la
+  liste. Le choix est enregistré (`columnFrozen`), annoncé (« Colonne City figée », « Colonne City
+  libérée ») et défait par la réinitialisation. Ce choix est distinct du bouton « Détacher les colonnes
+  figées » (voir plus haut), qui reste un état passager jamais enregistré.
+- Le sélecteur de colonnes : dès que l'une des trois options est active, la barre d'en-tête (voir « Barres
   d'en-tête et de pied de la grille, export ») s'affiche, même sans `ShowHeaderBar`, et porte à sa fin un
   bouton à icône seule (`Columns`) nommé et titré « Choisir les colonnes ». Il ouvre un `OmniPopover` :
   une ligne par colonne dans l'ordre affiché, colonnes masquées comprises, avec la case (`OmniCheckBox`
@@ -760,8 +814,8 @@ lecteur ; avec `StateKey`, elle est gardée (voir plus haut) et suit l'utilisate
   ligne montre le nom sans case. Le panneau tient dans un écran de 375 px ; pendant qu'il est ouvert, le
   cadre de la grille cesse de rogner son contenu, pour ne pas couper le panneau au pied d'une grille
   courte.
-- Réinitialisation : `ResetLayoutAsync()` ramène l'ordre, la visibilité et les largeurs à la
-  déclaration, garde les filtres et les tris, et enregistre l'état (voir « Enregistrement de l'état »).
+- Réinitialisation : `ResetLayoutAsync()` ramène l'ordre, la visibilité, les colonnes figées et les
+  largeurs à la déclaration, garde les filtres, les tris, la taille de page et les regroupements, et enregistre l'état (voir « Enregistrement de l'état »).
   `ShowResetLayout` (`bool`, `false` : décision du propriétaire, l'action existe mais reste masquée par
   défaut) ajoute au pied du sélecteur l'action « Réinitialiser la disposition », qui fait la même chose ;
   un hôte qui ne l'affiche pas peut offrir la méthode ailleurs.
@@ -771,13 +825,16 @@ lecteur ; avec `StateKey`, elle est gardée (voir plus haut) et suit l'utilisate
   Pays masquée », « Colonne Pays affichée », « Disposition des colonnes réinitialisée » (après l'action du
   sélecteur seulement : un appel de `ResetLayoutAsync()` par l'hôte n'annonce rien). Les textes sont
   dans les 24 langues (`GridColumnChooser`, `GridColumnMoveLeft`, `GridColumnMoveRight`,
-  `GridColumnShown`, `GridColumnHidden`, `GridColumnMoved`, `GridResetLayout`, `GridLayoutReset`).
+  `GridColumnShown`, `GridColumnHidden`, `GridColumnMoved`, `GridResetLayout`, `GridLayoutReset`,
+  `GridColumnFreeze`, `GridColumnFrozen`, `GridColumnUnfrozen`).
 - L'en-tête et toutes les cellules d'une colonne sont rendus avec la clé de la colonne (`@key`) : une
   colonne déplacée emporte ses éléments et les composants de ses gabarits (un filtre en cours de saisie
   reste à sa colonne).
 
-La démonstration « Grille, vue complète » de la vitrine montre les trois options, `Hideable="false"` sur
+La démonstration « Grille, vue complète » de la vitrine montre les quatre options, `Hideable="false"` sur
 la référence et `ShowResetLayout`, avec une `StateKey` : la disposition survit au rechargement. La
+sonde Chromium ci-dessous ne couvre pas encore `AllowColumnFreeze` : la bascule est prouvée par les
+tests bUnit (`DataGridColumnFreezeTests`, `DataGridStateVersion3Tests`). La
 sonde des scripts (`eng/scripts-probe/columns.mjs`, `OMNI_SCRIPTS_ONLY=columns`) le vérifie dans
 Chromium : glisser, Échap, limite figée, clavier et focus, masquage, rechargement, réinitialisation,
 375 px, sans violation CSP ni erreur de console.

@@ -178,6 +178,10 @@ public partial class DataGridExample
     [Parameter]
     public bool ShowResetLayout { get; set; }
 
+    /// <summary>Lets the visitor freeze or unfreeze a column from the chooser of the header bar.</summary>
+    [Parameter]
+    public bool AllowColumnFreeze { get; set; } = true;
+
     /// <summary>Writes the name of each export format beside its icon.</summary>
     [Parameter]
     public bool ShowExportButtonText { get; set; } = true;

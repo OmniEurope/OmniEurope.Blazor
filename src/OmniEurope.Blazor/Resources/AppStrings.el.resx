@@ -727,6 +727,9 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Η στήλη {0} μετακινήθηκε στη θέση {1} από {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Επαναφορά διάταξης</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Η διάταξη των στηλών επαναφέρθηκε</value></data>
+  <data name="GridColumnFreeze" xml:space="preserve"><value>Σταθεροποίηση της στήλης {0}</value></data>
+  <data name="GridColumnFrozen" xml:space="preserve"><value>Η στήλη {0} σταθεροποιήθηκε</value></data>
+  <data name="GridColumnUnfrozen" xml:space="preserve"><value>Η στήλη {0} αποδεσμεύτηκε</value></data>
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Επικίνδυνη ζώνη</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Διαγραφή</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Αυτή η ενέργεια δεν μπορεί να αναιρεθεί. Θέλετε να συνεχίσετε;</value></data>

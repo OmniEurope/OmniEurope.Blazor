@@ -88,7 +88,7 @@ internal sealed class GridCssClasses<TItem>(IGridHost<TItem> grid) : IGridCssCla
 
     internal string ColumnClass(OmniDataGridColumnDefinition<TItem> column, bool header) => CssClassBuilder.Combine([
         AlignmentClass(column, header),
-        column.Frozen ? "omni-data-grid__column--frozen" : null,
+        grid.Arrangement.IsFrozen(column) ? "omni-data-grid__column--frozen" : null,
         SizingClass(column),
         grid.HighlightActiveColumn && grid.Query.IsColumnActive(column) ? "omni-data-grid__column--active" : null,
         header && grid.Query.IsSortable(column) ? "omni-data-grid__column--sortable" : null,
@@ -145,7 +145,7 @@ internal sealed class GridCssClasses<TItem>(IGridHost<TItem> grid) : IGridCssCla
 
     internal string FilterCellClass(OmniDataGridColumnDefinition<TItem> column) => CssClassBuilder.Combine([
         "omni-data-grid__filter-cell",
-        column.Frozen ? "omni-data-grid__column--frozen" : null
+        grid.Arrangement.IsFrozen(column) ? "omni-data-grid__column--frozen" : null
     ]);
 
     /// <summary>
