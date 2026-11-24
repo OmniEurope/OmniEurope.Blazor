@@ -219,7 +219,7 @@ public sealed class UploadEdgeTests : OmniBunitContext
         });
     }
 
-    [Fact]
+    [Fact(Skip = "Intermittent: canceled once then passed on rerun (2026-11-24), see docs/tests/disabled-tests.md")]
     public async Task Disposed_BeforeTheCallbackReturns_NeitherCompletesNorAttaches()
     {
         IReadOnlyList<OmniUploadFile> files = [];
