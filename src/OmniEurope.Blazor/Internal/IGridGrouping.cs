@@ -8,5 +8,9 @@ internal interface IGridGrouping<TItem>
 {
     IReadOnlyList<OmniDataGridGroup> ActiveGroups { get; }
 
+    IReadOnlyList<OmniDataGridGroup>? ChosenGroups { get; }
+
+    bool Restore(IReadOnlyList<OmniDataGridGroup>? groups);
+
     IReadOnlyList<GridRenderRow<TItem>> GroupedRows(IReadOnlyList<OmniDataGridGroup> groups, IReadOnlyList<TItem> items);
 }

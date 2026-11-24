@@ -727,6 +727,9 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Veerg {0} teisaldatud kohale {1}/{2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Lähtesta paigutus</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Veergude paigutus lähtestatud</value></data>
+  <data name="GridColumnFreeze" xml:space="preserve"><value>Külmuta veerg {0}</value></data>
+  <data name="GridColumnFrozen" xml:space="preserve"><value>Veerg {0} külmutatud</value></data>
+  <data name="GridColumnUnfrozen" xml:space="preserve"><value>Veerg {0} vabastatud</value></data>
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Ohutsoon</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Kustuta</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Seda toimingut ei saa tagasi võtta. Kas soovite jätkata?</value></data>

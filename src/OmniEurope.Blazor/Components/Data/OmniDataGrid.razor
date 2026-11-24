@@ -249,7 +249,7 @@
                         <th @key="column.Key"
                             class="@Classes.ColumnClass(column, true)"
                             data-omni-col="@column.Key"
-                            data-omni-reorder="@(AllowColumnReorder ? (column.Frozen ? "frozen" : "free") : null)"
+                            data-omni-reorder="@(AllowColumnReorder ? (Arrangement.IsFrozen(column) ? "frozen" : "free") : null)"
                             scope="col"
                             aria-sort="@Query.AriaSort(column)"
                             @onclick="args => Query.SortAsync(column.Key, args.ShiftKey)">

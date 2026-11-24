@@ -184,6 +184,7 @@
   <data name="DataGridPagingTitle" xml:space="preserve"><value>Pagination</value></data>
   <data name="DataGridPreviewTitle" xml:space="preserve"><value>Vols du jour</value></data>
   <data name="DataGridResetLayout" xml:space="preserve"><value>Proposer de réinitialiser la disposition</value></data>
+  <data name="DataGridColumnFreeze" xml:space="preserve"><value>Laisser figer les colonnes</value></data>
   <data name="DataGridResponsive" xml:space="preserve"><value>Cartes sur petit écran</value></data>
   <data name="DataGridResponsiveDescription" xml:space="preserve"><value>Sous 40 rem, chaque ligne s&apos;empile en carte légendée.</value></data>
   <data name="DataGridRowHover" xml:space="preserve"><value>Survol des lignes</value></data>

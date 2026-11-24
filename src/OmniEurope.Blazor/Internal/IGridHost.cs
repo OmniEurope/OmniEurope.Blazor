@@ -135,6 +135,8 @@ internal interface IGridHost<TItem>
 
     EventCallback<int> PageSizeChanged { get; }
 
+    IReadOnlyList<int> PageSizeOptions { get; }
+
     OmniDataGridScrollMode ScrollMode { get; }
 
     OmniDataGridPlacement PagerPlacement { get; }
@@ -265,6 +267,8 @@ internal interface IGridHost<TItem>
 
     bool ShowResetLayout { get; }
 
+    bool AllowColumnFreeze { get; }
+
     EventCallback<OmniDataGridColumnOrderChange> OnColumnReorder { get; }
 
     bool AllowAlternatingRows { get; }
@@ -314,6 +318,11 @@ internal interface IGridHost<TItem>
     int VirtualBlockSize { get; }
 
     string? StateKey { get; }
+
+    bool? PersistState { get; }
+
+    /// <summary>The id the host gave the grid (<c>OmniComponentBase.Id</c>), or null.</summary>
+    string? Id { get; }
 
     OmniDataGridPlacement FooterPlacement { get; }
 

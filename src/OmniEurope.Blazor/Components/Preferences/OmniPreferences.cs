@@ -115,9 +115,13 @@ public sealed class OmniPreferences : IAsyncDisposable, IPreferenceReadsHost
         _syncInterval = interval;
         _minSyncGap = gap;
         _signedOutMode = options.SignedOut;
+        PersistGridState = options.PersistGridState;
         _stopping = _disposal.Token;
         _reads = new PreferenceReads(this, _storeAccess, _sync, _signedOut, _stopping);
     }
+
+    /// <summary>Whether every data grid keeps its state, a <c>StateKey</c> or not (<see cref="OmniPreferencesOptions.PersistGridState"/>).</summary>
+    internal bool PersistGridState { get; }
 
     /// <summary>
     /// Raised when a preference takes a new value: written here, read later from the store, or written

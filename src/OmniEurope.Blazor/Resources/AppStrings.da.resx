@@ -727,6 +727,9 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Kolonnen {0} flyttet til position {1} af {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Nulstil layout</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Kolonnelayout nulstillet</value></data>
+  <data name="GridColumnFreeze" xml:space="preserve"><value>Fastlås kolonnen {0}</value></data>
+  <data name="GridColumnFrozen" xml:space="preserve"><value>Kolonnen {0} fastlåst</value></data>
+  <data name="GridColumnUnfrozen" xml:space="preserve"><value>Kolonnen {0} frigjort</value></data>
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Farezone</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Slet</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Denne handling kan ikke fortrydes. Vil du fortsætte?</value></data>

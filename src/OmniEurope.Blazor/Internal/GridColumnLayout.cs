@@ -115,7 +115,7 @@ internal sealed class GridColumnLayout<TItem>(IGridHost<TItem> grid) : IGridColu
     public string Signature() => string.Join(
         '|',
         grid.ColumnSet.VisibleColumns.Select(column =>
-            $"{column.Key}:{WidthOf(column)}:{column.MinWidth}:{column.Frozen}").Append(grid.ColumnSizing.ToString()));
+            $"{column.Key}:{WidthOf(column)}:{column.MinWidth}:{grid.Arrangement.IsFrozen(column)}").Append(grid.ColumnSizing.ToString()));
 
     /// <summary>The column specifications the script applies to the column elements.</summary>
     public object Specs() => grid.ColumnSet.VisibleColumns.Select(column => new
@@ -123,7 +123,7 @@ internal sealed class GridColumnLayout<TItem>(IGridHost<TItem> grid) : IGridColu
         key = column.Key,
         width = WidthOf(column),
         minWidth = column.MinWidth,
-        frozen = column.Frozen
+        frozen = grid.Arrangement.IsFrozen(column)
     }).ToArray();
 
     private async Task ResizeColumnAsync(OmniDataGridColumnDefinition<TItem> column, int step)

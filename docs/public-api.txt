@@ -2964,6 +2964,7 @@ property public OmniEurope.Blazor.Components.OmniDataAnnotationsValidator.Locali
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllGroupsExpanded : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowAlternatingRows : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnAutoFit : System.Boolean {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnFreeze : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnHide : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnReorder : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.AllowColumnResize : System.Boolean {get(public);set(public)} [Parameter]
@@ -3056,6 +3057,7 @@ property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.PageSizeChanged
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.PageSizeOptions : System.Collections.Generic.IReadOnlyList<System.Int32> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.PagerJustify : OmniEurope.Blazor.Components.OmniJustification {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.PagerPlacement : OmniEurope.Blazor.Components.OmniDataGridPlacement {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.PersistState : System.Boolean? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.Responsive : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.RowRender : System.Action<OmniEurope.Blazor.Components.OmniDataGridRowRenderArgs<TItem>>? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniDataGrid<TItem>.ScrollMode : OmniEurope.Blazor.Components.OmniDataGridScrollMode {get(public);set(public)} [Parameter]
@@ -4034,6 +4036,7 @@ property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Key 
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Origin : OmniEurope.Blazor.Components.OmniPreferenceChangeOrigin {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreferenceChangedEventArgs.Value : System.String? {get(public);init(public)}
 property public OmniEurope.Blazor.Components.OmniPreferencesOptions.MinSyncGap : System.TimeSpan {get(public);set(public)}
+property public OmniEurope.Blazor.Components.OmniPreferencesOptions.PersistGridState : System.Boolean {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniPreferencesOptions.SignedOut : OmniEurope.Blazor.Components.OmniSignedOutPreferences {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniPreferencesOptions.SyncInterval : System.TimeSpan {get(public);set(public)}
 property public OmniEurope.Blazor.Components.OmniProfileMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]

@@ -727,6 +727,9 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Colonna {0} spostata in posizione {1} di {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Ripristina il layout</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Layout delle colonne ripristinato</value></data>
+  <data name="GridColumnFreeze" xml:space="preserve"><value>Blocca la colonna {0}</value></data>
+  <data name="GridColumnFrozen" xml:space="preserve"><value>Colonna {0} bloccata</value></data>
+  <data name="GridColumnUnfrozen" xml:space="preserve"><value>Colonna {0} sbloccata</value></data>
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Zona pericolosa</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Elimina</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Questa azione non può essere annullata. Continuare?</value></data>

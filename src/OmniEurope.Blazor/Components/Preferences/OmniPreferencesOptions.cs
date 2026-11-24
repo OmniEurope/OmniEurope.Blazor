@@ -31,4 +31,15 @@ public sealed class OmniPreferencesOptions
     /// the account at sign-in. Without a store there is no signed-out state, and this has no effect.
     /// </summary>
     public OmniSignedOutPreferences SignedOut { get; set; } = OmniSignedOutPreferences.Defaults;
+
+    /// <summary>
+    /// Keeps the state of every <see cref="OmniDataGrid{TItem}"/> (filters, sorts, page size, groups, column
+    /// widths, order, visibility and frozen columns), even one without a <c>StateKey</c>: such a grid is
+    /// keyed by the current route, its integer and GUID segments replaced by <c>*</c>, then its <c>Id</c>,
+    /// else a signature of its declared column keys. False by default: only the grids with a <c>StateKey</c>
+    /// (or <c>PersistState</c> true) keep their state. A grid opts out with <c>PersistState</c> false.
+    /// Set it through <c>services.Configure&lt;OmniPreferencesOptions&gt;</c> or the configuration of
+    /// <c>AddOmniEuropePreferences</c>.
+    /// </summary>
+    public bool PersistGridState { get; set; }
 }

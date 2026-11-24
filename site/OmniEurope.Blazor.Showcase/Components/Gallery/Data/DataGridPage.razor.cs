@@ -94,6 +94,8 @@ public partial class DataGridPage
 
     private bool ShowResetLayout { get; set; }
 
+    private bool AllowColumnFreeze { get; set; } = true;
+
     private bool ShowExportButtonText { get; set; } = true;
 
     private bool FreezeNumber { get; set; } = true;

@@ -4,10 +4,11 @@ using OmniEurope.Blazor.Components;
 namespace OmniEurope.Blazor.Internal;
 
 /// <summary>
-/// The column chooser of a grid's header bar (<c>AllowColumnHide</c>, <c>AllowColumnReorder</c>): a box per
-/// column that shows or hides it, two arrows per column that move it to the left or to the right (the
-/// keyboard path of the header drag, which lands here too), the reset of the layout, and the polite
-/// announcement of each change for screen readers.
+/// The column chooser of a grid's header bar (<c>AllowColumnHide</c>, <c>AllowColumnReorder</c>,
+/// <c>AllowColumnFreeze</c>): a box per column that shows or hides it, two arrows per column that move it to
+/// the left or to the right (the keyboard path of the header drag, which lands here too), a toggle per column
+/// that freezes or unfreezes it, the reset of the layout, and the polite announcement of each change for
+/// screen readers.
 /// </summary>
 internal sealed class GridColumnChooser<TItem>(IGridHost<TItem> grid) : IGridColumnChooser, IGridColumnChooserModel<TItem>
 {
@@ -17,7 +18,7 @@ internal sealed class GridColumnChooser<TItem>(IGridHost<TItem> grid) : IGridCol
     private GridColumnChooserView<TItem>? _view;
 
     /// <summary>Whether the header bar carries the chooser.</summary>
-    public bool Shown => grid.AllowColumnHide || grid.AllowColumnReorder;
+    public bool Shown => grid.AllowColumnHide || grid.AllowColumnReorder || grid.AllowColumnFreeze;
 
     /// <summary>The chooser itself, at the end of the header bar.</summary>
     internal RenderFragment View => (_view ??= new(grid, this)).Render;
@@ -30,11 +31,26 @@ internal sealed class GridColumnChooser<TItem>(IGridHost<TItem> grid) : IGridCol
 
     /// <summary>
     /// The columns listed, in their arranged order, hidden ones included. While the chooser only hides
-    /// columns, a column that cannot be hidden (<c>Hideable</c> false) is not listed; while it also moves
-    /// them, every column is, so each one can be moved.
+    /// columns, a column that cannot be hidden (<c>Hideable</c> false) is not listed; while it also moves or
+    /// freezes them, every column is, so each one can be moved or frozen.
     /// </summary>
     public IReadOnlyList<OmniDataGridColumnDefinition<TItem>> Entries =>
-        [.. grid.Arrangement.Arrange(grid.ColumnSet.EffectiveColumns).Where(column => grid.AllowColumnReorder || column.Hideable)];
+        [.. grid.Arrangement.Arrange(grid.ColumnSet.EffectiveColumns).Where(column => grid.AllowColumnReorder || grid.AllowColumnFreeze || column.Hideable)];
+
+    /// <summary>Whether a column is frozen, as its toggle tells (<c>aria-pressed</c>).</summary>
+    public bool IsFrozen(OmniDataGridColumnDefinition<TItem> column) => grid.Arrangement.IsFrozen(column);
+
+    /// <summary>The toggle of a column: freezes or unfreezes it, keeping the focus on its toggle.</summary>
+    public async Task FreezeAsync(OmniDataGridColumnDefinition<TItem> column, bool frozen)
+    {
+        if (!grid.AllowColumnFreeze || !await grid.Arrangement.SetFrozenAsync(column.Key, frozen))
+        {
+            return;
+        }
+
+        _focusRequest = (column.Key, 0);
+        Announce(grid.Text(frozen ? "GridColumnFrozen" : "GridColumnUnfrozen", GridColumnChooserView<TItem>.NameOf(column)));
+    }
 
     /// <summary>Whether a column shows on the grid, so its box tells what the reader sees (a kept last column included).</summary>
     public bool IsVisible(OmniDataGridColumnDefinition<TItem> column) => grid.ColumnSet.VisibleColumns.Contains(column);
@@ -76,7 +92,7 @@ internal sealed class GridColumnChooser<TItem>(IGridHost<TItem> grid) : IGridCol
     {
         var column = grid.ColumnSet.Find(key);
         var target = grid.ColumnSet.Find(targetKey);
-        if (!grid.AllowColumnReorder || grid.DisposeRequested || column is null || target is null || column.Frozen != target.Frozen
+        if (!grid.AllowColumnReorder || grid.DisposeRequested || column is null || target is null || grid.Arrangement.IsFrozen(column) != grid.Arrangement.IsFrozen(target)
             || !await grid.Arrangement.MoveNextToAsync(key, targetKey, after))
         {
             return;
@@ -126,7 +142,7 @@ internal sealed class GridColumnChooser<TItem>(IGridHost<TItem> grid) : IGridCol
         var entries = Entries;
         var position = IndexOf(entries, column);
         var index = position + step;
-        return position >= 0 && index >= 0 && index < entries.Count && entries[index].Frozen == column.Frozen
+        return position >= 0 && index >= 0 && index < entries.Count && grid.Arrangement.IsFrozen(entries[index]) == grid.Arrangement.IsFrozen(column)
             ? entries[index]
             : null;
     }

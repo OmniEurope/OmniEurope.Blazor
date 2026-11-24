@@ -24,5 +24,9 @@ internal interface IGridColumnChooserModel<TItem>
 
     Task MoveAsync(OmniDataGridColumnDefinition<TItem> column, int step);
 
+    bool IsFrozen(OmniDataGridColumnDefinition<TItem> column);
+
+    Task FreezeAsync(OmniDataGridColumnDefinition<TItem> column, bool frozen);
+
     Task ResetAsync();
 }

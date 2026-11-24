@@ -727,6 +727,9 @@
   <data name="GridColumnMoved" xml:space="preserve"><value>Stupac {0} premješten na mjesto {1} od {2}</value></data>
   <data name="GridResetLayout" xml:space="preserve"><value>Vrati izgled</value></data>
   <data name="GridLayoutReset" xml:space="preserve"><value>Izgled stupaca vraćen</value></data>
+  <data name="GridColumnFreeze" xml:space="preserve"><value>Zamrzni stupac {0}</value></data>
+  <data name="GridColumnFrozen" xml:space="preserve"><value>Stupac {0} zamrznut</value></data>
+  <data name="GridColumnUnfrozen" xml:space="preserve"><value>Stupac {0} odmrznut</value></data>
   <data name="SettingsDangerZoneTitle" xml:space="preserve"><value>Opasna zona</value></data>
   <data name="SettingsDangerActionText" xml:space="preserve"><value>Izbriši</value></data>
   <data name="SettingsDangerConfirmMessage" xml:space="preserve"><value>Ova se radnja ne može poništiti. Želite li nastaviti?</value></data>

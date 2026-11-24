@@ -64,7 +64,7 @@ internal sealed class GridColumnSet<TItem>(IGridHost<TItem> grid) : IGridColumnS
 
     public bool ShowDetailColumn => grid.DetailTemplate is not null && grid.ShowExpandColumn;
 
-    public bool HasFrozenColumns => VisibleColumns.Any(column => column.Frozen);
+    public bool HasFrozenColumns => VisibleColumns.Any(grid.Arrangement.IsFrozen);
 
     internal bool HasFooter => VisibleColumns.Any(column => column.FooterContent is not null || column.Aggregate != OmniDataGridAggregate.None);
 

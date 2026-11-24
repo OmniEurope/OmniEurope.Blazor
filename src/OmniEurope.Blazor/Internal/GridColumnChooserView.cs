@@ -10,7 +10,8 @@ namespace OmniEurope.Blazor.Internal;
 /// The markup of the column chooser (<see cref="GridColumnChooser{TItem}"/>), at the end of the grid's header
 /// bar: an <see cref="OmniPopover"/> whose icon trigger opens a list of one row per column, an
 /// <see cref="OmniCheckBox{TValue}"/> named by the column (<c>AllowColumnHide</c>), its two arrow
-/// <see cref="OmniButton"/>s (<c>AllowColumnReorder</c>), then the reset of the layout (<c>ShowResetLayout</c>).
+/// <see cref="OmniButton"/>s (<c>AllowColumnReorder</c>), its freeze <see cref="OmniToggleButton"/>
+/// (<c>AllowColumnFreeze</c>), then the reset of the layout (<c>ShowResetLayout</c>).
 /// Written in C#, the grid's markup file being at its size budget. Rows are keyed by column, so a moved row
 /// keeps its controls; the focus is then given back to its arrow.
 /// </summary>
@@ -101,6 +102,33 @@ internal sealed class GridColumnChooserView<TItem>(IGridHost<TItem> grid, IGridC
             builder.AddContent(13, Arrow(column, name, 1));
             builder.CloseElement();
         }
+
+        if (grid.AllowColumnFreeze)
+        {
+            builder.AddContent(14, Freeze(column, name));
+        }
+    };
+
+    /// <summary>
+    /// The freeze toggle of a column: its name stays "Freeze the column …" and <c>aria-pressed</c> tells whether
+    /// it is frozen. It carries <c>data-omni-move="0"</c>, the move control that moves nothing, so the focus
+    /// comes back to it once the row took its new place in the list.
+    /// </summary>
+    private RenderFragment Freeze(OmniDataGridColumnDefinition<TItem> column, string name) => builder =>
+    {
+        var frozen = chooser.IsFrozen(column);
+        var text = grid.Text("GridColumnFreeze", name);
+        builder.OpenComponent<OmniToggleButton>(0);
+        builder.AddComponentParameter(1, nameof(OmniToggleButton.Class), "omni-data-grid__chooser-freeze");
+        builder.AddComponentParameter(2, nameof(OmniToggleButton.Size), OmniControlSize.Small);
+        builder.AddComponentParameter(3, nameof(OmniToggleButton.Label), text);
+        builder.AddComponentParameter(4, nameof(OmniToggleButton.Value), frozen);
+        builder.AddComponentParameter(5, nameof(OmniToggleButton.ValueChanged), EventCallback.Factory.Create<bool>(grid, value => chooser.FreezeAsync(column, value)));
+        builder.AddComponentParameter(6, nameof(OmniToggleButton.ChildContent), Icon(OmniIconName.Pin));
+        builder.AddComponentParameter(7, "title", text);
+        builder.AddComponentParameter(8, "data-omni-move", "0");
+        builder.AddComponentParameter(9, "data-omni-col", column.Key);
+        builder.CloseComponent();
     };
 
     private RenderFragment Arrow(OmniDataGridColumnDefinition<TItem> column, string name, int step) => builder =>
