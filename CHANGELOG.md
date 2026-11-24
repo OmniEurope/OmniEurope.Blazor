@@ -8,6 +8,8 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - Un fond animé en CSS (Bokeh, Aquarelle, Quadrillage, Ricochets...) se fige sur un moteur de rendu trop lent pour le mouvoir : sans processeur graphique, chaque image du fond prenait de 130 à 500 ms et retenait d'autant les clics et les touches de la page. Trois images de suite espacées de plus de 100 ms (la règle du canvas de Trou noir) et la portée pose `data-omni-backdrop-slow`, qui fige le fond.
 - Les thèmes Ardoise et Galet foncent leur trait de bordure (`--omni-color-border`, 40 % du texte en clair, 36 % en sombre) : sur la teinte de leur fond (Quadrillage, Ricochets), le cadre des champs tombait de 1,50 à 1,68 sous le plancher de 1,7.
+- Les thèmes Néon et Halo affirment le cadre des champs : en clair, 58 % (Néon) et 60 % (Halo) de l'accent au lieu de 45 % et 48 % ; en sombre, l'accent éclairé (`--omni-color-accent-strong`, 55 % et 62 %), car un accent profond (Encre, Pastel) sur les fonds Horizon et Bokeh laissait le cadre entre 1,32 et 1,69, sous le plancher de 1,7.
+- Le fond Velours en sombre baisse ses plis éclairés et son reflet (10 % et 11 % de l'accent au lieu de 12 % et 13 %) : avec un accent blanc (palette Mono), le texte d'un bouton fantôme de danger tombait à 4,44 sur le reflet, sous 4,5.
 
 ## [1.15.1] - 2026-11-24
 

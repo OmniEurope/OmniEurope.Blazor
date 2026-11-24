@@ -98,14 +98,16 @@ internal static class ThemeCatalog
                 ("--omni-button-radius", "999px"), ("--omni-card-radius", "1.25rem"), ("--omni-alert-radius", "1rem"),
                 ("--omni-button-shadow", "0 0.25rem 0.75rem color-mix(in srgb, var(--omni-color-accent) 35%, transparent)"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-accent) 20%, transparent), 0 0.75rem 2.25rem color-mix(in srgb, var(--omni-color-accent) 28%, transparent)"),
-                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 48%, var(--omni-color-surface))"),
+                // The field outline clears the non-text ratio over the bokeh of every palette.
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 60%, var(--omni-color-surface))"),
                 ("--omni-button-font-weight", "500"), ("--omni-heading-font-weight", "600"),
                 ("--omni-font-family", Sans)),
             Shape(
                 ("--omni-card-background", "color-mix(in srgb, var(--omni-color-accent) 7%, var(--omni-color-surface))"),
                 ("--omni-card-shadow", "0 0 0 1px color-mix(in srgb, var(--omni-color-accent) 24%, transparent), 0 0.75rem 2rem color-mix(in srgb, var(--omni-color-accent) 20%, transparent)"),
                 ("--omni-button-shadow", "0 0.25rem 1rem color-mix(in srgb, var(--omni-color-accent) 45%, transparent)"),
-                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 42%, var(--omni-color-surface))")),
+                // At night the bokeh lights the page: the lit accent outlines the fields.
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent-strong) 62%, var(--omni-color-surface))")),
             DefaultBackdrop: "Bokeh"),
 
         new("Néon", "ThemeDescriptionNeon", "Électrique",
@@ -116,13 +118,16 @@ internal static class ThemeCatalog
                 // On a light page a wide glow smears: the tube is tight there, and flares at night (below).
                 ("--omni-button-shadow", "0 0 0.5rem color-mix(in srgb, var(--omni-color-accent) 40%, transparent)"),
                 ("--omni-card-shadow", "0 0 1rem color-mix(in srgb, var(--omni-color-accent) 16%, transparent)"),
-                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 45%, var(--omni-color-surface))"),
+                // The tube outlines a field at the non-text ratio over the tinted backdrop, in every palette.
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent) 58%, var(--omni-color-surface))"),
                 ("--omni-button-text-transform", "uppercase"), ("--omni-button-letter-spacing", "0.1em"),
                 ("--omni-heading-letter-spacing", "0.08em"), ("--omni-heading-text-transform", "uppercase"),
                 ("--omni-font-family", Technical)),
             Shape(
                 ("--omni-button-shadow", "0 0 0.9rem color-mix(in srgb, var(--omni-color-accent) 60%, transparent)"),
-                ("--omni-card-shadow", "0 0 1.5rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)")),
+                ("--omni-card-shadow", "0 0 1.5rem color-mix(in srgb, var(--omni-color-accent) 22%, transparent)"),
+                // A deep accent (Encre) cannot outline a field at night: the lit accent does.
+                ("--omni-color-border", "color-mix(in srgb, var(--omni-color-accent-strong) 55%, var(--omni-color-surface))")),
             DefaultBackdrop: "Horizon"),
 
         new("Papier", "ThemeDescriptionPapier", "Or ancien",
