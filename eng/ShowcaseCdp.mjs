@@ -123,7 +123,9 @@ export function createCdpLink(socket, { describeExceptions = true, onEvent, comm
     return new Promise((resolve, reject) => {
       const timer = setTimeout(() => {
         if (!pending.delete(id)) return;
-        reject(new Error(`Commande CDP #${id} ${method} sans réponse après ${commandTimeout} ms.`));
+        // The evaluated expression says which step hung; without it the timeout names only a number.
+        const what = params.expression ? ` (${String(params.expression).replace(/\s+/g, ' ').slice(0, 240)})` : '';
+        reject(new Error(`Commande CDP #${id} ${method}${what} sans réponse après ${commandTimeout} ms.`));
       }, commandTimeout);
       pending.set(id, { resolve, reject, method, timer });
       socket.send(JSON.stringify({ id, method, params }));
