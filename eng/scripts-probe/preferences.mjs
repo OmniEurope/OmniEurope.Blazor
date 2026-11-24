@@ -11,7 +11,7 @@
 // the demonstration rows are cleared at the end, so the parts that follow start from the shipped look
 // without a store.
 
-import { probeOptions } from '../ShowcaseCdp.mjs';
+import { createCdpLink, createEvaluate, findPageTargets, openSocket, probeOptions } from '../ShowcaseCdp.mjs';
 
 const themesPage = '/components/theme';
 const preview = '#theme-following';
@@ -217,47 +217,10 @@ export async function preferenceSteps(session, results) {
 
 // A second tab driven through its own CDP connection: evaluation, waits, and its console errors.
 async function connectTab(endpoint, targetId) {
-  let target;
-  for (let tries = 0; tries < 100 && !target; tries++) {
-    const targets = await fetch(`${endpoint}/json/list`).then(response => response.json());
-    target = targets.find(candidate => candidate.id === targetId && candidate.webSocketDebuggerUrl);
-    if (!target) await new Promise(resolve => setTimeout(resolve, 100));
-  }
-  if (!target) throw new Error('Second onglet introuvable par CDP.');
-
-  const socket = new WebSocket(target.webSocketDebuggerUrl);
-  await new Promise((resolve, reject) => {
-    socket.addEventListener('open', resolve, { once: true });
-    socket.addEventListener('error', () => reject(new Error('Connexion CDP au second onglet impossible.')), { once: true });
-  });
-  let id = 0;
-  const pending = new Map();
-  const errors = [];
-  socket.addEventListener('message', event => {
-    const message = JSON.parse(event.data);
-    if (message.id && pending.has(message.id)) {
-      const { resolve, reject } = pending.get(message.id);
-      pending.delete(message.id);
-      if (message.error) reject(new Error(message.error.message));
-      else resolve(message.result);
-    } else if (message.method === 'Runtime.exceptionThrown') {
-      errors.push(message.params.exceptionDetails.exception?.description ?? message.params.exceptionDetails.text);
-    } else if (message.method === 'Log.entryAdded' && message.params.entry.level === 'error') {
-      errors.push(message.params.entry.text);
-    } else if (message.method === 'Runtime.consoleAPICalled' && message.params.type === 'error') {
-      errors.push(message.params.args.map(argument => argument.value ?? argument.description ?? '').join(' '));
-    }
-  });
-  const send = (method, params = {}) => {
-    const commandId = ++id;
-    socket.send(JSON.stringify({ id: commandId, method, params }));
-    return new Promise((resolve, reject) => pending.set(commandId, { resolve, reject }));
-  };
-  const evaluate = async expression => {
-    const response = await send('Runtime.evaluate', { expression, awaitPromise: true, returnByValue: true });
-    if (response.exceptionDetails) throw new Error(response.exceptionDetails.exception?.description ?? response.exceptionDetails.text);
-    return response.result.value;
-  };
+  const [target] = await findPageTargets(endpoint, { timeout: 10_000, accept: candidate => candidate.id === targetId && candidate.webSocketDebuggerUrl });
+  const socket = await openSocket(target.webSocketDebuggerUrl);
+  const { sendCdp: send, consoleErrors: errors } = createCdpLink(socket);
+  const evaluate = createEvaluate(send);
   const waitFor = async (expression, timeout = 30_000) => {
     const until = Date.now() + timeout;
     while (Date.now() < until) {
