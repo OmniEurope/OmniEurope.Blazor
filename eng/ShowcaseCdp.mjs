@@ -74,34 +74,73 @@ export function recordConsoleError(message, consoleErrors, describeExceptions = 
   }
 }
 
+// The longest a CDP command may stay unanswered before it fails (a whole-page screenshot or a long
+// evaluation stays well under it); a probe never waits forever on a renderer that stopped answering.
+export const defaultCommandTimeout = 120_000;
+
 // The command channel over a connected socket: numbered commands answered by their response, and the
-// page errors collected from the events. `onEvent` sees every message first.
-export function createCdpLink(socket, { describeExceptions = true, onEvent } = {}) {
+// page errors collected from the events. `onEvent` sees every message first. A command fails, instead
+// of waiting forever, when it is not answered within `commandTimeout`, when the socket closes or
+// errors, and when the target's renderer crashes (`Inspector.targetCrashed`) or is detached
+// (`Inspector.detached`); once the link is broken every later command fails at once with the cause.
+export function createCdpLink(socket, { describeExceptions = true, onEvent, commandTimeout = defaultCommandTimeout } = {}) {
   let commandId = 0;
+  let broken = null;
   const pending = new Map();
   const consoleErrors = [];
+
+  const breakLink = reason => {
+    broken ??= new Error(reason);
+    for (const [id, entry] of pending) {
+      clearTimeout(entry.timer);
+      entry.reject(new Error(`${reason} (commande CDP #${id} ${entry.method} sans réponse).`));
+    }
+    pending.clear();
+  };
+
   // nosemgrep - a CDP WebSocket on the loopback debugging port, not a window postMessage: there is no origin to check.
   socket.addEventListener('message', event => {
     const message = JSON.parse(event.data);
     onEvent?.(message);
+    if (message.method === 'Inspector.targetCrashed') {
+      breakLink('Le moteur de rendu de la page a planté (Inspector.targetCrashed)');
+      return;
+    }
+    if (message.method === 'Inspector.detached') {
+      breakLink(`La liaison CDP a été détachée (Inspector.detached : ${message.params?.reason ?? 'raison inconnue'})`);
+      return;
+    }
+    if (message.id && pending.has(message.id)) clearTimeout(pending.get(message.id).timer);
     if (settleResponse(message, pending)) return;
     recordConsoleError(message, consoleErrors, describeExceptions);
   });
+  socket.addEventListener('close', event => breakLink(`La liaison CDP s'est fermée (code ${event.code})`));
+  socket.addEventListener('error', () => breakLink('La liaison CDP est en erreur'));
 
   const sendCdp = (method, params = {}) => {
+    if (broken) return Promise.reject(new Error(`${broken.message} : ${method} non envoyée.`));
     const id = ++commandId;
-    socket.send(JSON.stringify({ id, method, params }));
-    return new Promise((resolve, reject) => pending.set(id, { resolve, reject }));
+    return new Promise((resolve, reject) => {
+      const timer = setTimeout(() => {
+        if (!pending.delete(id)) return;
+        reject(new Error(`Commande CDP #${id} ${method} sans réponse après ${commandTimeout} ms.`));
+      }, commandTimeout);
+      pending.set(id, { resolve, reject, method, timer });
+      socket.send(JSON.stringify({ id, method, params }));
+    });
   };
 
   return { sendCdp, pending, consoleErrors };
 }
 
-// Finds the page target, connects to it and opens the command channel.
-export async function connectCdp(endpoint, { timeout, describeExceptions, onEvent } = {}) {
+// Finds the page target, connects to it and opens the command channel, with the Inspector domain on
+// so a renderer crash or a detach fails the pending commands.
+export async function connectCdp(endpoint, { timeout, describeExceptions, onEvent, commandTimeout } = {}) {
   const [target] = await findPageTargets(endpoint, { timeout });
   const socket = await openSocket(target.webSocketDebuggerUrl);
-  return { target, socket, ...createCdpLink(socket, { describeExceptions, onEvent }) };
+  const link = createCdpLink(socket, { describeExceptions, onEvent, commandTimeout });
+  await link.sendCdp('Inspector.enable');
+  return { target, socket, ...link };
 }
 
 // Evaluates an expression in the page and returns its value; a page exception becomes an error (its
