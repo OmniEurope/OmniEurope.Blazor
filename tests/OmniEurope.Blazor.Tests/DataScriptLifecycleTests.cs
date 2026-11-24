@@ -263,7 +263,9 @@ public sealed class DataScriptLifecycleTests : OmniBunitContext
         runtime.ImportFailures.Enqueue(new InvalidOperationException("import failed"));
         var tree = Render<OmniTree<int>>(parameters => parameters.Add(component => component.AllowDragDrop, true));
         runtime.ImportFailureGate.SetResult();
-        await Task.Delay(100, Xunit.TestContext.Current.CancellationToken);
+        // Awaited, never a fixed pause: on a loaded machine the failed import can be reported after 100 ms.
+        var failure = await Renderer.UnhandledException.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
+        Assert.Equal("import failed", failure.Message);
         Assert.DoesNotContain("attachTreeDrag", runtime.Module.Calls);
 
         // The renderer reports the failed import on the next render; the render after it imports again.

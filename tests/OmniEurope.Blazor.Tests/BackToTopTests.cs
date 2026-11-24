@@ -116,6 +116,33 @@ public sealed class BackToTopTests : OmniBunitContext
     }
 
     [Fact]
+    public void ANewThresholdAlone_IsPassedToTheScript()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        module.SetupVoid("attach", _ => true);
+        var component = Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100));
+
+        component.Render(parameters => parameters.Add(component => component.Threshold, 250));
+
+        Assert.Equal(2, module.Invocations["attach"].Count);
+        Assert.Equal(250, module.Invocations["attach"][1].Arguments[2]);
+    }
+
+    [Fact]
+    public async Task ARenderAfterItsDisposal_AttachesNothingMore()
+    {
+        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        module.SetupVoid("attach", _ => true);
+        module.SetupVoid("detach", _ => true).SetVoidResult();
+        var component = Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100));
+
+        await component.InvokeAsync(() => component.Instance.DisposeAsync().AsTask());
+        component.Render(parameters => parameters.Add(component => component.Threshold, 200));
+
+        Assert.Single(module.Invocations["attach"]);
+    }
+
+    [Fact]
     public void ANegativeThreshold_IsRefused() =>
         Assert.Throws<ArgumentOutOfRangeException>(() =>
             Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, -1)));

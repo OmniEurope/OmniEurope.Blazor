@@ -2,16 +2,6 @@
   "$comment": "Méthodes de la RCL admises au-dessus d'un score CRAP de 30 (PLAN-014). Seules les tables de correspondance, les règles normatives recopiées et les analyseurs dont chaque branche est une forme de la grammaire sont admis. complexity est le plafond : la porte échoue si la méthode le dépasse, si elle descend dessous (abaisser le plafond) ou si l'exception ne sert plus.",
   "exceptions": [
     {
-      "method": "OmniEurope.Blazor.Components.HtmlEditorToolbar::IconOf",
-      "complexity": 48,
-      "reason": "Table de correspondance : une commande de la barre vers son icône."
-    },
-    {
-      "method": "OmniEurope.Blazor.Components.HtmlEditorToolbar::LabelKey",
-      "complexity": 46,
-      "reason": "Table de correspondance : une commande de la barre vers la clé de son libellé."
-    },
-    {
       "method": "OmniEurope.Blazor.Components.HtmlEditorToolbar::PressedOf",
       "complexity": 40,
       "reason": "Table de correspondance : une commande de la barre vers l'état de sélection qui la montre enfoncée."

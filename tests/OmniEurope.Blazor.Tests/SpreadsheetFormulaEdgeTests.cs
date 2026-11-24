@@ -61,6 +61,18 @@ public sealed class SpreadsheetFormulaEdgeTests
         Assert.Equal(OmniSpreadsheetValue.Empty, new SpreadsheetEvaluator(sheet.Rows, sheet.ColumnCount).Evaluate(-1, 0));
     }
 
+    [Fact]
+    public void ACellOfAShortRowOrANullCell_IsEmpty_AndAFormulaReadsItAsZero()
+    {
+        // Rows of a host's own list: the second row is shorter than the sheet, the first holds a null.
+        IReadOnlyList<IReadOnlyList<string>> rows = [[null!, "=A1+B2+1"], ["2"]];
+        var evaluator = new SpreadsheetEvaluator(rows, 2);
+
+        Assert.Equal(OmniSpreadsheetValue.Empty, evaluator.Evaluate(0, 0));
+        Assert.Equal(OmniSpreadsheetValue.Empty, evaluator.Evaluate(1, 1));
+        Assert.Equal(1d, evaluator.Evaluate(0, 1).Number);
+    }
+
     [Theory]
     [InlineData("", false, -1, -1)]
     [InlineData("$", false, -1, -1)]

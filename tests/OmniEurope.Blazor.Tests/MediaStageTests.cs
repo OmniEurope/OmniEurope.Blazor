@@ -289,6 +289,32 @@ public sealed class MediaStageTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task AnItemWithoutAKey_HasAReferenceOfItsOwn_AndTakesTheFocusWhenChosen()
+    {
+        var stage = RenderStage(["Ada", "Grace"], parameters => parameters.Add(component => component.KeyOf, name => name == "Grace" ? null! : name));
+        var grace = ReferenceOf(stage, "Grace");
+
+        await ChooseAsync(stage, "Grace");
+
+        Assert.Equal("Grace", MainName(stage));
+        Assert.Equal(grace, LastFocusTarget());
+    }
+
+    [Fact]
+    public async Task AfterEveryTileLeft_TheNewTiles_TakeTheFocus()
+    {
+        var stage = RenderStage(["Ada", "Grace"]);
+        stage.Render(parameters => parameters.Add(component => component.Items, Array.Empty<string>()));
+        Assert.Empty(ItemElements(stage));
+        stage.Render(parameters => parameters.Add(component => component.Items, ["Linus", "Margaret"]));
+        var margaret = ReferenceOf(stage, "Margaret");
+
+        await ChooseAsync(stage, "Margaret");
+
+        Assert.Equal(margaret, LastFocusTarget());
+    }
+
+    [Fact]
     public async Task AfterTheTilesAreReordered_TheFocusGoesToTheChosenTile_NotToTheOneThatWasAtItsPlace()
     {
         var stage = RenderStage(["Ada", "Grace"]);

@@ -249,6 +249,54 @@ public sealed class UploadEdgeTests : OmniBunitContext
     }
 
     [Fact]
+    public void Disposed_ByTheCallbackItself_WhichThenReportsAndReturns_ShowsNeitherProgressNorAnOutcome()
+    {
+        // The same race as above without a second thread: the disposal lands while the callback runs.
+        IReadOnlyList<OmniUploadFile> files = [];
+        var changes = 0;
+        IRenderedComponent<OmniUpload>? upload = null;
+        upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Files, files)
+            .Add(component => component.FilesChanged, next => { changes++; files = next; })
+            .Add(component => component.Upload, async request =>
+            {
+                await upload!.Instance.DisposeAsync();
+                request.ReportProgress(80);
+            }));
+
+        upload.FindComponent<InputFile>().UploadFiles(Text("a.txt"));
+
+        Assert.Equal(0, changes);
+        Assert.Empty(files);
+        Assert.DoesNotContain("Téléversement terminé", upload.Markup, StringComparison.Ordinal);
+        Assert.DoesNotContain("Téléversement annulé", upload.Markup, StringComparison.Ordinal);
+        Assert.Empty(upload.FindAll("[aria-valuenow='80']"));
+    }
+
+    [Fact]
+    public async Task ProgressReportedAfterACancel_MovesNothing()
+    {
+        OmniUploadRequest? seen = null;
+        var pending = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        var upload = Render<OmniUpload>(parameters => parameters
+            .Add(component => component.Upload, request =>
+            {
+                seen = request;
+                request.ReportProgress(30);
+                return pending.Task;
+            }));
+
+        var selecting = SelectAside(upload, "a.txt");
+        upload.Find(".omni-upload__cancel").Click();
+        upload.WaitForAssertion(() => Assert.True(seen!.CancellationToken.IsCancellationRequested));
+        seen!.ReportProgress(90);
+        pending.SetResult();
+        await AssertTheSelectionEndedCancelledAsync(upload, selecting);
+
+        Assert.Empty(upload.FindAll("[aria-valuenow='90']"));
+    }
+
+    [Fact]
     public async Task Disposed_WhileTheSelectionIsHandedOver_AttachesNothing()
     {
         IReadOnlyList<OmniUploadFile> files = [];

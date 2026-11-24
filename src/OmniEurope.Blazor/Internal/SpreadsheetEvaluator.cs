@@ -29,9 +29,10 @@ internal sealed class SpreadsheetEvaluator : ISpreadsheetCells
 
     OmniSpreadsheetValue ISpreadsheetCells.Evaluate(int row, int column) => Evaluate(row, column);
 
-    // Same reading as the sheet's own GetInput: a position outside the sheet or a short row is empty.
+    // Same reading as the sheet's own GetInput, for a position Evaluate has found inside the sheet: a short row or a
+    // null cell is empty.
     private string InputOf(int row, int column) =>
-        Contains(row, column) && column < _rows[row].Count ? _rows[row][column] ?? string.Empty : string.Empty;
+        column < _rows[row].Count ? _rows[row][column] ?? string.Empty : string.Empty;
 
     internal bool Contains(int row, int column) =>
         row >= 0 && column >= 0 && row < _rows.Count && column < _columnCount;

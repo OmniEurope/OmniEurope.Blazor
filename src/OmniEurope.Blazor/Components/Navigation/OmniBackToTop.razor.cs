@@ -21,7 +21,8 @@ public partial class OmniBackToTop : IAsyncDisposable
 {
     private ElementReference _frame;
     private IJSObjectReference? _module;
-    private (string? TargetId, int Threshold)? _attached;
+    // What the script follows. A threshold of -1 is never a valid one (Threshold is refused below 0): nothing attached yet.
+    private (string? TargetId, int Threshold) _attached = (null, -1);
     private bool _disposed;
 
     [Inject]

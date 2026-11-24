@@ -111,9 +111,12 @@ public partial class OmniMediaStage<TItem>
         if (_itemElements.Count > 0)
         {
             var keys = _entries.Select(entry => ReferenceKey(entry.Key)).ToHashSet();
-            foreach (var key in _itemElements.Keys.Where(key => !keys.Contains(key)).ToList())
+            foreach (var key in _itemElements.Keys.ToList())
             {
-                _itemElements.Remove(key);
+                if (!keys.Contains(key))
+                {
+                    _itemElements.Remove(key);
+                }
             }
         }
 

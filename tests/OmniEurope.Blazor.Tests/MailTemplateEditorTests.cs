@@ -221,7 +221,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
         editor.WaitForAssertion(() => Assert.Equal(["Après {{file}}"], subjects));
     }
 
-    [Fact(Skip = "Intermittent: failed once then passed on rerun (2026-11-22), see docs/tests/disabled-tests.md")]
+    [Fact]
     public async Task ThePreview_IsDrawnAgain_WhenTheSubjectVariablesOrThemeChange()
     {
         SetupSurface();
@@ -229,19 +229,22 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
         preview.SetupVoid("render", _ => true);
         var editor = RenderEditor();
         await editor.FindAll("[role=tab]")[1].ClickAsync(new MouseEventArgs());
-        Assert.Single(preview.Invocations["render"]);
+        // The preview is drawn after the render, asynchronously: each count is awaited, never read at once.
+        editor.WaitForAssertion(() => Assert.Single(preview.Invocations["render"]));
 
         editor.Render(parameters => parameters.Add(component => component.Subject, "Autre objet"));
-        Assert.Equal(2, preview.Invocations["render"].Count);
+        editor.WaitForAssertion(() => Assert.Equal(2, preview.Invocations["render"].Count));
         editor.Render(parameters => parameters.Add(component => component.Variables, [new OmniMailVariable("file", "Dossier") { SampleValue = "X-9" }]));
-        Assert.Equal(3, preview.Invocations["render"].Count);
+        editor.WaitForAssertion(() => Assert.Equal(3, preview.Invocations["render"].Count));
         editor.Render(parameters => parameters.Add(component => component.Theme, OmniMailTheme.Default with { Surface = "#fafafa" }));
-        Assert.Equal(4, preview.Invocations["render"].Count);
+        editor.WaitForAssertion(() => Assert.Equal(4, preview.Invocations["render"].Count));
         Assert.Contains("background-color:#fafafa", (string)preview.Invocations["render"][3].Arguments[1]!, StringComparison.Ordinal);
 
-        // Back to the template: nothing is drawn while the preview is hidden.
+        // Back to the template: nothing is drawn while the preview is hidden. The hidden render is settled
+        // by the tab's own markup before the count is read.
         await editor.FindAll("[role=tab]")[0].ClickAsync(new MouseEventArgs());
         editor.Render(parameters => parameters.Add(component => component.Value, "<p>Caché</p>"));
+        editor.WaitForAssertion(() => Assert.Equal("true", editor.FindAll("[role=tab]")[0].GetAttribute("aria-selected")));
         Assert.Equal(4, preview.Invocations["render"].Count);
     }
 

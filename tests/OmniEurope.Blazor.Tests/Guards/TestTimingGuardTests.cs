@@ -19,7 +19,7 @@ public sealed class TestTimingGuardTests
     private static readonly Dictionary<string, (int Pauses, string Reason)> AdmittedPauses = new(StringComparer.Ordinal)
     {
         ["tests/OmniEurope.Blazor.Tests/AppearanceStateTests.cs"] = (1, "after the awaited third write, before asserting no fourth one"),
-        ["tests/OmniEurope.Blazor.Tests/DataScriptLifecycleTests.cs"] = (3, "SettleAsync and two pauses before asserting that a released or failed script is not called"),
+        ["tests/OmniEurope.Blazor.Tests/DataScriptLifecycleTests.cs"] = (2, "SettleAsync and one pause before asserting that a list whose import failed attached nothing"),
         ["tests/OmniEurope.Blazor.Tests/DisposedWhileLoadingTests.cs"] = (1, "SettledAsync, before asserting that a disposed component calls nothing"),
         ["tests/OmniEurope.Blazor.Tests/FormsSelectionFeedbackDefectTests.cs"] = (1, "before asserting that a submit read the model no further"),
         ["tests/OmniEurope.Blazor.Tests/InteractionComponentTests.cs"] = (2, "before asserting that a stale validation added no message"),

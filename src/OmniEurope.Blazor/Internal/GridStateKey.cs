@@ -74,8 +74,9 @@ internal static class GridStateKey
     /// <summary>A stable signature of the column keys: the same keys in the same order give the same text, in any process.</summary>
     internal static string Signature(IEnumerable<string> keys) => Hash(string.Join('\u001f', keys));
 
+    // The segments come split without empty entries, so an all-digit segment has at least one digit.
     private static bool IsIdentifier(string segment) =>
-        (segment.Length > 0 && segment.All(char.IsAsciiDigit)) || Guid.TryParse(segment, out _);
+        segment.All(char.IsAsciiDigit) || Guid.TryParse(segment, out _);
 
     // FNV-1a over the UTF-8 bytes, 64 bits: string.GetHashCode changes from one process to the next.
     private static string Hash(string text)

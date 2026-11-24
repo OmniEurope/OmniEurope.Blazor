@@ -41,6 +41,20 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
     }
 
     [Fact]
+    public async Task BackToTop_RemovedWhileItsScriptLoads_AttachesNothing()
+    {
+        var runtime = this.InstallHeldImports();
+        var button = Render<OmniBackToTop>();
+
+        await button.Instance.DisposeAsync();
+
+        // The button's tooltip loads its own script through the same runtime: only the back-to-top calls are counted.
+        runtime.PendingImport.SetResult(runtime.Module);
+        await runtime.Module.Disposal.Task.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+        Assert.DoesNotContain("attach", runtime.Module.Calls);
+    }
+
+    [Fact]
     public async Task Sidebar_RemovedWhileItsScriptLoads_AttachesNothing()
     {
         var runtime = this.InstallHeldImports();
@@ -230,7 +244,10 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         button.Find("button").Click();
         await button.Instance.DisposeAsync();
 
-        await runtime.ReleasedWithoutAttachingAsync(Patience);
+        // The button's tooltip loads its own script through the same runtime: only the back-to-top calls are counted.
+        runtime.PendingImport.SetResult(runtime.Module);
+        await runtime.Module.Disposal.Task.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
+        Assert.DoesNotContain("attach", runtime.Module.Calls);
     }
 
     [Fact]
