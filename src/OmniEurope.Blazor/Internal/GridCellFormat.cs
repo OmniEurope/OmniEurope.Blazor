@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The one way a grid turns a cell value into text: what the cell shows, what the fit to content measures

@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Octet's backdrop, the default of the Octet theme: a sky of pixel stars, squares of two CSS pixels that

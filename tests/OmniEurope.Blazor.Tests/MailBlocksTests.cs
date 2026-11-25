@@ -349,11 +349,11 @@ public sealed class MailBlocksTests
     [Fact]
     public void TheBlocks_WriteTheirLooksInThePreviewAttribute_UnderTheStrictCsp()
     {
-        var result = Internal.MailDocument.Render(
+        var result = MailDocument.Render(
             "<p>{{#button url}}Ouvrir</p><p>{{#banner info}} Note</p><p>{{steps}}</p>",
             new Dictionary<string, string?> { ["url"] = "https://exemple.eu" },
             new OmniMailRenderOptions { Blocks = new Dictionary<string, string?> { ["steps"] = "<p style=\"color: red\">rouge</p>" } },
-            Internal.MailDocument.PreviewLook);
+            MailDocument.PreviewLook);
 
         Assert.DoesNotContain(" style=", result.Html, StringComparison.Ordinal);
         Assert.Contains("color:#ff0000", result.Html.Replace(" ", string.Empty, StringComparison.Ordinal), StringComparison.Ordinal);

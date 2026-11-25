@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>A run of a displayed line: its text, the attributes it is drawn with, and whether it matches the searched text.</summary>
 internal readonly record struct AnsiPiece(string Text, OmniAnsiSegment? Style, bool Matched);

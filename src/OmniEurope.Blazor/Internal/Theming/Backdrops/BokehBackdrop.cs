@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Halo's backdrop, the default of the Halo theme: eight soft discs of light, blurred like the bokeh of a

@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text;
 using Microsoft.AspNetCore.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The state key a grid takes without a <c>StateKey</c>, when the host keeps every grid's state

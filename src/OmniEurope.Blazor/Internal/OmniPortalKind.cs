@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>What a portal entry holds; it names the entry's modifier class (<c>omni-overlay-portal__entry--{kind}</c>).</summary>
 internal enum OmniPortalKind

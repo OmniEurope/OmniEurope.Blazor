@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Papier's backdrop, the default of the Papier theme: four blots of ink, as a drop of watercolour spreads

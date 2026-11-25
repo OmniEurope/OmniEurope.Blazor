@@ -1,6 +1,6 @@
 using OmniEurope.Blazor.Resources;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The month grid shared by <c>OmniDatePicker</c> and <c>OmniDateTimePicker</c>: a heading with the

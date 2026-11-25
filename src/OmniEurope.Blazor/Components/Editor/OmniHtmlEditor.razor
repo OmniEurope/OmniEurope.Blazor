@@ -1,7 +1,6 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniInputBase<string>
 @implements IAsyncDisposable
-@using OmniEurope.Blazor.Internal
 
 @* The editor is written once and placed either alone or inside the document frame (the sheet and
    the status bar), which wraps it without changing it. *@
@@ -340,7 +339,7 @@
                           disabled="@Disabled"
                           readonly="@ReadOnly"
                           spellcheck="false"
-                          aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+                          aria-label="@OmniAriaLabel.Of(Label, AdditionalAttributes)"
                           aria-invalid="@AriaInvalid"
                           aria-describedby="@AriaDescribedBy"
                           @ref="_source"

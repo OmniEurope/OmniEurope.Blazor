@@ -21,7 +21,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniLogViewer : IAsyncDisposable
 {
-    private const string ModulePath = Internal.OmniModules.LogViewer;
+    private const string ModulePath = OmniModules.LogViewer;
     private const double EstimatedLineHeight = 20d;
     private const int OverscanCount = 12;
 
@@ -206,7 +206,7 @@ public partial class OmniLogViewer : IAsyncDisposable
         base.OnParametersSet();
         ArgumentNullException.ThrowIfNull(Lines);
         ArgumentNullException.ThrowIfNull(TimeZone);
-        if (Height is not null && !Internal.CssLength.IsHeight(Height))
+        if (Height is not null && !CssLength.IsHeight(Height))
         {
             throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniLogViewer)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
         }
@@ -450,7 +450,7 @@ public partial class OmniLogViewer : IAsyncDisposable
 
     private async Task SynchronizeViewportAsync()
     {
-        _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
+        _module ??= await OmniScriptModule.ImportAsync(JavaScript, ModulePath);
         if (_disposed)
         {
             // Disposed while the script loaded: DisposeAsync had no module to release yet.

@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The only .NET object <c>omni-media-tile.js</c> can call: the full-screen state of the tile, told at every change

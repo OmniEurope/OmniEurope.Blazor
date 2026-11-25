@@ -103,7 +103,7 @@ public partial class OmniSelectableCardGroup<TValue, TSelection> : IOmniSelectab
         }
 
         _pageKeys = true;
-        return Internal.OmniPageKeys.EnableAsync(JavaScript);
+        return OmniPageKeys.EnableAsync(JavaScript);
     }
 
     void IOmniSelectableCardGroup.Register(IOmniSelectableCardEntry card)

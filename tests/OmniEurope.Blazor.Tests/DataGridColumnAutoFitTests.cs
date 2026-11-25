@@ -66,7 +66,7 @@ public sealed class DataGridColumnAutoFitTests : OmniBunitContext
     [Fact]
     public void AutoFit_EnterAsksTheScriptToFitThatColumn()
     {
-        var fit = JSInterop.SetupModule(Internal.OmniModules.Grid)
+        var fit = JSInterop.SetupModule(OmniModules.Grid)
             .SetupVoid("autoFitColumn", _ => true);
         fit.SetVoidResult();
         var rendered = RenderGrid(grid: true, column: null, allowResize: true);

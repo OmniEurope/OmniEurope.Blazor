@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What the collaborators of <see cref="OmniHtmlEditor"/> (its faces, script bridge, context menu, panels,

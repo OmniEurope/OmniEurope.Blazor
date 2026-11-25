@@ -21,7 +21,7 @@ public partial class OmniMindMap : IMindMapHost, IMindMapBridgeHost
     internal const double ZoomStep = MindMapLimits.ZoomStep;
     internal const double KeyboardMoveStep = MindMapLimits.KeyboardMoveStep;
     internal const double MenuWidth = MindMapLimits.MenuWidth;
-    private const string ModulePath = Internal.OmniModules.MindMap;
+    private const string ModulePath = OmniModules.MindMap;
 
     private readonly string _generatedId = $"omni-mindmap-{Guid.NewGuid():N}";
     private readonly MindMapModel _model = new();
@@ -312,7 +312,7 @@ public partial class OmniMindMap : IMindMapHost, IMindMapBridgeHost
         {
             if (firstRender)
             {
-                _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
+                _module = await OmniScriptModule.ImportAsync(JavaScript, ModulePath);
                 _bridge = DotNetObjectReference.Create(new MindMapInteropBridge(this));
                 var size = await _module.InvokeAsync<MindMapCanvasSize?>("attach", _canvas, _bridge);
                 if (size is { Width: > 0, Height: > 0 })

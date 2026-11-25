@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The reconciliation of the browser cache of <see cref="OmniPreferences"/> with the host's store: the

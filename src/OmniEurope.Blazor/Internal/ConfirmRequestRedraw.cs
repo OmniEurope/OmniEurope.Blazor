@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Keeps a part of a confirmation subscribed to the <see cref="OmniConfirmRequest.Refreshed"/> event of the

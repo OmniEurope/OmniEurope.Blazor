@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The rows in edit mode as the grid's other collaborators use them, from <see cref="GridRowEditing{TItem}"/>.</summary>
 /// <typeparam name="TItem">The type of the rows.</typeparam>

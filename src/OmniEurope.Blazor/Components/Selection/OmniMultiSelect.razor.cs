@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 

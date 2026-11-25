@@ -1,6 +1,6 @@
 using System.Text;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The paths Git writes between double quotes in a diff header (<c>core.quotePath</c>, on by default):

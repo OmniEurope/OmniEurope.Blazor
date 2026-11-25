@@ -7,7 +7,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Showcase.Components.Layout;
 using OmniEurope.Blazor.Showcase.Localization;
 using OmniEurope.Blazor.Showcase.Theming;

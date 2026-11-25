@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The detachment of the frozen columns as the grid's other collaborators use it, from <see cref="GridFrozenState{TItem}"/>.</summary>
 internal interface IGridFrozenState

@@ -12,12 +12,12 @@
       "reason": "Table de correspondance : une commande de la barre vers la condition qui la désactive."
     },
     {
-      "method": "OmniEurope.Blazor.Internal.SpreadsheetFormula::Call",
+      "method": "OmniEurope.Blazor.Components.SpreadsheetFormula::Call",
       "complexity": 37,
       "reason": "Table de correspondance : un nom de fonction du tableur vers son calcul."
     },
     {
-      "method": "OmniEurope.Blazor.Internal.MindMapKeyboard::CommandOf",
+      "method": "OmniEurope.Blazor.Components.MindMapKeyboard::CommandOf",
       "complexity": 40,
       "reason": "Table de correspondance : une touche de la carte mentale vers sa commande (flèches, Début, Entrée, Échap, zoom, menu)."
     }

@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The colour arithmetic the palette generator needs.

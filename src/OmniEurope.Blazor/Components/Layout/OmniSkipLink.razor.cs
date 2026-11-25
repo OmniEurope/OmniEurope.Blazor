@@ -14,7 +14,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniSkipLink
 {
-    private const string InteropModulePath = Internal.OmniModules.Interop;
+    private const string InteropModulePath = OmniModules.Interop;
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
@@ -55,7 +55,7 @@ public partial class OmniSkipLink
     {
         try
         {
-            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, InteropModulePath);
+            var module = await OmniScriptModule.ImportAsync(JavaScript, InteropModulePath);
             await using (module.ConfigureAwait(true))
             {
                 await module.InvokeAsync<bool>("focusSkipTarget", TargetId);

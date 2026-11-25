@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The only .NET object <c>omni-structured-document.js</c> can call: the text of a run the reader edited. Kept apart

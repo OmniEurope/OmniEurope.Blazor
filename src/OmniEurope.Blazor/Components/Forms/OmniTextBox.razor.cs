@@ -49,13 +49,13 @@ public partial class OmniTextBox
     public bool SelectOnFocus { get; set; }
 
     private ElementReference _field;
-    private Internal.OmniSelectOnFocus? _selectOnFocus;
+    private OmniSelectOnFocus? _selectOnFocus;
 
     /// <summary>After each render, follows the input element with the <see cref="SelectOnFocus"/> script; nothing happens while it is off.</summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the script follows the element drawn.</returns>
     protected override Task OnAfterRenderAsync(bool firstRender) =>
-        Internal.OmniSelectOnFocus.FollowAsync(ref _selectOnFocus, JavaScript, SelectOnFocus, _field);
+        OmniSelectOnFocus.FollowAsync(ref _selectOnFocus, JavaScript, SelectOnFocus, _field);
 
     /// <summary>
     /// A decorative icon laid over the start of the field, muted and click-through, such as the

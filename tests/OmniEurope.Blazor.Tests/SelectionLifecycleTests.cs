@@ -17,7 +17,7 @@ public sealed class SelectionLifecycleTests : OmniBunitContext
     [Fact]
     public async Task SelectBar_LeavingThePage_UnsubscribesFromTheEditContext()
     {
-        JSInterop.SetupModule(Internal.OmniModules.Focus).Mode = JSRuntimeMode.Loose;
+        JSInterop.SetupModule(OmniModules.Focus).Mode = JSRuntimeMode.Loose;
         var model = new Model();
         var context = new EditContext(model);
         this.RenderBound<OmniSelectBar<string>, string>(model.Text, () => model.Text, parameters => parameters

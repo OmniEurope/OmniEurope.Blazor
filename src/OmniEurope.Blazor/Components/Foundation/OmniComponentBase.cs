@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
-using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
 

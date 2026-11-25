@@ -1,8 +1,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Turns a sanitised mail template into the HTML a mail client renders: the values written in place of

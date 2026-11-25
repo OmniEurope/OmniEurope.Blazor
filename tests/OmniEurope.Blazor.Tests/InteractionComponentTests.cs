@@ -431,7 +431,7 @@ public sealed class InteractionComponentTests : OmniBunitContext
     {
         SetRendererInfo(new RendererInfo("Server", isInteractive: true));
         JSInterop.Mode = JSRuntimeMode.Strict;
-        return JSInterop.SetupModule(Internal.OmniModules.Interop);
+        return JSInterop.SetupModule(OmniModules.Interop);
     }
 
     [Fact]

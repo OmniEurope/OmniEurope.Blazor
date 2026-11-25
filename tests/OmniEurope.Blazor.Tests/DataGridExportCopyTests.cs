@@ -35,9 +35,9 @@ public sealed class DataGridExportCopyTests : OmniBunitContext
     public DataGridExportCopyTests()
     {
         Services.AddSingleton<TimeProvider>(new FixedClock());
-        _download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
+        _download = JSInterop.SetupModule(OmniModules.DocumentEditor);
         _download.SetupVoid("download", _ => true).SetVoidResult();
-        _clipboard = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        _clipboard = JSInterop.SetupModule(OmniModules.Interop);
     }
 
     private static AngleSharp.Dom.IElement? CopyButton(IRenderedComponent<DataGridExportTestHost> host) =>

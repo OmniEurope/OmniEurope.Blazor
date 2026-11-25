@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>What an export read: the rows kept, and how many the source holds as far as the reading can tell.</summary>
 /// <param name="Rows">The rows, at most the row limit.</param>

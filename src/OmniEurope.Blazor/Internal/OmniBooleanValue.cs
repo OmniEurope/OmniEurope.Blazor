@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The value handling shared by the two-state and three-state toggles (<c>OmniCheckBox</c> and

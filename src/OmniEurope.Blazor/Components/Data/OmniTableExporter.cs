@@ -1,5 +1,4 @@
 using System.Text;
-using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
 
@@ -348,7 +347,7 @@ public sealed class OmniTableExporter
     public static byte[] ToXlsx(OmniTableExportDocument document)
     {
         ArgumentNullException.ThrowIfNull(document);
-        return Internal.XlsxWriter.Write(document);
+        return XlsxWriter.Write(document);
     }
 
     /// <summary>The media type of an <c>.xlsx</c> workbook.</summary>

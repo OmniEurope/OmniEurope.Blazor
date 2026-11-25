@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class DialogWidthTests : OmniBunitContext
 {
-    private BunitJSModuleInterop DialogModule() => JSInterop.SetupModule(Internal.OmniModules.Dialog);
+    private BunitJSModuleInterop DialogModule() => JSInterop.SetupModule(OmniModules.Dialog);
 
     [Fact]
     public void DialogWithoutWidth_KeepsItsClasses_AndLoadsNoDialogScript()
@@ -18,7 +18,7 @@ public sealed class DialogWidthTests : OmniBunitContext
         Assert.DoesNotContain("omni-dialog--width", panel.ClassList);
         Assert.Contains("omni-dialog--large", panel.ClassList);
         Assert.Empty(module.Invocations);
-        Assert.DoesNotContain(JSInterop.Invocations, call => call.Arguments.Contains(Internal.OmniModules.Dialog));
+        Assert.DoesNotContain(JSInterop.Invocations, call => call.Arguments.Contains(OmniModules.Dialog));
     }
 
     [Fact]

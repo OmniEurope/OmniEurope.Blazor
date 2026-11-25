@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The flat form in which strokes cross to and from <c>omni-ink-canvas.js</c>: a colour and a width per stroke,

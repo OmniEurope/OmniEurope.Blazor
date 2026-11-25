@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The bounds and steps of an <see cref="Components.OmniMindMap"/>, kept apart from the component

@@ -382,7 +382,7 @@ public sealed class OverlayComponentTests : OmniBunitContext
     [Fact]
     public void MenuAndDialog_DelegateFocusMovementAndRestorationToTheStaticModule()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var split = Render<OmniSplitButton>(parameters => parameters
             .Add(component => component.Text, "Actions")
             .AddChildContent<OmniMenuItem>(item => item.AddChildContent("Dupliquer")));

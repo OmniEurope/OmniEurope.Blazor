@@ -35,14 +35,14 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniMediaTile
 {
-    private const string ModulePath = Internal.OmniModules.MediaTile;
+    private const string ModulePath = OmniModules.MediaTile;
     private const string DefaultStrokeColor = "#ff3b30";
     private const string DefaultPickerColor = "#000000";
 
     private ElementReference _root;
     private OmniInkCanvas? _ink;
     private Task<IJSObjectReference?>? _moduleTask;
-    private DotNetObjectReference<Internal.MediaTileInteropBridge>? _bridge;
+    private DotNetObjectReference<MediaTileInteropBridge>? _bridge;
     private IJSObjectReference? _appliedStream;
     private bool? _appliedMuted;
     private string? _appliedLayout;
@@ -274,7 +274,7 @@ public partial class OmniMediaTile
             if (!_attached)
             {
                 _attached = true;
-                _bridge = DotNetObjectReference.Create(new Internal.MediaTileInteropBridge(HandleFullscreenAsync));
+                _bridge = DotNetObjectReference.Create(new MediaTileInteropBridge(HandleFullscreenAsync));
                 await module.InvokeVoidAsync("attach", _root, _bridge);
             }
 
@@ -308,7 +308,7 @@ public partial class OmniMediaTile
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        await Internal.OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
+        await OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);
@@ -362,7 +362,7 @@ public partial class OmniMediaTile
         var module = await ModuleAsync().WaitAsync(cancellationToken);
         // Null only when the tile was disposed while its script loaded.
         ObjectDisposedException.ThrowIf(module is null, this);
-        var (colors, widths, points) = Internal.InkStrokeCodec.Pack(Drawing ? _current : []);
+        var (colors, widths, points) = InkStrokeCodec.Pack(Drawing ? _current : []);
         var png = await module!.InvokeAsync<byte[]?>("exportPng", cancellationToken, _root, colors, widths, points);
         return png ?? throw new InvalidOperationException("The video has no frame to export yet: its first picture is not decoded.");
     }
@@ -430,7 +430,7 @@ public partial class OmniMediaTile
     private Task ClearAsync() => _ink!.ClearAsync();
 
     private Task<IJSObjectReference?> ModuleAsync()
-        => _moduleTask ??= Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);
+        => _moduleTask ??= OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);
 
     private static bool IsHexColor(string? value)
         => value is { Length: 7 } && value[0] == '#' && value.Skip(1).All(Uri.IsHexDigit);

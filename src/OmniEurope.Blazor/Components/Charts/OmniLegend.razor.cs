@@ -1,6 +1,5 @@
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Resources;
 
 namespace OmniEurope.Blazor.Components;

@@ -218,7 +218,7 @@ public sealed class WizardTests : OmniBunitContext
     [InlineData("50vh")]
     public void Wizard_BodyHeight_IsPushedAsACustomPropertyByTheInteropScript(string height)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
 
         var wizard = Render<OmniWizard>(parameters => parameters
             .Add(component => component.BodyHeight, height)

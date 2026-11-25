@@ -237,7 +237,7 @@ public sealed class DataGridTreeTests : OmniBunitContext
     [Fact]
     public void CsvExport_WritesEveryRowAtEveryDepth_HoweverFewAreOpen()
     {
-        var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
+        var download = JSInterop.SetupModule(OmniModules.DocumentEditor);
         download.SetupVoid("download", _ => true).SetVoidResult();
         var grid = RenderGrid(parameters => parameters
             .Add(g => g.ShowFooterBar, true)

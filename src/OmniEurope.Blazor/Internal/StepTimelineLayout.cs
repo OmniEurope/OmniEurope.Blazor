@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>One bar of an <see cref="OmniStepTimeline"/>, as percentages of the run.</summary>
 internal sealed record StepTimelineBar(OmniStepTimelineStep Step, double OffsetPercent, double WidthPercent, TimeSpan Offset, TimeSpan Duration);

@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridRowsTests : OmniBunitContext
 {
-    private const string GridModule = Internal.OmniModules.Grid;
+    private const string GridModule = OmniModules.Grid;
 
     [Fact]
     public void SelectAll_TicksTheSelectableRowsOnScreenThenClearsThem()

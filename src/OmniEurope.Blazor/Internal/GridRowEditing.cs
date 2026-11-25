@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The rows of a grid in edit mode, entered, saved and cancelled by their key.</summary>
 internal sealed class GridRowEditing<TItem>(IGridHost<TItem> grid) : IGridRowEditing<TItem>

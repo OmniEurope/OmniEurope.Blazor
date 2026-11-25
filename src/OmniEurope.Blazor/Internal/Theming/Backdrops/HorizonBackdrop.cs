@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Néon's backdrop, the default of the Néon theme: a synthwave grid laid out in perspective under a horizon

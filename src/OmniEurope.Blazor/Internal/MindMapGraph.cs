@@ -1,7 +1,6 @@
 using System.Text.Json;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The parts of a stored mind map graph as <see cref="MindMapJson"/> reads and writes them; the

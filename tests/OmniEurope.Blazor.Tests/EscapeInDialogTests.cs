@@ -109,7 +109,7 @@ public sealed class EscapeInDialogTests : OmniBunitContext
     [Fact]
     public async Task Escape_InTheCharacterSearchOfTheEditor_ClosesThePanelAndLeavesTheDialog_ASecondEscapeClosesTheDialog()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.HtmlEditor);
+        var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
         module.Setup<string?>("read", _ => true).SetResult(null);
         var openChanges = new List<bool>();
         var value = "<p>A</p>";
@@ -132,7 +132,7 @@ public sealed class EscapeInDialogTests : OmniBunitContext
     [Fact]
     public async Task OtherKeysInTheCharacterSearchOfTheEditor_LeaveThePanelOpen()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.HtmlEditor);
+        var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
         module.Setup<string?>("read", _ => true).SetResult(null);
         var value = "<p>A</p>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters

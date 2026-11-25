@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class CodeCopyTests : OmniBunitContext
 {
-    private const string InteropModulePath = Internal.OmniModules.Interop;
+    private const string InteropModulePath = OmniModules.Interop;
 
     // The bound member a text box names in its ValueExpression.
     private readonly string _cloneUrl = string.Empty;

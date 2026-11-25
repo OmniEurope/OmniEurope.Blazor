@@ -88,5 +88,5 @@ public sealed class OmniFileDownloader : IAsyncDisposable
     }
 
     private async ValueTask<IJSObjectReference> ModuleAsync(CancellationToken cancellationToken)
-        => _module ??= await Internal.OmniScriptModule.ImportAsync(_javaScript, Internal.OmniModules.DocumentEditor, cancellationToken);
+        => _module ??= await OmniScriptModule.ImportAsync(_javaScript, OmniModules.DocumentEditor, cancellationToken);
 }

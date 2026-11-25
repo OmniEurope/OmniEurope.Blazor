@@ -1,4 +1,4 @@
-using OmniEurope.Blazor.Internal;
+using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 

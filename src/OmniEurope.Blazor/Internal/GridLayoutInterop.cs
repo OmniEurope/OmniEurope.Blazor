@@ -1,7 +1,6 @@
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The sizes a grid pushes to its script: the table height, floor and ceiling, the column widths and

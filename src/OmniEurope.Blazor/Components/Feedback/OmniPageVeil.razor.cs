@@ -35,7 +35,7 @@ namespace OmniEurope.Blazor.Components;
 /// under the sidebar drawer.
 /// </para>
 /// </remarks>
-public partial class OmniPageVeil : IDisposable, Internal.IHostedPageVeil, Internal.IPageVeilSurfaceSource
+public partial class OmniPageVeil : IDisposable, IHostedPageVeil, IPageVeilSurfaceSource
 {
     private OmniMain? _host;
 
@@ -111,25 +111,25 @@ public partial class OmniPageVeil : IDisposable, Internal.IHostedPageVeil, Inter
         : _host is null ? null : _host.Scrollable ? "omni-page-veil--frame" : "omni-page-veil--flow";
 
     // The main area and the element read the veil through these contracts, so neither names the veil.
-    RenderFragment Internal.IHostedPageVeil.Surface => Surface;
+    RenderFragment IHostedPageVeil.Surface => Surface;
 
-    bool Internal.IPageVeilSurfaceSource.Busy => Busy;
+    bool IPageVeilSurfaceSource.Busy => Busy;
 
-    IReadOnlyDictionary<string, object>? Internal.IPageVeilSurfaceSource.AdditionalAttributes => AdditionalAttributes;
+    IReadOnlyDictionary<string, object>? IPageVeilSurfaceSource.AdditionalAttributes => AdditionalAttributes;
 
-    string? Internal.IPageVeilSurfaceSource.Id => Id;
+    string? IPageVeilSurfaceSource.Id => Id;
 
-    string Internal.IPageVeilSurfaceSource.RootClass => RootClass;
+    string IPageVeilSurfaceSource.RootClass => RootClass;
 
-    bool Internal.IPageVeilSurfaceSource.HasLogo => HasLogo;
+    bool IPageVeilSurfaceSource.HasLogo => HasLogo;
 
-    RenderFragment? Internal.IPageVeilSurfaceSource.Logo => Logo;
+    RenderFragment? IPageVeilSurfaceSource.Logo => Logo;
 
-    string? Internal.IPageVeilSurfaceSource.LogoSource => LogoSource;
+    string? IPageVeilSurfaceSource.LogoSource => LogoSource;
 
-    string Internal.IPageVeilSurfaceSource.EffectiveLabel => EffectiveLabel;
+    string IPageVeilSurfaceSource.EffectiveLabel => EffectiveLabel;
 
-    event Action? Internal.IPageVeilSurfaceSource.Changed
+    event Action? IPageVeilSurfaceSource.Changed
     {
         add => Changed += value;
         remove => Changed -= value;

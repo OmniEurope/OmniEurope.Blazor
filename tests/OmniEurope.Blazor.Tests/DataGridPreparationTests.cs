@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridPreparationTests : OmniBunitContext
 {
-    private const string ModulePath = Internal.OmniModules.Grid;
+    private const string ModulePath = OmniModules.Grid;
 
     [Fact]
     public void ReadinessWait_TimedOut_ShowsTheGrid()

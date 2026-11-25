@@ -21,7 +21,7 @@ public partial class OmniCodeEditor
 {
     private ElementReference _root;
     private ElementReference _host;
-    private Internal.MonacoHost? _monaco;
+    private MonacoHost? _monaco;
     private DotNetObjectReference<CodeEditorInteropBridge>? _bridge;
     private CodePhase _phase = CodePhase.Loading;
     private OmniCodeEditorEngine? _startedEngine;
@@ -35,7 +35,7 @@ public partial class OmniCodeEditor
     [Inject]
     private IJSRuntime JSRuntime { get; set; } = default!;
 
-    private Internal.MonacoHost Monaco => _monaco ??= new(JSRuntime, () => InteropModulePath, () => _disposed);
+    private MonacoHost Monaco => _monaco ??= new(JSRuntime, () => InteropModulePath, () => _disposed);
 
     /// <summary>
     /// The language identifier (<c>yaml</c>, <c>json</c>, <c>csharp</c>, <c>javascript</c>, <c>html</c>, <c>sql</c>...),
@@ -67,10 +67,10 @@ public partial class OmniCodeEditor
     /// origin of the page: a scheme (<c>https:</c>, <c>data:</c>, <c>blob:</c>), a leading <c>//</c>, a backslash,
     /// a control character or a blank value is refused. A <c>..</c> segment is accepted, as it cannot leave the origin.
     /// </summary>
-    [Parameter] public string MonacoPath { get; set; } = Internal.MonacoHost.DefaultPath;
+    [Parameter] public string MonacoPath { get; set; } = MonacoHost.DefaultPath;
 
     /// <summary>Same-origin JavaScript module implementing editor interop. The default uses Monaco in this document.</summary>
-    [Parameter] public string InteropModulePath { get; set; } = Internal.OmniModules.CodeEditor;
+    [Parameter] public string InteropModulePath { get; set; } = OmniModules.CodeEditor;
 
     /// <summary>
     /// What edits the code: <see cref="OmniCodeEditorEngine.Monaco"/> (the default) or the plain text area
@@ -126,8 +126,8 @@ public partial class OmniCodeEditor
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        Internal.MonacoHost.RequireParameters(nameof(OmniCodeEditor), Height, MonacoPath);
-        Internal.MonacoHost.RequireInteropModulePath(InteropModulePath);
+        MonacoHost.RequireParameters(nameof(OmniCodeEditor), Height, MonacoPath);
+        MonacoHost.RequireInteropModulePath(InteropModulePath);
 
         if (Engine == OmniCodeEditorEngine.PlainText)
         {
@@ -293,7 +293,7 @@ public partial class OmniCodeEditor
         value,
         monacoPath = MonacoPath,
         culture = CultureInfo.CurrentUICulture.Name,
-        loadTimeoutMilliseconds = Internal.MonacoHost.LoadTimeoutMilliseconds,
+        loadTimeoutMilliseconds = MonacoHost.LoadTimeoutMilliseconds,
         language = EffectiveLanguage,
         readOnly = IsLocked,
         lineNumbers = ShowLineNumbers,

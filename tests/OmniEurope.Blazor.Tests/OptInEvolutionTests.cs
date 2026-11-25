@@ -15,8 +15,8 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class OptInEvolutionTests : OmniBunitContext
 {
-    private const string FocusModule = Internal.OmniModules.Focus;
-    private const string GridModule = Internal.OmniModules.Grid;
+    private const string FocusModule = OmniModules.Focus;
+    private const string GridModule = OmniModules.Grid;
 
     [Fact]
     public void Tabs_WithoutExternalBinding_SwitchTheirVisiblePanel()

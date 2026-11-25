@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The checks <see cref="Components.OmniMap"/> makes on what a host gives it: the colour of a line, written as an SVG

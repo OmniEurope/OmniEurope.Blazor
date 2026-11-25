@@ -21,7 +21,7 @@ namespace OmniEurope.Blazor.Components;
 /// <typeparam name="TItem">The type of the cards.</typeparam>
 public partial class OmniKanban<TItem>
 {
-    private const string ModulePath = Internal.OmniModules.Kanban;
+    private const string ModulePath = OmniModules.Kanban;
 
     private readonly string _generatedId = $"omni-kanban-{Guid.NewGuid():N}";
     private ElementReference _root;
@@ -175,7 +175,7 @@ public partial class OmniKanban<TItem>
         {
             if (firstRender)
             {
-                var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
+                var module = await OmniScriptModule.ImportAsync(JavaScript, ModulePath);
                 if (_disposed)
                 {
                     // Disposed while the module loaded: nothing was attached, and no reference is created.

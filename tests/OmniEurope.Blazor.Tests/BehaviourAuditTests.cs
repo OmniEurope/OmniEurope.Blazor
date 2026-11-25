@@ -164,15 +164,15 @@ public sealed class BehaviourAuditTests : OmniBunitContext
     [InlineData("\"fin\\\"", "fin\\")]
     [InlineData("\"\U0001F600 é\"", "\U0001F600 é")]
     public void GitQuotedPath_DecodesTheEscapesOfAC_String(string token, string expected) =>
-        Assert.Equal(expected, Internal.GitQuotedPath.Unquote(token));
+        Assert.Equal(expected, GitQuotedPath.Unquote(token));
 
     [Fact]
     public void GitQuotedPath_SplitsOnlyWhenASideIsQuoted()
     {
-        Assert.False(Internal.GitQuotedPath.TrySplit("a/x b/y", out _, out _));
-        Assert.False(Internal.GitQuotedPath.TrySplit("\"a/x\"", out _, out _));
-        Assert.False(Internal.GitQuotedPath.TrySplit("b/y\"", out _, out _));
-        Assert.True(Internal.GitQuotedPath.TrySplit("a/x \"b/\\303\\251\"", out var left, out var right));
+        Assert.False(GitQuotedPath.TrySplit("a/x b/y", out _, out _));
+        Assert.False(GitQuotedPath.TrySplit("\"a/x\"", out _, out _));
+        Assert.False(GitQuotedPath.TrySplit("b/y\"", out _, out _));
+        Assert.True(GitQuotedPath.TrySplit("a/x \"b/\\303\\251\"", out var left, out var right));
         Assert.Equal(("a/x", "b/é"), (left, right));
     }
 

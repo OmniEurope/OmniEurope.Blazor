@@ -1,5 +1,5 @@
 using Bunit;
-using OmniEurope.Blazor.Internal;
+using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Showcase.Examples.Overlays;
 
 namespace OmniEurope.Blazor.Tests;

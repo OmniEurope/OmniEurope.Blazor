@@ -33,7 +33,7 @@ public partial class OmniPageHeader
     private OmniBreadcrumbService? _breadcrumb;
     private ElementReference _frame;
     private IJSObjectReference? _module;
-    private Internal.OmniPackageTooltips? _tooltips;
+    private OmniPackageTooltips? _tooltips;
     private bool _expanded;
     private bool _disposed;
 
@@ -203,11 +203,11 @@ public partial class OmniPageHeader
             return;
         }
 
-        _tooltips = new Internal.OmniPackageTooltips(JavaScript);
+        _tooltips = new OmniPackageTooltips(JavaScript);
         await _tooltips.InstallAsync();
         try
         {
-            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.PageHeader);
+            var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.PageHeader);
             if (_disposed)
             {
                 await module.DisposeAsync();
@@ -228,7 +228,7 @@ public partial class OmniPageHeader
     private void ToggleDetails() => _expanded = !_expanded;
 
     private Task GoBackAsync() =>
-        Internal.OmniBackNavigation.GoBackAsync(Navigation, JavaScript, !string.IsNullOrWhiteSpace(BackHref) ? BackHref : _breadcrumb?.ParentHref);
+        OmniBackNavigation.GoBackAsync(Navigation, JavaScript, !string.IsNullOrWhiteSpace(BackHref) ? BackHref : _breadcrumb?.ParentHref);
 
     /// <summary>
     /// Stops listening to the breadcrumb service and detaches the script: its observers and listeners

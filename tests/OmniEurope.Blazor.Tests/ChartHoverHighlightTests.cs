@@ -212,7 +212,7 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     [Fact]
     public async Task AChartWithALine_TurnsThePackageTooltipsOn_AndOffWhenItGoes()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
+        var module = JSInterop.SetupModule(OmniModules.Tooltip);
         module.SetupVoid("installPackageTooltips").SetVoidResult();
         module.SetupVoid("uninstallPackageTooltips").SetVoidResult();
 
@@ -228,7 +228,7 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     [Fact]
     public void AChartOfMarkersAlone_TurnsThePackageTooltipsOn()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
+        var module = JSInterop.SetupModule(OmniModules.Tooltip);
         module.SetupVoid("installPackageTooltips").SetVoidResult();
 
         var chart = Chart(builder => Child<OmniMarkers>(builder, 0, ("Data", Points(10, 20))));
@@ -240,7 +240,7 @@ public sealed class ChartHoverHighlightTests : OmniBunitContext
     [Fact]
     public void AChartWithBarsLoadsTheTooltipScript_ButNotOneWithBothOff()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
+        var module = JSInterop.SetupModule(OmniModules.Tooltip);
 
         var off = Render<OmniChart>(parameters => parameters
             .Add(component => component.Label, "Ventes")

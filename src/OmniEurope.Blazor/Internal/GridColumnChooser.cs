@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The column chooser of a grid's header bar (<c>AllowColumnHide</c>, <c>AllowColumnReorder</c>,

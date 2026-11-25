@@ -1,5 +1,4 @@
 using System.Text.RegularExpressions;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -43,7 +42,7 @@ public partial class OmniDocumentEditor : IAsyncDisposable
 {
     private const double DefaultDrawingWidthPt = 400;
     private const double DefaultDrawingHeightPt = 150;
-    private const string ModulePath = Internal.OmniModules.StructuredDocument;
+    private const string ModulePath = OmniModules.StructuredDocument;
 
     private static readonly Regex LineBreaks = new(@"\s*[\r\n]+\s*", RegexOptions.CultureInvariant, TimeSpan.FromSeconds(1));
 
@@ -178,7 +177,7 @@ public partial class OmniDocumentEditor : IAsyncDisposable
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        await Internal.OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
+        await OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);

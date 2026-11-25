@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniConnectionOverlay
 {
-    private const string FocusModulePath = Internal.OmniModules.Focus;
+    private const string FocusModulePath = OmniModules.Focus;
 
     private readonly string _focusKey = $"connection-{Guid.NewGuid():N}";
     private readonly string _generatedId = $"omni-connection-{Guid.NewGuid():N}";
@@ -160,7 +160,7 @@ public partial class OmniConnectionOverlay
         try
         {
             // Removed while the script loaded: the loader released it on arrival, nothing is activated.
-            _focusModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, FocusModulePath, () => _disposed);
+            _focusModule ??= await OmniScriptModule.ImportAsync(JavaScript, FocusModulePath, () => _disposed);
         }
         catch (JSException)
         {

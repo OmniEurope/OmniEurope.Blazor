@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Text.Json;
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>One cached preference: its JSON value (null for a tombstone), its date, and whether the store has yet to confirm it.</summary>
 internal sealed record PreferenceCacheEntry(string? Value, DateTimeOffset UpdatedAt, bool Dirty);

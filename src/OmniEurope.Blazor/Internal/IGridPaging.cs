@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The page of a grid as its other collaborators use it, from <see cref="GridPaging{TItem}"/>.</summary>
 internal interface IGridPaging

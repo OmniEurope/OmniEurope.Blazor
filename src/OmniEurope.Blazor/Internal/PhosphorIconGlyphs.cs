@@ -1,8 +1,7 @@
 using System.Collections.Frozen;
 using System.Text;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 // Built-in outlines, traced from the Phosphor Icons "regular" set (MIT).
 // Attribution and licence text live in docs/third-party-licenses and eng/vendored-assets.json.

@@ -1,7 +1,6 @@
 using System.Diagnostics.CodeAnalysis;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The document an <see cref="OmniMindMap"/> draws, with the indexes its drawing reads: the nodes

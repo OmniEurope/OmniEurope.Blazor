@@ -3,7 +3,7 @@ using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Ganss.Xss;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The allow-list of the HTML fragments a host gives as block variables (<see cref="Components.OmniMailRenderOptions.Blocks"/>):

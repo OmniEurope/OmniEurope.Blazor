@@ -51,7 +51,7 @@ public sealed class DefaultLookRequestsTests : OmniBunitContext
     // A chart capped at <paramref name="maxHeight"/>, once the interop script has been given the cap.
     private (BunitJSModuleInterop Module, IRenderedComponent<OmniChart> Chart) RenderCappedOnce(string maxHeight)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var chart = Render<OmniChart>(parameters => parameters
             .Add(component => component.Label, "Soldes")
             .Add(component => component.MaxHeight, maxHeight));

@@ -20,7 +20,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniBootSplash
 {
-    private const string ModulePath = Internal.OmniModules.Interop;
+    private const string ModulePath = OmniModules.Interop;
 
     private IJSObjectReference? _module;
     private bool _disposed;
@@ -46,7 +46,7 @@ public partial class OmniBootSplash
 
         try
         {
-            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
+            var module = await OmniScriptModule.ImportAsync(JavaScript, ModulePath);
 
             // The splash is removed even when this component went away meanwhile: nothing else would.
             var hidden = await module.InvokeAsync<bool>("hideBootSplash", SplashId);

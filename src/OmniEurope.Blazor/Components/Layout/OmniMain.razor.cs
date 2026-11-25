@@ -18,14 +18,14 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniMain
 {
-    private const string InteropModulePath = Internal.OmniModules.Interop;
+    private const string InteropModulePath = OmniModules.Interop;
 
     private ElementReference _main;
     private IJSObjectReference? _module;
     private bool _watching;
     private bool _disposed;
     private AppearanceFollower? _shared;
-    private readonly List<Internal.IHostedPageVeil> _veils = [];
+    private readonly List<IHostedPageVeil> _veils = [];
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
@@ -110,7 +110,7 @@ public partial class OmniMain
                 return;
             }
 
-            _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, InteropModulePath);
+            _module ??= await OmniScriptModule.ImportAsync(JavaScript, InteropModulePath);
             if (!_disposed)
             {
                 await _module.InvokeVoidAsync("watchScrolling", _main, "omni-main--scrolling");
@@ -143,14 +143,14 @@ public partial class OmniMain
     }
 
     /// <summary>Holds a page veil declared in this main area, which draws it over the area instead of in place.</summary>
-    internal void AddVeil(Internal.IHostedPageVeil veil)
+    internal void AddVeil(IHostedPageVeil veil)
     {
         _veils.Add(veil);
         _ = InvokeAsync(StateHasChanged);
     }
 
     /// <summary>Lets go of a page veil that was disposed or moved to another scope.</summary>
-    internal void RemoveVeil(Internal.IHostedPageVeil veil)
+    internal void RemoveVeil(IHostedPageVeil veil)
     {
         if (_veils.Remove(veil) && !_disposed)
         {

@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Velours's backdrop, the default of the Velours theme: a drape of the accent hue, two sets of vertical

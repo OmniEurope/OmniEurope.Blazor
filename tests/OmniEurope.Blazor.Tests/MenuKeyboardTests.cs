@@ -195,7 +195,7 @@ public sealed class MenuKeyboardTests : OmniBunitContext
         _ => ".omni-context-menu"
     };
 
-    private BunitJSModuleInterop SetupFocus() => JSInterop.SetupModule(Internal.OmniModules.Focus);
+    private BunitJSModuleInterop SetupFocus() => JSInterop.SetupModule(OmniModules.Focus);
 
     /// <summary>The object a .NET reference given to the script wraps, and its public <c>DismissAsync</c> method.</summary>
     private static (object Interop, MethodInfo Dismiss) DismissalOf(object reference)

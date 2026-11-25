@@ -117,7 +117,7 @@ public partial class OmniWizard
     {
         base.OnParametersSet();
 
-        if (BodyHeight is not null and not "auto" && !Internal.CssLength.IsHeight(BodyHeight))
+        if (BodyHeight is not null and not "auto" && !CssLength.IsHeight(BodyHeight))
         {
             throw new ArgumentException($"'{BodyHeight}' is not a CSS length {nameof(OmniWizard)} accepts for {nameof(BodyHeight)} (a number followed by px, rem, em, vh or %, or auto).", nameof(BodyHeight));
         }

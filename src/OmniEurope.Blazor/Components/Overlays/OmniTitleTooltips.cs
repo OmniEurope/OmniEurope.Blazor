@@ -10,7 +10,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public sealed class OmniTitleTooltips : ComponentBase, IAsyncDisposable
 {
-    private const string ModulePath = Internal.OmniModules.Tooltip;
+    private const string ModulePath = OmniModules.Tooltip;
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
@@ -37,7 +37,7 @@ public sealed class OmniTitleTooltips : ComponentBase, IAsyncDisposable
         _loading = true;
         try
         {
-            _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath);
+            _module = await OmniScriptModule.ImportAsync(JavaScript, ModulePath);
             if (!_disposed)
             {
                 await _module.InvokeVoidAsync("installTitleTooltips");

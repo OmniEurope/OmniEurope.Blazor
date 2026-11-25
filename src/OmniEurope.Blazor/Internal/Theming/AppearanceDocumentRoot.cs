@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The text size and the size of the controls of <see cref="Components.OmniAppearanceState"/>, laid on the
