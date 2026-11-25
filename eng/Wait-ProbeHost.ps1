@@ -14,6 +14,7 @@ param(
 $ErrorActionPreference = 'Stop'
 $psText = Import-PowerShellDataFile (Join-Path $PSScriptRoot 'PowerShellMessages.psd1')
 $response = $null
+$lastFailure = $null
 for ($attempt = 1; $attempt -le 75; $attempt++) {
     if ($Process.HasExited) { throw ($psText.HostStopped -f $HostName, $Process.ExitCode) }
     try {
@@ -21,8 +22,14 @@ for ($attempt = 1; $attempt -le 75; $attempt++) {
         if ($response.StatusCode -eq 200) { break }
     }
     catch {
+        # The host is still starting; the last refusal is reported if it never answers.
+        $lastFailure = $_.Exception.Message
     }
     Start-Sleep -Milliseconds 200
 }
-if ($null -eq $response -or $response.StatusCode -ne 200) { throw ($psText.HostNoHttp200 -f $HostName) }
+if ($null -eq $response -or $response.StatusCode -ne 200) {
+    $message = $psText.HostNoHttp200 -f $HostName
+    if ($lastFailure) { $message = "$message ($lastFailure)" }
+    throw $message
+}
 $response
