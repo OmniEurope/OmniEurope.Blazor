@@ -14,19 +14,9 @@ $stdout = New-TemporaryFile
 $stderr = New-TemporaryFile
 $process = $null
 $browser = $null
-$browserProfile = $null
 
 try {
-    $existingHost = $false
-    try {
-        Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -TimeoutSec 1 -ErrorAction Stop | Out-Null
-        $existingHost = $true
-    }
-    catch {
-    }
-    if ($existingHost) {
-        throw ($psText.PortOwned -f $Port)
-    }
+    & (Join-Path $PSScriptRoot 'Assert-ProbePortFree.ps1') -Uri "$baseUri/" -Port $Port
 
     $start = @{
         FilePath = 'dotnet'
@@ -39,22 +29,7 @@ try {
     if ($IsWindows) { $start.WindowStyle = 'Hidden' }
     $process = Start-Process @start
 
-    $rootResponse = $null
-    for ($attempt = 1; $attempt -le 75; $attempt++) {
-        if ($process.HasExited) {
-            throw ($psText.HostStopped -f 'Interactive Auto', $process.ExitCode)
-        }
-
-        try {
-            $rootResponse = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -TimeoutSec 2 -ErrorAction Stop
-            if ($rootResponse.StatusCode -eq 200) { break }
-        }
-        catch {
-        }
-        Start-Sleep -Milliseconds 200
-    }
-
-    if ($null -eq $rootResponse -or $rootResponse.StatusCode -ne 200) { throw ($psText.HostNoHttp200 -f 'Interactive Auto') }
+    $rootResponse = & (Join-Path $PSScriptRoot 'Wait-ProbeHost.ps1') -Process $process -Uri "$baseUri/" -HostName 'Interactive Auto'
     if ($rootResponse.Content -notmatch 'OmniEurope\.Blazor Interactive Auto' -or $rootResponse.Content -notmatch 'auto-action') {
         throw $psText.AutoMarkersMissing
     }
@@ -90,33 +65,10 @@ try {
         if ($asset.StatusCode -ne 200 -or $asset.RawContentLength -le 0) { throw "Asset Interactive Auto invalide : $path" }
     }
 
-    $browserCommands = @('msedge', 'google-chrome', 'chrome', 'chromium', 'chromium-browser')
-    $browserPath = $browserCommands | ForEach-Object { Get-Command $_ -ErrorAction SilentlyContinue } | Select-Object -First 1 -ExpandProperty Source
-    if (-not $browserPath -and $IsWindows) {
-        $edgePaths = @(
-            (Join-Path ${env:ProgramFiles(x86)} 'Microsoft\Edge\Application\msedge.exe'),
-            (Join-Path $env:ProgramFiles 'Microsoft\Edge\Application\msedge.exe')
-        )
-        $browserPath = $edgePaths | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
-    }
-    if (-not $browserPath) { throw $psText.ChromiumMissing }
+    $browserPath = & (Join-Path $PSScriptRoot 'Find-ProbeBrowser.ps1')
+    $browser = & (Join-Path $PSScriptRoot 'Start-ProbeBrowser.ps1') -BrowserPath $browserPath -Language $BrowserLanguage -StartUrl $baseUri -ProfilePrefix 'omni-auto-cdp-'
 
-    $browserProfile = Join-Path ([IO.Path]::GetTempPath()) ("omni-auto-cdp-" + [guid]::NewGuid().ToString('N'))
-    New-Item -ItemType Directory -Path $browserProfile | Out-Null
-    $browserArguments = @(
-        '--headless=new', '--disable-gpu', '--disable-dev-shm-usage', '--no-sandbox',
-        # Edge signs a fresh profile in with the Windows account and opens its sync dialog as a tab, which
-        # hides the probed page: its animation frames stop and a probe waiting on one never ends.
-        '--no-first-run', '--no-default-browser-check', '--disable-sync', '--disable-features=msImplicitSignin,msEdgeSyncConsent',
-        "--lang=$BrowserLanguage", "--accept-lang=$BrowserLanguage",
-        '--remote-debugging-port=0', "--user-data-dir=$browserProfile", $baseUri
-    )
-    $browserStart = @{ FilePath = $browserPath; ArgumentList = $browserArguments; PassThru = $true }
-    if ($IsWindows) { $browserStart.WindowStyle = 'Hidden' }
-    $browser = Start-Process @browserStart
-    $browserPort = & (Join-Path $PSScriptRoot 'Get-BrowserDebugPort.ps1') -BrowserProfile $browserProfile -Browser $browser
-
-    & node (Join-Path $PSScriptRoot 'Test-CdpProbe.mjs') --endpoint "http://127.0.0.1:$browserPort" --selector '#auto-action' --output '#auto-action' --expected 'Compteur Auto : 1'
+    & node (Join-Path $PSScriptRoot 'Test-CdpProbe.mjs') --endpoint "http://127.0.0.1:$($browser.Port)" --selector '#auto-action' --output '#auto-action' --expected 'Compteur Auto : 1'
     if ($LASTEXITCODE -ne 0) { throw ($psText.CdpFailed -f 'Interactive Auto', $LASTEXITCODE) }
 
     Write-Host ($psText.AutoPassed -f $process.Id)
@@ -131,13 +83,6 @@ finally {
         Stop-Process -Id $process.Id
         if (-not $process.WaitForExit(5000)) { throw ($psText.AutoStopFailed -f $process.Id) }
     }
-    & (Join-Path $PSScriptRoot 'Stop-ProbeBrowser.ps1') -Browser $browser -BrowserProfile $browserProfile
-    if ($browserProfile) {
-        $resolvedProfile = [IO.Path]::GetFullPath($browserProfile)
-        $resolvedTemp = [IO.Path]::GetFullPath([IO.Path]::GetTempPath())
-        if ($resolvedProfile.StartsWith($resolvedTemp, [StringComparison]::OrdinalIgnoreCase)) {
-            Remove-Item -LiteralPath $resolvedProfile -Recurse -Force -ErrorAction SilentlyContinue
-        }
-    }
+    & (Join-Path $PSScriptRoot 'Stop-ProbeBrowser.ps1') -Browser $browser.Process -BrowserProfile $browser.Profile -RemoveProfile
     Remove-Item -LiteralPath $stdout.FullName, $stderr.FullName -Force -ErrorAction SilentlyContinue
 }

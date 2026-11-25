@@ -64,14 +64,7 @@ $scripts = [ordered]@{
 if (-not $Probe) { $Probe = @($scripts.Keys | Where-Object { $_ -ne 'Contrast' }) }
 
 try {
-    $existingHost = $false
-    try {
-        Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -TimeoutSec 1 -ErrorAction Stop | Out-Null
-        $existingHost = $true
-    }
-    catch {
-    }
-    if ($existingHost) { throw ($psText.PortOwned -f $Port) }
+    & (Join-Path $PSScriptRoot 'Assert-ProbePortFree.ps1') -Uri "$baseUri/" -Port $Port
 
     $serverStart = @{
         FilePath = 'node'
@@ -84,29 +77,9 @@ try {
     if ($IsWindows) { $serverStart.WindowStyle = 'Hidden' }
     $server = Start-Process @serverStart
 
-    $ready = $false
-    for ($attempt = 1; $attempt -le 75; $attempt++) {
-        if ($server.HasExited) { throw ($psText.HostStopped -f 'vitrine', $server.ExitCode) }
-        try {
-            $response = Invoke-WebRequest -UseBasicParsing -Uri "$baseUri/" -TimeoutSec 2 -ErrorAction Stop
-            if ($response.StatusCode -eq 200) { $ready = $true; break }
-        }
-        catch {
-        }
-        Start-Sleep -Milliseconds 200
-    }
-    if (-not $ready) { throw ($psText.HostNoHttp200 -f 'vitrine') }
+    & (Join-Path $PSScriptRoot 'Wait-ProbeHost.ps1') -Process $server -Uri "$baseUri/" -HostName 'vitrine' | Out-Null
 
-    $browserCommands = @('msedge', 'google-chrome', 'chrome', 'chromium', 'chromium-browser')
-    $browserPath = $browserCommands | ForEach-Object { Get-Command $_ -ErrorAction SilentlyContinue } | Select-Object -First 1 -ExpandProperty Source
-    if (-not $browserPath -and $IsWindows) {
-        $edgePaths = @(
-            (Join-Path ${env:ProgramFiles(x86)} 'Microsoft\Edge\Application\msedge.exe'),
-            (Join-Path $env:ProgramFiles 'Microsoft\Edge\Application\msedge.exe')
-        )
-        $browserPath = $edgePaths | Where-Object { Test-Path -LiteralPath $_ } | Select-Object -First 1
-    }
-    if (-not $browserPath) { throw $psText.ChromiumMissing }
+    $browserPath = & (Join-Path $PSScriptRoot 'Find-ProbeBrowser.ps1')
 
     if ($Parallel -eq 0) { $Parallel = [Math]::Max(1, [Math]::Min(6, [int][Math]::Floor([Environment]::ProcessorCount / 6))) }
 
