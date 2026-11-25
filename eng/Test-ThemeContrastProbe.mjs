@@ -641,7 +641,7 @@ const shots = [];
 // itself is not measured here: ThemePaletteTests.The_style_themes_draw_a_solid_focus_ring keeps it at
 // 3:1 in the four themes that draw a solid ring (Relief, Givre, Aplat, Épure) with every palette, waiver or not (owner decision of 2026-09-28: only the ring
 // stays mandatory). Geometry, overflow, CSP, console and coverage are never waived.
-const waivers = {};
+const waivers = new Map();
 // Themes drawn in one mode only (OmniThemePreset.DarkOnly): the customizer fixes their mode
 // picker on that mode, so their other half is never drawn and is not measured; a dark-only theme asked
 // for light must still draw dark.
@@ -654,7 +654,7 @@ const WAIVABLE_CHECKS = new Set(['texte', 'bordure', 'marque non textuelle', 'vo
 
 const fail = (combo, entry) => {
   const record = { theme: combo.theme, palette: combo.palette, mode: combo.mode, ...entry };
-  if (waivers[combo.theme] && entry.ratio !== undefined && WAIVABLE_CHECKS.has(entry.check)) {
+  if (waivers.get(combo.theme) && entry.ratio !== undefined && WAIVABLE_CHECKS.has(entry.check)) {
     acceptedContrastWaiver.push(record);
     return;
   }
@@ -913,9 +913,8 @@ if (shippedLookHere && chosenModes.length > 0) {
 }
 
 // 2. Every combination (theme x palette x mode).
-const defaultPalette = {};
+const defaultPalette = new Map();
 const startedAt = Date.now();
-// nosemgrep - the keys are the probe's own theme names (chosenThemes), never parsed input.
 for (const theme of chosenThemes) {
   // Light is asked before each theme while the mode picker allows it, so a dark-only theme proves it
   // draws dark whatever the mode asked.
@@ -925,8 +924,8 @@ for (const theme of chosenThemes) {
   await waitFor(`le thème ${theme}`, `document.getElementById('workshop-theme').selectedOptions[0]?.textContent.trim() === ${JSON.stringify(theme)}`);
   // The picker's state is read once the theme is rendered, not as soon as the select holds it.
   await lib('settle()');
-  defaultPalette[theme] = (await readState()).palette;
-  waivers[theme] = await evaluate(`document.querySelector('[data-contrast-waiver]')?.dataset.contrastWaiver ?? null`);
+  defaultPalette.set(theme, (await readState()).palette);
+  waivers.set(theme, await evaluate(`document.querySelector('[data-contrast-waiver]')?.dataset.contrastWaiver ?? null`));
   // A fixed picker checks the one mode the theme draws (its options: light, dark, system), whatever
   // the scope actually drew, which the check below compares.
   fixedMode[theme] = await evaluate(`(() => {
@@ -940,7 +939,7 @@ for (const theme of chosenThemes) {
     const drawn = await evaluate("document.getElementById('showcase-theme').getAttribute('data-omni-theme')");
     if (drawn !== 'dark') {
       // Its combinations cannot be applied either: the mode picker stays fixed while the page is light.
-      fail({ theme, palette: defaultPalette[theme], mode: 'light' }, { page: CUSTOMIZER, check: 'thème sombre seulement', detail: `mode dessiné ${drawn}, attendu dark` });
+      fail({ theme, palette: defaultPalette.get(theme), mode: 'light' }, { page: CUSTOMIZER, check: 'thème sombre seulement', detail: `mode dessiné ${drawn}, attendu dark` });
       unmeasurable.add(theme);
       continue;
     }
@@ -954,7 +953,7 @@ for (const theme of chosenThemes) {
       await measurePage(combo, CUSTOMIZER);
       await measureBusy(combo);
       margin = null;
-      if (palette === defaultPalette[theme] || FOREIGN_SHOTS[theme]?.includes(palette)) {
+      if (palette === defaultPalette.get(theme) || FOREIGN_SHOTS[theme]?.includes(palette)) {
         await shoot(`${slug(theme)}-${slug(palette)}-${mode}`);
       }
       for (const page of EXTRA_PAGES) {
@@ -975,14 +974,14 @@ await send('Emulation.setDeviceMetricsOverride', { width: 375, height: 812, devi
 for (const theme of chosenThemes) {
   for (const mode of modesOf(theme)) {
     await navigate(CUSTOMIZER, READY[CUSTOMIZER]);
-    await apply(theme, defaultPalette[theme] ?? 'Essentiel', mode);
+    await apply(theme, defaultPalette.get(theme) ?? 'Essentiel', mode);
     for (const page of NARROW_PAGES) {
       await navigate(page, READY[page]);
       await lib('settle()');
       const width = await lib('overflow()');
       measures++;
       if (width.scrollWidth > width.clientWidth) {
-        fail({ theme, palette: defaultPalette[theme], mode }, { page, check: 'débordement à 375 px', detail: `document.body.scrollWidth ${width.scrollWidth} > ${width.clientWidth}` });
+        fail({ theme, palette: defaultPalette.get(theme), mode }, { page, check: 'débordement à 375 px', detail: `document.body.scrollWidth ${width.scrollWidth} > ${width.clientWidth}` });
       }
     }
   }
@@ -1006,7 +1005,7 @@ const registry = {
   measures,
   failures,
   acceptedBusyVeil,
-  contrastWaivers: Object.fromEntries(Object.entries(waivers).filter(([, reason]) => reason)),
+  contrastWaivers: Object.fromEntries([...waivers].filter(([, reason]) => reason)),
   acceptedContrastWaiver,
   busyVeil: busyReadings.map(({ theme, palette, mode, label, veil, peak, foreground, background, ratio, restRatio, veilShift }) => ({ theme, palette, mode, label, veil, peak, foreground, background, ratio: Math.round(ratio * 100) / 100, restRatio: Math.round(restRatio * 100) / 100, veilShift: Math.round(veilShift * 100) / 100 })),
   cards: observations.map(({ theme, palette, mode, target, background, foreground, fillRatio, borderRatio, shadow }) => ({ theme, palette, mode, target, page: background, card: foreground, fillRatio: Math.round(fillRatio * 100) / 100, borderRatio: Math.round(borderRatio * 100) / 100, shadow })),
