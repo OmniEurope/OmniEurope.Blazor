@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Rétro's backdrop, the default of the Rétro theme: the rays of a seventies sun, twenty-four wedges of the

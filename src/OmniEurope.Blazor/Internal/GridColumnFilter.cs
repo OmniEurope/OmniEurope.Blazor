@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>Filter state held by the grid for one column: up to two conditions joined by AND or OR.</summary>
 internal sealed record GridColumnFilter(

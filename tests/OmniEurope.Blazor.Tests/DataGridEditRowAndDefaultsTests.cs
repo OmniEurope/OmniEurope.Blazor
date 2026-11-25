@@ -3,7 +3,6 @@ using System.Text.RegularExpressions;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 

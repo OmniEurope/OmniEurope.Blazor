@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The panel of a date, time or date and time picker: whether it is open, and its wiring to

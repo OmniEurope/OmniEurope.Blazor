@@ -1,7 +1,6 @@
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The grid script (omni-grid.js) seen from a grid: the module, imported only once something needs it,

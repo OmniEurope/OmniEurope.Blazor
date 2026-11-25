@@ -2,9 +2,8 @@ using System.Globalization;
 using System.IO.Compression;
 using System.Text;
 using System.Xml;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Writes an <see cref="OmniTableExportDocument"/> as an Office Open XML workbook (<c>.xlsx</c>) with nothing

@@ -1,6 +1,5 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Components.Web;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 

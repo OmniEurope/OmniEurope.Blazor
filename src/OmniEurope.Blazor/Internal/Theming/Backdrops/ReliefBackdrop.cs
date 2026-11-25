@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Relief's backdrop, the default of the Relief theme: a topographic map. Three hills, each a family of

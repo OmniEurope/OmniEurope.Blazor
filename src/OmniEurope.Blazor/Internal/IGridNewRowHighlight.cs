@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The new-row highlight as the grid's other collaborators use it, from <see cref="GridNewRowHighlight{TItem}"/>.</summary>
 /// <typeparam name="TItem">The type of the rows.</typeparam>

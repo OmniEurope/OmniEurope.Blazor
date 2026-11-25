@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Cuts a text around every occurrence of a searched text, ignoring case and accents in the current

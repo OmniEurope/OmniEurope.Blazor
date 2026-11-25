@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 

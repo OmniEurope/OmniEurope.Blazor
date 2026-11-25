@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>Where the menu engine of <c>omni-focus.js</c> places an open menu.</summary>
 internal enum OmniMenuPlacement

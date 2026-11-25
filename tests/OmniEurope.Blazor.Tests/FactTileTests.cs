@@ -329,7 +329,7 @@ public sealed class FactTileTests : OmniBunitContext
     [Fact]
     public async Task ATile_TurnsThePackageTooltipsOnOnce_AndOffWhenDisposed()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
+        var module = JSInterop.SetupModule(OmniModules.Tooltip);
 
         var tile = RenderTile();
         tile.WaitForAssertion(() => Assert.Single(module.Invocations["installPackageTooltips"]));

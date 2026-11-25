@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What the element of a page veil reads from its veil, wherever it is drawn (in place or by the main area

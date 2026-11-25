@@ -21,7 +21,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
 
     private BunitJSModuleInterop SetupSurface()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.HtmlEditor);
+        var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
         module.Setup<string?>("read", _ => true).SetResult(null);
         return module;
     }
@@ -84,7 +84,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
 
     private BunitJSModuleInterop SetupPreviewInsertingAtTheCaret()
     {
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
         preview.Setup<bool>("insertAtCaret", _ => true).SetResult(true);
         return preview;
     }
@@ -128,7 +128,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     {
         var surface = SetupSurface();
         surface.Setup<string?>("exec", _ => true).SetResult("<p>x</p>");
-        JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        JSInterop.SetupModule(OmniModules.MailPreview);
         var editor = RenderEditor();
 
         await editor.Find(".omni-mail-template-editor__subject").TriggerEventAsync("onfocusin", new FocusEventArgs());
@@ -142,7 +142,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     public async Task ThePreviewTab_DrawsTheRenderedMail_WithTheSampleValues()
     {
         SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
         preview.SetupVoid("render", _ => true);
         var editor = RenderEditor();
         Assert.Empty(preview.Invocations["render"]);
@@ -178,7 +178,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     public async Task WithoutVariablesOrId_NoButtonRow_AndThePreviewRendersWithoutSubject()
     {
         SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
         preview.SetupVoid("render", _ => true);
         var editor = Render<OmniMailTemplateEditor>(parameters => parameters
             .Add(component => component.Value, "<p>Seul</p>")
@@ -225,7 +225,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     public async Task ThePreview_IsDrawnAgain_WhenTheSubjectVariablesOrThemeChange()
     {
         SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
         preview.SetupVoid("render", _ => true);
         var editor = RenderEditor();
         await editor.FindAll("[role=tab]")[1].ClickAsync(new MouseEventArgs());
@@ -252,7 +252,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     public async Task ALostCircuit_DuringThePreview_IsQuiet_AndTheNextRenderDrawsAgain()
     {
         SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
         preview.SetupVoid("render", _ => true).SetException(new JSDisconnectedException("circuit perdu"));
         var editor = RenderEditor();
 
@@ -354,7 +354,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
     public async Task TheTokensOfTheBody_AreMarked_OnEachVisualSurface_AndReleasedOnDisposal()
     {
         var surface = SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
         preview.Setup<int>("attachTokens", _ => true).SetResult(1);
         preview.SetupVoid("detachTokens", _ => true).SetVoidResult();
         var editor = RenderEditor();

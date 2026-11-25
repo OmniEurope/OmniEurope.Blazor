@@ -1,7 +1,6 @@
 using System.Text.Json;
 using Microsoft.Extensions.Logging.Abstractions;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 

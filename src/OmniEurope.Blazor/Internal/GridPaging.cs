@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The page and page size of a grid, kept by the grid and mirrored from the host's parameters when

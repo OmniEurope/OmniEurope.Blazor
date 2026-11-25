@@ -1,6 +1,5 @@
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
-using Box = OmniEurope.Blazor.Internal.MindMapLayout.Box;
+using Box = OmniEurope.Blazor.Components.MindMapLayout.Box;
 
 namespace OmniEurope.Blazor.Tests;
 

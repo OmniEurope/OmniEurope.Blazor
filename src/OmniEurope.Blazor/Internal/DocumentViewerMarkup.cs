@@ -1,8 +1,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The HTML pages of <see cref="OmniDocumentViewer"/>: the host's HTML through the package allow-list, then drawn

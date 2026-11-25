@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What a theme of the catalogue decides: its shape. A theme writes no colour of its own; a coloured

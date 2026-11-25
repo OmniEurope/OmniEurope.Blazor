@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What an <see cref="Components.OmniMenuItem"/> finds above it: the menu it belongs to, whichever

@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The sizes of the texts an <see cref="OmniMindMap"/> draws: measured by the browser when it has

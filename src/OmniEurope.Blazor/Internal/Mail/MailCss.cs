@@ -1,6 +1,6 @@
 using System.Text.RegularExpressions;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The literal CSS values a mail may carry in its <c>style</c> attributes. Each check refuses anything that

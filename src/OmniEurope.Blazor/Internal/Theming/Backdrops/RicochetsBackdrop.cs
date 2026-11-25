@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Galet's backdrop, the default of the Galet theme: three pebbles skip on the page, each sending out

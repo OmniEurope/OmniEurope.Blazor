@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Components;
 /// <see cref="Value"/>, whose items can be dragged onto one another (<see cref="AllowDragDrop"/>).
 /// </summary>
 /// <typeparam name="TValue">The type of the values the items stand for, compared with the default equality.</typeparam>
-public partial class OmniTree<TValue> : Internal.ITreeDragHost<TValue>
+public partial class OmniTree<TValue> : ITreeDragHost<TValue>
 {
     private OmniTreeContext<TValue> _context = default!;
     private IReadOnlyList<TValue>? _lastReceivedValues;
@@ -99,15 +99,15 @@ public partial class OmniTree<TValue> : Internal.ITreeDragHost<TValue>
     }
 
     // The items read the tree through their context, which holds it through this contract only.
-    bool Internal.ITreeDragHost<TValue>.AllowDragDrop => AllowDragDrop;
+    bool ITreeDragHost<TValue>.AllowDragDrop => AllowDragDrop;
 
-    Func<TValue, bool>? Internal.ITreeDragHost<TValue>.CanDrag => CanDrag;
+    Func<TValue, bool>? ITreeDragHost<TValue>.CanDrag => CanDrag;
 
-    Func<TValue, TValue, bool>? Internal.ITreeDragHost<TValue>.CanDrop => CanDrop;
+    Func<TValue, TValue, bool>? ITreeDragHost<TValue>.CanDrop => CanDrop;
 
-    Task Internal.ITreeDragHost<TValue>.ReportDropAsync(OmniTreeDropEventArgs<TValue> drop) => OnItemDropped.InvokeAsync(drop);
+    Task ITreeDragHost<TValue>.ReportDropAsync(OmniTreeDropEventArgs<TValue> drop) => OnItemDropped.InvokeAsync(drop);
 
-    void Internal.ITreeDragHost<TValue>.Redraw() => _ = InvokeAsync(StateHasChanged);
+    void ITreeDragHost<TValue>.Redraw() => _ = InvokeAsync(StateHasChanged);
 
     /// <summary>
     /// Mirrors the horizontal arrows of a right-to-left page before .NET reads them (the script is imported
@@ -146,7 +146,7 @@ public partial class OmniTree<TValue> : Internal.ITreeDragHost<TValue>
         IJSObjectReference module;
         try
         {
-            module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Tree);
+            module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Tree);
         }
         catch (JSDisconnectedException)
         {

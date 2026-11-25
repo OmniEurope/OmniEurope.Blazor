@@ -410,7 +410,7 @@ public sealed class SchedulerComponentTests : OmniBunitContext
         Assert.Equal(Monday.AddDays(4).AddHours(9).AddMinutes(15), moved!.Start);
         Assert.Equal(Monday.AddDays(4).AddHours(10), moved.End);
         Assert.Contains(JSInterop.Invocations, invocation => invocation.Identifier == "import"
-            && invocation.Arguments.Contains(Internal.OmniModules.Scheduler));
+            && invocation.Arguments.Contains(OmniModules.Scheduler));
     }
 
     [Fact]

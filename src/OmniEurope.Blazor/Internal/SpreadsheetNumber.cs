@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// How a spreadsheet text reads as a number, shared by a cell's input and a formula's text operand: in

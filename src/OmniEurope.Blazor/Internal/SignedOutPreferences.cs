@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The preferences of a circuit with no signed-in user yet, in <see cref="Components.OmniSignedOutPreferences.Defaults"/> mode (the store answered

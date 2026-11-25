@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The layout pushed to the grid script as the grid's other collaborators use it, from <see cref="GridLayoutInterop{TItem}"/>.</summary>
 internal interface IGridLayoutInterop

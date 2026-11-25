@@ -1,4 +1,3 @@
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 
@@ -69,7 +68,7 @@ public sealed class OmniOverlayService : IDisposable
     public void OpenDialog(OmniDialogRequest request)
     {
         ArgumentNullException.ThrowIfNull(request);
-        Internal.DialogWidth.Validate(request.Width, nameof(request));
+        DialogWidth.Validate(request.Width, nameof(request));
         _dialogs.Push(request);
         RaiseChanged();
     }
@@ -98,7 +97,7 @@ public sealed class OmniOverlayService : IDisposable
     {
         ArgumentNullException.ThrowIfNull(request);
         // Checked before a completion is registered: a refused width leaves no caller waiting.
-        Internal.DialogWidth.Validate(request.Width, nameof(request));
+        DialogWidth.Validate(request.Width, nameof(request));
         var completion = new TaskCompletionSource<object?>(TaskCreationOptions.RunContinuationsAsynchronously);
 
         // Reopening the same instance while a caller still waits on it would drop that caller's

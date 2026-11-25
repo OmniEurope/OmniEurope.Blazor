@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// A package component that takes a preset: <see cref="Components.OmniComponentBase"/> and

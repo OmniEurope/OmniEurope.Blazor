@@ -62,6 +62,6 @@ public partial class OmniAccordion
         }
 
         _pageKeys = true;
-        return Internal.OmniPageKeys.EnableAsync(JavaScript);
+        return OmniPageKeys.EnableAsync(JavaScript);
     }
 }

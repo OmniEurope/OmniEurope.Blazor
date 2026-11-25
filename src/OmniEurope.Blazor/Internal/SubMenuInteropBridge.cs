@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What <c>omni-focus.js</c> reports to an <see cref="Components.OmniSubMenu"/> while its list is open:

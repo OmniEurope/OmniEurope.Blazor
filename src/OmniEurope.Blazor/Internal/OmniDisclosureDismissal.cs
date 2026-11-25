@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Makes a native <c>details</c> dropdown close on Escape and on a press outside it, which the

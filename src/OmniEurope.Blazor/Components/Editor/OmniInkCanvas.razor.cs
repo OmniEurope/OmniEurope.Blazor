@@ -32,7 +32,7 @@ namespace OmniEurope.Blazor.Components;
 /// </remarks>
 public partial class OmniInkCanvas
 {
-    private const string ModulePath = Internal.OmniModules.InkCanvas;
+    private const string ModulePath = OmniModules.InkCanvas;
     private const int MaxExportSide = 8192;
     private const string DefaultPickerColor = "#000000";
 
@@ -40,7 +40,7 @@ public partial class OmniInkCanvas
     private ElementReference _root;
     private ElementReference _canvas;
     private Task<IJSObjectReference?>? _moduleTask;
-    private DotNetObjectReference<Internal.InkCanvasInteropBridge>? _bridge;
+    private DotNetObjectReference<InkCanvasInteropBridge>? _bridge;
     private IReadOnlyList<OmniInkStroke>? _seenValue;
     private IReadOnlyList<OmniInkStroke> _strokes = [];
     private string? _seenColor;
@@ -203,12 +203,12 @@ public partial class OmniInkCanvas
             throw new ArgumentOutOfRangeException(nameof(AspectRatio), ratio, $"{nameof(AspectRatio)} must be a number above zero.");
         }
 
-        if (Width is not null && !Internal.CssLength.IsWidth(Width, positive: true))
+        if (Width is not null && !CssLength.IsWidth(Width, positive: true))
         {
             throw new ArgumentException($"'{Width}' is not a CSS length {nameof(OmniInkCanvas)} accepts for {nameof(Width)} (a number above zero followed by px, rem, em, ch, vw or %).", nameof(Width));
         }
 
-        if (Height is not null && !Internal.CssLength.IsHeight(Height))
+        if (Height is not null && !CssLength.IsHeight(Height))
         {
             throw new ArgumentException($"'{Height}' is not a CSS length {nameof(OmniInkCanvas)} accepts for {nameof(Height)} (a number followed by px, rem, em, vh or %).", nameof(Height));
         }
@@ -267,7 +267,7 @@ public partial class OmniInkCanvas
             if (!_attached)
             {
                 _attached = true;
-                _bridge = DotNetObjectReference.Create(new Internal.InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync, HandleThemeColorAsync, HandleEraseAsync));
+                _bridge = DotNetObjectReference.Create(new InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync, HandleThemeColorAsync, HandleEraseAsync));
                 var themeColor = await module.InvokeAsync<string?>("attach", _canvas, _bridge);
                 if (IsHexColor(themeColor) && themeColor != _themeColor)
                 {
@@ -286,7 +286,7 @@ public partial class OmniInkCanvas
             if (_pushPending)
             {
                 _pushPending = false;
-                var (colors, widths, points) = Internal.InkStrokeCodec.Pack(_strokes);
+                var (colors, widths, points) = InkStrokeCodec.Pack(_strokes);
                 await module.InvokeVoidAsync("setStrokes", _canvas, colors, widths, points);
             }
         }
@@ -301,7 +301,7 @@ public partial class OmniInkCanvas
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        await Internal.OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _canvas);
+        await OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _canvas);
 
         _bridge?.Dispose();
         GC.SuppressFinalize(this);
@@ -366,7 +366,7 @@ public partial class OmniInkCanvas
         var module = await ModuleAsync().WaitAsync(cancellationToken);
         // Null only when the canvas was disposed while its script loaded.
         ObjectDisposedException.ThrowIf(module is null, this);
-        var (colors, widths, points) = Internal.InkStrokeCodec.Pack(_strokes);
+        var (colors, widths, points) = InkStrokeCodec.Pack(_strokes);
         return await module!.InvokeAsync<byte[]>("exportPng", cancellationToken, colors, widths, points, width, height);
     }
 
@@ -389,7 +389,7 @@ public partial class OmniInkCanvas
             return;
         }
 
-        if (Locked || !Internal.InkStrokeCodec.TryUnpack(color, width, points, out var stroke))
+        if (Locked || !InkStrokeCodec.TryUnpack(color, width, points, out var stroke))
         {
             // The script drew something the value does not hold: it gets the current strokes back.
             _pushPending = true;
@@ -516,7 +516,7 @@ public partial class OmniInkCanvas
     }
 
     private Task<IJSObjectReference?> ModuleAsync()
-        => _moduleTask ??= Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);
+        => _moduleTask ??= OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);
 
     private void Announce(string message)
     {

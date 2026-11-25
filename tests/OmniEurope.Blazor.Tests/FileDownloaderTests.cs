@@ -8,7 +8,7 @@ namespace OmniEurope.Blazor.Tests;
 /// <summary><see cref="OmniFileDownloader"/>: the module receives the name, the type and the content; bad arguments are refused before any script runs.</summary>
 public sealed class FileDownloaderTests : OmniBunitContext
 {
-    private BunitJSModuleInterop Module() => JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
+    private BunitJSModuleInterop Module() => JSInterop.SetupModule(OmniModules.DocumentEditor);
 
     private OmniFileDownloader Downloader() => Services.GetRequiredService<OmniFileDownloader>();
 

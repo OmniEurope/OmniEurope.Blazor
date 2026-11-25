@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>Measured height of one rendered grid row, keyed by its absolute row index.</summary>
 internal sealed class GridRowMeasurement

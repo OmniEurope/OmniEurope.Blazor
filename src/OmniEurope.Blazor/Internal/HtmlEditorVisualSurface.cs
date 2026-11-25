@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The visual face of an <see cref="OmniHtmlEditor"/> as <c>omni-html-editor.js</c> drives it: the module

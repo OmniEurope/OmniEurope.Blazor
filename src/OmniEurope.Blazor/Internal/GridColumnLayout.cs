@@ -1,7 +1,6 @@
 using System.Globalization;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The column widths of a grid: the widths the reader chose by dragging, fitting to content or with

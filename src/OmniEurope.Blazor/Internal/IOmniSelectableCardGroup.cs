@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What an <see cref="OmniSelectableCard"/> needs from the <see cref="OmniSelectableCardGroup{TValue, TSelection}"/>

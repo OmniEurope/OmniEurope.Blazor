@@ -43,7 +43,7 @@ public sealed class KanbanEdgeTests : OmniBunitContext
     [Fact]
     public async Task CardOutsideEveryColumn_CannotBePickedUp()
     {
-        JSInterop.SetupModule(Internal.OmniModules.Kanban);
+        JSInterop.SetupModule(OmniModules.Kanban);
         var board = RenderBoard();
 
         await KeyAsync(board, 2, " ");
@@ -54,7 +54,7 @@ public sealed class KanbanEdgeTests : OmniBunitContext
     [Fact]
     public async Task ColumnRemovedUnderTheCarriedCard_IsNamedByItsKey_AndTheArrowsStartFromTheFirstColumn()
     {
-        JSInterop.SetupModule(Internal.OmniModules.Kanban);
+        JSInterop.SetupModule(OmniModules.Kanban);
         var board = RenderBoard();
         await KeyAsync(board, 1, " ");
 
@@ -69,7 +69,7 @@ public sealed class KanbanEdgeTests : OmniBunitContext
     [Fact]
     public async Task CardsWithoutLabelNorKey_AreNamedByTheirTextOrNothing()
     {
-        JSInterop.SetupModule(Internal.OmniModules.Kanban);
+        JSInterop.SetupModule(OmniModules.Kanban);
         var moves = new List<OmniKanbanMove<string?>>();
         var board = Render<OmniKanban<string?>>(parameters => parameters
             .Add(component => component.Columns, Columns)
@@ -97,7 +97,7 @@ public sealed class KanbanEdgeTests : OmniBunitContext
     [Fact]
     public async Task BoardWithoutKeys_FindsTheCarriedCardByItself()
     {
-        JSInterop.SetupModule(Internal.OmniModules.Kanban);
+        JSInterop.SetupModule(OmniModules.Kanban);
         var board = Render<OmniKanban<Card>>(parameters => parameters
             .Add(component => component.Columns, Columns)
             .Add(component => component.Items, Cards)

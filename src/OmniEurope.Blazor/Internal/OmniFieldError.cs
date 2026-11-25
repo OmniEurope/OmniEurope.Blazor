@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The error line of a form field, shared by <c>OmniFormField</c> and <c>OmniRadioButtonList</c>: a

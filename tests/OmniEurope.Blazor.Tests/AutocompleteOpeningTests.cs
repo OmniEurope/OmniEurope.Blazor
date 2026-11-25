@@ -210,7 +210,7 @@ public sealed class AutocompleteOpeningTests : OmniBunitContext
     [Fact]
     public async Task ALostCircuit_FailsNeitherTheOpenListNorItsDisposal()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var lost = new JSDisconnectedException("circuit perdu");
         module.SetupVoid("attachFloatingList", _ => true).SetException(lost);
         module.SetupVoid("detachFloatingList", _ => true).SetException(lost);
@@ -227,7 +227,7 @@ public sealed class AutocompleteOpeningTests : OmniBunitContext
     [Fact]
     public void ANativeDropDown_AsksTheFocusModuleToOpenItsPickerOnALabelClick()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         module.SetupVoid("enableLabelPicker");
 
         var host = RenderHost("native");
@@ -242,7 +242,7 @@ public sealed class AutocompleteOpeningTests : OmniBunitContext
     [InlineData("native", true)]
     public void OnlyANativeEditableSelect_AsksForTheLabelPicker(string kind, bool readOnly)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         module.SetupVoid("enableLabelPicker");
 
         RenderHost(kind, readOnly: readOnly);

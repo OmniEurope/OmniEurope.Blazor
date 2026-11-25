@@ -1,5 +1,4 @@
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 using System.Text.RegularExpressions;
 using OmniEurope.Blazor.Showcase.Theming;
 

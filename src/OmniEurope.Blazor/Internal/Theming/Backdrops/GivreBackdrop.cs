@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Givre's backdrop, the default of the Givre theme: four very large pastel orbs of the palette with no

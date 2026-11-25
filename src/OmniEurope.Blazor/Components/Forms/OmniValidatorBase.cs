@@ -2,7 +2,6 @@ using System.Linq.Expressions;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.Extensions.Localization;
-using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Localization;
 using OmniEurope.Blazor.Resources;
 

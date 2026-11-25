@@ -3,9 +3,8 @@ using System.Runtime.CompilerServices;
 using AngleSharp.Dom;
 using AngleSharp.Html.Dom;
 using Ganss.Xss;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 internal static class OmniHtmlSanitizer
 {

@@ -177,7 +177,7 @@ public partial class OmniDialog
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        Internal.DialogWidth.Validate(Width, nameof(Width));
+        DialogWidth.Validate(Width, nameof(Width));
     }
 
     private async Task CloseAsync()
@@ -200,7 +200,7 @@ public partial class OmniDialog
     {
         if (firstRender)
         {
-            var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus);
+            var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus);
             if (_disposed)
             {
                 // Removed while the script loaded: nothing may be activated for a dialog that is gone.
@@ -261,7 +261,7 @@ public partial class OmniDialog
             return _dialogModule;
         }
 
-        var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Dialog);
+        var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Dialog);
         if (_disposed || _dialogModule is not null)
         {
             await module.DisposeAsync();

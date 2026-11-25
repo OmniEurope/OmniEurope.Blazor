@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class StatusStripAndBootSplashTests : OmniBunitContext
 {
-    private const string InteropPath = Internal.OmniModules.Interop;
+    private const string InteropPath = OmniModules.Interop;
 
     private static readonly IReadOnlyList<OmniStatusStripItem> Runs =
     [

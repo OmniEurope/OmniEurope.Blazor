@@ -278,7 +278,7 @@ public partial class OmniThemeScope
 
     /// <summary>The theme module, loaded on first use; null when the scope was disposed while it loaded (the module is released on arrival).</summary>
     private async Task<IJSObjectReference?> LoadThemeModuleAsync() =>
-        _themeModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Theme, () => _disposed);
+        _themeModule ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Theme, () => _disposed);
 
     /// <summary>Starts or stops following the system setting for <c>data-omni-theme-resolved</c>.</summary>
     private async Task SyncResolvedModeAsync()
@@ -367,7 +367,7 @@ public partial class OmniThemeScope
 
         _keptBootCopy = kept;
         var (light, dark) = Resolve();
-        var copy = new Internal.ThemeBootCopy(SnapshotVersion, value, AppearanceValue, Density.ToString().ToLowerInvariant(), BackdropMotion,
+        var copy = new ThemeBootCopy(SnapshotVersion, value, AppearanceValue, Density.ToString().ToLowerInvariant(), BackdropMotion,
             light, dark, state.TextSizeLevel, state.ControlSizeLevel);
         await state.KeepBootCopyAsync(copy.ToJson());
     }
@@ -531,7 +531,7 @@ public partial class OmniThemeScope
         }
 
         _canvasScript = script;
-        _canvasModule ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, script, () => _disposed);
+        _canvasModule ??= await OmniScriptModule.ImportAsync(JavaScript, script, () => _disposed);
         if (_canvasModule is null)
         {
             // Disposed while the script loaded: it was released on arrival.

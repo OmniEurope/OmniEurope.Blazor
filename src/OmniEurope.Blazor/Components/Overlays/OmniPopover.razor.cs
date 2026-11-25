@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniPopover
 {
-    private const string FocusModulePath = Internal.OmniModules.Focus;
+    private const string FocusModulePath = OmniModules.Focus;
 
     private readonly string _generatedId = $"omni-popover-{Guid.NewGuid():N}";
     private ElementReference _root;
@@ -148,7 +148,7 @@ public partial class OmniPopover
             {
                 if (_module is null)
                 {
-                    var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, FocusModulePath);
+                    var module = await OmniScriptModule.ImportAsync(JavaScript, FocusModulePath);
                     if (_disposed || _module is not null)
                     {
                         // Removed while the script loaded (nothing may listen on the document for a

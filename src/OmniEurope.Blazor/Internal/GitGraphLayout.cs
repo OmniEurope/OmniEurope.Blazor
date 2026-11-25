@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// A piece of line drawn inside one row of an <see cref="Components.OmniGitGraph{TItem}"/>: either in

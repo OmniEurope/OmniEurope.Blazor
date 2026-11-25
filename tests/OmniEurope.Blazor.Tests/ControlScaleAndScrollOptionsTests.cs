@@ -122,7 +122,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
     [Fact]
     public void Wheel_scope_is_handed_to_the_grid_script_only_when_named()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Grid);
+        var module = JSInterop.SetupModule(OmniModules.Grid);
 
         Render<OmniDataGrid<int>>(parameters => parameters.Add(component => component.Items, new[] { 1, 2, 3 }));
         Assert.Empty(module.Invocations["attachWheelScope"]);
@@ -138,7 +138,7 @@ public sealed class ControlScaleAndScrollOptionsTests : OmniBunitContext
     [Fact]
     public void Tabs_hand_their_wheel_scope_to_the_script_only_with_scrollable_panels()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         RenderFragment panels = builder =>
         {
             builder.OpenComponent<OmniTabsItem>(0);

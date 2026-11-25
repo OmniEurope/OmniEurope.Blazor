@@ -1,7 +1,6 @@
 using System.Globalization;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The figures of the columns that declare an <see cref="OmniDataGridAggregate"/>: computed over every row the

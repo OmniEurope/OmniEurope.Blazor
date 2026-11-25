@@ -1,7 +1,6 @@
-using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Localization;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The export bar of a grid: which formats it offers, the reading of every row the current filters

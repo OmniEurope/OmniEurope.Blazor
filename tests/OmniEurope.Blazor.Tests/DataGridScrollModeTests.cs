@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridScrollModeTests : OmniBunitContext
 {
-    private const string GridModule = Internal.OmniModules.Grid;
+    private const string GridModule = OmniModules.Grid;
 
     // <paramref name="count"/> numbers, ten to a page, the scripts answering anything.
     private IRenderedComponent<OmniDataGrid<int>> RenderTenPerPage(int count, Action<ComponentParameterCollectionBuilder<OmniDataGrid<int>>>? more = null)

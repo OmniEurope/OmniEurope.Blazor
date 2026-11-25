@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>Viewport geometry and rendered row heights reported by the grid script in one round trip.</summary>
 internal sealed class GridViewportSnapshot

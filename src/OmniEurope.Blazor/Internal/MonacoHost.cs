@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The Monaco plumbing that <see cref="Components.OmniCodeEditor"/> and <see cref="Components.OmniDiffViewer"/>

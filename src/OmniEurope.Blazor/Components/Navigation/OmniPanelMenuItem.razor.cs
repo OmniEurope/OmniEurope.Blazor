@@ -5,7 +5,7 @@ namespace OmniEurope.Blazor.Components;
 /// a label, or a group that folds its child entries. The entry matching the current route is marked
 /// current and the groups holding it unfold.
 /// </summary>
-public partial class OmniPanelMenuItem : Internal.IPanelMenuSibling, Internal.IPanelMenuGroupOwner
+public partial class OmniPanelMenuItem : IPanelMenuSibling, IPanelMenuGroupOwner
 {
     private readonly string _childrenId = $"omni-panel-menu-children-{Guid.NewGuid():N}";
 
@@ -188,13 +188,13 @@ public partial class OmniPanelMenuItem : Internal.IPanelMenuSibling, Internal.IP
     }
 
     // The level and the group this entry sits in read it through these contracts, so neither names the entry.
-    int? Internal.IPanelMenuSibling.RouteRank => RouteRank;
+    int? IPanelMenuSibling.RouteRank => RouteRank;
 
-    bool Internal.IPanelMenuSibling.MatchesFilterWithin(OmniPanelMenuFilter filter) => MatchesFilterWithin(filter);
+    bool IPanelMenuSibling.MatchesFilterWithin(OmniPanelMenuFilter filter) => MatchesFilterWithin(filter);
 
-    bool Internal.IPanelMenuGroupOwner.InMatchedBranch(OmniPanelMenuFilter filter) => InMatchedBranch(filter);
+    bool IPanelMenuGroupOwner.InMatchedBranch(OmniPanelMenuFilter filter) => InMatchedBranch(filter);
 
-    void Internal.IPanelMenuGroupOwner.RefreshForFilter() => RefreshForFilter();
+    void IPanelMenuGroupOwner.RefreshForFilter() => RefreshForFilter();
 
     private string ChildrenId => _childrenId;
 

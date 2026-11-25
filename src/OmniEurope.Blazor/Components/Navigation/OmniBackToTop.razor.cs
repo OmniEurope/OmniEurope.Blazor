@@ -74,7 +74,7 @@ public partial class OmniBackToTop : IAsyncDisposable
                     return;
                 }
 
-                _module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.BackToTop, () => _disposed);
+                _module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.BackToTop, () => _disposed);
                 if (_module is null)
                 {
                     return;

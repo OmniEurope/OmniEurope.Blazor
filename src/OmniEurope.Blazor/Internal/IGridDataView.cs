@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The rows of a grid as its other collaborators read them, from <see cref="GridDataView{TItem}"/>.</summary>
 /// <typeparam name="TItem">The type of the rows.</typeparam>

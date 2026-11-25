@@ -1,7 +1,6 @@
 using System.Globalization;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// A document of the editor once checked: its runs, fields and paragraphs by identifier, which is how the script and the

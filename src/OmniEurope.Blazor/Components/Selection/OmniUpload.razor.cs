@@ -445,7 +445,7 @@ public partial class OmniUpload
 
     // The aria-label of the file control: none when an Id lets a page label name it and nothing else is given.
     private string? InputLabel =>
-        Internal.OmniAriaLabel.Of(Label, AdditionalAttributes) ?? (Id is not null
+        OmniAriaLabel.Of(Label, AdditionalAttributes) ?? (Id is not null
             ? null
             : IsField
                 ? Localize("UploadBrowseButton")
@@ -453,7 +453,7 @@ public partial class OmniUpload
 
     // The name of the read-only group, which stands for the file control: two read-only fields of a page
     // are told apart by the name the host gave each, as they are while they can be changed.
-    private string ReadOnlyLabel => Internal.OmniAriaLabel.Of(Label, AdditionalAttributes) ?? Localize("UploadAttachedFiles");
+    private string ReadOnlyLabel => OmniAriaLabel.Of(Label, AdditionalAttributes) ?? Localize("UploadAttachedFiles");
 
     // The host's attributes for the root, without the aria-label, which names the file control instead:
     // on the root, a div without a role, it named nothing.

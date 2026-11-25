@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The grouping of a grid as its other collaborators use it, from <see cref="GridGrouping{TItem}"/>.</summary>
 /// <typeparam name="TItem">The type of the rows.</typeparam>

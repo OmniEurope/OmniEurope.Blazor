@@ -1,7 +1,7 @@
 using System.Globalization;
 using System.Text;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The name of an exported file: what it holds, then when it was made, readable by a person

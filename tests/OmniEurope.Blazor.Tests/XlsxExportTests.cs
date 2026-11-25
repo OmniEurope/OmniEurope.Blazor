@@ -144,7 +144,7 @@ public sealed class XlsxExportTests : OmniBunitContext
     [Fact]
     public async Task TheDownloader_HandsAHostTableToTheBrowser()
     {
-        var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
+        var download = JSInterop.SetupModule(OmniModules.DocumentEditor);
         download.SetupVoid("download", _ => true).SetVoidResult();
         var downloader = Services.GetRequiredService<OmniTableExportDownloader>();
 

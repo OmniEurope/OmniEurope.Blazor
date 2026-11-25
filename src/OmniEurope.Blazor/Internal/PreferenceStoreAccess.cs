@@ -1,7 +1,6 @@
 using Microsoft.Extensions.Logging;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The calls of <see cref="OmniPreferences"/> to the host's <see cref="IOmniPreferenceStore"/>, one at a time

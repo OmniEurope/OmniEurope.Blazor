@@ -18,7 +18,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public void ItIsARealButton_NamedByTheLocalizedDefault_InAFixedFrame()
     {
-        JSInterop.SetupModule(Internal.OmniModules.BackToTop).SetupVoid("attach", _ => true);
+        JSInterop.SetupModule(OmniModules.BackToTop).SetupVoid("attach", _ => true);
 
         var component = Render<OmniBackToTop>();
 
@@ -83,7 +83,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public void ItIsRenderedHidden_TheScriptAloneShowsItPastTheThreshold()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
         module.SetupVoid("attach", _ => true);
 
         var component = Render<OmniBackToTop>();
@@ -98,7 +98,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public void ANewTargetOrThreshold_IsPassedToTheScript_AnUnchangedRenderIsNot()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
         module.SetupVoid("attach", _ => true);
         var component = Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100));
 
@@ -118,7 +118,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public void ANewThresholdAlone_IsPassedToTheScript()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
         module.SetupVoid("attach", _ => true);
         var component = Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100));
 
@@ -131,7 +131,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public async Task ARenderAfterItsDisposal_AttachesNothingMore()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
         module.SetupVoid("attach", _ => true);
         module.SetupVoid("detach", _ => true).SetVoidResult();
         var component = Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100));
@@ -150,7 +150,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public async Task AClick_AsksTheScriptToScrollTheContentToItsTop()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
         module.SetupVoid("attach", _ => true);
         module.Setup<bool>("scrollToTop", _ => true).SetResult(true);
         var component = Render<OmniBackToTop>();
@@ -164,7 +164,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public async Task ALostCircuit_FailsNeitherTheAttachment_NorTheClick_NorTheDisposal()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
         var lost = new JSDisconnectedException("circuit perdu");
         module.SetupVoid("attach", _ => true).SetException(lost);
         module.Setup<bool>("scrollToTop", _ => true).SetException(lost);
@@ -209,7 +209,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public async Task Disposal_DetachesTheScript()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.BackToTop);
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
         module.SetupVoid("attach", _ => true);
         module.SetupVoid("detach", _ => true);
         Render<OmniBackToTop>();

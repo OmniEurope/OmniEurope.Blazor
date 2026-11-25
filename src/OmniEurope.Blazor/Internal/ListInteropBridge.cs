@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The only .NET object the list script can call: it forwards a scroll or resize of the scrolling area to

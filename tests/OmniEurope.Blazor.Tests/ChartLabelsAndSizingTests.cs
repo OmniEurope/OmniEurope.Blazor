@@ -218,7 +218,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     [Fact]
     public void StatTile_AttachesTheScriptThatKeepsItsLabelOnOneLine()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.StatTile);
+        var module = JSInterop.SetupModule(OmniModules.StatTile);
 
         var tile = Render<OmniStatTile>(parameters => parameters
             .Add(component => component.Value, "1 284 €")
@@ -246,7 +246,7 @@ public sealed class ChartLabelsAndSizingTests : OmniBunitContext
     [Fact]
     public async Task StatTile_WhenOnClickComesAndGoes_FollowsTheElementDrawn()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.StatTile);
+        var module = JSInterop.SetupModule(OmniModules.StatTile);
         var tile = Render<OmniStatTile>(parameters => parameters.Add(component => component.Title, "Jetons"));
         tile.WaitForAssertion(() => Assert.Single(module.Invocations["attach"]));
         var block = module.Invocations["attach"][0].Arguments[0];

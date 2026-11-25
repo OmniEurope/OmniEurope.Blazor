@@ -59,7 +59,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
         // else the other tests do at the same time.
         var policy = new OmniHtmlSanitizerPolicy { AdditionalTags = ["aside"] };
         var runs = 0;
-        Internal.OmniHtmlSanitizer.For(policy).PostProcessDom += (_, _) => Interlocked.Increment(ref runs);
+        OmniHtmlSanitizer.For(policy).PostProcessDom += (_, _) => Interlocked.Increment(ref runs);
         var value = "<p>a</p><script>alert(1)</script>";
         var editor = Render<OmniHtmlEditor>(parameters => parameters
             .BindValue(() => value, updated => value = updated)
@@ -120,7 +120,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
     [Fact]
     public void SourceFace_AsksTheScriptToKeepBurstsOfInputFromThePage()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var value = "<p>a</p>";
         RenderSourceFace(value, updated => value = updated);
 
@@ -132,7 +132,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
     [Fact]
     public async Task SourceFace_WhenAnActionAsksForTheValue_CommitsTheTextTheScriptHeld_Sanitised()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         module.Setup<string?>("takeHeldInput", _ => true).SetResult("<p>held</p><script>alert(1)</script>");
         var value = "<p>a</p>";
         var editor = RenderSourceFace(value, updated => value = updated);
@@ -146,7 +146,7 @@ public sealed class HtmlEditorSourcePreviewTests : OmniBunitContext
     [Fact]
     public async Task SourceFace_WhenTheScriptHeldNothing_LeavesTheValueAlone()
     {
-        JSInterop.SetupModule(Internal.OmniModules.Interop).Setup<string?>("takeHeldInput", _ => true).SetResult(null);
+        JSInterop.SetupModule(OmniModules.Interop).Setup<string?>("takeHeldInput", _ => true).SetResult(null);
         var value = "<p>a</p>";
         var editor = RenderSourceFace(value, updated => value = updated);
 

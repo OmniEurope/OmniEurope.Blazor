@@ -5,7 +5,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Showcase.Preferences;
 using OmniEurope.Blazor.Showcase.Shared.Components.Preferences;
 

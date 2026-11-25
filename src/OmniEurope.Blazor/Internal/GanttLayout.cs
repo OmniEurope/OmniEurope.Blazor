@@ -1,7 +1,6 @@
 using System.Globalization;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>A labelled stretch of the time header, in pixels from the chart's left edge.</summary>
 internal sealed record GanttHeaderCell(double X, double Width, string Label);

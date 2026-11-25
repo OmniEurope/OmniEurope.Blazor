@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Nénuphar's backdrop, the default of the Nénuphar theme: a pool seen from above. The water is a soft

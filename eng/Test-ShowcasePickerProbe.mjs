@@ -9,7 +9,7 @@
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 import { createJsCoverage } from './JsCoverage.mjs';
-import { check, createEvaluate, findPageTargets, openSocket, pause, pollUntil, readOptions, recordConsoleError, settleResponse } from './ShowcaseCdp.mjs';
+import { check, createEvaluate, findPageTargets, listenToSocket, openSocket, pause, pollUntil, readOptions, recordConsoleError, settleResponse } from './ShowcaseCdp.mjs';
 
 const options = readOptions();
 
@@ -75,8 +75,7 @@ const lifecycle = {
   'Target.targetCrashed': params => `cible plantée ${params.targetId} ${params.status}`,
   'Target.targetInfoChanged': params => `cible ${params.targetInfo.targetId} ${params.targetInfo.url}`
 };
-socket.addEventListener('message', event => {
-  const message = JSON.parse(event.data);
+listenToSocket(socket, message => {
   if (message.id) record('<-', `#${message.id}${message.error ? ` ERREUR ${message.error.message}` : ''}`);
   else if (lifecycle[message.method]) {
     const label = lifecycle[message.method](message.params ?? {});
@@ -84,7 +83,7 @@ socket.addEventListener('message', event => {
   }
   if (settleResponse(message, pending)) return;
   recordConsoleError(message, consoleErrors);
-});
+}, origin => loseLink(`Message CDP d'une origine inattendue (${origin})`));
 
 const sendCdp = (method, params = {}) => {
   if (linkLost) return Promise.reject(new Error(`${linkLost.message} ; ${method} non envoyée`));

@@ -50,6 +50,20 @@ export async function openSocket(url) {
   return socket;
 }
 
+// Hands every message of a debugging socket to `onMessage`, parsed, once its origin is checked: a
+// message must come from the endpoint the socket was opened on (the loopback debugging port). A message
+// of any other origin is not read; `onForeign` receives that origin, so the caller breaks its link.
+export function listenToSocket(socket, onMessage, onForeign) {
+  const expectedOrigin = new URL(socket.url).origin;
+  socket.addEventListener('message', event => {
+    if (event.origin !== expectedOrigin) {
+      onForeign(event.origin);
+      return;
+    }
+    onMessage(JSON.parse(event.data));
+  });
+}
+
 // Settles the pending command a CDP response answers; true when the message was such a response.
 export function settleResponse(message, pending) {
   if (!(message.id && pending.has(message.id))) return false;
@@ -98,9 +112,7 @@ export function createCdpLink(socket, { describeExceptions = true, onEvent, comm
     pending.clear();
   };
 
-  // nosemgrep - a CDP WebSocket on the loopback debugging port, not a window postMessage: there is no origin to check.
-  socket.addEventListener('message', event => {
-    const message = JSON.parse(event.data);
+  listenToSocket(socket, message => {
     onEvent?.(message);
     if (message.method === 'Inspector.targetCrashed') {
       breakLink('Le moteur de rendu de la page a planté (Inspector.targetCrashed)');
@@ -113,7 +125,7 @@ export function createCdpLink(socket, { describeExceptions = true, onEvent, comm
     if (message.id && pending.has(message.id)) clearTimeout(pending.get(message.id).timer);
     if (settleResponse(message, pending)) return;
     recordConsoleError(message, consoleErrors, describeExceptions);
-  });
+  }, origin => breakLink(`Message CDP d'une origine inattendue (${origin})`));
   socket.addEventListener('close', event => breakLink(`La liaison CDP s'est fermée (code ${event.code})`));
   socket.addEventListener('error', () => breakLink('La liaison CDP est en erreur'));
 

@@ -1,8 +1,7 @@
 using System.Text.RegularExpressions;
 using AngleSharp.Dom;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The blocks of a mail template: the block variables (<see cref="OmniMailRenderOptions.Blocks"/>), whose HTML

@@ -1,6 +1,6 @@
 using System.Runtime.CompilerServices;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// One level of a menu: the entries that sit side by side, the top of the menu or the content of an

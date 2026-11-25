@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What an <see cref="OmniMenuController"/> needs from the menu component that owns it to keep that

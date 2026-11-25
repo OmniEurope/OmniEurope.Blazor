@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The open detail rows as the grid's other collaborators read them, from <see cref="GridExpansion{TItem}"/>.</summary>
 internal interface IGridExpansion

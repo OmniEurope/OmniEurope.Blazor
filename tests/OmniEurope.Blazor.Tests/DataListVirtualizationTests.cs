@@ -7,7 +7,7 @@ namespace OmniEurope.Blazor.Tests;
 
 public sealed class DataListVirtualizationTests : OmniBunitContext
 {
-    private const string GridModulePath = Internal.OmniModules.Grid;
+    private const string GridModulePath = OmniModules.Grid;
 
     // Ten thousand items in a virtual window, the scripts answering anything.
     private IRenderedComponent<OmniDataList<int>> RenderTenThousandVirtualized()

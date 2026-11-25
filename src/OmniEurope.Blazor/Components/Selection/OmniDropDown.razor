@@ -35,7 +35,7 @@ else if (ReadOnly)
            readonly
            disabled="@Disabled"
            aria-readonly="true"
-           aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+           aria-label="@OmniAriaLabel.Of(Label, AdditionalAttributes)"
            aria-invalid="@AriaInvalid"
            aria-describedby="@AriaDescribedBy" />
 }
@@ -45,7 +45,7 @@ else
             id="@Id"
             class="@InputCss("omni-input", "omni-drop-down")"
             disabled="@Disabled"
-            aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+            aria-label="@OmniAriaLabel.Of(Label, AdditionalAttributes)"
             aria-invalid="@AriaInvalid"
             aria-describedby="@AriaDescribedBy"
             value="@SelectedOptionValue"

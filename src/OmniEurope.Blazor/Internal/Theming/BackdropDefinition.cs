@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What a backdrop of the catalogue decides: the field drawn behind the page of a theme scope, as the
