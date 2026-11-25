@@ -186,7 +186,7 @@ public sealed class CodeViewerTests : OmniBunitContext
     [Fact]
     public async Task CopyOfANullCode_CopiesNothing()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         module.Setup<bool>("copyText", _ => true).SetResult(true);
         var viewer = RenderViewer(null);
 

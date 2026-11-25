@@ -20,7 +20,7 @@ public sealed class MailTemplateEditorBlocksTests : OmniBunitContext
 
     private BunitJSModuleInterop SetupSurface(string? afterExec = null)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.HtmlEditor);
+        var module = JSInterop.SetupModule(OmniModules.HtmlEditor);
         module.Setup<string?>("read", _ => true).SetResult(null);
         module.Setup<string?>("exec", _ => true).SetResult(afterExec);
         return module;
@@ -130,7 +130,7 @@ public sealed class MailTemplateEditorBlocksTests : OmniBunitContext
     public async Task ThePreview_DrawsTheButtonBannerAndBlocks_WithTheSampleValues()
     {
         SetupSurface();
-        var preview = JSInterop.SetupModule(Internal.OmniModules.MailPreview);
+        var preview = JSInterop.SetupModule(OmniModules.MailPreview);
         preview.SetupVoid("render", _ => true);
         var editor = RenderEditor("<p>{{#banner danger}} Le run {{run.name}} a échoué.</p><p>{{steps}}</p><p>{{summary}}</p><p>{{#button run.url}}Ouvrir</p>");
 

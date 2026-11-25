@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 

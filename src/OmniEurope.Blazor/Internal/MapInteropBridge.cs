@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The only .NET object <c>omni-map.js</c> can call: the view the reader moved to (after a drag, a wheel turn, a double

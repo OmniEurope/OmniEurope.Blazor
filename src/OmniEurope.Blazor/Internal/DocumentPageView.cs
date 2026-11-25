@@ -1,7 +1,6 @@
 using AngleSharp.Dom;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// A page of the viewer once read: the address its picture is drawn from, or the sanitised body of its HTML. A class

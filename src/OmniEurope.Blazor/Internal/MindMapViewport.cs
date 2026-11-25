@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Where an <see cref="OmniMindMap"/> is looked at from: the pan and zoom, the canvas size, and the

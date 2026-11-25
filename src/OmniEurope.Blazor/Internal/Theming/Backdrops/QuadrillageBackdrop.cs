@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Ardoise's backdrop, the default of the Ardoise theme: a fine architect's grid (a hairline every 24 px,

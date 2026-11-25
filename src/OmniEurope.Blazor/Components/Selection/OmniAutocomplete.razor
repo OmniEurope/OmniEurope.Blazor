@@ -17,7 +17,7 @@
            type="search"
            value="@_searchText"
            placeholder="@Placeholder"
-           aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+           aria-label="@OmniAriaLabel.Of(Label, AdditionalAttributes)"
            autocomplete="off"
            disabled="@Disabled"
            readonly="@IsReadOnly"
@@ -60,7 +60,7 @@
     }
     @if (IsOpen)
     {
-        <ul @ref="_resultsList" id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)">
+        <ul @ref="_resultsList" id="@ResultsId" class="omni-autocomplete__results" role="listbox" aria-label="@OmniAriaLabel.Of(Label, AdditionalAttributes)">
             @{
                 RenderFragment<int> optionItem = at => @<li id="@OptionId(at)"
                     class="@OptionClass(at, _results[at])"

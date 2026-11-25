@@ -235,7 +235,7 @@ public sealed class AlertAndMultiSelectTests : OmniBunitContext
     [Fact]
     public async Task MultiSelect_TurnsThePackageTooltipsOnOnce_SoACutSummaryIsReadWhole_AndOffWhenDisposed()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Tooltip);
+        var module = JSInterop.SetupModule(OmniModules.Tooltip);
         var select = RenderBound(["nord", "sud"]);
 
         select.WaitForAssertion(() => Assert.Single(module.Invocations["installPackageTooltips"]));

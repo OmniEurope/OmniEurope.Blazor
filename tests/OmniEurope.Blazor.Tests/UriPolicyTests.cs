@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.DependencyInjection;
-using OmniEurope.Blazor.Internal;
+using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 

@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// One opening of the browser cache of <see cref="Components.OmniPreferences"/>: its <see cref="PreferenceCache"/>

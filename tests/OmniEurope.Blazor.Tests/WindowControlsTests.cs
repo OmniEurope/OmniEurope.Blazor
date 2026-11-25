@@ -58,7 +58,7 @@ public sealed class WindowControlsTests : OmniBunitContext
 /// <summary>OmniMain.AutoHideScrollbar: the page scrollbar shows only while the page moves.</summary>
 public sealed class MainAutoHideScrollbarTests : OmniBunitContext
 {
-    private const string InteropPath = Internal.OmniModules.Interop;
+    private const string InteropPath = OmniModules.Interop;
 
     [Fact]
     public void AutoHideScrollbar_MarksTheScrollingMain_AndAsksTheScriptToWatchIt()

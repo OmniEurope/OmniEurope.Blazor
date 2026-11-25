@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The rendered size of one label, read by <c>omni-mindmap.js</c> with <c>getBBox</c>. The key is

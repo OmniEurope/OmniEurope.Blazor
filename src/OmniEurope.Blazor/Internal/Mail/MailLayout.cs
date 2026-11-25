@@ -1,8 +1,7 @@
 using AngleSharp.Dom;
 using AngleSharp.Html.Parser;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The document around a mail's body: a full-width table painted with the page colour, the card centred

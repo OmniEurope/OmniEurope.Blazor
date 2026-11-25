@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DialogIntentAndOverflowMenuTests : OmniBunitContext
 {
-    private const string FocusModule = Internal.OmniModules.Focus;
+    private const string FocusModule = OmniModules.Focus;
 
     // ---- dialog intention -----------------------------------------------------------------------
 

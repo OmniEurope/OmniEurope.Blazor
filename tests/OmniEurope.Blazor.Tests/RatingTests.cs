@@ -19,7 +19,7 @@ public sealed class RatingTests : OmniBunitContext
         rating.FindAll("input[type=radio]")[3].Change(true);
         Assert.Equal(4, value);
         Assert.True(rating.FindAll("input[type=radio]")[3].HasAttribute("checked"));
-        var filled = OmniEurope.Blazor.Internal.PhosphorIconGlyphs.For(OmniIconName.StarFilled).PathData;
+        var filled = OmniEurope.Blazor.Components.PhosphorIconGlyphs.For(OmniIconName.StarFilled).PathData;
         Assert.Equal(4, rating.FindAll(".omni-rating__star path").Count(path => path.GetAttribute("d") == filled));
         rating.FindAll("input[type=radio]")[1].Change(true);
         Assert.Equal(2, value);
@@ -82,7 +82,7 @@ public sealed class RatingTests : OmniBunitContext
         Assert.Contains("omni-rating--readonly", root.ClassList);
         Assert.DoesNotContain("omni-rating--disabled", root.ClassList);
         Assert.Empty(rating.FindAll("input"));
-        var filled = OmniEurope.Blazor.Internal.PhosphorIconGlyphs.For(OmniIconName.StarFilled).PathData;
+        var filled = OmniEurope.Blazor.Components.PhosphorIconGlyphs.For(OmniIconName.StarFilled).PathData;
         Assert.Equal(3, rating.FindAll(".omni-rating__star path").Count(path => path.GetAttribute("d") == filled));
         Assert.Equal(5, rating.FindAll(".omni-rating__star").Count);
     }

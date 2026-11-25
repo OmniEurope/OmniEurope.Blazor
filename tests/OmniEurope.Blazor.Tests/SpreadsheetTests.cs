@@ -437,7 +437,7 @@ public sealed class SpreadsheetTests : OmniBunitContext
     [Fact]
     public void Script_IsAttachedToTheSheetOnce()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Spreadsheet);
+        var module = JSInterop.SetupModule(OmniModules.Spreadsheet);
         var host = Render<SpreadsheetTestHost>();
 
         host.Find("#sheet-r1-c1").Click();

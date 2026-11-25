@@ -1,6 +1,6 @@
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What <c>omni-preferences.js</c> reports to <see cref="Components.OmniPreferences"/>: the tab became

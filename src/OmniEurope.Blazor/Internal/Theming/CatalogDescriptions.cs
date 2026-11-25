@@ -2,7 +2,7 @@ using System.Globalization;
 using System.Resources;
 using OmniEurope.Blazor.Resources;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The descriptions of the theme, palette, backdrop and font catalogues, read from the package resources

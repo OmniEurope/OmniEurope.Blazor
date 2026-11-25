@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The only .NET object <c>omni-code-editor.js</c> can call. Kept apart from the component so that

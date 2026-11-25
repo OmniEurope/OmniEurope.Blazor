@@ -139,7 +139,7 @@ public sealed class DataGridFilterKindsTests : OmniBunitContext
     [Fact]
     public async Task MarkdownExport_SummarisesARangeAsItsTwoDates_AndListedValuesWithTheirText()
     {
-        var download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
+        var download = JSInterop.SetupModule(OmniModules.DocumentEditor);
         download.SetupVoid("download", _ => true).SetVoidResult();
         var grid = Render<DataGridFilterKindsTestHost>(parameters => parameters
             .Add(component => component.StatusDefault, nameof(TicketStatus.Closed))

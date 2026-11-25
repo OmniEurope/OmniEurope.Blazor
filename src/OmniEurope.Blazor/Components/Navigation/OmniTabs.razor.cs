@@ -104,7 +104,7 @@ public partial class OmniTabs
             {
                 // Removed while the script loaded: DisposeAsync had no module to release yet, so the loader
                 // released it on arrival, and nothing is configured for a strip that has left the page.
-                var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Focus, () => _disposed);
+                var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Focus, () => _disposed);
                 if (module is null)
                 {
                     return;

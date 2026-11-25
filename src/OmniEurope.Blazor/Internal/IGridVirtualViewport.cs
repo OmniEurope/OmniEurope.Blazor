@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The scroll window of a virtualized grid as its other collaborators use it, from <see cref="GridVirtualViewport{TItem}"/>.</summary>
 internal interface IGridVirtualViewport

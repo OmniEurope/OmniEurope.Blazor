@@ -5,7 +5,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 using Row = OmniEurope.Blazor.Tests.DataGridExportTestHost.Row;
 
 namespace OmniEurope.Blazor.Tests;

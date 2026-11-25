@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class ContextMenuPortalTests : OmniBunitContext
 {
-    private const string FocusModule = Internal.OmniModules.Focus;
+    private const string FocusModule = OmniModules.Focus;
 
     [Fact]
     public void SwitchingDirectlyToAnotherMenu_OpensItByItsOwnPopup()

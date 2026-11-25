@@ -108,7 +108,7 @@ public partial class OmniStatTile
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        _safeHref = Internal.OmniTileAction.SafeHref(nameof(OmniStatTile), Href, OnClick.HasDelegate);
+        _safeHref = OmniTileAction.SafeHref(nameof(OmniStatTile), Href, OnClick.HasDelegate);
         OmniTileGridScope.Track(ref _countedIn, TileGrid, DoubleWidth);
     }
 
@@ -127,7 +127,7 @@ public partial class OmniStatTile
         {
             if (firstRender)
             {
-                var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.StatTile);
+                var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.StatTile);
                 if (_disposed)
                 {
                     await module.DisposeAsync();

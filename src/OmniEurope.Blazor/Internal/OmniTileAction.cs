@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The rule the tiles that can be one whole link or one whole button share (<see cref="Components.OmniStatTile"/>,

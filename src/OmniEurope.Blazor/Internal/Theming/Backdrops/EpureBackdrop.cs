@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Épure's backdrop, the default of the Épure theme: a fine dot screen, like a halftone proof, in two

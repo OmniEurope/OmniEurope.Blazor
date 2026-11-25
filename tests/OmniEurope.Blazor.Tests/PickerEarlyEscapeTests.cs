@@ -2,7 +2,7 @@ using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Internal;
+using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 

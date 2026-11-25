@@ -12,7 +12,7 @@ where TModel : class
 {
     private EditContext? _resolvedEditContext;
     private EditContext? _trackedEditContext;
-    private readonly Internal.FormSnapshot _snapshot = new();
+    private readonly FormSnapshot _snapshot = new();
     private bool _snapshotTaken;
     private bool _submitting;
     private TModel? _lastModel;
@@ -163,7 +163,7 @@ where TModel : class
             try
             {
                 // Removed while the script loaded: the loader released it on arrival, nothing is focused.
-                _module ??= await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Interop, () => _disposed);
+                _module ??= await OmniScriptModule.ImportAsync(JavaScript, OmniModules.Interop, () => _disposed);
                 if (_module is null)
                 {
                     return;

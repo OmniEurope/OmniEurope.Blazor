@@ -45,7 +45,7 @@
                 }
             </select>
         }
-        <label class="omni-visually-hidden" for="@(Internal.GridFilterEditor<TItem>.HasLabelableControl(context.Column) ? context.Id : null)">@Localize("GridFilterColumn", context.Column.Title)</label>
+        <label class="omni-visually-hidden" for="@(GridFilterEditor<TItem>.HasLabelableControl(context.Column) ? context.Id : null)">@Localize("GridFilterColumn", context.Column.Title)</label>
         @* One condition in a popover: the value and its clear action share the second line, the clear
            action a square icon button of the standard control size. *@
         @if (context.InPanel && FilterEditor.IsOneConditionPanel(context.Column))

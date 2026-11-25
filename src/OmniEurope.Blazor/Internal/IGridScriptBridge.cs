@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The grid script as the grid's other collaborators reach it, from <see cref="GridScriptBridge{TItem}"/>.</summary>
 internal interface IGridScriptBridge

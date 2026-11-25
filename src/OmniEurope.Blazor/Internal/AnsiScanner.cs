@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>What a control sequence found by <see cref="AnsiScanner.Measure"/> is.</summary>
 internal enum AnsiSequenceKind

@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The only .NET object <c>omni-kanban.js</c> can call: it forwards the keys pressed on a card to the

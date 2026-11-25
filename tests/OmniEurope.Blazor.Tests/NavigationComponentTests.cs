@@ -9,7 +9,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
 {
     public NavigationComponentTests()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         module.SetupVoid("configureTabs", _ => true);
         module.SetupVoid("disposeTabs", _ => true);
     }
@@ -197,7 +197,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     [Fact]
     public async Task Sidebar_FloatingOpen_ClosesOnTheBackdropAndOnEscapeFromAnywhere()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var open = true;
         var sidebar = RenderOpenSidebar(OmniSidebarReveal.Overlay, value => open = value, backdrop: true);
 
@@ -223,7 +223,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     [Fact]
     public void Sidebar_Pushing_NeverListensForEscape()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         RenderOpenSidebar(OmniSidebarReveal.Push);
 
         Assert.Empty(module.Invocations["attachEscape"]);
@@ -232,7 +232,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     [Fact]
     public async Task Sidebar_Pushing_FloatsWithItsVeilOnAPhone()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var open = true;
         var sidebar = RenderOpenSidebar(OmniSidebarReveal.Push, value => open = value);
         Assert.Single(module.Invocations["watchNarrow"]);
@@ -255,7 +255,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     [Fact]
     public async Task Sidebar_StopsWatchingTheWidth_WhenItCanNoLongerFloat_AndWhenDisposed()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var sidebar = RenderOpenSidebar(OmniSidebarReveal.Push, _ => { });
         await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));
         Assert.Contains("omni-sidebar--overlay", sidebar.Find("aside").ClassList);
@@ -273,7 +273,7 @@ public sealed class NavigationComponentTests : OmniBunitContext
     [Fact]
     public async Task Sidebar_PushingThatTheHostNeverCloses_KeepsPushingOnAPhone()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var sidebar = RenderOpenSidebar(OmniSidebarReveal.Push);
 
         await sidebar.InvokeAsync(() => sidebar.Instance.SetNarrowAsync(true));

@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>Reads the text of a picker field into a value.</summary>
 /// <typeparam name="T">The value type of the picker.</typeparam>

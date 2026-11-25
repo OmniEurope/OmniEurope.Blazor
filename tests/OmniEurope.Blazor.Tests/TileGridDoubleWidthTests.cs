@@ -39,7 +39,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [InlineData("nav")]
     public void ADoubleTile_OfEachKind_HasAUniformGridWatchItsColumns(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
 
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
@@ -61,7 +61,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [InlineData("nav")]
     public void ADoubleTile_OfEachKind_HasAMinColumnWidthGridWatchItsColumns(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
 
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.MinColumnWidth, "18rem")
@@ -85,7 +85,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
         Assert.Single(grid.FindAll(".omni-tile--double"));
         Assert.Equal("omni-tile-grid omni-tile-grid--columns-4 omni-tile-grid--gap-md", grid.Find(".omni-tile-grid").ClassName);
         // A stat tile and a fact tile load scripts of their own (tooltips); the grid script is the one in question.
-        Assert.DoesNotContain(JSInterop.Invocations, call => call.Arguments.Contains(Internal.OmniModules.Interop));
+        Assert.DoesNotContain(JSInterop.Invocations, call => call.Arguments.Contains(OmniModules.Interop));
     }
 
     [Fact]
@@ -95,7 +95,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
             .Add(component => component.UniformSize, true)
             .AddChildContent(DoubleTile("stat")));
 
-        Assert.Contains(JSInterop.Invocations, call => call.Arguments.Contains(Internal.OmniModules.Interop));
+        Assert.Contains(JSInterop.Invocations, call => call.Arguments.Contains(OmniModules.Interop));
     }
 
     [Fact]
@@ -112,7 +112,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [Fact]
     public void ADoubleTileAndAMinColumnWidth_ReachTheScriptTogether_InOneCall()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
 
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.MinColumnWidth, "14rem")
@@ -126,7 +126,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [Fact]
     public void AMinColumnWidthGridWithoutADoubleTile_WritesItsMinimum_AndWatchesNothing()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
 
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.MinColumnWidth, "14rem")
@@ -140,7 +140,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [Fact]
     public void AUniformGrid_WatchesItsColumnsOnlyWhileADoubleTileIsInIt()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
             .AddChildContent(NavTile(doubleWidth: false)));
@@ -173,7 +173,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [Fact]
     public void ATwoDoubleTileGrid_StopsWatchingOnlyWhenTheLastOneLeaves()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
             .AddChildContent(NavTile(doubleWidth: true, count: 2)));
@@ -190,7 +190,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [Fact]
     public void AGridThatTurnsUniform_WhileHoldingADoubleTile_StartsWatching_AndStopsWhenItTurnsBack()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var grid = Render<OmniTileGrid>(parameters => parameters.AddChildContent(NavTile(doubleWidth: true)));
         Assert.Empty(JSInterop.Invocations);
 
@@ -207,7 +207,7 @@ public sealed class TileGridDoubleWidthTests : OmniBunitContext
     [Fact]
     public async Task ATileThatTurnsDoubleAlone_InAComponentOfItsOwn_AsksTheUniformGridToDrawAgain()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
             .AddChildContent<ToggledNavTile>());

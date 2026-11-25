@@ -1,6 +1,5 @@
 using System.Globalization;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 

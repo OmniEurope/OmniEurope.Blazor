@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class CopyButtonTests : OmniBunitContext
 {
-    private const string InteropModulePath = Internal.OmniModules.Interop;
+    private const string InteropModulePath = OmniModules.Interop;
     private static readonly TimeSpan ShortFeedback = TimeSpan.FromMilliseconds(60);
 
     // The feedback waits on this clock, moved by hand: on the system clock its 60 ms could run out under a

@@ -44,7 +44,7 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
     [InlineData("12.5em")]
     public void ATileGridWithAMinColumnWidth_IsFluid_AndHandsTheLengthToTheScript_NeverAsAStyleAttribute(string width)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
 
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.Columns, 3)
@@ -63,7 +63,7 @@ public sealed class TileGridMinColumnWidthTests : OmniBunitContext
     [Fact]
     public void ATileGrid_WritesItsMinColumnWidthAgainOnlyWhenItOrItsClassesChange_AndRemovesItWhenNull()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var grid = this.RenderFluidGrid();
         grid.WaitForCalls(module, 1);
 

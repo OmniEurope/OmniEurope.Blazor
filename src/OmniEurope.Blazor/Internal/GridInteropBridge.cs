@@ -1,7 +1,6 @@
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The only .NET object the grid scripts (<c>omni-grid.js</c> and <c>./grid/*</c>) can call: it forwards what

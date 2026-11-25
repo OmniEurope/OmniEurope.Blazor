@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Geometry shared by the rendered markup and by <c>omni-mindmap.js</c>, which redraws the same

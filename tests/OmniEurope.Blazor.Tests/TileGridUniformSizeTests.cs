@@ -53,7 +53,7 @@ public sealed class TileGridUniformSizeTests : OmniBunitContext
     [Fact]
     public void AUniformTileGrid_WithAMinColumnWidth_TakesBothClasses_AndHandsTheLengthToTheScript()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
 
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
@@ -122,7 +122,7 @@ public sealed class TileGridUniformSizeTests : OmniBunitContext
     [Fact]
     public void AUniformTileGrid_TellsTheScriptAgain_WhenItsClassAttributeChanges()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var grid = Render<OmniTileGrid>(parameters => parameters
             .Add(component => component.UniformSize, true)
             .AddChildContent<OmniNavTile>(tile => tile.Add(component => component.Href, "/a").Add(component => component.Title, "A").Add(component => component.DoubleWidth, true)));
@@ -143,7 +143,7 @@ public sealed class TileGridUniformSizeTests : OmniBunitContext
     [Fact]
     public void AMinColumnWidthGrid_TellsTheScriptAgain_WhenTheHostClassChanges()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        var module = JSInterop.SetupModule(OmniModules.Interop);
         var grid = this.RenderFluidGrid();
         grid.WaitForCalls(module, 1);
 

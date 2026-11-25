@@ -4,7 +4,6 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Reflection.Emit;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 

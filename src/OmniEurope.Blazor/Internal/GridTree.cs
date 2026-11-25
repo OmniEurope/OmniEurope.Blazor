@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>One row of a tree grid as the body shows it: its item, depth and expander state.</summary>
 internal sealed record GridTreeNode<TItem>(TItem Item, int Level, bool HasChildren, bool Toggleable, bool Expanded);

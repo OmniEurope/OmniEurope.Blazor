@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Tests;
 /// <summary>The page header and the breadcrumb service it reads its trail and its title from.</summary>
 public sealed class PageHeaderTests : OmniBunitContext
 {
-    private const string InteropModule = Internal.OmniModules.Interop;
+    private const string InteropModule = OmniModules.Interop;
 
     public PageHeaderTests()
     {
@@ -129,7 +129,7 @@ public sealed class PageHeaderTests : OmniBunitContext
     [Fact]
     public void Title_HasAScrollButtonOnEachSide_AndTheHeaderAttachesTheTitleScroll()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.PageHeader);
+        var module = JSInterop.SetupModule(OmniModules.PageHeader);
         module.SetupVoid("attach", _ => true).SetVoidResult();
 
         var header = Render<OmniPageHeader>(parameters => parameters.Add(component => component.Title, "Un titre bien trop long pour sa ligne"));
@@ -464,7 +464,7 @@ public sealed class PageHeaderTests : OmniBunitContext
     [Fact]
     public async Task Header_Disposed_DetachesTheScriptFromItsFrame()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.PageHeader);
+        var module = JSInterop.SetupModule(OmniModules.PageHeader);
         module.SetupVoid("attach", _ => true).SetVoidResult();
         module.SetupVoid("detach", _ => true).SetVoidResult();
         var header = Render<OmniPageHeader>(parameters => parameters

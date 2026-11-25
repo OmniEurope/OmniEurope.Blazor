@@ -1,7 +1,6 @@
 using System.Diagnostics;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The notifications shown and their countdowns. A countdown ends on the thread pool while the renderer

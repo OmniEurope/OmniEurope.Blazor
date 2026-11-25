@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 internal sealed class OmniTooltipInterop(IJSRuntime javaScript) : IAsyncDisposable
 {
-    private const string ModulePath = Internal.OmniModules.Tooltip;
+    private const string ModulePath = OmniModules.Tooltip;
 
     private IJSObjectReference? _module;
     private Task? _install;
@@ -41,7 +41,7 @@ internal sealed class OmniTooltipInterop(IJSRuntime javaScript) : IAsyncDisposab
 
     private async Task InstallAsync()
     {
-        var module = await Internal.OmniScriptModule.ImportAsync(javaScript, ModulePath);
+        var module = await OmniScriptModule.ImportAsync(javaScript, ModulePath);
         if (_disposed)
         {
             // The circuit's scope ended while the script loaded: nothing is installed, nothing stays held.

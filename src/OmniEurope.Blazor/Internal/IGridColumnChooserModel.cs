@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What the markup of the column chooser (<see cref="GridColumnChooserView{TItem}"/>) reads and calls on the

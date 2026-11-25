@@ -1,7 +1,6 @@
 using System.Text.Json;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Every setting of the user's appearance at once, as <see cref="OmniAppearanceState"/> holds it. The

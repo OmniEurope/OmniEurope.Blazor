@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class MarkdownTableExportTests : OmniBunitContext
 {
-    private const string DownloadModulePath = Internal.OmniModules.DocumentEditor;
+    private const string DownloadModulePath = OmniModules.DocumentEditor;
     private static readonly DateTimeOffset Now = new(2026, 9, 26, 14, 5, 9, TimeSpan.Zero);
 
     private sealed record Row(int Id, string Name, string? Note = null);

@@ -26,8 +26,8 @@ public sealed class DataGridExportCopyGuardTests : OmniBunitContext
 
     public DataGridExportCopyGuardTests()
     {
-        _download = JSInterop.SetupModule(Internal.OmniModules.DocumentEditor);
-        _clipboard = JSInterop.SetupModule(Internal.OmniModules.Interop);
+        _download = JSInterop.SetupModule(OmniModules.DocumentEditor);
+        _clipboard = JSInterop.SetupModule(OmniModules.Interop);
     }
 
     private IRenderedComponent<DataGridExportTestHost> RenderGrid(int copyMaxRows = 10) => Render<DataGridExportTestHost>(parameters => parameters
@@ -35,7 +35,7 @@ public sealed class DataGridExportCopyGuardTests : OmniBunitContext
         .Add(component => component.CopyMaxRows, copyMaxRows)
         .Add(component => component.Formats, [OmniTableExportFormat.Markdown]));
 
-    private static Internal.GridExport<Row> ExportOf(IRenderedComponent<DataGridExportTestHost> host) =>
+    private static GridExport<Row> ExportOf(IRenderedComponent<DataGridExportTestHost> host) =>
         host.FindComponent<OmniDataGrid<Row>>().Instance.Export;
 
     [Fact]

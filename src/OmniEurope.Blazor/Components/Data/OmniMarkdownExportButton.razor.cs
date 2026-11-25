@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Components;
 /// <typeparam name="TItem">The type of the exported rows.</typeparam>
 public partial class OmniMarkdownExportButton<TItem>
 {
-    private const string DownloadModulePath = Internal.OmniModules.DocumentEditor;
+    private const string DownloadModulePath = OmniModules.DocumentEditor;
 
     private IJSObjectReference? _module;
     private bool _disposed;
@@ -66,7 +66,7 @@ public partial class OmniMarkdownExportButton<TItem>
 
     /// <summary>The downloaded file's name for a document generated at <paramref name="generatedAt"/>.</summary>
     internal static string StampedFileName(string fileName, DateTimeOffset generatedAt, string extension) =>
-        Internal.ExportFileName.Stamp(fileName, generatedAt, extension);
+        ExportFileName.Stamp(fileName, generatedAt, extension);
 
     private async Task ExportAsync()
     {
@@ -82,7 +82,7 @@ public partial class OmniMarkdownExportButton<TItem>
             var document = await Exporter.ReadAsync(Export());
             var file = await Exporter.RenderAsync(document, OmniTableExportFormat.Markdown);
             // Removed while the script loaded: the loader released it on arrival, nothing is downloaded.
-            _module ??= await Internal.OmniScriptModule.ImportAsync(JSRuntime, DownloadModulePath, () => _disposed);
+            _module ??= await OmniScriptModule.ImportAsync(JSRuntime, DownloadModulePath, () => _disposed);
             if (_module is null)
             {
                 return;

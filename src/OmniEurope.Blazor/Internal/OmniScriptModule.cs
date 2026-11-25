@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The one place that imports a JavaScript module for a component (<c>import</c> through the JS runtime).

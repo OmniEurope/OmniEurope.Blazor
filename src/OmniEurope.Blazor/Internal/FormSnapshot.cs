@@ -2,7 +2,7 @@ using System.Collections;
 using System.Reflection;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The values a form's model held when the form started or was last saved, so that a field brought

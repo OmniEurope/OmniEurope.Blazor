@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The tree rows of a grid as its other collaborators read them, from <see cref="GridTree{TItem}"/>.</summary>
 /// <typeparam name="TItem">The type of the rows.</typeparam>

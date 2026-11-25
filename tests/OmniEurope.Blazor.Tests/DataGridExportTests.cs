@@ -13,7 +13,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridExportTests : OmniBunitContext
 {
-    private const string DownloadModulePath = Internal.OmniModules.DocumentEditor;
+    private const string DownloadModulePath = OmniModules.DocumentEditor;
     private static readonly DateTimeOffset Now = new(2026, 9, 30, 8, 15, 0, TimeSpan.Zero);
 
     private static readonly Row[] Rows =

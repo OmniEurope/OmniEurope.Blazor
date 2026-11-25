@@ -2,7 +2,6 @@ using System.Text.Json;
 using Bunit;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 

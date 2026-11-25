@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The palette of eight chart colours every chart part and the Gantt chart share.</summary>
 internal static class ChartColor

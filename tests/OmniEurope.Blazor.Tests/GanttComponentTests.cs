@@ -2,7 +2,6 @@ using System.Globalization;
 using Bunit;
 using OmniEurope.Blazor.Components;
 using Microsoft.Extensions.DependencyInjection;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 

@@ -11,7 +11,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class ThemeScopeBootSnapshotTests : OmniBunitContext
 {
-    private const string ThemeModule = Internal.OmniModules.Theme;
+    private const string ThemeModule = OmniModules.Theme;
 
     [Theory]
     [InlineData(OmniAppearance.Light, "light")]

@@ -659,7 +659,7 @@ public sealed class ShowcaseThemeStateTests
     }
 
     /// <summary>The level the package draws as shipped, read from the package's single source.</summary>
-    private const int AppearanceLookDefaultLevel = Internal.AppearanceLook.DefaultLevel;
+    private const int AppearanceLookDefaultLevel = AppearanceLook.DefaultLevel;
 
     private static IReadOnlyDictionary<string, string> Half(object? argument) =>
         Assert.IsAssignableFrom<IReadOnlyDictionary<string, string>>(argument);

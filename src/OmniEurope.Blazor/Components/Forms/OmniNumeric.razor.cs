@@ -48,19 +48,19 @@ public partial class OmniNumeric<TValue>
     private IJSRuntime JavaScript { get; set; } = default!;
 
     private ElementReference _field;
-    private Internal.OmniSelectOnFocus? _selectOnFocus;
+    private OmniSelectOnFocus? _selectOnFocus;
 
     /// <summary>After each render, follows the input element with the <see cref="SelectOnFocus"/> script; nothing happens while it is off.</summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the script follows the element drawn.</returns>
     protected override Task OnAfterRenderAsync(bool firstRender) =>
-        Internal.OmniSelectOnFocus.FollowAsync(ref _selectOnFocus, JavaScript, SelectOnFocus, _field);
+        OmniSelectOnFocus.FollowAsync(ref _selectOnFocus, JavaScript, SelectOnFocus, _field);
 
     /// <summary>Detaches the <see cref="SelectOnFocus"/> script and disposes the input.</summary>
     /// <returns>A task that completes once the script is detached; a lost circuit is ignored.</returns>
     public async ValueTask DisposeAsync()
     {
-        await Internal.OmniSelectOnFocus.DisposeWithInputAsync(this, _selectOnFocus);
+        await OmniSelectOnFocus.DisposeWithInputAsync(this, _selectOnFocus);
         GC.SuppressFinalize(this);
     }
 
@@ -109,8 +109,8 @@ public partial class OmniNumeric<TValue>
     /// <summary>Creates the field with its non-rendering keystroke handlers.</summary>
     public OmniNumeric()
     {
-        _onInput = Internal.NonRenderingHandler<ChangeEventArgs>.For(HandleInput);
-        _onKeyDown = Internal.NonRenderingHandler<KeyboardEventArgs>.For(HandleKeyDown);
+        _onInput = NonRenderingHandler<ChangeEventArgs>.For(HandleInput);
+        _onKeyDown = NonRenderingHandler<KeyboardEventArgs>.For(HandleKeyDown);
     }
 
     private void HandleInput(ChangeEventArgs args) => _pendingText = args.Value?.ToString() ?? string.Empty;

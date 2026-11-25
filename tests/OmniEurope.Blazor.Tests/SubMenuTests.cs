@@ -2,7 +2,6 @@ using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -67,7 +66,7 @@ public sealed class SubMenuTests : OmniBunitContext
     [MemberData(nameof(Menus))]
     public void ALeafOfTheMenu_ClosesTheWholeMenuWithTheFocusBack_BeforeItsActionRuns(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var closesWhenRun = new List<int>();
         var host = Render<SubMenuTestHost>(parameters => parameters
             .Add(component => component.Kind, kind)
@@ -304,7 +303,7 @@ public sealed class SubMenuTests : OmniBunitContext
     [Fact]
     public void AMenuWithoutASubMenu_DrawsNoSubMenuMarkup()
     {
-        JSInterop.SetupModule(Internal.OmniModules.Focus);
+        JSInterop.SetupModule(OmniModules.Focus);
         var menu = Render<OmniOverflowMenu>(parameters => parameters
             .Add(component => component.Open, true)
             .AddChildContent("<button>x</button>"));
@@ -332,7 +331,7 @@ public sealed class SubMenuTests : OmniBunitContext
 
     private (IRenderedComponent<SubMenuTestHost> Host, BunitJSModuleInterop Module) Open(string kind)
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         var host = Render<SubMenuTestHost>(parameters => parameters.Add(component => component.Kind, kind));
         OpenMenu(host, kind);
         return (host, module);

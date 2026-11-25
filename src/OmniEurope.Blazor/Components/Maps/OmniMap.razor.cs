@@ -43,8 +43,8 @@ public partial class OmniMap
     private readonly string _generatedId = $"omni-map-{Guid.NewGuid():N}";
     private ElementReference _root;
     private Task<IJSObjectReference?>? _moduleTask;
-    private DotNetObjectReference<Internal.MapInteropBridge>? _bridge;
-    private Internal.OmniPackageTooltips? _tooltips;
+    private DotNetObjectReference<MapInteropBridge>? _bridge;
+    private OmniPackageTooltips? _tooltips;
     private OmniGeoPoint _center;
     private int _zoom;
     private OmniGeoPoint? _seenCenter;
@@ -176,7 +176,7 @@ public partial class OmniMap
             throw new ArgumentException($"OmniMap.MinZoom ({MinZoom}) is above OmniMap.MaxZoom ({MaxZoom}).", nameof(MinZoom));
         }
 
-        _tileUrl = Internal.MapInput.TileUrl(TileUrl);
+        _tileUrl = MapInput.TileUrl(TileUrl);
         EnsurePoint(Center, nameof(Center));
         ValidateContent();
 
@@ -226,9 +226,9 @@ public partial class OmniMap
             if (!_attached)
             {
                 _attached = true;
-                _bridge = DotNetObjectReference.Create(new Internal.MapInteropBridge(HandleViewChangedAsync, HandleMapClickAsync));
+                _bridge = DotNetObjectReference.Create(new MapInteropBridge(HandleViewChangedAsync, HandleMapClickAsync));
                 await module.InvokeVoidAsync("attach", _root, _bridge);
-                _tooltips = new Internal.OmniPackageTooltips(JavaScript);
+                _tooltips = new OmniPackageTooltips(JavaScript);
                 await _tooltips.InstallAsync();
             }
 
@@ -264,7 +264,7 @@ public partial class OmniMap
     public async ValueTask DisposeAsync()
     {
         _disposed = true;
-        await Internal.OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
+        await OmniScriptModule.DetachAndReleaseAsync(_moduleTask, _root);
 
         if (_tooltips is not null)
         {
@@ -321,12 +321,12 @@ public partial class OmniMap
     };
 
     private static string LineClass(OmniMapLine line)
-        => Internal.CssClassBuilder.Combine(["omni-map__line", $"omni-map__line--{line.Tone.ToString().ToLowerInvariant()}", line.Class]);
+        => CssClassBuilder.Combine(["omni-map__line", $"omni-map__line--{line.Tone.ToString().ToLowerInvariant()}", line.Class]);
 
     private static string MarkerClass(OmniMapMarker marker)
         => $"omni-map__marker omni-map__marker--{marker.Kind.ToString().ToLowerInvariant()}";
 
-    private static string? ColorOf(OmniMapLine line) => Internal.MapInput.IsColor(line.Color) ? line.Color!.Trim() : null;
+    private static string? ColorOf(OmniMapLine line) => MapInput.IsColor(line.Color) ? line.Color!.Trim() : null;
 
     private static double[] Flatten(OmniMapLine line)
     {
@@ -434,5 +434,5 @@ public partial class OmniMap
     }
 
     private Task<IJSObjectReference?> ModuleAsync()
-        => _moduleTask ??= Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.Map, () => _disposed);
+        => _moduleTask ??= OmniScriptModule.ImportAsync(JavaScript, OmniModules.Map, () => _disposed);
 }

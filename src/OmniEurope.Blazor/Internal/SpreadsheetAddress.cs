@@ -1,6 +1,6 @@
 using System.Globalization;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Cell addresses in the A1 notation: letters for the column (A to Z, then AA, AB and so on) and a

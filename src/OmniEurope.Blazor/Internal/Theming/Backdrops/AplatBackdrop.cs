@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Aplat's backdrop, the default of the Aplat theme: flat pastel shapes in the manner of the Memphis

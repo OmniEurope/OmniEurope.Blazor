@@ -19,7 +19,7 @@ public partial class OmniChart
     private bool _aspectRatioSet;
     private ElementReference _figure;
     private IJSObjectReference? _module;
-    private Internal.OmniPackageTooltips? _tooltips;
+    private OmniPackageTooltips? _tooltips;
     private string? _appliedMaxHeight;
     private bool _disposed;
 
@@ -203,7 +203,7 @@ public partial class OmniChart
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (MaxHeight is not null and not "none" && !Internal.CssLength.IsHeight(MaxHeight))
+        if (MaxHeight is not null and not "none" && !CssLength.IsHeight(MaxHeight))
         {
             throw new ArgumentException($"'{MaxHeight}' is not a CSS length {nameof(OmniChart)} accepts for {nameof(MaxHeight)} (a number followed by px, rem, em, vh or %, or none).", nameof(MaxHeight));
         }
@@ -238,7 +238,7 @@ public partial class OmniChart
     {
         if (!_disposed && _tooltips is null && (Tooltips || SharedTooltip || HighlightOnHover) && (_context.HasSeries || _context.Pies.Count > 0))
         {
-            _tooltips = new Internal.OmniPackageTooltips(JavaScript);
+            _tooltips = new OmniPackageTooltips(JavaScript);
             await _tooltips.InstallAsync();
         }
 

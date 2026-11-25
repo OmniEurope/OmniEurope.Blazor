@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What an <see cref="IOmniSelectableCardGroup"/> reads from, or asks of, a registered card: the choice

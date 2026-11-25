@@ -77,7 +77,7 @@ public partial class OmniHtmlEditor : IHtmlEditorHost
     /// The <c>aria-label</c> of the visual face and its regions: none when a form field label names them,
     /// else the Label, else the host's own <c>aria-label</c>, else the default name.
     /// </summary>
-    private string? VisualAriaLabel => VisualLabelledBy is null ? Internal.OmniAriaLabel.Of(Label, AdditionalAttributes) ?? DefaultLabel : null;
+    private string? VisualAriaLabel => VisualLabelledBy is null ? OmniAriaLabel.Of(Label, AdditionalAttributes) ?? DefaultLabel : null;
 
     /// <summary>
     /// Presents the visual face as a word processor: a sheet of paper centred on a muted background,

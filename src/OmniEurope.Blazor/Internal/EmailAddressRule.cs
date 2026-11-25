@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The address shape <see cref="Components.OmniEmailValidator"/> accepts: a practical subset of the

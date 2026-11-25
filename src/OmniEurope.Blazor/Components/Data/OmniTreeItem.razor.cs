@@ -2,7 +2,7 @@ namespace OmniEurope.Blazor.Components;
 
 /// <summary>An item of an <see cref="OmniTree{TValue}"/>, with its child items declared or loaded on demand.</summary>
 /// <typeparam name="TValue">The type of the value the item stands for; the same as its tree's.</typeparam>
-public partial class OmniTreeItem<TValue> : Internal.ITreeNode<TValue>
+public partial class OmniTreeItem<TValue> : ITreeNode<TValue>
 {
     private bool _expanded;
     private bool _keyOnButton;
@@ -191,7 +191,7 @@ public partial class OmniTreeItem<TValue> : Internal.ITreeNode<TValue>
         }
     }
     /// <summary>Opens or closes the item from its tree (expand or collapse all), loading its children when it opens.</summary>
-    async Task Internal.ITreeNode<TValue>.SetExpandedAsync(bool expanded)
+    async Task ITreeNode<TValue>.SetExpandedAsync(bool expanded)
     {
         if (!HasChildren || _expanded == expanded)
         {
@@ -202,12 +202,12 @@ public partial class OmniTreeItem<TValue> : Internal.ITreeNode<TValue>
         StateHasChanged();
     }
 
-    TValue Internal.ITreeNode<TValue>.Value => Value;
+    TValue ITreeNode<TValue>.Value => Value;
 
     /// <inheritdoc />
     protected override void OnInitialized() => Context?.Items.Add(this);
 
-    private Internal.ITreeDragHost<TValue>? Tree => Context?.Tree;
+    private ITreeDragHost<TValue>? Tree => Context?.Tree;
 
     private bool CanDragThis => Tree is { AllowDragDrop: true } tree && !Disabled && (tree.CanDrag?.Invoke(Value) ?? true);
 
@@ -216,7 +216,7 @@ public partial class OmniTreeItem<TValue> : Internal.ITreeNode<TValue>
         && !ReferenceEquals(dragged, this) && !IsInside(dragged)
         && (tree.CanDrop?.Invoke(dragged.Value, Value) ?? true);
 
-    private bool IsInside(Internal.ITreeNode<TValue> ancestor)
+    private bool IsInside(ITreeNode<TValue> ancestor)
     {
         for (var parent = ParentItem; parent is not null; parent = parent.ParentItem)
         {
@@ -229,7 +229,7 @@ public partial class OmniTreeItem<TValue> : Internal.ITreeNode<TValue>
         return false;
     }
 
-    private string RowClass => Internal.CssClassBuilder.Combine([
+    private string RowClass => CssClassBuilder.Combine([
         "omni-tree__row",
         Context?.Dragged == this ? "omni-tree__row--dragging" : null,
         Context?.DropTarget == this ? "omni-tree__row--drop-target" : null]);

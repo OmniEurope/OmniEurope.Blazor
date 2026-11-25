@@ -69,7 +69,7 @@ public partial class OmniFormField
     [Parameter]
     public bool? Required { get; set; }
 
-    private readonly Internal.FormFieldRequirement _requirement;
+    private readonly FormFieldRequirement _requirement;
 
     /// <summary>Creates the field and the channel its control reports its bound property on.</summary>
     public OmniFormField() => _requirement = new(() => For, StateHasChanged);
@@ -82,7 +82,7 @@ public partial class OmniFormField
     public bool Disabled { get; set; }
 
     private string? LabelId => string.IsNullOrWhiteSpace(For) ? null : $"{For}-label";
-    private Internal.OmniFormFieldLabel? FieldLabel => LabelId is { } labelId ? new(For, labelId) : null;
+    private OmniFormFieldLabel? FieldLabel => LabelId is { } labelId ? new(For, labelId) : null;
     private string? DescriptionId =>string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Description) ? null : $"{Id}-description";
     private string? HelpId => string.IsNullOrWhiteSpace(Id) ? null : $"{Id}-help";
     private string? ErrorId => string.IsNullOrWhiteSpace(Id) || string.IsNullOrWhiteSpace(Error) ? null : $"{Id}-error";

@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The classes a grid's markup puts on its root, viewport, rows, cells and controls.</summary>
 internal sealed class GridCssClasses<TItem>(IGridHost<TItem> grid) : IGridCssClasses

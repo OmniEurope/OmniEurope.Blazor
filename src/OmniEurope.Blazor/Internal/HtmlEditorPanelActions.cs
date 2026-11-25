@@ -1,8 +1,7 @@
 using System.Net;
 
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// What an <see cref="OmniHtmlEditor"/> does with the panels under its toolbar: it opens and applies the

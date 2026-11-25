@@ -374,7 +374,7 @@ public sealed class ShippedLookDensityTests : OmniBunitContext
         Assert.Matches(@"@media \(prefers-color-scheme: dark\) \{\s*\[data-omni-theme=""system""\] \{[^}]*color-scheme: dark;", css);
 
         // A preset scope following the system keeps the attribute these rules read.
-        JSInterop.SetupModule(Internal.OmniModules.Theme);
+        JSInterop.SetupModule(OmniModules.Theme);
         var scope = Render<OmniThemeScope>(parameters => parameters
             .Add(component => component.Appearance, OmniAppearance.System)
             .Add(component => component.Preset, OmniThemePresets.All[0])

@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The sixteen ANSI colours of a mode as tokens (<c>--omni-ansi-0</c> to <c>--omni-ansi-15</c>), for the

@@ -22,7 +22,7 @@ public partial class OmniDiffViewer
 {
     private ElementReference _root;
     private ElementReference _host;
-    private Internal.MonacoHost? _monaco;
+    private MonacoHost? _monaco;
     private DotNetObjectReference<DiffViewerInteropBridge>? _bridge;
     private DiffPhase _phase = DiffPhase.Loading;
     private OmniCodeEditorEngine? _startedEngine;
@@ -78,7 +78,7 @@ public partial class OmniDiffViewer
     /// origin of the page: a scheme (<c>https:</c>, <c>data:</c>, <c>blob:</c>), a leading <c>//</c>, a backslash,
     /// a control character or a blank value is refused. A <c>..</c> segment is accepted, as it cannot leave the origin.
     /// </summary>
-    [Parameter] public string MonacoPath { get; set; } = Internal.MonacoHost.DefaultPath;
+    [Parameter] public string MonacoPath { get; set; } = MonacoHost.DefaultPath;
 
     /// <summary>
     /// The same-origin JavaScript module that drives the diff editor, as on <see cref="OmniCodeEditor.InteropModulePath"/>.
@@ -90,7 +90,7 @@ public partial class OmniDiffViewer
     /// <c>dotnet.invokeMethodAsync('OnModifiedChanged', value)</c>. The rule of <see cref="MonacoPath"/> applies: a path
     /// leaving the origin of the page is refused.
     /// </summary>
-    [Parameter] public string InteropModulePath { get; set; } = Internal.OmniModules.CodeEditor;
+    [Parameter] public string InteropModulePath { get; set; } = OmniModules.CodeEditor;
 
     /// <summary>
     /// The height, as a CSS length (<c>20rem</c>, <c>320px</c>, <c>50vh</c>). Null keeps 20rem. With
@@ -132,7 +132,7 @@ public partial class OmniDiffViewer
 
     private string EffectiveModifiedLabel => string.IsNullOrWhiteSpace(ModifiedLabel) ? Localize("DiffViewerModified") : ModifiedLabel;
 
-    private Internal.MonacoHost Monaco => _monaco ??= new(JavaScript, () => InteropModulePath, () => _disposed);
+    private MonacoHost Monaco => _monaco ??= new(JavaScript, () => InteropModulePath, () => _disposed);
 
     private string PhaseName => _phase.ToString().ToLowerInvariant();
 
@@ -185,8 +185,8 @@ public partial class OmniDiffViewer
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        Internal.MonacoHost.RequireParameters(nameof(OmniDiffViewer), Height, MonacoPath);
-        Internal.MonacoHost.RequireInteropModulePath(InteropModulePath);
+        MonacoHost.RequireParameters(nameof(OmniDiffViewer), Height, MonacoPath);
+        MonacoHost.RequireInteropModulePath(InteropModulePath);
 
         if (Engine == OmniCodeEditorEngine.PlainText)
         {

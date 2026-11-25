@@ -16,7 +16,7 @@ public sealed class NavigationOverlayCoherenceTests : OmniBunitContext
 {
     public NavigationOverlayCoherenceTests()
     {
-        var module = JSInterop.SetupModule(Internal.OmniModules.Focus);
+        var module = JSInterop.SetupModule(OmniModules.Focus);
         module.SetupVoid("configureTabs", _ => true);
         module.SetupVoid("disposeTabs", _ => true);
     }

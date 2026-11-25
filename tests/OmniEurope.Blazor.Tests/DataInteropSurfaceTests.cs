@@ -1,7 +1,6 @@
 using System.Reflection;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
-using OmniEurope.Blazor.Internal;
 using OmniEurope.Blazor.Tests.Guards;
 
 namespace OmniEurope.Blazor.Tests;

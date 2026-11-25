@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// One component's share of the package tooltips (the floating box that reads the whole text of a cut cell,

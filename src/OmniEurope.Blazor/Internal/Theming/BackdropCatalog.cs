@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The backdrops of the library, each defined in its own file under <c>Internal/Theming/Backdrops</c>.

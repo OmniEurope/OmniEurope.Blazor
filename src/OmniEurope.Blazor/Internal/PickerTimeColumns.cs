@@ -1,6 +1,6 @@
 using OmniEurope.Blazor.Resources;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>A change made in the time columns: the new time and the column it was made in.</summary>
 internal readonly record struct PickerTimeChange(TimeOnly Time, PickerTimePart Part, bool FromKeyboard);

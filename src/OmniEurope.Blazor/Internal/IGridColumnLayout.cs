@@ -1,6 +1,5 @@
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The column widths of a grid as its other collaborators use them, from <see cref="GridColumnLayout{TItem}"/>.</summary>
 /// <typeparam name="TItem">The type of the rows.</typeparam>

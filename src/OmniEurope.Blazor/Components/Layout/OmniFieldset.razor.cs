@@ -6,7 +6,7 @@ namespace OmniEurope.Blazor.Components;
 /// </summary>
 public partial class OmniFieldset
 {
-    private const string ModulePath = Internal.OmniModules.Focus;
+    private const string ModulePath = OmniModules.Focus;
     private readonly ToggleInterop _toggleInterop;
     private ElementReference _details;
     private IJSObjectReference? _module;
@@ -95,7 +95,7 @@ public partial class OmniFieldset
                     // Removed while the script loaded: DisposeAsync had no module to release yet, so the
                     // loader released it on arrival, and no .NET reference is made for a fieldset that has
                     // left the page (nothing would release it).
-                    var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);
+                    var module = await OmniScriptModule.ImportAsync(JavaScript, ModulePath, () => _disposed);
                     if (module is null)
                     {
                         return;

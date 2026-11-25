@@ -1,4 +1,4 @@
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// Trou noir's backdrop, the default of the Trou noir theme: high on the right, the horizon is a disc

@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>The JSON of a preference value: web defaults, and a value that no longer reads as <c>T</c> reads as <c>default</c>.</summary>
 internal static class PreferenceJson

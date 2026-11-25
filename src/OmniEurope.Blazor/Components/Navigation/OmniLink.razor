@@ -11,7 +11,7 @@
             id="@Id"
             type="button"
             class="@Css("omni-link")"
-            aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+            aria-label="@OmniAriaLabel.Of(Label, AdditionalAttributes)"
             @onclick="OnClick"
             @onclick:stopPropagation="StopPropagation"
             @onkeydown:stopPropagation="StopPropagation">
@@ -25,7 +25,7 @@ else
        class="@Css("omni-link", ShowsExternalIcon ? "omni-link--external" : null)"
        target="@EffectiveTarget"
        rel="@EffectiveRel"
-       aria-label="@Internal.OmniAriaLabel.Of(Label, AdditionalAttributes)"
+       aria-label="@OmniAriaLabel.Of(Label, AdditionalAttributes)"
        @onclick="OnClick"
        @onclick:stopPropagation="StopPropagation"
        @onkeydown:stopPropagation="StopPropagation"

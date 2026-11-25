@@ -138,7 +138,7 @@ public partial class OmniMailTemplateEditor
             if (_rendered is null || source != _renderedFrom)
             {
                 // The renderer of the mail, its looks written in the attribute the preview script reads (strict CSP).
-                _rendered = RenderSample(Internal.MailDocument.PreviewLook);
+                _rendered = RenderSample(MailDocument.PreviewLook);
                 _renderedFrom = source;
             }
 
@@ -151,7 +151,7 @@ public partial class OmniMailTemplateEditor
     {
         var variables = Variables ?? [];
         string Sample(OmniMailVariable variable) => variable.SampleValue ?? $"[{variable.Label}]";
-        return Internal.MailDocument.Render(
+        return MailDocument.Render(
             Value,
             variables.Where(variable => variable.Kind != OmniMailVariableKind.Block)
                 .ToDictionary(variable => variable.Name, variable => (string?)Sample(variable), StringComparer.Ordinal),
@@ -249,7 +249,7 @@ public partial class OmniMailTemplateEditor
             return _disposed ? null : _module;
         }
 
-        var module = await Internal.OmniScriptModule.ImportAsync(JavaScript, Internal.OmniModules.MailPreview, () => _disposed);
+        var module = await OmniScriptModule.ImportAsync(JavaScript, OmniModules.MailPreview, () => _disposed);
         if (module is null)
         {
             return null;
@@ -280,7 +280,7 @@ public partial class OmniMailTemplateEditor
         _sending = true;
         try
         {
-            await OnSendTest.InvokeAsync(RenderSample(Internal.MailDocument.MailLook));
+            await OnSendTest.InvokeAsync(RenderSample(MailDocument.MailLook));
         }
         catch (Exception exception) when (OnSendTestError.HasDelegate && exception is not OperationCanceledException)
         {

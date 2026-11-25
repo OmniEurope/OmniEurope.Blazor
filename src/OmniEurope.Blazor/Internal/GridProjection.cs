@@ -1,7 +1,6 @@
 using System.Globalization;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 internal static class GridProjection<TItem>
 {

@@ -3,7 +3,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.JSInterop;
-using OmniEurope.Blazor.Internal;
 
 namespace OmniEurope.Blazor.Components;
 

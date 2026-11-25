@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
-using OmniEurope.Blazor.Components;
 
-namespace OmniEurope.Blazor.Internal;
+namespace OmniEurope.Blazor.Components;
 
 /// <summary>
 /// The columns of a grid: the ones its column components registered, the implicit single column of a

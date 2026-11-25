@@ -12,7 +12,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DialogInitialFocusAndListToggleTests : OmniBunitContext
 {
-    private const string FocusModule = Internal.OmniModules.Focus;
+    private const string FocusModule = OmniModules.Focus;
 
     private static readonly IReadOnlyList<OmniOption<string>> Cities =
     [
