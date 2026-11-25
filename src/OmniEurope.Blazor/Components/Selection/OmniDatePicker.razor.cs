@@ -79,6 +79,14 @@ public partial class OmniDatePicker
 
     private string ToggleLabel => Localize("DatePickerToggle");
 
+    // Built here rather than in the markup: the three pickers draw the same input and toggle.
+    private RenderFragment FieldContent => builder => PickerField.Render(
+        builder,
+        new(AdditionalAttributes, Id, InputClass, EffectivePlaceholder, CurrentValueAsString, Disabled, ReadOnly, AriaInvalid, AriaDescribedBy,
+            EventCallback.Factory.Create<ChangeEventArgs>(this, HandleChange)),
+        new(ToggleLabel, Popup.IsOpen, PanelId, PickerField.CalendarIcon, element => _toggle = element,
+            EventCallback.Factory.Create<MouseEventArgs>(this, Toggle), EventCallback.Factory.Create<KeyboardEventArgs>(this, OnToggleKeyDown)));
+
     private DateOnly Today => DateOnly.FromDateTime(PickerFormat.LocalNow(Clock, TimeZone));
 
     private bool TodayIsOutside => PickerCalendar.IsOutside(Today, Minimum, Maximum);

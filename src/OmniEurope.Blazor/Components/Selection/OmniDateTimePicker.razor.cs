@@ -88,6 +88,14 @@ public partial class OmniDateTimePicker
 
     private string ToggleLabel => Localize("DateTimePickerToggle");
 
+    // Built here rather than in the markup: the three pickers draw the same input and toggle.
+    private RenderFragment FieldContent => builder => PickerField.Render(
+        builder,
+        new(AdditionalAttributes, Id, InputClass, EffectivePlaceholder, CurrentValueAsString, Disabled, ReadOnly, AriaInvalid, AriaDescribedBy,
+            EventCallback.Factory.Create<ChangeEventArgs>(this, HandleChange)),
+        new(ToggleLabel, Popup.IsOpen, PanelId, PickerField.CalendarClockIcon, element => _toggle = element,
+            EventCallback.Factory.Create<MouseEventArgs>(this, Toggle), EventCallback.Factory.Create<KeyboardEventArgs>(this, OnToggleKeyDown)));
+
     private string EffectivePlaceholder => Placeholder
         ?? PickerFormat.Placeholder(PickerFormat.DateTimePattern(Culture, ShowSeconds), PickerLetters.From(key => Localize(key)));
 

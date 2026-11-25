@@ -1,16 +1,14 @@
 @namespace OmniEurope.Blazor.Components
 @inherits OmniComponentBase
 
-<figure @attributes="AdditionalAttributes" @ref="_figure" id="@Id" class="@Css("omni-chart", MinWidthClass, HighlightClass, IsolateClass)">
-    @* A legend above the chart is the same HTML list as one below, placed before the drawing. *@
-    @foreach (var legend in _context.LegendsAbove)
-    {
-        var entries = _context.LegendEntries(legend);
-        <ul class="omni-chart__legend omni-chart__legend--above" aria-label="@legend.Label">
-            @foreach (var entry in entries)
+@{
+    // One HTML legend list, drawn above or below the chart by place ("above", "below").
+    RenderFragment<(LegendRegistration Legend, string Place)> legendList = item =>
+        @<ul class="omni-chart__legend omni-chart__legend--@item.Place" aria-label="@item.Legend.Label">
+            @foreach (var entry in _context.LegendEntries(item.Legend))
             {
                 <li class="@LegendItemClass(entry)">
-                    @if (OmniChartContext.CanToggle(legend, entry))
+                    @if (OmniChartContext.CanToggle(item.Legend, entry))
                     {
                         <button type="button" class="omni-chart__legend-toggle" aria-pressed="@(_context.IsEntryHidden(entry) ? "false" : "true")" @onclick="() => ToggleSeries(entry)"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</button>
                     }
@@ -20,7 +18,13 @@
                     }
                 </li>
             }
-        </ul>
+        </ul>;
+}
+<figure @attributes="AdditionalAttributes" @ref="_figure" id="@Id" class="@Css("omni-chart", MinWidthClass, HighlightClass, IsolateClass)">
+    @* A legend above the chart is the same HTML list as one below, placed before the drawing. *@
+    @foreach (var legend in _context.LegendsAbove)
+    {
+        @legendList((legend, "above"))
     }
     @* One image for assistive technology, named by the title and described by the description when
        there is one; what the drawing shows is read from the data table after it. *@
@@ -53,22 +57,7 @@
        where text inside the drawing shrinks with it. *@
     @foreach (var legend in _context.LegendsBelow)
     {
-        var entries = _context.LegendEntries(legend);
-        <ul class="omni-chart__legend omni-chart__legend--below" aria-label="@legend.Label">
-            @foreach (var entry in entries)
-            {
-                <li class="@LegendItemClass(entry)">
-                    @if (OmniChartContext.CanToggle(legend, entry))
-                    {
-                        <button type="button" class="omni-chart__legend-toggle" aria-pressed="@(_context.IsEntryHidden(entry) ? "false" : "true")" @onclick="() => ToggleSeries(entry)"><span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text</button>
-                    }
-                    else
-                    {
-                        <span class="omni-chart__swatch omni-chart-color-@entry.ColorSlot" aria-hidden="true"></span>@entry.Text
-                    }
-                </li>
-            }
-        </ul>
+        @legendList((legend, "below"))
     }
     @if (DataTableContent is not null)
     {
