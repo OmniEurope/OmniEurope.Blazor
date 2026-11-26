@@ -27,7 +27,7 @@ public sealed class MapScriptLoadTests : OmniBunitContext
         Assert.Equal(1, runtime.Module.Disposals);
     }
 
-    private sealed class RecordingModule : IJSObjectReference
+    private sealed class RecordingModule : ForwardingJSObjectReference
     {
         private int _disposals;
 
@@ -35,13 +35,13 @@ public sealed class MapScriptLoadTests : OmniBunitContext
 
         public int Disposals => Volatile.Read(ref _disposals);
 
-        public ValueTask DisposeAsync()
+        public override ValueTask DisposeAsync()
         {
             Interlocked.Increment(ref _disposals);
             return ValueTask.CompletedTask;
         }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
         {
             lock (Calls)
             {
@@ -50,8 +50,5 @@ public sealed class MapScriptLoadTests : OmniBunitContext
 
             return ValueTask.FromResult(default(TValue)!);
         }
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, args);
     }
 }

@@ -88,7 +88,7 @@ public sealed class SelectOnFocusLifecycleTests
         Assert.True(runtime.Module.Disposal.Task.IsCompleted);
     }
 
-    private sealed class CountingRuntime(RecordingModule? module = null) : IJSRuntime
+    private sealed class CountingRuntime(RecordingModule? module = null) : ForwardingJSRuntime
     {
         private int _imports;
 
@@ -96,7 +96,7 @@ public sealed class SelectOnFocusLifecycleTests
 
         public int Imports => _imports;
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+        public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
         {
             if (identifier == "import")
             {
@@ -106,8 +106,5 @@ public sealed class SelectOnFocusLifecycleTests
 
             return ValueTask.FromResult(default(TValue)!);
         }
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, args);
     }
 }

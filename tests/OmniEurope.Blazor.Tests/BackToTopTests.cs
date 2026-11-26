@@ -220,14 +220,11 @@ public sealed class BackToTopTests : OmniBunitContext
     }
 
     /// <summary>A runtime whose circuit is gone: every call, the module import first, throws.</summary>
-    private sealed class LostCircuitRuntime : IJSRuntime
+    private sealed class LostCircuitRuntime : ForwardingJSRuntime
     {
         internal List<string> Calls { get; } = [];
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-            InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
         {
             Calls.Add(identifier);
             throw new JSDisconnectedException("circuit perdu");

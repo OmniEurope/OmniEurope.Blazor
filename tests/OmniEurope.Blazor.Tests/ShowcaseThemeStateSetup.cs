@@ -24,16 +24,13 @@ internal static class ShowcaseThemeStateSetup
 }
 
 /// <summary>The showcase theme script: records every call and answers the kept look to <c>omniShowcaseTheme.load</c>.</summary>
-internal sealed class ShowcaseThemeJs : IJSRuntime
+internal sealed class ShowcaseThemeJs : ForwardingJSRuntime
 {
     public string? Stored { get; set; }
 
     public List<(string Identifier, object?[] Arguments)> Calls { get; } = [];
 
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-        InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+    public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
     {
         Calls.Add((identifier, args ?? []));
         return identifier is "omniShowcaseTheme.load" && Stored is TValue stored
