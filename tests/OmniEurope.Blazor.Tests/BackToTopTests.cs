@@ -98,9 +98,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public void ANewTargetOrThreshold_IsPassedToTheScript_AnUnchangedRenderIsNot()
     {
-        var module = JSInterop.SetupModule(OmniModules.BackToTop);
-        module.SetupVoid("attach", _ => true);
-        var component = Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100));
+        var (module, component) = RenderedAtThreshold100();
 
         component.Render(parameters => parameters.Add(component => component.Label, "Haut"));
         Assert.Single(module.Invocations["attach"]);
@@ -118,9 +116,7 @@ public sealed class BackToTopTests : OmniBunitContext
     [Fact]
     public void ANewThresholdAlone_IsPassedToTheScript()
     {
-        var module = JSInterop.SetupModule(OmniModules.BackToTop);
-        module.SetupVoid("attach", _ => true);
-        var component = Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100));
+        var (module, component) = RenderedAtThreshold100();
 
         component.Render(parameters => parameters.Add(component => component.Threshold, 250));
 
@@ -217,6 +213,14 @@ public sealed class BackToTopTests : OmniBunitContext
         await DisposeComponentsAsync();
 
         Assert.Single(module.Invocations["detach"]);
+    }
+
+    /// <summary>A back-to-top shown past 100 pixels, whose script attaches.</summary>
+    private (BunitJSModuleInterop Module, IRenderedComponent<OmniBackToTop> Component) RenderedAtThreshold100()
+    {
+        var module = JSInterop.SetupModule(OmniModules.BackToTop);
+        module.SetupVoid("attach", _ => true);
+        return (module, Render<OmniBackToTop>(parameters => parameters.Add(component => component.Threshold, 100)));
     }
 
     /// <summary>A runtime whose circuit is gone: every call, the module import first, throws.</summary>

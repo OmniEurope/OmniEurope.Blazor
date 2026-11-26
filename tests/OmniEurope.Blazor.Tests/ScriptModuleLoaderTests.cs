@@ -130,7 +130,7 @@ public sealed class ScriptModuleLoaderTests : OmniBunitContext
     }
 
     /// <summary>The bUnit runtime, failing the first imports with the scripted exceptions then answering for real.</summary>
-    private sealed class ScriptedImports(IJSRuntime inner, IReadOnlyList<Exception> failures) : IJSRuntime
+    private sealed class ScriptedImports(IJSRuntime inner, IReadOnlyList<Exception> failures) : CancellableJSRuntime
     {
         public int Attempts { get; private set; }
 
@@ -140,10 +140,7 @@ public sealed class ScriptModuleLoaderTests : OmniBunitContext
 
         public Action? OnFailure { get; set; }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
-            => InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
         {
             Assert.Equal("import", identifier);
             Paths.Add((string)args![0]!);

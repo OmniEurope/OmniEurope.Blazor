@@ -206,7 +206,7 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
     }
 
     /// <summary>The browser's <c>localStorage</c> for <see cref="ShowcaseVisitor"/>, which can refuse every call.</summary>
-    private sealed class VisitorStorage : IJSRuntime
+    private sealed class VisitorStorage : CancellableJSRuntime
     {
         public Dictionary<string, string> Values { get; } = new(StringComparer.Ordinal);
 
@@ -214,9 +214,7 @@ public sealed class ShowcaseApiPreferenceStoreTests : OmniBunitContext
 
         public int Writes { get; private set; }
 
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-        public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+        public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
         {
             if (Failure is not null)
             {

@@ -9,7 +9,7 @@ namespace OmniEurope.Blazor.Tests;
 /// stands for <c>localStorage</c>, keyed exactly as the script would key it. Import fails with
 /// <see cref="ImportFailure"/> when set, as it does while a page is prerendered.
 /// </summary>
-internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
+internal sealed class PreferenceBrowser : CancellableJSRuntime, IJSObjectReference
 {
     public ConcurrentDictionary<string, string> Storage { get; } = new(StringComparer.Ordinal);
 
@@ -40,10 +40,7 @@ internal sealed class PreferenceBrowser : IJSRuntime, IJSObjectReference
     /// <summary>Called with the function name before each call, for a test to change the world at that moment.</summary>
     public Action<string>? OnInvoke { get; set; }
 
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
-        InvokeAsync<TValue>(identifier, CancellationToken.None, args);
-
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
+    public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args)
     {
         args ??= [];
         OnInvoke?.Invoke(identifier);

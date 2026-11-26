@@ -15,6 +15,18 @@ internal abstract class ForwardingJSRuntime : IJSRuntime
 }
 
 /// <summary>
+/// A script runtime written by a test that reads the cancellation token: the call without one is handed to it
+/// with <see cref="CancellationToken.None"/>.
+/// </summary>
+internal abstract class CancellableJSRuntime : IJSRuntime
+{
+    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) =>
+        InvokeAsync<TValue>(identifier, CancellationToken.None, args);
+
+    public abstract ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args);
+}
+
+/// <summary>
 /// A script module written by a test: it answers the call without a cancellation token, and the call
 /// with one is handed to it unchanged.
 /// </summary>
@@ -55,10 +67,12 @@ internal sealed class HeldImportRuntime<TModule>(TModule module) : ForwardingJSR
     }
 }
 
-/// <summary>A module that counts its releases, from any thread, and answers every call with a default.</summary>
+/// <summary>A module that records its calls and counts its releases, from any thread, and answers every call with a default.</summary>
 internal sealed class DisposalCountingModule : ForwardingJSObjectReference
 {
     private int _disposals;
+
+    public List<string> Calls { get; } = [];
 
     public int Disposals => Volatile.Read(ref _disposals);
 
@@ -68,5 +82,13 @@ internal sealed class DisposalCountingModule : ForwardingJSObjectReference
         return ValueTask.CompletedTask;
     }
 
-    public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args) => ValueTask.FromResult(default(TValue)!);
+    public override ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args)
+    {
+        lock (Calls)
+        {
+            Calls.Add(identifier);
+        }
+
+        return ValueTask.FromResult(default(TValue)!);
+    }
 }
