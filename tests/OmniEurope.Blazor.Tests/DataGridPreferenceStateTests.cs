@@ -5,6 +5,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.JSInterop;
 using OmniEurope.Blazor.Components;
 
+using Row = OmniEurope.Blazor.Tests.OrderRow;
+
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
@@ -16,9 +18,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridPreferenceStateTests : OmniBunitContext
 {
-    public sealed record Row(string Name, int Amount, string City);
-
-    private static readonly IReadOnlyList<Row> Rows = [new("a", 1, "Lyon"), new("b", 2, "Gand"), new("c", 3, "Bari")];
+    private static readonly IReadOnlyList<Row> Rows = DataGridTestSetup.ThreeOrders;
 
     private static readonly string OldFormat =
         $$$"""{"Filters":{"Name":{"Operator":{{{(int)OmniDataGridFilterOperator.Contains}}},"Value":"b","LogicalOperator":0,"SecondOperator":0,"SecondValue":""}},"Sorts":[{"Key":"Amount","Descending":true}],"ColumnWidths":{"Name":"150px"}}""";

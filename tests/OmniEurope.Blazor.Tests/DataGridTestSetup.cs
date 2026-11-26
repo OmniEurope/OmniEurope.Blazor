@@ -5,12 +5,34 @@ using OmniEurope.Blazor.Components;
 
 namespace OmniEurope.Blazor.Tests;
 
+/// <summary>A row of the order grids the grid state suites share: a name, an amount and a city.</summary>
+public sealed record OrderRow(string Name, int Amount, string City);
+
+/// <summary>A row of the numbered grids the grid editing and mouse suites share: an id and a name.</summary>
+public sealed record NamedRow(int Id, string Name);
+
 /// <summary>
 /// The grid setups the data grid suites share: a grid over a list with its columns, and the columns
 /// written by hand into a render tree, each numbered after its own sequence.
 /// </summary>
 internal static class DataGridTestSetup
 {
+    /// <summary>Three orders, one per city.</summary>
+    internal static IReadOnlyList<OrderRow> ThreeOrders { get; } = [new("a", 1, "Lyon"), new("b", 2, "Gand"), new("c", 3, "Bari")];
+
+    /// <summary>Thirty orders, the amounts falling as the names rise, the cities alternating: three pages of ten.</summary>
+    internal static IReadOnlyList<OrderRow> ThirtyOrders { get; } =
+        [.. Enumerable.Range(1, 30).Select(index => new OrderRow($"n{index:00}", 31 - index, index % 2 == 0 ? "Lyon" : "Gand"))];
+
+    /// <summary>Three numbered rows.</summary>
+    internal static IReadOnlyList<NamedRow> ThreeNamed { get; } = [new(1, "Un"), new(2, "Deux"), new(3, "Trois")];
+
+    /// <summary>The order columns with the name frozen.</summary>
+    internal static RenderFragment NameFrozenOrderColumns { get; } = PropertyColumns<OrderRow>(
+        ("Name", [(nameof(OmniDataGridColumn<OrderRow>.Frozen), true)]),
+        ("Amount", []),
+        ("City", []));
+
     /// <summary>A grid over <paramref name="items"/> with <paramref name="columns"/>; <paramref name="configure"/> adds the rest.</summary>
     internal static IRenderedComponent<OmniDataGrid<TItem>> RenderDataGrid<TItem>(
         this BunitContext context,

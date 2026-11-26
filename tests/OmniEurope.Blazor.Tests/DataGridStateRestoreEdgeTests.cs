@@ -2,6 +2,8 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 
+using Row = OmniEurope.Blazor.Tests.OrderRow;
+
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
@@ -12,15 +14,9 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridStateRestoreEdgeTests : OmniBunitContext
 {
-    public sealed record Row(string Name, int Amount, string City);
+    private static readonly IReadOnlyList<Row> Rows = DataGridTestSetup.ThirtyOrders;
 
-    private static readonly IReadOnlyList<Row> Rows =
-        [.. Enumerable.Range(1, 30).Select(index => new Row($"n{index:00}", 31 - index, index % 2 == 0 ? "Lyon" : "Gand"))];
-
-    private static readonly RenderFragment Columns = DataGridTestSetup.PropertyColumns<Row>(
-        ("Name", [(nameof(OmniDataGridColumn<Row>.Frozen), true)]),
-        ("Amount", []),
-        ("City", []));
+    private static readonly RenderFragment Columns = DataGridTestSetup.NameFrozenOrderColumns;
 
     private const string CityGroup = """{"version":3,"groups":[{"key":"City","descending":false}]}""";
 

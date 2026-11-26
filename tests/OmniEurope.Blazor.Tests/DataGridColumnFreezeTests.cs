@@ -4,6 +4,8 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 
+using Row = OmniEurope.Blazor.Tests.OrderRow;
+
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
@@ -13,14 +15,9 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridColumnFreezeTests : OmniBunitContext
 {
-    public sealed record Row(string Name, int Amount, string City);
-
     private static readonly IReadOnlyList<Row> Rows = [new("a", 1, "Lyon"), new("b", 2, "Gand")];
 
-    private static readonly RenderFragment Columns = DataGridTestSetup.PropertyColumns<Row>(
-        ("Name", [(nameof(OmniDataGridColumn<Row>.Frozen), true)]),
-        ("Amount", []),
-        ("City", []));
+    private static readonly RenderFragment Columns = DataGridTestSetup.NameFrozenOrderColumns;
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(bool freeze = true, bool reset = false) =>
         Render<OmniDataGrid<Row>>(parameters => parameters

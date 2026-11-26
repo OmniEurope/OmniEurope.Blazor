@@ -4,6 +4,8 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using OmniEurope.Blazor.Components;
 
+using Row = OmniEurope.Blazor.Tests.NamedRow;
+
 namespace OmniEurope.Blazor.Tests;
 
 /// <summary>
@@ -13,9 +15,7 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed partial class DataGridEditRowAndDefaultsTests : OmniBunitContext
 {
-    private sealed record Row(int Id, string Name);
-
-    private static readonly IReadOnlyList<Row> Rows = [new(1, "Un"), new(2, "Deux"), new(3, "Trois")];
+    private static readonly IReadOnlyList<Row> Rows = DataGridTestSetup.ThreeNamed;
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? configure = null) =>
         this.RenderDataGrid(Rows, builder => DataGridTestSetup.PropertyColumn<Row>(builder, 0, nameof(Row.Name), "Nom"), configure);
