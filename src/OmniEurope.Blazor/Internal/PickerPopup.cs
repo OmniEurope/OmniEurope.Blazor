@@ -29,6 +29,16 @@ internal sealed class PickerPopup(IJSRuntime javaScript, Func<bool, Task> dismis
         _focusSelector = focusSelector;
     }
 
+    /// <summary>Closes the panel, the focus left where it is, when the picker is disabled or read-only.</summary>
+    /// <param name="locked">Whether the picker is disabled or read-only.</param>
+    internal void CloseWhenLocked(bool locked)
+    {
+        if (locked)
+        {
+            Close(restoreFocus: false);
+        }
+    }
+
     /// <summary>Closes the panel; <paramref name="restoreFocus"/> gives the focus back to the toggle.</summary>
     internal void Close(bool restoreFocus)
     {

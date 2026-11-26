@@ -124,10 +124,7 @@ public partial class OmniTimePicker
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        if (Disabled || ReadOnly)
-        {
-            _popup?.Close(restoreFocus: false);
-        }
+        _popup?.CloseWhenLocked(Disabled || ReadOnly);
 
         StepMinutes(Step);
         PickerValue.EnsureOrdered(Minimum, Maximum);
@@ -136,13 +133,7 @@ public partial class OmniTimePicker
     /// <summary>Attaches the panel script when the panel opened, detaches it when it closed, and moves the focus into an open panel.</summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the panel is wired.</returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (_popup is not null)
-        {
-            await _popup.AfterRenderAsync(_root, _panel, _toggle);
-        }
-    }
+    protected override Task OnAfterRenderAsync(bool firstRender) => _popup?.AfterRenderAsync(_root, _panel, _toggle) ?? Task.CompletedTask;
 
     /// <summary>Writes the time on 24 hours, <c>HH:mm</c>, or <c>HH:mm:ss</c> when it has seconds.</summary>
     /// <param name="value">The time, or null.</param>
