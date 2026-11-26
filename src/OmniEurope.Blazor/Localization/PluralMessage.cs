@@ -37,6 +37,13 @@ internal static class PluralMessage
             : Format(text.Value, CultureInfo.CurrentUICulture.TwoLetterISOLanguageName, CultureInfo.CurrentCulture, arguments);
     }
 
+    /// <summary>
+    /// <paramref name="value"/> unless it is null, empty or white space, else the package text
+    /// <paramref name="key"/>: a text the host may override.
+    /// </summary>
+    internal static string LocalizeOr(IStringLocalizer localizer, string? value, string key) =>
+        string.IsNullOrWhiteSpace(value) ? Localize(localizer, key, []) : value;
+
     /// <summary>Whether <paramref name="text"/> holds at least one plural block.</summary>
     internal static bool HasBlock(string text) => Blocks(text).Count > 0;
 

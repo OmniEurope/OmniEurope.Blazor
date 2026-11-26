@@ -106,12 +106,8 @@ public partial class OmniCheckBox<TValue>
     /// Throws <see cref="InvalidOperationException"/> when <typeparamref name="TValue"/> is neither
     /// <c>bool</c> nor <c>bool?</c>, then joins the enclosing <see cref="OmniSettingsTile"/>, if any.
     /// </summary>
-    protected override void OnParametersSet()
-    {
-        OmniBooleanValue<TValue>.EnsureSupported("OmniCheckBox");
-        base.OnParametersSet();
-        SettingsTile?.Join(this, EffectiveId!);
-    }
+    protected override void OnParametersSet() =>
+        OmniBooleanValue<TValue>.SetParameters("OmniCheckBox", base.OnParametersSet, SettingsTile, this, EffectiveId);
 
     /// <summary>Leaves the enclosing <see cref="OmniSettingsTile"/>, if any, then disposes the input.</summary>
     protected override void Dispose(bool disposing)

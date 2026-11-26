@@ -21,16 +21,10 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>, IOmniPresetTarg
     [Inject]
     private IServiceProvider PresetServices { get; set; } = default!;
 
-    /// <summary>
-    /// The clock a time-aware component reads: the host's registered <see cref="TimeProvider"/>, the
-    /// system clock when it registers none. Resolved on each read, so a test swaps it in the container.
-    /// </summary>
-    private protected TimeProvider Clock => PresetServices.GetService(typeof(TimeProvider)) as TimeProvider ?? TimeProvider.System;
+    /// <inheritdoc cref="OmniComponentBase.Clock"/>
+    private protected TimeProvider Clock => PackageServices.Clock(PresetServices);
 
-    /// <summary>
-    /// The preset (named parameter set registered by the host) this component takes: its type's default
-    /// when unset, none with <c>"none"</c>. Parameters written explicitly win over the preset.
-    /// </summary>
+    /// <inheritdoc cref="OmniComponentBase.PresetName"/>
     [Parameter]
     public string? PresetName { get; set; }
 
@@ -170,15 +164,10 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>, IOmniPresetTarg
         ? "true"
         : null;
 
-    /// <summary>Applies the preset, then the parameters written explicitly.</summary>
-    /// <param name="parameters">The parameters given by the renderer.</param>
+    /// <inheritdoc cref="OmniComponentBase.SetParametersAsync(ParameterView)"/>
     public override Task SetParametersAsync(ParameterView parameters)
     {
-        parameters.TryGetValue<string?>(nameof(PresetName), out var presetName);
-        if (PresetServices.GetService(typeof(OmniPresetRegistry)) is OmniPresetRegistry presets)
-            presets.Apply(this, parameters, presetName);
-        else if (presetName is not null)
-            OmniPresetRegistry.ThrowUnregistered(GetType(), presetName);
+        OmniPresetRegistry.ApplyFrom(PresetServices, this, parameters);
         return base.SetParametersAsync(parameters);
     }
 
@@ -226,17 +215,10 @@ public abstract class OmniInputBase<TValue> : InputBase<TValue>, IOmniPresetTarg
     protected string WrapperCss(params string?[] values) =>
         CssClassBuilder.Combine(values.Append(Class));
 
-    /// <summary>A text of the package's resources in the current UI culture.</summary>
-    /// <param name="name">The resource key.</param>
-    /// <param name="arguments">The values of the key's <c>{n}</c> placeholders.</param>
+    /// <inheritdoc cref="OmniComponentBase.Localize(string, object[])"/>
     protected string Localize(string name, params object[] arguments) =>
         PluralMessage.Localize(StringLocalizer, name, arguments);
 
-    /// <summary>
-    /// A text the host may override: <paramref name="value"/> unless it is null, empty or white space,
-    /// else the package's localized text <paramref name="key"/>.
-    /// </summary>
-    /// <param name="value">The host's text, usually an optional parameter.</param>
-    /// <param name="key">The resource key of the default text.</param>
-    protected string LocalizeOr(string? value, string key) => string.IsNullOrWhiteSpace(value) ? Localize(key) : value;
+    /// <inheritdoc cref="OmniComponentBase.LocalizeOr(string?, string)"/>
+    protected string LocalizeOr(string? value, string key) => PluralMessage.LocalizeOr(StringLocalizer, value, key);
 }

@@ -90,6 +90,20 @@ public sealed class OmniPresetRegistry
             : throw new InvalidOperationException($"No preset named '{presetName}' is registered for {key.Name}.");
     }
 
+    /// <summary>
+    /// Applies to <paramref name="component"/> the preset its <c>PresetName</c> parameter names (its
+    /// type's default when unset), through the registry of <paramref name="services"/>; with no registry,
+    /// throws when a name is asked for. The shared step of both component bases' <c>SetParametersAsync</c>.
+    /// </summary>
+    internal static void ApplyFrom(IServiceProvider services, IComponent component, ParameterView parameters)
+    {
+        parameters.TryGetValue<string?>(nameof(OmniComponentBase.PresetName), out var presetName);
+        if (services.GetService(typeof(OmniPresetRegistry)) is OmniPresetRegistry presets)
+            presets.Apply(component, parameters, presetName);
+        else if (presetName is not null)
+            ThrowUnregistered(component.GetType(), presetName);
+    }
+
     /// <summary>Throws the same error as a host with no preset at all when a name is asked for.</summary>
     internal static void ThrowUnregistered(Type type, string presetName)
     {

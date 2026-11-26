@@ -89,18 +89,11 @@ public partial class OmniSwitch<TValue>
         return false;
     }
 
-    /// <summary>
-    /// Throws <see cref="InvalidOperationException"/> when <typeparamref name="TValue"/> is neither
-    /// <c>bool</c> nor <c>bool?</c>, then joins the enclosing <see cref="OmniSettingsTile"/>, if any.
-    /// </summary>
-    protected override void OnParametersSet()
-    {
-        OmniBooleanValue<TValue>.EnsureSupported("OmniSwitch");
-        base.OnParametersSet();
-        SettingsTile?.Join(this, EffectiveId!);
-    }
+    /// <inheritdoc cref="OmniCheckBox{TValue}.OnParametersSet"/>
+    protected override void OnParametersSet() =>
+        OmniBooleanValue<TValue>.SetParameters("OmniSwitch", base.OnParametersSet, SettingsTile, this, EffectiveId);
 
-    /// <summary>Leaves the enclosing <see cref="OmniSettingsTile"/>, if any, then disposes the input.</summary>
+    /// <inheritdoc cref="OmniCheckBox{TValue}.Dispose(bool)"/>
     protected override void Dispose(bool disposing)
     {
         if (disposing)

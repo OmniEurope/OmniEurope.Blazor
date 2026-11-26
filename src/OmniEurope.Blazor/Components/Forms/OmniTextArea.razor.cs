@@ -35,31 +35,22 @@ public partial class OmniTextArea
     [Parameter]
     public string? AriaDescribedBy { get; set; }
 
-    /// <summary>
-    /// Selects the whole content when the field is entered, by a click, a tap, Tab or Shift+Tab, or a programmatic focus, so that typing
-    /// replaces it. A click in a field that already has the focus places the caret as usual, so a part of the value can still be
-    /// edited. Off by default: the field then renders and behaves as it always did, and its script is never loaded.
-    /// </summary>
+    /// <inheritdoc cref="OmniTextBox.SelectOnFocus"/>
     [Parameter]
     public bool SelectOnFocus { get; set; }
 
     [Inject]
     private IJSRuntime JavaScript { get; set; } = default!;
 
-    private ElementReference _field;
-    private OmniSelectOnFocus? _selectOnFocus;
+    private readonly OmniSelectOnFocusField _field = new();
 
-    /// <summary>After each render, follows the input element with the <see cref="SelectOnFocus"/> script; nothing happens while it is off.</summary>
-    /// <param name="firstRender">True on the first render of the component.</param>
-    /// <returns>A task that completes once the script follows the element drawn.</returns>
-    protected override Task OnAfterRenderAsync(bool firstRender) =>
-        OmniSelectOnFocus.FollowAsync(ref _selectOnFocus, JavaScript, SelectOnFocus, _field);
+    /// <inheritdoc cref="OmniNumeric{TValue}.OnAfterRenderAsync(bool)"/>
+    protected override Task OnAfterRenderAsync(bool firstRender) => _field.FollowAsync(JavaScript, SelectOnFocus);
 
-    /// <summary>Detaches the <see cref="SelectOnFocus"/> script and disposes the input.</summary>
-    /// <returns>A task that completes once the script is detached; a lost circuit is ignored.</returns>
+    /// <inheritdoc cref="OmniNumeric{TValue}.DisposeAsync"/>
     public async ValueTask DisposeAsync()
     {
-        await OmniSelectOnFocus.DisposeWithInputAsync(this, _selectOnFocus);
+        await _field.DisposeWithInputAsync(this);
         GC.SuppressFinalize(this);
     }
 

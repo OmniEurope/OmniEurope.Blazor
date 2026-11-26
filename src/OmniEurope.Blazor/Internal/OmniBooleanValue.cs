@@ -22,6 +22,22 @@ internal static class OmniBooleanValue<TValue>
         }
     }
 
+    /// <summary>
+    /// The parameter step of a toggle: throws when it is bound to anything but a <c>bool</c> or a
+    /// <c>bool?</c>, runs the input base's step, then joins the enclosing settings tile, if any.
+    /// </summary>
+    /// <param name="component">The toggle's name, for the error.</param>
+    /// <param name="baseOnParametersSet">The input base's <c>OnParametersSet</c>.</param>
+    /// <param name="settingsTile">The enclosing settings tile, or null.</param>
+    /// <param name="owner">The toggle.</param>
+    /// <param name="controlId">The id of the toggle's control, never null inside a settings tile.</param>
+    internal static void SetParameters(string component, Action baseOnParametersSet, OmniSettingsTileContext? settingsTile, object owner, string? controlId)
+    {
+        EnsureSupported(component);
+        baseOnParametersSet();
+        settingsTile?.Join(owner, controlId!);
+    }
+
     internal static bool? Read(TValue? value) => value is bool state ? state : null;
 
     /// <summary>The value for <paramref name="state"/>; null only reaches a <c>bool?</c>.</summary>
