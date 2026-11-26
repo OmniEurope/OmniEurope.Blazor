@@ -12,16 +12,9 @@
 // Usage: node Test-ShowcaseDensityProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
-import { createJsCoverage } from './JsCoverage.mjs';
-import { connectCdp, createEvaluate, enableShowcasePage, pause, pollUntil, readOptions } from './ShowcaseCdp.mjs';
+import { connectProbe, enableShowcasePage, pause, probeOptions } from './ShowcaseCdp.mjs';
 
-const options = readOptions();
-
-const endpoint = options.get('--endpoint');
-const siteUrl = options.get('--url');
-if (!endpoint || !siteUrl) {
-  throw new Error('Usage: node Test-ShowcaseDensityProbe.mjs --endpoint <cdp url> --url <showcase root url>');
-}
+const { endpoint, siteUrl } = probeOptions('Test-ShowcaseDensityProbe.mjs');
 
 // Selectors exempted from the check, each with the reason it may keep its height. Anything that
 // matches one of them, or sits inside one, is not measured.
@@ -141,15 +134,7 @@ const EXEMPT_SELF = [
   ['.omni-multi-select-compact__panel', 'panneau défilant de hauteur maximale fixe (16rem) ; les options qu\'il contient suivent la densité']
 ];
 
-const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
-
-// `send` is the coverage-wrapped sender declared below, read at call time.
-const evaluate = createEvaluate((method, params) => send(method, params));
-
-const waitFor = async (description, expression, timeout = 15_000) => {
-  if (await pollUntil(evaluate, `Boolean(${expression})`, timeout)) return;
-  throw new Error(`Attente dépassée : ${description}.`);
-};
+const { socket, consoleErrors, coverage, send, evaluate, waitFor } = await connectProbe(endpoint, 'Density');
 
 // Runs in the page: tags every candidate of the scope and returns its height in the density asked.
 const measureSource = `
@@ -232,8 +217,6 @@ window.__omniDensityMeasure = (density, exempt, exemptSelf) => {
   return result;
 };`;
 
-const coverage = createJsCoverage(sendCdp, 'Density');
-const send = coverage.send;
 await enableShowcasePage(send, coverage);
 await send('Page.navigate', { url: siteUrl });
 await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null", 20_000);

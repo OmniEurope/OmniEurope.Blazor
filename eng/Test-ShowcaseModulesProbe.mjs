@@ -8,57 +8,15 @@
 // Usage: node Test-ShowcaseModulesProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
-import { createJsCoverage } from './JsCoverage.mjs';
-import { check, connectCdp, createEvaluate, enableShowcasePage, pause, pollUntil, readOptions } from './ShowcaseCdp.mjs';
+import { check, openShowcaseSession, pause, probeOptions } from './ShowcaseCdp.mjs';
 
-const options = readOptions();
-
-const endpoint = options.get('--endpoint');
-const siteUrl = options.get('--url');
-if (!endpoint || !siteUrl) {
-  throw new Error('Usage: node Test-ShowcaseModulesProbe.mjs --endpoint <cdp url> --url <showcase root url>');
-}
-
-const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
-
-// `send` is the coverage-wrapped sender declared below, read at call time.
-const evaluate = createEvaluate((method, params) => send(method, params));
-
-const waitFor = async (description, expression, timeout = 15_000) => {
-  if (await pollUntil(evaluate, expression, timeout)) return;
-  // Where the page stands when the wait runs out: without it a timeout says nothing of its cause.
-  const state = await evaluate("JSON.stringify({ path: location.pathname, blazor: typeof Blazor, title: document.title, text: (document.querySelector('main') ?? document.body).innerText.slice(0, 160) })").catch(error => String(error.message));
-  throw new Error(`Attente dépassée : ${description}. Page : ${state}. Console : ${consoleErrors.join(' | ') || 'aucune erreur'}.`);
-};
-
-
-
-
-const mouse = (type, point, extra = {}) => send('Input.dispatchMouseEvent', { type, x: point.x, y: point.y, button: 'left', clickCount: 1, ...extra });
-const click = async point => {
-  await mouse('mouseMoved', point, { button: 'none' });
-  await mouse('mousePressed', point);
-  await mouse('mouseReleased', point);
-};
-const key = async (name, code, virtualKey, modifiers = 0) => {
-  await send('Input.dispatchKeyEvent', { type: 'rawKeyDown', key: name, code, windowsVirtualKeyCode: virtualKey, modifiers });
-  await send('Input.dispatchKeyEvent', { type: 'keyUp', key: name, code, windowsVirtualKeyCode: virtualKey, modifiers });
-};
-const centerOf = selector => evaluate(`(() => { const box = document.querySelector(${JSON.stringify(selector)}).getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
+const { endpoint, siteUrl } = probeOptions('Test-ShowcaseModulesProbe.mjs');
+const { send, evaluate, waitFor, mouse, click, key, centerOf, start, finish } = await openShowcaseSession(endpoint, 'Modules');
 const results = [];
 
-const coverage = createJsCoverage(sendCdp, 'Modules');
-const send = coverage.send;
-await enableShowcasePage(send, coverage);
 // Starts from the shipped look: a probe that ran before in this browser may have left its theme in
 // the showcase storage.
-await send('Page.navigate', { url: siteUrl });
-await waitFor('la vitrine', "document.readyState === 'complete'");
-await evaluate("(() => { try { localStorage.removeItem('omnieurope.showcase.theme'); } catch { } })()");
-await send('Page.navigate', { url: siteUrl });
-// #showcase-theme is rendered by the application itself; #app is already in the static page, and a
-// navigation asked before the router listens changes the address and leaves the home page shown.
-await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
+await start(siteUrl);
 
 // 1. Filter popovers of the advanced grid, in the header since FilterPlacement defaults to HeaderMenu:
 // opened by a real click, placed by the script, one open at a time, closed by Escape and by a press
@@ -294,11 +252,5 @@ const wide = await sidebarState();
 check(wide.push && !wide.veil, `Menu toujours superposé à 1280 px : ${JSON.stringify(wide)}.`);
 results.push(`menu poussé superposé à 390 px (voile, ${narrow.main} px de contenu, Échap ferme), poussé à 1280 px`);
 
-await pause(300);
-const csp = await evaluate('window.__omniCsp');
-await coverage.finish();
-socket.close();
-
-check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);
-check(consoleErrors.length === 0, `Console navigateur en erreur : ${consoleErrors.join(' | ')}`);
+await finish();
 console.log(`Sonde modules validée : ${results.join(', ')} ; aucune violation CSP, console sans erreur.`);

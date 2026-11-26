@@ -10,7 +10,7 @@
 // - the textarea and the password of the Text fields page, with the script attached by hand to them, select on a real click too.
 
 export async function selectOnFocusSteps(session, results) {
-  const { evaluate, waitFor, key, check, clickOn, pause, send } = session;
+  const { evaluate, waitFor, key, check, clickOn, pause } = session;
   const step = session.stepRecorder(results);
   const { tab } = session;
   const digit = character => key(character, `Digit${character}`, 48 + Number(character), 0, character);
@@ -24,11 +24,8 @@ export async function selectOnFocusSteps(session, results) {
   const echoIs = (id, text) => waitFor(`${id} : « ${text} »`, `${field(id)}.textContent.trim() === ${JSON.stringify(text)}`);
 
   for (const width of [1280, 375]) {
-    await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
-
     // ----- Numbers: OmniNumeric, type="number" ------------------------------------------------------------------------
-    await session.visit('/components/theme', '#demo-appearance-window');
-    await session.visit('/components/numbers', '#numeric-select-on-focus');
+    await session.visitAtWidth(width, '/components/numbers', '#numeric-select-on-focus');
     const focused = '#numeric-select-on-focus';
     const echo = 'numeric-select-on-focus-echo';
     await evaluate(`${field('numeric-select-on-focus')}.scrollIntoView({ block: 'center' })`);

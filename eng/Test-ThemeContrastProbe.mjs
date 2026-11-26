@@ -46,8 +46,7 @@
 // A shard is not a filter: it never reports a partial run.
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
-import { createJsCoverage } from './JsCoverage.mjs';
-import { connectCdp, createEvaluate, cspRecorderSource, pause, pollUntil } from './ShowcaseCdp.mjs';
+import { connectProbe, cspRecorderSource, pause } from './ShowcaseCdp.mjs';
 import { parseShard, reportContrast, shardSlice, writeShardResult } from './ProbeShards.mjs';
 
 import { mkdir, writeFile } from 'node:fs/promises';
@@ -607,15 +606,7 @@ const pageLibrary = String.raw`
 // ---------------------------------------------------------------------------------------------------
 // CDP plumbing (as in the other showcase probes).
 // ---------------------------------------------------------------------------------------------------
-const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
-
-// `send` is the coverage-wrapped sender declared below, read at call time.
-const evaluate = createEvaluate((method, params) => send(method, params));
-
-const waitFor = async (description, expression, timeout = 15_000) => {
-  if (await pollUntil(evaluate, `Boolean(${expression})`, timeout, 50)) return;
-  throw new Error(`Attente dépassée : ${description}.`);
-};
+const { socket, consoleErrors, coverage, send, evaluate, waitFor } = await connectProbe(endpoint, 'Contrast', 50);
 
 const library = () => evaluate(pageLibrary);
 const lib = (call) => evaluate(`window.__omniContrast.${call}`);
@@ -661,8 +652,6 @@ const fail = (combo, entry) => {
   failures.push(record);
 };
 
-const coverage = createJsCoverage(sendCdp, 'Contrast');
-const send = coverage.send;
 await send('Runtime.enable');
 await send('Log.enable');
 await send('Page.enable');
