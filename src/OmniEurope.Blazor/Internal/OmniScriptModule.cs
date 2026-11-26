@@ -70,6 +70,35 @@ internal static class OmniScriptModule
     }
 
     /// <summary>
+    /// A component's script step after a render: unless <paramref name="isDisposed"/>, waits for the module of
+    /// <paramref name="moduleAsync"/> and, when it came, hands it to <paramref name="stepAsync"/>. A lost circuit ends the
+    /// step: the component goes with it.
+    /// </summary>
+    internal static async Task AfterRenderAsync(
+        Func<bool> isDisposed,
+        Func<Task<IJSObjectReference?>> moduleAsync,
+        Func<IJSObjectReference, Task> stepAsync)
+    {
+        if (isDisposed())
+        {
+            return;
+        }
+
+        try
+        {
+            var module = await moduleAsync();
+            if (module is not null)
+            {
+                await stepAsync(module);
+            }
+        }
+        catch (JSDisconnectedException)
+        {
+            // The circuit is gone, and the component with it.
+        }
+    }
+
+    /// <summary>
     /// A component's disposal of its module: when <paramref name="moduleTask"/> was started and gave a module, calls
     /// its <c>detach</c> on <paramref name="element"/> then releases it. A lost circuit is ignored: nothing is left to
     /// release in the page.

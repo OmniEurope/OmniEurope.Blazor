@@ -256,50 +256,36 @@ public partial class OmniMediaTile
     /// </summary>
     /// <param name="firstRender">True on the first render.</param>
     /// <returns>A task that completes when the script calls are done.</returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender) =>
+        OmniScriptModule.AfterRenderAsync(() => _disposed, ModuleAsync, ApplyScriptAsync);
+
+    /// <summary>The script step of <see cref="OnAfterRenderAsync"/>, once the module is there.</summary>
+    private async Task ApplyScriptAsync(IJSObjectReference module)
     {
-        if (_disposed)
+        if (!_attached)
         {
-            return;
+            _attached = true;
+            _bridge = DotNetObjectReference.Create(new MediaTileInteropBridge(HandleFullscreenAsync));
+            await module.InvokeVoidAsync("attach", _root, _bridge);
         }
 
-        try
+        if (_appliedMuted != Muted)
         {
-            var module = await ModuleAsync();
-            if (module is null)
-            {
-                return;
-            }
-
-            if (!_attached)
-            {
-                _attached = true;
-                _bridge = DotNetObjectReference.Create(new MediaTileInteropBridge(HandleFullscreenAsync));
-                await module.InvokeVoidAsync("attach", _root, _bridge);
-            }
-
-            if (_appliedMuted != Muted)
-            {
-                _appliedMuted = Muted;
-                await module.InvokeVoidAsync("setMuted", _root, Muted);
-            }
-
-            if (!ReferenceEquals(_appliedStream, Stream))
-            {
-                _appliedStream = Stream;
-                await module.InvokeVoidAsync("setStream", _root, Stream);
-            }
-
-            var layout = $"{Fit}|{Drawing}";
-            if (layout != _appliedLayout)
-            {
-                _appliedLayout = layout;
-                await module.InvokeVoidAsync("refresh", _root);
-            }
+            _appliedMuted = Muted;
+            await module.InvokeVoidAsync("setMuted", _root, Muted);
         }
-        catch (JSDisconnectedException)
+
+        if (!ReferenceEquals(_appliedStream, Stream))
         {
-            // The circuit is gone, and the tile with it.
+            _appliedStream = Stream;
+            await module.InvokeVoidAsync("setStream", _root, Stream);
+        }
+
+        var layout = $"{Fit}|{Drawing}";
+        if (layout != _appliedLayout)
+        {
+            _appliedLayout = layout;
+            await module.InvokeVoidAsync("refresh", _root);
         }
     }
 

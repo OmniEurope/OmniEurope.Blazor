@@ -208,44 +208,30 @@ public partial class OmniMap
     /// </summary>
     /// <param name="firstRender">True on the first render.</param>
     /// <returns>A task that completes when the script calls are done.</returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender) =>
+        OmniScriptModule.AfterRenderAsync(() => _disposed, ModuleAsync, ApplyScriptAsync);
+
+    /// <summary>The script step of <see cref="OnAfterRenderAsync"/>, once the module is there.</summary>
+    private async Task ApplyScriptAsync(IJSObjectReference module)
     {
-        if (_disposed)
+        if (!_attached)
         {
-            return;
+            _attached = true;
+            _bridge = DotNetObjectReference.Create(new MapInteropBridge(HandleViewChangedAsync, HandleMapClickAsync));
+            await module.InvokeVoidAsync("attach", _root, _bridge);
+            _tooltips = new OmniPackageTooltips(JavaScript);
+            await _tooltips.InstallAsync();
         }
 
-        try
+        if (_pushOptions || _pushContent || _pushView || _pushFit)
         {
-            var module = await ModuleAsync();
-            if (module is null)
-            {
-                return;
-            }
-
-            if (!_attached)
-            {
-                _attached = true;
-                _bridge = DotNetObjectReference.Create(new MapInteropBridge(HandleViewChangedAsync, HandleMapClickAsync));
-                await module.InvokeVoidAsync("attach", _root, _bridge);
-                _tooltips = new OmniPackageTooltips(JavaScript);
-                await _tooltips.InstallAsync();
-            }
-
-            if (_pushOptions || _pushContent || _pushView || _pushFit)
-            {
-                // The options always go (three values); the content and the view only when they changed, else null.
-                var lines = _pushContent ? Lines.Select(Flatten).ToArray() : null;
-                var markers = _pushContent ? Markers.Select(marker => new[] { marker.Point.Latitude, marker.Point.Longitude }).ToArray() : null;
-                double[]? view = _pushView ? [_center.Latitude, _center.Longitude, _zoom] : null;
-                var fit = _pushFit;
-                _pushOptions = _pushContent = _pushView = _pushFit = false;
-                await module.InvokeVoidAsync("update", _root, _tileUrl, EffectiveMinZoom, EffectiveMaxZoom, lines, markers, view, fit);
-            }
-        }
-        catch (JSDisconnectedException)
-        {
-            // The circuit is gone, and the map with it.
+            // The options always go (three values); the content and the view only when they changed, else null.
+            var lines = _pushContent ? Lines.Select(Flatten).ToArray() : null;
+            var markers = _pushContent ? Markers.Select(marker => new[] { marker.Point.Latitude, marker.Point.Longitude }).ToArray() : null;
+            double[]? view = _pushView ? [_center.Latitude, _center.Longitude, _zoom] : null;
+            var fit = _pushFit;
+            _pushOptions = _pushContent = _pushView = _pushFit = false;
+            await module.InvokeVoidAsync("update", _root, _tileUrl, EffectiveMinZoom, EffectiveMaxZoom, lines, markers, view, fit);
         }
     }
 

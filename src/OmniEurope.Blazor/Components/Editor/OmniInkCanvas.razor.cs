@@ -249,50 +249,36 @@ public partial class OmniInkCanvas
     /// </summary>
     /// <param name="firstRender">True on the first render.</param>
     /// <returns>A task that completes when the script calls are done.</returns>
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    protected override Task OnAfterRenderAsync(bool firstRender) =>
+        OmniScriptModule.AfterRenderAsync(() => _disposed, ModuleAsync, ApplyScriptAsync);
+
+    /// <summary>The script step of <see cref="OnAfterRenderAsync"/>, once the module is there.</summary>
+    private async Task ApplyScriptAsync(IJSObjectReference module)
     {
-        if (_disposed)
+        if (!_attached)
         {
-            return;
+            _attached = true;
+            _bridge = DotNetObjectReference.Create(new InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync, HandleThemeColorAsync, HandleEraseAsync));
+            var themeColor = await module.InvokeAsync<string?>("attach", _canvas, _bridge);
+            if (IsHexColor(themeColor) && themeColor != _themeColor)
+            {
+                _themeColor = themeColor;
+                StateHasChanged();
+            }
         }
 
-        try
+        var layout = $"{Width}|{Height}|{AspectRatio?.ToString(CultureInfo.InvariantCulture)}";
+        if (layout != _appliedLayout)
         {
-            var module = await ModuleAsync();
-            if (module is null)
-            {
-                return;
-            }
-
-            if (!_attached)
-            {
-                _attached = true;
-                _bridge = DotNetObjectReference.Create(new InkCanvasInteropBridge(HandleStrokeAsync, HandleUndoKeyAsync, HandleClearKeyAsync, HandleThemeColorAsync, HandleEraseAsync));
-                var themeColor = await module.InvokeAsync<string?>("attach", _canvas, _bridge);
-                if (IsHexColor(themeColor) && themeColor != _themeColor)
-                {
-                    _themeColor = themeColor;
-                    StateHasChanged();
-                }
-            }
-
-            var layout = $"{Width}|{Height}|{AspectRatio?.ToString(CultureInfo.InvariantCulture)}";
-            if (layout != _appliedLayout)
-            {
-                _appliedLayout = layout;
-                await module.InvokeVoidAsync("setLayout", _root, Width, Height, AspectRatio);
-            }
-
-            if (_pushPending)
-            {
-                _pushPending = false;
-                var (colors, widths, points) = InkStrokeCodec.Pack(_strokes);
-                await module.InvokeVoidAsync("setStrokes", _canvas, colors, widths, points);
-            }
+            _appliedLayout = layout;
+            await module.InvokeVoidAsync("setLayout", _root, Width, Height, AspectRatio);
         }
-        catch (JSDisconnectedException)
+
+        if (_pushPending)
         {
-            // The circuit is gone, and the canvas with it.
+            _pushPending = false;
+            var (colors, widths, points) = InkStrokeCodec.Pack(_strokes);
+            await module.InvokeVoidAsync("setStrokes", _canvas, colors, widths, points);
         }
     }
 
