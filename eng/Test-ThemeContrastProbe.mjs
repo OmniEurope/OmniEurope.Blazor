@@ -645,10 +645,10 @@ const waivers = new Map();
 // Themes drawn in one mode only (OmniThemePreset.DarkOnly): the customizer fixes their mode
 // picker on that mode, so their other half is never drawn and is not measured; a dark-only theme asked
 // for light must still draw dark.
-const fixedMode = {};
+const fixedMode = new Map();
 // A dark-only theme found drawn light is reported once and not measured further.
 const unmeasurable = new Set();
-const modesOf = theme => unmeasurable.has(theme) ? [] : fixedMode[theme] ? chosenModes.filter(mode => mode === fixedMode[theme]) : chosenModes;
+const modesOf = theme => unmeasurable.has(theme) ? [] : fixedMode.get(theme) ? chosenModes.filter(mode => mode === fixedMode.get(theme)) : chosenModes;
 const acceptedContrastWaiver = [];
 const WAIVABLE_CHECKS = new Set(['texte', 'bordure', 'marque non textuelle', 'voile d\'occupation']);
 
@@ -928,13 +928,13 @@ for (const theme of chosenThemes) {
   waivers.set(theme, await evaluate(`document.querySelector('[data-contrast-waiver]')?.dataset.contrastWaiver ?? null`));
   // A fixed picker checks the one mode the theme draws (its options: light, dark, system), whatever
   // the scope actually drew, which the check below compares.
-  fixedMode[theme] = await evaluate(`(() => {
+  fixedMode.set(theme, await evaluate(`(() => {
     const picker = document.getElementById('workshop-mode');
     if (picker.getAttribute('aria-disabled') !== 'true') return null;
     const index = [...picker.querySelectorAll('.omni-select-bar__item')].findIndex(item => item.classList.contains('omni-select-bar__item--selected'));
     return ['light', 'dark', 'system'][index] ?? null;
-  })()`);
-  if (fixedMode[theme] && lightAsked && fixedMode[theme] !== 'light') {
+  })()`));
+  if (fixedMode.get(theme) && lightAsked && fixedMode.get(theme) !== 'light') {
     measures++;
     const drawn = await evaluate("document.getElementById('showcase-theme').getAttribute('data-omni-theme')");
     if (drawn !== 'dark') {
