@@ -152,12 +152,18 @@ test('moveMenuFocus from the menu itself goes to the first item on ArrowDown and
     assert.ok(last.focused && !entry.focused, 'ArrowUp starts at the last item');
 });
 
-test('openSubMenu places the submenu beside its entry and focuses its first item for the keyboard', async () => {
+// A menu and its entry laid out, the submenu following them, before openSubMenu runs.
+const placedFixture = async () => {
     const { openSubMenu } = await load('omni-focus.js');
-    const { menu, entry, submenu, one } = fixture();
-    menu.rect = box(100, 100, 192, 200);
-    entry.rect = box(104, 140, 184, 30);
-    follow(submenu, 176, 120);
+    const parts = fixture();
+    parts.menu.rect = box(100, 100, 192, 200);
+    parts.entry.rect = box(104, 140, 184, 30);
+    follow(parts.submenu, 176, 120);
+    return { openSubMenu, ...parts };
+};
+
+test('openSubMenu places the submenu beside its entry and focuses its first item for the keyboard', async () => {
+    const { openSubMenu, submenu, one } = await placedFixture();
 
     openSubMenu('entry', 'entry-menu', true);
 
@@ -168,11 +174,7 @@ test('openSubMenu places the submenu beside its entry and focuses its first item
 });
 
 test('openSubMenu does not take the focus when the pointer opened the submenu', async () => {
-    const { openSubMenu } = await load('omni-focus.js');
-    const { menu, entry, submenu, one } = fixture();
-    menu.rect = box(100, 100, 192, 200);
-    entry.rect = box(104, 140, 184, 30);
-    follow(submenu, 176, 120);
+    const { openSubMenu, submenu, one } = await placedFixture();
 
     openSubMenu('entry', 'entry-menu', false);
 

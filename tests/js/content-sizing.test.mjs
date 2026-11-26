@@ -121,10 +121,16 @@ test('appending joins the new texts to the ones held and keeps the widths measur
     assert.equal(state.widths.get('a'), 40);
 });
 
-test('texts appended twice before a layout are laid out together, once', () => {
+// A state whose column a holds one text, laid out once.
+const laidOutOnce = () => {
     const state = emptyState();
     takeContentTexts(state, new Map([['a', ['one']]]), false);
     widestTextOf(state, 'a', layOut([]));
+    return state;
+};
+
+test('texts appended twice before a layout are laid out together, once', () => {
+    const state = laidOutOnce();
 
     takeContentTexts(state, new Map([['a', ['two']]]), true);
     takeContentTexts(state, new Map([['a', ['eleven']]]), true);
@@ -156,9 +162,7 @@ test('the first layout takes every text, the next ones only what was appended', 
 });
 
 test('a font change that clears the widest has every text laid out again, the appended ones included', () => {
-    const state = emptyState();
-    takeContentTexts(state, new Map([['a', ['one']]]), false);
-    widestTextOf(state, 'a', layOut([]));
+    const state = laidOutOnce();
     takeContentTexts(state, new Map([['a', ['two']]]), true);
     state.textWidths.clear();
     const laidOut = [];

@@ -10,11 +10,9 @@ import { installDom } from './dom-stub.mjs';
 const wwwroot = path.resolve(import.meta.dirname, '../../src/OmniEurope.Blazor/wwwroot');
 const carrying = 'data-omni-scheduler-carrying';
 
-async function load() {
-    const dom = installDom();
+// The script attached to a scheduler root the test built, its listeners kept in a Map the test fires.
+async function attached(dom, root, block) {
     const script = await import(pathToFileURL(path.join(wwwroot, 'omni-scheduler.js')).href);
-    const block = dom.el('div', { 'data-omni-scheduler-appointment': 'reports' });
-    const root = dom.el('div', { class: 'omni-scheduler' }, block);
     const handlers = new Map();
     root.addEventListener = (type, handler) => handlers.set(type, handler);
     root.removeEventListener = type => handlers.delete(type);
@@ -23,6 +21,12 @@ async function load() {
     const data = [];
     const dragStart = (target = block) => handlers.get('dragstart')?.({ target, dataTransfer: { setData: (type, value) => data.push([type, value]) } });
     return { dom, script, root, block, handlers, data, dragStart };
+}
+
+async function load() {
+    const dom = installDom();
+    const block = dom.el('div', { 'data-omni-scheduler-appointment': 'reports' });
+    return attached(dom, dom.el('div', { class: 'omni-scheduler' }, block), block);
 }
 
 test('the root is marked carrying on the task after the dragstart, never during it', async () => {
@@ -83,19 +87,10 @@ test('detach ends a drag in progress and stops listening', async () => {
 // class, and that it writes nothing a horizontal grid would have to interpret.
 async function loadHorizontal() {
     const dom = installDom();
-    const script = await import(pathToFileURL(path.join(wwwroot, 'omni-scheduler.js')).href);
     const cell = dom.el('td', { class: 'omni-scheduler-grid__cell' });
     const block = dom.el('div', { 'data-omni-scheduler-appointment': 'reports' });
     cell.append(block);
-    const root = dom.el('section', { class: 'omni-scheduler omni-scheduler--horizontal' }, cell);
-    const handlers = new Map();
-    root.addEventListener = (type, handler) => handlers.set(type, handler);
-    root.removeEventListener = type => handlers.delete(type);
-    dom.body.append(root);
-    script.attach(root);
-    const data = [];
-    const dragStart = () => handlers.get('dragstart')?.({ target: block, dataTransfer: { setData: (type, value) => data.push([type, value]) } });
-    return { dom, root, data, dragStart };
+    return attached(dom, dom.el('section', { class: 'omni-scheduler omni-scheduler--horizontal' }, cell), block);
 }
 
 test('a horizontal scheduler drags like a vertical one: the appointment id, then the carrying mark, no other write', async () => {

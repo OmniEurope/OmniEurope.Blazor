@@ -237,13 +237,18 @@ const placeOf = element => ({
     y: Number.parseFloat(element.style.getPropertyValue('--omni-map-y'))
 });
 
-test('update places the tiles of the view and its ring, each at its pixel, with an empty alternative text', () => {
+// A map attached to a .NET recorder and drawn on Brussels, as most tests start.
+const drawnMap = ({ maxZoom = 19, lines = [], markers = [], zoom = 13 } = {}) => {
     const { page } = installPage();
     const stand = makeMap(page);
     const dotnet = dotnetRecorder();
     map.attach(stand.root, dotnet);
+    map.update(stand.root, TEMPLATE, 2, maxZoom, lines, markers, [BRUSSELS.latitude, BRUSSELS.longitude, zoom], false);
+    return { stand, dotnet };
+};
 
-    map.update(stand.root, TEMPLATE, 2, 19, [LINE], MARKERS, [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+test('update places the tiles of the view and its ring, each at its pixel, with an empty alternative text', () => {
+    const { stand, dotnet } = drawnMap({ lines: [LINE], markers: MARKERS });
 
     const origin = originOf({ ...BRUSSELS, zoom: 13 }, 800, 400);
     const range = tileRange({ x: Math.round(origin.x), y: Math.round(origin.y) }, 800, 400, 13);
@@ -260,11 +265,7 @@ test('update places the tiles of the view and its ring, each at its pixel, with 
 });
 
 test('update writes the path of each line on its casing and its stroke, and places each marker by its custom properties', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    map.attach(stand.root, dotnetRecorder());
-
-    map.update(stand.root, TEMPLATE, 2, 19, [LINE], MARKERS, [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand } = drawnMap({ lines: [LINE], markers: MARKERS });
 
     const view = { ...BRUSSELS, zoom: 13 };
     const origin = originOf(view, 800, 400);
@@ -307,10 +308,7 @@ test('a tile that fails stays hidden, one that loads is shown', () => {
 });
 
 test('only the tiles of the view and its ring stay: a move removes the ones left behind and reuses the others', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    map.attach(stand.root, dotnetRecorder());
-    map.update(stand.root, TEMPLATE, 2, 19, [], [], [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand } = drawnMap();
     const before = [...stand.tiles.children];
 
     stand.fire('keydown', { key: 'ArrowRight' });
@@ -342,11 +340,7 @@ test('fitting frames the content once the map has a size, and tells .NET the new
 });
 
 test('a zoom out of the allowed range is brought back into it and told to .NET', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], [], [BRUSSELS.latitude, BRUSSELS.longitude, 18], false);
+    const { stand, dotnet } = drawnMap({ zoom: 18 });
 
     map.update(stand.root, TEMPLATE, 2, 15, null, null, null, false);
 
@@ -354,11 +348,7 @@ test('a zoom out of the allowed range is brought back into it and told to .NET',
 });
 
 test('a drag pans the view with the pointer and tells .NET once it is released, never a click', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [LINE], MARKERS, [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap({ lines: [LINE], markers: MARKERS });
     const before = project(BRUSSELS.latitude, BRUSSELS.longitude, 13);
 
     stand.fire('pointerdown', { pointerId: 7, pointerType: 'touch', button: 0, clientX: 300, clientY: 200 });
@@ -383,11 +373,7 @@ test('a drag pans the view with the pointer and tells .NET once it is released, 
 });
 
 test('a press that does not move is a click: .NET gets the place under the pointer', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], [], [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap();
 
     // The element starts at (10, 20): the middle of the map is (410, 220) on the screen.
     stand.fire('pointerdown', { pointerId: 1, pointerType: 'mouse', button: 0, clientX: 410, clientY: 220 });
@@ -403,11 +389,7 @@ test('a press that does not move is a click: .NET gets the place under the point
 });
 
 test('a press on a button or the attribution neither pans nor clicks the map, nor does a right press', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], MARKERS, [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap({ markers: MARKERS });
     const marker = stand.layer.children[0];
 
     stand.fire('pointerdown', { target: marker, pointerId: 2, pointerType: 'mouse', button: 0, clientX: 410, clientY: 220 });
@@ -420,11 +402,7 @@ test('a press on a button or the attribution neither pans nor clicks the map, no
 });
 
 test('a cancelled press is no click, a cancelled drag still tells its view', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], [], [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap();
 
     stand.fire('pointerdown', { pointerId: 4, pointerType: 'touch', clientX: 100, clientY: 100 });
     stand.fire('pointercancel', { pointerId: 4, clientX: 100, clientY: 100 });
@@ -437,11 +415,7 @@ test('a cancelled press is no click, a cancelled drag still tells its view', () 
 });
 
 test('the wheel zooms one level per notch around the pointer and keeps the page from scrolling', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], [], [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap();
     assert.deepEqual(stand.listeners.get('wheel').options, { passive: false });
 
     const small = stand.fire('wheel', { deltaY: -40, deltaMode: 0, clientX: 110, clientY: 70 });
@@ -459,11 +433,7 @@ test('the wheel zooms one level per notch around the pointer and keeps the page 
 });
 
 test('a double click zooms in around the pointer, with Shift it zooms out, never past the range', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 14, [], [], [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap({ maxZoom: 14 });
 
     assert.ok(stand.fire('dblclick', { clientX: 210, clientY: 120 }).defaultPrevented);
     assert.equal(lastView(dotnet.calls)[3], 14);
@@ -474,11 +444,7 @@ test('a double click zooms in around the pointer, with Shift it zooms out, never
 });
 
 test('the arrows pan and + and - zoom while the map itself has the focus, not from a marker or with Ctrl', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], MARKERS, [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap({ markers: MARKERS });
     const before = project(BRUSSELS.latitude, BRUSSELS.longitude, 13);
 
     assert.ok(stand.fire('keydown', { key: 'ArrowLeft' }).defaultPrevented);
@@ -502,11 +468,7 @@ test('the arrows pan and + and - zoom while the map itself has the focus, not fr
 });
 
 test('zoomBy zooms around the centre, as the buttons ask', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], [], [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap();
 
     map.zoomBy(stand.root, 1);
 
@@ -518,11 +480,7 @@ test('zoomBy zooms around the centre, as the buttons ask', () => {
 });
 
 test('a marker reached by Tab outside the view brings the view onto it; one inside leaves the view alone', () => {
-    const { page } = installPage();
-    const stand = makeMap(page);
-    const dotnet = dotnetRecorder();
-    map.attach(stand.root, dotnet);
-    map.update(stand.root, TEMPLATE, 2, 19, [], [[50.8466, 4.3528], [50.6, 4.9]], [BRUSSELS.latitude, BRUSSELS.longitude, 13], false);
+    const { stand, dotnet } = drawnMap({ markers: [[50.8466, 4.3528], [50.6, 4.9]] });
     const [inside, outside] = stand.layer.children;
 
     stand.fire('focusin', { target: inside });

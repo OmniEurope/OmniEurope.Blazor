@@ -97,7 +97,16 @@ const matchesCompound = (element, compound) => {
 
 const matchesSelector = (element, selector) => splitTop(selector, ',').some(compound => matchesCompound(element, compound));
 
-class Node {}
+// The attribute methods of an element, over the attributes Map its constructor sets: shared with the
+// stand-ins of the tests that build their own few objects.
+export class Attributed {
+    getAttribute(name) { return this.attributes.get(name) ?? null; }
+    setAttribute(name, value) { this.attributes.set(name, String(value)); }
+    removeAttribute(name) { this.attributes.delete(name); }
+    hasAttribute(name) { return this.attributes.has(name); }
+}
+
+class Node extends Attributed {}
 
 class Element extends Node {
     isConnected = true;
@@ -154,10 +163,6 @@ class Element extends Node {
     set textContent(value) { this.ownText = String(value); this.children = []; }
     get scrollWidth() { return this.rect.width; }
     get clientWidth() { return this.rect.width; }
-    getAttribute(name) { return this.attributes.get(name) ?? null; }
-    setAttribute(name, value) { this.attributes.set(name, String(value)); }
-    removeAttribute(name) { this.attributes.delete(name); }
-    hasAttribute(name) { return this.attributes.has(name); }
     append(child) { child.parentElement = this; this.children.push(child); }
     appendChild(child) { this.append(child); return child; }
     prepend(child) { child.parentElement = this; this.children.unshift(child); }

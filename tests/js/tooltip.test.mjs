@@ -109,24 +109,32 @@ const heldOpenFixture = async () => {
     return { ...parts, trigger };
 };
 
-test('a scroll under a pointer still on the trigger places the tooltip again on it, inside the window', async () => {
-    const { root, button, dom, trigger } = await heldOpenFixture();
-    dom.dispatch('pointermove', { target: button, clientX: 58, clientY: 410 });
-    globalThis.document.hovered = button;
+// The tooltip held open by a pointer that stays on its trigger.
+const hoveredFixture = async () => {
+    const parts = await heldOpenFixture();
+    parts.dom.dispatch('pointermove', { target: parts.button, clientX: 58, clientY: 410 });
+    globalThis.document.hovered = parts.button;
+    return parts;
+};
 
+// A scroll places the tooltip again on its trigger at x 58, held 8 px inside the left edge of the window.
+const scrollPlacesAtLeftEdge = (dom, root) => {
     dom.dispatch('scroll', { target: dom.body });
-
     assert.ok(root.classList.contains('omni-tooltip--tracked'));
-    // Centred on the trigger (x 58) it would start at -176: it is held 8 px inside the left edge.
     assert.equal(root.style.getPropertyValue('--omni-tooltip-x'), `${8 + 234}px`);
+};
+
+test('a scroll under a pointer still on the trigger places the tooltip again on it, inside the window', async () => {
+    const { root, button, dom, trigger } = await hoveredFixture();
+
+    // Centred on the trigger (x 58) it would start at -176: it is held 8 px inside the left edge.
+    scrollPlacesAtLeftEdge(dom, root);
     assert.equal(root.style.getPropertyValue('--omni-tooltip-arrow'), `${58 - 8}px`);
     assert.equal(button.getAttribute('title'), null, 'still shown, its title stays aside');
 });
 
 test('a trigger that moves under a pointer still on it takes its tooltip along', async () => {
-    const { root, button, dom, trigger } = await heldOpenFixture();
-    dom.dispatch('pointermove', { target: button, clientX: 58, clientY: 410 });
-    globalThis.document.hovered = button;
+    const { root, button, dom, trigger } = await hoveredFixture();
 
     trigger.rect = { left: 900, top: 300, right: 976, bottom: 320, width: 76, height: 20 };
     dom.runFrames();
@@ -141,10 +149,7 @@ test('a tooltip the focus holds open is placed again on its trigger after a scro
     dom.dispatch('focusin', { target: button });
     globalThis.document.activeElement = button;
 
-    dom.dispatch('scroll', { target: dom.body });
-
-    assert.ok(root.classList.contains('omni-tooltip--tracked'));
-    assert.equal(root.style.getPropertyValue('--omni-tooltip-x'), `${8 + 234}px`);
+    scrollPlacesAtLeftEdge(dom, root);
 });
 
 const titleFixture = async () => {
