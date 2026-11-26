@@ -299,9 +299,6 @@ export async function openShowcaseSession(endpoint, probeName) {
     return counts;
   };
 
-  // A real HTML5 drag: the browser starts it from a pressed and moved mouse (dragstart fires in the
-  // page), CDP intercepts its data, and the drop is dispatched on the target. `during` runs while the
-  // drag is held, before the drop.
   // The start of an intercepted drag: the mouse pressed on `from` then moved along `moveTo(index)` for
   // at most `moves` steps of `movePause` ms, until the browser starts the drag (CDP intercepts its
   // data), waited up to 3 s more. `use` receives that data, null when no drag started, while the
@@ -327,6 +324,9 @@ export async function openShowcaseSession(endpoint, probeName) {
     }
   };
 
+  // A real HTML5 drag: the browser starts it from a pressed and moved mouse (dragstart fires in the
+  // page), CDP intercepts its data, and the drop is dispatched on the target. `during` runs while the
+  // drag is held, before the drop.
   const html5Drag = async (fromSelector, toSelector, during = async () => {}) => {
     const from = await pointOf(fromSelector);
     const to = await pointOf(toSelector);
@@ -342,12 +342,12 @@ export async function openShowcaseSession(endpoint, probeName) {
     });
   };
 
-  // Opens the showcase at its root, with the shipped look and a CSP violation recorder, and waits
-  // for the rendered application: a navigation asked before the router listens is lost.
   // The opening of the page alone (domains, coverage, viewport, CSP recorder), for a probe that starts
   // without clearing the stored look.
   const enable = () => enableShowcasePage(send, coverage);
 
+  // Opens the showcase at its root, with the shipped look and a CSP violation recorder, and waits
+  // for the rendered application: a navigation asked before the router listens is lost.
   const start = async siteUrl => {
     await enable();
     await send('Page.navigate', { url: siteUrl });
