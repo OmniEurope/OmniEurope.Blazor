@@ -374,18 +374,7 @@ export async function boardSteps(session, results) {
       root.addEventListener('dragover', during, { capture: true });
       window.__omniCarryStop = () => { observer.disconnect(); root.removeEventListener('dragover', during, { capture: true }); };
     })()`);
-    let intercepted = null;
-    const stopIntercept = session.on('Input.dragIntercepted', params => { intercepted = params.data; });
-    await send('Input.setInterceptDrags', { enabled: true });
-    try {
-      await mouse('mouseMoved', from, { button: 'none' });
-      await mouse('mousePressed', from);
-      for (let index = 1; index <= 4 && !intercepted; index++) {
-        await mouse('mouseMoved', { x: from.x, y: from.y + index * 3 }, { buttons: 1 });
-        await pause(16);
-      }
-      const until = Date.now() + 3_000;
-      while (!intercepted && Date.now() < until) await pause(20);
+    await session.interceptedDrag({ from, moveTo: index => ({ x: from.x, y: from.y + index * 3 }), moves: 4, movePause: 16, waitPause: 20 }, async intercepted => {
       check(intercepted !== null, `Glisser à la souris non démarré (essai ${attempt}).`);
       // The render the drag start causes lands before the pointer goes on.
       await pause(60);
@@ -397,10 +386,7 @@ export async function boardSteps(session, results) {
       }
       await send('Input.dispatchDragEvent', { type: 'drop', x: slot.x, y: slot.y, data: intercepted });
       await mouse('mouseReleased', slot);
-    } finally {
-      stopIntercept();
-      await send('Input.setInterceptDrags', { enabled: false });
-    }
+    });
 
     let carry;
     try {

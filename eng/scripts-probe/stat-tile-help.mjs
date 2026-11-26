@@ -12,7 +12,7 @@
 //   value that the tile script has shrunk to fit.
 
 export async function statTileHelpSteps(session, results) {
-  const { evaluate, waitFor, key, check, hover, mouse, pause, pointOf, click, clickOn, send } = session;
+  const { evaluate, waitFor, key, check, hover, mouse, pause, pointOf, click, clickOn } = session;
   const step = session.stepRecorder(results);
   const { tab } = session;
   const enter = () => key('Enter', 'Enter', 13, 0, '\r');
@@ -47,10 +47,8 @@ export async function statTileHelpSteps(session, results) {
   };
 
   for (const width of [1280, 375]) {
-    await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
     // Another page first: the page is drawn anew, with its counters at zero and its values as the example writes them.
-    await session.visit('/components/theme', '#demo-appearance-window');
-    await session.visit('/components/stat-tiles', action);
+    await session.visitAtWidth(width, '/components/stat-tiles', action);
     await evaluate(`document.querySelector('${action}').scrollIntoView({ block: 'center' })`);
     await clicksAre(0);
 

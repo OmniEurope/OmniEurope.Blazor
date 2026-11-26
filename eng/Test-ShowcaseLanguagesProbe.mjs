@@ -19,8 +19,7 @@
 // language x width pair from the i-th, each walked whole (self-check, every page); the raw results go to the shard file, merged by eng/Merge-ProbeShards.mjs.
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
-import { createJsCoverage } from './JsCoverage.mjs';
-import { connectCdp, createEvaluate, enableShowcasePage, pause, pollUntil, readOptions } from './ShowcaseCdp.mjs';
+import { connectProbe, enableShowcasePage, pause, readOptions } from './ShowcaseCdp.mjs';
 import { parseShard, reportLanguages, shardSlice, writeShardResult } from './ProbeShards.mjs';
 
 const options = readOptions();
@@ -64,15 +63,7 @@ const EXEMPT = [
   ['svg', 'texte SVG placé par coordonnées, sans boîte de mise en page']
 ];
 
-const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
-
-// `send` is the coverage-wrapped sender declared below, read at call time.
-const evaluate = createEvaluate((method, params) => send(method, params));
-
-const waitFor = async (description, expression, timeout = 15_000) => {
-  if (await pollUntil(evaluate, `Boolean(${expression})`, timeout)) return;
-  throw new Error(`Attente dépassée : ${description}.`);
-};
+const { socket, consoleErrors, coverage, send, evaluate, waitFor } = await connectProbe(endpoint, 'Languages');
 
 // Runs in the page: returns every text node of the scope that reaches past the padding box of the
 // element laying it out, with the element, the overflow in pixels and the start of the text.
@@ -136,8 +127,6 @@ window.__omniTextOverflow = exempt => {
   return found;
 };`;
 
-const coverage = createJsCoverage(sendCdp, 'Languages');
-const send = coverage.send;
 await enableShowcasePage(send, coverage, null);
 
 const exemptSelectors = EXEMPT.map(([selector]) => selector);

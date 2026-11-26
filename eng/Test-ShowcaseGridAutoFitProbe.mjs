@@ -8,31 +8,14 @@
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
 
-import { createJsCoverage } from './JsCoverage.mjs';
-import { check, connectCdp, createEvaluate, enableShowcasePage, pause, pollUntil, readOptions } from './ShowcaseCdp.mjs';
+import { check, openShowcaseSession, pause, probeOptions } from './ShowcaseCdp.mjs';
 
-const options = readOptions();
-
-const endpoint = options.get('--endpoint');
-const siteUrl = options.get('--url');
-if (!endpoint || !siteUrl) {
-  throw new Error('Usage: node Test-ShowcaseGridAutoFitProbe.mjs --endpoint <cdp url> --url <showcase root url>');
-}
-
-const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
-
-// `send` is the coverage-wrapped sender declared below, read at call time.
-const evaluate = createEvaluate((method, params) => send(method, params));
-
-const waitFor = async (description, expression, timeout = 15_000) => {
-  if (await pollUntil(evaluate, expression, timeout)) return;
-  throw new Error(`Attente dépassée : ${description}.`);
-};
+const { endpoint, siteUrl } = probeOptions('Test-ShowcaseGridAutoFitProbe.mjs');
+const { send, evaluate, waitFor, mouse, start: startShowcase, finish } = await openShowcaseSession(endpoint, 'AutoFit');
 
 
 const grid = '#demo-grid-capped-long';
 const longText = 'Établissement public de coopération intercommunale du Grand Est';
-const mouse = (type, point, extra = {}) => send('Input.dispatchMouseEvent', { type, x: point.x, y: point.y, button: 'left', clickCount: 1, ...extra });
 const headerWidth = key => evaluate(`document.querySelector('${grid} th[data-omni-col="${key}"]').getBoundingClientRect().width`);
 const handleCenter = key => evaluate(`(() => { const box = document.querySelector('${grid} th[data-omni-col="${key}"] .omni-data-grid__resize-handle').getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
 const doubleClick = async point => {
@@ -53,18 +36,9 @@ const neededWidth = () => evaluate(`(() => {
 })()`);
 const hasLongText = `[...document.querySelectorAll('${grid} tbody td')].some(cell => cell.textContent.trim() === ${JSON.stringify(longText)})`;
 
-const coverage = createJsCoverage(sendCdp, 'AutoFit');
-const send = coverage.send;
-await enableShowcasePage(send, coverage);
 // Starts from the shipped look: the probe that ran before in this browser (the contrast probe) leaves
 // its last theme in the showcase storage, and the widths measured below depend on the theme's font.
-await send('Page.navigate', { url: siteUrl });
-await waitFor('la vitrine', "document.readyState === 'complete'");
-await evaluate("(() => { try { localStorage.removeItem('omnieurope.showcase.theme'); } catch { } })()");
-await send('Page.navigate', { url: siteUrl });
-// #showcase-theme is rendered by the application itself; #app is already in the static page, and a
-// navigation asked before the router listens changes the address and leaves the home page shown.
-await waitFor('le runtime Blazor', "typeof Blazor !== 'undefined' && typeof Blazor.navigateTo === 'function' && document.getElementById('showcase-theme') !== null");
+await startShowcase(siteUrl);
 await pause(1500);
 await evaluate("Blazor.navigateTo('/components/data-grid-variants')");
 await waitFor('la grille virtualisée de la vitrine', `document.querySelectorAll('${grid} tbody tr[data-omni-row-index]').length > 3`);
@@ -234,13 +208,8 @@ const declared = await evaluate(`(() => { const cell = document.querySelector('#
 check(Math.abs(declared.width - 11 * declared.rem) < 2 && declared.scroll > declared.client, `La largeur déclarée n'est pas tenue : ${JSON.stringify(declared)}.`);
 results.push(`largeur déclarée tenue (${Math.round(declared.width)} px, valeur coupée)`);
 
-await pause(300);
-const csp = await evaluate('window.__omniCsp');
-const probes = await evaluate(`document.querySelectorAll('${grid} table:not(.omni-data-grid__table), ${grid} div[aria-hidden="true"], ${fit} table:not(.omni-data-grid__table), ${fit} div[aria-hidden="true"]').length`);
-await coverage.finish();
-socket.close();
-
-check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);
-check(probes === 0, `${probes} sonde(s) de mesure restée(s) dans la grille.`);
-check(consoleErrors.length === 0, `Console navigateur en erreur : ${consoleErrors.join(' | ')}`);
+await finish(async () => {
+  const probes = await evaluate(`document.querySelectorAll('${grid} table:not(.omni-data-grid__table), ${grid} div[aria-hidden="true"], ${fit} table:not(.omni-data-grid__table), ${fit} div[aria-hidden="true"]').length`);
+  return [[probes === 0, `${probes} sonde(s) de mesure restée(s) dans la grille.`]];
+});
 console.log(`Sonde ajustement de colonne validée : ${results.join(', ')} ; aucune violation CSP, aucune sonde restée, console sans erreur.`);

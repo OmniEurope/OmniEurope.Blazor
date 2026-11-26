@@ -196,6 +196,20 @@ export async function enableShowcasePage(send, coverage, viewport = { width: 128
   await send('Page.addScriptToEvaluateOnNewDocument', { source: cspRecorderSource });
 }
 
+// The link of a probe that drives the page itself: the CDP channel, the coverage-wrapped `send`, the
+// evaluation, and the wait that polls an expression (made Boolean) every `interval` milliseconds.
+export async function connectProbe(endpoint, probeName, interval = 100) {
+  const link = await connectCdp(endpoint);
+  const coverage = createJsCoverage(link.sendCdp, probeName);
+  const send = coverage.send;
+  const evaluate = createEvaluate(send);
+  const waitFor = async (description, expression, timeout = 15_000) => {
+    if (await pollUntil(evaluate, `Boolean(${expression})`, timeout, interval)) return;
+    throw new Error(`Attente dépassée : ${description}.`);
+  };
+  return { ...link, coverage, send, evaluate, waitFor };
+}
+
 export function probeOptions(probeFile) {
   const options = readOptions();
 
@@ -288,28 +302,24 @@ export async function openShowcaseSession(endpoint, probeName) {
   // A real HTML5 drag: the browser starts it from a pressed and moved mouse (dragstart fires in the
   // page), CDP intercepts its data, and the drop is dispatched on the target. `during` runs while the
   // drag is held, before the drop.
-  const html5Drag = async (fromSelector, toSelector, during = async () => {}) => {
-    const from = await pointOf(fromSelector);
-    const to = await pointOf(toSelector);
+  // The start of an intercepted drag: the mouse pressed on `from` then moved along `moveTo(index)` for
+  // at most `moves` steps of `movePause` ms, until the browser starts the drag (CDP intercepts its
+  // data), waited up to 3 s more. `use` receives that data, null when no drag started, while the
+  // interception is still on; it is switched off afterwards whatever `use` did.
+  const interceptedDrag = async ({ from, moveTo, moves, movePause, waitPause }, use) => {
     let intercepted = null;
     const stop = on('Input.dragIntercepted', params => { intercepted = params.data; });
     await send('Input.setInterceptDrags', { enabled: true });
     try {
       await mouse('mouseMoved', from, { button: 'none' });
       await mouse('mousePressed', from);
-      for (let index = 1; index <= 6 && !intercepted; index++) {
-        await mouse('mouseMoved', { x: from.x + (to.x - from.x) * index / 12, y: from.y + (to.y - from.y) * index / 12 }, { buttons: 1 });
-        await pause(30);
+      for (let index = 1; index <= moves && !intercepted; index++) {
+        await mouse('mouseMoved', moveTo(index), { buttons: 1 });
+        await pause(movePause);
       }
       const until = Date.now() + 3_000;
-      while (!intercepted && Date.now() < until) await pause(50);
-      if (!intercepted) throw new Error(`Aucun glisser HTML5 démarré depuis ${fromSelector}.`);
-      await during();
-      for (const type of ['dragEnter', 'dragOver', 'drop']) {
-        await send('Input.dispatchDragEvent', { type, x: to.x, y: to.y, data: intercepted });
-      }
-      await mouse('mouseReleased', to);
-      return intercepted;
+      while (!intercepted && Date.now() < until) await pause(waitPause);
+      return await use(intercepted);
     }
     finally {
       stop();
@@ -317,10 +327,29 @@ export async function openShowcaseSession(endpoint, probeName) {
     }
   };
 
+  const html5Drag = async (fromSelector, toSelector, during = async () => {}) => {
+    const from = await pointOf(fromSelector);
+    const to = await pointOf(toSelector);
+    const moveTo = index => ({ x: from.x + (to.x - from.x) * index / 12, y: from.y + (to.y - from.y) * index / 12 });
+    return interceptedDrag({ from, moveTo, moves: 6, movePause: 30, waitPause: 50 }, async intercepted => {
+      if (!intercepted) throw new Error(`Aucun glisser HTML5 démarré depuis ${fromSelector}.`);
+      await during();
+      for (const type of ['dragEnter', 'dragOver', 'drop']) {
+        await send('Input.dispatchDragEvent', { type, x: to.x, y: to.y, data: intercepted });
+      }
+      await mouse('mouseReleased', to);
+      return intercepted;
+    });
+  };
+
   // Opens the showcase at its root, with the shipped look and a CSP violation recorder, and waits
   // for the rendered application: a navigation asked before the router listens is lost.
+  // The opening of the page alone (domains, coverage, viewport, CSP recorder), for a probe that starts
+  // without clearing the stored look.
+  const enable = () => enableShowcasePage(send, coverage);
+
   const start = async siteUrl => {
-    await enableShowcasePage(send, coverage);
+    await enable();
     await send('Page.navigate', { url: siteUrl });
     await waitFor('la vitrine', "document.readyState === 'complete'");
     await evaluate("(() => { try { localStorage.removeItem('omnieurope.showcase.theme'); } catch { } })()");
@@ -333,6 +362,14 @@ export async function openShowcaseSession(endpoint, probeName) {
     await evaluate(`Blazor.navigateTo(${JSON.stringify(path)})`);
     await waitFor(`la page ${path}`, `location.pathname === ${JSON.stringify(path)} && document.querySelector(${JSON.stringify(readySelector)}) !== null`);
     await pause(300);
+  };
+
+  // A page drawn anew at a window width: the theme page first, so the page asked renders from scratch
+  // (its counters at zero, its values as the example writes them).
+  const visitAtWidth = async (width, path, readySelector) => {
+    await send('Emulation.setDeviceMetricsOverride', { width, height: 900, deviceScaleFactor: 1, mobile: false });
+    await visit('/components/theme', '#demo-appearance-window');
+    await visit(path, readySelector);
   };
 
   // The Tab key, Shift+Tab when `shift`.
@@ -367,15 +404,19 @@ export async function openShowcaseSession(endpoint, probeName) {
     await waitFor("le menu d'application refermé", "document.querySelector('.omni-app-menu__mode') === null");
   };
 
-  // The closing checks: the page recorded no CSP violation and the console no error.
-  const finish = async () => {
+  // The closing checks: the page recorded no CSP violation and the console no error. `between` reads,
+  // while the page is still linked, the probe's own closing checks (`[condition, message]` pairs),
+  // made after the CSP check and before the console one.
+  const finish = async (between = async () => []) => {
     await pause(300);
     const csp = await evaluate('window.__omniCsp');
+    const own = await between();
     await coverage.finish();
     socket.close();
     check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);
+    for (const [condition, message] of own) check(condition, message);
     check(consoleErrors.length === 0, `Console navigateur en erreur : ${consoleErrors.join(' | ')}`);
   };
 
-  return { send, on, evaluate, pause, waitFor, check, mouse, click, key, type, centerOf, pointOf, clickOn, hover, html5Drag, listenersOf, start, visit, finish, consoleErrors, tab, stepRecorder, cspClean, reloadShowcase, pickMode };
+  return { send, on, enable, evaluate, pause, waitFor, check, mouse, click, key, type, centerOf, pointOf, clickOn, hover, interceptedDrag, html5Drag, listenersOf, start, visit, visitAtWidth, finish, consoleErrors, tab, stepRecorder, cspClean, reloadShowcase, pickMode };
 }

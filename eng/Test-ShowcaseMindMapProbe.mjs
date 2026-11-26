@@ -6,21 +6,10 @@
 // Usage: node Test-ShowcaseMindMapProbe.mjs --endpoint http://127.0.0.1:<cdp port> --url http://127.0.0.1:<site port>/
 // The browser (started with --remote-debugging-port) and the static server are the caller's.
 
-import { createJsCoverage } from './JsCoverage.mjs';
-import { check, connectCdp, createEvaluate, enableShowcasePage, pause, pollUntil, readOptions } from './ShowcaseCdp.mjs';
+import { check, openShowcaseSession, pause, pollUntil, probeOptions } from './ShowcaseCdp.mjs';
 
-const options = readOptions();
-
-const endpoint = options.get('--endpoint');
-const siteUrl = options.get('--url');
-if (!endpoint || !siteUrl) {
-  throw new Error('Usage: node Test-ShowcaseMindMapProbe.mjs --endpoint <cdp url> --url <showcase root url>');
-}
-
-const { socket, sendCdp, consoleErrors } = await connectCdp(endpoint);
-
-// `send` is the coverage-wrapped sender declared below, read at call time.
-const evaluate = createEvaluate((method, params) => send(method, params));
+const { endpoint, siteUrl } = probeOptions('Test-ShowcaseMindMapProbe.mjs');
+const { send, enable, evaluate, mouse, finish, consoleErrors } = await openShowcaseSession(endpoint, 'MindMap');
 
 const waitFor = async (description, expression, timeout = 15_000) => {
   if (await pollUntil(evaluate, expression, timeout)) return;
@@ -44,15 +33,12 @@ const waitFor = async (description, expression, timeout = 15_000) => {
 const map = '#demo-mindmap';
 const node = id => `document.querySelector('${map} [data-omni-node="${id}"]')`;
 const centerOf = async id => evaluate(`(() => { const box = ${node(id)}.querySelector('rect').getBoundingClientRect(); return { x: box.left + box.width / 2, y: box.top + box.height / 2 }; })()`);
-const mouse = (type, point, extra = {}) => send('Input.dispatchMouseEvent', { type, x: point.x, y: point.y, button: 'left', clickCount: 1, ...extra });
 const key = (keyName, code, text, modifiers = 0) => Promise.all([
   send('Input.dispatchKeyEvent', { type: text ? 'keyDown' : 'rawKeyDown', key: keyName, code, text, modifiers, windowsVirtualKeyCode: keyName.length === 1 ? keyName.toUpperCase().charCodeAt(0) : undefined }),
   send('Input.dispatchKeyEvent', { type: 'keyUp', key: keyName, code, modifiers })
 ]);
 
-const coverage = createJsCoverage(sendCdp, 'MindMap');
-const send = coverage.send;
-await enableShowcasePage(send, coverage);
+await enable();
 await send('Page.navigate', { url: siteUrl });
 // #showcase-theme is rendered by the application itself; #app is already in the static page, and a
 // navigation asked before the router listens changes the address and leaves the home page shown.
@@ -146,13 +132,8 @@ await mouse('mouseReleased', empty, { clickCount: 2 });
 await waitFor('le nœud ajouté par double clic', `document.querySelectorAll('${map} [data-omni-node]').length === 11`);
 results.push('double clic');
 
-await pause(300);
-const csp = await evaluate('window.__omniCsp');
-const inlineStyles = await evaluate(`document.querySelectorAll('${map} [style]').length`);
-await coverage.finish();
-socket.close();
-
-check(csp.length === 0, `Violations CSP : ${csp.join(' | ')}`);
-check(inlineStyles === 0, `${inlineStyles} élément(s) de la carte portent un attribut style.`);
-check(consoleErrors.length === 0, `Console navigateur en erreur : ${consoleErrors.join(' | ')}`);
+await finish(async () => {
+  const inlineStyles = await evaluate(`document.querySelectorAll('${map} [style]').length`);
+  return [[inlineStyles === 0, `${inlineStyles} élément(s) de la carte portent un attribut style.`]];
+});
 console.log(`Sonde carte mentale validée : ${results.join(', ')} ; aucune violation CSP, aucun attribut style, console sans erreur.`);
