@@ -23,6 +23,17 @@ export async function comboSteps(session, results) {
   const valueOf = id => evaluate(`${field(id)}.value`);
   const expanded = id => evaluate(`${field(id)}.getAttribute('aria-expanded') === 'true'`);
   const boundText = id => evaluate(`document.getElementById(${JSON.stringify(id + '-value')}).textContent`);
+  // The ReplaceTextOnType field is the last stop of the page's tab order: Tab leaves the page, and Chromium hands the
+  // focus to the browser window (the window gets a blur, the document's active element falls back to the body). A reader
+  // gets it back with the next click in the page; a click sent by CDP reaches the page without moving the browser's focus,
+  // and the tab left unfocused is refused full screen ("not granted") by every later part run in the same browser (the
+  // media tile's step 8). So, after checking that the Tab did leave the page, the probe gives the focus back to the page
+  // as that click would.
+  const tabOutOfPage = async id => {
+    await tab();
+    await waitFor(`le focus sorti de la page par Tab depuis ${id}, son dernier arrêt`, "document.activeElement === document.body");
+    await session.send('Page.bringToFront');
+  };
 
   // Picks the suggestion of that text by a click on it, the field being focused by a click first.
   const pickByClick = async (id, text) => {
@@ -96,7 +107,7 @@ export async function comboSteps(session, results) {
   await pause(300);
   check(await valueOf('autocomplete-replace') === 'model-m', `Échap a vidé ou changé le champ, liste fermée : « ${await valueOf('autocomplete-replace')} ».`);
   check(!await expanded('autocomplete-replace'), 'Échap a rouvert la liste.');
-  await tab();
+  await tabOutOfPage('autocomplete-replace');
   await waitFor('le texte pris pour valeur à la sortie du champ', "document.getElementById('autocomplete-replace-value').textContent.includes('model-m')");
   check((await boundText('autocomplete-replace')).includes('model-m'), 'La valeur liée ne reprend pas le texte resté dans le champ.');
   step('Échap : la liste ouverte se ferme, fermée rien ne change, le texte reste et .NET le prend à la sortie du champ');
@@ -105,7 +116,7 @@ export async function comboSteps(session, results) {
   await clickOn('#autocomplete-replace');
   await waitFor('le texte sélectionné à l\'entrée dans le champ', `(() => { const input = ${field('autocomplete-replace')}; return document.activeElement === input && input.value.length > 0 && input.selectionStart === 0 && input.selectionEnd === input.value.length; })()`);
   await escape();
-  await tab();
+  await tabOutOfPage('autocomplete-replace');
   step('ReplaceTextOnType : entrer dans le champ à la souris en sélectionne le texte, que le relâchement ne défait pas');
 
   // 6. Escape in a dialog (the owner's decision of 2026-11-05): the Escape that closes the open list of a field
