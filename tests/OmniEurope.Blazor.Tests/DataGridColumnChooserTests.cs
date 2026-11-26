@@ -59,9 +59,6 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
             .Add(component => component.OnColumnReorder, change => reordered?.Invoke(change))
             .Add(component => component.Columns, Columns(columns ?? Declared)));
 
-    private static string[] HeaderKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
-        [.. grid.FindAll("thead tr:first-child th[data-omni-col]").Select(cell => cell.GetAttribute("data-omni-col")!)];
-
     private static void Open(IRenderedComponent<OmniDataGrid<Row>> grid) => grid.Find(".omni-data-grid__chooser-toggle").Click();
 
     private static IElement Box(IRenderedComponent<OmniDataGrid<Row>> grid, string name) =>
@@ -132,7 +129,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
 
         Box(grid, "Amount").Change(false);
 
-        Assert.Equal(["Name", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(grid.Instance.Text("GridColumnHidden", "Amount"), Announcement(grid));
         var state = JsonDocument.Parse(preferences.Store!["omni.grid.orders"]!.Value!).RootElement;
         Assert.False(state.GetProperty("columnVisibility").GetProperty("Amount").GetBoolean());
@@ -141,7 +138,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
 
         Box(grid, "Amount").Change(true);
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(grid.Instance.Text("GridColumnShown", "Amount"), Announcement(grid));
         state = JsonDocument.Parse(preferences.Store["omni.grid.orders"]!.Value!).RootElement;
         Assert.True(state.GetProperty("columnVisibility").GetProperty("Amount").GetBoolean());
@@ -161,7 +158,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
         Assert.False(Box(grid, "Amount").HasAttribute("disabled"));
 
         await grid.InvokeAsync(() => grid.Instance.Chooser.ToggleAsync(grid.Instance.ColumnSet.Find("Name")!, false));
-        Assert.Equal(["Name"], HeaderKeys(grid));
+        Assert.Equal(["Name"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -180,7 +177,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
         Assert.Equal(["Name", "Amount", "City"], ListedNames(both));
         Assert.True(Box(both, "Name").HasAttribute("disabled"));
         await both.InvokeAsync(() => both.Instance.Chooser.ToggleAsync(both.Instance.ColumnSet.Find("Name")!, false));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(both));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(both));
     }
 
     [Fact]
@@ -209,7 +206,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
 
         // Without AllowColumnHide, the chooser hides nothing even when asked.
         await grid.InvokeAsync(() => grid.Instance.Chooser.ToggleAsync(grid.Instance.ColumnSet.Find("Amount")!, false));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -224,7 +221,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
 
         Arrow(grid, "City", -1).Click();
 
-        Assert.Equal(["Name", "City", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["Name", "City", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(["Name", "City", "Amount"], ListedNames(grid));
         Assert.Equal(grid.Instance.Text("GridColumnMoved", "City", 2, 3), Announcement(grid));
         var state = JsonDocument.Parse(preferences.Store!["omni.grid.orders"]!.Value!).RootElement;
@@ -238,7 +235,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
 
         Arrow(grid, "Name", 1).Click();
 
-        Assert.Equal(["City", "Name", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["City", "Name", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(2, reorders.Count);
     }
 
@@ -258,13 +255,13 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
         Assert.False(Arrow(grid, "Country", -1).HasAttribute("disabled"));
 
         await grid.InvokeAsync(() => grid.Instance.OnColumnDroppedAsync("Amount", "Name", after: false));
-        Assert.Equal(["Name", "Country", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Country", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Empty(reorders);
 
         await grid.InvokeAsync(() => grid.Instance.OnColumnDroppedAsync("City", "Amount", after: false));
-        Assert.Equal(["Name", "Country", "City", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Country", "City", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         await grid.InvokeAsync(() => grid.Instance.OnColumnDroppedAsync("Name", "Country", after: true));
-        Assert.Equal(["Country", "Name", "City", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["Country", "Name", "City", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(2, reorders.Count);
         Assert.Equal(grid.Instance.Text("GridColumnMoved", "Name", 2, 4), Announcement(grid));
     }
@@ -277,12 +274,12 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
 
         await off.InvokeAsync(() => off.Instance.OnColumnDroppedAsync("City", "Name", after: false));
         await off.InvokeAsync(() => off.Instance.OnColumnDroppedAsync("Gone", "Name", after: false));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(off));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(off));
 
         var on = RenderGrid(stateKey: "other");
         await on.InvokeAsync(() => on.Instance.OnColumnDroppedAsync("City", "Gone", after: false));
         await on.InvokeAsync(() => on.Instance.OnColumnDroppedAsync("City", "City", after: true));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(on));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(on));
         Assert.Equal(0, preferences.Browser.Writes);
         Assert.Single(JSInterop.Invocations, invocation => invocation.Identifier == "attachReorder");
     }
@@ -298,7 +295,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
         Arrow(grid, "City", -1).Click();
 
         Assert.Equal(["Name", "City", "Amount"], ListedNames(grid));
-        Assert.Equal(["Name", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(grid.Instance.Text("GridColumnMoved", "City", 2, 3), Announcement(grid));
     }
 
@@ -315,11 +312,11 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
         Open(grid);
         Box(grid, "City").Change(false);
         Arrow(grid, "Amount", -1).Click();
-        Assert.Equal(["Amount", "Name"], HeaderKeys(grid));
+        Assert.Equal(["Amount", "Name"], DataGridTestSetup.HeaderKeys(grid));
 
         grid.Find(".omni-data-grid__chooser-reset").Click();
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal("ascending", grid.Find("th[data-omni-col='Amount']").GetAttribute("aria-sort"));
         Assert.Equal(grid.Instance.Text("GridLayoutReset"), Announcement(grid));
         var state = JsonDocument.Parse(preferences.Store!["omni.grid.orders"]!.Value!).RootElement;
@@ -362,7 +359,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
         var hideOnly = RenderGrid(reorder: false);
         var amount = hideOnly.Instance.ColumnSet.Find("Amount")!;
         await hideOnly.InvokeAsync(() => hideOnly.Instance.Chooser.MoveAsync(amount, -1));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(hideOnly));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(hideOnly));
 
         var grid = RenderGrid(stateKey: "other");
         var city = grid.Instance.ColumnSet.Find("City")!;
@@ -370,7 +367,7 @@ public sealed class DataGridColumnChooserTests : OmniBunitContext
         // Past the end of the list, and a column that left the grid since its arrow was drawn.
         await grid.InvokeAsync(() => grid.Instance.Chooser.MoveAsync(city, 1));
         await grid.InvokeAsync(() => grid.Instance.Chooser.MoveAsync(gone, 1));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(0, preferences.Browser.Writes);
         Assert.DoesNotContain(JSInterop.Invocations, invocation => invocation.Identifier == "focusMoveControl");
     }

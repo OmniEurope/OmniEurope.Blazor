@@ -31,9 +31,6 @@ public sealed class DataGridRestoredVisibilityTests : OmniBunitContext
             .Add(component => component.AllowColumnHide, hide)
             .Add(component => component.Columns, Columns(("Name", true), ("Amount", amountHideable), ("City", true))));
 
-    private static string[] HeaderKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
-        [.. grid.FindAll("thead tr:first-child th[data-omni-col]").Select(cell => cell.GetAttribute("data-omni-col")!)];
-
     [Fact]
     public async Task SavedHiddenColumns_AreShown_WhileTheGridHasNoColumnHide_AndHiddenAgainOnceItIsAllowed()
     {
@@ -43,13 +40,13 @@ public sealed class DataGridRestoredVisibilityTests : OmniBunitContext
         var grid = RenderGrid(hide: false);
 
         // Without the chooser nothing could bring them back: the declaration wins, the choice is kept.
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.False(await grid.InvokeAsync(() => grid.Instance.Arrangement.SetVisibleAsync("Name", false)));
         Assert.False(grid.Instance.Arrangement.Visibility["Amount"]);
 
         grid.Render(parameters => parameters.Add(component => component.AllowColumnHide, true));
 
-        Assert.Equal(["Name"], HeaderKeys(grid));
+        Assert.Equal(["Name"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -60,9 +57,9 @@ public sealed class DataGridRestoredVisibilityTests : OmniBunitContext
 
         var grid = RenderGrid(hide: true, amountHideable: false);
 
-        Assert.Equal(["Name", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         Assert.False(await grid.InvokeAsync(() => grid.Instance.Arrangement.SetVisibleAsync("Amount", false)));
-        Assert.Equal(["Name", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -73,7 +70,7 @@ public sealed class DataGridRestoredVisibilityTests : OmniBunitContext
 
         var grid = RenderGrid(hide: true);
 
-        Assert.Equal(["City"], HeaderKeys(grid));
+        Assert.Equal(["City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count);
         // Its box tells it shows, and cannot be unticked: it is the last column.
         var city = grid.Instance.ColumnSet.Find("City")!;
@@ -90,7 +87,7 @@ public sealed class DataGridRestoredVisibilityTests : OmniBunitContext
         preferences.Seed("orders", """{"version":2,"columnVisibility":{"Name":false,"Amount":false,"City":false}}""");
         await preferences.Browser.Bridge!.OnStored(preferences.StorageKey("orders"));
 
-        grid.WaitForAssertion(() => Assert.Equal(["Name"], HeaderKeys(grid)));
+        grid.WaitForAssertion(() => Assert.Equal(["Name"], DataGridTestSetup.HeaderKeys(grid)));
     }
 
     [Fact]

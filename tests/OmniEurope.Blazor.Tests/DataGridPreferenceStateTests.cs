@@ -60,9 +60,6 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
             }
         });
 
-    private static string[] HeaderKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
-        [.. grid.FindAll("thead tr:first-child th[data-omni-col]").Select(cell => cell.GetAttribute("data-omni-col")!)];
-
     private static string[] FirstRowKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
         [.. grid.FindAll("tbody tr[data-omni-row-index]")[0].QuerySelectorAll("td[data-omni-col]").Select(cell => cell.GetAttribute("data-omni-col")!)];
 
@@ -82,7 +79,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         Assert.Equal(["City", "Name", "Amount"], state.GetProperty("columnOrder").EnumerateArray().Select(key => key.GetString()));
         Assert.False(state.GetProperty("columnVisibility").GetProperty("Amount").GetBoolean());
         Assert.Equal("Amount", state.GetProperty("sorts")[0].GetProperty("key").GetString());
-        Assert.Equal(["City", "Name"], HeaderKeys(grid));
+        Assert.Equal(["City", "Name"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -94,7 +91,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         var grid = RenderGrid([new("Name"), new("Amount"), new("City", Visible: false)]);
 
         // City is declared hidden but the reader showed it; Amount is declared visible but the reader hid it.
-        Assert.Equal(["City", "Name"], HeaderKeys(grid));
+        Assert.Equal(["City", "Name"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(["City", "Name"], FirstRowKeys(grid));
         Assert.Empty(grid.FindAll("[data-omni-col='Amount']"));
         Assert.Equal(["City", "Name"], grid.Instance.Export.Columns().Select(column => column.Key));
@@ -108,7 +105,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
 
         var grid = RenderGrid();
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         var row = Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]"));
         Assert.Contains("Gand", row.TextContent, StringComparison.Ordinal);
         Assert.Equal("descending", grid.Find("th[data-omni-col='Amount']").GetAttribute("aria-sort"));
@@ -127,7 +124,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
 
         var grid = RenderGrid();
 
-        Assert.Equal(expected.Split(','), HeaderKeys(grid));
+        Assert.Equal(expected.Split(','), DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -138,7 +135,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         ColumnSpec[] columns = [new("Name", Frozen: true), new("Amount"), new("City")];
 
         var grid = RenderGrid(columns);
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
 
         // A free column moved before the frozen one stays after it: nothing changes, nothing is saved.
         var writes = preferences.Browser.Writes;
@@ -146,7 +143,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         Assert.Equal(writes, preferences.Browser.Writes);
 
         Assert.True(await grid.InvokeAsync(() => grid.Instance.Arrangement.MoveAsync("City", 1)));
-        Assert.Equal(["Name", "City", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["Name", "City", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(["Name", "City", "Amount"], preferences.Saved("orders")!.Value.GetProperty("columnOrder").EnumerateArray().Select(key => key.GetString()));
     }
 
@@ -157,7 +154,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         var grid = RenderGrid([new("Name"), new("Amount", Visible: false)]);
 
         Assert.False(await grid.InvokeAsync(() => grid.Instance.Arrangement.SetVisibleAsync("Name", false)));
-        Assert.Equal(["Name"], HeaderKeys(grid));
+        Assert.Equal(["Name"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -208,7 +205,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         preferences.Store!.Put("omni.grid.orders", """{"version":2,"columnOrder":["City","Amount","Name"],"columnVisibility":{"Amount":false},"columnWidths":{"City":"90px"}}""", DateTimeOffset.UtcNow.AddMinutes(1));
         await preferences.Preferences!.SyncAsync(Xunit.TestContext.Current.CancellationToken);
 
-        grid.WaitForAssertion(() => Assert.Equal(["City", "Name"], HeaderKeys(grid)));
+        grid.WaitForAssertion(() => Assert.Equal(["City", "Name"], DataGridTestSetup.HeaderKeys(grid)));
         Assert.Equal("90px", grid.Instance.ColumnLayout.Widths["City"]);
         Assert.Single(requests);
 
@@ -219,7 +216,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         grid.WaitForAssertion(() => Assert.Single(grid.FindAll("tbody tr[data-omni-row-index]")));
         Assert.Equal(2, requests.Count);
         Assert.Equal("b", Assert.Single(requests[1].Filters).Value);
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -309,12 +306,12 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
     {
         var preferences = new GridPreferenceHarness(Services);
         var grid = RenderGrid();
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
 
         preferences.Seed("orders", """{"version":2,"columnOrder":["City","Name","Amount"]}""");
         await preferences.Browser.Bridge!.OnStored(preferences.StorageKey("orders"));
 
-        grid.WaitForAssertion(() => Assert.Equal(["City", "Name", "Amount"], HeaderKeys(grid)));
+        grid.WaitForAssertion(() => Assert.Equal(["City", "Name", "Amount"], DataGridTestSetup.HeaderKeys(grid)));
     }
 
     [Fact]
@@ -323,14 +320,14 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         var preferences = new GridPreferenceHarness(Services, withStore: true);
         preferences.Seed("orders", $$$"""{"version":2,"filters":{"City":{"operator":{{{(int)OmniDataGridFilterOperator.DoesNotContain}}},"value":"Bari","logicalOperator":0,"secondOperator":0,"secondValue":""}},"sorts":[{"key":"Name","descending":false}],"columnWidths":{"Name":"200px"},"columnOrder":["City","Name","Amount"],"columnVisibility":{"Amount":false}}""");
         var grid = RenderGrid([new("Name"), new("Amount", SortOrder: OmniDataGridSortOrder.Descending), new("City")]);
-        Assert.Equal(["City", "Name"], HeaderKeys(grid));
+        Assert.Equal(["City", "Name"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal("ascending", grid.Find("th[data-omni-col='Name']").GetAttribute("aria-sort"));
         var sortsBefore = grid.Instance.Query.Sorts.ToArray();
 
         await grid.InvokeAsync(() => grid.Instance.ResetLayoutAsync());
 
         // The layout is the declared one again...
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Empty(grid.Instance.ColumnLayout.Widths);
         // ...while the reader's sort and filter stay, and so do the rows they select.
         Assert.Equal("ascending", grid.Find("th[data-omni-col='Name']").GetAttribute("aria-sort"));
@@ -353,7 +350,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         var grid = RenderGrid();
 
         Assert.False(await grid.InvokeAsync(() => grid.Instance.Arrangement.MoveAsync("Gone", 0)));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(0, preferences.Browser.Writes);
     }
 
@@ -363,18 +360,18 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         var preferences = new GridPreferenceHarness(Services, withStore: true);
         preferences.Seed("orders", """{"version":2,"columnOrder":["City","Name","Amount"]}""");
         var grid = RenderGrid();
-        Assert.Equal(["City", "Name", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["City", "Name", "Amount"], DataGridTestSetup.HeaderKeys(grid));
         var token = Xunit.TestContext.Current.CancellationToken;
 
         preferences.Store!.Put("omni.grid.orders", "pas du json", DateTimeOffset.UtcNow.AddMinutes(1));
         preferences.Store.Put("omni.grid.other", """{"version":2,"columnOrder":["Amount","City","Name"]}""", DateTimeOffset.UtcNow.AddMinutes(1));
         await preferences.Preferences!.SyncAsync(token);
-        Assert.Equal(["City", "Name", "Amount"], HeaderKeys(grid));
+        Assert.Equal(["City", "Name", "Amount"], DataGridTestSetup.HeaderKeys(grid));
 
         // Reset on another device: the tombstone brings the declaration back.
         preferences.Store.Put("omni.grid.orders", null, DateTimeOffset.UtcNow.AddMinutes(2));
         await preferences.Preferences.SyncAsync(token);
-        grid.WaitForAssertion(() => Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid)));
+        grid.WaitForAssertion(() => Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid)));
     }
 
     [Fact]
@@ -385,7 +382,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
 
         var grid = RenderGrid();
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Empty(JSInterop.Invocations["localStorage.removeItem"]);
         Assert.Null(preferences.Saved("orders"));
     }
@@ -396,11 +393,11 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         var preferences = new GridPreferenceHarness(Services);
         var grid = RenderGrid(stateKey: null);
         await grid.InvokeAsync(() => grid.Instance.Arrangement.SetVisibleAsync("Amount", false));
-        Assert.Equal(["Name", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "City"], DataGridTestSetup.HeaderKeys(grid));
 
         await grid.InvokeAsync(() => grid.Instance.Persistence.ResetLayoutAsync());
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(0, preferences.Browser.Writes);
     }
 
@@ -414,7 +411,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
 
         await grid.InvokeAsync(() => grid.Instance.Persistence.ResetLayoutAsync());
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
     }
 
     [Fact]
@@ -441,7 +438,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
 
         var grid = RenderGrid();
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(3, grid.FindAll("tbody tr[data-omni-row-index]").Count);
     }
 
@@ -457,7 +454,7 @@ public sealed class DataGridPreferenceStateTests : OmniBunitContext
         preferences.Browser.Failures["set"] = new JSException("QuotaExceededError: storage full");
 
         var grid = RenderGrid();
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
 
         grid.Find("th[data-omni-col='Amount']").Click();
         grid.Find("th[data-omni-col='Amount']").Click();

@@ -47,10 +47,8 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
 
         await button.Instance.DisposeAsync();
 
-        // The button's tooltip loads its own script through the same runtime: only the back-to-top calls are counted.
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
-        Assert.DoesNotContain("attach", runtime.Module.Calls);
+        // The button's tooltip loads its own script through the same runtime: only the attach call is counted.
+        await runtime.ReleasedWithoutTheAttachCallAsync(Patience);
     }
 
     [Fact]
@@ -243,10 +241,8 @@ public sealed class DisposedWhileLoadingTests : OmniBunitContext
         button.Find("button").Click();
         await button.Instance.DisposeAsync();
 
-        // The button's tooltip loads its own script through the same runtime: only the back-to-top calls are counted.
-        runtime.PendingImport.SetResult(runtime.Module);
-        await runtime.Module.Disposal.Task.WaitAsync(Patience, Xunit.TestContext.Current.CancellationToken);
-        Assert.DoesNotContain("attach", runtime.Module.Calls);
+        // The button's tooltip loads its own script through the same runtime: only the attach call is counted.
+        await runtime.ReleasedWithoutTheAttachCallAsync(Patience);
     }
 
     [Fact]

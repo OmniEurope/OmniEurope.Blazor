@@ -20,6 +20,20 @@ public sealed class NullableInputTests : OmniBunitContext
     /// Renders a nullable toggle bound to <paramref name="value"/>, each change given to <paramref name="changed"/>,
     /// with the flag <paramref name="flag"/> set to <paramref name="flagValue"/>.
     /// </summary>
+    /// <summary>Without its indeterminate state, a nullable toggle bound to false turns true then false, never back to null.</summary>
+    private void AssertNeverReturnsToNull<TComponent>(Expression<Func<TComponent, bool>> allowIndeterminate)
+        where TComponent : InputBase<bool?>
+    {
+        bool? value = false;
+        var component = RenderBoundToggle(value, changed => value = changed, allowIndeterminate, false);
+
+        Click(component);
+        Assert.True(value);
+
+        Click(component);
+        Assert.False(value);
+    }
+
     private IRenderedComponent<TComponent> RenderBoundToggle<TComponent>(
         bool? value, Action<bool?> changed, Expression<Func<TComponent, bool>> flag, bool flagValue)
         where TComponent : InputBase<bool?> =>
@@ -49,14 +63,7 @@ public sealed class NullableInputTests : OmniBunitContext
     [Fact]
     public void NullableCheckBox_WithoutIndeterminateNeverReturnsToNull()
     {
-        bool? value = false;
-        var component = RenderBoundToggle<OmniCheckBox<bool?>>(value, changed => value = changed, item => item.AllowIndeterminate, false);
-
-        Click(component);
-        Assert.True(value);
-
-        Click(component);
-        Assert.False(value);
+        AssertNeverReturnsToNull<OmniCheckBox<bool?>>(item => item.AllowIndeterminate);
     }
 
     [Fact]
@@ -116,14 +123,7 @@ public sealed class NullableInputTests : OmniBunitContext
     [Fact]
     public void NullableSwitch_WithoutIndeterminateNeverReturnsToNull()
     {
-        bool? value = false;
-        var component = RenderBoundToggle<OmniSwitch<bool?>>(value, changed => value = changed, item => item.AllowIndeterminate, false);
-
-        Click(component);
-        Assert.True(value);
-
-        Click(component);
-        Assert.False(value);
+        AssertNeverReturnsToNull<OmniSwitch<bool?>>(item => item.AllowIndeterminate);
     }
 
     [Fact]

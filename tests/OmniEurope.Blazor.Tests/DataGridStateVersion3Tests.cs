@@ -53,12 +53,6 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
         return (context, preferences);
     }
 
-    private static string[] HeaderKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
-        [.. grid.FindAll("thead tr:first-child th[data-omni-col]").Select(cell => cell.GetAttribute("data-omni-col")!)];
-
-    private static string[] FrozenHeaderKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
-        [.. grid.FindAll("thead tr:first-child th[data-omni-col].omni-data-grid__column--frozen").Select(cell => cell.GetAttribute("data-omni-col")!)];
-
     private static string[] FirstColumn(IRenderedComponent<OmniDataGrid<Row>> grid) =>
         [.. grid.FindAll("tbody tr[data-omni-row-index] td[data-omni-col='Name']").Select(cell => cell.TextContent.Trim())];
 
@@ -175,8 +169,8 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
             Columns(nameFrozen: true));
 
         // The order and the visibility of version 2 come back, the declared frozen column keeps its place.
-        Assert.Equal(["Name", "City"], HeaderKeys(grid));
-        Assert.Equal(["Name"], FrozenHeaderKeys(grid));
+        Assert.Equal(["Name", "City"], DataGridTestSetup.HeaderKeys(grid));
+        Assert.Equal(["Name"], DataGridTestSetup.FrozenHeaderKeys(grid));
         Assert.Equal("n30", FirstColumn(grid)[0]);
         Assert.Equal("180px", grid.Instance.ColumnLayout.Widths["City"]);
         Assert.Equal(10, grid.FindAll("tbody tr[data-omni-row-index]").Count);
@@ -191,14 +185,14 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
         Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>> options = parameters => parameters
             .Add(component => component.AllowColumnFreeze, true);
         var grid = RenderGrid(this, options, Columns(nameFrozen: true, amountFrozen: true));
-        Assert.Equal(["Name", "Amount"], FrozenHeaderKeys(grid));
+        Assert.Equal(["Name", "Amount"], DataGridTestSetup.FrozenHeaderKeys(grid));
 
         grid.Find("thead th[data-omni-col='Amount'] .omni-data-grid__sort").Click();
         grid.Find(".omni-data-grid__chooser-toggle").Click();
         grid.Find(".omni-data-grid__chooser-freeze[data-omni-col='Name']").Click();
 
-        var headers = HeaderKeys(grid);
-        var frozen = FrozenHeaderKeys(grid);
+        var headers = DataGridTestSetup.HeaderKeys(grid);
+        var frozen = DataGridTestSetup.FrozenHeaderKeys(grid);
         var rows = FirstColumn(grid);
         Assert.Equal(["Amount", "Name", "City"], headers);
         Assert.Equal(["Amount"], frozen);
@@ -209,8 +203,8 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
         {
             var again = RenderGrid(reloaded, options, Columns(nameFrozen: true, amountFrozen: true));
 
-            Assert.Equal(headers, HeaderKeys(again));
-            Assert.Equal(frozen, FrozenHeaderKeys(again));
+            Assert.Equal(headers, DataGridTestSetup.HeaderKeys(again));
+            Assert.Equal(frozen, DataGridTestSetup.FrozenHeaderKeys(again));
             Assert.Equal(rows, FirstColumn(again));
             Assert.Equal("Amount", again.Instance.Query.Sorts.Single().Key);
         }
@@ -224,13 +218,13 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
 
         var grid = RenderGrid(this, columns: Columns(nameFrozen: true));
 
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
-        Assert.Equal(["Name"], FrozenHeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
+        Assert.Equal(["Name"], DataGridTestSetup.FrozenHeaderKeys(grid));
 
         grid.Render(parameters => parameters.Add(component => component.AllowColumnFreeze, true));
 
         // Frozen first, then the others in their order.
-        Assert.Equal(["City", "Name", "Amount"], HeaderKeys(grid));
-        Assert.Equal(["City"], FrozenHeaderKeys(grid));
+        Assert.Equal(["City", "Name", "Amount"], DataGridTestSetup.HeaderKeys(grid));
+        Assert.Equal(["City"], DataGridTestSetup.FrozenHeaderKeys(grid));
     }
 }

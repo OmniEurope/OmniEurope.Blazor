@@ -79,6 +79,14 @@ internal static class DataGridTestSetup
             .Add(component => component.ExportPdf, false)
             .Add(component => component.OnExport, onExport);
 
+    /// <summary>The column keys of the header row, in their order on screen.</summary>
+    internal static string[] HeaderKeys<TItem>(IRenderedComponent<OmniDataGrid<TItem>> grid) =>
+        [.. grid.FindAll("thead tr:first-child th[data-omni-col]").Select(cell => cell.GetAttribute("data-omni-col")!)];
+
+    /// <summary>The column keys of the frozen header cells, in their order on screen.</summary>
+    internal static string[] FrozenHeaderKeys<TItem>(IRenderedComponent<OmniDataGrid<TItem>> grid) =>
+        [.. grid.FindAll("thead tr:first-child th[data-omni-col].omni-data-grid__column--frozen").Select(cell => cell.GetAttribute("data-omni-col")!)];
+
     /// <summary>One column per entry, the n-th at sequence n * 10, bound to its property and then given its other parameters.</summary>
     internal static RenderFragment PropertyColumns<TItem>(params (string Property, (string Name, object? Value)[] More)[] columns) => builder =>
     {

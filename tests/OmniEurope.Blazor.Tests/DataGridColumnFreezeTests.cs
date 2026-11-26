@@ -36,12 +36,6 @@ public sealed class DataGridColumnFreezeTests : OmniBunitContext
     private static IElement Toggle(IRenderedComponent<OmniDataGrid<Row>> grid, string key) =>
         grid.Find($".omni-data-grid__chooser-freeze[data-omni-col='{key}']");
 
-    private static string[] HeaderKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
-        [.. grid.FindAll("thead tr:first-child th[data-omni-col]").Select(cell => cell.GetAttribute("data-omni-col")!)];
-
-    private static string[] FrozenHeaderKeys(IRenderedComponent<OmniDataGrid<Row>> grid) =>
-        [.. grid.FindAll("thead tr:first-child th[data-omni-col].omni-data-grid__column--frozen").Select(cell => cell.GetAttribute("data-omni-col")!)];
-
     private static string Announcement(IRenderedComponent<OmniDataGrid<Row>> grid) =>
         grid.Find(".omni-data-grid > [role=status][aria-live=polite]").TextContent.TrimEnd(' ');
 
@@ -102,8 +96,8 @@ public sealed class DataGridColumnFreezeTests : OmniBunitContext
             Open(grid);
             Toggle(grid, "City").Click();
 
-            Assert.Equal(["Name", "City", "Amount"], HeaderKeys(grid));
-            Assert.Equal(["Name", "City"], FrozenHeaderKeys(grid));
+            Assert.Equal(["Name", "City", "Amount"], DataGridTestSetup.HeaderKeys(grid));
+            Assert.Equal(["Name", "City"], DataGridTestSetup.FrozenHeaderKeys(grid));
             Assert.Equal("true", Toggle(grid, "City").GetAttribute("aria-pressed"));
             // The body cells follow the header.
             Assert.Equal(2, grid.FindAll("tbody td[data-omni-col='City'].omni-data-grid__column--frozen").Count);
@@ -123,8 +117,8 @@ public sealed class DataGridColumnFreezeTests : OmniBunitContext
 
         Toggle(grid, "Name").Click();
 
-        Assert.Empty(FrozenHeaderKeys(grid));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Empty(DataGridTestSetup.FrozenHeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.False(preferences.Saved("orders")!.Value.GetProperty("columnFrozen").GetProperty("Name").GetBoolean());
     }
 
@@ -158,18 +152,18 @@ public sealed class DataGridColumnFreezeTests : OmniBunitContext
         Open(grid);
         Toggle(grid, "Name").Click();
         Toggle(grid, "City").Click();
-        Assert.Equal(["City"], FrozenHeaderKeys(grid));
+        Assert.Equal(["City"], DataGridTestSetup.FrozenHeaderKeys(grid));
 
         grid.Find(".omni-data-grid__chooser-reset").Click();
 
-        Assert.Equal(["Name"], FrozenHeaderKeys(grid));
-        Assert.Equal(["Name", "Amount", "City"], HeaderKeys(grid));
+        Assert.Equal(["Name"], DataGridTestSetup.FrozenHeaderKeys(grid));
+        Assert.Equal(["Name", "Amount", "City"], DataGridTestSetup.HeaderKeys(grid));
         Assert.Equal(System.Text.Json.JsonValueKind.Null, preferences.Saved("orders")!.Value.GetProperty("columnFrozen").ValueKind);
 
         // And from code as well.
         Toggle(grid, "City").Click();
         await grid.InvokeAsync(grid.Instance.ResetLayoutAsync);
-        Assert.Equal(["Name"], FrozenHeaderKeys(grid));
+        Assert.Equal(["Name"], DataGridTestSetup.FrozenHeaderKeys(grid));
     }
 
     [Fact]

@@ -27,6 +27,17 @@ internal static class ScriptLoadTestSetup
         Assert.Empty(runtime.Module.Calls);
     }
 
+    /// <summary>
+    /// Lets the held import arrive and waits for the module's release: the module was never asked to
+    /// attach, other calls on the same runtime (a tooltip's own script) aside.
+    /// </summary>
+    internal static async Task ReleasedWithoutTheAttachCallAsync(this ManualJSRuntime runtime, TimeSpan patience)
+    {
+        runtime.PendingImport.SetResult(runtime.Module);
+        await runtime.Module.Disposal.Task.WaitAsync(patience, Xunit.TestContext.Current.CancellationToken);
+        Assert.DoesNotContain("attach", runtime.Module.Calls);
+    }
+
     /// <summary>Disposes <paramref name="component"/> while its import waits, then lets the import arrive and waits for both the release and the disposal.</summary>
     internal static async Task DisposeWhileTheImportWaitsAsync(this ManualJSRuntime runtime, IAsyncDisposable component, TimeSpan patience)
     {

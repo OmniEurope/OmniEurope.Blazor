@@ -26,16 +26,22 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
         return client.SendAsync(message, Token);
     }
 
-    [Fact]
-    public async Task TheKeyQuota_RefusesTheNextKeyWith422()
+    /// <summary>Three writes of one visitor to an API given <paramref name="setting"/>: the first two pass, the third is returned.</summary>
+    private async Task<HttpResponseMessage> ThirdWriteAsync(string setting, string value)
     {
-        await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string> { ["Preferences:Limits:MaxKeysPerVisitor"] = "2" });
+        await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string> { [setting] = value });
         using var client = factory.CreateClient();
         var visitor = VisitorPreferenceApi.CreateVisitorId();
 
         Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k1")).StatusCode);
         Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k2")).StatusCode);
-        using var refused = await PutAsync(client, visitor, "k3");
+        return await PutAsync(client, visitor, "k3");
+    }
+
+    [Fact]
+    public async Task TheKeyQuota_RefusesTheNextKeyWith422()
+    {
+        using var refused = await ThirdWriteAsync("Preferences:Limits:MaxKeysPerVisitor", "2");
 
         Assert.Equal(HttpStatusCode.UnprocessableEntity, refused.StatusCode);
         SecurityHeaderAssert.Carried(refused);
@@ -64,13 +70,7 @@ public sealed class PreferenceLimitsApiTests(PostgresFixture postgres)
     [Fact]
     public async Task TheWriteRate_RefusesPastTheLimitWith429()
     {
-        await using var factory = new ShowcaseApiFactory(postgres, new Dictionary<string, string> { ["RateLimiting:WritesPerMinute"] = "2" });
-        using var client = factory.CreateClient();
-        var visitor = VisitorPreferenceApi.CreateVisitorId();
-
-        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k1")).StatusCode);
-        Assert.Equal(HttpStatusCode.OK, (await PutAsync(client, visitor, "k2")).StatusCode);
-        using var refused = await PutAsync(client, visitor, "k3");
+        using var refused = await ThirdWriteAsync("RateLimiting:WritesPerMinute", "2");
 
         Assert.Equal(HttpStatusCode.TooManyRequests, refused.StatusCode);
         Assert.Equal("application/problem+json", refused.Content.Headers.ContentType?.MediaType);
