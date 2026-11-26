@@ -29,7 +29,7 @@ public abstract class OmniComponentBase : ComponentBase, IOmniPresetTarget
     /// The clock a time-aware component reads: the host's registered <see cref="TimeProvider"/>, the
     /// system clock when it registers none. Resolved on each read, so a test swaps it in the container.
     /// </summary>
-    private protected TimeProvider Clock => PresetServices.GetService(typeof(TimeProvider)) as TimeProvider ?? TimeProvider.System;
+    private protected TimeProvider Clock => PackageServices.Clock(PresetServices);
 
     /// <summary>
     /// The user's appearance the appearance components follow when the host leaves them uncontrolled;
@@ -68,11 +68,7 @@ public abstract class OmniComponentBase : ComponentBase, IOmniPresetTarget
     /// <param name="parameters">The parameters given by the renderer.</param>
     public override Task SetParametersAsync(ParameterView parameters)
     {
-        parameters.TryGetValue<string?>(nameof(PresetName), out var presetName);
-        if (PresetServices.GetService(typeof(OmniPresetRegistry)) is OmniPresetRegistry presets)
-            presets.Apply(this, parameters, presetName);
-        else if (presetName is not null)
-            OmniPresetRegistry.ThrowUnregistered(GetType(), presetName);
+        OmniPresetRegistry.ApplyFrom(PresetServices, this, parameters);
         return base.SetParametersAsync(parameters);
     }
 
@@ -98,5 +94,5 @@ public abstract class OmniComponentBase : ComponentBase, IOmniPresetTarget
     /// </summary>
     /// <param name="value">The host's text, usually an optional parameter.</param>
     /// <param name="key">The resource key of the default text.</param>
-    protected string LocalizeOr(string? value, string key) => string.IsNullOrWhiteSpace(value) ? Localize(key) : value;
+    protected string LocalizeOr(string? value, string key) => PluralMessage.LocalizeOr(StringLocalizer, value, key);
 }
