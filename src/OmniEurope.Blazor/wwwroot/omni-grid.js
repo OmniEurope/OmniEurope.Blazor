@@ -6,7 +6,7 @@
 // virtualised data list live in ./grid/ and are re-exported here, so every export keeps this address.
 import { notifyDotNet, viewportNotifier } from './grid/notify.js';
 import { release } from './grid/release.js';
-import { canScrollVertically } from './shared/scroll.js';
+import { canScrollVertically, isPlainVerticalWheel } from './shared/scroll.js';
 
 export { applyColumns, applyFrozen, attachContentFit, attachFrozenScroll, detachContentFit, detachFrozenScroll } from './grid/columns.js';
 export { attachResize, detachResize, autoFitColumn } from './grid/resize.js';
@@ -455,7 +455,7 @@ export function attachWheelScope(viewport, selector) {
     }
 
     const onWheel = event => {
-        if (event.defaultPrevented || event.ctrlKey || event.shiftKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+        if (!isPlainVerticalWheel(event)) {
             return;
         }
 

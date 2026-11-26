@@ -38,15 +38,9 @@ public partial class OmniSeriesDataLabels
 
     /// <summary>Registers the points with the chart so the plot covers them; data labels stay out of the legend and the data table.</summary>
     protected override void OnParametersSet()
-    {
-        _domain = null;
-        ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
-    }
+        => _points.Register(this, ChartContext, Data);
 
-    // Without a chart around the markers, the range of the points is read once per render, not once per dot.
-    private OmniChartGeometry.ChartDomain? _domain;
-
-    private OmniChartGeometry.ChartDomain Domain => _domain ??= OmniChartGeometry.Domains(Data);
+    private readonly AuxiliaryChartPoints _points = new();
 
     /// <summary>
     /// Every label with its place, anchor and baseline, and whether it is drawn: a label that would
@@ -158,8 +152,7 @@ public partial class OmniSeriesDataLabels
         Start
     }
 
-    private (double X, double Y) Projected(int index) =>
-        ChartContext is null ? OmniChartGeometry.ProjectedPoint(Data, index, Domain) : ChartContext.ProjectCoordinates(Data[index]);
+    private (double X, double Y) Projected(int index) => _points.Projected(ChartContext, index);
 
     // The room left between a label inside its bar and the end of the bar.
     private const double InsideMargin = 1.5;

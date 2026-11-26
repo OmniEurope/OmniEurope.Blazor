@@ -21,18 +21,11 @@ public partial class OmniMarkers
 
     /// <summary>Registers the points with the chart so the plot covers them; markers stay out of the legend and the data table.</summary>
     protected override void OnParametersSet()
-    {
-        _domain = null;
-        ChartContext?.RegisterSeries(this, OmniChartSeriesKind.Auxiliary, Data);
-    }
+        => _points.Register(this, ChartContext, Data);
 
-    // Without a chart around the markers, the range of the points is read once per render, not once per dot.
-    private OmniChartGeometry.ChartDomain? _domain;
+    private readonly AuxiliaryChartPoints _points = new();
 
-    private OmniChartGeometry.ChartDomain Domain => _domain ??= OmniChartGeometry.Domains(Data);
-
-    private (double X, double Y) Projected(int index) =>
-        ChartContext is null ? OmniChartGeometry.ProjectedPoint(Data, index, Domain) : ChartContext.ProjectCoordinates(Data[index]);
+    private (double X, double Y) Projected(int index) => _points.Projected(ChartContext, index);
 
     private string ColorClass => ChartColor.Class(ColorIndex);
 

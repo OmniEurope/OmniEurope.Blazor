@@ -3,7 +3,7 @@
 // of OmniSidebar, and the wheel scope of OmniTabs.
 
 import { notify } from '../shared/notify.js';
-import { canScrollVertically } from '../shared/scroll.js';
+import { canScrollVertically, isPlainVerticalWheel } from '../shared/scroll.js';
 
 const tabHandlers = new WeakMap();
 const tabOverflow = new WeakMap();
@@ -235,7 +235,7 @@ export function attachTabsWheelScope(tabs, selector) {
     }
 
     const onWheel = event => {
-        if (event.defaultPrevented || event.ctrlKey || event.shiftKey || Math.abs(event.deltaY) <= Math.abs(event.deltaX)) {
+        if (!isPlainVerticalWheel(event)) {
             return;
         }
 
