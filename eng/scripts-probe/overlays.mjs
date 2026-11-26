@@ -393,8 +393,9 @@ export async function overlaySteps(session, results) {
   // weight 800, offset shadows). Every theme of the list, in light and dark, at text size 1, 5 and 10, in
   // compact and comfortable density, at 1280 and 375 px: the window does not scroll sideways and no
   // button clips its own text. The sweep runs inside the page through the window's own controls and
-  // waits two frames after each change, so it stays short; a dark-only theme keeps its fixed mode.
-  const sweepWindow = async () => {
+  // waits two frames after each change; a dark-only theme keeps its fixed mode. One call sweeps the theme at
+  // `index` alone, so no single CDP command holds the page for the whole list.
+  const sweepWindow = async index => {
     const settle = () => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(resolve, 40))));
     const windowOf = () => document.querySelector('.omni-appearance-window');
     const themeSelect = () => windowOf().querySelector('select');
@@ -439,10 +440,11 @@ export async function overlaySteps(session, results) {
     };
 
     const themes = [...themeSelect().options].map(option => ({ value: option.value, text: option.text }));
+    const swept = [themes[index]];
     const initialMode = modeButtons().findIndex(button => button.getAttribute('aria-checked') === 'true');
     const failures = [];
     let combinations = 0;
-    for (const theme of themes) {
+    for (const theme of swept) {
       change(themeSelect(), theme.value);
       await settle();
       for (const mode of [0, 1]) {
@@ -492,7 +494,13 @@ export async function overlaySteps(session, results) {
   for (const width of [1280, 375]) {
     await send('Emulation.setDeviceMetricsOverride', { width, height: width < 600 ? 812 : 900, deviceScaleFactor: 1, mobile: width < 600 });
     await pause(300);
-    const swept = await evaluate(`(${sweepWindow})()`);
+    const themeCount = await evaluate("document.querySelector('.omni-appearance-window select').options.length");
+    const swept = { themes: themeCount, combinations: 0, failures: [] };
+    for (let index = 0; index < themeCount; index++) {
+      const part = await evaluate(`(${sweepWindow})(${index})`);
+      swept.combinations += part.combinations;
+      swept.failures.push(...part.failures);
+    }
     check(swept.themes >= 15, `La liste des thèmes de la fenêtre n'en compte que ${swept.themes} : le balayage ne prouverait pas les 15 thèmes.`);
     check(swept.combinations === swept.themes * 12, `Balayage incomplet à ${width} px : ${swept.combinations} combinaisons mesurées sur ${swept.themes * 12}.`);
     check(swept.failures.length === 0, `La fenêtre d'apparence déborde (${swept.failures.length} cas sur ${swept.combinations}) : ${swept.failures.slice(0, 6).join(' | ')}`);
