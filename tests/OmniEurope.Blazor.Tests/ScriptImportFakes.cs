@@ -27,17 +27,11 @@ internal abstract class CancellableJSRuntime : IJSRuntime
 }
 
 /// <summary>
-/// A script module written by a test: it answers the call without a cancellation token, and the call
-/// with one is handed to it unchanged.
+/// A script module written by a test, answering its calls as <see cref="ForwardingJSRuntime"/> does.
 /// </summary>
-internal abstract class ForwardingJSObjectReference : IJSObjectReference
+internal abstract class ForwardingJSObjectReference : ForwardingJSRuntime, IJSObjectReference
 {
     public abstract ValueTask DisposeAsync();
-
-    public abstract ValueTask<TValue> InvokeAsync<TValue>(string identifier, object?[]? args);
-
-    public ValueTask<TValue> InvokeAsync<TValue>(string identifier, CancellationToken cancellationToken, object?[]? args) =>
-        InvokeAsync<TValue>(identifier, args);
 }
 
 /// <summary>

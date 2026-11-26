@@ -14,8 +14,6 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class DataGridStateVersion3Tests : OmniBunitContext
 {
-    private static readonly IReadOnlyList<Row> Rows = DataGridTestSetup.ThirtyOrders;
-
     /// <summary>A second circuit over the same browser storage: what a reload of the page sees.</summary>
     private sealed class Reloaded : OmniBunitContext;
 
@@ -29,15 +27,7 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
         BunitContext context,
         Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? more = null,
         RenderFragment? columns = null) =>
-        context.Render<OmniDataGrid<Row>>(parameters =>
-        {
-            parameters
-                .Add(component => component.Items, Rows)
-                .Add(component => component.KeyOf, row => row.Name)
-                .Add(component => component.StateKey, "orders")
-                .Add(component => component.Columns, columns ?? Columns());
-            more?.Invoke(parameters);
-        });
+        context.RenderOrders(columns ?? Columns(), more);
 
     /// <summary>The same browser storage in a new circuit, as after a reload.</summary>
     private static (Reloaded Context, GridPreferenceHarness Preferences) Reload(GridPreferenceHarness before)
@@ -60,8 +50,7 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
     {
         var preferences = new GridPreferenceHarness(Services);
         var grid = RenderGrid(this, parameters => parameters
-            .Add(component => component.PageSize, 10)
-            .Add(component => component.PageSizeOptions, [10, 20]));
+            .PagedByTen());
 
         await grid.InvokeAsync(() => grid.Instance.Paging.ChangePageSizeAsync(20));
 
@@ -74,8 +63,7 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
         {
             var reported = new List<int>();
             var again = RenderGrid(reloaded, parameters => parameters
-                .Add(component => component.PageSize, 10)
-                .Add(component => component.PageSizeOptions, [10, 20])
+                .PagedByTen()
                 .Add(component => component.PageSizeChanged, size => reported.Add(size)));
 
             Assert.Equal(20, again.FindAll("tbody tr[data-omni-row-index]").Count);
@@ -90,8 +78,7 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
         preferences.Seed("orders", """{"version":3,"pageSize":50}""");
 
         var grid = RenderGrid(this, parameters => parameters
-            .Add(component => component.PageSize, 10)
-            .Add(component => component.PageSizeOptions, [10, 20]));
+            .PagedByTen());
 
         Assert.Equal(10, grid.FindAll("tbody tr[data-omni-row-index]").Count);
     }
@@ -101,8 +88,7 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
     {
         var preferences = new GridPreferenceHarness(Services);
         var grid = RenderGrid(this, parameters => parameters
-            .Add(component => component.PageSize, 10)
-            .Add(component => component.PageSizeOptions, [10, 20]));
+            .PagedByTen());
 
         grid.Find("thead th[data-omni-col='Amount'] .omni-data-grid__sort").Click();
 
@@ -159,8 +145,7 @@ public sealed class DataGridStateVersion3Tests : OmniBunitContext
             """);
 
         var grid = RenderGrid(this, parameters => parameters
-            .Add(component => component.PageSize, 10)
-            .Add(component => component.PageSizeOptions, [10, 20])
+            .PagedByTen()
             .Add(component => component.AllowGrouping, true)
             .Add(component => component.AllowColumnFreeze, true)
             .Add(component => component.AllowColumnHide, true)

@@ -130,25 +130,25 @@ public sealed class ThemeScopeFollowStateTests : OmniBunitContext
     [Fact]
     public async Task A_follower_whose_refresh_fails_logs_it_and_ignores_a_disposed_component()
     {
-        var logger = new RecordingLogger();
+        var (logger, entries) = RecordingLogger();
         var state = new OmniAppearanceState(Services.GetRequiredService<OmniPreferences>(), JSInterop.JSRuntime, logger);
         Exception failure = new InvalidOperationException("refresh failed");
         using var follower = AppearanceFollower.Start(state, hostControls: false, () => Task.FromException(failure))!;
 
         // Raised by the state, the refresh is observed: its failure is logged, not lost.
         await state.SetAppearanceAsync(OmniAppearance.Dark);
-        var logged = Assert.Single(logger.Entries);
+        var logged = Assert.Single(entries);
         Assert.Equal((LogLevel.Error, failure), logged);
 
         failure = new ObjectDisposedException("scope");
         await follower.RefreshAsync();
-        Assert.Single(logger.Entries);
+        Assert.Single(entries);
     }
 
     [Fact]
     public async Task The_document_root_finishes_detaching_when_the_script_refuses()
     {
-        var logger = new RecordingLogger();
+        var (logger, entries) = RecordingLogger();
         var root = new AppearanceDocumentRoot(JSInterop.JSRuntime, logger);
         root.Attach();
         await root.SyncAsync(7, 7);
@@ -157,19 +157,14 @@ public sealed class ThemeScopeFollowStateTests : OmniBunitContext
 
         await root.DetachAsync();
 
-        Assert.Equal((LogLevel.Warning, refusal), Assert.Single(logger.Entries));
+        Assert.Equal((LogLevel.Warning, refusal), Assert.Single(entries));
     }
 
-    private sealed class RecordingLogger : ILogger<OmniAppearanceState>
+    /// <summary>A logger of the appearance state, with the level and the exception of every entry it was given.</summary>
+    private static (CallbackLogger<OmniAppearanceState> Logger, List<(LogLevel Level, Exception? Exception)> Entries) RecordingLogger()
     {
-        public List<(LogLevel Level, Exception? Exception)> Entries { get; } = [];
-
-        public IDisposable? BeginScope<TState>(TState state) where TState : notnull => null;
-
-        public bool IsEnabled(LogLevel logLevel) => true;
-
-        public void Log<TState>(LogLevel logLevel, EventId eventId, TState state, Exception? exception, Func<TState, Exception?, string> formatter) =>
-            Entries.Add((logLevel, exception));
+        List<(LogLevel Level, Exception? Exception)> entries = [];
+        return (new CallbackLogger<OmniAppearanceState>((level, _, exception) => entries.Add((level, exception))), entries);
     }
 
     /// <summary>A store whose reads wait for <see cref="Release"/>, as a slow database does.</summary>

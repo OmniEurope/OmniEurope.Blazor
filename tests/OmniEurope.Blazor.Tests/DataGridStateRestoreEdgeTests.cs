@@ -21,15 +21,7 @@ public sealed class DataGridStateRestoreEdgeTests : OmniBunitContext
     private const string CityGroup = """{"version":3,"groups":[{"key":"City","descending":false}]}""";
 
     private IRenderedComponent<OmniDataGrid<Row>> RenderGrid(Action<ComponentParameterCollectionBuilder<OmniDataGrid<Row>>>? more = null) =>
-        Render<OmniDataGrid<Row>>(parameters =>
-        {
-            parameters
-                .Add(component => component.Items, Rows)
-                .Add(component => component.KeyOf, row => row.Name)
-                .Add(component => component.StateKey, "orders")
-                .Add(component => component.Columns, Columns);
-            more?.Invoke(parameters);
-        });
+        this.RenderOrders(Columns, more);
 
     /// <summary>A navigation manager the host never initialized: reading its address throws.</summary>
     private sealed class UninitializedNavigation : NavigationManager;
@@ -49,8 +41,7 @@ public sealed class DataGridStateRestoreEdgeTests : OmniBunitContext
         var reported = new List<int>();
 
         var grid = RenderGrid(parameters => parameters
-            .Add(component => component.PageSize, 10)
-            .Add(component => component.PageSizeOptions, [10, 20])
+            .PagedByTen()
             .Add(component => component.PageSizeChanged, size => reported.Add(size)));
 
         Assert.Equal(10, grid.Instance.Paging.ChosenPageSize);

@@ -33,6 +33,22 @@ internal static class DataGridTestSetup
         ("Amount", []),
         ("City", []));
 
+    /// <summary>A grid over the thirty orders keyed by name, its state kept under <c>orders</c>; <paramref name="more"/> adds the rest.</summary>
+    internal static IRenderedComponent<OmniDataGrid<OrderRow>> RenderOrders(
+        this BunitContext context,
+        RenderFragment columns,
+        Action<ComponentParameterCollectionBuilder<OmniDataGrid<OrderRow>>>? more = null) =>
+        context.RenderDataGrid(ThirtyOrders, columns, parameters =>
+        {
+            parameters.Add(grid => grid.KeyOf, row => row.Name).Add(grid => grid.StateKey, "orders");
+            more?.Invoke(parameters);
+        });
+
+    /// <summary>Ten rows a page, the reader free to pick twenty.</summary>
+    internal static ComponentParameterCollectionBuilder<OmniDataGrid<TItem>> PagedByTen<TItem>(
+        this ComponentParameterCollectionBuilder<OmniDataGrid<TItem>> parameters) =>
+        parameters.Add(grid => grid.PageSize, 10).Add(grid => grid.PageSizeOptions, [10, 20]);
+
     /// <summary>A grid over <paramref name="items"/> with <paramref name="columns"/>; <paramref name="configure"/> adds the rest.</summary>
     internal static IRenderedComponent<OmniDataGrid<TItem>> RenderDataGrid<TItem>(
         this BunitContext context,
