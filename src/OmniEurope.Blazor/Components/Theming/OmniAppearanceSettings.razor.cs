@@ -17,19 +17,13 @@ namespace OmniEurope.Blazor.Components;
 /// before. The choice is made at the first render.
 /// </para>
 /// </remarks>
-public partial class OmniAppearanceSettings : IDisposable
+public partial class OmniAppearanceSettings : IDisposable, IOmniAppearanceTarget
 {
-    private AppearanceFollower? _shared;
-    private bool _decided;
+    /// <summary>Creates the component, its link to the user's appearance state decided on its first render.</summary>
+    public OmniAppearanceSettings() => _link = new AppearanceLink(this);
 
-    /// <summary>The appearance parameters, values and change callbacks: a host that writes any of them controls the component.</summary>
-    private static readonly string[] AppearanceParameters =
-    [
-        nameof(Appearance), nameof(AppearanceChanged), nameof(Preset), nameof(PresetChanged), nameof(Palette), nameof(PaletteChanged),
-        nameof(Font), nameof(FontChanged), nameof(Backdrop), nameof(BackdropChanged), nameof(BackdropMotion), nameof(BackdropMotionChanged), nameof(TextSizeLevel),
-        nameof(TextSizeLevelChanged), nameof(Density), nameof(DensityChanged), nameof(ControlSizeLevel), nameof(ControlSizeLevelChanged),
-        nameof(FullWidth), nameof(FullWidthChanged)
-    ];
+    private readonly AppearanceLink _link;
+
 
     /// <summary>The mode a theme drawn in dark mode only fixes, or null: then it cannot change.</summary>
     private OmniAppearance? FixedMode => Preset?.FixedAppearance;
@@ -205,56 +199,22 @@ public partial class OmniAppearanceSettings : IDisposable
     /// <param name="parameters">The parameters given by the renderer.</param>
     public override Task SetParametersAsync(ParameterView parameters)
     {
-        if (!_decided)
-        {
-            _decided = true;
-            _shared = AppearanceFollower.Start(SharedAppearance, parameters, AppearanceParameters, InvokeAsync, FollowState, StateHasChanged);
-        }
-
+        _link.Decide(SharedAppearance, parameters, InvokeAsync, StateHasChanged);
         return base.SetParametersAsync(parameters);
     }
 
     /// <summary>Following the state, reads the preference before showing it.</summary>
-    protected override Task OnInitializedAsync() => _shared?.State.LoadAsync() ?? Task.CompletedTask;
+    protected override Task OnInitializedAsync() => _link.LoadAsync();
 
     /// <summary>Stops following the state.</summary>
-    public void Dispose() => _shared?.Dispose();
+    public void Dispose() => _link.Dispose();
 
-    /// <summary>Following the state, takes every value from it and sends every change to it.</summary>
-    private void FollowState()
-    {
-        if (_shared?.State is not { } state)
-        {
-            return;
-        }
-
-        Appearance = state.Appearance;
-        AppearanceChanged = EventCallback.Factory.Create<OmniAppearance>(this, state.SetAppearanceAsync);
-        Preset = state.Preset;
-        PresetChanged = EventCallback.Factory.Create<OmniThemePreset?>(this, state.SetPresetAsync);
-        Palette = state.Palette;
-        PaletteChanged = EventCallback.Factory.Create<OmniThemePalette?>(this, state.SetPaletteAsync);
-        Font = state.Font;
-        FontChanged = EventCallback.Factory.Create<OmniThemeFont?>(this, state.SetFontAsync);
-        Backdrop = state.Backdrop;
-        BackdropChanged = EventCallback.Factory.Create<OmniThemeBackdrop?>(this, state.SetBackdropAsync);
-        BackdropMotion = state.BackdropMotion;
-        BackdropMotionChanged = EventCallback.Factory.Create<bool>(this, state.SetBackdropMotionAsync);
-        TextSizeLevel = state.TextSizeLevel;
-        TextSizeLevelChanged = EventCallback.Factory.Create<int>(this, state.SetTextSizeLevelAsync);
-        Density = state.Density;
-        DensityChanged = EventCallback.Factory.Create<OmniDensity>(this, state.SetDensityAsync);
-        ControlSizeLevel = state.ControlSizeLevel;
-        ControlSizeLevelChanged = EventCallback.Factory.Create<int>(this, state.SetControlSizeLevelAsync);
-        FullWidth = state.FullWidth;
-        FullWidthChanged = EventCallback.Factory.Create<bool>(this, state.SetFullWidthAsync);
-    }
 
     /// <summary>Adopts the open state the host sets, whenever it changes it.</summary>
     protected override void OnParametersSet()
     {
         base.OnParametersSet();
-        FollowState();
+        _link.Follow();
         if (_windowOpenParameter != WindowOpen)
         {
             _windowOpenParameter = WindowOpen;
