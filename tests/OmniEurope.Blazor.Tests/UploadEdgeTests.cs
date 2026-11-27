@@ -16,12 +16,18 @@ public sealed class UploadEdgeTests : OmniBunitContext
 
     /// <summary>
     /// Selects the text file <paramref name="name"/> on another thread, the selection being handed over only once its upload
-    /// ends, and waits until the upload runs (its cancel button is drawn).
+    /// ends, and waits until the upload runs (its cancel button is drawn). The thread is a dedicated one, not
+    /// one of the thread pool: a loaded test run, many tests blocking pool threads in synchronous waits, could
+    /// leave a queued selection unstarted past the bUnit wait below.
     /// </summary>
     private static Task SelectAside(IRenderedComponent<OmniUpload> upload, string name)
     {
         var input = upload.FindComponent<InputFile>();
-        var selecting = Task.Run(() => input.UploadFiles(Text(name)), Xunit.TestContext.Current.CancellationToken);
+        var selecting = Task.Factory.StartNew(
+            () => input.UploadFiles(Text(name)),
+            Xunit.TestContext.Current.CancellationToken,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default);
         upload.WaitForAssertion(() => Assert.Single(upload.FindAll(".omni-upload__cancel")));
         return selecting;
     }
@@ -219,7 +225,7 @@ public sealed class UploadEdgeTests : OmniBunitContext
         });
     }
 
-    [Fact(Skip = "Intermittent: canceled once then passed on rerun (2026-11-24), see docs/tests/disabled-tests.md")]
+    [Fact]
     public async Task Disposed_BeforeTheCallbackReturns_NeitherCompletesNorAttaches()
     {
         IReadOnlyList<OmniUploadFile> files = [];
@@ -240,7 +246,9 @@ public sealed class UploadEdgeTests : OmniBunitContext
         Assert.True(seen!.CancellationToken.IsCancellationRequested);
 
         seen.ReportProgress(80);
-        pending.SetResult();
+        // Released on the renderer's dispatcher: the field's handler resumes there inline and ends before
+        // the release returns, rather than on a pool thread a loaded run may hold back.
+        await upload.InvokeAsync(pending.SetResult);
         await selecting.WaitAsync(TimeSpan.FromSeconds(10), Xunit.TestContext.Current.CancellationToken);
 
         Assert.Equal(0, changes);
