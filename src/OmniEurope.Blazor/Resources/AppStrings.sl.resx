@@ -16,6 +16,7 @@
   <data name="AppMenuRole" xml:space="preserve"><value>Vloga</value></data>
   <data name="AppMenuSettings" xml:space="preserve"><value>Nastavitve</value></data>
   <data name="AppMenuSignOut" xml:space="preserve"><value>Odjava</value></data>
+  <data name="AppMenuDeployedAt" xml:space="preserve"><value>Uvedeno {0} ob {1}</value></data>
   <data name="AppMenuModeNext" xml:space="preserve"><value>Preklopi na naslednji način</value></data>
   <data name="SettingsMode" xml:space="preserve"><value>Način</value></data>
   <data name="SettingsDarkOnly" xml:space="preserve"><value>Ta tema je vedno temna</value></data>

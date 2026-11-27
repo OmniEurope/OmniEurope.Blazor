@@ -8,7 +8,8 @@
 #
 # Never used for local development: that is deploy/compose/dev-db.compose.yml, started by the local launcher.
 # Runtime configuration, by container:
-#   front: API_BASE_URL (the API's public address) -> wwwroot/appsettings.json and the CSP connect-src.
+#   front: API_BASE_URL (the API's public address) -> wwwroot/appsettings.json and the CSP connect-src;
+#          DEPLOYED_AT (the deployment moment) -> wwwroot/appsettings.json, the tooltip of the version.
 #   back : ConnectionStrings__DefaultConnection, Cors__Origins__0 (the front's public origin), and
 #          ForwardedHeaders__Enabled (the port is published on 127.0.0.1 only, so the proxy is the only client).
 
@@ -26,6 +27,8 @@ services:
     environment:
       - API_BASE_URL=${API_BASE_URL:?}
       - APP_VERSION=${APP_VERSION:?}
+      # The moment the pipeline deployed this release (ISO 8601), the tooltip of the version; empty, no tooltip.
+      - DEPLOYED_AT=${DEPLOYED_AT:-}
     # The runtime image has no curl: bash opens the TCP connection itself.
     healthcheck:
       test: ["CMD", "bash", "-c", "exec 3<>/dev/tcp/127.0.0.1/8080 && printf 'GET / HTTP/1.0\r\n\r\n' >&3 && head -n1 <&3 | grep -q 200"]

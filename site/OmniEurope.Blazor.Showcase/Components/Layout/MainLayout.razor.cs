@@ -46,6 +46,12 @@ public partial class MainLayout : IAsyncDisposable
     [Inject]
     private IStringLocalizerFactory Localizers { get; set; } = default!;
 
+    /// <summary>The runtime setting of the deployment moment, written by the front container.</summary>
+    public const string DeployedAtKey = "DeployedAt";
+
+    [Inject]
+    private Microsoft.Extensions.Configuration.IConfiguration Configuration { get; set; } = default!;
+
     /// <summary>The pages the search of the header leads to, built again when the language changes.</summary>
     private IReadOnlyList<OmniSiteSearchDestination> SearchDestinations
     {
@@ -82,6 +88,14 @@ public partial class MainLayout : IAsyncDisposable
         System.Globalization.CultureInfo.CurrentCulture,
         Text["LayoutVersion"].Value,
         typeof(OmniButton).Assembly.GetName().Version?.ToString(3));
+
+    /// <summary>
+    /// When this copy of the showcase was deployed: the <c>DeployedAt</c> runtime setting the front container writes
+    /// from <c>DEPLOYED_AT</c> (an ISO 8601 moment). Null on a local or static copy, or a value that is not a moment:
+    /// the version then has no tooltip.
+    /// </summary>
+    private DateTimeOffset? DeployedAt =>
+        DateTimeOffset.TryParse(Configuration[DeployedAtKey], System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal, out var at) ? at : null;
 
     /// <summary>
     /// How the menu opens right now: pushed beside the page on a wide screen, overlaid on a phone, where

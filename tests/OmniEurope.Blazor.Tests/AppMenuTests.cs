@@ -246,6 +246,56 @@ public sealed class AppMenuTests : OmniBunitContext
     }
 
     [Fact]
+    public void The_deployment_moment_is_the_tooltip_of_the_version_reached_by_tab_too()
+    {
+        var deployedAt = new DateTimeOffset(2026, 11, 27, 18, 20, 0, TimeSpan.Zero);
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.AppearanceChanged, _ => { })
+            .Add(component => component.OnThemeOpen, () => { })
+            .Add(component => component.Version, "Boutique v0.4.0")
+            .Add(component => component.DeployedAt, deployedAt));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        var local = TimeZoneInfo.ConvertTime(deployedAt, TimeZoneInfo.Local);
+        var culture = System.Globalization.CultureInfo.CurrentCulture;
+        var expected = $"Déployé le {local.ToString("d", culture)} à {local.ToString("t", culture)}";
+        var trigger = menu.Find(".omni-app-menu__footer .omni-tooltip__trigger");
+        Assert.Equal("Boutique v0.4.0", trigger.QuerySelector(".omni-app-menu__version")!.TextContent);
+        Assert.Equal("0", trigger.GetAttribute("tabindex"));
+        var tooltip = menu.Find($"#{trigger.GetAttribute("aria-describedby")}");
+        Assert.Equal("tooltip", tooltip.GetAttribute("role"));
+        Assert.Equal(expected, tooltip.TextContent);
+    }
+
+    [Fact]
+    public void Without_a_deployment_moment_the_version_has_no_tooltip()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.AppearanceChanged, _ => { })
+            .Add(component => component.OnThemeOpen, () => { })
+            .Add(component => component.Version, "Boutique v0.4.0"));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        Assert.Equal("Boutique v0.4.0", menu.Find(".omni-app-menu__version").TextContent);
+        Assert.Empty(menu.FindAll(".omni-app-menu__footer .omni-tooltip"));
+        Assert.Empty(menu.FindAll(".omni-app-menu__footer [tabindex]"));
+    }
+
+    [Fact]
+    public void A_deployment_moment_without_a_version_shows_nothing()
+    {
+        var menu = Render<OmniAppMenu>(parameters => parameters
+            .Add(component => component.AppearanceChanged, _ => { })
+            .Add(component => component.OnThemeOpen, () => { })
+            .Add(component => component.DeployedAt, DateTimeOffset.UnixEpoch)
+            .Add(component => component.OnSignOut, () => { }));
+        menu.Find(".omni-app-menu__trigger").Click();
+
+        Assert.Empty(menu.FindAll(".omni-app-menu__footer .omni-tooltip"));
+        Assert.Empty(menu.FindAll("[role=tooltip]"));
+    }
+
+    [Fact]
     public void The_language_row_needs_two_languages_and_hides_the_flag_unless_asked()
     {
         var single = Render<OmniAppMenu>(parameters => parameters

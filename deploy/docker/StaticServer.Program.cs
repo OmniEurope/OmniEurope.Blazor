@@ -7,7 +7,8 @@
 //   the server refuses to start without it, so a deployed front never runs without its policy;
 // - adds the showcase API origin (API_BASE_URL) to the connect-src of that policy, and a sha256 source for each
 //   inline script the published index.html holds, so the policy stays strict without 'unsafe-inline';
-// - writes wwwroot/appsettings.json at start (ApiBaseUrl), the one runtime setting of the front;
+// - writes wwwroot/appsettings.json at start: ApiBaseUrl, and DeployedAt (DEPLOYED_AT, the moment the pipeline
+//   deployed this release, an ISO 8601 value; empty when absent or not a moment, and the version then has no tooltip);
 // - gives every response a cache policy (the global rule: a file served without Cache-Control is kept by a
 //   browser for a tenth of its age): `immutable` only for a file whose name carries the hash of its bytes,
 //   `no-store` for the HTML shell, the runtime settings and every error, `no-cache` (revalidated, 304 while
@@ -27,12 +28,17 @@ var app = builder.Build();
 var webRoot = app.Environment.WebRootPath;
 var rules = HeaderRule.Load(Path.Combine(webRoot, "_headers"));
 var apiBaseUrl = ApiBaseUrl(Environment.GetEnvironmentVariable("API_BASE_URL"));
-WriteRuntimeSettings(webRoot, apiBaseUrl);
+var deployedAt = DeployedAt(Environment.GetEnvironmentVariable("DEPLOYED_AT"));
+WriteRuntimeSettings(webRoot, apiBaseUrl, deployedAt);
 var contentSecurityPolicy = ComposePolicy(
     rules.SelectMany(rule => rule.Headers).LastOrDefault(header => header.Key.Equals("Content-Security-Policy", StringComparison.OrdinalIgnoreCase)).Value,
     apiBaseUrl is null ? null : new Uri(apiBaseUrl).GetLeftPart(UriPartial.Authority),
     InlineScripts(Path.Combine(webRoot, "index.html")));
-app.Logger.LogInformation("Showcase front: API={Api}", apiBaseUrl ?? "(none: preferences stay in the browser)");
+app.Logger.LogInformation("Showcase front: API={Api}, deployed at {DeployedAt}", apiBaseUrl ?? "(none: preferences stay in the browser)", deployedAt ?? "(unknown: the version has no tooltip)");
+if (deployedAt is null && !string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("DEPLOYED_AT")))
+{
+    app.Logger.LogWarning("DEPLOYED_AT '{Value}' is not an ISO 8601 moment: the version has no tooltip.", Environment.GetEnvironmentVariable("DEPLOYED_AT"));
+}
 
 // The container is published on the loopback and the reverse proxy sets X-Forwarded-For.
 var forwarded = new ForwardedHeadersOptions { ForwardedHeaders = ForwardedHeaders.XForwardedFor | ForwardedHeaders.XForwardedProto };
@@ -132,11 +138,18 @@ static string? ApiBaseUrl(string? value)
     return url.EndsWith('/') ? url : url + "/";
 }
 
-static void WriteRuntimeSettings(string webRoot, string? apiBaseUrl)
+// The moment as an ISO 8601 UTC value, or null when it is absent or not a moment.
+static string? DeployedAt(string? value) =>
+    DateTimeOffset.TryParse(value, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.AssumeUniversal, out var at)
+        ? at.ToUniversalTime().ToString("yyyy-MM-dd'T'HH:mm:ss'Z'", System.Globalization.CultureInfo.InvariantCulture)
+        : null;
+
+static void WriteRuntimeSettings(string webRoot, string? apiBaseUrl, string? deployedAt)
 {
     var file = Path.Combine(webRoot, "appsettings.json");
     var settings = File.Exists(file) ? JsonNode.Parse(File.ReadAllText(file)) as JsonObject ?? new JsonObject() : new JsonObject();
     settings["ApiBaseUrl"] = apiBaseUrl ?? string.Empty;
+    settings["DeployedAt"] = deployedAt ?? string.Empty;
     File.WriteAllText(file, settings.ToJsonString(new() { WriteIndented = true }));
     // The pre-compressed variants hold the build-time values.
     File.Delete(file + ".br");

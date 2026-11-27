@@ -79,7 +79,18 @@
             @if (!string.IsNullOrWhiteSpace(Version) || OnSignOut.HasDelegate)
             {
                 <div class="omni-app-menu__row omni-app-menu__footer">
-                    <span class="omni-app-menu__version">@Version</span>
+                    @* The deployment moment, when the host knows it, is the version's tooltip, reached by Tab
+                       too; without it the version is plain text and has no tooltip at all. *@
+                    @if (DeployedText is { } deployed && !string.IsNullOrWhiteSpace(Version))
+                    {
+                        <OmniTooltip Text="@deployed" Focusable="true">
+                            <span class="omni-app-menu__version">@Version</span>
+                        </OmniTooltip>
+                    }
+                    else
+                    {
+                        <span class="omni-app-menu__version">@Version</span>
+                    }
                     @if (OnSignOut.HasDelegate)
                     {
                         <OmniButton Variant="OmniButtonVariant.Primary" Class="omni-app-menu__sign-out" OnClick="SignOutAsync">

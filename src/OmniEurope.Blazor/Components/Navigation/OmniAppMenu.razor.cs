@@ -1,3 +1,4 @@
+using System.Globalization;
 using System.Text;
 
 namespace OmniEurope.Blazor.Components;
@@ -137,6 +138,14 @@ public partial class OmniAppMenu : IDisposable
     [Parameter]
     public string? Version { get; set; }
 
+    /// <summary>
+    /// When the running build was deployed, shown as the tooltip of <see cref="Version"/> ("Deployed on 27/11/2026 at
+    /// 19:20", in the culture and the local time zone in force). Null, the default, when the host does not know it: the
+    /// version then has no tooltip. Ignored without a <see cref="Version"/>.
+    /// </summary>
+    [Parameter]
+    public DateTimeOffset? DeployedAt { get; set; }
+
     /// <summary>Raised by the sign-out button, after the menu closes; bound, it shows that button.</summary>
     [Parameter]
     public EventCallback OnSignOut { get; set; }
@@ -228,6 +237,15 @@ public partial class OmniAppMenu : IDisposable
     private bool ModeFixed => FixedMode is not null;
 
     private OmniAppearance ShownAppearance => FixedMode ?? Appearance;
+
+    // The deployment moment in the local time zone, its date and its time in the culture's short forms.
+    private string? DeployedText => DeployedAt is not { } at ? null : DeployedTextOf(TimeZoneInfo.ConvertTime(at, TimeZoneInfo.Local));
+
+    private string DeployedTextOf(DateTimeOffset local) => string.Format(
+        CultureInfo.CurrentCulture,
+        Localize("AppMenuDeployedAt"),
+        local.ToString("d", CultureInfo.CurrentCulture),
+        local.ToString("t", CultureInfo.CurrentCulture));
 
     private bool ShowsLanguages => Languages is { Count: > 1 };
 

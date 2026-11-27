@@ -1,5 +1,6 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Showcase.Components.Layout;
 using OmniEurope.Blazor.Showcase.Localization;
@@ -14,8 +15,13 @@ internal static class ShowcaseLayoutRendering
         context.Render<MainLayout>(parameters => parameters.Add(layout => layout.Body, (RenderFragment)(builder => builder.AddMarkupContent(0, "<p id=\"page\">page</p>"))));
 
     /// <summary>The services the shell needs, the stylesheet it reads its tokens from answering <paramref name="css"/>.</summary>
-    public static IServiceCollection AddShowcaseShell(this IServiceCollection services, string css)
+    public static IServiceCollection AddShowcaseShell(this IServiceCollection services, string css) =>
+        services.AddShowcaseShell(css, new Dictionary<string, string?>());
+
+    /// <summary>The shell services with the runtime <paramref name="settings"/> of a deployed copy (DeployedAt...).</summary>
+    public static IServiceCollection AddShowcaseShell(this IServiceCollection services, string css, IReadOnlyDictionary<string, string?> settings)
     {
+        services.AddSingleton<IConfiguration>(new ConfigurationBuilder().AddInMemoryCollection(settings).Build());
         services.AddScoped(_ => new HttpClient(new StylesheetResponder(css)) { BaseAddress = new Uri("https://localhost/") });
         services.AddScoped<ThemeTokenReader>();
         services.AddScoped<ThemeState>();

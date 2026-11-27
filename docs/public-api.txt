@@ -2642,6 +2642,7 @@ property public OmniEurope.Blazor.Components.OmniAppMenu.AppearanceChanged : Mic
 property public OmniEurope.Blazor.Components.OmniAppMenu.Backdrop : OmniEurope.Blazor.Components.OmniThemeBackdrop? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.BackdropChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniThemeBackdrop?> {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.ChildContent : Microsoft.AspNetCore.Components.RenderFragment? {get(public);set(public)} [Parameter]
+property public OmniEurope.Blazor.Components.OmniAppMenu.DeployedAt : System.DateTimeOffset? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Disabled : System.Boolean {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.Font : OmniEurope.Blazor.Components.OmniThemeFont? {get(public);set(public)} [Parameter]
 property public OmniEurope.Blazor.Components.OmniAppMenu.FontChanged : Microsoft.AspNetCore.Components.EventCallback<OmniEurope.Blazor.Components.OmniThemeFont?> {get(public);set(public)} [Parameter]

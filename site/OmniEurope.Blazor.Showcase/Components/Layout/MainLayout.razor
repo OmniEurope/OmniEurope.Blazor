@@ -33,7 +33,7 @@
                              Font="Theme.Font" FontChanged="SetFontAsync"
                              Backdrop="Theme.Backdrop" BackdropChanged="SetBackdropAsync" OnThemeOpen="OpenAppearanceWindow"
                              Languages="ShowcaseLanguageSwitcher.Languages" Language="@ShowcaseLanguageSwitcher.Current"
-                             LanguageChanged="ChangeLanguageAsync" Version="@VersionLine" />
+                             LanguageChanged="ChangeLanguageAsync" Version="@VersionLine" DeployedAt="@DeployedAt" />
             </ChildContent>
         </OmniHeader>
         <OmniLoadingBar Mode="OmniLoadingBarMode.Continuous" Label="@Text["Loading"]" />

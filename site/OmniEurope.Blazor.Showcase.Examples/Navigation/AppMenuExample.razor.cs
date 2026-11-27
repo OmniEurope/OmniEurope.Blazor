@@ -9,6 +9,9 @@ public partial class AppMenuExample
     /// <summary>The make-believe holder of the account, sample data.</summary>
     private const string UserName = "camille.durand@example.org";
 
+    // A fixed deployment moment: the version line shows it as its tooltip.
+    private static readonly DateTimeOffset SampleDeployedAt = new(2026, 11, 27, 18, 20, 0, TimeSpan.Zero);
+
     /// <summary>Whether the menu shows the signed-in user and their role.</summary>
     [Parameter]
     public bool WithAccount { get; set; } = true;

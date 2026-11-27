@@ -3,6 +3,7 @@ using Bunit;
 using Bunit.TestDoubles;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Showcase.Components.Layout;
@@ -45,6 +46,29 @@ public sealed class ShowcaseLayoutTests : OmniBunitContext
         Assert.NotNull(layout.Find("a.omni-skip-link"));
         Assert.Equal("showcase-theme", layout.Find("[data-omni-theme]").Id);
     });
+
+    [Fact]
+    public void AppMenu_HasNoDeploymentMoment_OnALocalCopy() =>
+        Assert.Null(RenderLayout().FindComponent<OmniAppMenu>().Instance.DeployedAt);
+
+    [Fact]
+    public void AppMenu_TakesTheDeploymentMomentFromTheRuntimeSettings()
+    {
+        Services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?> { [MainLayout.DeployedAtKey] = "2026-11-27T18:20:00Z" }).Build());
+        var deployed = RenderLayout().FindComponent<OmniAppMenu>().Instance.DeployedAt;
+
+        Assert.Equal(new DateTimeOffset(2026, 11, 27, 18, 20, 0, TimeSpan.Zero), deployed);
+    }
+
+    [Fact]
+    public void AppMenu_HasNoDeploymentMoment_WhenTheSettingIsNotAMoment()
+    {
+        Services.AddSingleton<IConfiguration>(new ConfigurationBuilder()
+            .AddInMemoryCollection(new Dictionary<string, string?> { [MainLayout.DeployedAtKey] = "not a date" }).Build());
+
+        Assert.Null(RenderLayout().FindComponent<OmniAppMenu>().Instance.DeployedAt);
+    }
 
     [Fact]
     public void Toggle_ControlsTheSidebar_AndClosesAndReopensIt()

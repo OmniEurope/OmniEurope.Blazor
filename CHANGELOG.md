@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Ajouté
+
+- `OmniAppMenu.DeployedAt` (`DateTimeOffset?`) : le moment où la version a été déployée devient l'infobulle de la ligne de version (« Déployé le 27/11/2026 à 19:20 », dans la culture et le fuseau local, atteinte aussi par Tab), traduite dans les 24 langues. Sans date, aucune infobulle. La vitrine déployée la lit dans `DEPLOYED_AT`, que son conteneur écrit dans ses réglages d'exécution.
+
 ### Corrigé
 
 - Un fond animé en CSS (Bokeh, Aquarelle, Quadrillage, Ricochets...) se fige sur un moteur de rendu trop lent pour le mouvoir : sans processeur graphique, chaque image du fond prenait de 130 à 500 ms et retenait d'autant les clics et les touches de la page. Trois images de suite espacées de plus de 100 ms (la règle du canvas de Trou noir) et la portée pose `data-omni-backdrop-slow`, qui fige le fond.
