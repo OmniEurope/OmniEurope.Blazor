@@ -8,6 +8,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 - `OmniAppMenu.DeployedAt` (`DateTimeOffset?`) : le moment où la version a été déployée devient l'infobulle de la ligne de version (« Déployé le 27/11/2026 à 19:20 », dans la culture et le fuseau local, atteinte aussi par Tab), traduite dans les 24 langues. Sans date, aucune infobulle. La vitrine déployée la lit dans `DEPLOYED_AT`, que son conteneur écrit dans ses réglages d'exécution.
 
+### Modifié
+
+- Dépendances à leur dernière version stable : `HtmlSanitizer` 11.0.26 -> 11.0.74 (dépendance d'exécution du paquet), `Microsoft.CodeAnalysis.CSharp` 5.9.0 -> 5.12.0 (analyseurs du dépôt, compilateur du SDK plancher 11.0.100 désormais publié ; l'analyseur `OE0001` livré reste sur 5.0.0), `coverlet.MTP` 10.1.0 -> 10.1.1, `Microsoft.Web.WebView2` 1.0.4314.35 -> 1.0.4370.26 (hôte Hybrid), et pour l'API de la vitrine `Npgsql.EntityFrameworkCore.PostgreSQL` 10.0.3 -> 11.0.0, `Microsoft.EntityFrameworkCore.Design` et `Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore` 10.0.15 -> 11.0.0, `Testcontainers.PostgreSql` 4.16.0 -> 4.17.0. Les lignes `net10.0` d'ASP.NET Core et de la localisation restent sur le dernier correctif 10.0.15.
+
 ### Corrigé
 
 - Une infobulle placée par `omni-tooltip.js` passe dans la couche supérieure du navigateur (popover manuel, comme les sous-menus) le temps de son affichage : dans un panneau qui crée un bloc conteneur (`backdrop-filter`, `translate`, comme le panneau d'`OmniAppMenu`), sa position fixe se calculait depuis le panneau, si bien que l'infobulle de la version tombait hors de la fenêtre et ouvrait une barre de défilement horizontale dans le menu.

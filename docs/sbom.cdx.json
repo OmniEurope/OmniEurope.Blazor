@@ -24,9 +24,9 @@
     {
       "type": "library",
       "name": "AngleSharp",
-      "version": "1.10.0",
-      "bom-ref": "pkg:nuget/AngleSharp@1.10.0",
-      "purl": "pkg:nuget/AngleSharp@1.10.0",
+      "version": "1.11.0",
+      "bom-ref": "pkg:nuget/AngleSharp@1.11.0",
+      "purl": "pkg:nuget/AngleSharp@1.11.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -39,38 +39,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "AngleSharp",
-      "version": "1.10.1",
-      "bom-ref": "pkg:nuget/AngleSharp@1.10.1",
-      "purl": "pkg:nuget/AngleSharp@1.10.1",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "AngleSharp.Css",
-      "version": "1.4.0",
-      "bom-ref": "pkg:nuget/AngleSharp.Css@1.4.0",
-      "purl": "pkg:nuget/AngleSharp.Css@1.4.0",
+      "version": "1.6.0",
+      "bom-ref": "pkg:nuget/AngleSharp.Css@1.6.0",
+      "purl": "pkg:nuget/AngleSharp.Css@1.6.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -83,29 +61,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "AngleSharp.Css",
-      "version": "1.4.1",
-      "bom-ref": "pkg:nuget/AngleSharp.Css@1.4.1",
-      "purl": "pkg:nuget/AngleSharp.Css@1.4.1",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "eng/OmniEurope.PublicApiGuard/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke.Client/packages.lock.json;samples/OmniEurope.Blazor.AutoSmoke/packages.lock.json;samples/OmniEurope.Blazor.Catalog/packages.lock.json;samples/OmniEurope.Blazor.HybridSmoke/packages.lock.json;samples/OmniEurope.Blazor.WasmSmoke/packages.lock.json;site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json;site/OmniEurope.Blazor.Showcase/packages.lock.json;src/OmniEurope.Blazor/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -178,9 +134,9 @@
     {
       "type": "library",
       "name": "coverlet.MTP",
-      "version": "10.1.0",
-      "bom-ref": "pkg:nuget/coverlet.MTP@10.1.0",
-      "purl": "pkg:nuget/coverlet.MTP@10.1.0",
+      "version": "10.1.1",
+      "bom-ref": "pkg:nuget/coverlet.MTP@10.1.1",
+      "purl": "pkg:nuget/coverlet.MTP@10.1.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -354,9 +310,9 @@
     {
       "type": "library",
       "name": "HtmlSanitizer",
-      "version": "11.0.26",
-      "bom-ref": "pkg:nuget/HtmlSanitizer@11.0.26",
-      "purl": "pkg:nuget/HtmlSanitizer@11.0.26",
+      "version": "11.0.74",
+      "bom-ref": "pkg:nuget/HtmlSanitizer@11.0.74",
+      "purl": "pkg:nuget/HtmlSanitizer@11.0.74",
       "licenses": [
         {
           "expression": "MIT"
@@ -376,9 +332,9 @@
     {
       "type": "library",
       "name": "Humanizer.Core",
-      "version": "2.14.1",
-      "bom-ref": "pkg:nuget/Humanizer.Core@2.14.1",
-      "purl": "pkg:nuget/Humanizer.Core@2.14.1",
+      "version": "3.0.10",
+      "bom-ref": "pkg:nuget/Humanizer.Core@3.0.10",
+      "purl": "pkg:nuget/Humanizer.Core@3.0.10",
       "licenses": [
         {
           "expression": "MIT"
@@ -992,9 +948,9 @@
     {
       "type": "library",
       "name": "Microsoft.Build.Framework",
-      "version": "18.0.2",
-      "bom-ref": "pkg:nuget/Microsoft.Build.Framework@18.0.2",
-      "purl": "pkg:nuget/Microsoft.Build.Framework@18.0.2",
+      "version": "18.9.6",
+      "bom-ref": "pkg:nuget/Microsoft.Build.Framework@18.9.6",
+      "purl": "pkg:nuget/Microsoft.Build.Framework@18.9.6",
       "licenses": [
         {
           "expression": "MIT"
@@ -1029,7 +985,29 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.CodeAnalysis.Analyzers",
+      "version": "5.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.9.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Analyzers@5.9.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
         }
       ]
     },
@@ -1051,7 +1029,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
         }
       ]
     },
@@ -1073,7 +1051,29 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.CodeAnalysis.Common",
+      "version": "5.12.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.12.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Common@5.12.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
         }
       ]
     },
@@ -1095,7 +1095,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
         }
       ]
     },
@@ -1117,7 +1117,29 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json;src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+          "value": "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
+      "name": "Microsoft.CodeAnalysis.CSharp",
+      "version": "5.12.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.12.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp@5.12.0",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
         }
       ]
     },
@@ -1139,16 +1161,16 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "eng/OmniEurope.Analyzers.Tests/packages.lock.json;eng/OmniEurope.Analyzers/packages.lock.json;tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
         }
       ]
     },
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.CSharp.Workspaces",
-      "version": "5.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp.Workspaces@5.0.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp.Workspaces@5.0.0",
+      "version": "5.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.CSharp.Workspaces@5.9.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.CSharp.Workspaces@5.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1168,9 +1190,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Workspaces.Common",
-      "version": "5.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.Common@5.0.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.Common@5.0.0",
+      "version": "5.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.Common@5.9.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.Common@5.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1190,9 +1212,9 @@
     {
       "type": "library",
       "name": "Microsoft.CodeAnalysis.Workspaces.MSBuild",
-      "version": "5.0.0",
-      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.MSBuild@5.0.0",
-      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.MSBuild@5.0.0",
+      "version": "5.9.0",
+      "bom-ref": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.MSBuild@5.9.0",
+      "purl": "pkg:nuget/Microsoft.CodeAnalysis.Workspaces.MSBuild@5.9.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1212,9 +1234,9 @@
     {
       "type": "library",
       "name": "Microsoft.EntityFrameworkCore",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore@10.0.15",
-      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore@11.0.0",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1234,9 +1256,9 @@
     {
       "type": "library",
       "name": "Microsoft.EntityFrameworkCore.Abstractions",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Abstractions@10.0.15",
-      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Abstractions@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Abstractions@11.0.0",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Abstractions@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1256,9 +1278,9 @@
     {
       "type": "library",
       "name": "Microsoft.EntityFrameworkCore.Analyzers",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Analyzers@10.0.15",
-      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Analyzers@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Analyzers@11.0.0",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Analyzers@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1278,9 +1300,9 @@
     {
       "type": "library",
       "name": "Microsoft.EntityFrameworkCore.Design",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Design@10.0.15",
-      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Design@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Design@11.0.0",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Design@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1300,9 +1322,9 @@
     {
       "type": "library",
       "name": "Microsoft.EntityFrameworkCore.Relational",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Relational@10.0.15",
-      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Relational@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.EntityFrameworkCore.Relational@11.0.0",
+      "purl": "pkg:nuget/Microsoft.EntityFrameworkCore.Relational@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1366,28 +1388,6 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Caching.Memory",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Caching.Memory@10.0.15",
-      "purl": "pkg:nuget/Microsoft.Extensions.Caching.Memory@10.0.15",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.Caching.Memory",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.Caching.Memory@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.Caching.Memory@11.0.0",
@@ -1403,7 +1403,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Tests/packages.lock.json"
+          "value": "tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json;tests/OmniEurope.Blazor.Tests/packages.lock.json"
         }
       ]
     },
@@ -1564,9 +1564,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.FileExtensions",
-      "version": "10.0.13",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.13",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.13",
+      "version": "10.0.14",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.14",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.FileExtensions@10.0.14",
       "licenses": [
         {
           "expression": "MIT"
@@ -1608,9 +1608,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Configuration.Json",
-      "version": "10.0.13",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.13",
-      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.13",
+      "version": "10.0.14",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.14",
+      "purl": "pkg:nuget/Microsoft.Extensions.Configuration.Json@10.0.14",
       "licenses": [
         {
           "expression": "MIT"
@@ -1740,28 +1740,6 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.DependencyModel",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyModel@10.0.15",
-      "purl": "pkg:nuget/Microsoft.Extensions.DependencyModel@10.0.15",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
-      "name": "Microsoft.Extensions.DependencyModel",
       "version": "11.0.0",
       "bom-ref": "pkg:nuget/Microsoft.Extensions.DependencyModel@11.0.0",
       "purl": "pkg:nuget/Microsoft.Extensions.DependencyModel@11.0.0",
@@ -1777,7 +1755,7 @@
         },
         {
           "name": "omnieurope:lock-files",
-          "value": "tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json"
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json;tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json"
         }
       ]
     },
@@ -1850,9 +1828,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Diagnostics.HealthChecks",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks@10.0.15",
-      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks@11.0.0",
+      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1872,9 +1850,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions@10.0.15",
-      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions@11.0.0",
+      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1894,9 +1872,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore",
-      "version": "10.0.15",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore@10.0.15",
-      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore@10.0.15",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore@11.0.0",
+      "purl": "pkg:nuget/Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore@11.0.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -1916,9 +1894,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Abstractions",
-      "version": "10.0.13",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.13",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.13",
+      "version": "10.0.14",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.14",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Abstractions@10.0.14",
       "licenses": [
         {
           "expression": "MIT"
@@ -1982,9 +1960,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileProviders.Physical",
-      "version": "10.0.13",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.13",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.13",
+      "version": "10.0.14",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.14",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileProviders.Physical@10.0.14",
       "licenses": [
         {
           "expression": "MIT"
@@ -2026,9 +2004,9 @@
     {
       "type": "library",
       "name": "Microsoft.Extensions.FileSystemGlobbing",
-      "version": "10.0.13",
-      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.13",
-      "purl": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.13",
+      "version": "10.0.14",
+      "bom-ref": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.14",
+      "purl": "pkg:nuget/Microsoft.Extensions.FileSystemGlobbing@10.0.14",
       "licenses": [
         {
           "expression": "MIT"
@@ -2864,6 +2842,28 @@
     },
     {
       "type": "library",
+      "name": "Microsoft.NET.StringTools",
+      "version": "18.9.6",
+      "bom-ref": "pkg:nuget/Microsoft.NET.StringTools@18.9.6",
+      "purl": "pkg:nuget/Microsoft.NET.StringTools@18.9.6",
+      "licenses": [
+        {
+          "expression": "MIT"
+        }
+      ],
+      "properties": [
+        {
+          "name": "omnieurope:license-kind",
+          "value": "expression"
+        },
+        {
+          "name": "omnieurope:lock-files",
+          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+        }
+      ]
+    },
+    {
+      "type": "library",
       "name": "Microsoft.NETCore.Platforms",
       "version": "1.1.0",
       "bom-ref": "pkg:nuget/Microsoft.NETCore.Platforms@1.1.0",
@@ -3022,9 +3022,9 @@
     {
       "type": "library",
       "name": "Microsoft.Web.WebView2",
-      "version": "1.0.4314.35",
-      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.4314.35",
-      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.4314.35",
+      "version": "1.0.4370.26",
+      "bom-ref": "pkg:nuget/Microsoft.Web.WebView2@1.0.4370.26",
+      "purl": "pkg:nuget/Microsoft.Web.WebView2@1.0.4370.26",
       "licenses": [
         {
           "license": {
@@ -3043,7 +3043,7 @@
         },
         {
           "name": "omnieurope:license-file",
-          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4314.35--LICENSE.txt"
+          "value": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4370.26--LICENSE.txt"
         },
         {
           "name": "omnieurope:license-file-sha256",
@@ -3585,32 +3585,10 @@
     },
     {
       "type": "library",
-      "name": "Newtonsoft.Json",
-      "version": "13.0.4",
-      "bom-ref": "pkg:nuget/Newtonsoft.Json@13.0.4",
-      "purl": "pkg:nuget/Newtonsoft.Json@13.0.4",
-      "licenses": [
-        {
-          "expression": "MIT"
-        }
-      ],
-      "properties": [
-        {
-          "name": "omnieurope:license-kind",
-          "value": "expression"
-        },
-        {
-          "name": "omnieurope:lock-files",
-          "value": "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
-        }
-      ]
-    },
-    {
-      "type": "library",
       "name": "Npgsql",
-      "version": "10.0.3",
-      "bom-ref": "pkg:nuget/Npgsql@10.0.3",
-      "purl": "pkg:nuget/Npgsql@10.0.3",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Npgsql@11.0.0",
+      "purl": "pkg:nuget/Npgsql@11.0.0",
       "licenses": [
         {
           "expression": "PostgreSQL"
@@ -3630,9 +3608,9 @@
     {
       "type": "library",
       "name": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "version": "10.0.3",
-      "bom-ref": "pkg:nuget/Npgsql.EntityFrameworkCore.PostgreSQL@10.0.3",
-      "purl": "pkg:nuget/Npgsql.EntityFrameworkCore.PostgreSQL@10.0.3",
+      "version": "11.0.0",
+      "bom-ref": "pkg:nuget/Npgsql.EntityFrameworkCore.PostgreSQL@11.0.0",
+      "purl": "pkg:nuget/Npgsql.EntityFrameworkCore.PostgreSQL@11.0.0",
       "licenses": [
         {
           "expression": "PostgreSQL"
@@ -3762,9 +3740,9 @@
     {
       "type": "library",
       "name": "System.Collections.Immutable",
-      "version": "10.0.1",
-      "bom-ref": "pkg:nuget/System.Collections.Immutable@10.0.1",
-      "purl": "pkg:nuget/System.Collections.Immutable@10.0.1",
+      "version": "10.0.10",
+      "bom-ref": "pkg:nuget/System.Collections.Immutable@10.0.10",
+      "purl": "pkg:nuget/System.Collections.Immutable@10.0.10",
       "licenses": [
         {
           "expression": "MIT"
@@ -3806,9 +3784,9 @@
     {
       "type": "library",
       "name": "System.Composition",
-      "version": "9.0.0",
-      "bom-ref": "pkg:nuget/System.Composition@9.0.0",
-      "purl": "pkg:nuget/System.Composition@9.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Composition@10.0.1",
+      "purl": "pkg:nuget/System.Composition@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -3828,9 +3806,9 @@
     {
       "type": "library",
       "name": "System.Composition.AttributedModel",
-      "version": "9.0.0",
-      "bom-ref": "pkg:nuget/System.Composition.AttributedModel@9.0.0",
-      "purl": "pkg:nuget/System.Composition.AttributedModel@9.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Composition.AttributedModel@10.0.1",
+      "purl": "pkg:nuget/System.Composition.AttributedModel@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -3850,9 +3828,9 @@
     {
       "type": "library",
       "name": "System.Composition.Convention",
-      "version": "9.0.0",
-      "bom-ref": "pkg:nuget/System.Composition.Convention@9.0.0",
-      "purl": "pkg:nuget/System.Composition.Convention@9.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Composition.Convention@10.0.1",
+      "purl": "pkg:nuget/System.Composition.Convention@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -3872,9 +3850,9 @@
     {
       "type": "library",
       "name": "System.Composition.Hosting",
-      "version": "9.0.0",
-      "bom-ref": "pkg:nuget/System.Composition.Hosting@9.0.0",
-      "purl": "pkg:nuget/System.Composition.Hosting@9.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Composition.Hosting@10.0.1",
+      "purl": "pkg:nuget/System.Composition.Hosting@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -3894,9 +3872,9 @@
     {
       "type": "library",
       "name": "System.Composition.Runtime",
-      "version": "9.0.0",
-      "bom-ref": "pkg:nuget/System.Composition.Runtime@9.0.0",
-      "purl": "pkg:nuget/System.Composition.Runtime@9.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Composition.Runtime@10.0.1",
+      "purl": "pkg:nuget/System.Composition.Runtime@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -3916,9 +3894,9 @@
     {
       "type": "library",
       "name": "System.Composition.TypedParts",
-      "version": "9.0.0",
-      "bom-ref": "pkg:nuget/System.Composition.TypedParts@9.0.0",
-      "purl": "pkg:nuget/System.Composition.TypedParts@9.0.0",
+      "version": "10.0.1",
+      "bom-ref": "pkg:nuget/System.Composition.TypedParts@10.0.1",
+      "purl": "pkg:nuget/System.Composition.TypedParts@10.0.1",
       "licenses": [
         {
           "expression": "MIT"
@@ -4070,9 +4048,9 @@
     {
       "type": "library",
       "name": "System.Reflection.Metadata",
-      "version": "10.0.1",
-      "bom-ref": "pkg:nuget/System.Reflection.Metadata@10.0.1",
-      "purl": "pkg:nuget/System.Reflection.Metadata@10.0.1",
+      "version": "10.0.10",
+      "bom-ref": "pkg:nuget/System.Reflection.Metadata@10.0.10",
+      "purl": "pkg:nuget/System.Reflection.Metadata@10.0.10",
       "licenses": [
         {
           "expression": "MIT"
@@ -4246,9 +4224,9 @@
     {
       "type": "library",
       "name": "Testcontainers",
-      "version": "4.16.0",
-      "bom-ref": "pkg:nuget/Testcontainers@4.16.0",
-      "purl": "pkg:nuget/Testcontainers@4.16.0",
+      "version": "4.17.0",
+      "bom-ref": "pkg:nuget/Testcontainers@4.17.0",
+      "purl": "pkg:nuget/Testcontainers@4.17.0",
       "licenses": [
         {
           "expression": "MIT"
@@ -4268,9 +4246,9 @@
     {
       "type": "library",
       "name": "Testcontainers.PostgreSql",
-      "version": "4.16.0",
-      "bom-ref": "pkg:nuget/Testcontainers.PostgreSql@4.16.0",
-      "purl": "pkg:nuget/Testcontainers.PostgreSql@4.16.0",
+      "version": "4.17.0",
+      "bom-ref": "pkg:nuget/Testcontainers.PostgreSql@4.17.0",
+      "purl": "pkg:nuget/Testcontainers.PostgreSql@4.17.0",
       "licenses": [
         {
           "expression": "MIT"
