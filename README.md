@@ -48,7 +48,7 @@ Requires .NET 10 or .NET 11: the package ships `lib/net10.0` (built against the 
 Install the package:
 
 ```xml
-<PackageReference Include="OmniEurope.Blazor" Version="1.15.1" />
+<PackageReference Include="OmniEurope.Blazor" Version="1.15.2" />
 ```
 
 Register the services:

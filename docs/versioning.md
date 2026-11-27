@@ -108,3 +108,7 @@ Elle change de même quatre rendus par défaut hors de la grille, voulus et vali
 ## Ajouts et rupture dans un correctif : `1.15.1`
 
 `1.15.1` porte des ajouts d'API publique et un changement de comportement dans une version de correctif, là où SemVer demanderait `1.16.0` : `OmniDataGrid.AllowColumnFreeze`, `OmniDataGrid.PersistState`, `OmniPreferencesOptions.PersistGridState`, `OmniDataGrid.ShowExpandAllGroups` avec `ExpandAllGroupsAsync()` et `CollapseAllGroupsAsync()`, `OmniBackToTop`, `OmniMediaTile.DrawingReadOnly` et onze icônes météo en fin d'`OmniIconName`. Change par défaut, listé sous « Modifié » dans `CHANGELOG.md` : `OmniDataGrid` tient ses propres regroupements (le bouton de regroupement agit sans `@bind-Groups`). Décision du propriétaire du 2026-11-24, relayée par une application cliente : n'augmenter que le dernier chiffre, même pour une rupture, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet).
+
+## Ajout dans un correctif : `1.15.2`
+
+`1.15.2` porte un ajout d'API publique dans une version de correctif, là où SemVer demanderait `1.16.0` : `OmniAppMenu.DeployedAt`, qui devient l'infobulle de la ligne de version. Décision du propriétaire du 2026-11-24 : n'augmenter que le dernier chiffre pour les petits changements, même cassants, pour le même motif qu'en `1.2.0` (le propriétaire est le seul consommateur du paquet).
