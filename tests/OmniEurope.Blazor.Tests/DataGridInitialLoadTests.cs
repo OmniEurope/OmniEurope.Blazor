@@ -20,14 +20,16 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
 
     [Theory]
     [InlineData(OmniDataGridScrollMode.Paged, false)]
-    [InlineData(OmniDataGridScrollMode.Paged, true, Skip = "Intermittent: canceled once then passed on rerun (2026-11-22), see docs/tests/disabled-tests.md")]
+    [InlineData(OmniDataGridScrollMode.Paged, true)]
     [InlineData(OmniDataGridScrollMode.Virtual, false)]
     [InlineData(OmniDataGridScrollMode.Virtual, true)]
-    public void FirstRequest_CarriesTheColumnDefaults_AndIsTheOnlyOne(OmniDataGridScrollMode mode, bool slowLoader)
+    public async Task FirstRequest_CarriesTheColumnDefaults_AndIsTheOnlyOne(OmniDataGridScrollMode mode, bool slowLoader)
     {
-        // A slow loader answers only when the test releases it, not after a timer: under a loaded
-        // machine a real delay could outlast the wait below.
-        var release = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        // A slow loader answers only when the test releases it, not after a timer. The release runs on
+        // the renderer's dispatcher and its continuations inline (no RunContinuationsAsynchronously): the
+        // loader, the grid's load and the render of the rows end before the release returns, instead of
+        // waiting for a thread pool thread that a loaded test run may not hand over within the bUnit wait.
+        var release = new TaskCompletionSource();
         var requests = new List<OmniDataGridLoadRequest>();
         var grid = Render<DataGridInitialLoadTestHost>(parameters => parameters
             .Add(component => component.ScrollMode, mode)
@@ -38,7 +40,7 @@ public sealed class DataGridInitialLoadTests : OmniBunitContext
             grid.WaitForAssertion(() => Assert.Single(requests));
             grid.Render();
             Assert.Single(requests);
-            release.SetResult();
+            await grid.InvokeAsync(release.SetResult);
         }
 
         grid.WaitForAssertion(() => Assert.Equal(2, grid.FindAll("tbody tr[data-omni-row-index]").Count));
