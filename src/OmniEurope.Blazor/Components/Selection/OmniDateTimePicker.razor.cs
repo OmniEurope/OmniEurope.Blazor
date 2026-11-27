@@ -168,7 +168,7 @@ public partial class OmniDateTimePicker
     /// <summary>Attaches the panel script when the panel opened, detaches it when it closed, and moves the focus into an open panel.</summary>
     /// <param name="firstRender">True on the first render of the component.</param>
     /// <returns>A task that completes once the panel is wired.</returns>
-    protected override Task OnAfterRenderAsync(bool firstRender) => _popup?.AfterRenderAsync(_root, _panel, _toggle) ?? Task.CompletedTask;
+    protected override Task OnAfterRenderAsync(bool firstRender) => _popup is null ? Task.CompletedTask : _popup.AfterRenderAsync(_root, _panel, _toggle);
 
     /// <summary>
     /// Writes the moment as the current culture's short date (two-digit day and month, four-digit year)

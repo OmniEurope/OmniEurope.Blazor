@@ -13,6 +13,9 @@ namespace OmniEurope.Blazor.Tests;
 /// </summary>
 public sealed class MailTemplateEditorTests : OmniBunitContext
 {
+    /// <summary>The preview is drawn after the Blazor render; a loaded machine may take well over the default second.</summary>
+    private static readonly TimeSpan Patience = TimeSpan.FromSeconds(10);
+
     private static readonly IReadOnlyList<OmniMailVariable> Variables =
     [
         new("client.name", "Nom du client") { SampleValue = "Anne Martin", Description = "Fiche du client" },
@@ -221,7 +224,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
         editor.WaitForAssertion(() => Assert.Equal(["Après {{file}}"], subjects));
     }
 
-    [Fact(Skip = "Intermittent: failed once then passed on rerun (2026-11-27), see docs/tests/disabled-tests.md")]
+    [Fact]
     public async Task ThePreview_IsDrawnAgain_WhenTheSubjectVariablesOrThemeChange()
     {
         SetupSurface();
@@ -230,21 +233,21 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
         var editor = RenderEditor();
         await editor.FindAll("[role=tab]")[1].ClickAsync(new MouseEventArgs());
         // The preview is drawn after the render, asynchronously: each count is awaited, never read at once.
-        editor.WaitForAssertion(() => Assert.Single(preview.Invocations["render"]));
+        editor.WaitForAssertion(() => Assert.Single(preview.Invocations["render"]), Patience);
 
         editor.Render(parameters => parameters.Add(component => component.Subject, "Autre objet"));
-        editor.WaitForAssertion(() => Assert.Equal(2, preview.Invocations["render"].Count));
+        editor.WaitForAssertion(() => Assert.Equal(2, preview.Invocations["render"].Count), Patience);
         editor.Render(parameters => parameters.Add(component => component.Variables, [new OmniMailVariable("file", "Dossier") { SampleValue = "X-9" }]));
-        editor.WaitForAssertion(() => Assert.Equal(3, preview.Invocations["render"].Count));
+        editor.WaitForAssertion(() => Assert.Equal(3, preview.Invocations["render"].Count), Patience);
         editor.Render(parameters => parameters.Add(component => component.Theme, OmniMailTheme.Default with { Surface = "#fafafa" }));
-        editor.WaitForAssertion(() => Assert.Equal(4, preview.Invocations["render"].Count));
+        editor.WaitForAssertion(() => Assert.Equal(4, preview.Invocations["render"].Count), Patience);
         Assert.Contains("background-color:#fafafa", (string)preview.Invocations["render"][3].Arguments[1]!, StringComparison.Ordinal);
 
         // Back to the template: nothing is drawn while the preview is hidden. The hidden render is settled
         // by the tab's own markup before the count is read.
         await editor.FindAll("[role=tab]")[0].ClickAsync(new MouseEventArgs());
         editor.Render(parameters => parameters.Add(component => component.Value, "<p>Caché</p>"));
-        editor.WaitForAssertion(() => Assert.Equal("true", editor.FindAll("[role=tab]")[0].GetAttribute("aria-selected")));
+        editor.WaitForAssertion(() => Assert.Equal("true", editor.FindAll("[role=tab]")[0].GetAttribute("aria-selected")), Patience);
         Assert.Equal(4, preview.Invocations["render"].Count);
     }
 

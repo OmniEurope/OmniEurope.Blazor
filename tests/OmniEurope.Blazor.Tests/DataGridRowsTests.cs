@@ -340,6 +340,20 @@ public sealed class DataGridRowsTests : OmniBunitContext
     }
 
     [Fact]
+    public void AdvancedFilter_SummarisesAValuelessCondition_ByItsOperatorAlone()
+    {
+        var host = Render<DataGridRowsTestHost>(parameters => parameters
+            .Add(component => component.FilterMode, OmniDataGridFilterMode.Advanced));
+        const string Cell = "td[data-omni-col=\"name\"]";
+
+        // A valueless operator applies without a value, and the summary names the operator without one.
+        host.FindAll($"{Cell} .omni-data-grid__filter-operator")[0].Change(nameof(OmniDataGridFilterOperator.IsNotEmpty));
+        host.Find($"{Cell} .omni-data-grid__filter-apply").Click();
+
+        Assert.Equal("N'est pas vide", host.Find($"{Cell} .omni-data-grid__advanced-summary").TextContent);
+    }
+
+    [Fact]
     public void Popovers_AreWiredOnlyWhenAFilterOpensSomething()
     {
         var module = JSInterop.SetupModule(GridModule);
