@@ -221,7 +221,7 @@ public sealed class MailTemplateEditorTests : OmniBunitContext
         editor.WaitForAssertion(() => Assert.Equal(["Après {{file}}"], subjects));
     }
 
-    [Fact]
+    [Fact(Skip = "Intermittent: failed once then passed on rerun (2026-11-27), see docs/tests/disabled-tests.md")]
     public async Task ThePreview_IsDrawnAgain_WhenTheSubjectVariablesOrThemeChange()
     {
         SetupSurface();

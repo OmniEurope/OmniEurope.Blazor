@@ -9,7 +9,6 @@ using OmniEurope.Blazor.Components;
 using OmniEurope.Blazor.Showcase.Components.Layout;
 using OmniEurope.Blazor.Showcase.Gallery;
 using OmniEurope.Blazor.Showcase.Localization;
-using OmniEurope.Blazor.Showcase.Theming;
 
 namespace OmniEurope.Blazor.Tests;
 
@@ -23,10 +22,7 @@ public sealed class ShowcaseSearchTests : OmniBunitContext
 {
     public ShowcaseSearchTests()
     {
-        Services.AddScoped(_ => new HttpClient(new StylesheetResponder(":root { --omni-color-accent: #2563eb; }")) { BaseAddress = new Uri("https://localhost/") });
-        Services.AddScoped<ThemeTokenReader>();
-        Services.AddScoped<ThemeState>();
-        Services.AddScoped<ShowcaseLanguageSwitcher>();
+        Services.AddShowcaseShell(":root { --omni-color-accent: #2563eb; }");
     }
 
     [Fact]
