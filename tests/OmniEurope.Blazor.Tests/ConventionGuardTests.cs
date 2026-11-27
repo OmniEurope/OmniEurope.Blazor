@@ -348,9 +348,7 @@ public sealed partial class ConventionGuardTests
         ("10.0.2", "5.3.0"),
         ("10.0.3", "5.6.0"),
         ("10.0.4", "5.9.0"),
-        // The compiler of SDK 11.0.1xx is 5.12.0, not published on NuGet.org: the analyzers reference the latest published
-        // Roslyn, 5.9.0, which any 11.0 SDK (5.12.0 or later) loads.
-        ("11.0.1", "5.9.0"),
+        ("11.0.1", "5.12.0"),
     ];
 
     /// <summary>

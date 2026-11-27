@@ -4,7 +4,7 @@
   "packages": [
     {
       "id": "AngleSharp",
-      "version": "1.10.0",
+      "version": "1.11.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -22,26 +22,13 @@
         "site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json",
         "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "AngleSharp",
-      "version": "1.10.1",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
     {
       "id": "AngleSharp.Css",
-      "version": "1.4.0",
+      "version": "1.6.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -59,20 +46,7 @@
         "site/OmniEurope.Blazor.Showcase.Examples/packages.lock.json",
         "site/OmniEurope.Blazor.Showcase/packages.lock.json",
         "src/OmniEurope.Blazor/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "AngleSharp.Css",
-      "version": "1.4.1",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -120,7 +94,7 @@
     },
     {
       "id": "coverlet.MTP",
-      "version": "10.1.0",
+      "version": "10.1.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -233,7 +207,7 @@
     },
     {
       "id": "HtmlSanitizer",
-      "version": "11.0.26",
+      "version": "11.0.74",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -257,7 +231,7 @@
     },
     {
       "id": "Humanizer.Core",
-      "version": "2.14.1",
+      "version": "3.0.10",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -718,7 +692,7 @@
     },
     {
       "id": "Microsoft.Build.Framework",
-      "version": "18.0.2",
+      "version": "18.9.6",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -741,8 +715,23 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json",
         "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.Analyzers",
+      "version": "5.9.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
+        "eng/OmniEurope.Analyzers/packages.lock.json",
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
       ]
     },
     {
@@ -756,9 +745,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
-        "eng/OmniEurope.Analyzers/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
       ]
     },
     {
@@ -772,13 +759,56 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json",
         "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
       ]
     },
     {
       "id": "Microsoft.CodeAnalysis.Common",
+      "version": "5.12.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
+        "eng/OmniEurope.Analyzers/packages.lock.json",
+        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.Common",
       "version": "5.9.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.CSharp",
+      "version": "5.0.0",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
+      ]
+    },
+    {
+      "id": "Microsoft.CodeAnalysis.CSharp",
+      "version": "5.12.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -794,21 +824,6 @@
     },
     {
       "id": "Microsoft.CodeAnalysis.CSharp",
-      "version": "5.0.0",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json",
-        "src/OmniEurope.Blazor.Analyzers/packages.lock.json"
-      ]
-    },
-    {
-      "id": "Microsoft.CodeAnalysis.CSharp",
       "version": "5.9.0",
       "license": {
         "kind": "expression",
@@ -818,14 +833,12 @@
         "localFileSha256": null
       },
       "lockFiles": [
-        "eng/OmniEurope.Analyzers.Tests/packages.lock.json",
-        "eng/OmniEurope.Analyzers/packages.lock.json",
-        "tests/OmniEurope.Blazor.Analyzers.Tests/packages.lock.json"
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
       ]
     },
     {
       "id": "Microsoft.CodeAnalysis.CSharp.Workspaces",
-      "version": "5.0.0",
+      "version": "5.9.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -839,7 +852,7 @@
     },
     {
       "id": "Microsoft.CodeAnalysis.Workspaces.Common",
-      "version": "5.0.0",
+      "version": "5.9.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -853,7 +866,7 @@
     },
     {
       "id": "Microsoft.CodeAnalysis.Workspaces.MSBuild",
-      "version": "5.0.0",
+      "version": "5.9.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -867,7 +880,7 @@
     },
     {
       "id": "Microsoft.EntityFrameworkCore",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -882,7 +895,7 @@
     },
     {
       "id": "Microsoft.EntityFrameworkCore.Abstractions",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -897,7 +910,7 @@
     },
     {
       "id": "Microsoft.EntityFrameworkCore.Analyzers",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -912,7 +925,7 @@
     },
     {
       "id": "Microsoft.EntityFrameworkCore.Design",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -926,7 +939,7 @@
     },
     {
       "id": "Microsoft.EntityFrameworkCore.Relational",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -969,20 +982,6 @@
     },
     {
       "id": "Microsoft.Extensions.Caching.Memory",
-      "version": "10.0.15",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json"
-      ]
-    },
-    {
-      "id": "Microsoft.Extensions.Caching.Memory",
       "version": "11.0.0",
       "license": {
         "kind": "expression",
@@ -992,6 +991,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
+        "tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json",
         "tests/OmniEurope.Blazor.Tests/packages.lock.json"
       ]
     },
@@ -1121,7 +1121,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.FileExtensions",
-      "version": "10.0.13",
+      "version": "10.0.14",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1154,7 +1154,7 @@
     },
     {
       "id": "Microsoft.Extensions.Configuration.Json",
-      "version": "10.0.13",
+      "version": "10.0.14",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1255,20 +1255,6 @@
     },
     {
       "id": "Microsoft.Extensions.DependencyModel",
-      "version": "10.0.15",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
-      ]
-    },
-    {
-      "id": "Microsoft.Extensions.DependencyModel",
       "version": "11.0.0",
       "license": {
         "kind": "expression",
@@ -1278,6 +1264,7 @@
         "localFileSha256": null
       },
       "lockFiles": [
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json",
         "tests/OmniEurope.Blazor.Showcase.Back.Tests/packages.lock.json"
       ]
     },
@@ -1337,7 +1324,7 @@
     },
     {
       "id": "Microsoft.Extensions.Diagnostics.HealthChecks",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1351,7 +1338,7 @@
     },
     {
       "id": "Microsoft.Extensions.Diagnostics.HealthChecks.Abstractions",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1365,7 +1352,7 @@
     },
     {
       "id": "Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore",
-      "version": "10.0.15",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1380,7 +1367,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Abstractions",
-      "version": "10.0.13",
+      "version": "10.0.14",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1422,7 +1409,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileProviders.Physical",
-      "version": "10.0.13",
+      "version": "10.0.14",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -1455,7 +1442,7 @@
     },
     {
       "id": "Microsoft.Extensions.FileSystemGlobbing",
-      "version": "10.0.13",
+      "version": "10.0.14",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2056,6 +2043,20 @@
       ]
     },
     {
+      "id": "Microsoft.NET.StringTools",
+      "version": "18.9.6",
+      "license": {
+        "kind": "expression",
+        "value": "MIT",
+        "url": null,
+        "localFile": null,
+        "localFileSha256": null
+      },
+      "lockFiles": [
+        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
+      ]
+    },
+    {
       "id": "Microsoft.NETCore.Platforms",
       "version": "1.1.0",
       "license": {
@@ -2171,12 +2172,12 @@
     },
     {
       "id": "Microsoft.Web.WebView2",
-      "version": "1.0.4314.35",
+      "version": "1.0.4370.26",
       "license": {
         "kind": "file",
         "value": "LICENSE.txt",
         "url": null,
-        "localFile": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4314.35--LICENSE.txt",
+        "localFile": "docs/third-party-licenses/Microsoft.Web.WebView2--1.0.4370.26--LICENSE.txt",
         "localFileSha256": "0af8f1b807512aae39c2ac1aa4d0cae65cabecb6fd554b8439a5162a0d6eca55"
       },
       "lockFiles": [
@@ -2440,22 +2441,8 @@
       ]
     },
     {
-      "id": "Newtonsoft.Json",
-      "version": "13.0.4",
-      "license": {
-        "kind": "expression",
-        "value": "MIT",
-        "url": null,
-        "localFile": null,
-        "localFileSha256": null
-      },
-      "lockFiles": [
-        "site/OmniEurope.Blazor.Showcase.Back/packages.lock.json"
-      ]
-    },
-    {
       "id": "Npgsql",
-      "version": "10.0.3",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "PostgreSQL",
@@ -2470,7 +2457,7 @@
     },
     {
       "id": "Npgsql.EntityFrameworkCore.PostgreSQL",
-      "version": "10.0.3",
+      "version": "11.0.0",
       "license": {
         "kind": "expression",
         "value": "PostgreSQL",
@@ -2555,7 +2542,7 @@
     },
     {
       "id": "System.Collections.Immutable",
-      "version": "10.0.1",
+      "version": "10.0.10",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2583,7 +2570,7 @@
     },
     {
       "id": "System.Composition",
-      "version": "9.0.0",
+      "version": "10.0.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2597,7 +2584,7 @@
     },
     {
       "id": "System.Composition.AttributedModel",
-      "version": "9.0.0",
+      "version": "10.0.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2611,7 +2598,7 @@
     },
     {
       "id": "System.Composition.Convention",
-      "version": "9.0.0",
+      "version": "10.0.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2625,7 +2612,7 @@
     },
     {
       "id": "System.Composition.Hosting",
-      "version": "9.0.0",
+      "version": "10.0.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2639,7 +2626,7 @@
     },
     {
       "id": "System.Composition.Runtime",
-      "version": "9.0.0",
+      "version": "10.0.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2653,7 +2640,7 @@
     },
     {
       "id": "System.Composition.TypedParts",
-      "version": "9.0.0",
+      "version": "10.0.1",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2751,7 +2738,7 @@
     },
     {
       "id": "System.Reflection.Metadata",
-      "version": "10.0.1",
+      "version": "10.0.10",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2867,7 +2854,7 @@
     },
     {
       "id": "Testcontainers",
-      "version": "4.16.0",
+      "version": "4.17.0",
       "license": {
         "kind": "expression",
         "value": "MIT",
@@ -2881,7 +2868,7 @@
     },
     {
       "id": "Testcontainers.PostgreSql",
-      "version": "4.16.0",
+      "version": "4.17.0",
       "license": {
         "kind": "expression",
         "value": "MIT",

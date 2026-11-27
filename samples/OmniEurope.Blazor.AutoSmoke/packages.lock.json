@@ -19,15 +19,15 @@
       },
       "AngleSharp": {
         "type": "Transitive",
-        "resolved": "1.10.0",
-        "contentHash": "jibGB16fKOT+p0T7/eMzsiHj/V43QXg/wGQot4VWHF3zEdH+RGco8rHFNeAbf526CrSOkA8WwILz3DDus+cUUA=="
+        "resolved": "1.11.0",
+        "contentHash": "1wEWfvt74q9RNAgWYLC9lfS1rT/CNfFw2rvjLJTaZEKRJ3qf35iTbwjH15VTQDwv48CjekHQIcVbxuD/GSiWcQ=="
       },
       "AngleSharp.Css": {
         "type": "Transitive",
-        "resolved": "1.4.0",
-        "contentHash": "AAy28SOmB5EOdXqJC9dVBCKKeoQHyU2EKVMGpy/PT0jJpFvLd4bd5TyufwN09/piQmh0DBtkEn0X/F0SYuF9xQ==",
+        "resolved": "1.6.0",
+        "contentHash": "/pRwfOYGTSsKrRvoKWvATYQeEwW7gvREqzXQe/wYM2wm3Il4t2U2H9KNAyOIgxNlDbUKpAJUStlMcCDnpmGoZw==",
         "dependencies": {
-          "AngleSharp": "[1.10.0, 2.0.0)"
+          "AngleSharp": "[1.11.0, 2.0.0)"
         }
       },
       "Microsoft.JSInterop.WebAssembly": {
@@ -38,24 +38,24 @@
       "omnieurope.blazor": {
         "type": "Project",
         "dependencies": {
-          "HtmlSanitizer": "[11.0.26, )"
+          "HtmlSanitizer": "[11.0.74, )"
         }
       },
       "omnieurope.blazor.autosmoke.client": {
         "type": "Project",
         "dependencies": {
           "Microsoft.AspNetCore.Components.WebAssembly": "[11.0.0, )",
-          "OmniEurope.Blazor": "[1.15.0, )"
+          "OmniEurope.Blazor": "[1.15.1, )"
         }
       },
       "HtmlSanitizer": {
         "type": "CentralTransitive",
-        "requested": "[11.0.26, )",
-        "resolved": "11.0.26",
-        "contentHash": "ZGjvcmVumFkxxT1JSvENjoTscgJPgpEMMxSdgdfEzWo7HgbYdxohxWtLB0v9+vXb9kTi++ZQok/AvJo6W1otXw==",
+        "requested": "[11.0.74, )",
+        "resolved": "11.0.74",
+        "contentHash": "kmyW567ls2wXllK4Q/e7ltgqsbhVpGq9lAzEyrWWdvvSDft52rPMhns60VDde2QzHnjo32Zsz/JAtIr+rD1sIg==",
         "dependencies": {
-          "AngleSharp": "1.10.0",
-          "AngleSharp.Css": "1.4.0"
+          "AngleSharp": "1.11.0",
+          "AngleSharp.Css": "1.6.0"
         }
       },
       "Microsoft.AspNetCore.Components.WebAssembly": {
