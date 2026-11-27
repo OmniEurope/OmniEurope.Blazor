@@ -115,6 +115,32 @@ const watchAnchor = (element, onMoved) => {
 
 let unwatchTracked = null;
 
+// A placed tooltip goes to the top layer (a manual popover), as a submenu does. Placed in a box that is the
+// containing block of position: fixed (a popover panel with a backdrop filter or a shift, a frosted card),
+// it was drawn off by that box's corner and clipped by its scrolling: the version tooltip of the
+// application menu opened far to the side of the menu and gave the panel a horizontal scroll bar. The top
+// layer is fixed to the window whatever the ancestors. A browser without popovers keeps it in place.
+const lift = content => {
+    // showPopover throws on an element that left the page or is already shown: neither is lifted.
+    if (typeof content.showPopover !== 'function' || !content.isConnected || content.matches(':popover-open')) {
+        return;
+    }
+
+    content.setAttribute('popover', 'manual');
+    content.showPopover();
+};
+
+const drop = content => {
+    if (!content.hasAttribute('popover')) {
+        return;
+    }
+
+    if (content.isConnected && content.matches(':popover-open')) {
+        content.hidePopover();
+    }
+    content.removeAttribute('popover');
+};
+
 const clear = () => {
     unwatchTracked?.();
     unwatchTracked = null;
@@ -130,6 +156,7 @@ const clear = () => {
     const content = tracked.querySelector('.omni-tooltip__content');
     if (content) {
         resizeObserver?.unobserve(content);
+        drop(content);
     }
     tracked = null;
 };
@@ -157,6 +184,7 @@ const place = (tooltip, x, y) => {
 
     tooltip.classList.add('omni-tooltip--tracked');
     tracked = tooltip;
+    lift(content);
     holdTitles(tooltip);
     resizeObserver?.observe(content);
 

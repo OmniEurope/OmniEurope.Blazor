@@ -10,6 +10,7 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ### Corrigé
 
+- Une infobulle placée par `omni-tooltip.js` passe dans la couche supérieure du navigateur (popover manuel, comme les sous-menus) le temps de son affichage : dans un panneau qui crée un bloc conteneur (`backdrop-filter`, `translate`, comme le panneau d'`OmniAppMenu`), sa position fixe se calculait depuis le panneau, si bien que l'infobulle de la version tombait hors de la fenêtre et ouvrait une barre de défilement horizontale dans le menu.
 - Un fond animé en CSS (Bokeh, Aquarelle, Quadrillage, Ricochets...) se fige sur un moteur de rendu trop lent pour le mouvoir : sans processeur graphique, chaque image du fond prenait de 130 à 500 ms et retenait d'autant les clics et les touches de la page. Trois images de suite espacées de plus de 100 ms (la règle du canvas de Trou noir) et la portée pose `data-omni-backdrop-slow`, qui fige le fond.
 - Les thèmes Ardoise et Galet foncent leur trait de bordure (`--omni-color-border`, 40 % du texte en clair, 36 % en sombre) : sur la teinte de leur fond (Quadrillage, Ricochets), le cadre des champs tombait de 1,50 à 1,68 sous le plancher de 1,7.
 - Les thèmes Néon et Halo affirment le cadre des champs : en clair, 58 % (Néon) et 60 % (Halo) de l'accent au lieu de 45 % et 48 % ; en sombre, l'accent éclairé (`--omni-color-accent-strong`, 55 % et 62 %), car un accent profond (Encre, Pastel) sur les fonds Horizon et Bokeh laissait le cadre entre 1,32 et 1,69, sous le plancher de 1,7.

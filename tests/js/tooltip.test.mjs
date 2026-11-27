@@ -239,3 +239,46 @@ test('a text cut by its ellipsis anywhere gets the title tooltip with its whole 
     assert.equal(shownTitle(dom).textContent, 'Environnements');
     assert.ok(shownTitle(dom).classList.contains('omni-title-tooltip--visible'));
 });
+
+// A browser with popovers: the content records whether it is in the top layer.
+const withPopover = content => {
+    let open = false;
+    const matches = content.matches.bind(content);
+    content.showPopover = () => {
+        if (!content.hasAttribute('popover') || open) {
+            throw new Error('showPopover on an element that is not a closed popover');
+        }
+        open = true;
+    };
+    content.hidePopover = () => {
+        open = false;
+    };
+    content.matches = selector => selector === ':popover-open' ? open : matches(selector);
+    content.isConnected = true;
+    return () => open;
+};
+
+test('a placed tooltip goes to the top layer, out of a box that would move and clip it, and comes back when let go', async () => {
+    const { root, button, elsewhere, pointerOn } = await fixture();
+    const content = root.querySelector('.omni-tooltip__content');
+    const isOpen = withPopover(content);
+
+    pointerOn(button);
+    assert.equal(content.getAttribute('popover'), 'manual');
+    assert.equal(isOpen(), true);
+
+    pointerOn(elsewhere);
+    assert.equal(isOpen(), false);
+    assert.equal(content.getAttribute('popover'), null);
+});
+
+test('a tooltip placed again while it shows stays in the top layer once', async () => {
+    const { root, button, pointerOn } = await fixture();
+    const content = root.querySelector('.omni-tooltip__content');
+    const isOpen = withPopover(content);
+
+    pointerOn(button);
+    pointerOn(button);
+
+    assert.equal(isOpen(), true);
+});

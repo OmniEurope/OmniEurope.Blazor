@@ -184,6 +184,9 @@ body:has(.omni-overlay) { overflow: hidden; }
    than absolute so a tooltip raised from inside a scrolling grid is not clipped by it. The class
    only appears once that script is running, so without it the anchored position above stays. */
 .omni-tooltip--tracked .omni-tooltip__content { inset: auto; inset-block-start: var(--omni-tooltip-y); inset-inline-start: var(--omni-tooltip-x); position: fixed; transform: translate(-50%, -100%); }
+/* A placed tooltip sits in the top layer (a manual popover, omni-tooltip.js): the browser's own popover
+   frame, margin and scrolling are taken off, so it looks as it does in place and its arrow is not cut. */
+.omni-tooltip__content:popover-open { block-size: auto; border: 0; margin: 0; overflow: visible; }
 /* At rest the hidden bubble keeps within its trigger: centred and up to 18rem wide, a hidden bubble
    still counts in the page's scrollable width, and one near the edge of a 375 px screen made the page
    scroll sideways (RET-002 n°28, PLAN-004 lot 10). Border-box, so its padding does not reach past the trigger
