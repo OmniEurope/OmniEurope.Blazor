@@ -39,8 +39,22 @@ public sealed class GridFillFloorTests : OmniBunitContext
 
         // overflow: hidden made the frame a scroll container, whose automatic minimum height is 0: a flex
         // or grid parent could then squeeze it to its 2px border over a viewport of 384px.
-        Assert.Matches(@"\.omni-data-grid__frame \{[^}]*display: grid; min-inline-size: 0; overflow: clip; \}", styles);
+        Assert.Matches(@"\.omni-data-grid__frame \{[^}]*display: flex; flex-direction: column; min-inline-size: 0; overflow: clip; \}", styles);
         Assert.DoesNotMatch(@"\.omni-data-grid__frame \{[^}]*overflow: hidden;", styles);
+    }
+
+    [Fact]
+    public void AStretchedFrame_GivesItsExtraHeightToTheViewportAlone()
+    {
+        var styles = StylesheetSource.Read();
+
+        // A grid frame shared the extra height of a grid stretched in a flex card between its rows: the
+        // header bar of the column chooser stood 182px high around its 24px button (Aetheus, 2026-11-28).
+        // The bars keep their height; the viewport takes the rest and never shrinks below its rows. The
+        // layout itself is measured in a real browser by eng/Test-ShowcaseGridBarProbe.mjs.
+        Assert.Contains(".omni-data-grid__frame > .omni-data-grid__bar { flex: none; }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-data-grid__frame > .omni-data-grid__viewport { border: 0; border-radius: 0; box-shadow: none; flex: 1 0 auto; }", styles, StringComparison.Ordinal);
+        Assert.DoesNotMatch(@"\.omni-data-grid__frame \{[^}]*display: grid;", styles);
     }
 
     [Fact]

@@ -571,9 +571,14 @@
    rows inside it lose theirs, and each bar is set apart from the rows by a rule. It clips its corners
    without becoming a scroll container (overflow: clip, not hidden): a scroll container may be squeezed
    to nothing by a flex or grid parent, and a grid host given a flex basis of 0 drew a 2px frame over a
-   viewport of 384px, every row cut away. Its content (bars and viewport) is its minimum height. */
-.omni-data-grid__frame { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: grid; min-inline-size: 0; overflow: clip; }
-.omni-data-grid__frame > .omni-data-grid__viewport { border: 0; border-radius: 0; box-shadow: none; }
+   viewport of 384px, every row cut away. Its content (bars and viewport) is its minimum height.
+   A column, not a grid: stretched taller than its content (a grid growing in a flex card), a grid frame
+   shared the extra height between its rows, and a header bar of one 28px button stood 250px high above
+   the column titles. The bars keep their own height; the viewport alone takes the rest and never
+   shrinks below its rows. */
+.omni-data-grid__frame { background: var(--omni-grid-frame); border: var(--omni-card-border-width, var(--omni-border-width)) solid var(--omni-card-border-color, var(--omni-color-border)); border-radius: var(--omni-card-radius, var(--omni-radius)); box-shadow: var(--omni-card-shadow, 0 0 #0000); display: flex; flex-direction: column; min-inline-size: 0; overflow: clip; }
+.omni-data-grid__frame > .omni-data-grid__bar { flex: none; }
+.omni-data-grid__frame > .omni-data-grid__viewport { border: 0; border-radius: 0; box-shadow: none; flex: 1 0 auto; }
 .omni-data-grid__bar { align-items: center; display: flex; flex-wrap: wrap; gap: var(--omni-space-sm); min-block-size: calc(var(--omni-control-height) - 0.25rem); padding: var(--omni-space-xs) var(--omni-space-sm); }
 .omni-data-grid__bar--header { background: var(--omni-color-surface-muted); }
 .omni-data-grid__bar--footer { background: var(--omni-color-surface-muted); }

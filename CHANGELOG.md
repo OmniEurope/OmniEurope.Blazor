@@ -4,6 +4,10 @@ Les changements notables de ce projet seront documentés ici selon le format Kee
 
 ## [Unreleased]
 
+### Corrigé
+
+- La barre d'en-tête d'`OmniDataGrid` (celle du sélecteur de colonnes, des exports et de `HeaderBarContent`) garde la hauteur de son contenu quand la grille est étirée plus haut que ses lignes (une grille en `flex: 1` dans une tuile de tableau de bord) : le cadre, une grille CSS, partageait la hauteur en trop entre ses rangées, et une barre d'un seul bouton de 24 px montait à 182 px au-dessus des titres de colonnes dans une carte de 400 px. Le cadre est désormais une colonne : les barres gardent leur hauteur, la zone des lignes prend le reste. Sonde `GridBar` (`eng/Test-ShowcaseGridBarProbe.mjs`).
+
 ## [1.15.2] - 2026-11-27
 
 ### Ajouté

@@ -7,12 +7,13 @@ param(
     # Contrast: the lot 10 control, contrasts and geometry measured on every theme x palette x mode. Run
     # only when named (-Probe Contrast), owner decision of 2026-10-12: it is most of the pass's time.
     # AutoFit: the fit to content of a grid column, double click, off-screen virtual row and Enter.
+    # GridBar: the header bar of a grid with the column chooser keeps its height in a narrow, stretched card.
     # MindMap: the mind map gestures, trusted drag, wheel zoom, keyboard, context menu, double click.
     # Modules: the grid filter popovers, the fold of the page header and the visual HTML editor.
     # Languages: no text leaves its box and no page scrolls sideways in English and French,
     # at 1280 and 390 px.
     # Omitted: every probe of $scripts below, in its order, except Contrast.
-    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'MindMap', 'Modules', 'Languages', 'Scripts')]
+    [ValidateSet('Pickers', 'Density', 'Contrast', 'AutoFit', 'GridBar', 'MindMap', 'Modules', 'Languages', 'Scripts')]
     [string[]]$Probe,
     # PLAN-014: takes the V8 precise coverage of the package scripts during the probes and checks every
     # function of wwwroot/**/*.js against eng/js-coverage-baseline.json and eng/js-coverage-exceptions.json.
@@ -56,6 +57,7 @@ $scripts = [ordered]@{
     Density = 'Test-ShowcaseDensityProbe.mjs'
     Contrast = 'Test-ThemeContrastProbe.mjs'
     AutoFit = 'Test-ShowcaseGridAutoFitProbe.mjs'
+    GridBar = 'Test-ShowcaseGridBarProbe.mjs'
     MindMap = 'Test-ShowcaseMindMapProbe.mjs'
     Modules = 'Test-ShowcaseModulesProbe.mjs'
     Languages = 'Test-ShowcaseLanguagesProbe.mjs'
@@ -87,7 +89,7 @@ try {
     # duration in seconds measured on the reference machine with six workers, used only to start the
     # longest units first. Contrast has 2 x workers theme shards plus the shipped look alone in the last
     # one, which weighs about one theme.
-    $weights = @{ Contrast = 1500; Languages = 340; Scripts = 100; Density = 60; Modules = 16; Pickers = 15; AutoFit = 8; MindMap = 8 }
+    $weights = @{ Contrast = 1500; Languages = 340; Scripts = 100; Density = 60; Modules = 16; Pickers = 15; AutoFit = 8; GridBar = 4; MindMap = 8 }
     $shardCounts = @{}
     if ($Parallel -gt 1) {
         $shardDirectory = Join-Path ([IO.Path]::GetTempPath()) ('omni-probe-shards-' + [guid]::NewGuid().ToString('N'))
