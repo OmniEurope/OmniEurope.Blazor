@@ -58,6 +58,19 @@ public sealed class GridFillFloorTests : OmniBunitContext
     }
 
     [Fact]
+    public void AStretchedRoot_GivesItsExtraHeightToTheTableAlone()
+    {
+        var styles = StylesheetSource.Read();
+
+        // A grid root shared the extra height the same way: the group panel of a paged grid went from 19px
+        // to 94px, the paging summary and the pager grew bands of their own (Aetheus, 2026-11-28).
+        Assert.Matches(@"\.omni-data-grid \{[^}]*display: flex; flex-direction: column;[^}]*gap: var\(--omni-space-md\); min-inline-size: 0; \}", styles);
+        Assert.Contains(".omni-data-grid > * { flex: none; }", styles, StringComparison.Ordinal);
+        Assert.Contains(".omni-data-grid > :is(.omni-data-grid__frame, .omni-data-grid__viewport) { flex: 1 0 auto; }", styles, StringComparison.Ordinal);
+        Assert.DoesNotMatch(@"\.omni-data-grid \{[^}]*display: grid;", styles);
+    }
+
+    [Fact]
     public void MinHeight_IsTheFloorOfTheWholeFillingGrid()
     {
         var styles = StylesheetSource.Read();

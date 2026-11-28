@@ -70,5 +70,42 @@ check(Math.abs((stretched.viewport - natural.viewport) - (stretched.frame - natu
 results.push(`zone des lignes ${Math.round(natural.viewport)} -> ${Math.round(stretched.viewport)} px jusqu'au bas du cadre`);
 
 await evaluate(`(() => { const root = document.querySelector(${JSON.stringify(grid)}); root.style.removeProperty('block-size'); root.style.removeProperty('inline-size'); })()`);
+
+// 2. The same grid paged (virtualization switched off; the switch is the page's, not under test, so a DOM click is enough): the pager and the paging
+// summary sit beside the frame in the grid's root. Stretched in the same card, every block of the root
+// keeps its height and the frame alone takes the 300 px (request of Aetheus, 2026-11-28: a root that
+// shared them gave the pager and the summary empty bands of their own).
+await evaluate("document.querySelector('.omni-switch[aria-label=\"Virtualization\"]').click()");
+await waitFor('la virtualisation coupée', `document.querySelector('.omni-switch[aria-label="Virtualization"]').getAttribute('aria-checked') === 'false'`);
+await waitFor('le pager et le résumé de la grille paginée', `document.querySelector(${JSON.stringify(`${grid} > .omni-pager`)}) !== null && document.querySelector(${JSON.stringify(`${grid} > .omni-data-grid__summary`)}) !== null`);
+const blocks = () => evaluate(`(() => {
+  const root = document.querySelector(${JSON.stringify(grid)});
+  const inFlow = [...root.children].filter(child => getComputedStyle(child).position !== 'absolute' && child.getClientRects().length > 0);
+  return { root: root.getBoundingClientRect().height, blocks: inFlow.map(child => ({ name: child.classList[0], height: child.getBoundingClientRect().height })) };
+})()`);
+const settledBlocks = async () => {
+  let previous = await blocks();
+  for (let tries = 0; tries < 20; tries++) {
+    await pause(300);
+    const next = await blocks();
+    if (JSON.stringify(next) === JSON.stringify(previous)) return next;
+    previous = next;
+  }
+  throw new Error(`La grille paginée ne se stabilise pas : ${JSON.stringify(previous)}.`);
+};
+await evaluate(`(() => { const root = document.querySelector(${JSON.stringify(grid)}); root.style.inlineSize = '400px'; root.scrollIntoView({ block: 'start' }); })()`);
+const pagedNatural = await settledBlocks();
+await evaluate(`document.querySelector(${JSON.stringify(grid)}).style.blockSize = '${Math.round(pagedNatural.root + 300)}px'`);
+const pagedStretched = await settledBlocks();
+const names = pagedNatural.blocks.map(block => block.name);
+check(names.includes('omni-pager') && names.includes('omni-data-grid__summary') && names.includes('omni-data-grid__frame'), `Blocs inattendus dans la grille paginée : ${names.join(', ')}.`);
+check(JSON.stringify(names) === JSON.stringify(pagedStretched.blocks.map(block => block.name)), `Les blocs ont changé à l'étirement : ${names.join(', ')}.`);
+for (const [index, block] of pagedNatural.blocks.entries()) {
+  const after = pagedStretched.blocks[index].height;
+  const expected = block.name === 'omni-data-grid__frame' ? block.height + 300 : block.height;
+  check(Math.abs(after - expected) < 1, `${block.name} : ${Math.round(block.height)} px, puis ${Math.round(after)} px dans la carte étirée de 300 px (attendu ${Math.round(expected)} px).`);
+}
+results.push(`grille paginée : ${pagedNatural.blocks.filter(block => block.name !== 'omni-data-grid__frame').map(block => `${block.name} ${Math.round(block.height)} px`).join(', ')} inchangés, cadre +300 px`);
+await evaluate(`(() => { const root = document.querySelector(${JSON.stringify(grid)}); root.style.removeProperty('block-size'); root.style.removeProperty('inline-size'); })()`);
 await finish();
 console.log(`Sonde barre de grille validée : ${results.join(', ')} ; aucune violation CSP, console sans erreur.`);

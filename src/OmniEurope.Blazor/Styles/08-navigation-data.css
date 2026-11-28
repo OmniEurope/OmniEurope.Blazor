@@ -306,7 +306,13 @@
 /* The frame of the grid is its scrolling viewport, dressed like a card: the card's fill, rule, radius
    and shadow, unless a theme gives grids a fill of their own (--omni-grid-background, Aplat). Its
    scrollbar is thin and tinted from the text, so it follows the scope's mode instead of the host page's. */
-.omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: grid; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
+.omni-data-grid { --omni-data-grid-column-min-width: 8rem; --omni-data-grid-control-width: 2.75rem; --omni-data-grid-edit-width: 5.25rem; --omni-grid-frame: var(--omni-grid-background, var(--omni-card-background, var(--omni-color-surface))); --omni-column-active-fill: color-mix(in srgb, var(--omni-color-accent) 6%, transparent); display: flex; flex-direction: column; font-size: var(--omni-font-size-base); gap: var(--omni-space-md); min-inline-size: 0; }
+/* A column, not a grid: stretched taller than its content (a flex: 1 grid in a dashboard card), a grid root
+   shared the extra height between its rows, and the group panel, the paging summary and the pager each
+   grew an empty band of their own. Every block keeps its height; the table (its frame, or its viewport
+   alone) takes the rest and never shrinks below its rows. */
+.omni-data-grid > * { flex: none; }
+.omni-data-grid > :is(.omni-data-grid__frame, .omni-data-grid__viewport) { flex: 1 0 auto; }
 /* Block padding of the small controls of a header and of a group row (icon buttons, filter menu toggle): half the cell padding, so they follow the density like the cells around them. 0.25rem in comfortable (the former fixed padding), never under 0.125rem so a compact button keeps room for its focus ring. */
 .omni-data-grid { --omni-data-grid-icon-pad-y: max(0.125rem, calc(var(--omni-cell-pad-y) / 2)); }
 /* position: relative keeps an absolutely placed descendant (a visually hidden label in a cell) inside the scrolled rows: without it the box escaped the viewport clip and made the page scroll. */
