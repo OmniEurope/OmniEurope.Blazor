@@ -1,6 +1,6 @@
 // Measures, in the published showcase and in a real Chromium through CDP, the header bar of a data grid
 // that carries the column chooser, in a narrow card that stretches the grid taller than its rows (a
-// request of Aetheus, 2026-11-28: a dashboard tile of about 400 px grows its grid with flex: 1, and the
+// consumer report of 2026-11-28: a dashboard tile of about 400 px grows its grid with flex: 1, and the
 // bar of one button stood about 250 px high above the column titles). The bar must keep the height of
 // its content, the extra height going to the rows' viewport. It fails on any console error or Content
 // Security Policy violation, the showcase being served with `style-src 'self'`.
@@ -73,7 +73,7 @@ await evaluate(`(() => { const root = document.querySelector(${JSON.stringify(gr
 
 // 2. The same grid paged (virtualization switched off; the switch is the page's, not under test, so a DOM click is enough): the pager and the paging
 // summary sit beside the frame in the grid's root. Stretched in the same card, every block of the root
-// keeps its height and the frame alone takes the 300 px (request of Aetheus, 2026-11-28: a root that
+// keeps its height and the frame alone takes the 300 px (same report: a root that
 // shared them gave the pager and the summary empty bands of their own).
 await evaluate("document.querySelector('.omni-switch[aria-label=\"Virtualization\"]').click()");
 await waitFor('la virtualisation coupée', `document.querySelector('.omni-switch[aria-label="Virtualization"]').getAttribute('aria-checked') === 'false'`);

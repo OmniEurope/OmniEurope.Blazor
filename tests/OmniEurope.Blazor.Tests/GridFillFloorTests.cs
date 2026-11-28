@@ -49,7 +49,7 @@ public sealed class GridFillFloorTests : OmniBunitContext
         var styles = StylesheetSource.Read();
 
         // A grid frame shared the extra height of a grid stretched in a flex card between its rows: the
-        // header bar of the column chooser stood 182px high around its 24px button (Aetheus, 2026-11-28).
+        // header bar of the column chooser stood 182px high around its 24px button (a consumer dashboard, 2026-11-28).
         // The bars keep their height; the viewport takes the rest and never shrinks below its rows. The
         // layout itself is measured in a real browser by eng/Test-ShowcaseGridBarProbe.mjs.
         Assert.Contains(".omni-data-grid__frame > .omni-data-grid__bar { flex: none; }", styles, StringComparison.Ordinal);
@@ -63,7 +63,7 @@ public sealed class GridFillFloorTests : OmniBunitContext
         var styles = StylesheetSource.Read();
 
         // A grid root shared the extra height the same way: the group panel of a paged grid went from 19px
-        // to 94px, the paging summary and the pager grew bands of their own (Aetheus, 2026-11-28).
+        // to 94px, the paging summary and the pager grew bands of their own (a consumer dashboard, 2026-11-28).
         Assert.Matches(@"\.omni-data-grid \{[^}]*display: flex; flex-direction: column;[^}]*gap: var\(--omni-space-md\); min-inline-size: 0; \}", styles);
         Assert.Contains(".omni-data-grid > * { flex: none; }", styles, StringComparison.Ordinal);
         Assert.Contains(".omni-data-grid > :is(.omni-data-grid__frame, .omni-data-grid__viewport) { flex: 1 0 auto; }", styles, StringComparison.Ordinal);
